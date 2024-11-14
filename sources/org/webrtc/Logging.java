@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class Logging {
     private static final Logger fallbackLogger = createFallbackLogger();
     private static Loggable loggable;
@@ -16,7 +16,7 @@ public class Logging {
     private static volatile boolean loggingEnabled;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$Logging$Severity;
 
@@ -38,7 +38,7 @@ public class Logging {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public enum Severity {
         LS_VERBOSE,
         LS_INFO,
@@ -48,7 +48,7 @@ public class Logging {
     }
 
     @Deprecated
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public enum TraceLevel {
         TRACE_NONE(0),
         TRACE_STATEINFO(1),
@@ -56,7 +56,7 @@ public class Logging {
         TRACE_ERROR(4),
         TRACE_CRITICAL(8),
         TRACE_APICALL(16),
-        TRACE_DEFAULT(NotificationCenter.playerDidStartPlaying),
+        TRACE_DEFAULT(NotificationCenter.notificationsCountUpdated),
         TRACE_MODULECALL(32),
         TRACE_MEMORY(256),
         TRACE_TIMER(512),

@@ -10,7 +10,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.FlashViews;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class HintTextView extends View implements FlashViews.Invertable {
     private final AnimatedTextView.AnimatedTextDrawable textDrawable;
 

@@ -79,7 +79,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoryCaptionView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryCaptionView extends NestedScrollView {
     private Method abortAnimatedScrollMethod;
     private float backgroundAlpha;
@@ -112,7 +112,7 @@ public class StoryCaptionView extends NestedScrollView {
     private float velocitySign;
     private float velocityY;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class Reply {
         private int currentAccount;
         public boolean isRepostMessage;
@@ -309,9 +309,9 @@ public class StoryCaptionView extends NestedScrollView {
             if (f3 < f) {
                 dp = (int) Math.min(dp + AndroidUtilities.dp(12.0f), f - AndroidUtilities.dp(20.0f));
             }
-            int i = dp;
-            this.titleLayout.ellipsize(i).draw(canvas, AndroidUtilities.lerp(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(7.0f), f2), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(11.0f), f2), -1, 1.0f);
-            this.textLayout.ellipsize(i).draw(canvas, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(30.0f), -1, f4);
+            float f5 = dp;
+            this.titleLayout.ellipsize(f5).draw(canvas, AndroidUtilities.lerp(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(7.0f), f2), AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(11.0f), f2), -1, 1.0f);
+            this.textLayout.ellipsize(f5).draw(canvas, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(30.0f), -1, f4);
             canvas.restore();
         }
 
@@ -356,7 +356,7 @@ public class StoryCaptionView extends NestedScrollView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class StoryCaptionTextView extends View implements TextSelectionHelper.SimpleSelectabeleView {
         public boolean allowClickSpoilers;
         private final PorterDuffColorFilter emojiColorFilter;
@@ -379,7 +379,7 @@ public class StoryCaptionView extends NestedScrollView {
         private final Paint xRefGradinetPaint;
         private final Paint xRefPaint;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class LineInfo {
             float collapsedX;
             float collapsedY;
@@ -392,7 +392,7 @@ public class StoryCaptionView extends NestedScrollView {
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class TextState {
             private final SpoilersClickDetector clickDetector;
             StaticLayout firstLayout;
@@ -1136,7 +1136,7 @@ public class StoryCaptionView extends NestedScrollView {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             if (this.showMore != null) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.playerDidStartPlaying, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.notificationsCountUpdated, 31);
             } else {
                 canvas.save();
             }

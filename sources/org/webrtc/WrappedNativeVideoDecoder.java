@@ -2,7 +2,7 @@ package org.webrtc;
 
 import org.webrtc.VideoDecoder;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public abstract class WrappedNativeVideoDecoder implements VideoDecoder {
     @Override // org.webrtc.VideoDecoder
     public abstract long createNativeVideoDecoder();

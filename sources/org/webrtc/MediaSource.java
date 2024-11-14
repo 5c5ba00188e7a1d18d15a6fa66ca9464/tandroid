@@ -1,11 +1,11 @@
 package org.webrtc;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class MediaSource {
     private long nativeSource;
     private final RefCountDelegate refCountDelegate;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public enum State {
         INITIALIZING,
         LIVE,

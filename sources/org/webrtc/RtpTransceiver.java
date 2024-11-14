@@ -6,13 +6,13 @@ import java.util.List;
 import org.webrtc.MediaStreamTrack;
 import org.webrtc.RtpParameters;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class RtpTransceiver {
     private RtpReceiver cachedReceiver;
     private RtpSender cachedSender;
     private long nativeRtpTransceiver;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public enum RtpTransceiverDirection {
         SEND_RECV(0),
         SEND_ONLY(1),
@@ -39,7 +39,7 @@ public class RtpTransceiver {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static final class RtpTransceiverInit {
         private final RtpTransceiverDirection direction;
         private final List<RtpParameters.Encoding> sendEncodings;

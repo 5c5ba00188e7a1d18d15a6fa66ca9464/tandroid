@@ -2,13 +2,13 @@ package org.webrtc;
 
 import org.webrtc.MediaStreamTrack;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class RtpReceiver {
     private MediaStreamTrack cachedTrack;
     private long nativeObserver;
     private long nativeRtpReceiver;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public interface Observer {
         void onFirstPacketReceived(MediaStreamTrack.MediaType mediaType);
     }

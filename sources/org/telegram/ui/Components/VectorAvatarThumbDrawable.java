@@ -5,6 +5,7 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+import org.telegram.ui.Components.AttachableDrawable;
 
 /* loaded from: classes3.dex */
 public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder, AttachableDrawable, NotificationCenter.NotificationCenterDelegate {
@@ -41,7 +43,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         this.currentAccount = UserConfig.selectedAccount;
         this.type = i;
         this.isPremium = z;
-        gradientTools.setColors(ColorUtils.setAlphaComponent(videoSize.background_colors.get(0).intValue(), NotificationCenter.playerDidStartPlaying), videoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(videoSize.background_colors.get(1).intValue(), NotificationCenter.playerDidStartPlaying) : 0, videoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(videoSize.background_colors.get(2).intValue(), NotificationCenter.playerDidStartPlaying) : 0, videoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(videoSize.background_colors.get(3).intValue(), NotificationCenter.playerDidStartPlaying) : 0);
+        gradientTools.setColors(ColorUtils.setAlphaComponent(videoSize.background_colors.get(0).intValue(), NotificationCenter.notificationsCountUpdated), videoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(videoSize.background_colors.get(1).intValue(), NotificationCenter.notificationsCountUpdated) : 0, videoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(videoSize.background_colors.get(2).intValue(), NotificationCenter.notificationsCountUpdated) : 0, videoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(videoSize.background_colors.get(3).intValue(), NotificationCenter.notificationsCountUpdated) : 0);
         if (videoSize instanceof TLRPC.TL_videoSizeEmojiMarkup) {
             AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable((i == 1 && z) ? 7 : i == 2 ? 15 : 8, UserConfig.selectedAccount, ((TLRPC.TL_videoSizeEmojiMarkup) videoSize).emoji_id);
             this.animatedEmojiDrawable = animatedEmojiDrawable;
@@ -245,6 +247,11 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
 
     @Override // android.graphics.drawable.Drawable
     public void setColorFilter(ColorFilter colorFilter) {
+    }
+
+    @Override // org.telegram.ui.Components.AttachableDrawable
+    public /* synthetic */ void setParent(View view) {
+        AttachableDrawable.-CC.$default$setParent(this, view);
     }
 
     public void setParent(ImageReceiver imageReceiver) {

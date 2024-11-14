@@ -206,10 +206,11 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     OnTopicSelectedListener onTopicSelectedListener;
     private boolean openAnimationEnded;
     private boolean openVideoChat;
-    private boolean openedForForward;
-    private boolean openedForQuote;
-    private boolean openedForReply;
-    private boolean opnendForSelect;
+    private final boolean openedForBotShare;
+    private final boolean openedForForward;
+    private final boolean openedForQuote;
+    private final boolean openedForReply;
+    private final boolean openedForSelect;
     private ActionBarMenuItem other;
     ActionBarMenuItem otherItem;
     private AvatarDrawable parentAvatarDrawable;
@@ -2378,8 +2379,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.slideFragmentProgress = 1.0f;
         this.movingDialogFilters = new ArrayList();
         this.chatId = this.arguments.getLong("chat_id", 0L);
-        this.opnendForSelect = this.arguments.getBoolean("for_select", false);
+        this.openedForSelect = this.arguments.getBoolean("for_select", false);
         this.openedForForward = this.arguments.getBoolean("forward_to", false);
+        this.openedForBotShare = this.arguments.getBoolean("bot_share_to", false);
         this.openedForQuote = this.arguments.getBoolean("quote", false);
         this.openedForReply = this.arguments.getBoolean("reply_to", false);
         this.voiceChatHash = this.arguments.getString("voicechat", null);
@@ -2666,7 +2668,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         if (tL_forumTopic == null) {
             return;
         }
-        if (this.opnendForSelect) {
+        if (this.openedForSelect) {
             OnTopicSelectedListener onTopicSelectedListener = this.onTopicSelectedListener;
             if (onTopicSelectedListener != null) {
                 onTopicSelectedListener.onTopicSelected(tL_forumTopic);
@@ -2704,7 +2706,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$3(View view, int i, float f, float f2) {
-        if (this.opnendForSelect || getParentLayout() == null || getParentLayout().isInPreviewMode()) {
+        if (this.openedForSelect || getParentLayout() == null || getParentLayout().isInPreviewMode()) {
             return false;
         }
         if (!this.actionBar.isActionModeShowed() && !AndroidUtilities.isTablet() && (view instanceof TopicDialogCell)) {
@@ -3223,14 +3225,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         updateChatInfo(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x01e6  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0245  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0277  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x028c  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x0247  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0239  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x01ef  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x025d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0280  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0295  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0250  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0242  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3255,13 +3257,16 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         boolean z5 = notificationsSettings.getBoolean("dialog_bar_report" + (-this.chatId), false);
         boolean z6 = notificationsSettings.getBoolean("dialog_bar_block" + (-this.chatId), false);
         int i3 = 8;
-        if (this.opnendForSelect) {
+        if (this.openedForSelect) {
             if (this.openedForReply) {
                 chatAvatarContainer = this.avatarContainer;
                 i = R.string.ReplyToDialog;
             } else if (this.openedForQuote) {
                 chatAvatarContainer = this.avatarContainer;
                 i = R.string.QuoteTo;
+            } else if (this.openedForBotShare) {
+                chatAvatarContainer = this.avatarContainer;
+                i = R.string.BotShareToTopic;
             } else if (this.openedForForward) {
                 chatAvatarContainer = this.avatarContainer;
                 i = R.string.ForwardTo;
@@ -3292,7 +3297,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayProgress, false, 0.5f, z7);
             AndroidUtilities.updateViewVisibilityAnimated(this.bottomOverlayChatText, true, 0.5f, z7);
         } else {
-            if (chat == null || this.opnendForSelect || !(ChatObject.isNotInChat(chat) || getMessagesController().isJoiningChannel(chat.id))) {
+            if (chat == null || this.openedForSelect || !(ChatObject.isNotInChat(chat) || getMessagesController().isJoiningChannel(chat.id))) {
                 if (z4 && (z6 || z5)) {
                     this.bottomOverlayChatText.setText(LocaleController.getString(R.string.ReportSpamAndLeave));
                     this.bottomOverlayChatText.setClickable(true);
@@ -3304,7 +3309,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     if (this.bottomPannelVisible != z2) {
                     }
                     updateTopView();
-                    this.other.setVisibility(this.opnendForSelect ? 8 : 0);
+                    this.other.setVisibility(this.openedForSelect ? 8 : 0);
                     this.addMemberSubMenu.setVisibility(ChatObject.canAddUsers(chat) ? 0 : 8);
                     this.boostGroupSubmenu.setVisibility((ChatObject.isBoostSupported(chat) || !(getUserConfig().isPremium() || ChatObject.isBoosted(this.chatFull) || ChatObject.hasAdminRights(chat))) ? 8 : 0);
                     this.deleteChatSubmenu.setVisibility((chat != null || chat.creator || ChatObject.isNotInChat(chat)) ? 8 : 0);
@@ -3337,7 +3342,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     }
                 }
                 updateTopView();
-                this.other.setVisibility(this.opnendForSelect ? 8 : 0);
+                this.other.setVisibility(this.openedForSelect ? 8 : 0);
                 this.addMemberSubMenu.setVisibility(ChatObject.canAddUsers(chat) ? 0 : 8);
                 this.boostGroupSubmenu.setVisibility((ChatObject.isBoostSupported(chat) || !(getUserConfig().isPremium() || ChatObject.isBoosted(this.chatFull) || ChatObject.hasAdminRights(chat))) ? 8 : 0);
                 this.deleteChatSubmenu.setVisibility((chat != null || chat.creator || ChatObject.isNotInChat(chat)) ? 8 : 0);
@@ -3373,7 +3378,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         if (this.bottomPannelVisible != z2) {
         }
         updateTopView();
-        this.other.setVisibility(this.opnendForSelect ? 8 : 0);
+        this.other.setVisibility(this.openedForSelect ? 8 : 0);
         this.addMemberSubMenu.setVisibility(ChatObject.canAddUsers(chat) ? 0 : 8);
         this.boostGroupSubmenu.setVisibility((ChatObject.isBoostSupported(chat) || !(getUserConfig().isPremium() || ChatObject.isBoosted(this.chatFull) || ChatObject.hasAdminRights(chat))) ? 8 : 0);
         this.deleteChatSubmenu.setVisibility((chat != null || chat.creator || ChatObject.isNotInChat(chat)) ? 8 : 0);
@@ -3408,7 +3413,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         if (this.createTopicSubmenu == null) {
             return;
         }
-        boolean z2 = (ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(this.chatId))) || !ChatObject.canCreateTopic(getMessagesController().getChat(Long.valueOf(this.chatId))) || this.searching || this.opnendForSelect || this.loadingTopics) ? false : true;
+        boolean z2 = (ChatObject.isNotInChat(getMessagesController().getChat(Long.valueOf(this.chatId))) || !ChatObject.canCreateTopic(getMessagesController().getChat(Long.valueOf(this.chatId))) || this.searching || this.openedForSelect || this.loadingTopics) ? false : true;
         this.canShowCreateTopic = z2;
         this.createTopicSubmenu.setVisibility(z2 ? 0 : 8);
         hideFloatingButton(!this.canShowCreateTopic, z);
@@ -3829,12 +3834,14 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         this.avatarContainer.allowDrawStories = getDialogId() < 0;
         this.avatarContainer.setClipChildren(false);
         this.actionBar.addView(this.avatarContainer, 0, LayoutHelper.createFrame(-2, -1.0f, 51, 56.0f, 0.0f, 86.0f, 0.0f));
-        this.avatarContainer.getAvatarImageView().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicsFragment.4
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                TopicsFragment.this.openProfile(true);
-            }
-        });
+        if (!this.openedForSelect) {
+            this.avatarContainer.getAvatarImageView().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TopicsFragment.4
+                @Override // android.view.View.OnClickListener
+                public void onClick(View view) {
+                    TopicsFragment.this.openProfile(true);
+                }
+            });
+        }
         this.recyclerListView = new TopicsRecyclerView(context) { // from class: org.telegram.ui.TopicsFragment.5
             @Override // org.telegram.ui.Components.RecyclerListView
             public boolean emptyViewIsVisible() {
@@ -4537,7 +4544,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         if (z) {
             return;
         }
-        if (this.opnendForSelect && this.removeFragmentOnTransitionEnd) {
+        if (this.openedForSelect && this.removeFragmentOnTransitionEnd) {
             removeSelfFromStack();
             DialogsActivity dialogsActivity = this.dialogsActivity;
             if (dialogsActivity != null) {

@@ -3,7 +3,7 @@ package org.webrtc;
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class EncodedImage implements RefCounted {
     public final ByteBuffer buffer;
     public final long captureTimeMs;
@@ -15,7 +15,7 @@ public class EncodedImage implements RefCounted {
     private final RefCountDelegate refCountDelegate;
     public final int rotation;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Builder {
         private ByteBuffer buffer;
         private long captureTimeNs;
@@ -76,7 +76,7 @@ public class EncodedImage implements RefCounted {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public enum FrameType {
         EmptyFrame(0),
         VideoFrameKey(3),

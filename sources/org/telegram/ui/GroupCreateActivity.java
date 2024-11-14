@@ -91,6 +91,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     private GroupCreateAdapter adapter;
     private boolean addToGroup;
     private ArrayList allSpans;
+    private boolean allowMiniapps;
     private boolean allowPremium;
     private long channelId;
     private int chatAddType;
@@ -122,11 +123,13 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     private boolean searchWas;
     private boolean searching;
     private LongSparseArray selectedContacts;
+    private GroupCreateSpan selectedMiniapps;
     private GroupCreateSpan selectedPremium;
     private PermanentLinkBottomSheet sharedLinkBottomSheet;
     private int shiftDp;
     private SpansContainer spansContainer;
     private ArrayList toSelectIds;
+    private boolean toSelectMiniapps;
     private boolean toSelectPremium;
 
     /* loaded from: classes4.dex */
@@ -162,7 +165,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     /* loaded from: classes4.dex */
     public interface GroupCreateActivityDelegate {
-        void didSelectUsers(boolean z, ArrayList arrayList);
+        void didSelectUsers(boolean z, boolean z2, ArrayList arrayList);
     }
 
     /* loaded from: classes4.dex */
@@ -171,6 +174,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         private int currentItemsCount;
         private int firstSectionRow;
         private int inviteViaLink;
+        private int miniappsRow;
         private int noContactsStubRow;
         private int premiumRow;
         private SearchAdapterHelper searchAdapterHelper;
@@ -405,65 +409,82 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x00af  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x0065  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x00c0  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x00c9  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public int getItemCount() {
             int i;
+            int size;
             this.noContactsStubRow = -1;
             this.userTypesHeaderRow = -1;
             this.firstSectionRow = -1;
             this.premiumRow = -1;
+            this.miniappsRow = -1;
             if (this.searching) {
-                int size = this.searchResult.size();
-                int size2 = this.searchAdapterHelper.getLocalServerSearch().size();
-                int size3 = this.searchAdapterHelper.getGlobalSearch().size();
-                int i2 = size + size2;
-                if (size3 != 0) {
-                    i2 += size3 + 1;
+                int size2 = this.searchResult.size();
+                int size3 = this.searchAdapterHelper.getLocalServerSearch().size();
+                int size4 = this.searchAdapterHelper.getGlobalSearch().size();
+                int i2 = size2 + size3;
+                if (size4 != 0) {
+                    i2 += size4 + 1;
                 }
                 this.currentItemsCount = i2;
                 return i2;
             }
-            boolean z = GroupCreateActivity.this.allowPremium;
             int i3 = 2;
-            this.firstSectionRow = 0;
-            if (z) {
+            if (GroupCreateActivity.this.allowPremium) {
+                this.firstSectionRow = 0;
                 this.userTypesHeaderRow = 0;
                 this.premiumRow = 1;
-                i = 2;
             } else {
-                i = 0;
+                boolean z = GroupCreateActivity.this.allowMiniapps;
+                this.firstSectionRow = 0;
+                if (!z) {
+                    i = 0;
+                    this.usersStartRow = i;
+                    size = i + this.contacts.size();
+                    if (GroupCreateActivity.this.addToGroup) {
+                        if (GroupCreateActivity.this.chatId != 0) {
+                            i3 = ChatObject.canUserDoAdminAction(GroupCreateActivity.this.getMessagesController().getChat(Long.valueOf(GroupCreateActivity.this.chatId)), 3);
+                        } else if (GroupCreateActivity.this.channelId != 0) {
+                            TLRPC.Chat chat = GroupCreateActivity.this.getMessagesController().getChat(Long.valueOf(GroupCreateActivity.this.channelId));
+                            if (!ChatObject.canUserDoAdminAction(chat, 3) || ChatObject.isPublic(chat)) {
+                                i3 = 0;
+                            }
+                        } else {
+                            this.inviteViaLink = 0;
+                            if (this.inviteViaLink != 0) {
+                                this.usersStartRow++;
+                                size++;
+                            }
+                        }
+                        this.inviteViaLink = i3;
+                        if (this.inviteViaLink != 0) {
+                        }
+                    }
+                    if (size == 0) {
+                        this.noContactsStubRow = 0;
+                        size++;
+                    }
+                    this.currentItemsCount = size;
+                    return size;
+                }
+                this.userTypesHeaderRow = 0;
+                this.miniappsRow = 1;
             }
+            i = 2;
             this.usersStartRow = i;
-            int size4 = i + this.contacts.size();
+            size = i + this.contacts.size();
             if (GroupCreateActivity.this.addToGroup) {
-                if (GroupCreateActivity.this.chatId != 0) {
-                    i3 = ChatObject.canUserDoAdminAction(GroupCreateActivity.this.getMessagesController().getChat(Long.valueOf(GroupCreateActivity.this.chatId)), 3);
-                } else if (GroupCreateActivity.this.channelId != 0) {
-                    TLRPC.Chat chat = GroupCreateActivity.this.getMessagesController().getChat(Long.valueOf(GroupCreateActivity.this.channelId));
-                    if (!ChatObject.canUserDoAdminAction(chat, 3) || ChatObject.isPublic(chat)) {
-                        i3 = 0;
-                    }
-                } else {
-                    this.inviteViaLink = 0;
-                    if (this.inviteViaLink != 0) {
-                        this.usersStartRow++;
-                        size4++;
-                    }
-                }
-                this.inviteViaLink = i3;
-                if (this.inviteViaLink != 0) {
-                }
             }
-            if (size4 == 0) {
-                this.noContactsStubRow = 0;
-                size4++;
+            if (size == 0) {
             }
-            this.currentItemsCount = size4;
-            return size4;
+            this.currentItemsCount = size;
+            return size;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -474,17 +495,19 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             if (i == this.userTypesHeaderRow) {
                 return 0;
             }
-            if (i == this.premiumRow) {
-                return 1;
+            if (i != this.premiumRow && i != this.miniappsRow) {
+                if (this.inviteViaLink != 0 && i == 0) {
+                    return 2;
+                }
+                if (this.noContactsStubRow == i) {
+                    return 3;
+                }
+                int i2 = i - this.usersStartRow;
+                if (i2 >= 0 && i2 < this.contacts.size() && (this.contacts.get(i - this.usersStartRow) instanceof Letter)) {
+                    return 0;
+                }
             }
-            if (this.inviteViaLink != 0 && i == 0) {
-                return 2;
-            }
-            if (this.noContactsStubRow == i) {
-                return 3;
-            }
-            int i2 = i - this.usersStartRow;
-            return (i2 < 0 || i2 >= this.contacts.size() || !(this.contacts.get(i - this.usersStartRow) instanceof Letter)) ? 1 : 0;
+            return 1;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
@@ -558,15 +581,15 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
         /* JADX WARN: Code restructure failed: missing block: B:33:0x00c4, code lost:
         
-            if (r12.toString().startsWith("@" + r5) != false) goto L76;
+            if (r12.toString().startsWith("@" + r5) != false) goto L84;
          */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x01d2  */
-        /* JADX WARN: Removed duplicated region for block: B:113:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x01e7  */
+        /* JADX WARN: Removed duplicated region for block: B:120:? A[RETURN, SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:23:0x0084  */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x0148  */
-        /* JADX WARN: Removed duplicated region for block: B:39:0x015c  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x015d  */
+        /* JADX WARN: Removed duplicated region for block: B:39:0x0171  */
         /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x014d  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x0162  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -690,10 +713,14 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     tLObject = (TLObject) obj;
                     if (tLObject != null) {
                     }
+                } else if (i == this.premiumRow) {
+                    groupCreateUserCell.setPremium();
+                    groupCreateUserCell.setChecked(GroupCreateActivity.this.selectedPremium != null, false);
+                    return;
                 } else {
-                    if (i == this.premiumRow) {
-                        groupCreateUserCell.setPremium();
-                        groupCreateUserCell.setChecked(GroupCreateActivity.this.selectedPremium != null, false);
+                    if (i == this.miniappsRow) {
+                        groupCreateUserCell.setMiniapps();
+                        groupCreateUserCell.setChecked(GroupCreateActivity.this.selectedMiniapps != null, false);
                         return;
                     }
                     tLObject = (TLObject) this.contacts.get(i - this.usersStartRow);
@@ -1094,6 +1121,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         this.addToGroup = bundle.getBoolean("addToGroup", false);
         this.chatAddType = bundle.getInt("chatAddType", 0);
         this.allowPremium = bundle.getBoolean("allowPremium", false);
+        this.allowMiniapps = bundle.getBoolean("allowMiniapps", false);
         this.chatId = bundle.getLong("chatId");
         this.channelId = bundle.getLong("channelId");
         if (this.isAlwaysShare || this.isNeverShare || this.addToGroup) {
@@ -1228,6 +1256,20 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 checkVisibleRows();
                 return;
             }
+            if (groupCreateUserCell.currentMiniapps) {
+                GroupCreateSpan groupCreateSpan3 = this.selectedMiniapps;
+                if (groupCreateSpan3 == null) {
+                    GroupCreateSpan groupCreateSpan4 = new GroupCreateSpan(this.editText.getContext(), "miniapps");
+                    this.selectedMiniapps = groupCreateSpan4;
+                    this.spansContainer.addSpan(groupCreateSpan4);
+                    this.selectedMiniapps.setOnClickListener(this);
+                } else {
+                    this.spansContainer.removeSpan(groupCreateSpan3);
+                    this.selectedMiniapps = null;
+                }
+                checkVisibleRows();
+                return;
+            }
             Object object = groupCreateUserCell.getObject();
             boolean z = object instanceof TLRPC.User;
             if (z) {
@@ -1289,9 +1331,9 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                             } else if (object instanceof TLRPC.Chat) {
                                 getMessagesController().putChat((TLRPC.Chat) object, true ^ this.searching);
                             }
-                            GroupCreateSpan groupCreateSpan3 = new GroupCreateSpan(this.editText.getContext(), object);
-                            this.spansContainer.addSpan(groupCreateSpan3);
-                            groupCreateSpan3.setOnClickListener(this);
+                            GroupCreateSpan groupCreateSpan5 = new GroupCreateSpan(this.editText.getContext(), object);
+                            this.spansContainer.addSpan(groupCreateSpan5);
+                            groupCreateSpan5.setOnClickListener(this);
                         }
                         showDialog(create);
                         return;
@@ -1463,7 +1505,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 if (this.isAlwaysShare || this.isNeverShare) {
                     GroupCreateActivityDelegate groupCreateActivityDelegate = this.delegate;
                     if (groupCreateActivityDelegate != null) {
-                        groupCreateActivityDelegate.didSelectUsers(this.selectedPremium != null, arrayList2);
+                        groupCreateActivityDelegate.didSelectUsers(this.selectedPremium != null, this.selectedMiniapps != null, arrayList2);
                     }
                     lambda$onBackPressed$321();
                 } else {
@@ -1603,12 +1645,12 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     /* JADX WARN: Removed duplicated region for block: B:14:0x0151  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x018f  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x01f3  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x024b  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0291  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x02b3  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0325  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0293  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x02b5  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0327  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x01f7  */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0153  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -1893,7 +1935,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     });
                     arrayList = this.toSelectIds;
                     if (arrayList != null) {
-                        select(arrayList, this.toSelectPremium);
+                        select(arrayList, this.toSelectPremium, this.toSelectMiniapps);
                     }
                     FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context);
                     flickerLoadingView.setViewType(6);
@@ -2767,22 +2809,33 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         AndroidUtilities.requestAdjustResize(getParentActivity(), this.classGuid);
     }
 
-    public void select(ArrayList arrayList, boolean z) {
+    public void select(ArrayList arrayList, boolean z, boolean z2) {
         GroupCreateSpan groupCreateSpan;
+        GroupCreateSpan groupCreateSpan2;
         SpansContainer spansContainer = this.spansContainer;
         if (spansContainer == null) {
             this.toSelectIds = arrayList;
             this.toSelectPremium = z;
+            this.toSelectMiniapps = z2;
             return;
         }
         if (z && this.selectedPremium == null) {
-            GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), "premium");
-            this.selectedPremium = groupCreateSpan2;
-            this.spansContainer.addSpan(groupCreateSpan2);
+            GroupCreateSpan groupCreateSpan3 = new GroupCreateSpan(getContext(), "premium");
+            this.selectedPremium = groupCreateSpan3;
+            this.spansContainer.addSpan(groupCreateSpan3);
             this.selectedPremium.setOnClickListener(this);
         } else if (!z && (groupCreateSpan = this.selectedPremium) != null) {
             spansContainer.removeSpan(groupCreateSpan);
             this.selectedPremium = null;
+        }
+        if (z2 && this.selectedMiniapps == null) {
+            GroupCreateSpan groupCreateSpan4 = new GroupCreateSpan(getContext(), "miniapps");
+            this.selectedMiniapps = groupCreateSpan4;
+            this.spansContainer.addSpan(groupCreateSpan4);
+            this.selectedMiniapps.setOnClickListener(this);
+        } else if (!z2 && (groupCreateSpan2 = this.selectedMiniapps) != null) {
+            this.spansContainer.removeSpan(groupCreateSpan2);
+            this.selectedMiniapps = null;
         }
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {
@@ -2790,9 +2843,9 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             long longValue = l.longValue();
             Object chat = longValue < 0 ? getMessagesController().getChat(Long.valueOf(-longValue)) : getMessagesController().getUser(l);
             if (chat != null) {
-                GroupCreateSpan groupCreateSpan3 = new GroupCreateSpan(getContext(), chat);
-                this.spansContainer.addSpan(groupCreateSpan3);
-                groupCreateSpan3.setOnClickListener(this);
+                GroupCreateSpan groupCreateSpan5 = new GroupCreateSpan(getContext(), chat);
+                this.spansContainer.addSpan(groupCreateSpan5);
+                groupCreateSpan5.setOnClickListener(this);
             }
         }
         this.spansContainer.endAnimation();

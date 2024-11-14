@@ -459,12 +459,12 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             StringBuilder sb;
             String str;
             int i = this.gradientColor1;
-            String lowerCase = i != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor1 & NotificationCenter.playerDidStartPlaying))).toLowerCase() : null;
-            String lowerCase2 = String.format("%02x%02x%02x", Integer.valueOf(((byte) (this.color >> 16)) & 255), Integer.valueOf(((byte) (this.color >> 8)) & 255), Byte.valueOf((byte) (this.color & NotificationCenter.playerDidStartPlaying))).toLowerCase();
+            String lowerCase = i != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor1 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
+            String lowerCase2 = String.format("%02x%02x%02x", Integer.valueOf(((byte) (this.color >> 16)) & 255), Integer.valueOf(((byte) (this.color >> 8)) & 255), Byte.valueOf((byte) (this.color & NotificationCenter.notificationsCountUpdated))).toLowerCase();
             int i2 = this.gradientColor2;
-            String lowerCase3 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor2 & NotificationCenter.playerDidStartPlaying))).toLowerCase() : null;
+            String lowerCase3 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor2 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
             int i3 = this.gradientColor3;
-            String lowerCase4 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor3 & NotificationCenter.playerDidStartPlaying))).toLowerCase() : null;
+            String lowerCase4 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (this.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (this.gradientColor3 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
             if (lowerCase == null || lowerCase3 == null) {
                 if (lowerCase != null) {
                     String str2 = lowerCase2 + "-" + lowerCase;

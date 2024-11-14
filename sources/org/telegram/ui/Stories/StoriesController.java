@@ -78,7 +78,7 @@ import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.Stories.recorder.StoryUploadingService;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoriesController {
     public static final Comparator storiesComparator = Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Stories.StoriesController$$ExternalSyntheticLambda3
         @Override // j$.util.function.ToIntFunction
@@ -145,7 +145,7 @@ public class StoriesController {
     private long lastBlocklistRequested = 0;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 1 implements RequestDelegate {
         final /* synthetic */ Consumer val$consumer;
         final /* synthetic */ long val$hash;
@@ -185,7 +185,7 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class BotPreview extends TL_stories.StoryItem {
         public final BotPreviewsList list;
 
@@ -206,7 +206,7 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class BotPreviewsList extends StoriesList {
         private final ArrayList fakeDays;
         public final String lang_code;
@@ -580,7 +580,7 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class SearchStoriesList extends StoriesList {
         private int count;
         private final ArrayList fakeDays;
@@ -768,7 +768,7 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StoriesList {
         private static HashMap lastLoadTime;
         private final SortedSet cachedObjects;
@@ -1842,7 +1842,7 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StoryLimit {
         public int type;
         public long until;
@@ -1866,7 +1866,7 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class UploadingStory implements NotificationCenter.NotificationCenterDelegate {
         boolean canceled;
         float convertingProgress;

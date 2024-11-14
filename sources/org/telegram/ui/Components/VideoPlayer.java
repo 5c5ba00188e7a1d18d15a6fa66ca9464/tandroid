@@ -517,7 +517,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             if (Math.abs(min - 360) < 55) {
                 return 360;
             }
-            return Math.abs(min + (-240)) < 55 ? NotificationCenter.needShareTheme : Math.abs(min + (-144)) < 55 ? NotificationCenter.messagePlayingProgressDidChanged : min;
+            return Math.abs(min + (-240)) < 55 ? NotificationCenter.needCheckSystemBarColors : Math.abs(min + (-144)) < 55 ? NotificationCenter.messagePlayingProgressDidChanged : min;
         }
 
         public String toString() {

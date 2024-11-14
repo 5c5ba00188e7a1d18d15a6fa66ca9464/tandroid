@@ -67,7 +67,7 @@ public enum k implements j$.time.temporal.k {
             case 3:
                 return (z ? 1 : 0) + NotificationCenter.recordStartError;
             case 4:
-                return (z ? 1 : 0) + NotificationCenter.locationPermissionDenied;
+                return (z ? 1 : 0) + NotificationCenter.locationPermissionGranted;
             case 5:
                 return (z ? 1 : 0) + 305;
             case 6:
@@ -81,7 +81,7 @@ public enum k implements j$.time.temporal.k {
             case 10:
                 return (z ? 1 : 0) + NotificationCenter.starTransactionsLoaded;
             case 11:
-                return (z ? 1 : 0) + NotificationCenter.onActivityResultReceived;
+                return (z ? 1 : 0) + NotificationCenter.onDownloadingFilesChanged;
             default:
                 return (z ? 1 : 0) + 335;
         }

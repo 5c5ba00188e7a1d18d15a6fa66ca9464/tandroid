@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class MediaStream {
     private static final String TAG = "MediaStream";
     private long nativeStream;

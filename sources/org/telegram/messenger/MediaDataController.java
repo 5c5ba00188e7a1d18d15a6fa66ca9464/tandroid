@@ -1,5 +1,6 @@
 package org.telegram.messenger;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -237,6 +238,7 @@ public class MediaDataController extends BaseController {
     public ArrayList<MessageObject> searchResultMessages;
     public ArrayList<MessageObject> searchServerResultMessages;
     private SparseArray<MessageObject>[] searchServerResultMessagesMap;
+    public final HashMap<String, Utilities.Callback<Boolean>> shortcutCallbacks;
     private TLRPC.TL_messages_stickerSet stickerSetDefaultChannelStatuses;
     private TLRPC.TL_messages_stickerSet stickerSetDefaultStatuses;
     private ArrayList<TLRPC.TL_messages_stickerSet>[] stickerSets;
@@ -842,7 +844,7 @@ public class MediaDataController extends BaseController {
         }
         SHORTCUT_TYPE_USER_OR_CHAT = 0;
         SHORTCUT_TYPE_ATTACHED_BOT = 1;
-        entityComparator = new Comparator() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda189
+        entityComparator = new Comparator() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda190
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$static$160;
@@ -919,6 +921,7 @@ public class MediaDataController extends BaseController {
         this.hints = new ArrayList<>();
         this.inlineBots = new ArrayList<>();
         this.webapps = new ArrayList<>();
+        this.shortcutCallbacks = new HashMap<>();
         this.loadingPinnedMessages = new LongSparseArray();
         this.draftsFolderIds = new LongSparseArray();
         this.drafts = new LongSparseArray();
@@ -1668,7 +1671,7 @@ public class MediaDataController extends BaseController {
     }
 
     private void getMediaCountDatabase(final long j, final long j2, final int i, final int i2) {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda184
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda185
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$getMediaCountDatabase$137(j2, j, i, i2);
@@ -1956,7 +1959,7 @@ public class MediaDataController extends BaseController {
                     return "emojiChannelDefaultStatuses";
                 }
                 if (!(inputStickerSet instanceof TLRPC.TL_inputStickerSetDice)) {
-                    return inputStickerSet instanceof TLRPC.TL_inputStickerSetPremiumGifts ? "premiumGifts" : inputStickerSet instanceof TLRPC.TL_inputStickerSetEmojiDefaultTopicIcons ? "defaultTopicIcons" : "null";
+                    return inputStickerSet instanceof TLRPC.TL_inputStickerSetPremiumGifts ? "premiumGifts" : inputStickerSet instanceof TLRPC.TL_inputStickerSetEmojiDefaultTopicIcons ? "defaultTopicIcons" : inputStickerSet instanceof TLRPC.TL_inputStickerSetEmojiDefaultStatuses ? "emojiDefaultStatuses" : "null";
                 }
                 sb = new StringBuilder();
                 sb.append("dice");
@@ -2496,7 +2499,7 @@ public class MediaDataController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$clearRecentStickers$18(TLObject tLObject) {
         if (tLObject instanceof TLRPC.TL_boolTrue) {
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda188
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda189
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.this.lambda$clearRecentStickers$17();
@@ -3809,7 +3812,7 @@ public class MediaDataController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getStickerSet$34(final TLRPC.InputStickerSet inputStickerSet, Integer num, final String str, final Utilities.Callback callback, final boolean z) {
         final TLRPC.TL_messages_stickerSet cachedStickerSetInternal = getCachedStickerSetInternal(inputStickerSet.id, num);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda202
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda203
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$getStickerSet$33(cachedStickerSetInternal, str, callback, z, inputStickerSet);
@@ -5764,7 +5767,7 @@ public class MediaDataController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadRestrictedStatusEmojis$246(final SharedPreferences sharedPreferences, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda179
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda180
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$loadRestrictedStatusEmojis$245(tLObject, sharedPreferences);
@@ -5838,7 +5841,7 @@ public class MediaDataController extends BaseController {
                 }
             }
         }
-        processLoadedStickers(i, arrayList, true, i2, j, new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda181
+        processLoadedStickers(i, arrayList, true, i2, j, new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda182
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.lambda$loadStickers$90(Utilities.Callback.this, arrayList);
@@ -7523,7 +7526,7 @@ public class MediaDataController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$searchMessagesInChat$123(final TLRPC.TL_messages_search tL_messages_search, final boolean z, String str, final int i, final boolean z2, final long j, final long j2, final int i2, final long j3, final long j4, final TLRPC.User user, final TLRPC.Chat chat, final TLObject tLObject, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$searchMessagesInChat$123(final TLRPC.TL_messages_search tL_messages_search, final boolean z, String str, boolean z2, final int i, final boolean z3, final long j, final long j2, final int i2, final long j3, final long j4, final TLRPC.User user, final TLRPC.Chat chat, final TLObject tLObject, TLRPC.TL_error tL_error) {
         final ArrayList arrayList = new ArrayList();
         if (tL_error == null) {
             TLRPC.messages_Messages messages_messages = (TLRPC.messages_Messages) tLObject;
@@ -7533,14 +7536,14 @@ public class MediaDataController extends BaseController {
                 if (messageObject.hasValidGroupId()) {
                     messageObject.isPrimaryGroupMessage = true;
                 }
-                messageObject.setQuery(str);
+                messageObject.setQuery(str, !z2);
                 arrayList.add(messageObject);
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda203
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda179
             @Override // java.lang.Runnable
             public final void run() {
-                MediaDataController.this.lambda$searchMessagesInChat$122(i, z2, tLObject, tL_messages_search, j, j2, i2, arrayList, z, j3, j4, user, chat);
+                MediaDataController.this.lambda$searchMessagesInChat$122(i, z3, tLObject, tL_messages_search, j, j2, i2, arrayList, z, j3, j4, user, chat);
             }
         });
     }
@@ -8257,13 +8260,13 @@ public class MediaDataController extends BaseController {
     }
 
     private void processLoadedStickers(final int i, final ArrayList<TLRPC.TL_messages_stickerSet> arrayList, final boolean z, final int i2, final long j, final Runnable runnable) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda200
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda201
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$processLoadedStickers$101(i);
             }
         });
-        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda201
+        Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda202
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$processLoadedStickers$105(z, arrayList, i2, j, i, runnable);
@@ -8287,7 +8290,7 @@ public class MediaDataController extends BaseController {
         if (tL_emojiKeywordsDifference == null) {
             return;
         }
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda193
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda194
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$putEmojiKeywords$215(tL_emojiKeywordsDifference, str);
@@ -8920,8 +8923,7 @@ public class MediaDataController extends BaseController {
     }
 
     public boolean canCreateAttachedMenuBotShortcut(long j) {
-        TLRPC.User user = getMessagesController().getUser(Long.valueOf(j));
-        return user != null && user.bot_has_main_app;
+        return true;
     }
 
     public boolean cancelRemovingStickerSet(long j) {
@@ -9273,7 +9275,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void clearRecentStickers() {
-        getConnectionsManager().sendRequest(new TLRPC.TL_messages_clearRecentStickers(), new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda190
+        getConnectionsManager().sendRequest(new TLRPC.TL_messages_clearRecentStickers(), new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda191
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 MediaDataController.this.lambda$clearRecentStickers$19(tLObject, tL_error);
@@ -9373,7 +9375,7 @@ public class MediaDataController extends BaseController {
             return;
         }
         final ArrayList[] arrayListArr = {getStickerSets(5)};
-        final Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda185
+        final Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda186
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$fillWithAnimatedEmoji$225(num, arrayList, z2, z, arrayListArr, runnable);
@@ -9386,13 +9388,13 @@ public class MediaDataController extends BaseController {
         }
         this.triedLoadingEmojipacks = true;
         final boolean[] zArr = new boolean[1];
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda186
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda187
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$fillWithAnimatedEmoji$227(zArr, arrayListArr, runnable2);
             }
         });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda187
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda188
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.lambda$fillWithAnimatedEmoji$228(zArr, runnable2);
@@ -10476,7 +10478,7 @@ public class MediaDataController extends BaseController {
                 this.inlineBots.add(tL_topPeer);
             }
             tL_topPeer.rating += Math.exp(max / getMessagesController().ratingDecay);
-            Collections.sort(this.inlineBots, new Comparator() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda183
+            Collections.sort(this.inlineBots, new Comparator() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda184
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$increaseInlineRating$150;
@@ -10550,247 +10552,354 @@ public class MediaDataController extends BaseController {
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadWebappsHints, new Object[0]);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(20:10|(2:12|(1:14)(1:15))(2:126|(1:128)(2:129|(3:131|132|(5:20|(4:103|104|(4:106|107|(2:109|110)|24)(4:111|(1:113)(2:116|(1:118)(1:119))|114|115)|25)(4:22|(2:102|25)|24|25)|(2:(2:97|98)(1:71)|(9:74|75|76|(3:78|(1:80)(1:89)|81)(3:90|(1:92)|93)|82|83|84|85|86))(1:28)|29|(6:31|(1:33)(1:51)|34|(1:36)(2:(2:40|(1:42)(1:44))(2:45|(1:50)(1:49))|43)|37|38)(4:52|(1:54)(3:(2:58|(1:60)(1:63))(2:64|(1:69)(1:68))|61|62)|55|56))(1:19))(1:133)))|16|(0)|20|(0)(0)|(0)|(0)(0)|(0)|74|75|76|(0)(0)|82|83|84|85|86|29|(0)(0)) */
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x00b7, code lost:
-    
-        if (r12 != null) goto L49;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:94:0x0117, code lost:
+    public void installShortcut(long j, int i) {
+        installShortcut(j, i, null);
+    }
+
+    /* JADX WARN: Can't wrap try/catch for region: R(17:31|(3:33|(2:35|36)|131)(7:132|(1:134)(2:137|(1:139)(1:140))|135|136|(2:(2:126|127)(1:91)|(9:95|96|97|(4:99|(1:101)(1:116)|102|103)(6:117|(1:119)|120|121|122|123)|104|105|106|107|108)(1:94))(1:40)|41|(10:43|(1:45)(1:71)|46|(1:48)(2:(2:60|(1:62)(1:64))(2:65|(1:70)(1:69))|63)|49|(1:51)(1:58)|52|(1:54)(1:57)|55|56)(4:72|(1:74)(3:(2:78|(1:80)(1:83))(2:84|(1:89)(1:88))|81|82)|75|76))|37|(0)|(0)(0)|(0)|95|96|97|(0)(0)|104|105|106|107|108|41|(0)(0)) */
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x01c8, code lost:
     
         r0 = th;
      */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x0072 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00c1 A[Catch: Exception -> 0x0010, TryCatch #1 {Exception -> 0x0010, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x001b, B:12:0x0021, B:15:0x0034, B:16:0x004d, B:107:0x0078, B:110:0x00b9, B:29:0x01a5, B:31:0x01ab, B:34:0x01b5, B:36:0x01d5, B:37:0x0202, B:40:0x01dc, B:42:0x01e0, B:43:0x01e4, B:44:0x01e9, B:45:0x01ee, B:47:0x01f4, B:49:0x01f8, B:50:0x01fd, B:52:0x0210, B:54:0x0217, B:55:0x0248, B:58:0x021f, B:60:0x0223, B:61:0x0227, B:62:0x0245, B:63:0x022c, B:64:0x0231, B:66:0x0237, B:68:0x023b, B:69:0x0240, B:96:0x01a2, B:111:0x0092, B:113:0x009a, B:114:0x009c, B:116:0x00a1, B:118:0x00a7, B:119:0x00ad, B:22:0x00c1, B:102:0x00c9, B:126:0x003f, B:128:0x0045, B:129:0x0054, B:131:0x005a, B:134:0x0013), top: B:2:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x01ab A[Catch: Exception -> 0x0010, TryCatch #1 {Exception -> 0x0010, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x001b, B:12:0x0021, B:15:0x0034, B:16:0x004d, B:107:0x0078, B:110:0x00b9, B:29:0x01a5, B:31:0x01ab, B:34:0x01b5, B:36:0x01d5, B:37:0x0202, B:40:0x01dc, B:42:0x01e0, B:43:0x01e4, B:44:0x01e9, B:45:0x01ee, B:47:0x01f4, B:49:0x01f8, B:50:0x01fd, B:52:0x0210, B:54:0x0217, B:55:0x0248, B:58:0x021f, B:60:0x0223, B:61:0x0227, B:62:0x0245, B:63:0x022c, B:64:0x0231, B:66:0x0237, B:68:0x023b, B:69:0x0240, B:96:0x01a2, B:111:0x0092, B:113:0x009a, B:114:0x009c, B:116:0x00a1, B:118:0x00a7, B:119:0x00ad, B:22:0x00c1, B:102:0x00c9, B:126:0x003f, B:128:0x0045, B:129:0x0054, B:131:0x005a, B:134:0x0013), top: B:2:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0210 A[Catch: Exception -> 0x0010, TryCatch #1 {Exception -> 0x0010, blocks: (B:3:0x0006, B:5:0x000a, B:10:0x001b, B:12:0x0021, B:15:0x0034, B:16:0x004d, B:107:0x0078, B:110:0x00b9, B:29:0x01a5, B:31:0x01ab, B:34:0x01b5, B:36:0x01d5, B:37:0x0202, B:40:0x01dc, B:42:0x01e0, B:43:0x01e4, B:44:0x01e9, B:45:0x01ee, B:47:0x01f4, B:49:0x01f8, B:50:0x01fd, B:52:0x0210, B:54:0x0217, B:55:0x0248, B:58:0x021f, B:60:0x0223, B:61:0x0227, B:62:0x0245, B:63:0x022c, B:64:0x0231, B:66:0x0237, B:68:0x023b, B:69:0x0240, B:96:0x01a2, B:111:0x0092, B:113:0x009a, B:114:0x009c, B:116:0x00a1, B:118:0x00a7, B:119:0x00ad, B:22:0x00c1, B:102:0x00c9, B:126:0x003f, B:128:0x0045, B:129:0x0054, B:131:0x005a, B:134:0x0013), top: B:2:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x00eb  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0106 A[Catch: all -> 0x0117, TryCatch #3 {all -> 0x0117, blocks: (B:76:0x00f2, B:78:0x0106, B:80:0x0111, B:81:0x011d, B:82:0x0173, B:85:0x019d, B:89:0x011a, B:90:0x0124, B:92:0x012f, B:93:0x013d), top: B:75:0x00f2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0124 A[Catch: all -> 0x0117, TryCatch #3 {all -> 0x0117, blocks: (B:76:0x00f2, B:78:0x0106, B:80:0x0111, B:81:0x011d, B:82:0x0173, B:85:0x019d, B:89:0x011a, B:90:0x0124, B:92:0x012f, B:93:0x013d), top: B:75:0x00f2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x00d6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x0134, code lost:
+    
+        r0 = th;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:125:0x0135, code lost:
+    
+        r17 = "android.intent.extra.shortcut.ICON_RESOURCE";
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:141:0x00cc, code lost:
+    
+        if (r13 != null) goto L53;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0147 A[Catch: all -> 0x0134, TryCatch #0 {all -> 0x0134, blocks: (B:97:0x010c, B:99:0x0120, B:101:0x012b, B:103:0x013e, B:116:0x013a, B:117:0x0147, B:119:0x0154, B:120:0x0162), top: B:96:0x010c }] */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x00e7 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x00d1 A[Catch: Exception -> 0x0014, TryCatch #4 {Exception -> 0x0014, blocks: (B:3:0x000a, B:5:0x000e, B:9:0x0020, B:13:0x0026, B:15:0x002c, B:18:0x0040, B:21:0x0046, B:22:0x005f, B:26:0x0081, B:31:0x008b, B:33:0x008f, B:36:0x00ce, B:41:0x01d3, B:43:0x01d9, B:46:0x01e2, B:48:0x0202, B:49:0x022f, B:51:0x0234, B:52:0x0266, B:55:0x0274, B:57:0x0270, B:60:0x0209, B:62:0x020d, B:63:0x0211, B:64:0x0216, B:65:0x021b, B:67:0x0221, B:69:0x0225, B:70:0x022a, B:72:0x0278, B:74:0x027f, B:75:0x02b2, B:78:0x0287, B:80:0x028b, B:81:0x028f, B:82:0x02af, B:83:0x0296, B:84:0x029b, B:86:0x02a1, B:88:0x02a5, B:89:0x02aa, B:112:0x01d0, B:132:0x00a9, B:134:0x00af, B:135:0x00b1, B:137:0x00b6, B:139:0x00bc, B:140:0x00c2, B:142:0x00d1, B:144:0x00d7, B:145:0x0051, B:147:0x0057, B:148:0x0066, B:150:0x006c, B:152:0x02cf, B:155:0x0017), top: B:2:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x008b A[Catch: Exception -> 0x0014, TryCatch #4 {Exception -> 0x0014, blocks: (B:3:0x000a, B:5:0x000e, B:9:0x0020, B:13:0x0026, B:15:0x002c, B:18:0x0040, B:21:0x0046, B:22:0x005f, B:26:0x0081, B:31:0x008b, B:33:0x008f, B:36:0x00ce, B:41:0x01d3, B:43:0x01d9, B:46:0x01e2, B:48:0x0202, B:49:0x022f, B:51:0x0234, B:52:0x0266, B:55:0x0274, B:57:0x0270, B:60:0x0209, B:62:0x020d, B:63:0x0211, B:64:0x0216, B:65:0x021b, B:67:0x0221, B:69:0x0225, B:70:0x022a, B:72:0x0278, B:74:0x027f, B:75:0x02b2, B:78:0x0287, B:80:0x028b, B:81:0x028f, B:82:0x02af, B:83:0x0296, B:84:0x029b, B:86:0x02a1, B:88:0x02a5, B:89:0x02aa, B:112:0x01d0, B:132:0x00a9, B:134:0x00af, B:135:0x00b1, B:137:0x00b6, B:139:0x00bc, B:140:0x00c2, B:142:0x00d1, B:144:0x00d7, B:145:0x0051, B:147:0x0057, B:148:0x0066, B:150:0x006c, B:152:0x02cf, B:155:0x0017), top: B:2:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00dc A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01d9 A[Catch: Exception -> 0x0014, TryCatch #4 {Exception -> 0x0014, blocks: (B:3:0x000a, B:5:0x000e, B:9:0x0020, B:13:0x0026, B:15:0x002c, B:18:0x0040, B:21:0x0046, B:22:0x005f, B:26:0x0081, B:31:0x008b, B:33:0x008f, B:36:0x00ce, B:41:0x01d3, B:43:0x01d9, B:46:0x01e2, B:48:0x0202, B:49:0x022f, B:51:0x0234, B:52:0x0266, B:55:0x0274, B:57:0x0270, B:60:0x0209, B:62:0x020d, B:63:0x0211, B:64:0x0216, B:65:0x021b, B:67:0x0221, B:69:0x0225, B:70:0x022a, B:72:0x0278, B:74:0x027f, B:75:0x02b2, B:78:0x0287, B:80:0x028b, B:81:0x028f, B:82:0x02af, B:83:0x0296, B:84:0x029b, B:86:0x02a1, B:88:0x02a5, B:89:0x02aa, B:112:0x01d0, B:132:0x00a9, B:134:0x00af, B:135:0x00b1, B:137:0x00b6, B:139:0x00bc, B:140:0x00c2, B:142:0x00d1, B:144:0x00d7, B:145:0x0051, B:147:0x0057, B:148:0x0066, B:150:0x006c, B:152:0x02cf, B:155:0x0017), top: B:2:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0278 A[Catch: Exception -> 0x0014, TryCatch #4 {Exception -> 0x0014, blocks: (B:3:0x000a, B:5:0x000e, B:9:0x0020, B:13:0x0026, B:15:0x002c, B:18:0x0040, B:21:0x0046, B:22:0x005f, B:26:0x0081, B:31:0x008b, B:33:0x008f, B:36:0x00ce, B:41:0x01d3, B:43:0x01d9, B:46:0x01e2, B:48:0x0202, B:49:0x022f, B:51:0x0234, B:52:0x0266, B:55:0x0274, B:57:0x0270, B:60:0x0209, B:62:0x020d, B:63:0x0211, B:64:0x0216, B:65:0x021b, B:67:0x0221, B:69:0x0225, B:70:0x022a, B:72:0x0278, B:74:0x027f, B:75:0x02b2, B:78:0x0287, B:80:0x028b, B:81:0x028f, B:82:0x02af, B:83:0x0296, B:84:0x029b, B:86:0x02a1, B:88:0x02a5, B:89:0x02aa, B:112:0x01d0, B:132:0x00a9, B:134:0x00af, B:135:0x00b1, B:137:0x00b6, B:139:0x00bc, B:140:0x00c2, B:142:0x00d1, B:144:0x00d7, B:145:0x0051, B:147:0x0057, B:148:0x0066, B:150:0x006c, B:152:0x02cf, B:155:0x0017), top: B:2:0x000a }] */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0102 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0120 A[Catch: all -> 0x0134, TryCatch #0 {all -> 0x0134, blocks: (B:97:0x010c, B:99:0x0120, B:101:0x012b, B:103:0x013e, B:116:0x013a, B:117:0x0147, B:119:0x0154, B:120:0x0162), top: B:96:0x010c }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void installShortcut(long j, int i) {
+    public void installShortcut(long j, int i, Utilities.Callback<Boolean> callback) {
         TLRPC.Chat chat;
         TLRPC.User user;
         MessagesController messagesController;
         Long valueOf;
-        String formatName;
-        TLRPC.UserProfilePhoto userProfilePhoto;
-        int i2;
+        String str;
         TLRPC.FileLocation fileLocation;
         boolean z;
+        String str2;
+        PendingIntent pendingIntent;
         Bitmap bitmap;
+        Bitmap bitmap2;
         Context context;
-        int i3;
+        int i2;
         Context context2;
-        int i4;
+        int i3;
         IconCompat createWithResource;
+        PendingIntent pendingIntent2;
+        TLRPC.UserProfilePhoto userProfilePhoto;
+        int i4;
         try {
             Intent createIntrnalShortcutIntent = i == SHORTCUT_TYPE_USER_OR_CHAT ? createIntrnalShortcutIntent(j) : createIntrnalAttachedBotShortcutIntent(j);
             if (createIntrnalShortcutIntent == null) {
+                if (callback != null) {
+                    callback.run(Boolean.FALSE);
+                    return;
+                }
                 return;
             }
             if (DialogObject.isEncryptedDialog(j)) {
                 TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(j)));
                 if (encryptedChat == null) {
-                    return;
-                }
-                messagesController = getMessagesController();
-                valueOf = Long.valueOf(encryptedChat.user_id);
-            } else {
-                if (!DialogObject.isUserDialog(j)) {
-                    if (DialogObject.isChatDialog(j)) {
-                        chat = getMessagesController().getChat(Long.valueOf(-j));
-                        user = null;
-                        if (user == null || chat != null) {
-                            if (user == null) {
-                                try {
-                                    if (i == SHORTCUT_TYPE_ATTACHED_BOT) {
-                                        formatName = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j)));
-                                        userProfilePhoto = user.photo;
-                                        if (userProfilePhoto != null) {
-                                            fileLocation = userProfilePhoto.photo_small;
-                                        }
-                                        fileLocation = null;
-                                    } else {
-                                        if (UserObject.isReplyUser(user)) {
-                                            i2 = R.string.RepliesTitle;
-                                        } else if (UserObject.isUserSelf(user)) {
-                                            i2 = R.string.SavedMessages;
-                                        } else {
-                                            formatName = ContactsController.formatName(user.first_name, user.last_name);
-                                            userProfilePhoto = user.photo;
-                                        }
-                                        formatName = LocaleController.getString(i2);
-                                        fileLocation = null;
-                                        z = true;
-                                    }
-                                    z = false;
-                                } catch (Exception e) {
-                                    e = e;
-                                    FileLog.e(e);
-                                    return;
-                                }
-                            } else {
-                                formatName = chat.title;
-                                TLRPC.ChatPhoto chatPhoto = chat.photo;
-                                if (chatPhoto != null) {
-                                    fileLocation = chatPhoto.photo_small;
-                                    z = false;
-                                }
-                                fileLocation = null;
-                                z = false;
-                            }
-                            if (z && fileLocation == null) {
-                                bitmap = null;
-                            } else {
-                                if (z) {
-                                    try {
-                                        bitmap = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(fileLocation, true).toString());
-                                    } catch (Throwable th) {
-                                        th = th;
-                                        bitmap = null;
-                                        FileLog.e(th);
-                                        if (Build.VERSION.SDK_INT >= 26) {
-                                        }
-                                    }
-                                } else {
-                                    bitmap = null;
-                                }
-                                if (!z || bitmap != null) {
-                                    int dp = AndroidUtilities.dp(58.0f);
-                                    Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
-                                    createBitmap.eraseColor(0);
-                                    Canvas canvas = new Canvas(createBitmap);
-                                    if (z) {
-                                        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
-                                        BitmapShader bitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
-                                        if (roundPaint == null) {
-                                            roundPaint = new Paint(1);
-                                            bitmapRect = new RectF();
-                                        }
-                                        float width = dp / bitmap.getWidth();
-                                        canvas.save();
-                                        canvas.scale(width, width);
-                                        roundPaint.setShader(bitmapShader);
-                                        bitmapRect.set(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight());
-                                        canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
-                                        canvas.restore();
-                                    } else {
-                                        AvatarDrawable avatarDrawable = new AvatarDrawable(user);
-                                        if (UserObject.isReplyUser(user)) {
-                                            avatarDrawable.setAvatarType(12);
-                                        } else {
-                                            avatarDrawable.setAvatarType(1);
-                                        }
-                                        avatarDrawable.setBounds(0, 0, dp, dp);
-                                        avatarDrawable.draw(canvas);
-                                    }
-                                    Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
-                                    int dp2 = AndroidUtilities.dp(15.0f);
-                                    int i5 = dp - dp2;
-                                    int dp3 = i5 - AndroidUtilities.dp(2.0f);
-                                    int dp4 = i5 - AndroidUtilities.dp(2.0f);
-                                    drawable.setBounds(dp3, dp4, dp3 + dp2, dp2 + dp4);
-                                    drawable.draw(canvas);
-                                    canvas.setBitmap(null);
-                                    bitmap = createBitmap;
-                                }
-                            }
-                            if (Build.VERSION.SDK_INT >= 26) {
-                                Intent intent = new Intent();
-                                if (bitmap != null) {
-                                    intent.putExtra("android.intent.extra.shortcut.ICON", bitmap);
-                                } else {
-                                    if (user != null) {
-                                        if (user.bot) {
-                                            context = ApplicationLoader.applicationContext;
-                                            i3 = R.drawable.book_bot;
-                                        } else {
-                                            context = ApplicationLoader.applicationContext;
-                                            i3 = R.drawable.book_user;
-                                        }
-                                    } else if (!ChatObject.isChannel(chat) || chat.megagroup) {
-                                        context = ApplicationLoader.applicationContext;
-                                        i3 = R.drawable.book_group;
-                                    } else {
-                                        context = ApplicationLoader.applicationContext;
-                                        i3 = R.drawable.book_channel;
-                                    }
-                                    intent.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", Intent.ShortcutIconResource.fromContext(context, i3));
-                                }
-                                intent.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
-                                intent.putExtra("android.intent.extra.shortcut.NAME", formatName);
-                                intent.putExtra("duplicate", false);
-                                intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                                ApplicationLoader.applicationContext.sendBroadcast(intent);
-                                return;
-                            }
-                            String str = i == SHORTCUT_TYPE_USER_OR_CHAT ? "sdid_" : "bdid_";
-                            ShortcutInfoCompat.Builder intent2 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str + j).setShortLabel(formatName).setIntent(createIntrnalShortcutIntent);
-                            if (bitmap != null) {
-                                createWithResource = IconCompat.createWithBitmap(bitmap);
-                            } else {
-                                if (user != null) {
-                                    if (user.bot) {
-                                        context2 = ApplicationLoader.applicationContext;
-                                        i4 = R.drawable.book_bot;
-                                    } else {
-                                        context2 = ApplicationLoader.applicationContext;
-                                        i4 = R.drawable.book_user;
-                                    }
-                                } else if (!ChatObject.isChannel(chat) || chat.megagroup) {
-                                    context2 = ApplicationLoader.applicationContext;
-                                    i4 = R.drawable.book_group;
-                                } else {
-                                    context2 = ApplicationLoader.applicationContext;
-                                    i4 = R.drawable.book_channel;
-                                }
-                                createWithResource = IconCompat.createWithResource(context2, i4);
-                            }
-                            intent2.setIcon(createWithResource);
-                            ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, intent2.build(), null);
-                            return;
-                        }
+                    if (callback != null) {
+                        callback.run(Boolean.FALSE);
                         return;
                     }
                     return;
                 }
                 messagesController = getMessagesController();
+                valueOf = Long.valueOf(encryptedChat.user_id);
+            } else if (DialogObject.isUserDialog(j)) {
+                messagesController = getMessagesController();
                 valueOf = Long.valueOf(j);
+            } else {
+                if (!DialogObject.isChatDialog(j)) {
+                    if (callback != null) {
+                        callback.run(Boolean.FALSE);
+                        return;
+                    }
+                    return;
+                }
+                chat = getMessagesController().getChat(Long.valueOf(-j));
+                user = null;
+                if (user != null && chat == null) {
+                    if (callback != null) {
+                        callback.run(Boolean.FALSE);
+                        return;
+                    }
+                    return;
+                }
+                if (user == null) {
+                    if (i != SHORTCUT_TYPE_ATTACHED_BOT) {
+                        if (UserObject.isReplyUser(user)) {
+                            i4 = R.string.RepliesTitle;
+                        } else if (UserObject.isUserSelf(user)) {
+                            i4 = R.string.SavedMessages;
+                        } else {
+                            str = ContactsController.formatName(user.first_name, user.last_name);
+                            userProfilePhoto = user.photo;
+                        }
+                        str = LocaleController.getString(i4);
+                        fileLocation = null;
+                        z = true;
+                        if (z && fileLocation == null) {
+                            str2 = "android.intent.extra.shortcut.ICON_RESOURCE";
+                            pendingIntent = null;
+                            bitmap = null;
+                        } else {
+                            if (z) {
+                                try {
+                                    bitmap = BitmapFactory.decodeFile(getFileLoader().getPathToAttach(fileLocation, true).toString());
+                                } catch (Throwable th) {
+                                    th = th;
+                                    str2 = "android.intent.extra.shortcut.ICON_RESOURCE";
+                                    pendingIntent = null;
+                                    bitmap = null;
+                                    FileLog.e(th);
+                                    if (Build.VERSION.SDK_INT < 26) {
+                                    }
+                                }
+                            } else {
+                                bitmap = null;
+                            }
+                            if (z && bitmap == null) {
+                                str2 = "android.intent.extra.shortcut.ICON_RESOURCE";
+                                pendingIntent = null;
+                            } else {
+                                int dp = AndroidUtilities.dp(58.0f);
+                                Bitmap createBitmap = Bitmap.createBitmap(dp, dp, Bitmap.Config.ARGB_8888);
+                                createBitmap.eraseColor(0);
+                                Canvas canvas = new Canvas(createBitmap);
+                                if (z) {
+                                    bitmap2 = createBitmap;
+                                    Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                                    BitmapShader bitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
+                                    if (roundPaint == null) {
+                                        roundPaint = new Paint(1);
+                                        bitmapRect = new RectF();
+                                    }
+                                    float width = dp / bitmap.getWidth();
+                                    canvas.save();
+                                    canvas.scale(width, width);
+                                    roundPaint.setShader(bitmapShader);
+                                    str2 = "android.intent.extra.shortcut.ICON_RESOURCE";
+                                    try {
+                                        bitmapRect.set(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight());
+                                        canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
+                                        canvas.restore();
+                                    } catch (Throwable th2) {
+                                        th = th2;
+                                        pendingIntent = null;
+                                        FileLog.e(th);
+                                        if (Build.VERSION.SDK_INT < 26) {
+                                        }
+                                    }
+                                } else {
+                                    AvatarDrawable avatarDrawable = new AvatarDrawable(user);
+                                    if (UserObject.isReplyUser(user)) {
+                                        avatarDrawable.setAvatarType(12);
+                                    } else {
+                                        avatarDrawable.setAvatarType(1);
+                                    }
+                                    bitmap2 = createBitmap;
+                                    avatarDrawable.setBounds(0, 0, dp, dp);
+                                    avatarDrawable.draw(canvas);
+                                    str2 = "android.intent.extra.shortcut.ICON_RESOURCE";
+                                }
+                                Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                                int dp2 = AndroidUtilities.dp(15.0f);
+                                int i5 = dp - dp2;
+                                int dp3 = i5 - AndroidUtilities.dp(2.0f);
+                                int dp4 = i5 - AndroidUtilities.dp(2.0f);
+                                drawable.setBounds(dp3, dp4, dp3 + dp2, dp2 + dp4);
+                                drawable.draw(canvas);
+                                pendingIntent = null;
+                                canvas.setBitmap(null);
+                                bitmap = bitmap2;
+                            }
+                        }
+                        if (Build.VERSION.SDK_INT < 26) {
+                            Intent intent = new Intent();
+                            if (bitmap != null) {
+                                intent.putExtra("android.intent.extra.shortcut.ICON", bitmap);
+                            } else {
+                                if (user != null) {
+                                    if (user.bot) {
+                                        context = ApplicationLoader.applicationContext;
+                                        i2 = R.drawable.book_bot;
+                                    } else {
+                                        context = ApplicationLoader.applicationContext;
+                                        i2 = R.drawable.book_user;
+                                    }
+                                } else if (!ChatObject.isChannel(chat) || chat.megagroup) {
+                                    context = ApplicationLoader.applicationContext;
+                                    i2 = R.drawable.book_group;
+                                } else {
+                                    context = ApplicationLoader.applicationContext;
+                                    i2 = R.drawable.book_channel;
+                                }
+                                intent.putExtra(str2, Intent.ShortcutIconResource.fromContext(context, i2));
+                            }
+                            intent.putExtra("android.intent.extra.shortcut.INTENT", createIntrnalShortcutIntent);
+                            intent.putExtra("android.intent.extra.shortcut.NAME", str);
+                            intent.putExtra("duplicate", false);
+                            intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                            ApplicationLoader.applicationContext.sendBroadcast(intent);
+                            return;
+                        }
+                        String str3 = i == SHORTCUT_TYPE_USER_OR_CHAT ? "sdid_" : "bdid_";
+                        ShortcutInfoCompat.Builder intent2 = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, str3 + j).setShortLabel(str).setIntent(createIntrnalShortcutIntent);
+                        if (bitmap != null) {
+                            createWithResource = IconCompat.createWithBitmap(bitmap);
+                        } else {
+                            if (user != null) {
+                                if (user.bot) {
+                                    context2 = ApplicationLoader.applicationContext;
+                                    i3 = R.drawable.book_bot;
+                                } else {
+                                    context2 = ApplicationLoader.applicationContext;
+                                    i3 = R.drawable.book_user;
+                                }
+                            } else if (!ChatObject.isChannel(chat) || chat.megagroup) {
+                                context2 = ApplicationLoader.applicationContext;
+                                i3 = R.drawable.book_group;
+                            } else {
+                                context2 = ApplicationLoader.applicationContext;
+                                i3 = R.drawable.book_channel;
+                            }
+                            createWithResource = IconCompat.createWithResource(context2, i3);
+                        }
+                        intent2.setIcon(createWithResource);
+                        if (callback != null) {
+                            byte[] bArr = new byte[16];
+                            Utilities.fastRandom.nextBytes(bArr);
+                            String bytesToHex = Utilities.bytesToHex(bArr);
+                            Intent intent3 = new Intent(ApplicationLoader.applicationContext, (Class<?>) ShortcutResultReceiver.class);
+                            intent3.putExtra("account", this.currentAccount);
+                            intent3.putExtra("req_id", bytesToHex);
+                            pendingIntent2 = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent3, 167772160);
+                            this.shortcutCallbacks.put(bytesToHex, callback);
+                        } else {
+                            pendingIntent2 = pendingIntent;
+                        }
+                        ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, intent2.build(), pendingIntent2 == null ? pendingIntent : pendingIntent2.getIntentSender());
+                        return;
+                    }
+                    str = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j)));
+                    userProfilePhoto = user.photo;
+                    if (userProfilePhoto != null) {
+                        fileLocation = userProfilePhoto.photo_small;
+                    }
+                    fileLocation = null;
+                    z = false;
+                    if (z) {
+                    }
+                    if (z) {
+                    }
+                    if (z) {
+                    }
+                    int dp5 = AndroidUtilities.dp(58.0f);
+                    Bitmap createBitmap2 = Bitmap.createBitmap(dp5, dp5, Bitmap.Config.ARGB_8888);
+                    createBitmap2.eraseColor(0);
+                    Canvas canvas2 = new Canvas(createBitmap2);
+                    if (z) {
+                    }
+                    Drawable drawable2 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                    int dp22 = AndroidUtilities.dp(15.0f);
+                    int i52 = dp5 - dp22;
+                    int dp32 = i52 - AndroidUtilities.dp(2.0f);
+                    int dp42 = i52 - AndroidUtilities.dp(2.0f);
+                    drawable2.setBounds(dp32, dp42, dp32 + dp22, dp22 + dp42);
+                    drawable2.draw(canvas2);
+                    pendingIntent = null;
+                    canvas2.setBitmap(null);
+                    bitmap = bitmap2;
+                    if (Build.VERSION.SDK_INT < 26) {
+                    }
+                } else {
+                    str = chat.title;
+                    TLRPC.ChatPhoto chatPhoto = chat.photo;
+                    if (chatPhoto != null) {
+                        fileLocation = chatPhoto.photo_small;
+                        z = false;
+                        if (z) {
+                        }
+                        if (z) {
+                        }
+                        if (z) {
+                        }
+                        int dp52 = AndroidUtilities.dp(58.0f);
+                        Bitmap createBitmap22 = Bitmap.createBitmap(dp52, dp52, Bitmap.Config.ARGB_8888);
+                        createBitmap22.eraseColor(0);
+                        Canvas canvas22 = new Canvas(createBitmap22);
+                        if (z) {
+                        }
+                        Drawable drawable22 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                        int dp222 = AndroidUtilities.dp(15.0f);
+                        int i522 = dp52 - dp222;
+                        int dp322 = i522 - AndroidUtilities.dp(2.0f);
+                        int dp422 = i522 - AndroidUtilities.dp(2.0f);
+                        drawable22.setBounds(dp322, dp422, dp322 + dp222, dp222 + dp422);
+                        drawable22.draw(canvas22);
+                        pendingIntent = null;
+                        canvas22.setBitmap(null);
+                        bitmap = bitmap2;
+                        if (Build.VERSION.SDK_INT < 26) {
+                        }
+                    }
+                    fileLocation = null;
+                    z = false;
+                    if (z) {
+                    }
+                    if (z) {
+                    }
+                    if (z) {
+                    }
+                    int dp522 = AndroidUtilities.dp(58.0f);
+                    Bitmap createBitmap222 = Bitmap.createBitmap(dp522, dp522, Bitmap.Config.ARGB_8888);
+                    createBitmap222.eraseColor(0);
+                    Canvas canvas222 = new Canvas(createBitmap222);
+                    if (z) {
+                    }
+                    Drawable drawable222 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
+                    int dp2222 = AndroidUtilities.dp(15.0f);
+                    int i5222 = dp522 - dp2222;
+                    int dp3222 = i5222 - AndroidUtilities.dp(2.0f);
+                    int dp4222 = i5222 - AndroidUtilities.dp(2.0f);
+                    drawable222.setBounds(dp3222, dp4222, dp3222 + dp2222, dp2222 + dp4222);
+                    drawable222.draw(canvas222);
+                    pendingIntent = null;
+                    canvas222.setBitmap(null);
+                    bitmap = bitmap2;
+                    if (Build.VERSION.SDK_INT < 26) {
+                    }
+                }
             }
             user = messagesController.getUser(valueOf);
             chat = null;
-            if (user == null) {
+            if (user != null) {
             }
             if (user == null) {
             }
-            if (z) {
-            }
-            if (z) {
-            }
-            if (!z) {
-            }
-            int dp5 = AndroidUtilities.dp(58.0f);
-            Bitmap createBitmap2 = Bitmap.createBitmap(dp5, dp5, Bitmap.Config.ARGB_8888);
-            createBitmap2.eraseColor(0);
-            Canvas canvas2 = new Canvas(createBitmap2);
-            if (z) {
-            }
-            Drawable drawable2 = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
-            int dp22 = AndroidUtilities.dp(15.0f);
-            int i52 = dp5 - dp22;
-            int dp32 = i52 - AndroidUtilities.dp(2.0f);
-            int dp42 = i52 - AndroidUtilities.dp(2.0f);
-            drawable2.setBounds(dp32, dp42, dp32 + dp22, dp22 + dp42);
-            drawable2.draw(canvas2);
-            canvas2.setBitmap(null);
-            bitmap = createBitmap2;
-            if (Build.VERSION.SDK_INT >= 26) {
-            }
-        } catch (Exception e2) {
-            e = e2;
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 
@@ -11621,7 +11730,7 @@ public class MediaDataController extends BaseController {
         TLRPC.TL_messages_getMaskStickers tL_messages_getMaskStickers2;
         if (this.loadingStickers[i]) {
             if (z3) {
-                this.scheduledLoadStickers[i] = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda194
+                this.scheduledLoadStickers[i] = new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda195
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaDataController.this.lambda$loadStickers$89(i, z2, callback);
@@ -11657,7 +11766,7 @@ public class MediaDataController extends BaseController {
         }
         this.loadingStickers[i] = true;
         if (z) {
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda195
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda196
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.this.lambda$loadStickers$91(i, callback);
@@ -11673,7 +11782,7 @@ public class MediaDataController extends BaseController {
             for (int i2 = 0; i2 < size; i2++) {
                 tL_messages_allStickers.sets.add(this.featuredStickerSets[c].get(i2).set);
             }
-            processLoadStickersResponse(i, tL_messages_allStickers, new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda198
+            processLoadStickersResponse(i, tL_messages_allStickers, new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda199
                 @Override // java.lang.Runnable
                 public final void run() {
                     MediaDataController.lambda$loadStickers$92(Utilities.Callback.this);
@@ -11685,7 +11794,7 @@ public class MediaDataController extends BaseController {
             TLRPC.TL_messages_getStickerSet tL_messages_getStickerSet = new TLRPC.TL_messages_getStickerSet();
             tL_messages_getStickerSet.stickerset = new TLRPC.TL_inputStickerSetAnimatedEmoji();
             ConnectionsManager connectionsManager2 = getConnectionsManager();
-            requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda196
+            requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda197
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     MediaDataController.this.lambda$loadStickers$95(i, callback, tLObject, tL_error);
@@ -11712,7 +11821,7 @@ public class MediaDataController extends BaseController {
             }
             final long j2 = j;
             ConnectionsManager connectionsManager3 = getConnectionsManager();
-            requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda197
+            requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda198
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     MediaDataController.this.lambda$loadStickers$99(i, callback, j2, tLObject, tL_error);
@@ -12144,7 +12253,7 @@ public class MediaDataController extends BaseController {
             return;
         }
         this.botInfos.put(botInfo.user_id + "_" + j, botInfo);
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda180
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda181
             @Override // java.lang.Runnable
             public final void run() {
                 MediaDataController.this.lambda$putBotInfo$201(botInfo, j);
@@ -12791,7 +12900,7 @@ public class MediaDataController extends BaseController {
         tL_inputDocument.id = document.id;
         tL_inputDocument.file_reference = document.file_reference;
         tL_inputDocument.access_hash = document.access_hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_saveRingtone, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda182
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_saveRingtone, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda183
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 MediaDataController.this.lambda$saveToRingtones$204(document, tLObject, tL_error);
@@ -12809,14 +12918,14 @@ public class MediaDataController extends BaseController {
         searchMessagesInChat(str, j, j2, i, i2, j3, false, user, chat, true, visibleReaction);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x02f8  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x020c  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0235  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x02a8  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x02ab  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x02f5  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0376  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x03a6  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x03c8  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0319  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x022b  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0254  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x02cc  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x039b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -12827,15 +12936,15 @@ public class MediaDataController extends BaseController {
         long j5;
         int i4;
         long j6;
-        long j7;
+        ReactionsLayoutInBubble.VisibleReaction visibleReaction2;
         TLRPC.Chat chat2;
         boolean z3;
         TLRPC.InputPeer inputPeer;
         TLRPC.InputPeer inputPeer2;
         boolean z4;
-        long j8;
         TLRPC.TL_messages_search tL_messages_search;
-        long j9;
+        long j7;
+        long j8;
         TLRPC.InputPeer inputPeer3;
         boolean z5 = !z;
         if (this.reqId != 0) {
@@ -12917,6 +13026,7 @@ public class MediaDataController extends BaseController {
             }
             z5 = false;
         }
+        boolean z6 = str2 != null && (str2.trim().startsWith("#") || str2.trim().startsWith("$"));
         boolean[] zArr3 = this.messagesSearchEndReached;
         if (!zArr3[0] || zArr3[1]) {
             j5 = 0;
@@ -12926,7 +13036,7 @@ public class MediaDataController extends BaseController {
                 i4 = i3;
                 j6 = j2;
                 if (j6 == j || !z5) {
-                    j7 = j3;
+                    visibleReaction2 = visibleReaction;
                     chat2 = chat;
                     z3 = false;
                 } else {
@@ -12991,7 +13101,7 @@ public class MediaDataController extends BaseController {
                         }, 2);
                         return;
                     }
-                    j7 = j3;
+                    visibleReaction2 = visibleReaction;
                     chat2 = chat;
                     this.lastMergeDialogId = 0L;
                     zArr3[1] = true;
@@ -13009,13 +13119,13 @@ public class MediaDataController extends BaseController {
                 this.lastDialogId = j;
                 this.lastSearchUser = user;
                 this.lastSearchChat = chat2;
-                this.lastReplyMessageId = j7;
-                this.lastReaction = visibleReaction;
+                this.lastReplyMessageId = j3;
+                this.lastReaction = visibleReaction2;
                 tL_messages_search3.limit = 21;
                 tL_messages_search3.q = str2 != null ? str2 : "";
                 tL_messages_search3.offset_id = i4;
                 if (user == null) {
-                    if (chat2 != null) {
+                    if (chat != null) {
                         inputPeer2 = MessagesController.getInputPeer(chat);
                     }
                     this.loadingSearchLocal = false;
@@ -13023,16 +13133,17 @@ public class MediaDataController extends BaseController {
                     final int i7 = this.lastReqId + 1;
                     this.lastReqId = i7;
                     z4 = j != getUserConfig().getClientUserId();
-                    if (z4 || visibleReaction == null || !z5) {
-                        j8 = j6;
+                    if (z4 || visibleReaction2 == null || !z5) {
                         tL_messages_search = tL_messages_search3;
-                        j9 = 0;
+                        j7 = j6;
+                        j8 = 0;
                     } else {
                         this.lastReturnedNum = 0;
                         this.searchServerResultMessages.clear();
                         this.searchServerResultMessagesMap[0].clear();
                         this.searchServerResultMessagesMap[1].clear();
-                        final int savedTagCount = getMessagesController().getSavedTagCount(this.lastReplyMessageId, visibleReaction);
+                        long j9 = j6;
+                        final int savedTagCount = getMessagesController().getSavedTagCount(this.lastReplyMessageId, visibleReaction2);
                         this.messagesLocalSearchCount = TextUtils.isEmpty(tL_messages_search3.q) ? savedTagCount : 0;
                         this.loadingSearchLocal = true;
                         this.loadedPredirectedSearchLocal = false;
@@ -13040,34 +13151,35 @@ public class MediaDataController extends BaseController {
                         TLRPC.Reaction tLReaction = visibleReaction.toTLReaction();
                         long j10 = this.lastReplyMessageId;
                         ArrayList<MessageObject> arrayList2 = this.searchLocalResultMessages;
-                        j8 = j6;
-                        j9 = 0;
+                        j7 = j9;
+                        j8 = 0;
                         tL_messages_search = tL_messages_search3;
-                        messagesStorage.searchSavedByTag(tLReaction, j10, str2, NotificationCenter.stealthModeChanged, arrayList2 == null ? 0 : arrayList2.size(), new Utilities.Callback4() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda134
+                        messagesStorage.searchSavedByTag(tLReaction, j10, str2, NotificationCenter.customTypefacesLoaded, arrayList2 == null ? 0 : arrayList2.size(), new Utilities.Callback4() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda134
                             @Override // org.telegram.messenger.Utilities.Callback4
                             public final void run(Object obj, Object obj2, Object obj3, Object obj4) {
                                 MediaDataController.this.lambda$searchMessagesInChat$120(i7, savedTagCount, i, j, (ArrayList) obj, (ArrayList) obj2, (ArrayList) obj3, (ArrayList) obj4);
                             }
                         }, true);
                     }
-                    if (this.lastReplyMessageId != j9) {
-                        if (j8 != getUserConfig().getClientUserId()) {
+                    if (this.lastReplyMessageId != j8) {
+                        if (j7 != getUserConfig().getClientUserId()) {
                             tL_messages_search.top_msg_id = (int) this.lastReplyMessageId;
                             tL_messages_search.flags |= 2;
-                            if (visibleReaction != null) {
+                            if (visibleReaction2 != null) {
                                 tL_messages_search.saved_reaction.add(visibleReaction.toTLReaction());
                                 tL_messages_search.flags |= 8;
                             }
                             tL_messages_search.filter = new TLRPC.TL_inputMessagesFilterEmpty();
                             this.lastSearchQuery = str2;
                             final TLRPC.TL_messages_search tL_messages_search4 = tL_messages_search;
-                            final boolean z6 = z4;
+                            final boolean z7 = z4;
                             final String str4 = str2;
-                            final long j11 = j8;
+                            final boolean z8 = z6;
+                            final long j11 = j7;
                             this.reqId = getConnectionsManager().sendRequest(tL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda135
                                 @Override // org.telegram.tgnet.RequestDelegate
                                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                    MediaDataController.this.lambda$searchMessagesInChat$123(tL_messages_search4, z6, str4, i7, z2, j11, j, i, j2, j3, user, chat, tLObject, tL_error);
+                                    MediaDataController.this.lambda$searchMessagesInChat$123(tL_messages_search4, z7, str4, z8, i7, z2, j11, j, i, j2, j3, user, chat, tLObject, tL_error);
                                 }
                             }, 2);
                             return;
@@ -13075,18 +13187,19 @@ public class MediaDataController extends BaseController {
                         tL_messages_search.saved_peer_id = getMessagesController().getInputPeer(this.lastReplyMessageId);
                         tL_messages_search.flags |= 4;
                     }
-                    if (visibleReaction != null) {
+                    if (visibleReaction2 != null) {
                     }
                     tL_messages_search.filter = new TLRPC.TL_inputMessagesFilterEmpty();
                     this.lastSearchQuery = str2;
                     final TLRPC.TL_messages_search tL_messages_search42 = tL_messages_search;
-                    final boolean z62 = z4;
+                    final boolean z72 = z4;
                     final String str42 = str2;
-                    final long j112 = j8;
+                    final boolean z82 = z6;
+                    final long j112 = j7;
                     this.reqId = getConnectionsManager().sendRequest(tL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda135
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                            MediaDataController.this.lambda$searchMessagesInChat$123(tL_messages_search42, z62, str42, i7, z2, j112, j, i, j2, j3, user, chat, tLObject, tL_error);
+                            MediaDataController.this.lambda$searchMessagesInChat$123(tL_messages_search42, z72, str42, z82, i7, z2, j112, j, i, j2, j3, user, chat, tLObject, tL_error);
                         }
                     }, 2);
                     return;
@@ -13102,23 +13215,24 @@ public class MediaDataController extends BaseController {
                 }
                 if (z4) {
                 }
-                j8 = j6;
                 tL_messages_search = tL_messages_search3;
-                j9 = 0;
-                if (this.lastReplyMessageId != j9) {
+                j7 = j6;
+                j8 = 0;
+                if (this.lastReplyMessageId != j8) {
                 }
-                if (visibleReaction != null) {
+                if (visibleReaction2 != null) {
                 }
                 tL_messages_search.filter = new TLRPC.TL_inputMessagesFilterEmpty();
                 this.lastSearchQuery = str2;
                 final TLRPC.TL_messages_search tL_messages_search422 = tL_messages_search;
-                final boolean z622 = z4;
+                final boolean z722 = z4;
                 final String str422 = str2;
-                final long j1122 = j8;
+                final boolean z822 = z6;
+                final long j1122 = j7;
                 this.reqId = getConnectionsManager().sendRequest(tL_messages_search, new RequestDelegate() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda135
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        MediaDataController.this.lambda$searchMessagesInChat$123(tL_messages_search422, z622, str422, i72, z2, j1122, j, i, j2, j3, user, chat, tLObject, tL_error);
+                        MediaDataController.this.lambda$searchMessagesInChat$123(tL_messages_search422, z722, str422, z822, i72, z2, j1122, j, i, j2, j3, user, chat, tLObject, tL_error);
                     }
                 }, 2);
                 return;
@@ -13128,7 +13242,7 @@ public class MediaDataController extends BaseController {
         j6 = j4;
         if (j6 == j) {
         }
-        j7 = j3;
+        visibleReaction2 = visibleReaction;
         chat2 = chat;
         z3 = false;
         TLRPC.TL_messages_search tL_messages_search32 = new TLRPC.TL_messages_search();
@@ -13376,10 +13490,10 @@ public class MediaDataController extends BaseController {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x00c5 A[Catch: Exception -> 0x0039, TryCatch #0 {Exception -> 0x0039, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003c, B:9:0x0040, B:10:0x0054, B:12:0x005d, B:16:0x0070, B:18:0x0077, B:21:0x008a, B:22:0x00a3, B:27:0x00c5, B:29:0x00c9, B:30:0x00de, B:32:0x00e2, B:33:0x00eb, B:35:0x00e7, B:36:0x00d2, B:38:0x00d6, B:40:0x00dc, B:41:0x0095, B:43:0x009b, B:44:0x00ab, B:46:0x00b1), top: B:1:0x0000 }] */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00e2 A[Catch: Exception -> 0x0039, TryCatch #0 {Exception -> 0x0039, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003c, B:9:0x0040, B:10:0x0054, B:12:0x005d, B:16:0x0070, B:18:0x0077, B:21:0x008a, B:22:0x00a3, B:27:0x00c5, B:29:0x00c9, B:30:0x00de, B:32:0x00e2, B:33:0x00eb, B:35:0x00e7, B:36:0x00d2, B:38:0x00d6, B:40:0x00dc, B:41:0x0095, B:43:0x009b, B:44:0x00ab, B:46:0x00b1), top: B:1:0x0000 }] */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00e7 A[Catch: Exception -> 0x0039, TryCatch #0 {Exception -> 0x0039, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003c, B:9:0x0040, B:10:0x0054, B:12:0x005d, B:16:0x0070, B:18:0x0077, B:21:0x008a, B:22:0x00a3, B:27:0x00c5, B:29:0x00c9, B:30:0x00de, B:32:0x00e2, B:33:0x00eb, B:35:0x00e7, B:36:0x00d2, B:38:0x00d6, B:40:0x00dc, B:41:0x0095, B:43:0x009b, B:44:0x00ab, B:46:0x00b1), top: B:1:0x0000 }] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00dc A[Catch: Exception -> 0x0039, TryCatch #0 {Exception -> 0x0039, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003c, B:9:0x0040, B:10:0x0054, B:12:0x005d, B:16:0x0070, B:18:0x0077, B:21:0x008a, B:22:0x00a3, B:27:0x00c5, B:29:0x00c9, B:30:0x00de, B:32:0x00e2, B:33:0x00eb, B:35:0x00e7, B:36:0x00d2, B:38:0x00d6, B:40:0x00dc, B:41:0x0095, B:43:0x009b, B:44:0x00ab, B:46:0x00b1), top: B:1:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00c4 A[Catch: Exception -> 0x0038, TryCatch #0 {Exception -> 0x0038, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003b, B:9:0x003f, B:10:0x0053, B:12:0x005c, B:16:0x006f, B:18:0x0076, B:21:0x0089, B:22:0x00a2, B:27:0x00c4, B:29:0x00c8, B:30:0x00dd, B:32:0x00e1, B:33:0x00ea, B:35:0x00e6, B:36:0x00d1, B:38:0x00d5, B:40:0x00db, B:41:0x0094, B:43:0x009a, B:44:0x00aa, B:46:0x00b0), top: B:1:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00e1 A[Catch: Exception -> 0x0038, TryCatch #0 {Exception -> 0x0038, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003b, B:9:0x003f, B:10:0x0053, B:12:0x005c, B:16:0x006f, B:18:0x0076, B:21:0x0089, B:22:0x00a2, B:27:0x00c4, B:29:0x00c8, B:30:0x00dd, B:32:0x00e1, B:33:0x00ea, B:35:0x00e6, B:36:0x00d1, B:38:0x00d5, B:40:0x00db, B:41:0x0094, B:43:0x009a, B:44:0x00aa, B:46:0x00b0), top: B:1:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00e6 A[Catch: Exception -> 0x0038, TryCatch #0 {Exception -> 0x0038, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003b, B:9:0x003f, B:10:0x0053, B:12:0x005c, B:16:0x006f, B:18:0x0076, B:21:0x0089, B:22:0x00a2, B:27:0x00c4, B:29:0x00c8, B:30:0x00dd, B:32:0x00e1, B:33:0x00ea, B:35:0x00e6, B:36:0x00d1, B:38:0x00d5, B:40:0x00db, B:41:0x0094, B:43:0x009a, B:44:0x00aa, B:46:0x00b0), top: B:1:0x0000 }] */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00db A[Catch: Exception -> 0x0038, TryCatch #0 {Exception -> 0x0038, blocks: (B:2:0x0000, B:4:0x0006, B:6:0x000f, B:7:0x003b, B:9:0x003f, B:10:0x0053, B:12:0x005c, B:16:0x006f, B:18:0x0076, B:21:0x0089, B:22:0x00a2, B:27:0x00c4, B:29:0x00c8, B:30:0x00dd, B:32:0x00e1, B:33:0x00ea, B:35:0x00e6, B:36:0x00d1, B:38:0x00d5, B:40:0x00db, B:41:0x0094, B:43:0x009a, B:44:0x00aa, B:46:0x00b0), top: B:1:0x0000 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -13499,7 +13613,7 @@ public class MediaDataController extends BaseController {
         TLRPC.TL_messages_stickerSet tL_messages_stickerSet = this.stickerSetsByName.get(stickerSetName);
         if (tL_messages_stickerSet == null) {
             if (z) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda199
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda200
                     @Override // java.lang.Runnable
                     public final void run() {
                         MediaDataController.this.lambda$verifyAnimatedStickerMessage$68(message, stickerSetName);

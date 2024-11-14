@@ -530,7 +530,7 @@ public class Bulletin {
         }
 
         @Override // android.widget.FrameLayout, android.view.View
-        protected void onMeasure(int i, int i2) {
+        public void onMeasure(int i, int i2) {
             this.childrenMeasuredWidth = 0;
             if (this.wrapWidth) {
                 i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), Integer.MIN_VALUE);
@@ -1103,7 +1103,7 @@ public class Bulletin {
             canvas.save();
             canvas.clipRect(0.0f, topOffset, getMeasuredWidth(), measuredHeight);
             if (clipWithGradient) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.notificationsCountUpdated, 31);
             }
             this.background.draw(canvas);
             super.dispatchDraw(canvas);

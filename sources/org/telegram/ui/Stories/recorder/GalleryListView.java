@@ -77,7 +77,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.Stories.recorder.GalleryListView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class GalleryListView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static final MediaController.AlbumEntry draftsAlbum = new MediaController.AlbumEntry(-1, null, null);
     private final ActionBar actionBar;
@@ -113,7 +113,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     public ArrayList selectedPhotos;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 12 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         private AnimatorSet animatorSet;
 
@@ -242,7 +242,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class Adapter extends RecyclerListView.FastScrollAdapter {
         private Adapter() {
         }
@@ -365,7 +365,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class Cell extends View {
         private static int allQueuesIndex;
         private final Paint bgPaint;
@@ -846,7 +846,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private class EmptyView extends View {
         int height;
 
@@ -880,7 +880,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private class HeaderView extends FrameLayout {
         public TextView textView;
 
@@ -898,7 +898,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC.User bot;
         private int currentReqId;

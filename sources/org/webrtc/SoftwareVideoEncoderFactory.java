@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.webrtc.VideoEncoderFactory;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class SoftwareVideoEncoderFactory implements VideoEncoderFactory {
     static VideoCodecInfo[] supportedCodecs() {
         ArrayList arrayList = new ArrayList();

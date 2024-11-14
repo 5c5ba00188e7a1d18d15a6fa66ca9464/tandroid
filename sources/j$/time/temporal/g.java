@@ -150,7 +150,7 @@ abstract class g implements l {
         };
         WEEK_BASED_YEAR = gVar4;
         b = new g[]{gVar, gVar2, gVar3, gVar4};
-        a = new int[]{0, 90, NotificationCenter.giftsToUserSent, NotificationCenter.onDownloadingFilesChanged, 0, 91, NotificationCenter.didStartedMultiGiftsSelector, NotificationCenter.onActivityResultReceived};
+        a = new int[]{0, 90, NotificationCenter.giftsToUserSent, NotificationCenter.onDatabaseOpened, 0, 91, NotificationCenter.didStartedMultiGiftsSelector, NotificationCenter.onDownloadingFilesChanged};
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -40,7 +40,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.web.BotWebViewContainer;
 import org.telegram.ui.web.WebMetadataCache;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class WebMetadataCache {
     private static WebMetadataCache instance;
     private HashMap cache;
@@ -49,7 +49,7 @@ public class WebMetadataCache {
     private boolean saving;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static final class MetadataFile extends TLObject {
         public final ArrayList array;
 
@@ -80,7 +80,7 @@ public class WebMetadataCache {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class SitenameProxy {
         private final Utilities.Callback whenReceived;
 
@@ -114,7 +114,7 @@ public class WebMetadataCache {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class WebMetadata extends TLObject {
         public int actionBarColor;
         public int backgroundColor;

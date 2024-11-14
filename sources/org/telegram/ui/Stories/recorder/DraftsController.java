@@ -28,7 +28,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class DraftsController {
     public final int currentAccount;
     public final ArrayList drafts = new ArrayList();
@@ -38,7 +38,7 @@ public class DraftsController {
     private boolean loading;
     private boolean loadingFailed;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StoryDraft {
         public String audioAuthor;
         public long audioDuration;

@@ -72,7 +72,7 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.TwoStepVerificationActivity;
 import org.telegram.ui.TwoStepVerificationSetupActivity;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BotStarsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private ButtonWithCounterView adsButton;
     private ChatAvatarContainer avatarContainer;
@@ -133,7 +133,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
     private int stats_dc = -1;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class NestedFrameLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
         private NestedScrollingParentHelper nestedScrollingParentHelper;
 

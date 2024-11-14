@@ -1333,7 +1333,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int checkSelfPermission;
         int checkSelfPermission2;
         if (Build.VERSION.SDK_INT < 29) {
-            return NotificationCenter.wallpapersDidLoad;
+            return NotificationCenter.pushMessagesUpdated;
         }
         checkSelfPermission = contextWrapper.checkSelfPermission("android.permission.CAMERA");
         int i = checkSelfPermission == 0 ? 64 : 0;
@@ -5893,12 +5893,12 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x00d7  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00eb  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0118 A[LOOP:0: B:23:0x0113->B:25:0x0118, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x012b A[EDGE_INSN: B:26:0x012b->B:27:0x012b BREAK  A[LOOP:0: B:23:0x0113->B:25:0x0118], EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0178  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x01d3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0117 A[LOOP:0: B:23:0x0112->B:25:0x0117, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x012a A[EDGE_INSN: B:26:0x012a->B:27:0x012a BREAK  A[LOOP:0: B:23:0x0112->B:25:0x0117], EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0177  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x01d2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @Override // android.app.Service
     /*
         Code decompiled incorrectly, please refer to instructions dump.

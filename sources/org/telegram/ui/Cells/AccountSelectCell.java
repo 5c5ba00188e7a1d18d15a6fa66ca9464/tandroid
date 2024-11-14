@@ -40,6 +40,7 @@ public class AccountSelectCell extends FrameLayout {
         float f4;
         int i2;
         float f5;
+        setMinimumWidth(AndroidUtilities.dp(196.0f));
         AvatarDrawable avatarDrawable = new AvatarDrawable();
         this.avatarDrawable = avatarDrawable;
         avatarDrawable.setTextSize(AndroidUtilities.dp(12.0f));
@@ -96,6 +97,14 @@ public class AccountSelectCell extends FrameLayout {
         addView(view, LayoutHelper.createFrame(i, f4, i2, f5, f2, f3, f));
     }
 
+    private int width() {
+        float dp = AndroidUtilities.dp(196.0f);
+        float dp2 = AndroidUtilities.dp((this.checkImageView != null ? 50 : 0) + 69);
+        float measureText = this.textView.getTextPaint().measureText(this.textView.getText().toString());
+        TextView textView = this.infoTextView;
+        return (int) Math.max(dp, dp2 + Math.max(measureText, textView != null ? textView.getPaint().measureText(this.infoTextView.getText().toString()) : 0.0f));
+    }
+
     public int getAccountNumber() {
         return this.accountNumber;
     }
@@ -110,7 +119,12 @@ public class AccountSelectCell extends FrameLayout {
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        super.onMeasure((this.checkImageView == null && (this.infoTextView == null || getLayoutParams().width == -2)) ? View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), Integer.MIN_VALUE) : View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(56.0f), 1073741824));
+        if (this.checkImageView != null || (this.infoTextView != null && getLayoutParams().width != -2)) {
+            i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824);
+        } else if (View.MeasureSpec.getMode(i) == Integer.MIN_VALUE) {
+            i = View.MeasureSpec.makeMeasureSpec(width(), Integer.MIN_VALUE);
+        }
+        super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(56.0f), 1073741824));
     }
 
     public void setAccount(int i, boolean z) {

@@ -13,7 +13,7 @@ import javax.microedition.khronos.egl.EGLSurface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase10;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 class EglBase10Impl implements EglBase10 {
     private static final int EGL_CONTEXT_CLIENT_VERSION = 12440;
     private static final String TAG = "EglBase10Impl";
@@ -24,7 +24,7 @@ class EglBase10Impl implements EglBase10 {
     private EGLDisplay eglDisplay;
     private EGLSurface eglSurface;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     private static class Context implements EglBase10.Context {
         private final EGL10 egl;
         private final EGLContext eglContext;
@@ -74,7 +74,7 @@ class EglBase10Impl implements EglBase10 {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     private class FakeSurfaceHolder implements SurfaceHolder {
         private final Surface surface;
 

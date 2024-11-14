@@ -4,7 +4,7 @@ import android.media.AudioTrack;
 import android.os.Build;
 import org.webrtc.Logging;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 class LowLatencyAudioBufferManager {
     private static final String TAG = "LowLatencyAudioBufferManager";
     private int prevUnderrunCount = 0;

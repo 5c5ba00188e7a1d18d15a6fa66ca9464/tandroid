@@ -14,7 +14,7 @@ import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.ui.web.WebMetadataCache;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public abstract class BrowserHistory {
     private static ArrayList callbacks;
     private static ArrayList history;
@@ -22,7 +22,7 @@ public abstract class BrowserHistory {
     public static boolean historyLoaded;
     public static boolean historyLoading;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Entry extends TLObject {
         public long id;
         public WebMetadataCache.WebMetadata meta;

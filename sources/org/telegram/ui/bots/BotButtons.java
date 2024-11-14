@@ -21,8 +21,8 @@ import org.telegram.ui.Components.CircularProgressDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
-/* loaded from: classes4.dex */
-public class BotButtons extends FrameLayout {
+/* loaded from: classes5.dex */
+public abstract class BotButtons extends FrameLayout {
     public final AnimatedColor background;
     private final Paint backgroundPaint;
     public final Button[] buttons;
@@ -34,7 +34,7 @@ public class BotButtons extends FrameLayout {
     private Runnable whenResized;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class Button {
         public final AnimatedFloat alpha;
         public final AnimatedColor backgroundColor;
@@ -86,7 +86,7 @@ public class BotButtons extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ButtonState {
         public boolean active;
         public int color;
@@ -115,7 +115,7 @@ public class BotButtons extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ButtonsState {
         public int backgroundColor;
         public ButtonState main = new ButtonState();
@@ -297,8 +297,9 @@ public class BotButtons extends FrameLayout {
         return AndroidUtilities.dp(i == 1 ? 58.0f : 109.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    protected void onMeasure(int i, int i2) {
+    public void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(109.0f) + 1, 1073741824));
     }
 

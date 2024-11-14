@@ -15,7 +15,7 @@ import org.telegram.tgnet.tl.TL_stats;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChannelMonetizationLayout;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class BotStarsController {
     private static volatile BotStarsController[] Instance = new BotStarsController[4];
     private static final Object[] lockObjects = new Object[4];
@@ -27,7 +27,7 @@ public class BotStarsController {
     private final HashMap transactions = new HashMap();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TransactionsState {
         private final boolean[] endReached;
         private final boolean[] loading;

@@ -26,7 +26,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
     private Rect mHotspotBounds;
     private Drawable mLastDrawable;
     private boolean mMutated;
-    private int mAlpha = NotificationCenter.playerDidStartPlaying;
+    private int mAlpha = NotificationCenter.notificationsCountUpdated;
     private int mCurIndex = -1;
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -576,14 +576,14 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
                 if (j <= uptimeMillis) {
                     drawable2.setAlpha(this.mAlpha);
                 } else {
-                    drawable2.setAlpha(((255 - (((int) ((j - uptimeMillis) * 255)) / this.mDrawableContainerState.mEnterFadeDuration)) * this.mAlpha) / NotificationCenter.playerDidStartPlaying);
+                    drawable2.setAlpha(((255 - (((int) ((j - uptimeMillis) * 255)) / this.mDrawableContainerState.mEnterFadeDuration)) * this.mAlpha) / NotificationCenter.notificationsCountUpdated);
                     z2 = true;
                     drawable = this.mLastDrawable;
                     if (drawable != null) {
                         long j2 = this.mExitAnimationEnd;
                         if (j2 != 0) {
                             if (j2 > uptimeMillis) {
-                                drawable.setAlpha(((((int) ((j2 - uptimeMillis) * 255)) / this.mDrawableContainerState.mExitFadeDuration) * this.mAlpha) / NotificationCenter.playerDidStartPlaying);
+                                drawable.setAlpha(((((int) ((j2 - uptimeMillis) * 255)) / this.mDrawableContainerState.mExitFadeDuration) * this.mAlpha) / NotificationCenter.notificationsCountUpdated);
                                 if (z && z3) {
                                     scheduleSelf(this.mAnimationRunnable, uptimeMillis + 16);
                                     return;

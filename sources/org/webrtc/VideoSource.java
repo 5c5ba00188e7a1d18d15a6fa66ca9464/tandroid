@@ -3,7 +3,7 @@ package org.webrtc;
 import org.webrtc.VideoProcessor;
 import org.webrtc.VideoSink;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class VideoSource extends MediaSource {
     private final CapturerObserver capturerObserver;
     private boolean isCapturerRunning;
@@ -11,7 +11,7 @@ public class VideoSource extends MediaSource {
     private VideoProcessor videoProcessor;
     private final Object videoProcessorLock;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class AspectRatio {
         public static final AspectRatio UNDEFINED = new AspectRatio(0, 0);
         public final int height;

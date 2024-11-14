@@ -23,7 +23,7 @@ import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class SliderView extends View {
     private final Path clipPath;
     private final int currentType;
@@ -156,7 +156,7 @@ public class SliderView extends View {
         path.addRoundRect(rectF, f, f, Path.Direction.CW);
         canvas.clipPath(this.clipPath);
         float f2 = this.valueIsAnimated ? this.valueAnimated.set(this.value) : this.value;
-        canvas.saveLayerAlpha(0.0f, 0.0f, this.w, this.h, NotificationCenter.playerDidStartPlaying, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, this.w, this.h, NotificationCenter.notificationsCountUpdated, 31);
         if (this.currentType == 0) {
             animatedTextDrawable = this.text;
             dp = AndroidUtilities.dp(42.0f);

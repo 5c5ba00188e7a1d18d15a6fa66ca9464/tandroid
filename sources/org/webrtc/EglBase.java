@@ -7,7 +7,7 @@ import javax.microedition.khronos.egl.EGLContext;
 import org.webrtc.EglBase10;
 import org.webrtc.EglBase14;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public interface EglBase {
     public static final int EGL_OPENGL_ES2_BIT = 4;
     public static final int EGL_OPENGL_ES3_BIT = 64;
@@ -19,7 +19,7 @@ public interface EglBase {
     public static final int[] CONFIG_PIXEL_RGBA_BUFFER = -CC.configBuilder().setHasAlphaChannel(true).setSupportsPixelBuffer(true).createConfigAttributes();
     public static final int[] CONFIG_RECORDABLE = -CC.configBuilder().setIsRecordable(true).createConfigAttributes();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public abstract /* synthetic */ class -CC {
         static {
             Object obj = EglBase.lock;
@@ -88,7 +88,7 @@ public interface EglBase {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class ConfigBuilder {
         private boolean hasAlphaChannel;
         private boolean isRecordable;
@@ -152,7 +152,7 @@ public interface EglBase {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public interface Context {
         public static final long NO_CONTEXT = 0;
 

@@ -33,7 +33,7 @@ import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryContainsEmojiButton extends View {
     private static Object lastRequestParentObject;
     private static TLRPC.Vector lastResponse;

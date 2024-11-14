@@ -21,7 +21,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.Views.RoundView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class RoundVideoRecorder extends FrameLayout {
     public final long MAX_DURATION;
     private float alpha;

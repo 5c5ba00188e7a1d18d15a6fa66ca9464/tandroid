@@ -29,7 +29,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.DialogStoriesCell;
 import org.telegram.ui.Stories.StoryViewer;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
     public int addBottomClip;
     int[] clipPoint;
@@ -42,17 +42,17 @@ public class StoriesListPlaceProvider implements StoryViewer.PlaceProvider {
     private final ProfileChannelCell profileChannelCell;
     private final RecyclerListView recyclerListView;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface AvatarOverlaysView {
         boolean drawAvatarOverlays(Canvas canvas);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface ClippedView {
         void updateClip(int[] iArr);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface LoadNextInterface {
         void loadNext(boolean z);
     }

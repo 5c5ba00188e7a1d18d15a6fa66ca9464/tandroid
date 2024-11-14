@@ -71,7 +71,7 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class BotPreviewsEditContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private static LongSparseArray attachedContainers;
     private static LongSparseArray cachedLists;
@@ -90,7 +90,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
     private final ViewPagerFixed viewPager;
     private int visibleHeight;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class BotPreviewsEditLangContainer extends FrameLayout {
         private final StoriesAdapter adapter;
         private boolean allowStoriesSingleColumn;
@@ -127,7 +127,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         private final GridLayoutManager supportingLayoutManager;
         private final SharedMediaLayout.InternalListView supportingListView;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class FooterView extends LinearLayout {
             private final ButtonWithCounterView button2View;
             private final ButtonWithCounterView buttonView;
@@ -218,7 +218,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class StoriesAdapter extends RecyclerListView.FastScrollAdapter {
             public boolean applyingReorder;
             private final Context context;
@@ -1280,7 +1280,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ChooseLanguageSheet extends BottomSheetWithRecyclerListView {
         private UniversalAdapter adapter;
         private final int currentAccount;
@@ -1288,13 +1288,13 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         private ImageView searchImageView;
         private final CharSequence title;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public static class LanguageView extends LinearLayout {
             private boolean needDivider;
             private final TextView subtitle;
             private final TextView title;
 
-            /* loaded from: classes4.dex */
+            /* loaded from: classes5.dex */
             public static class Factory extends UItem.UItemFactory {
                 static {
                     UItem.UItemFactory.setup(new Factory());

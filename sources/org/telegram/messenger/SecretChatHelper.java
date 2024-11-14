@@ -1473,10 +1473,10 @@ public class SecretChatHelper extends BaseController {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:225:0x0618  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0617  */
     /* JADX WARN: Removed duplicated region for block: B:22:0x007f  */
-    /* JADX WARN: Removed duplicated region for block: B:294:0x07d5  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x07e5  */
+    /* JADX WARN: Removed duplicated region for block: B:294:0x07d4  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x07e4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

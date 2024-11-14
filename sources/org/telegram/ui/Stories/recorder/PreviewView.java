@@ -63,7 +63,7 @@ import org.telegram.ui.Stories.recorder.PreviewView;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.TimelineView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class PreviewView extends FrameLayout {
     private boolean allowCropping;
     private boolean allowRotation;
@@ -130,7 +130,7 @@ public abstract class PreviewView extends FrameLayout {
     private Drawable wallpaperDrawable;
     private AnimatedFloat wallpaperDrawableCrossfade;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 1 implements VideoPlayer.VideoPlayerDelegate {
         1() {
         }
@@ -183,7 +183,7 @@ public abstract class PreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 2 implements TimelineView.TimelineDelegate {
         2() {
         }
@@ -342,7 +342,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 3 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ StoryEntry val$entry;
         final /* synthetic */ Runnable[] val$whenReadyFinal;
@@ -466,7 +466,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 4 implements VideoPlayer.VideoPlayerDelegate {
         4() {
         }
@@ -525,7 +525,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class TextureViewHolder {
         public boolean active;
         private TextureView textureView;
@@ -1510,7 +1510,7 @@ public abstract class PreviewView extends FrameLayout {
                 this.matrix.set(this.entry.matrix);
                 this.matrix.preScale(this.entry.width / this.thumbBitmap.getWidth(), this.entry.height / this.thumbBitmap.getHeight());
                 this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
-                this.bitmapPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                this.bitmapPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
                 canvas.drawBitmap(this.thumbBitmap, this.matrix, this.bitmapPaint);
             }
             if (this.bitmap != null) {

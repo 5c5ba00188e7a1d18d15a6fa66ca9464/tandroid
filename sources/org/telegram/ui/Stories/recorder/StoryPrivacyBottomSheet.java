@@ -99,7 +99,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryPrivacyBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private int activePage;
     private boolean allowScreenshots;
@@ -134,7 +134,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     private ArrayList warnUsers;
     private Runnable whenCoverClicked;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ChoosePeerSheet extends BottomSheet {
         private final int currentAccount;
         private final TextView headerView;
@@ -143,7 +143,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         private final List peers;
         private final TLRPC.InputPeer selectedPeer;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         private class Adapter extends RecyclerListView.SelectionAdapter {
             private Adapter() {
             }
@@ -345,7 +345,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ContainerView extends FrameLayout {
         private final AnimatedFloat isActionBar;
         private final Path path;
@@ -400,13 +400,13 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface DoneCallback {
         void done(StoryPrivacy storyPrivacy, boolean z, boolean z2, TLRPC.InputPeer inputPeer, Runnable runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class HeaderCell extends FrameLayout {
         public BackDrawable backDrawable;
         private ImageView closeView;
@@ -481,7 +481,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private static class HeaderCell2 extends LinearLayout {
         private final Theme.ResourcesProvider resourcesProvider;
         private final TextView subtitleTextView;
@@ -511,7 +511,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         public TLRPC.Chat chat;
         public boolean checked;
@@ -673,7 +673,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class Page extends FrameLayout implements View.OnClickListener, NotificationCenter.NotificationCenterDelegate {
         private Adapter adapter;
         private final ArrayList atTop;
@@ -711,7 +711,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         private boolean wasKeyboardVisible;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class Adapter extends AdapterWithDiffUtils {
             private Context context;
             private RecyclerListView listView;
@@ -942,7 +942,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class ButtonContainer extends LinearLayout {
             final AnimatedFloat alpha;
             private ValueAnimator animator;
@@ -1047,7 +1047,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class PadView extends View {
             public PadView(Context context) {
                 super(context);
@@ -2923,7 +2923,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class SearchUsersCell extends ScrollView {
         public ArrayList allSpans;
         private final LinearGradient bottomGradient;
@@ -2949,7 +2949,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         private final Paint topGradientPaint;
         private Runnable updateHeight;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class SpansContainer extends ViewGroup {
             private View addingSpan;
             private ArrayList animAddingSpans;
@@ -3427,7 +3427,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
             float scrollY = getScrollY();
-            canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.notificationsCountUpdated, 31);
             super.dispatchDraw(canvas);
             canvas.save();
             float f = this.topGradientAlpha.set(canScrollVertically(-1));
@@ -3496,7 +3496,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StoryPrivacy {
         public final ArrayList rules;
         public final ArrayList selectedInputUsers;
@@ -3972,7 +3972,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class UserCell extends FrameLayout {
         private Paint arrowPaint;
         private Path arrowPath;

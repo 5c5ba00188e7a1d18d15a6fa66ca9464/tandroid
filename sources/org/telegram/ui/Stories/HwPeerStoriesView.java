@@ -4,7 +4,7 @@ import android.content.Context;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Stories.PeerStoriesView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 abstract class HwPeerStoriesView extends PeerStoriesView {
     public HwPeerStoriesView(Context context, StoryViewer storyViewer, PeerStoriesView.SharedResources sharedResources, Theme.ResourcesProvider resourcesProvider) {
         super(context, storyViewer, sharedResources, resourcesProvider);

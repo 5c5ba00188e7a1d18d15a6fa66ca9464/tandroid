@@ -13,7 +13,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessagesController;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class RestrictedDomainsList {
     private static RestrictedDomainsList instance;
     private boolean loaded;

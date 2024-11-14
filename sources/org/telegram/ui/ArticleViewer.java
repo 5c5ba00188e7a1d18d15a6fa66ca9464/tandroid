@@ -188,6 +188,7 @@ import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.KeyboardNotifier;
+import org.telegram.ui.bots.BotSensors;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.web.AddressBarList;
 import org.telegram.ui.web.BookmarksFragment;
@@ -6705,7 +6706,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             BotWebViewContainer.MyWebView myWebView = this.webView;
             if (myWebView != null) {
                 myWebView.onResume();
-                pageLayout.webViewContainer.replaceWebView(this.webView, this.proxy);
+                pageLayout.webViewContainer.replaceWebView(UserConfig.selectedAccount, this.webView, this.proxy);
                 pageLayout.setWebBgColor(true, this.actionBarColor);
                 pageLayout.setWebBgColor(false, this.backgroundColor);
                 return;
@@ -6984,7 +6985,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     /* loaded from: classes4.dex */
     public static class ErrorContainer extends FrameLayout {
-        private final ButtonWithCounterView buttonView;
+        public final ButtonWithCounterView buttonView;
         private final TextView codeView;
         private boolean dark;
         private ValueAnimator darkAnimator;
@@ -7045,6 +7046,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.titleView.setText(LocaleController.getString(R.string.WebErrorTitle));
             String magic2tonsite = BotWebViewContainer.magic2tonsite(str);
             this.descriptionView.setText(Emoji.replaceEmoji(AndroidUtilities.replaceTags((magic2tonsite == null || Uri.parse(magic2tonsite) == null || Uri.parse(magic2tonsite).getAuthority() == null) ? LocaleController.getString(R.string.WebErrorInfo) : LocaleController.formatString(R.string.WebErrorInfoDomain, Uri.parse(magic2tonsite).getAuthority())), this.descriptionView.getPaint().getFontMetricsInt(), false));
+            this.codeView.setText(str2);
+        }
+
+        public void set(String str, String str2) {
+            this.titleView.setText(LocaleController.getString(R.string.WebErrorTitle));
+            this.descriptionView.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.WebErrorInfoBot, str)));
             this.codeView.setText(str2);
         }
 
@@ -7299,11 +7306,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public boolean backButton;
         private final GradientClip clip;
         public WebInstantView.Loader currentInstantLoader;
-        private boolean dangerousShown;
         public ErrorContainer errorContainer;
         private boolean errorShown;
-        private int errorShownCode;
-        private String errorShownDescription;
         public boolean forwardButton;
         private String lastFormattedUrl;
         private String lastUrl;
@@ -7414,7 +7418,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 protected void onErrorShown(boolean z, int i2, String str) {
                     if (z) {
                         PageLayout.this.createErrorContainer();
-                        PageLayout.this.errorContainer.set(getWebView() != null ? getWebView().getUrl() : null, PageLayout.this.errorShownCode = i2, PageLayout.this.errorShownDescription = str);
+                        PageLayout.this.errorContainer.set(getWebView() != null ? getWebView().getUrl() : null, i2, str);
                         PageLayout pageLayout = PageLayout.this;
                         ErrorContainer errorContainer = pageLayout.errorContainer;
                         ArticleViewer articleViewer = ArticleViewer.this;
@@ -7467,10 +7471,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
 
                 @Override // org.telegram.ui.web.BotWebViewContainer
-                public void onWebViewCreated() {
-                    super.onWebViewCreated();
-                    PageLayout pageLayout = PageLayout.this;
-                    pageLayout.swipeContainer.setWebView(pageLayout.webViewContainer.getWebView());
+                public void onWebViewCreated(BotWebViewContainer.MyWebView myWebView) {
+                    super.onWebViewCreated(myWebView);
+                    PageLayout.this.swipeContainer.setWebView(myWebView);
                 }
 
                 @Override // org.telegram.ui.web.BotWebViewContainer
@@ -7500,6 +7503,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             botWebViewContainer.setDelegate(new BotWebViewContainer.Delegate() { // from class: org.telegram.ui.ArticleViewer.PageLayout.5
                 @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ BotSensors getBotSensors() {
+                    return BotWebViewContainer.Delegate.-CC.$default$getBotSensors(this);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
                 public /* synthetic */ boolean isClipboardAvailable() {
                     return BotWebViewContainer.Delegate.-CC.$default$isClipboardAvailable(this);
                 }
@@ -7522,6 +7530,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
 
                 @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ void onEmojiStatusGranted(boolean z) {
+                    BotWebViewContainer.Delegate.-CC.$default$onEmojiStatusGranted(this, z);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ void onEmojiStatusSet(TLRPC.Document document) {
+                    BotWebViewContainer.Delegate.-CC.$default$onEmojiStatusSet(this, document);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ String onFullscreenRequested(boolean z) {
+                    return BotWebViewContainer.Delegate.-CC.$default$onFullscreenRequested(this, z);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
                 public void onInstantClose() {
                     PageLayout pageLayout = PageLayout.this;
                     ArticleViewer articleViewer = ArticleViewer.this;
@@ -7531,6 +7554,21 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     } else if (articleViewer.pages[0] == pageLayout) {
                         articleViewer.goBack();
                     }
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ void onLocationGranted(boolean z) {
+                    BotWebViewContainer.Delegate.-CC.$default$onLocationGranted(this, z);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ void onOpenBackFromTabs() {
+                    BotWebViewContainer.Delegate.-CC.$default$onOpenBackFromTabs(this);
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ void onOrientationLockChanged(boolean z) {
+                    BotWebViewContainer.Delegate.-CC.$default$onOrientationLockChanged(this, z);
                 }
 
                 @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
@@ -7552,6 +7590,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
                 @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
                 public void onSetupSecondaryButton(boolean z, boolean z2, String str, int i2, int i3, boolean z3, boolean z4, String str2) {
+                }
+
+                @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+                public /* synthetic */ void onSharedTo(ArrayList arrayList) {
+                    BotWebViewContainer.Delegate.-CC.$default$onSharedTo(this, arrayList);
                 }
 
                 @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
@@ -7612,8 +7655,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             webViewSwipeContainer.setDelegate(new ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer.Delegate
-                public final void onDismiss() {
-                    ArticleViewer.PageLayout.this.lambda$new$3();
+                public final void onDismiss(boolean z) {
+                    ArticleViewer.PageLayout.this.lambda$new$3(z);
                 }
             });
             webViewSwipeContainer.setScrollListener(new Runnable() { // from class: org.telegram.ui.ArticleViewer$PageLayout$$ExternalSyntheticLambda4
@@ -7669,7 +7712,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$3() {
+        public /* synthetic */ void lambda$new$3(boolean z) {
             Sheet sheet = ArticleViewer.this.sheet;
             if (sheet != null) {
                 this.swipeBack = true;
@@ -7798,9 +7841,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         public int getBackgroundColor() {
-            if (isWeb() && this.dangerousShown) {
-                return -5036514;
-            }
             return (isWeb() && SharedConfig.adaptableColorInBrowser && !this.errorShown) ? this.webBackgroundColor : ArticleViewer.this.getThemedColor(Theme.key_iv_background);
         }
 
@@ -8969,11 +9009,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
         public boolean isAttachedLightStatusBar() {
             return this.attachedToActionBar && (this.dismissingIntoTabs ? 0.0f : Math.min(this.openProgress, 1.0f - this.dismissProgress) * (1.0f - this.backProgress)) > 0.25f && AndroidUtilities.computePerceivedBrightness(getActionBarColor()) >= 0.721f;
-        }
-
-        @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
-        public boolean isFullSize() {
-            return true;
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
@@ -10824,7 +10859,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             animatorSet.playTogether(ObjectAnimator.ofFloat(articleViewer3.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, 0.0f), ObjectAnimator.ofFloat(this, (Property<WindowView, Float>) ArticleViewer.ARTICLE_VIEWER_INNER_TRANSLATION_X, 0.0f));
                         }
                     }
-                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), NotificationCenter.proxyChangedByRotation));
+                    animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * x), NotificationCenter.proxyCheckDone));
                     animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                     animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.WindowView.1
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -12696,7 +12731,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.proxyChangedByRotation));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.proxyCheckDone));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -12846,7 +12881,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 animatorSet.playTogether(ObjectAnimator.ofFloat(this.containerView, (Property<FrameLayout, Float>) View.TRANSLATION_X, frameLayout.getMeasuredWidth()), ObjectAnimator.ofFloat(this.windowView, (Property<WindowView, Float>) ARTICLE_VIEWER_INNER_TRANSLATION_X, frameLayout.getMeasuredWidth()));
             }
-            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.proxyChangedByRotation));
+            animatorSet.setDuration(Math.max((int) ((420.0f / frameLayout.getMeasuredWidth()) * measuredWidth), NotificationCenter.proxyCheckDone));
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ArticleViewer.5
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

@@ -27,7 +27,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.LaunchActivity;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class FlashViews {
     public static final int[] COLORS = {-1, -70004, -7544833};
     private ValueAnimator animator;
@@ -50,7 +50,7 @@ public class FlashViews {
     public float intensity = 1.0f;
     private final Matrix gradientMatrix = new Matrix();
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ImageViewInvertable extends ImageView implements Invertable {
         public ImageViewInvertable(Context context) {
             super(context);
@@ -62,7 +62,7 @@ public class FlashViews {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface Invertable {
         void invalidate();
 

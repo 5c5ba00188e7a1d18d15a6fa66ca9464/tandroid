@@ -28,7 +28,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.StaticLayoutEx;
 import org.telegram.ui.Stories.SelfStoryViewsView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class SelfStoriesPreviewView extends View {
     boolean checkScroll;
     int childPadding;
@@ -54,7 +54,7 @@ public abstract class SelfStoriesPreviewView extends View {
     private int viewH;
     private int viewW;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ImageHolder {
         StaticLayout layout;
         TextPaint paint = new TextPaint(1);

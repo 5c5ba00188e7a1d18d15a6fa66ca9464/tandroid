@@ -20,7 +20,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesViewPager;
 import org.telegram.ui.Stories.StoryViewer;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class StoriesViewPager extends ViewPager {
     int currentAccount;
     public int currentState;
@@ -46,7 +46,7 @@ public abstract class StoriesViewPager extends ViewPager {
     private int updateVisibleItemPosition;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class PageLayout extends FrameLayout {
         ArrayList day;
         long dialogId;

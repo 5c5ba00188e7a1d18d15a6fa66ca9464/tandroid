@@ -360,7 +360,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         if (this.mainTextLayout != null) {
             canvas.save();
             canvas.translate(getPaddingLeft(), getPaddingTop());
-            this.textPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+            this.textPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
             this.mainTextLayout.draw(canvas);
             LoadingDrawable loadingDrawable = this.loadingDrawable;
             if (loadingDrawable != null && this.loadingDrawableBoundsSet) {

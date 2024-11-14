@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class MHTML {
     public final String boundary;
     public final ArrayList entries;
@@ -21,7 +21,7 @@ public class MHTML {
     private final long[] filePos;
     public final HashMap headers;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class BoundedInputStream extends FileInputStream {
         private long bytesRead;
         private final long endOffset;
@@ -58,7 +58,7 @@ public class MHTML {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Entry {
         public long end;
         public File file;
@@ -91,7 +91,7 @@ public class MHTML {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class HeaderValue {
         public final HashMap props;
         public String value;
@@ -115,7 +115,7 @@ public class MHTML {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class QuotedPrintableInputStream extends FilterInputStream {
         public QuotedPrintableInputStream(InputStream inputStream) {
             super(inputStream);

@@ -46,8 +46,9 @@ public class ContactsController extends BaseController {
     public static final int PRIVACY_RULES_TYPE_BIO = 9;
     public static final int PRIVACY_RULES_TYPE_BIRTHDAY = 11;
     public static final int PRIVACY_RULES_TYPE_CALLS = 2;
-    public static final int PRIVACY_RULES_TYPE_COUNT = 12;
+    public static final int PRIVACY_RULES_TYPE_COUNT = 13;
     public static final int PRIVACY_RULES_TYPE_FORWARDS = 5;
+    public static final int PRIVACY_RULES_TYPE_GIFTS = 12;
     public static final int PRIVACY_RULES_TYPE_INVITE = 1;
     public static final int PRIVACY_RULES_TYPE_LASTSEEN = 0;
     public static final int PRIVACY_RULES_TYPE_MESSAGES = 10;
@@ -75,6 +76,7 @@ public class ContactsController extends BaseController {
     private int deleteAccountTTL;
     public boolean doneLoadingContacts;
     private ArrayList<TLRPC.PrivacyRule> forwardsPrivacyRules;
+    private ArrayList<TLRPC.PrivacyRule> giftsPrivacyRules;
     private TLRPC.TL_globalPrivacySettings globalPrivacySettings;
     private ArrayList<TLRPC.PrivacyRule> groupPrivacyRules;
     private boolean ignoreChanges;
@@ -197,7 +199,7 @@ public class ContactsController extends BaseController {
         this.lastContactsVersions = "";
         this.delayedContactsUpdate = new ArrayList<>();
         this.sectionsToReplace = new HashMap<>();
-        this.loadingPrivacyInfo = new int[12];
+        this.loadingPrivacyInfo = new int[13];
         this.projectionPhones = new String[]{"lookup", "data1", "data2", "data3", "display_name", "account_type"};
         this.projectionNames = new String[]{"lookup", "data2", "data3", "data5"};
         this.contactsBook = new HashMap<>();
@@ -1259,6 +1261,9 @@ public class ContactsController extends BaseController {
                     break;
                 case 11:
                     this.birthdayPrivacyRules = arrayList;
+                    break;
+                case 12:
+                    this.giftsPrivacyRules = arrayList;
                     break;
             }
             this.loadingPrivacyInfo[i] = 2;
@@ -2857,6 +2862,7 @@ public class ContactsController extends BaseController {
         this.profilePhotoPrivacyRules = null;
         this.bioPrivacyRules = null;
         this.birthdayPrivacyRules = null;
+        this.giftsPrivacyRules = null;
         this.forwardsPrivacyRules = null;
         this.phonePrivacyRules = null;
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda55
@@ -3159,6 +3165,8 @@ public class ContactsController extends BaseController {
                 return null;
             case 11:
                 return this.birthdayPrivacyRules;
+            case 12:
+                return this.giftsPrivacyRules;
         }
     }
 
@@ -3265,6 +3273,9 @@ public class ContactsController extends BaseController {
                         break;
                     case 11:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyBirthday();
+                        break;
+                    case 12:
+                        tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyStarGiftsAutoSave();
                         break;
                 }
                 tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
@@ -3962,6 +3973,9 @@ public class ContactsController extends BaseController {
                 break;
             case 11:
                 this.birthdayPrivacyRules = arrayList;
+                break;
+            case 12:
+                this.giftsPrivacyRules = arrayList;
                 break;
         }
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.privacyRulesUpdated, new Object[0]);

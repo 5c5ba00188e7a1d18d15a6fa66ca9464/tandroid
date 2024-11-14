@@ -54,7 +54,7 @@ import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.WebMetadataCache;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class WebBrowserSettings extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
     private Drawable addIcon;
     private long cacheSize;
@@ -62,7 +62,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     private long historySize;
     private Utilities.Callback whenHistoryClicked;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class WebsiteView extends FrameLayout {
         private ArrayList domains;
         public final ImageView imageView;
@@ -71,7 +71,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         public final TextView subtitleView;
         public final TextView titleView;
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());

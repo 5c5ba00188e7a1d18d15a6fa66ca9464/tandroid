@@ -5,10 +5,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class GlUtil {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class GlOutOfMemoryException extends RuntimeException {
         public GlOutOfMemoryException(String str) {
             super(str);

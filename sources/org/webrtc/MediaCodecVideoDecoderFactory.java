@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.webrtc.EglBase;
 import org.webrtc.VideoDecoderFactory;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 class MediaCodecVideoDecoderFactory implements VideoDecoderFactory {
     private static final String TAG = "MediaCodecVideoDecoderFactory";
     private final Predicate<MediaCodecInfo> codecAllowedPredicate;

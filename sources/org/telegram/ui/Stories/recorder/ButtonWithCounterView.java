@@ -31,7 +31,7 @@ import org.telegram.ui.Components.Loadable;
 import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class ButtonWithCounterView extends FrameLayout implements Loadable {
     private float countAlpha;
     private final AnimatedFloat countAlphaAnimated;
@@ -84,7 +84,7 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         this.countScale = 1.0f;
         this.enabledT = 1.0f;
         this.enabled = true;
-        this.globalAlpha = NotificationCenter.playerDidStartPlaying;
+        this.globalAlpha = NotificationCenter.notificationsCountUpdated;
         this.subTextAlpha = NotificationCenter.storyQualityUpdate;
         this.filled = z;
         this.resourcesProvider = resourcesProvider;

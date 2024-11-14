@@ -88,7 +88,7 @@ import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class SelfStoryViewsPage extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private int TOP_PADDING;
     private boolean checkAutoscroll;
@@ -125,7 +125,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
     private final FrameLayout topViewsContainer;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 4 implements RecyclerListView.OnItemLongClickListener {
         final /* synthetic */ StoryViewer val$storyViewer;
 
@@ -305,7 +305,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 5 extends SearchField {
         Runnable runnable;
 
@@ -352,7 +352,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class FiltersState {
         boolean contactsOnly;
         String searchQuery;
@@ -381,7 +381,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class HeaderView extends FrameLayout {
         TextView allViewersView;
         float animateFromAlpha1;
@@ -398,7 +398,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         Paint selectedPaint;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 1 extends CustomPopupMenu {
             1(Context context, Theme.ResourcesProvider resourcesProvider, boolean z) {
                 super(context, resourcesProvider, z);
@@ -662,7 +662,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class Item {
         final TL_stories.StoryReaction reaction;
         final TL_stories.StoryView view;
@@ -688,7 +688,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ListAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList items;
 
@@ -1136,7 +1136,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private class RecyclerListViewInner extends RecyclerListView implements StoriesListPlaceProvider.ClippedView {
         public RecyclerListViewInner(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -1149,7 +1149,7 @@ public abstract class SelfStoryViewsPage extends FrameLayout implements Notifica
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class ViewsModel {
         int currentAccount;
         private long dialogId;

@@ -54,7 +54,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class HintView2 extends View {
     private float arrowHalfWidth;
     private float arrowHeight;
@@ -753,7 +753,7 @@ public class HintView2 extends View {
 
     protected void drawBgPath(Canvas canvas) {
         if (this.blurBackgroundPaint != null) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.notificationsCountUpdated, 31);
             canvas.drawPath(this.path, this.blurBackgroundPaint);
             canvas.drawPath(this.path, this.blurCutPaint);
             canvas.restore();

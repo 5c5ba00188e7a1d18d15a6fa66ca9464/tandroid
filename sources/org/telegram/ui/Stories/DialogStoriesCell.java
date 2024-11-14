@@ -74,7 +74,7 @@ import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class DialogStoriesCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     float K;
     private ActionBar actionBar;
@@ -132,7 +132,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
     ArrayList viewsDrawInParent;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class Adapter extends AdapterWithDiffUtils {
         boolean mini;
 
@@ -169,7 +169,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class Item extends AdapterWithDiffUtils.Item {
         final long dialogId;
 
@@ -190,7 +190,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class StoryCell extends FrameLayout {
         AvatarDrawable avatarDrawable;
         public ImageReceiver avatarImage;
@@ -448,7 +448,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
                 }
                 this.radialProgress.setDiff(0);
                 Paint closeFriendsPaint = z ? StoriesUtilities.getCloseFriendsPaint(this.avatarImage) : StoriesUtilities.getUnreadCirclePaint(this.avatarImage, true);
-                closeFriendsPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                closeFriendsPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
                 this.radialProgress.setPaint(closeFriendsPaint);
                 this.radialProgress.setProgressRect((int) (this.avatarImage.getImageX() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageX2() + AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY2() + AndroidUtilities.dp(3.0f)));
                 this.radialProgress.setProgress(Utilities.clamp(size, 1.0f, 0.0f), this.progressWasDrawn);

@@ -28,7 +28,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoriesIntro extends FrameLayout {
     private int current;
     private final ArrayList items;
@@ -37,7 +37,7 @@ public class StoriesIntro extends FrameLayout {
     private ValueAnimator valueAnimator;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StoriesIntroItemView extends View {
         private final Paint backgroundPaint;
         private final String header;

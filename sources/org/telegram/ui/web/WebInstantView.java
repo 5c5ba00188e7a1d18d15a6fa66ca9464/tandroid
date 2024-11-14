@@ -56,7 +56,7 @@ import org.telegram.ui.web.BotWebViewContainer;
 import org.telegram.ui.web.MHTML;
 import org.telegram.ui.web.WebInstantView;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class WebInstantView {
     public static final HashMap instants = new HashMap();
     private static HashMap loadingPhotos;
@@ -66,7 +66,7 @@ public class WebInstantView {
     public TLRPC.WebPage webpage;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class 4 {
         final /* synthetic */ boolean[] val$done;
         final /* synthetic */ WebView val$webView;
@@ -117,7 +117,7 @@ public class WebInstantView {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Loader {
         private Runnable cancelLocal;
         private boolean cancelled;
@@ -325,7 +325,7 @@ public class WebInstantView {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class WebPhoto extends TLRPC.Photo {
         public int h;
         public TLRPC.TL_textImage inlineImage;

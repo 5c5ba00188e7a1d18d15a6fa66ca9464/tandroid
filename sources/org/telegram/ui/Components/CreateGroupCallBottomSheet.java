@@ -32,6 +32,7 @@ import org.telegram.ui.Components.RecyclerListView;
 
 /* loaded from: classes3.dex */
 public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView {
+    private final boolean canRtmpStream;
     private final List chats;
     private final long dialogId;
     private final BaseFragment fragment;
@@ -55,10 +56,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            if (CreateGroupCallBottomSheet.this.needSelector) {
-                return CreateGroupCallBottomSheet.this.chats.size() + 3;
-            }
-            return 1;
+            return CreateGroupCallBottomSheet.this.needSelector ? CreateGroupCallBottomSheet.this.chats.size() + 3 : CreateGroupCallBottomSheet.this.canRtmpStream ? 2 : 1;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -150,7 +148,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
             addView(rLottieImageView, LayoutHelper.createLinear(112, 112, 49, 0, 24, 0, 0));
             TextView textView = new TextView(context);
             textView.setTypeface(AndroidUtilities.bold());
-            textView.setText(z ? LocaleController.formatString("StartVoipChannelTitle", R.string.StartVoipChannelTitle, new Object[0]) : LocaleController.formatString("StartVoipChatTitle", R.string.StartVoipChatTitle, new Object[0]));
+            textView.setText(z ? LocaleController.formatString(R.string.StartVoipChannelTitle, new Object[0]) : LocaleController.formatString(R.string.StartVoipChatTitle, new Object[0]));
             textView.setTextSize(1, 20.0f);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 14, 0, 7));
@@ -158,7 +156,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
             textView2.setTextSize(1, 14.0f);
             textView2.setGravity(1);
             textView2.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-            textView2.setText(z ? LocaleController.formatString("VoipChannelStart2", R.string.VoipChannelStart2, new Object[0]) : LocaleController.formatString("VoipGroupStart2", R.string.VoipGroupStart2, new Object[0]));
+            textView2.setText(z ? LocaleController.formatString(R.string.VoipChannelStart2, new Object[0]) : LocaleController.formatString(R.string.VoipGroupStart2, new Object[0]));
             textView2.setLineSpacing(textView2.getLineSpacingExtra(), textView2.getLineSpacingMultiplier() * 1.1f);
             addView(textView2, LayoutHelper.createLinear(-2, -2, 1, 28, 0, 28, 17));
         }
@@ -177,6 +175,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         this.isChannelOrGiga = isChannelOrGiga;
         this.selectedPeer = (TLRPC.Peer) arrayList2.get(0);
         this.needSelector = arrayList2.size() > 1;
+        this.canRtmpStream = ChatObject.canManageCalls(chat);
         Context context = this.containerView.getContext();
         this.containerView.addView(new View(context) { // from class: org.telegram.ui.Components.CreateGroupCallBottomSheet.1
             @Override // android.view.View
@@ -193,7 +192,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         textView.setSingleLine(true);
         textView.setTextSize(1, 14.0f);
         textView.setTypeface(AndroidUtilities.bold());
-        textView.setText(isChannelOrGiga ? LocaleController.formatString("VoipChannelStartVoiceChat", R.string.VoipChannelStartVoiceChat, new Object[0]) : LocaleController.formatString("VoipGroupStartVoiceChat", R.string.VoipGroupStartVoiceChat, new Object[0]));
+        textView.setText(isChannelOrGiga ? LocaleController.formatString(R.string.VoipChannelStartVoiceChat, new Object[0]) : LocaleController.formatString(R.string.VoipGroupStartVoiceChat, new Object[0]));
         textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         int dp = AndroidUtilities.dp(8.0f);
         int i = Theme.key_featuredStickers_addButton;
@@ -205,7 +204,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         textView2.setSingleLine(true);
         textView2.setTextSize(1, 14.0f);
         textView2.setTypeface(AndroidUtilities.bold());
-        textView2.setText(isChannelOrGiga ? LocaleController.formatString("VoipChannelScheduleVoiceChat", R.string.VoipChannelScheduleVoiceChat, new Object[0]) : LocaleController.formatString("VoipGroupScheduleVoiceChat", R.string.VoipGroupScheduleVoiceChat, new Object[0]));
+        textView2.setText(isChannelOrGiga ? LocaleController.formatString(R.string.VoipChannelScheduleVoiceChat, new Object[0]) : LocaleController.formatString(R.string.VoipGroupScheduleVoiceChat, new Object[0]));
         if (Build.VERSION.SDK_INT >= 21) {
             textView2.setLetterSpacing(0.025f);
         }

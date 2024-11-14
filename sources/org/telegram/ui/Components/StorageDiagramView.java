@@ -224,7 +224,7 @@ public abstract class StorageDiagramView extends View implements NotificationCen
             ClearViewData[] clearViewDataArr = this.data;
             int length = clearViewDataArr.length;
             d = 180.0d;
-            i = NotificationCenter.playerDidStartPlaying;
+            i = NotificationCenter.notificationsCountUpdated;
             if (i2 >= length) {
                 break;
             }
@@ -236,7 +236,7 @@ public abstract class StorageDiagramView extends View implements NotificationCen
                         float f9 = ((-360.0f) * f8) + ((1.0f - this.singleProgress) * 10.0f);
                         float f10 = f9 > 0.0f ? 0.0f : f9;
                         clearViewData.paint.setColor(Theme.getColor(clearViewData.colorKey));
-                        this.data[i2].paint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                        this.data[i2].paint.setAlpha(NotificationCenter.notificationsCountUpdated);
                         double width = this.rectF.width() / 2.0f;
                         Double.isNaN(width);
                         double d4 = f10;
@@ -309,18 +309,18 @@ public abstract class StorageDiagramView extends View implements NotificationCen
                             canvas.drawArc(this.rectF, (-90.0f) - (f13 * 360.0f), f16, false, this.data[i3].paint);
                             f13 += f14;
                             i3++;
-                            i = NotificationCenter.playerDidStartPlaying;
+                            i = NotificationCenter.notificationsCountUpdated;
                             d = 180.0d;
                         }
                     }
                     f13 += f14;
                     i3++;
-                    i = NotificationCenter.playerDidStartPlaying;
+                    i = NotificationCenter.notificationsCountUpdated;
                     d = 180.0d;
                 }
             }
             i3++;
-            i = NotificationCenter.playerDidStartPlaying;
+            i = NotificationCenter.notificationsCountUpdated;
             d = 180.0d;
         }
         ImageReceiver imageReceiver = this.avatarImageReceiver;

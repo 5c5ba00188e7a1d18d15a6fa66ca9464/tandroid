@@ -267,16 +267,10 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             Configuration configuration = getResources().getConfiguration();
             int i = configuration.screenWidthDp;
             int i2 = configuration.screenHeightDp;
-            if (i >= 960 && i2 >= 720 && configuration.orientation == 2) {
-                return 256;
+            if (i < 960 || i2 < 720 || configuration.orientation != 2) {
+                return i < 600 ? (i < 640 || i2 < 480) ? NotificationCenter.audioRouteChanged : NotificationCenter.dialogPhotosUpdate : NotificationCenter.dialogPhotosUpdate;
             }
-            if (i >= 600) {
-                return 192;
-            }
-            if (i < 640 || i2 < 480) {
-                return NotificationCenter.audioRouteChanged;
-            }
-            return 192;
+            return 256;
         }
 
         @Override // android.widget.AutoCompleteTextView

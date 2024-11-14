@@ -79,9 +79,9 @@ public class GroupCallStatusIcon {
         if (nextInt < 32) {
             i = 0;
         } else {
-            i = NotificationCenter.needShareTheme;
+            i = NotificationCenter.needCheckSystemBarColors;
             if (nextInt < 64) {
-                i2 = NotificationCenter.needShareTheme;
+                i2 = NotificationCenter.needCheckSystemBarColors;
                 i = 120;
             } else {
                 i2 = 420;

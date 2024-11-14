@@ -29,7 +29,7 @@ import org.telegram.ui.GradientClip;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stars.StarsIntroActivity;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StarReactionsOverlay extends View {
     private float accumulatedRippleIntensity;
     private ChatMessageCell cell;

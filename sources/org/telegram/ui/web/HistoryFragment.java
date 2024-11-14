@@ -34,7 +34,7 @@ import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.HistoryFragment;
 import org.telegram.ui.web.WebMetadataCache;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class HistoryFragment extends UniversalFragment {
     private final Runnable closeToTabs;
     private StickerEmptyView emptyView;
@@ -52,7 +52,7 @@ public class HistoryFragment extends UniversalFragment {
     private final ArrayList searchResults = new ArrayList();
     public HashSet selected = new HashSet();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -84,7 +84,7 @@ public class HistoryFragment extends UniversalFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class 2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         private Runnable applySearch = new Runnable() { // from class: org.telegram.ui.web.HistoryFragment$2$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable

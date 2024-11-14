@@ -3,7 +3,7 @@ package org.webrtc;
 import org.webrtc.VideoDecoder;
 
 /* JADX INFO: Access modifiers changed from: package-private */
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class VideoDecoderWrapper {
     VideoDecoderWrapper() {
     }

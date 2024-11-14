@@ -2,7 +2,7 @@ package org.webrtc;
 
 import java.nio.ByteBuffer;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class JniCommon {
     public static native void nativeAddRef(long j);
 

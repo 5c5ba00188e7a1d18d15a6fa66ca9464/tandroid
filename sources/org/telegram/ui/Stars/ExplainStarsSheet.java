@@ -28,20 +28,20 @@ import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class ExplainStarsSheet extends BottomSheetWithRecyclerListView {
     private UniversalAdapter adapter;
     private FrameLayout buttonContainer;
     private LinearLayout headerView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class FeatureCell extends LinearLayout {
         private final ImageView imageView;
         private final LinkSpanDrawable.LinksTextView subtitleView;
         private final LinearLayout textLayout;
         private final TextView titleView;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());

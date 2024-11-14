@@ -762,7 +762,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         int i4;
         drawHint(canvas);
         if (this.ellipsizeByGradient) {
-            canvas.saveLayerAlpha((getScrollX() + getPaddingLeft()) - this.ellipsizeWidth, 0.0f, ((getScrollX() + getWidth()) - getPaddingRight()) + this.ellipsizeWidth, getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha((getScrollX() + getPaddingLeft()) - this.ellipsizeWidth, 0.0f, ((getScrollX() + getWidth()) - getPaddingRight()) + this.ellipsizeWidth, getHeight(), NotificationCenter.notificationsCountUpdated, 31);
         }
         int extendedPaddingTop = getExtendedPaddingTop();
         this.scrollY = ConnectionsManager.DEFAULT_DATACENTER_ID;

@@ -19,7 +19,7 @@ import org.webrtc.GlGenericDrawer;
 import org.webrtc.RendererCommon;
 import org.webrtc.TextureViewRenderer;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class TextureViewRenderer extends TextureView implements TextureView.SurfaceTextureListener, VideoSink, RendererCommon.RendererEvents {
     private static final String TAG = "TextureViewRenderer";
     private TextureView backgroundRenderer;
@@ -46,7 +46,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     private final RendererCommon.VideoLayoutMeasure videoLayoutMeasure;
     private int videoWidth;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class TextureEglRenderer extends EglRenderer implements TextureView.SurfaceTextureListener {
         private static final String TAG = "TextureEglRenderer";
         private int frameRotation;
@@ -231,7 +231,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             if (i4 == 1) {
                 i = z ? 90 : -90;
             } else if (i4 == 3) {
-                i = z ? NotificationCenter.chatAvailableReactionsUpdated : -270;
+                i = z ? NotificationCenter.attachMenuBotsDidLoad : -270;
             }
             i3 += i;
         }

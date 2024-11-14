@@ -943,7 +943,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             init();
             final int i = 0;
             while (i < 6) {
-                long nextFloat = Utilities.random.nextFloat() * NotificationCenter.stealthModeChanged;
+                long nextFloat = Utilities.random.nextFloat() * NotificationCenter.customTypefacesLoaded;
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, -2.0f, 0.0f, 2.0f, 0.0f);
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickersAlert$StickersShaker$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -955,7 +955,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 ofFloat.setRepeatMode(1);
                 ofFloat.setInterpolator(new LinearInterpolator());
                 ofFloat.setCurrentPlayTime(nextFloat);
-                long j = NotificationCenter.stealthModeChanged;
+                long j = NotificationCenter.customTypefacesLoaded;
                 ofFloat.setDuration(j);
                 ofFloat.start();
                 float dp = AndroidUtilities.dp(0.5f);
@@ -976,7 +976,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 ofFloat2.setRepeatMode(1);
                 ofFloat2.setInterpolator(new LinearInterpolator());
                 ofFloat2.setCurrentPlayTime(nextFloat);
-                double d = NotificationCenter.stealthModeChanged;
+                double d = NotificationCenter.customTypefacesLoaded;
                 Double.isNaN(d);
                 ofFloat2.setDuration((long) (d * 1.2d));
                 ofFloat2.start();

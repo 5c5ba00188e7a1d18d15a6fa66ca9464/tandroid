@@ -33,7 +33,7 @@ import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.LaunchActivity;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StealthModeAlert extends BottomSheet {
     private final PremiumButtonView button;
     private Listener listener;
@@ -41,7 +41,7 @@ public class StealthModeAlert extends BottomSheet {
     private int type;
     Runnable updateButtonRunnuble;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private class ItemCell extends FrameLayout {
         TextView description;
         ImageView imageView;
@@ -67,7 +67,7 @@ public class StealthModeAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface Listener {
         void onButtonClicked(boolean z);
     }

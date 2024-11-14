@@ -135,6 +135,7 @@ import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.WebAppDisclaimerAlert;
+import org.telegram.ui.bots.BotSensors;
 import org.telegram.ui.bots.BotWebViewMenuContainer$ActionBarColorsAnimating;
 import org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout;
 import org.telegram.ui.web.BotWebViewContainer;
@@ -409,6 +410,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ BotSensors getBotSensors() {
+            return BotWebViewContainer.Delegate.-CC.$default$getBotSensors(this);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public boolean isClipboardAvailable() {
             return MediaDataController.getInstance(ChatAttachAlert.this.currentAccount).botInAttachMenu(this.val$id);
         }
@@ -435,8 +441,38 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onEmojiStatusGranted(boolean z) {
+            BotWebViewContainer.Delegate.-CC.$default$onEmojiStatusGranted(this, z);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onEmojiStatusSet(TLRPC.Document document) {
+            BotWebViewContainer.Delegate.-CC.$default$onEmojiStatusSet(this, document);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ String onFullscreenRequested(boolean z) {
+            return BotWebViewContainer.Delegate.-CC.$default$onFullscreenRequested(this, z);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public /* synthetic */ void onInstantClose() {
             onCloseRequested(null);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onLocationGranted(boolean z) {
+            BotWebViewContainer.Delegate.-CC.$default$onLocationGranted(this, z);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onOpenBackFromTabs() {
+            BotWebViewContainer.Delegate.-CC.$default$onOpenBackFromTabs(this);
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onOrientationLockChanged(boolean z) {
+            BotWebViewContainer.Delegate.-CC.$default$onOrientationLockChanged(this, z);
         }
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
@@ -551,6 +587,11 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onSetupSecondaryButton(boolean z, boolean z2, String str, int i, int i2, boolean z3, boolean z4, String str2) {
+        }
+
+        @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
+        public /* synthetic */ void onSharedTo(ArrayList arrayList) {
+            BotWebViewContainer.Delegate.-CC.$default$onSharedTo(this, arrayList);
         }
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
@@ -2912,7 +2953,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 ChatAttachAlert.this.attachButtonPaint.setStrokeWidth(AndroidUtilities.dp(3.0f) * scaleX);
                 ChatAttachAlert.this.attachButtonPaint.setAlpha(Math.round(this.checkedState * 255.0f));
                 canvas.drawCircle(left, top, dp - (ChatAttachAlert.this.attachButtonPaint.getStrokeWidth() * 0.5f), ChatAttachAlert.this.attachButtonPaint);
-                ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
                 ChatAttachAlert.this.attachButtonPaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(left, top, dp - (AndroidUtilities.dp(5.0f) * this.checkedState), ChatAttachAlert.this.attachButtonPaint);
             }
@@ -3018,8 +3059,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             }
                     }
                 }
-                this.textColor = ColorUtils.setAlphaComponent(this.textColor, NotificationCenter.playerDidStartPlaying);
-                this.iconBackgroundColor = ColorUtils.setAlphaComponent(this.iconBackgroundColor, NotificationCenter.playerDidStartPlaying);
+                this.textColor = ColorUtils.setAlphaComponent(this.textColor, NotificationCenter.notificationsCountUpdated);
+                this.iconBackgroundColor = ColorUtils.setAlphaComponent(this.iconBackgroundColor, NotificationCenter.notificationsCountUpdated);
                 TLRPC.Document document = animatedAttachMenuBotIcon.icon;
                 this.imageView.getImageReceiver().setAllowStartLottieAnimation(false);
                 this.imageView.setImage(ImageLocation.getForDocument(document), String.valueOf(tL_attachMenuBot.bot_id), z ? "tgs" : "svg", DocumentObject.getSvgThumb(document, Theme.key_windowBackgroundGray, 1.0f), tL_attachMenuBot);
@@ -3184,7 +3225,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ChatAttachAlert.this.attachButtonPaint.setStrokeWidth(AndroidUtilities.dp(3.0f) * scaleX);
             ChatAttachAlert.this.attachButtonPaint.setAlpha(Math.round(this.checkedState * 255.0f));
             canvas.drawCircle(left, top, dp - (ChatAttachAlert.this.attachButtonPaint.getStrokeWidth() * 0.5f), ChatAttachAlert.this.attachButtonPaint);
-            ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+            ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
             ChatAttachAlert.this.attachButtonPaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(left, top, dp - (AndroidUtilities.dp(5.0f) * this.checkedState), ChatAttachAlert.this.attachButtonPaint);
         }
@@ -6103,7 +6144,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     private void setNavBarAlpha(float f) {
-        this.navBarColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundGray), Math.min(NotificationCenter.playerDidStartPlaying, Math.max(0, (int) (f * 255.0f))));
+        this.navBarColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundGray), Math.min(NotificationCenter.notificationsCountUpdated, Math.max(0, (int) (f * 255.0f))));
         AndroidUtilities.setNavigationBarColor(getWindow(), this.navBarColor, false);
         AndroidUtilities.setLightNavigationBar(getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(this.navBarColor)) > 0.721d);
         getContainer().invalidate();

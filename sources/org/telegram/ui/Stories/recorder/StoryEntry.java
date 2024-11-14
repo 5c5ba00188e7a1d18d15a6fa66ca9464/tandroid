@@ -51,7 +51,7 @@ import org.telegram.ui.Components.PhotoFilterView;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryEntry {
     public boolean allowScreenshots;
     public String audioAuthor;
@@ -157,12 +157,12 @@ public class StoryEntry {
     public long averageDuration = 5000;
     private int checkStickersReqId = 0;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface DecodeBitmap {
         Bitmap decode(BitmapFactory.Options options);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class HDRInfo {
         public int colorRange;
         public int colorStandard;
@@ -1531,7 +1531,7 @@ public class StoryEntry {
                         long parseInt = Integer.parseInt(this.thumbPath.substring(9));
                         options.inJustDecodeBounds = true;
                         MediaStore.Video.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), parseInt, 1, options);
-                        options.inSampleSize = calculateInSampleSize(options, NotificationCenter.needShareTheme, NotificationCenter.needShareTheme);
+                        options.inSampleSize = calculateInSampleSize(options, NotificationCenter.needCheckSystemBarColors, NotificationCenter.needCheckSystemBarColors);
                         options.inJustDecodeBounds = false;
                         options.inPreferredConfig = Bitmap.Config.RGB_565;
                         options.inDither = true;
@@ -1539,7 +1539,7 @@ public class StoryEntry {
                     } else {
                         options.inJustDecodeBounds = true;
                         BitmapFactory.decodeFile(this.thumbPath);
-                        options.inSampleSize = calculateInSampleSize(options, NotificationCenter.needShareTheme, NotificationCenter.needShareTheme);
+                        options.inSampleSize = calculateInSampleSize(options, NotificationCenter.needCheckSystemBarColors, NotificationCenter.needCheckSystemBarColors);
                         options.inJustDecodeBounds = false;
                         options.inPreferredConfig = Bitmap.Config.RGB_565;
                         options.inDither = true;

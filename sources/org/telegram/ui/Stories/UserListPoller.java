@@ -18,7 +18,7 @@ import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Stories.UserListPoller;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class UserListPoller {
     private static UserListPoller[] istances = new UserListPoller[4];
     final int currentAccount;
@@ -29,7 +29,7 @@ public class UserListPoller {
     Runnable requestCollectedRunnables = new 1();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 1 implements Runnable {
         1() {
         }

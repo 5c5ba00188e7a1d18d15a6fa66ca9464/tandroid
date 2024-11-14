@@ -14,7 +14,7 @@ import org.telegram.ui.Components.Reactions.ReactionImageHolder;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Stories.recorder.Weather;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
     ArrayList drawingObjects;
     float imageH;
@@ -22,7 +22,7 @@ public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
     float imageX;
     float imageY;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static abstract class DrawingObject {
         public abstract void draw(Canvas canvas, ImageReceiver imageReceiver, float f);
 
@@ -31,7 +31,7 @@ public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
         public abstract void setParent(View view);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ReactionWidget extends DrawingObject {
         private final ReactionImageHolder imageHolder;
         private final TL_stories.TL_mediaAreaSuggestedReaction mediaArea;
@@ -108,7 +108,7 @@ public class StoryWidgetsImageDecorator extends ImageReceiver.Decorator {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class WeatherWidget extends DrawingObject {
         private final LocationMarker marker;
         private final TL_stories.TL_mediaAreaWeather mediaArea;

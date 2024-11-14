@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 public abstract class FlacFrameReader {
@@ -111,7 +112,7 @@ public abstract class FlacFrameReader {
     public static int readFrameBlockSizeSamplesFromKey(ParsableByteArray parsableByteArray, int i) {
         switch (i) {
             case 1:
-                return 192;
+                return NotificationCenter.dialogPhotosUpdate;
             case 2:
             case 3:
             case 4:

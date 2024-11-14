@@ -302,9 +302,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                 AndroidUtilities.runOnUIThread(runnable2);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
-            public void onAllAnimationsDone() {
+            protected void onAllAnimationsDone() {
                 super.onAllAnimationsDone();
                 Runnable runnable = this.finishRunnable;
                 if (runnable != null) {
@@ -2069,7 +2068,7 @@ public abstract class MessagePreviewView extends FrameLayout {
                 recyclerListView = this.chatListView;
                 computeVerticalScrollRange = recyclerListView.computeVerticalScrollRange() - (this.chatListView.computeVerticalScrollOffset() + this.chatListView.computeVerticalScrollExtent());
             }
-            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.proxyChangedByRotation, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
+            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.proxyCheckDone, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -3194,9 +3193,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z2) {
+            protected void onTabAnimationUpdate(boolean z2) {
                 MessagePreviewView messagePreviewView = MessagePreviewView.this;
                 messagePreviewView.tabsView.setSelectedTab(messagePreviewView.viewPager.getPositionAnimated());
                 View view = this.viewPages[0];

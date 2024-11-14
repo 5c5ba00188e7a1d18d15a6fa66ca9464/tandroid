@@ -281,7 +281,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(boolean z, ArrayList arrayList) {
+    public /* synthetic */ void lambda$createView$2(boolean z, boolean z2, ArrayList arrayList) {
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {
             Long l = (Long) it.next();
@@ -296,6 +296,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     /* JADX WARN: Multi-variable type inference failed */
     public /* synthetic */ void lambda$createView$3(View view, int i) {
         ProfileActivity profileActivity;
+        String str;
         if (i == this.deleteAllRow) {
             AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString(R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString(R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString(R.string.Delete), new Runnable() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
@@ -319,17 +320,26 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             } else if (this.currentType == 2) {
                 bundle.putInt("chatAddType", 2);
             }
-            if (this.isAlwaysShare && this.rulesType == 1) {
-                bundle.putBoolean("allowPremium", true);
+            if (!this.isAlwaysShare || this.rulesType != 1) {
+                str = this.rulesType == 12 ? "allowMiniapps" : "allowPremium";
+                GroupCreateActivity groupCreateActivity = new GroupCreateActivity(bundle);
+                groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda7
+                    @Override // org.telegram.ui.GroupCreateActivity.GroupCreateActivityDelegate
+                    public final void didSelectUsers(boolean z, boolean z2, ArrayList arrayList) {
+                        PrivacyUsersActivity.this.lambda$createView$2(z, z2, arrayList);
+                    }
+                });
+                profileActivity = groupCreateActivity;
             }
-            GroupCreateActivity groupCreateActivity = new GroupCreateActivity(bundle);
-            groupCreateActivity.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda7
+            bundle.putBoolean(str, true);
+            GroupCreateActivity groupCreateActivity2 = new GroupCreateActivity(bundle);
+            groupCreateActivity2.setDelegate(new GroupCreateActivity.GroupCreateActivityDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.ui.GroupCreateActivity.GroupCreateActivityDelegate
-                public final void didSelectUsers(boolean z, ArrayList arrayList) {
-                    PrivacyUsersActivity.this.lambda$createView$2(z, arrayList);
+                public final void didSelectUsers(boolean z, boolean z2, ArrayList arrayList) {
+                    PrivacyUsersActivity.this.lambda$createView$2(z, z2, arrayList);
                 }
             });
-            profileActivity = groupCreateActivity;
+            profileActivity = groupCreateActivity2;
         } else {
             if (i < this.usersStartRow || i >= this.usersEndRow) {
                 return;

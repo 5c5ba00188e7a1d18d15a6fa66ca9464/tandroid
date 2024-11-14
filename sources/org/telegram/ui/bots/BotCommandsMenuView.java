@@ -33,7 +33,7 @@ import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.StaticLayoutEx;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class BotCommandsMenuView extends View {
     final MenuDrawable backDrawable;
     Drawable backgroundDrawable;
@@ -52,7 +52,7 @@ public class BotCommandsMenuView extends View {
     final TextPaint textPaint;
     RLottieDrawable webViewAnimation;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class BotCommandView extends LinearLayout {
         TextView command;
         String commandStr;
@@ -93,7 +93,7 @@ public class BotCommandsMenuView extends View {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class BotCommandsAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList newResult = new ArrayList();
         ArrayList newResultHelp = new ArrayList();

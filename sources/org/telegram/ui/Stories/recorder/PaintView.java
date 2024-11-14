@@ -154,7 +154,7 @@ import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.Stories.recorder.Weather;
 import org.telegram.ui.WrappedResourceProvider;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPaintView, PaintToolsView.Delegate, EntityView.EntityViewDelegate, PaintTextOptionsView.Delegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StoryRecorder.Touchable {
     private float baseScale;
     private final Bitmap bitmapToEdit;
@@ -278,7 +278,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     private boolean zoomOutVisible;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 24 extends ChatActivity {
         final /* synthetic */ Utilities.Callback2 val$onLocationSelected;
 
@@ -373,7 +373,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 33 implements EmojiView.EmojiViewDelegate {
         int innerTextChange;
 
@@ -577,7 +577,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class PopupButton extends LinearLayout {
         ImageView checkView;
         ImageView image2View;
@@ -725,7 +725,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class PopupWindowLayout extends ActionBarPopupWindow.ActionBarPopupWindowLayout {
         private final ButtonBounce bounce;
         private float cx;
@@ -779,7 +779,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StickerPosition {
         private float angle;
         private Point position;

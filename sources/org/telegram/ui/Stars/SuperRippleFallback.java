@@ -15,7 +15,7 @@ import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SuperRippleFallback extends ISuperRipple {
     public final int MAX_COUNT;
     public final ArrayList effects;
@@ -23,7 +23,7 @@ public class SuperRippleFallback extends ISuperRipple {
     private final Path outlineProviderPath;
     public final float[] radii;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Effect {
         public final ValueAnimator animator;
         public final float cx;

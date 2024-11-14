@@ -74,7 +74,7 @@ import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stars.StarsReactionsSheet;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StarsReactionsSheet extends BottomSheet {
     public boolean anonymous;
     private final StarsIntroActivity.StarsBalanceView balanceView;
@@ -103,7 +103,7 @@ public class StarsReactionsSheet extends BottomSheet {
     private final FrameLayout topLayout;
     private final TopSendersView topSendersView;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Particles {
         public final Bitmap b;
         private int bPaintColor;
@@ -117,7 +117,7 @@ public class StarsReactionsSheet extends BottomSheet {
         private float speed = 1.0f;
         private boolean firstDraw = true;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Particle {
             public float a;
             public float la;
@@ -253,7 +253,7 @@ public class StarsReactionsSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class SenderData {
         public boolean anonymous;
         public long did;
@@ -268,7 +268,7 @@ public class StarsReactionsSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsSlider extends View {
         public float aprogress;
         private final RectF arc;
@@ -312,7 +312,7 @@ public class StarsReactionsSheet extends BottomSheet {
             this.sliderPaint = new Paint(1);
             this.sliderCirclePaint = new Paint(1);
             this.textBackgroundPaint = new Paint(1);
-            this.sliderParticles = new Particles(0, NotificationCenter.stealthModeChanged);
+            this.sliderParticles = new Particles(0, NotificationCenter.customTypefacesLoaded);
             this.textParticles = new Particles(1, 30);
             this.gradient = new LinearGradient(0.0f, 0.0f, 255.0f, 0.0f, new int[]{-1135603, -404714}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
             this.gradientMatrix = new Matrix();
@@ -682,7 +682,7 @@ public class StarsReactionsSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class TopSendersView extends View {
         public final AnimatedFloat animatedCount;
         public final Paint backgroundPaint;
@@ -693,7 +693,7 @@ public class StarsReactionsSheet extends BottomSheet {
         public final ArrayList senders;
         public final Paint starsBackgroundPaint;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public class Sender {
             public final AnimatedFloat animatedAnonymous;
             public final AnimatedFloat animatedPosition;
@@ -772,7 +772,7 @@ public class StarsReactionsSheet extends BottomSheet {
                         this.anonymousAvatarDrawable.setBounds(i2 - (AndroidUtilities.dp(56.0f) / 2), i3 - (AndroidUtilities.dp(56.0f) / 2), i2 + (AndroidUtilities.dp(56.0f) / 2), i3 + (AndroidUtilities.dp(56.0f) / 2));
                         this.anonymousAvatarDrawable.setAlpha((int) (f2 * 255.0f * f4));
                         this.anonymousAvatarDrawable.draw(canvas);
-                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.playerDidStartPlaying);
+                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.notificationsCountUpdated);
                     }
                 }
                 RectF rectF = AndroidUtilities.rectTmp;

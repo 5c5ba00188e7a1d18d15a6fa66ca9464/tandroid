@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import org.webrtc.MediaStreamTrack;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class RtpParameters {
     public final List<Codec> codecs;
     public DegradationPreference degradationPreference;
@@ -13,7 +13,7 @@ public class RtpParameters {
     private final Rtcp rtcp;
     public final String transactionId;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Codec {
         public Integer clockRate;
         MediaStreamTrack.MediaType kind;
@@ -56,7 +56,7 @@ public class RtpParameters {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public enum DegradationPreference {
         DISABLED,
         MAINTAIN_FRAMERATE,
@@ -68,7 +68,7 @@ public class RtpParameters {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Encoding {
         public boolean active;
         public double bitratePriority;
@@ -143,7 +143,7 @@ public class RtpParameters {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class HeaderExtension {
         private final boolean encrypted;
         private final int id;
@@ -168,7 +168,7 @@ public class RtpParameters {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Rtcp {
         private final String cname;
         private final boolean reducedSize;

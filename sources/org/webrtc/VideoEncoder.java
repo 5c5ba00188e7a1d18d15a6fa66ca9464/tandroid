@@ -2,10 +2,10 @@ package org.webrtc;
 
 import org.webrtc.EncodedImage;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public interface VideoEncoder {
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public abstract /* synthetic */ class -CC {
         public static long $default$createNativeVideoEncoder(VideoEncoder videoEncoder) {
             return 0L;
@@ -24,7 +24,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class BitrateAllocation {
         public final int[][] bitratesBbs;
 
@@ -43,12 +43,12 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public interface Callback {
         void onEncodedFrame(EncodedImage encodedImage, CodecSpecificInfo codecSpecificInfo);
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Capabilities {
         public final boolean lossNotification;
 
@@ -57,27 +57,27 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class CodecSpecificInfo {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class CodecSpecificInfoAV1 extends CodecSpecificInfo {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class CodecSpecificInfoH264 extends CodecSpecificInfo {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class CodecSpecificInfoVP8 extends CodecSpecificInfo {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class CodecSpecificInfoVP9 extends CodecSpecificInfo {
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class EncodeInfo {
         public final EncodedImage.FrameType[] frameTypes;
 
@@ -86,7 +86,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class EncoderInfo {
         public final boolean applyAlignmentToAllSimulcastLayers;
         public final int requestedResolutionAlignment;
@@ -105,7 +105,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class RateControlParameters {
         public final BitrateAllocation bitrate;
         public final double framerateFps;
@@ -116,7 +116,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class ResolutionBitrateLimits {
         public final int frameSizePixels;
         public final int maxBitrateBps;
@@ -147,7 +147,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class ScalingSettings {
         public static final ScalingSettings OFF = new ScalingSettings();
         public final Integer high;
@@ -188,7 +188,7 @@ public interface VideoEncoder {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Settings {
         public final boolean automaticResizeOn;
         public final Capabilities capabilities;

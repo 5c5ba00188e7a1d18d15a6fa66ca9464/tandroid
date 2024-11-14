@@ -248,7 +248,7 @@ public class Switch extends View {
                 int green2 = Color.green(processColor2);
                 int blue = Color.blue(processColor);
                 int blue2 = Color.blue(processColor2);
-                int alpha = ((((int) (red + ((red2 - red) * f2))) & NotificationCenter.playerDidStartPlaying) << 16) | ((((int) (Color.alpha(processColor) + ((Color.alpha(processColor2) - r6) * f2))) & NotificationCenter.playerDidStartPlaying) << 24) | ((((int) (green + ((green2 - green) * f2))) & NotificationCenter.playerDidStartPlaying) << 8) | (((int) (blue + ((blue2 - blue) * f2))) & NotificationCenter.playerDidStartPlaying);
+                int alpha = ((((int) (red + ((red2 - red) * f2))) & NotificationCenter.notificationsCountUpdated) << 16) | ((((int) (Color.alpha(processColor) + ((Color.alpha(processColor2) - r6) * f2))) & NotificationCenter.notificationsCountUpdated) << 24) | ((((int) (green + ((green2 - green) * f2))) & NotificationCenter.notificationsCountUpdated) << 8) | (((int) (blue + ((blue2 - blue) * f2))) & NotificationCenter.notificationsCountUpdated);
                 this.paint.setColor(alpha);
                 this.paint2.setColor(alpha);
                 this.rectF.set(measuredWidth, measuredHeight, measuredWidth + dp, AndroidUtilities.dpf2(14.0f) + measuredHeight);
@@ -293,7 +293,7 @@ public class Switch extends View {
                 int green4 = Color.green(processColor3);
                 int blue3 = Color.blue(color);
                 int blue4 = Color.blue(processColor3);
-                this.paint.setColor(((((int) (Color.alpha(color) + ((Color.alpha(processColor3) - r4) * f))) & NotificationCenter.playerDidStartPlaying) << 24) | ((((int) (red3 + ((red4 - red3) * f))) & NotificationCenter.playerDidStartPlaying) << 16) | ((((int) (green3 + ((green4 - green3) * f))) & NotificationCenter.playerDidStartPlaying) << 8) | (((int) (blue3 + ((blue4 - blue3) * f))) & NotificationCenter.playerDidStartPlaying));
+                this.paint.setColor(((((int) (Color.alpha(color) + ((Color.alpha(processColor3) - r4) * f))) & NotificationCenter.notificationsCountUpdated) << 24) | ((((int) (red3 + ((red4 - red3) * f))) & NotificationCenter.notificationsCountUpdated) << 16) | ((((int) (green3 + ((green4 - green3) * f))) & NotificationCenter.notificationsCountUpdated) << 8) | (((int) (blue3 + ((blue4 - blue3) * f))) & NotificationCenter.notificationsCountUpdated));
                 float f3 = dp2;
                 float f4 = measuredHeight2;
                 canvas5.drawCircle(f3, f4, AndroidUtilities.dp(8.0f), this.paint);

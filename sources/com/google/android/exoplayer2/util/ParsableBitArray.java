@@ -133,7 +133,7 @@ public final class ParsableBitArray {
         if (i7 == 0) {
             return;
         }
-        byte b3 = (byte) (bArr[i3] & (NotificationCenter.playerDidStartPlaying >> i7));
+        byte b3 = (byte) (bArr[i3] & (NotificationCenter.notificationsCountUpdated >> i7));
         bArr[i3] = b3;
         int i8 = this.bitOffset;
         if (i8 + i7 > 8) {

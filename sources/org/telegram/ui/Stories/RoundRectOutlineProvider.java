@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewOutlineProvider;
 import org.telegram.messenger.AndroidUtilities;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class RoundRectOutlineProvider extends ViewOutlineProvider {
     public float radiusInDp;
 

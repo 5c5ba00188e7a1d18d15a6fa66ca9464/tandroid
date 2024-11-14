@@ -12,7 +12,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.webrtc.MediaStreamTrack;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoriesVolumeControl extends View {
     float currentProgress;
     Runnable hideRunnable;

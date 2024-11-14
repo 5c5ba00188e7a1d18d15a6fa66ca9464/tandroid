@@ -34,12 +34,12 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.Weather;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class Weather {
     private static String cacheKey;
     private static State cacheValue;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class State extends TLObject {
         public String emoji;
         public double lat;

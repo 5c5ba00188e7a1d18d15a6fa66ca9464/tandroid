@@ -46,7 +46,7 @@ public class SunDate {
     }
 
     private static long days_since_2000_Jan_0(int i, int i2, int i3) {
-        return ((((i * 367) - (((i + ((i2 + 9) / 12)) * 7) / 4)) + ((i2 * NotificationCenter.onRequestPermissionResultReceived) / 9)) + i3) - 730530;
+        return ((((i * 367) - (((i + ((i2 + 9) / 12)) * 7) / 4)) + ((i2 * NotificationCenter.onActivityResultReceived) / 9)) + i3) - 730530;
     }
 
     private static double rev180(double d) {

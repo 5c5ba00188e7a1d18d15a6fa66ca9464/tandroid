@@ -48,7 +48,7 @@ import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
     private UniversalAdapter adapter;
     private ButtonWithCounterView button;
@@ -70,7 +70,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     private long webpageId;
     private Utilities.Callback whenDone;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class WebpagePreviewView extends FrameLayout {
         private final ImageView closeView;
         private final ImageView imageView;
@@ -81,7 +81,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         private final SpannableString titleLoading;
         private final AnimatedTextView titleView;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());

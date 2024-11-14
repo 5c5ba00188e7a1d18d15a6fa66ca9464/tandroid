@@ -454,7 +454,7 @@ public class SerializedData extends AbstractSerializedData {
                 i = this.len + 4;
                 this.len = i;
             } else {
-                this.out.write(NotificationCenter.notificationsCountUpdated);
+                this.out.write(NotificationCenter.liveLocationsCacheChanged);
                 this.out.write(bArr.length);
                 this.out.write(bArr.length >> 8);
                 dataOutputStream = this.out;
@@ -505,7 +505,7 @@ public class SerializedData extends AbstractSerializedData {
                     while ((i2 + i4) % 4 != 0) {
                     }
                 }
-                this.out.write(NotificationCenter.notificationsCountUpdated);
+                this.out.write(NotificationCenter.liveLocationsCacheChanged);
                 this.out.write(i2);
                 this.out.write(i2 >> 8);
                 this.out.write(i2 >> 16);

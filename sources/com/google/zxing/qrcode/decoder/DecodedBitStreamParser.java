@@ -199,8 +199,8 @@ abstract class DecodedBitStreamParser {
             int readBits = bitSource.readBits(13);
             int i3 = (readBits % 96) | ((readBits / 96) << 8);
             int i4 = i3 + (i3 < 2560 ? 41377 : 42657);
-            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.playerDidStartPlaying);
-            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.playerDidStartPlaying);
+            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.notificationsCountUpdated);
+            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.notificationsCountUpdated);
             i2 += 2;
             i--;
         }
@@ -219,7 +219,7 @@ abstract class DecodedBitStreamParser {
         int i2 = 0;
         while (i > 0) {
             int readBits = bitSource.readBits(13);
-            int i3 = (readBits % 192) | ((readBits / 192) << 8);
+            int i3 = (readBits % NotificationCenter.dialogPhotosUpdate) | ((readBits / NotificationCenter.dialogPhotosUpdate) << 8);
             int i4 = i3 + (i3 < 7936 ? 33088 : 49472);
             bArr[i2] = (byte) (i4 >> 8);
             bArr[i2 + 1] = (byte) i4;
@@ -278,7 +278,7 @@ abstract class DecodedBitStreamParser {
         if ((readBits & 128) == 0) {
             return readBits & NotificationCenter.dialogTranslate;
         }
-        if ((readBits & 192) == 128) {
+        if ((readBits & NotificationCenter.dialogPhotosUpdate) == 128) {
             return bitSource.readBits(8) | ((readBits & 63) << 8);
         }
         if ((readBits & NotificationCenter.updateStories) == 192) {

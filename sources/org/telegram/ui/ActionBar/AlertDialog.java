@@ -54,6 +54,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
+import org.telegram.ui.Components.AttachableDrawable;
 import org.telegram.ui.Components.EffectsTextView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LineProgressView;
@@ -937,10 +938,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.shadowAnimation[i] = new AnimatorSet();
         BitmapDrawable bitmapDrawable = this.shadow[i];
         if (bitmapDrawable != null) {
-            this.shadowAnimation[i].playTogether(ObjectAnimator.ofInt(bitmapDrawable, "alpha", z ? NotificationCenter.playerDidStartPlaying : 0));
+            this.shadowAnimation[i].playTogether(ObjectAnimator.ofInt(bitmapDrawable, "alpha", z ? NotificationCenter.notificationsCountUpdated : 0));
         }
         this.shadowAnimation[i].setDuration(150L);
-        this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialog.7
+        this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialog.8
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationCancel(Animator animator) {
                 if (AlertDialog.this.shadowAnimation[i] == null || !AlertDialog.this.shadowAnimation[i].equals(animator)) {
@@ -1053,38 +1054,38 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
 
     /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x03fb  */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x040d  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0412  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0424  */
     /* JADX WARN: Removed duplicated region for block: B:10:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x059c  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x05b2  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x05fe  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x05b3  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x05c9  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x0615  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0624  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x08bc  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x0933  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x093a  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x08bf  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x05a9  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x04ca  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:289:0x03c4  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x063b  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x08d3  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x094a  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0951  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x08d6  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x05c0  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x04e1  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:289:0x03db  */
     /* JADX WARN: Removed duplicated region for block: B:292:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x014d  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0183  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x018e  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0170  */
-    /* JADX WARN: Removed duplicated region for block: B:302:0x00f1  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x028d  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x029d  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x029f  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x028f  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x03c1  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x03eb  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x019a  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x01a5  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x0187  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0108  */
+    /* JADX WARN: Removed duplicated region for block: B:316:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x02b4  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x02d2  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x03d8  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0402  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1138,6 +1139,22 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                     drawable = this.topDrawable;
                     if (drawable == null) {
                         rLottieImageView.setImageDrawable(drawable);
+                        Object obj = this.topDrawable;
+                        if (obj instanceof AttachableDrawable) {
+                            final AttachableDrawable attachableDrawable = (AttachableDrawable) obj;
+                            this.topImageView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.ActionBar.AlertDialog.1
+                                @Override // android.view.View.OnAttachStateChangeListener
+                                public void onViewAttachedToWindow(View view5) {
+                                    attachableDrawable.onAttachedToWindow(null);
+                                }
+
+                                @Override // android.view.View.OnAttachStateChangeListener
+                                public void onViewDetachedFromWindow(View view5) {
+                                    attachableDrawable.onDetachedFromWindow(null);
+                                }
+                            });
+                            attachableDrawable.setParent(this.topImageView);
+                        }
                     } else {
                         int i3 = this.topResId;
                         if (i3 != 0) {
@@ -1164,7 +1181,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         final GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setColor(this.topBackgroundColor);
                         gradientDrawable.setCornerRadius(AndroidUtilities.dp(128.0f));
-                        this.topImageView.setBackground(new Drawable() { // from class: org.telegram.ui.ActionBar.AlertDialog.1
+                        this.topImageView.setBackground(new Drawable() { // from class: org.telegram.ui.ActionBar.AlertDialog.2
                             int size;
 
                             {
@@ -1246,7 +1263,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                     this.shadow[1].setAlpha(0);
                     this.shadow[0].setCallback(this);
                     this.shadow[1].setCallback(this);
-                    ScrollView scrollView = new ScrollView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.2
+                    ScrollView scrollView = new ScrollView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.3
                         @Override // android.view.ViewGroup
                         protected boolean drawChild(Canvas canvas, View view5, long j) {
                             boolean drawChild = super.drawChild(canvas, view5, j);
@@ -1393,7 +1410,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         linearLayout2.setOrientation(1);
                         frameLayout = linearLayout2;
                     } else {
-                        frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.3
+                        frameLayout = new FrameLayout(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
                             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                             protected void onLayout(boolean z4, int i7, int i8, int i9, int i10) {
                                 int i11;
@@ -1503,7 +1520,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         this.buttonsLayout.setTranslationY(-AndroidUtilities.dp(8.0f));
                     }
                     if (this.positiveButtonText != null) {
-                        TextView textView4 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.4
+                        TextView textView4 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
                             @Override // android.widget.TextView, android.view.View
                             public void setEnabled(boolean z4) {
                                 super.setEnabled(z4);
@@ -1538,7 +1555,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         });
                     }
                     if (this.negativeButtonText != null) {
-                        TextView textView5 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
+                        TextView textView5 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
                             @Override // android.widget.TextView, android.view.View
                             public void setEnabled(boolean z4) {
                                 super.setEnabled(z4);
@@ -1575,7 +1592,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         });
                     }
                     if (this.neutralButtonText != null) {
-                        TextView textView6 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
+                        TextView textView6 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.7
                             @Override // android.widget.TextView, android.view.View
                             public void setEnabled(boolean z4) {
                                 super.setEnabled(z4);
@@ -1650,8 +1667,8 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                     if (!supportsNativeBlur()) {
                         AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda7
                             @Override // org.telegram.messenger.Utilities.Callback
-                            public final void run(Object obj) {
-                                AlertDialog.this.lambda$inflateContent$5((Bitmap) obj);
+                            public final void run(Object obj2) {
+                                AlertDialog.this.lambda$inflateContent$5((Bitmap) obj2);
                             }
                         }, 8.0f);
                     } else if (this.progressViewStyle == 0) {

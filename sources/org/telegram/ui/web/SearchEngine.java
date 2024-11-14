@@ -10,7 +10,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class SearchEngine {
     private static ArrayList searchEngines;
     public final String autocomplete_url;

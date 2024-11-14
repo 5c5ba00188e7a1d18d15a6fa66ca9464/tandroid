@@ -1,6 +1,6 @@
 package org.webrtc;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public final class CandidatePairChangeEvent {
     public final int estimatedDisconnectedTimeMs;
     public final int lastDataReceivedMs;

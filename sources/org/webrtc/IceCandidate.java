@@ -3,7 +3,7 @@ package org.webrtc;
 import java.util.Arrays;
 import org.webrtc.PeerConnection;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class IceCandidate {
     public final PeerConnection.AdapterType adapterType;
     public final String sdp;

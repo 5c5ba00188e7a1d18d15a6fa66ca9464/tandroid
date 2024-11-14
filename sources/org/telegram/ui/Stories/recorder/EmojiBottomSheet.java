@@ -120,7 +120,7 @@ import org.telegram.ui.Stories.recorder.EmojiBottomSheet;
 import org.telegram.ui.Stories.recorder.Weather;
 import org.telegram.ui.WrappedResourceProvider;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     public static int savedPosition = 1;
     private int categoryIndex;
@@ -139,7 +139,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     private boolean wasKeyboardVisible;
     public final TLRPC.Document widgets;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private class ContainerView extends FrameLayout {
         private final Paint backgroundBlurPaint;
         private final Paint backgroundPaint;
@@ -287,7 +287,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class EmojiListView extends RecyclerListView {
         private float bottomBound;
         public boolean emoji;
@@ -302,7 +302,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private final SparseArray viewsGroupedByLines;
         private final ColorFilter whiteFilter;
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
             ArrayList imageViewEmojis;
             public int position;
@@ -488,7 +488,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public static class EmojiImageView extends View {
             boolean attached;
             public ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
@@ -782,7 +782,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class GifPage extends IPage implements NotificationCenter.NotificationCenterDelegate {
         public GifAdapter adapter;
         private final ArrayList gifs;
@@ -793,7 +793,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         public SearchField searchField;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class GifAdapter extends RecyclerListView.SelectionAdapter {
             private TLRPC.User bot;
             private int currentReqId;
@@ -1084,7 +1084,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         private class GifLayoutManager extends ExtendedGridLayoutManager {
             private final Size size;
 
@@ -1497,7 +1497,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public abstract class IPage extends FrameLayout {
         public int currentType;
 
@@ -1512,7 +1512,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         public abstract void updateTops();
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     private static class NoEmojiView extends FrameLayout {
         BackupImageView imageView;
         private int lastI;
@@ -1550,7 +1550,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class Page extends IPage {
         public Adapter adapter;
         public GridLayoutManager layoutManager;
@@ -1562,7 +1562,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         public EmojiTabsStrip tabsStrip;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class Adapter extends RecyclerView.Adapter {
             private String activeQuery;
             private TLRPC.TL_messages_stickerSet faveSet;
@@ -2416,7 +2416,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class SearchField extends FrameLayout {
         private final FrameLayout box;
         private StickerCategoriesListView categoriesListView;
@@ -2433,7 +2433,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private final ImageView searchImageView;
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 3 implements TextWatcher {
             3() {
             }
@@ -2759,7 +2759,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class StoryWidgetsCell extends View {
         private final Paint bgPaint;
         float[] lineWidths;
@@ -2768,7 +2768,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private final List widgets;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public abstract class BaseWidget {
             public AnimatedFloat animatedWidth;
             ButtonBounce bounce;
@@ -2794,7 +2794,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class Button extends BaseWidget {
             Drawable drawable;
             String emojiDrawable;
@@ -2837,7 +2837,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 canvas.scale(scale, scale, this.bounds.centerX(), this.bounds.centerY());
                 canvas.drawRoundRect(this.bounds, AndroidUtilities.dp(8.0f), AndroidUtilities.dp(8.0f), StoryWidgetsCell.this.bgPaint);
                 if (this.lockDrawable != null) {
-                    canvas.saveLayerAlpha(this.bounds, NotificationCenter.playerDidStartPlaying, 31);
+                    canvas.saveLayerAlpha(this.bounds, NotificationCenter.notificationsCountUpdated, 31);
                 }
                 if (this.drawable == null) {
                     Drawable emojiBigDrawable = Emoji.getEmojiBigDrawable(this.emojiDrawable);
@@ -2891,7 +2891,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class ReactionWidget extends BaseWidget {
             StoryReactionWidgetBackground background;
             int currentIndex;
@@ -2902,7 +2902,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             ArrayList visibleReactions;
 
             /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes4.dex */
+            /* loaded from: classes5.dex */
             public class 1 extends TimerTask {
                 1() {
                 }
@@ -3222,7 +3222,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class TabsView extends View {
         private StaticLayout emojiLayout;
         private float emojiLayoutLeft;

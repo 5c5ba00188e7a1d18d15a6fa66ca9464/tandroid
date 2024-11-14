@@ -66,7 +66,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.CaptionContainerView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class CaptionContainerView extends FrameLayout {
     public ImageView applyButton;
     private Drawable applyButtonCheck;
@@ -142,7 +142,7 @@ public abstract class CaptionContainerView extends FrameLayout {
     boolean waitingForScrollYChange;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 2 implements TextWatcher {
         private int lastLength;
         private boolean lastOverLimit;
@@ -217,7 +217,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class BounceableImageView extends ImageView {
         private final ButtonBounce bounce;
         private final float scale;
@@ -248,7 +248,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class PeriodDrawable extends Drawable {
         private final Path activePath;
         public final AnimatedTextView.AnimatedTextDrawable activeTextDrawable;
@@ -764,7 +764,7 @@ public abstract class CaptionContainerView extends FrameLayout {
                 return;
             }
             EditTextCaption editText = this.editText.getEditText();
-            canvas.saveLayerAlpha(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), NotificationCenter.notificationsCountUpdated, 31);
             runnable.run();
             canvas.drawRect(0.0f, 0.0f, editText.getWidth(), editText.getHeight(), paint);
             canvas.restore();
@@ -775,7 +775,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             return;
         }
         canvas.translate(-this.editText.getEditText().hintLayoutX, 0.0f);
-        canvas.saveLayerAlpha(0.0f, 0.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight(), NotificationCenter.notificationsCountUpdated, 31);
         this.rectF.set(0.0f, 1.0f, this.hintTextBitmap.getWidth(), this.hintTextBitmap.getHeight() - 1);
         drawBlur(this.captionBlur, canvas, this.rectF, 0.0f, true, (-this.editText.getX()) - r8.getPaddingLeft(), ((-this.editText.getY()) - r8.getPaddingTop()) - r8.getExtendedPaddingTop(), true);
         canvas.save();
@@ -817,7 +817,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
         if (paint2 != null) {
             RectF rectF2 = this.bounds;
-            canvas.saveLayerAlpha(rectF2.left, rectF2.top, rectF2.right, rectF2.bottom, NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(rectF2.left, rectF2.top, rectF2.right, rectF2.bottom, NotificationCenter.notificationsCountUpdated, 31);
         }
         Path path = this.replyClipPath;
         if (path == null) {
@@ -1241,7 +1241,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
         invalidateDrawOver2();
         if (f5 > 0.0f) {
-            canvas.saveLayerAlpha(this.bounds, NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(this.bounds, NotificationCenter.notificationsCountUpdated, 31);
         }
         drawReply(canvas);
         super.dispatchDraw(canvas);
@@ -1282,7 +1282,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             canvas.drawRoundRect(this.bounds, lerp2, lerp2, this.collapsePaint);
             canvas.restore();
             canvas.restore();
-            canvas.saveLayerAlpha(this.bounds, NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(this.bounds, NotificationCenter.notificationsCountUpdated, 31);
             drawOver(canvas, this.bounds);
             this.collapseGradientMatrix.reset();
             this.collapseGradientMatrix.postTranslate(dp2, dp3);
@@ -1343,7 +1343,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         boolean drawChild;
         if (view == this.editText) {
             float max = Math.max(0, (r0.getHeight() - AndroidUtilities.dp(82.0f)) - this.editText.getScrollY()) * (1.0f - this.keyboardT);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.notificationsCountUpdated, 31);
             canvas.save();
             canvas.clipRect(this.bounds);
             canvas.translate(0.0f, max);

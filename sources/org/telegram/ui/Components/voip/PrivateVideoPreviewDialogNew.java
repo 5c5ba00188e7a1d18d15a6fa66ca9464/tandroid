@@ -204,8 +204,8 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 PrivateVideoPreviewDialogNew.this.bgBlueViolet.setBounds(0, 0, 80, 80);
                 PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
                 PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
-                PrivateVideoPreviewDialogNew.this.bgGreen.setAlpha(NotificationCenter.playerDidStartPlaying);
-                PrivateVideoPreviewDialogNew.this.bgBlueViolet.setAlpha(NotificationCenter.playerDidStartPlaying);
+                PrivateVideoPreviewDialogNew.this.bgGreen.setAlpha(NotificationCenter.notificationsCountUpdated);
+                PrivateVideoPreviewDialogNew.this.bgBlueViolet.setAlpha(NotificationCenter.notificationsCountUpdated);
                 Canvas canvas = PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.getCanvas();
                 PorterDuff.Mode mode = PorterDuff.Mode.CLEAR;
                 canvas.drawColor(0, mode);
@@ -221,7 +221,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.setBounds(-getX(), -getY(), PrivateVideoPreviewDialogNew.this.getWidth() - getX(), PrivateVideoPreviewDialogNew.this.getHeight() - getY());
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage].setAlpha(NotificationCenter.playerDidStartPlaying);
+                this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage].setAlpha(NotificationCenter.notificationsCountUpdated);
                 float dp = AndroidUtilities.dp(8.0f) + ((int) ((AndroidUtilities.dp(26.0f) - AndroidUtilities.dp(8.0f)) * (1.0f - PrivateVideoPreviewDialogNew.this.openProgress1)));
                 canvas.drawRoundRect(rectF, dp, dp, this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage]);
                 if (PrivateVideoPreviewDialogNew.this.pageOffset > 0.0f) {
@@ -525,11 +525,11 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     
         if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x007d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x007c, code lost:
     
         org.telegram.messenger.voip.VoIPService.getSharedInstance().switchCamera();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x007b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x007a, code lost:
     
         if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L22;
      */

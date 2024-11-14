@@ -433,7 +433,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     if (videoParticipant == call.videoNotAvailableParticipant) {
                         if (groupCallMiniTextureView4.showingInFullscreen || !groupCallRenderersContainer.inFullscreenMode) {
                             float dp3 = AndroidUtilities.dp(48.0f);
-                            textPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                            textPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
                             canvas.save();
                             canvas.translate((((getMeasuredWidth() - dp3) / 2.0f) - (AndroidUtilities.dp(400.0f) / 2.0f)) + (dp3 / 2.0f), ((getMeasuredHeight() / 2) - dp3) + dp3 + AndroidUtilities.dp(10.0f));
                             staticLayout2.draw(canvas);
@@ -743,7 +743,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         SimpleTextView simpleTextView = new SimpleTextView(groupCallRenderersContainer.getContext());
         this.nameView = simpleTextView;
         simpleTextView.setTextSize(13);
-        simpleTextView.setTextColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.didReceiveCall));
+        simpleTextView.setTextColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.didReceiveSmsCode));
         simpleTextView.setTypeface(AndroidUtilities.bold());
         simpleTextView.setFullTextMaxLines(1);
         simpleTextView.setBuildFullLayout(true);

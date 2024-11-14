@@ -297,7 +297,7 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
                         this.rectF.set(AndroidUtilities.dp(f7), AndroidUtilities.dp(16.0f) + i10, AndroidUtilities.dp((i3 % 2 == 0 ? 92 : 128) + 76), AndroidUtilities.dp(24.0f) + i10);
                         checkRtl(this.rectF);
                         canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), paint2);
-                        this.rectF.set(AndroidUtilities.dp(f7), AndroidUtilities.dp(38.0f) + i10, AndroidUtilities.dp(NotificationCenter.needShareTheme), AndroidUtilities.dp(46.0f) + i10);
+                        this.rectF.set(AndroidUtilities.dp(f7), AndroidUtilities.dp(38.0f) + i10, AndroidUtilities.dp(NotificationCenter.needCheckSystemBarColors), AndroidUtilities.dp(46.0f) + i10);
                         checkRtl(this.rectF);
                         canvas.drawRoundRect(this.rectF, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), paint2);
                         canvas.drawLine(AndroidUtilities.dp(f7), getCellHeight(getMeasuredWidth()) + i10, getMeasuredWidth(), getCellHeight(getMeasuredWidth()) + i10, paint2);

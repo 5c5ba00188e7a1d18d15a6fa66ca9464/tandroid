@@ -15,7 +15,7 @@ import org.telegram.messenger.NotificationBadge;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class SuperRipple extends ISuperRipple {
     public final int MAX_COUNT;
     public final float[] centerX;
@@ -30,7 +30,7 @@ public class SuperRipple extends ISuperRipple {
     public final float[] t;
     public int width;
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class Effect {
         public final ValueAnimator animator;
         public final float cx;
@@ -68,11 +68,11 @@ public class SuperRipple extends ISuperRipple {
         updateProperties();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x009b  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00b2  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00b4  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x009a  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00b1  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00b3  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0092  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

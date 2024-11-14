@@ -16,7 +16,7 @@ import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Stories.PeerStoriesView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoriesLikeButton extends View {
     private boolean allowDrawReaction;
     ImageReceiver animateReactionImageReceiver;
@@ -78,7 +78,7 @@ public class StoriesLikeButton extends View {
             float f = this.progressToLiked.set(this.liked ? 1.0f : 0.0f);
             if (f < 1.0f) {
                 this.sharedResources.likeDrawable.setBounds(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getMeasuredHeight() - getPaddingBottom());
-                this.sharedResources.likeDrawable.setAlpha(NotificationCenter.playerDidStartPlaying);
+                this.sharedResources.likeDrawable.setAlpha(NotificationCenter.notificationsCountUpdated);
                 this.sharedResources.likeDrawable.draw(canvas);
             }
             if (f > 0.0f) {

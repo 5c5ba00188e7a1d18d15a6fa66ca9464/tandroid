@@ -52,7 +52,6 @@ import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.EmptyBaseFragment;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoryViewer;
-import org.telegram.ui.bots.BotWebViewAttachedSheet;
 
 /* loaded from: classes.dex */
 public abstract class BaseFragment {
@@ -434,13 +433,6 @@ public abstract class BaseFragment {
         addSheet(makeSheet.sheet);
         BottomSheetTabDialog.checkSheet(makeSheet.sheet);
         return makeSheet;
-    }
-
-    public BotWebViewAttachedSheet createBotViewer() {
-        BotWebViewAttachedSheet botWebViewAttachedSheet = new BotWebViewAttachedSheet(this);
-        addSheet(botWebViewAttachedSheet);
-        BottomSheetTabDialog.checkSheet(botWebViewAttachedSheet);
-        return botWebViewAttachedSheet;
     }
 
     public StoryViewer createOverlayStoryViewer() {

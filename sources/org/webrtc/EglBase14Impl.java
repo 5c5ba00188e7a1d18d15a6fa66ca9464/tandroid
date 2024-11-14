@@ -12,7 +12,7 @@ import android.view.Surface;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase14;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 class EglBase14Impl implements EglBase14 {
     private static final int CURRENT_SDK_VERSION = Build.VERSION.SDK_INT;
     private static final int EGLExt_SDK_VERSION = 18;
@@ -23,7 +23,7 @@ class EglBase14Impl implements EglBase14 {
     private EGLSurface eglSurface;
     private EGLSurface eglSurfaceBackground;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Context implements EglBase14.Context {
         private final EGLContext egl14Context;
 

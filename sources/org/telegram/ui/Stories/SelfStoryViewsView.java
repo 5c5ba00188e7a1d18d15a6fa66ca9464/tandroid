@@ -33,7 +33,7 @@ import org.telegram.ui.Stories.SelfStoryViewsView;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoryViewer;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class SelfStoryViewsView extends FrameLayout {
     public float bottomPadding;
     private int currentState;
@@ -58,7 +58,7 @@ public class SelfStoryViewsView extends FrameLayout {
     ContainerView viewPagerContainer;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 4 extends PagerAdapter {
         final /* synthetic */ Context val$context;
         final /* synthetic */ StoryViewer val$storyViewer;
@@ -124,7 +124,7 @@ public class SelfStoryViewsView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ContainerView extends FrameLayout implements NestedScrollingParent3 {
         private final NestedScrollingParentHelper nestedScrollingParentHelper;
 
@@ -187,7 +187,7 @@ public class SelfStoryViewsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class StoryItemInternal {
         public TL_stories.StoryItem storyItem;
         public StoriesController.UploadingStory uploadingStory;
@@ -202,7 +202,7 @@ public class SelfStoryViewsView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ViewPagerInner extends ViewPager {
         boolean gesturesEnabled;
 

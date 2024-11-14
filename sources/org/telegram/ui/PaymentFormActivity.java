@@ -3732,7 +3732,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:87:0x03fe  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x0434  */
     /* JADX WARN: Type inference failed for: r14v2 */
-    /* JADX WARN: Type inference failed for: r14v3, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v6 */
     /* JADX WARN: Type inference failed for: r14v93, types: [android.widget.LinearLayout, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r2v48, types: [java.lang.CharSequence, java.lang.String] */

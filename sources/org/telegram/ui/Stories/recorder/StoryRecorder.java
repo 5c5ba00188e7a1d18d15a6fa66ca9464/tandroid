@@ -157,7 +157,7 @@ import org.telegram.ui.Stories.recorder.StoryRecorder;
 import org.telegram.ui.Stories.recorder.TimelineView;
 import org.telegram.ui.WrappedResourceProvider;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryRecorder implements NotificationCenter.NotificationCenterDelegate {
     private static boolean firstOpen = true;
     private static StoryRecorder instance;
@@ -315,7 +315,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     private boolean applyContainerViewTranslation2 = true;
     private int frontfaceFlashMode = -1;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 1 extends AnimatorListenerAdapter {
         final /* synthetic */ Runnable val$onDone;
         final /* synthetic */ float val$value;
@@ -352,7 +352,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 10 implements Bulletin.Delegate {
         10() {
         }
@@ -398,7 +398,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 11 extends View {
         11(Context context) {
             super(context);
@@ -413,7 +413,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 12 implements RecordControl.Delegate {
         12() {
         }
@@ -554,7 +554,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             int i3 = num.intValue() != -1 ? 0 : 90;
             if (num.intValue() != -1) {
                 if (i > i2) {
-                    i3 = NotificationCenter.chatAvailableReactionsUpdated;
+                    i3 = NotificationCenter.attachMenuBotsDidLoad;
                 }
             } else if (i2 > i && i3 != 0) {
                 i3 = 0;
@@ -829,7 +829,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 13 extends AnimatorListenerAdapter {
         final /* synthetic */ boolean val$recording;
 
@@ -848,7 +848,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 14 extends AnimatorListenerAdapter {
         final /* synthetic */ boolean val$show;
 
@@ -865,7 +865,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 15 extends CharacterStyle {
         15() {
         }
@@ -876,7 +876,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 16 extends AnimatorListenerAdapter {
         final /* synthetic */ int val$oldPage;
         final /* synthetic */ int val$page;
@@ -892,7 +892,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 17 extends AnimatorListenerAdapter {
         17() {
         }
@@ -905,7 +905,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 19 extends GalleryListView {
         19(int i, Context context, Theme.ResourcesProvider resourcesProvider, MediaController.AlbumEntry albumEntry, boolean z) {
             super(i, context, resourcesProvider, albumEntry, z);
@@ -959,7 +959,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 2 implements View.OnApplyWindowInsetsListener {
         2() {
         }
@@ -1016,7 +1016,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 20 extends AnimatorListenerAdapter {
         20() {
         }
@@ -1031,7 +1031,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 21 implements TimelineView.TimelineDelegate {
         final /* synthetic */ Utilities.Callback2 val$videoLeftSet;
 
@@ -1120,7 +1120,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 22 extends AnimatorListenerAdapter {
         final /* synthetic */ int val$editMode;
         final /* synthetic */ int val$oldEditMode;
@@ -1136,7 +1136,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 23 extends PaintView {
         private boolean multitouch;
 
@@ -1441,7 +1441,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 24 extends DualCameraView {
         24(Context context, boolean z, boolean z2) {
             super(context, z, z2);
@@ -1498,10 +1498,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 25 extends BaseFragment {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         class 1 extends WrappedResourceProvider {
             1(Theme.ResourcesProvider resourcesProvider) {
                 super(resourcesProvider);
@@ -1549,10 +1549,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 26 extends BaseFragment {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         class 1 extends WrappedResourceProvider {
             1(Theme.ResourcesProvider resourcesProvider) {
                 super(resourcesProvider);
@@ -1601,7 +1601,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 27 implements Bulletin.Delegate {
         27() {
         }
@@ -1648,7 +1648,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 28 extends ImageSpan {
         final /* synthetic */ Drawable val$cameraDrawable;
 
@@ -1673,7 +1673,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 29 extends View {
         final /* synthetic */ Bitmap val$bitmap;
         final /* synthetic */ Canvas val$bitmapCanvas;
@@ -1719,7 +1719,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 3 implements FlashViews.Invertable {
         3() {
         }
@@ -1735,7 +1735,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 30 implements ValueAnimator.AnimatorUpdateListener {
         boolean changedNavigationBarColor = false;
 
@@ -1755,7 +1755,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 31 extends AnimatorListenerAdapter {
         31() {
         }
@@ -1773,7 +1773,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 4 extends FrameLayout {
         private final Rect leftExclRect = new Rect();
         private final Rect rightExclRect = new Rect();
@@ -1824,7 +1824,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 5 extends FrameLayout {
         5(Context context) {
             super(context);
@@ -1840,7 +1840,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 6 implements Bulletin.Delegate {
         6() {
         }
@@ -1886,7 +1886,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 7 extends ViewOutlineProvider {
         7() {
         }
@@ -1897,7 +1897,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 8 extends PreviewView {
         8(Context context, BlurringShader.BlurManager blurManager, PreviewView.TextureViewHolder textureViewHolder) {
             super(context, blurManager, textureViewHolder);
@@ -1997,10 +1997,10 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 9 extends CaptionStory {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         class 1 extends ClickableSpan {
             1() {
             }
@@ -2216,14 +2216,14 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface ClosingViewProvider {
         SourceView getView(long j);
 
         void preLayout(long j, Runnable runnable);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class ContainerView extends FrameLayout {
         private LinearGradient topGradient;
         private final Paint topGradientPaint;
@@ -2249,7 +2249,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
                     this.topGradient = linearGradient;
                     this.topGradientPaint.setShader(linearGradient);
                 }
-                this.topGradientPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                this.topGradientPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getWidth(), AndroidUtilities.dp(84.0f) + f);
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.topGradientPaint);
@@ -2362,7 +2362,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class SourceView {
         Drawable backgroundDrawable;
         ImageReceiver backgroundImageReceiver;
@@ -2375,7 +2375,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         int type = 0;
         RectF screenRect = new RectF();
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 1 extends SourceView {
             1() {
             }
@@ -2396,7 +2396,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 2 extends SourceView {
             2() {
             }
@@ -2423,7 +2423,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 3 extends SourceView {
             final /* synthetic */ FrameLayout val$floatingButton;
 
@@ -2448,7 +2448,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 4 extends SourceView {
             final /* synthetic */ BackupImageView val$imageView;
 
@@ -2474,7 +2474,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public class 5 extends SourceView {
             final /* synthetic */ float val$radius;
             final /* synthetic */ DialogStoriesCell.StoryCell val$storyCell;
@@ -2653,12 +2653,12 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         protected abstract void show(boolean z);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface Touchable {
         boolean onTouch(MotionEvent motionEvent);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class WindowView extends SizeNotifierFrameLayout {
         private boolean allowModeScroll;
         private boolean flingDetected;
@@ -2671,7 +2671,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         private float ty;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public final class GestureListener extends GestureDetectorFixDoubleTap.OnGestureListener {
             private GestureListener() {
             }
@@ -2900,7 +2900,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public final class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
             private ScaleListener() {
             }
@@ -7181,7 +7181,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         PremiumFeatureBottomSheet premiumFeatureBottomSheet = new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.26
 
-            /* loaded from: classes4.dex */
+            /* loaded from: classes5.dex */
             class 1 extends WrappedResourceProvider {
                 1(Theme.ResourcesProvider resourcesProvider) {
                     super(resourcesProvider);
@@ -7786,7 +7786,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         }
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder.25
 
-            /* loaded from: classes4.dex */
+            /* loaded from: classes5.dex */
             class 1 extends WrappedResourceProvider {
                 1(Theme.ResourcesProvider resourcesProvider) {
                     super(resourcesProvider);

@@ -35,7 +35,7 @@ public final class VorbisBitArray {
         int i2 = this.byteOffset;
         int min = Math.min(i, 8 - this.bitOffset);
         int i3 = i2 + 1;
-        int i4 = ((this.data[i2] & 255) >> this.bitOffset) & (NotificationCenter.playerDidStartPlaying >> (8 - min));
+        int i4 = ((this.data[i2] & 255) >> this.bitOffset) & (NotificationCenter.notificationsCountUpdated >> (8 - min));
         while (min < i) {
             i4 |= (this.data[i3] & 255) << min;
             min += 8;

@@ -40,7 +40,7 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.Text;
 import org.telegram.ui.Stories.recorder.CaptionContainerView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class CaptionStory extends CaptionContainerView {
     public static final int[] periods = {21600, 43200, 86400, 172800};
     private float amplitude;
@@ -96,7 +96,7 @@ public abstract class CaptionStory extends CaptionContainerView {
     private final Paint whitePaint;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class RecordDot extends Drawable {
         private float alpha;
         boolean attachedToWindow;
@@ -685,7 +685,7 @@ public abstract class CaptionStory extends CaptionContainerView {
             if (paint3 != null) {
                 paint = paint3;
                 f = f7;
-                canvas.saveLayerAlpha(rectF.left, rectF.top, rectF.right, rectF.bottom, NotificationCenter.playerDidStartPlaying, 31);
+                canvas.saveLayerAlpha(rectF.left, rectF.top, rectF.right, rectF.bottom, NotificationCenter.notificationsCountUpdated, 31);
             } else {
                 paint = paint3;
                 f = f7;

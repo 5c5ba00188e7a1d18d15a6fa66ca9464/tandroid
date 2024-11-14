@@ -20,7 +20,7 @@ import org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticApiModelOu
 import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraVideoCapturer;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class Camera2Enumerator implements CameraEnumerator {
     private static final double NANO_SECONDS_PER_SECOND = 1.0E9d;
     private static final String TAG = "Camera2Enumerator";

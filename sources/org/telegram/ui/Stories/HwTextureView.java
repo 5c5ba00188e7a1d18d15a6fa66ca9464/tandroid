@@ -3,7 +3,7 @@ package org.telegram.ui.Stories;
 import android.content.Context;
 import android.view.TextureView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 abstract class HwTextureView extends TextureView {
     public HwTextureView(Context context) {
         super(context);

@@ -14,7 +14,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryReactionWidgetBackground extends Drawable {
     Paint backgroundPaint;
     private boolean mirror;
@@ -25,7 +25,7 @@ public class StoryReactionWidgetBackground extends Drawable {
     private Paint xRefPaint;
     private final int STYLE_FILLED = 0;
     private final int STYLE_TRANSCLUENT = 1;
-    int alpha = NotificationCenter.playerDidStartPlaying;
+    int alpha = NotificationCenter.notificationsCountUpdated;
     float[] points = new float[15];
     Path path = new Path();
 

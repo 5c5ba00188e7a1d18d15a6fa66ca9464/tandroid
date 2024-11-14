@@ -48,7 +48,7 @@ import org.telegram.ui.GradientClip;
 import org.telegram.ui.web.WebActionBar;
 import org.telegram.ui.web.WebInstantView;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public abstract class WebActionBar extends FrameLayout {
     private ValueAnimator addressAnimator;
     public int addressBackgroundColor;
@@ -117,7 +117,7 @@ public abstract class WebActionBar extends FrameLayout {
     public final Title[] titles;
     private Utilities.Callback urlCallback;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class ForwardDrawable extends Drawable {
         private AnimatedFloat animatedState;
         private final Paint paint;
@@ -197,7 +197,7 @@ public abstract class WebActionBar extends FrameLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class Title {
         public final AnimatedFloat animatedDangerous;
         public boolean isDangerous;

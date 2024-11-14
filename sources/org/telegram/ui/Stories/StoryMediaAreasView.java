@@ -55,7 +55,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 import org.telegram.ui.Stories.recorder.Weather;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class StoryMediaAreasView extends FrameLayout implements View.OnClickListener {
     private final Path clipPath;
     private final Paint cutPaint;
@@ -77,7 +77,7 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
     private AreaView selectedArea;
     private boolean shined;
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class AreaView extends View {
         public final ButtonBounce bounce;
         private boolean bounceOnTap;
@@ -249,7 +249,7 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class FitViewWidget extends FrameLayout {
         public final View child;
         public final TL_stories.MediaArea mediaArea;
@@ -321,7 +321,7 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
         boolean z = areaView2 != null && areaView2.scaleOnTap;
         float f2 = this.parentHighlightScaleAlpha.set(z);
         if (f > 0.0f) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.notificationsCountUpdated, 31);
             canvas.drawColor(Theme.multAlpha(402653184, f));
             for (int i = 0; i < getChildCount(); i++) {
                 View childAt = getChildAt(i);

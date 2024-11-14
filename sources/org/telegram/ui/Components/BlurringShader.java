@@ -237,9 +237,8 @@ public class BlurringShader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class Program {
+    private static class Program {
         int flipyHandle;
         int gl;
         int gradientBottomHandle;
@@ -668,7 +667,7 @@ public class BlurringShader {
                         }
                         this.dimPaint.setColor(-14145495);
                     } else if (drawable != null) {
-                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.playerDidStartPlaying, 31);
+                        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.notificationsCountUpdated, 31);
                         drawable.setBounds(bounds);
                         drawable.draw(canvas);
                         canvas.drawRect(bounds, paint);

@@ -40,7 +40,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Stories.recorder.DownloadButton;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class DownloadButton extends ImageView {
     private BuildingVideo buildingVideo;
     private FrameLayout container;
@@ -58,7 +58,7 @@ public class DownloadButton extends ImageView {
     private boolean wasVideoDownloading;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class BuildingVideo implements NotificationCenter.NotificationCenterDelegate {
         final int currentAccount;
         final StoryEntry entry;
@@ -158,7 +158,7 @@ public class DownloadButton extends ImageView {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class PreparingVideoToast extends View {
         private final Paint backgroundPaint;
         private final ButtonBounce cancelButton;

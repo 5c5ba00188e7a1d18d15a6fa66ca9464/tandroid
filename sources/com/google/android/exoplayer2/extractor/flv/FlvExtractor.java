@@ -232,7 +232,7 @@ public final class FlvExtractor implements Extractor {
         }
         extractorInput.peekFully(this.scratch.getData(), 0, 2);
         this.scratch.setPosition(0);
-        if ((this.scratch.readUnsignedShort() & NotificationCenter.proxyChangedByRotation) != 0) {
+        if ((this.scratch.readUnsignedShort() & NotificationCenter.proxyCheckDone) != 0) {
             return false;
         }
         extractorInput.peekFully(this.scratch.getData(), 0, 4);

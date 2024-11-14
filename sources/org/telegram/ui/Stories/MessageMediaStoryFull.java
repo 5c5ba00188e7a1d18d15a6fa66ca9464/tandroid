@@ -6,7 +6,7 @@ import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class MessageMediaStoryFull extends TLRPC.TL_messageMediaStory {
     public static int constructor = -946147811;
 

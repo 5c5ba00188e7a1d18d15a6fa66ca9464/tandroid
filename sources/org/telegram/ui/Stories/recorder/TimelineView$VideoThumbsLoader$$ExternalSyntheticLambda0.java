@@ -2,7 +2,7 @@ package org.telegram.ui.Stories.recorder;
 
 import org.telegram.ui.Stories.recorder.TimelineView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public final /* synthetic */ class TimelineView$VideoThumbsLoader$$ExternalSyntheticLambda0 implements Runnable {
     public final /* synthetic */ TimelineView.VideoThumbsLoader f$0;
 

@@ -14,7 +14,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.FlashViews;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class VideoTimerView extends View implements FlashViews.Invertable {
     private Paint backgroundPaint;
     private Paint recordPaint;

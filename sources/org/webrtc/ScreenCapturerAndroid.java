@@ -10,7 +10,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0;
 import org.webrtc.VideoSink;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
     private static final int DISPLAY_FLAGS = 3;
     private static final int VIRTUAL_DISPLAY_DPI = 400;

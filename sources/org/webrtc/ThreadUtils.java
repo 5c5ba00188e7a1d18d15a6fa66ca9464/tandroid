@@ -8,11 +8,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.telegram.messenger.BuildVars;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class ThreadUtils {
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class 1CaughtException {
         Exception e;
 
@@ -21,7 +21,7 @@ public class ThreadUtils {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class 1Result {
         public V value;
 
@@ -29,12 +29,12 @@ public class ThreadUtils {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public interface BlockingOperation {
         void run();
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class ThreadChecker {
         private Thread thread = Thread.currentThread();
 

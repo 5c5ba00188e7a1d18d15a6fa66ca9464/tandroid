@@ -45,7 +45,7 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class ProfileStoriesView extends View implements NotificationCenter.NotificationCenterDelegate {
     private float actionBarProgress;
     private boolean attached;
@@ -105,7 +105,7 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     private final Paint whitePaint;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 3 implements StoryViewer.PlaceProvider {
         3() {
         }
@@ -206,7 +206,7 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class StoryCircle {
         final RectF borderRect;
         float cachedIndex;

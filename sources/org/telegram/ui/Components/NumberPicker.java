@@ -235,14 +235,14 @@ public class NumberPicker extends LinearLayout {
         this(context, 18, resourcesProvider);
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
     static /* synthetic */ boolean access$280(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mIncrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mIncrementVirtualButtonPressed = r2;
         return r2;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
     static /* synthetic */ boolean access$480(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mDecrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mDecrementVirtualButtonPressed = r2;
@@ -636,9 +636,9 @@ public class NumberPicker extends LinearLayout {
         }
         this.mPreviousScrollerY = 0;
         if (z) {
-            this.mFlingScroller.startScroll(0, 0, 0, -this.mSelectorElementHeight, NotificationCenter.stealthModeChanged);
+            this.mFlingScroller.startScroll(0, 0, 0, -this.mSelectorElementHeight, NotificationCenter.customTypefacesLoaded);
         } else {
-            this.mFlingScroller.startScroll(0, 0, 0, this.mSelectorElementHeight, NotificationCenter.stealthModeChanged);
+            this.mFlingScroller.startScroll(0, 0, 0, this.mSelectorElementHeight, NotificationCenter.customTypefacesLoaded);
         }
         invalidate();
     }

@@ -6,7 +6,7 @@ import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public abstract class Flags {
     public static int getPersistenceFlag(int i, boolean z) {
-        int i2 = i & NotificationCenter.playerDidStartPlaying;
+        int i2 = i & NotificationCenter.notificationsCountUpdated;
         if (i2 == 1 || i2 == 2) {
             return i2;
         }

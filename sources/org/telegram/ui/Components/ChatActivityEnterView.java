@@ -178,7 +178,6 @@ import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.bots.BotCommandsMenuContainer;
 import org.telegram.ui.bots.BotCommandsMenuView;
 import org.telegram.ui.bots.BotKeyboardView;
-import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.ChatActivityBotWebViewButton;
 import org.telegram.ui.bots.WebViewRequestProps;
@@ -2547,26 +2546,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             String str2 = keyboardButton.url;
             boolean z = keyboardButton instanceof TLRPC.TL_keyboardButtonSimpleWebView;
             MessageObject messageObject = r6;
-            WebViewRequestProps of = WebViewRequestProps.of(i, j, j2, str, str2, z ? 1 : 0, messageObject != null ? messageObject.messageOwner.id : 0, false, null, false, null, null, 0, false);
+            WebViewRequestProps of = WebViewRequestProps.of(i, j, j2, str, str2, z ? 1 : 0, messageObject != null ? messageObject.messageOwner.id : 0, false, null, false, null, null, 0, false, false);
             LaunchActivity launchActivity = LaunchActivity.instance;
             if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of) != null) {
                 if (ChatActivityEnterView.this.botCommandsMenuButton != null) {
                     ChatActivityEnterView.this.botCommandsMenuButton.setOpened(false);
                 }
             } else {
-                if (AndroidUtilities.isTablet()) {
-                    BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
-                    botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                    botWebViewSheet.requestWebView(ChatActivityEnterView.this.parentFragment, of);
-                    botWebViewSheet.show();
-                    return;
-                }
-                BotWebViewAttachedSheet createBotViewer = ChatActivityEnterView.this.parentFragment.createBotViewer();
-                createBotViewer.setDefaultFullsize(false);
-                createBotViewer.setNeedsContext(true);
-                createBotViewer.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                createBotViewer.requestWebView(ChatActivityEnterView.this.parentFragment, of);
-                createBotViewer.show();
+                BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
+                botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
+                botWebViewSheet.requestWebView(ChatActivityEnterView.this.parentFragment, of);
+                botWebViewSheet.show();
             }
         }
     }
@@ -4743,8 +4733,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 int i2 = (int) (ChatActivityEnterView.this.slideToCancelProgress >= 0.93f ? ((ChatActivityEnterView.this.slideToCancelProgress - 0.93f) / 0.07f) * 255.0f : 0.0f);
                 drawable3.setAlpha(i2);
                 drawable3.draw(canvas);
-                drawable3.setAlpha(NotificationCenter.playerDidStartPlaying);
-                i = NotificationCenter.playerDidStartPlaying - i2;
+                drawable3.setAlpha(NotificationCenter.notificationsCountUpdated);
+                i = NotificationCenter.notificationsCountUpdated - i2;
             } else if (ChatActivityEnterView.this.canceledByGesture) {
                 return;
             }
@@ -5616,7 +5606,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             float f4;
             float f5;
             boolean z;
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.notificationsCountUpdated, 31);
             boolean isOpen = isOpen();
             updateColors(isOpen);
             Drawable drawable = isInactive() ? this.inactiveDrawable : this.drawable;
@@ -6307,7 +6297,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     canvas.restore();
                 }
                 canvas.save();
-                this.textPaint.setAlpha(NotificationCenter.playerDidStartPlaying);
+                this.textPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
                 StaticLayout staticLayout2 = new StaticLayout(this.replaceStable, this.textPaint, getMeasuredWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 canvas.translate(0.0f, measuredHeight - (staticLayout2.getHeight() / 2.0f));
                 staticLayout2.draw(canvas);
@@ -9663,15 +9653,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (currentUser == null) {
             return;
         }
+        final boolean z = getParentFragment().getCurrentUserInfo() != null && BirthdayController.isToday(getParentFragment().getCurrentUserInfo().birthday);
         if (!new ArrayList(getParentFragment().getCurrentUserInfo().premium_gifts).isEmpty()) {
-            new GiftSheet(getContext(), this.currentAccount, currentUser.id, null, null).show();
+            new GiftSheet(getContext(), this.currentAccount, currentUser.id, null, null).setBirthday(z).show();
             return;
         }
         final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
         final int loadGiftOptions = BoostRepository.loadGiftOptions(this.currentAccount, null, new Utilities.Callback() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda40
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                ChatActivityEnterView.this.lambda$createGiftButton$8(alertDialog, currentUser, (List) obj);
+                ChatActivityEnterView.this.lambda$createGiftButton$8(alertDialog, currentUser, z, (List) obj);
             }
         });
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda41
@@ -9683,9 +9674,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         alertDialog.showDelayed(200L);
     }
 
-    public /* synthetic */ void lambda$createGiftButton$8(AlertDialog alertDialog, TLRPC.User user, List list) {
+    public /* synthetic */ void lambda$createGiftButton$8(AlertDialog alertDialog, TLRPC.User user, boolean z, List list) {
         alertDialog.dismiss();
-        new GiftSheet(getContext(), this.currentAccount, user.id, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(list, 1)), null).show();
+        new GiftSheet(getContext(), this.currentAccount, user.id, BoostRepository.filterGiftOptionsByBilling(BoostRepository.filterGiftOptions(list, 1)), null).setBirthday(z).show();
     }
 
     public /* synthetic */ void lambda$createGiftButton$9(int i, DialogInterface dialogInterface) {
@@ -10456,16 +10447,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public /* synthetic */ void lambda$openWebViewMenu$25() {
-        BotCommandsMenuView botCommandsMenuView;
         AndroidUtilities.hideKeyboard(this);
         int i = this.currentAccount;
         long j = this.dialog_id;
-        WebViewRequestProps of = WebViewRequestProps.of(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false, null, false, null, null, 0, false);
+        WebViewRequestProps of = WebViewRequestProps.of(i, j, j, this.botMenuWebViewTitle, this.botMenuWebViewUrl, 2, 0, false, null, false, null, null, 0, false, false);
         LaunchActivity launchActivity = LaunchActivity.instance;
         if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of) != null) {
-            BotCommandsMenuView botCommandsMenuView2 = this.botCommandsMenuButton;
-            if (botCommandsMenuView2 != null) {
-                botCommandsMenuView2.setOpened(false);
+            BotCommandsMenuView botCommandsMenuView = this.botCommandsMenuButton;
+            if (botCommandsMenuView != null) {
+                botCommandsMenuView.setOpened(false);
                 return;
             }
             return;
@@ -10481,34 +10471,16 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             Browser.openAsInternalIntent(getContext(), this.botMenuWebViewUrl, false, false, progress);
             return;
         }
-        if (AndroidUtilities.isTablet()) {
-            BotWebViewSheet botWebViewSheet = new BotWebViewSheet(getContext(), this.resourcesProvider);
-            botWebViewSheet.setDefaultFullsize(false);
-            botWebViewSheet.setNeedsContext(true);
-            botWebViewSheet.setParentActivity(this.parentActivity);
-            botWebViewSheet.requestWebView(this.parentFragment, of);
-            botWebViewSheet.show();
-            botCommandsMenuView = this.botCommandsMenuButton;
-            if (botCommandsMenuView == null) {
-                return;
-            }
-        } else {
-            ChatActivity chatActivity = this.parentFragment;
-            if (chatActivity == null || chatActivity.getParentActivity() == null) {
-                return;
-            }
-            BotWebViewAttachedSheet createBotViewer = this.parentFragment.createBotViewer();
-            createBotViewer.setDefaultFullsize(false);
-            createBotViewer.setNeedsContext(false);
-            createBotViewer.setParentActivity(this.parentFragment.getParentActivity());
-            createBotViewer.requestWebView(this.parentFragment, of);
-            createBotViewer.show();
-            botCommandsMenuView = this.botCommandsMenuButton;
-            if (botCommandsMenuView == null) {
-                return;
-            }
+        BotWebViewSheet botWebViewSheet = new BotWebViewSheet(getContext(), this.resourcesProvider);
+        botWebViewSheet.setDefaultFullsize(false);
+        botWebViewSheet.setNeedsContext(true);
+        botWebViewSheet.setParentActivity(this.parentActivity);
+        botWebViewSheet.requestWebView(this.parentFragment, of);
+        botWebViewSheet.show();
+        BotCommandsMenuView botCommandsMenuView2 = this.botCommandsMenuButton;
+        if (botCommandsMenuView2 != null) {
+            botCommandsMenuView2.setOpened(false);
         }
-        botCommandsMenuView.setOpened(false);
     }
 
     public /* synthetic */ void lambda$openWebViewMenu$26(Runnable runnable) {
@@ -12662,26 +12634,17 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             String str2 = keyboardButton2.url;
                             boolean z = keyboardButton2 instanceof TLRPC.TL_keyboardButtonSimpleWebView;
                             MessageObject messageObject3 = r6;
-                            WebViewRequestProps of2 = WebViewRequestProps.of(i2, j3, j22, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false, null, false, null, null, 0, false);
+                            WebViewRequestProps of2 = WebViewRequestProps.of(i2, j3, j22, str, str2, z ? 1 : 0, messageObject3 != null ? messageObject3.messageOwner.id : 0, false, null, false, null, null, 0, false, false);
                             LaunchActivity launchActivity = LaunchActivity.instance;
                             if (launchActivity != null && launchActivity.getBottomSheetTabs() != null && LaunchActivity.instance.getBottomSheetTabs().tryReopenTab(of2) != null) {
                                 if (ChatActivityEnterView.this.botCommandsMenuButton != null) {
                                     ChatActivityEnterView.this.botCommandsMenuButton.setOpened(false);
                                 }
                             } else {
-                                if (AndroidUtilities.isTablet()) {
-                                    BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
-                                    botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                                    botWebViewSheet.requestWebView(ChatActivityEnterView.this.parentFragment, of2);
-                                    botWebViewSheet.show();
-                                    return;
-                                }
-                                BotWebViewAttachedSheet createBotViewer = ChatActivityEnterView.this.parentFragment.createBotViewer();
-                                createBotViewer.setDefaultFullsize(false);
-                                createBotViewer.setNeedsContext(true);
-                                createBotViewer.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                                createBotViewer.requestWebView(ChatActivityEnterView.this.parentFragment, of2);
-                                createBotViewer.show();
+                                BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
+                                botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
+                                botWebViewSheet.requestWebView(ChatActivityEnterView.this.parentFragment, of2);
+                                botWebViewSheet.show();
                             }
                         }
                     };
@@ -13346,7 +13309,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (f <= 0.0f && f2 <= 0.0f) {
             return ((Boolean) callback0Return.run()).booleanValue();
         }
-        canvas.saveLayerAlpha(0.0f, 0.0f, this.messageEditText.getX() + this.messageEditText.getMeasuredWidth() + AndroidUtilities.dp(5.0f), this.messageEditText.getY() + this.messageEditText.getMeasuredHeight() + AndroidUtilities.dp(2.0f), NotificationCenter.playerDidStartPlaying, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, this.messageEditText.getX() + this.messageEditText.getMeasuredWidth() + AndroidUtilities.dp(5.0f), this.messageEditText.getY() + this.messageEditText.getMeasuredHeight() + AndroidUtilities.dp(2.0f), NotificationCenter.notificationsCountUpdated, 31);
         boolean booleanValue = ((Boolean) callback0Return.run()).booleanValue();
         canvas.save();
         if (f > 0.0f) {

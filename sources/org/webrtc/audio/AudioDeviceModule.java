@@ -1,6 +1,6 @@
 package org.webrtc.audio;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public interface AudioDeviceModule {
     long getNativeAudioDeviceModulePointer();
 

@@ -5249,7 +5249,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r15v1 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r15v6 */
     public void hideActionMode(boolean z) {
         final float f;
@@ -5936,13 +5936,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
         }
+        if (clickSelectsDialog()) {
+            onItemLongClick(viewPage.listView, view, i, 0.0f, 0.0f, viewPage.dialogsType, viewPage.dialogsAdapter);
+            return;
+        }
         int i2 = this.initialDialogsType;
         if (i2 == 15 && (view instanceof TextCell)) {
             viewPage.dialogsAdapter.onCreateGroupForThisClick();
-            return;
-        }
-        if (i2 == 10) {
-            onItemLongClick(viewPage.listView, view, i, 0.0f, 0.0f, viewPage.dialogsType, viewPage.dialogsAdapter);
             return;
         }
         if ((i2 == 11 || i2 == 13) && i == 1) {
@@ -7079,7 +7079,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (birthdayState == null || birthdayState.today.size() != 1) {
             UserSelectorBottomSheet.open(0L, birthdayState);
         } else {
-            showDialog(new GiftSheet(getContext(), this.currentAccount, birthdayState.today.get(0).id, null, null));
+            showDialog(new GiftSheet(getContext(), this.currentAccount, birthdayState.today.get(0).id, null, null).setBirthday());
         }
     }
 
@@ -7473,31 +7473,39 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         showDialog(builder.create());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:261:0x0139, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:266:0x0139, code lost:
     
         if (r19.onlySelect == false) goto L93;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:262:0x015f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:267:0x015f, code lost:
     
         r10 = null;
         r4 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:279:0x015b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:284:0x015b, code lost:
     
         r19.searchDialogId = r11;
         r19.searchObject = r10;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:283:0x0147, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:288:0x0147, code lost:
     
         if (r19.onlySelect == false) goto L93;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:287:0x0159, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:292:0x0159, code lost:
     
         if (r19.onlySelect == false) goto L93;
      */
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x046c  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0490  */
     /* JADX WARN: Removed duplicated region for block: B:14:0x0041  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0343  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x0050  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x033d  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0361  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x0388  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7516,13 +7524,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         MessageObject messageObject2;
         int id;
         TLRPC.EncryptedChat encryptedChat;
-        String str;
+        int i5;
         long j4;
+        SearchViewPager searchViewPager;
         ChatActivity chatActivity;
         TLRPC.Document greetingsSticker;
-        SearchViewPager searchViewPager;
+        SearchViewPager searchViewPager2;
         BaseFragment baseFragment;
-        int i5;
+        int i6;
         TLObject item;
         long j5;
         if (getParentActivity() == null) {
@@ -7535,7 +7544,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (dialogsType == 7 || dialogsType == 8) {
                 MessagesController.DialogFilter dialogFilter = getMessagesController().selectedDialogFilter[dialogsType == 7 ? (char) 0 : (char) 1];
                 if (dialogFilter != null) {
-                    i5 = dialogFilter.id;
+                    i6 = dialogFilter.id;
                     item = dialogsAdapter.getItem(i);
                     if (!(item instanceof TLRPC.User)) {
                         j2 = ((TLRPC.User) item).id;
@@ -7556,7 +7565,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             showOrUpdateActionMode(j2, view);
                             return;
                         }
-                        i3 = i5;
+                        i3 = i6;
                         z = false;
                         i4 = 0;
                         j3 = 0;
@@ -7584,12 +7593,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             TLRPC.ChatInvite chatInvite = tL_recentMeUrlChatInvite.chat_invite;
                             TLRPC.Chat chat = chatInvite.chat;
                             if ((chat == null && (!chatInvite.channel || chatInvite.megagroup)) || (chat != null && (!ChatObject.isChannel(chat) || chatInvite.chat.megagroup))) {
-                                String str2 = tL_recentMeUrlChatInvite.url;
-                                int indexOf = str2.indexOf(47);
+                                String str = tL_recentMeUrlChatInvite.url;
+                                int indexOf = str.indexOf(47);
                                 if (indexOf > 0) {
-                                    str2 = str2.substring(indexOf + 1);
+                                    str = str.substring(indexOf + 1);
                                 }
-                                showDialog(new JoinGroupAlert(getParentActivity(), chatInvite, str2, this, null));
+                                showDialog(new JoinGroupAlert(getParentActivity(), chatInvite, str, this, null));
                                 return;
                             }
                             TLRPC.Chat chat2 = chatInvite.chat;
@@ -7601,7 +7610,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         j2 = -j5;
                     }
-                    i3 = i5;
+                    i3 = i6;
                     z = false;
                     i2 = 0;
                     i4 = 0;
@@ -7610,11 +7619,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     j = 0;
                 }
             }
-            i5 = 0;
+            i6 = 0;
             item = dialogsAdapter.getItem(i);
             if (!(item instanceof TLRPC.User)) {
             }
-            i3 = i5;
+            i3 = i6;
             z = false;
             i2 = 0;
             i4 = 0;
@@ -7622,8 +7631,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             messageObject = null;
             j = 0;
         } else {
-            SearchViewPager searchViewPager2 = this.searchViewPager;
-            if (searchViewPager2 == null || adapter != (dialogsSearchAdapter = searchViewPager2.dialogsSearchAdapter)) {
+            SearchViewPager searchViewPager3 = this.searchViewPager;
+            if (searchViewPager3 == null || adapter != (dialogsSearchAdapter = searchViewPager3.dialogsSearchAdapter)) {
                 z = false;
                 j = 0;
                 i2 = 0;
@@ -7651,20 +7660,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     dialogId = messageObject2.getDialogId();
                     id = messageObject2.getId();
                     j = ChatObject.isForum(getMessagesController().getChat(Long.valueOf(-dialogId))) ? MessageObject.getTopicId(messageObject2.currentAccount, messageObject2.messageOwner, true) : 0L;
-                    SearchViewPager searchViewPager3 = this.searchViewPager;
-                    if (searchViewPager3 != null) {
-                        DialogsSearchAdapter dialogsSearchAdapter2 = searchViewPager3.dialogsSearchAdapter;
+                    SearchViewPager searchViewPager4 = this.searchViewPager;
+                    if (searchViewPager4 != null) {
+                        DialogsSearchAdapter dialogsSearchAdapter2 = searchViewPager4.dialogsSearchAdapter;
                         dialogsSearchAdapter2.addHashtagsFromMessage(dialogsSearchAdapter2.getLastSearchString());
                     }
                 } else {
                     if (item2 instanceof String) {
-                        String str3 = (String) item2;
-                        SearchViewPager searchViewPager4 = this.searchViewPager;
-                        if (searchViewPager4 != null && searchViewPager4.dialogsSearchAdapter.isHashtagSearch()) {
-                            this.actionBar.openSearchField(str3, false);
-                        } else if (!str3.equals("section")) {
+                        String str2 = (String) item2;
+                        SearchViewPager searchViewPager5 = this.searchViewPager;
+                        if (searchViewPager5 != null && searchViewPager5.dialogsSearchAdapter.isHashtagSearch()) {
+                            this.actionBar.openSearchField(str2, false);
+                        } else if (!str2.equals("section")) {
                             NewContactBottomSheet newContactBottomSheet = new NewContactBottomSheet(this, getContext());
-                            newContactBottomSheet.setInitialPhoneNumber(str3, true);
+                            newContactBottomSheet.setInitialPhoneNumber(str2, true);
                             newContactBottomSheet.show();
                         }
                     } else if (item2 instanceof ContactsController.Contact) {
@@ -7703,177 +7712,214 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             Bundle bundle2 = new Bundle();
             if (DialogObject.isEncryptedDialog(j2)) {
                 bundle2.putInt("enc_id", DialogObject.getEncryptedChatId(j2));
-            } else if (DialogObject.isUserDialog(j2)) {
-                bundle2.putLong("user_id", j2);
             } else {
-                if (i4 != 0) {
-                    str = "chat_id";
-                    TLRPC.Chat chat4 = getMessagesController().getChat(Long.valueOf(-j2));
-                    if (chat4 != null && chat4.migrated_to != null) {
-                        bundle2.putLong("migrated_to", j2);
-                        j4 = -chat4.migrated_to.channel_id;
-                        bundle2.putLong(str, -j4);
-                    }
-                } else {
-                    str = "chat_id";
-                }
-                j4 = j2;
-                bundle2.putLong(str, -j4);
-            }
-            if (i4 != 0) {
-                bundle2.putInt("message_id", i4);
-            } else if (z) {
-                TLObject tLObject = this.searchObject;
-                if (tLObject != null) {
-                    SearchViewPager searchViewPager5 = this.searchViewPager;
-                    if (searchViewPager5 != null) {
-                        searchViewPager5.dialogsSearchAdapter.putRecentSearch(this.searchDialogId, tLObject);
-                    }
-                    this.searchObject = null;
-                }
-            } else {
-                closeSearch();
-            }
-            boolean z4 = (LocaleController.isRTL || this.searching || (AndroidUtilities.isTablet() && i2 != 0) || !LiteMode.isEnabled(64)) ? false : true;
-            bundle2.putInt("dialog_folder_id", i2);
-            bundle2.putInt("dialog_filter_id", i3);
-            if (AndroidUtilities.isTablet() && ((!getMessagesController().isForum(j2) || !z4) && this.openedDialogId.dialogId == j2 && ((searchViewPager = this.searchViewPager) == null || adapter != searchViewPager.dialogsSearchAdapter))) {
-                if (getParentActivity() instanceof LaunchActivity) {
-                    LaunchActivity launchActivity = (LaunchActivity) getParentActivity();
-                    List fragmentStack = launchActivity.getRightActionBarLayout().getFragmentStack();
-                    if (fragmentStack.isEmpty()) {
-                        return;
-                    }
-                    if (fragmentStack.size() == 1 && (fragmentStack.get(fragmentStack.size() - 1) instanceof ChatActivity)) {
-                        ((ChatActivity) fragmentStack.get(fragmentStack.size() - 1)).onPageDownClicked();
-                        return;
-                    }
-                    if (fragmentStack.size() == 2) {
-                        launchActivity.getRightActionBarLayout().closeLastFragment();
-                        return;
-                    } else {
-                        if (getParentActivity() instanceof LaunchActivity) {
-                            BaseFragment baseFragment2 = (BaseFragment) fragmentStack.get(0);
-                            fragmentStack.clear();
-                            fragmentStack.add(baseFragment2);
-                            launchActivity.getRightActionBarLayout().rebuildFragments(1);
-                            return;
-                        }
-                        return;
-                    }
-                }
-                return;
-            }
-            SearchViewPager searchViewPager6 = this.searchViewPager;
-            if (searchViewPager6 != null && searchViewPager6.actionModeShowing()) {
-                this.searchViewPager.hideActionMode();
-            }
-            if (j2 != getUserConfig().getClientUserId() || !getMessagesController().savedViewAsChats) {
-                if (this.searchString == null) {
-                    this.slowedReloadAfterDialogClick = true;
-                    if (!getMessagesController().checkCanOpenChat(bundle2, this)) {
-                        return;
-                    }
-                    TLRPC.Chat chat5 = getMessagesController().getChat(Long.valueOf(-j2));
-                    TLRPC.Dialog dialog2 = getMessagesController().getDialog(j2);
-                    boolean z5 = dialog2 != null && dialog2.view_forum_as_messages;
-                    if (chat5 == null || !chat5.forum || j != 0) {
-                        chatActivity = new ChatActivity(bundle2);
-                        if (j != 0) {
-                            ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(j2, j));
-                        }
-                        if (z2 && DialogObject.isUserDialog(j2) && getMessagesController().dialogs_dict.get(j2) == null && (greetingsSticker = getMediaDataController().getGreetingsSticker()) != null) {
-                            chatActivity.setPreloadedSticker(greetingsSticker, true);
-                        }
-                        if (AndroidUtilities.isTablet()) {
-                            RightSlidingDialogContainer rightSlidingDialogContainer2 = this.rightSlidingDialogContainer;
-                            if (rightSlidingDialogContainer2.currentFragment != null) {
-                                rightSlidingDialogContainer2.lambda$presentFragment$1();
+                if (!DialogObject.isUserDialog(j2)) {
+                    if (i4 != 0) {
+                        i5 = i2;
+                        TLRPC.Chat chat4 = getMessagesController().getChat(Long.valueOf(-j2));
+                        if (chat4 != null && chat4.migrated_to != null) {
+                            bundle2.putLong("migrated_to", j2);
+                            j4 = -chat4.migrated_to.channel_id;
+                            bundle2.putLong("chat_id", -j4);
+                            if (i4 != 0) {
+                                bundle2.putInt("message_id", i4);
+                            } else if (z) {
+                                TLObject tLObject = this.searchObject;
+                                if (tLObject != null) {
+                                    SearchViewPager searchViewPager6 = this.searchViewPager;
+                                    if (searchViewPager6 != null) {
+                                        searchViewPager6.dialogsSearchAdapter.putRecentSearch(this.searchDialogId, tLObject);
+                                    }
+                                    this.searchObject = null;
+                                }
+                            } else {
+                                closeSearch();
                             }
-                        }
-                    } else if (LiteMode.isEnabled(64)) {
-                        if (z4) {
-                            if (this.searching) {
+                            boolean z4 = LocaleController.isRTL && !this.searching && (!AndroidUtilities.isTablet() || i5 == 0) && LiteMode.isEnabled(64);
+                            bundle2.putInt("dialog_folder_id", i5);
+                            bundle2.putInt("dialog_filter_id", i3);
+                            if (!AndroidUtilities.isTablet() && ((!getMessagesController().isForum(j2) || !z4) && this.openedDialogId.dialogId == j2 && ((searchViewPager2 = this.searchViewPager) == null || adapter != searchViewPager2.dialogsSearchAdapter))) {
+                                if (getParentActivity() instanceof LaunchActivity) {
+                                    LaunchActivity launchActivity = (LaunchActivity) getParentActivity();
+                                    List fragmentStack = launchActivity.getRightActionBarLayout().getFragmentStack();
+                                    if (fragmentStack.isEmpty()) {
+                                        return;
+                                    }
+                                    if (fragmentStack.size() == 1 && (fragmentStack.get(fragmentStack.size() - 1) instanceof ChatActivity)) {
+                                        ((ChatActivity) fragmentStack.get(fragmentStack.size() - 1)).onPageDownClicked();
+                                        return;
+                                    }
+                                    if (fragmentStack.size() == 2) {
+                                        launchActivity.getRightActionBarLayout().closeLastFragment();
+                                        return;
+                                    } else {
+                                        if (getParentActivity() instanceof LaunchActivity) {
+                                            BaseFragment baseFragment2 = (BaseFragment) fragmentStack.get(0);
+                                            fragmentStack.clear();
+                                            fragmentStack.add(baseFragment2);
+                                            launchActivity.getRightActionBarLayout().rebuildFragments(1);
+                                            return;
+                                        }
+                                        return;
+                                    }
+                                }
                                 return;
                             }
-                            if (!z5) {
-                                BaseFragment baseFragment3 = this.rightSlidingDialogContainer.currentFragment;
-                                if (baseFragment3 == null || ((TopicsFragment) baseFragment3).getDialogId() != j2) {
-                                    this.viewPages[0].listView.prepareSelectorForAnimation();
-                                    TopicsFragment topicsFragment = new TopicsFragment(bundle2) { // from class: org.telegram.ui.DialogsActivity.38
-                                    };
-                                    topicsFragment.parentDialogsActivity = this;
-                                    this.rightSlidingDialogContainer.presentFragment(getParentLayout(), topicsFragment);
+                            searchViewPager = this.searchViewPager;
+                            if (searchViewPager != null && searchViewPager.actionModeShowing()) {
+                                this.searchViewPager.hideActionMode();
+                            }
+                            if (j2 == getUserConfig().getClientUserId() || !getMessagesController().savedViewAsChats) {
+                                if (this.searchString == null) {
+                                    this.slowedReloadAfterDialogClick = true;
+                                    if (!getMessagesController().checkCanOpenChat(bundle2, this)) {
+                                        return;
+                                    }
+                                    TLRPC.Chat chat5 = getMessagesController().getChat(Long.valueOf(-j2));
+                                    TLRPC.Dialog dialog2 = getMessagesController().getDialog(j2);
+                                    boolean z5 = dialog2 != null && dialog2.view_forum_as_messages;
+                                    if (chat5 == null || !chat5.forum || j != 0) {
+                                        chatActivity = new ChatActivity(bundle2);
+                                        if (j != 0) {
+                                            ForumUtilities.applyTopic(chatActivity, MessagesStorage.TopicKey.of(j2, j));
+                                        }
+                                        if (z2 && DialogObject.isUserDialog(j2) && getMessagesController().dialogs_dict.get(j2) == null && (greetingsSticker = getMediaDataController().getGreetingsSticker()) != null) {
+                                            chatActivity.setPreloadedSticker(greetingsSticker, true);
+                                        }
+                                        if (AndroidUtilities.isTablet()) {
+                                            RightSlidingDialogContainer rightSlidingDialogContainer2 = this.rightSlidingDialogContainer;
+                                            if (rightSlidingDialogContainer2.currentFragment != null) {
+                                                rightSlidingDialogContainer2.lambda$presentFragment$1();
+                                            }
+                                        }
+                                    } else if (LiteMode.isEnabled(64)) {
+                                        if (z4) {
+                                            if (this.searching) {
+                                                return;
+                                            }
+                                            if (!z5) {
+                                                BaseFragment baseFragment3 = this.rightSlidingDialogContainer.currentFragment;
+                                                if (baseFragment3 == null || ((TopicsFragment) baseFragment3).getDialogId() != j2) {
+                                                    this.viewPages[0].listView.prepareSelectorForAnimation();
+                                                    TopicsFragment topicsFragment = new TopicsFragment(bundle2) { // from class: org.telegram.ui.DialogsActivity.38
+                                                    };
+                                                    topicsFragment.parentDialogsActivity = this;
+                                                    this.rightSlidingDialogContainer.presentFragment(getParentLayout(), topicsFragment);
+                                                } else {
+                                                    this.rightSlidingDialogContainer.lambda$presentFragment$1();
+                                                }
+                                                SearchViewPager searchViewPager7 = this.searchViewPager;
+                                                if (searchViewPager7 != null) {
+                                                    searchViewPager7.updateTabs();
+                                                    return;
+                                                }
+                                                return;
+                                            }
+                                            chatActivity = new ChatActivity(bundle2);
+                                        } else if (z5) {
+                                            chatActivity = new ChatActivity(bundle2);
+                                        } else {
+                                            baseFragment = new TopicsFragment(bundle2);
+                                        }
+                                    } else if (z5) {
+                                        chatActivity = new ChatActivity(bundle2);
+                                    } else {
+                                        baseFragment = new TopicsFragment(bundle2);
+                                    }
                                 } else {
-                                    this.rightSlidingDialogContainer.lambda$presentFragment$1();
+                                    if (!getMessagesController().checkCanOpenChat(bundle2, this)) {
+                                        return;
+                                    }
+                                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
+                                    chatActivity = new ChatActivity(bundle2);
                                 }
-                                SearchViewPager searchViewPager7 = this.searchViewPager;
-                                if (searchViewPager7 != null) {
-                                    searchViewPager7.updateTabs();
-                                    return;
-                                }
+                                presentFragment(highlightFoundQuote(chatActivity, messageObject));
                                 return;
                             }
-                            chatActivity = new ChatActivity(bundle2);
-                        } else if (z5) {
-                            chatActivity = new ChatActivity(bundle2);
-                        } else {
-                            baseFragment = new TopicsFragment(bundle2);
+                            Bundle bundle3 = new Bundle();
+                            bundle3.putLong("dialog_id", UserConfig.getInstance(this.currentAccount).getClientUserId());
+                            bundle3.putInt("type", 0);
+                            bundle3.putInt("start_from", 11);
+                            if (this.sharedMediaPreloader == null) {
+                                this.sharedMediaPreloader = new SharedMediaLayout.SharedMediaPreloader(this);
+                            }
+                            baseFragment = new MediaActivity(bundle3, this.sharedMediaPreloader);
                         }
-                    } else if (z5) {
-                        chatActivity = new ChatActivity(bundle2);
                     } else {
-                        baseFragment = new TopicsFragment(bundle2);
+                        i5 = i2;
                     }
-                } else {
-                    if (!getMessagesController().checkCanOpenChat(bundle2, this)) {
-                        return;
+                    j4 = j2;
+                    bundle2.putLong("chat_id", -j4);
+                    if (i4 != 0) {
                     }
-                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
-                    chatActivity = new ChatActivity(bundle2);
-                }
-                presentFragment(highlightFoundQuote(chatActivity, messageObject));
-                return;
-            }
-            Bundle bundle3 = new Bundle();
-            bundle3.putLong("dialog_id", UserConfig.getInstance(this.currentAccount).getClientUserId());
-            bundle3.putInt("type", 0);
-            bundle3.putInt("start_from", 11);
-            if (this.sharedMediaPreloader == null) {
-                this.sharedMediaPreloader = new SharedMediaLayout.SharedMediaPreloader(this);
-            }
-            baseFragment = new MediaActivity(bundle3, this.sharedMediaPreloader);
-        } else {
-            if (!validateSlowModeDialog(j2)) {
-                return;
-            }
-            if (!getMessagesController().isForum(j2) && (!this.selectedDialogs.isEmpty() || (this.initialDialogsType == 3 && this.selectAlertString != null))) {
-                if (this.selectedDialogs.contains(Long.valueOf(j2)) || checkCanWrite(j2)) {
-                    boolean addOrRemoveSelectedDialog = addOrRemoveSelectedDialog(j2, view);
-                    SearchViewPager searchViewPager8 = this.searchViewPager;
-                    if (searchViewPager8 != null && adapter == searchViewPager8.dialogsSearchAdapter) {
-                        this.actionBar.closeSearchField();
-                        findAndUpdateCheckBox(j2, addOrRemoveSelectedDialog);
+                    if (LocaleController.isRTL) {
                     }
-                    updateSelectedCount();
+                    bundle2.putInt("dialog_folder_id", i5);
+                    bundle2.putInt("dialog_filter_id", i3);
+                    if (!AndroidUtilities.isTablet()) {
+                    }
+                    searchViewPager = this.searchViewPager;
+                    if (searchViewPager != null) {
+                        this.searchViewPager.hideActionMode();
+                    }
+                    if (j2 == getUserConfig().getClientUserId()) {
+                    }
+                    if (this.searchString == null) {
+                    }
+                    presentFragment(highlightFoundQuote(chatActivity, messageObject));
                     return;
                 }
-                return;
+                bundle2.putLong("user_id", j2);
             }
-            if (!this.canSelectTopics || !getMessagesController().isForum(j2)) {
-                didSelectResult(j2, 0, true, false);
-                return;
+            i5 = i2;
+            if (i4 != 0) {
             }
-            Bundle bundle4 = new Bundle();
-            bundle4.putLong("chat_id", -j2);
-            bundle4.putBoolean("for_select", true);
-            bundle4.putBoolean("forward_to", true);
-            bundle4.putBoolean("quote", this.isQuote);
-            bundle4.putBoolean("reply_to", this.isReplyTo);
-            TopicsFragment topicsFragment2 = new TopicsFragment(bundle4);
-            topicsFragment2.setForwardFromDialogFragment(this);
-            baseFragment = topicsFragment2;
+            if (LocaleController.isRTL) {
+            }
+            bundle2.putInt("dialog_folder_id", i5);
+            bundle2.putInt("dialog_filter_id", i3);
+            if (!AndroidUtilities.isTablet()) {
+            }
+            searchViewPager = this.searchViewPager;
+            if (searchViewPager != null) {
+            }
+            if (j2 == getUserConfig().getClientUserId()) {
+            }
+            if (this.searchString == null) {
+            }
+            presentFragment(highlightFoundQuote(chatActivity, messageObject));
+            return;
         }
+        if (!validateSlowModeDialog(j2)) {
+            return;
+        }
+        if (!getMessagesController().isForum(j2) && (!this.selectedDialogs.isEmpty() || (this.initialDialogsType == 3 && this.selectAlertString != null))) {
+            if (this.selectedDialogs.contains(Long.valueOf(j2)) || checkCanWrite(j2)) {
+                boolean addOrRemoveSelectedDialog = addOrRemoveSelectedDialog(j2, view);
+                SearchViewPager searchViewPager8 = this.searchViewPager;
+                if (searchViewPager8 != null && adapter == searchViewPager8.dialogsSearchAdapter) {
+                    this.actionBar.closeSearchField();
+                    findAndUpdateCheckBox(j2, addOrRemoveSelectedDialog);
+                }
+                updateSelectedCount();
+                return;
+            }
+            return;
+        }
+        if (!this.canSelectTopics || !getMessagesController().isForum(j2)) {
+            didSelectResult(j2, 0, true, false);
+            return;
+        }
+        Bundle bundle4 = new Bundle();
+        bundle4.putLong("chat_id", -j2);
+        bundle4.putBoolean("for_select", true);
+        bundle4.putBoolean("forward_to", true);
+        bundle4.putBoolean("bot_share_to", this.initialDialogsType == 1);
+        bundle4.putBoolean("quote", this.isQuote);
+        bundle4.putBoolean("reply_to", this.isReplyTo);
+        TopicsFragment topicsFragment2 = new TopicsFragment(bundle4);
+        topicsFragment2.setForwardFromDialogFragment(this);
+        baseFragment = topicsFragment2;
         presentFragment(baseFragment);
     }
 
@@ -7950,24 +7996,36 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (fixPosition < 0 || fixPosition >= dialogsArray.size() || (dialog = (TLRPC.Dialog) dialogsArray.get(fixPosition)) == null) {
                 return false;
             }
-            if (this.onlySelect) {
-                int i3 = this.initialDialogsType;
-                if ((i3 != 3 && i3 != 10) || !validateSlowModeDialog(dialog.id)) {
+            if (!this.onlySelect) {
+                if (dialog instanceof TLRPC.TL_dialogFolder) {
+                    onArchiveLongPress(view);
                     return false;
                 }
+                if (this.actionBar.isActionModeShowed() && isDialogPinned(dialog)) {
+                    return false;
+                }
+                showOrUpdateActionMode(dialog.id, view);
+                return true;
+            }
+            if ((this.initialDialogsType != 3 && !clickSelectsDialog()) || !validateSlowModeDialog(dialog.id)) {
+                return false;
+            }
+            if (this.initialDialogsType != 1 || !clickSelectsDialog() || !this.canSelectTopics || !getMessagesController().isForum(dialog.id)) {
                 addOrRemoveSelectedDialog(dialog.id, view);
                 updateSelectedCount();
                 return true;
             }
-            if (dialog instanceof TLRPC.TL_dialogFolder) {
-                onArchiveLongPress(view);
-                return false;
-            }
-            if (this.actionBar.isActionModeShowed() && isDialogPinned(dialog)) {
-                return false;
-            }
-            showOrUpdateActionMode(dialog.id, view);
-            return true;
+            Bundle bundle = new Bundle();
+            bundle.putLong("chat_id", -dialog.id);
+            bundle.putBoolean("for_select", true);
+            bundle.putBoolean("forward_to", true);
+            bundle.putBoolean("bot_share_to", this.initialDialogsType == 1);
+            bundle.putBoolean("quote", this.isQuote);
+            bundle.putBoolean("reply_to", this.isReplyTo);
+            TopicsFragment topicsFragment = new TopicsFragment(bundle);
+            topicsFragment.setForwardFromDialogFragment(this);
+            presentFragment(topicsFragment);
+            return false;
         }
         return false;
     }
@@ -10350,7 +10408,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x03f0  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x0412  */
     /* renamed from: updateDialogsHint, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10364,6 +10422,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         DialogsHintCell dialogsHintCell2;
         SpannableStringBuilder replaceSingleTag;
         int i;
+        String str2;
         if (this.dialogsHintCell == null || this.fragmentView == null || getContext() == null) {
             return;
         }
@@ -10420,13 +10479,27 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (starsController.hasInsufficientSubscriptions()) {
                     for (int i2 = 0; i2 < starsController.insufficientSubscriptions.size(); i2++) {
                         TL_stars.StarsSubscription starsSubscription = (TL_stars.StarsSubscription) starsController.insufficientSubscriptions.get(i2);
-                        TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(starsSubscription.peer)));
-                        if (chat != null) {
-                            if (sb.length() > 0) {
-                                sb.append(", ");
+                        long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
+                        if (peerDialogId >= 0) {
+                            TLRPC.User user = getMessagesController().getUser(Long.valueOf(peerDialogId));
+                            if (user != null) {
+                                if (sb.length() > 0) {
+                                    sb.append(", ");
+                                }
+                                str2 = UserObject.getUserName(user);
+                                sb.append(str2);
+                                j += starsSubscription.pricing.amount;
                             }
-                            sb.append(chat.title);
-                            j += starsSubscription.pricing.amount;
+                        } else {
+                            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(-peerDialogId));
+                            if (chat != null) {
+                                if (sb.length() > 0) {
+                                    sb.append(", ");
+                                }
+                                str2 = chat.title;
+                                sb.append(str2);
+                                j += starsSubscription.pricing.amount;
+                            }
                         }
                     }
                 }
@@ -11419,6 +11492,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return true;
     }
 
+    public boolean clickSelectsDialog() {
+        return this.initialDialogsType == 10;
+    }
+
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean closeLastFragment() {
         if (!this.rightSlidingDialogContainer.hasFragment()) {
@@ -11670,35 +11747,35 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:349:0x0231, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:351:0x0231, code lost:
     
         if (r2 == false) goto L79;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:357:0x0244, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:359:0x0244, code lost:
     
         if (r0.booleanValue() != false) goto L75;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:361:0x025d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:363:0x025d, code lost:
     
         if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_requestPeerTypeChat) != false) goto L82;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0c34  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x0c6a  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0ca1  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0cd4  */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x0d7a  */
-    /* JADX WARN: Removed duplicated region for block: B:210:0x0d8a  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x0e0b  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x0e40  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x0e16  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0d7d  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0c7b  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x0c3a  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x0c70  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0ca7  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0cda  */
+    /* JADX WARN: Removed duplicated region for block: B:207:0x0d80  */
+    /* JADX WARN: Removed duplicated region for block: B:210:0x0d90  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x0e11  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x0e46  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x0e1c  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0d83  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x0c81  */
     /* JADX WARN: Type inference failed for: r13v10 */
-    /* JADX WARN: Type inference failed for: r13v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r13v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r13v6 */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r7v8 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -12443,7 +12520,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
             });
             contentView3.addView(this.dialogsHintCell);
-        } else if (this.initialDialogsType == 3) {
+        } else if (this.initialDialogsType == 3 || clickSelectsDialog()) {
             ChatActivityEnterView chatActivityEnterView = this.commentView;
             if (chatActivityEnterView != null) {
                 chatActivityEnterView.onDestroy();
@@ -14767,6 +14844,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public boolean isStarsSubscriptionHintVisible() {
+        int i;
         if (this.folderId != 0 || !MessagesController.getInstance(this.currentAccount).pendingSuggestions.contains("STARS_SUBSCRIPTION_LOW_BALANCE")) {
             return false;
         }
@@ -14776,9 +14854,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return false;
         }
         long j = -starsController.balance;
-        for (int i = 0; i < starsController.insufficientSubscriptions.size(); i++) {
+        while (i < starsController.insufficientSubscriptions.size()) {
             TL_stars.StarsSubscription starsSubscription = (TL_stars.StarsSubscription) starsController.insufficientSubscriptions.get(i);
-            if (getMessagesController().getChat(Long.valueOf(-DialogObject.getPeerDialogId(starsSubscription.peer))) != null) {
+            long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
+            MessagesController messagesController = getMessagesController();
+            if (peerDialogId >= 0) {
+                i = messagesController.getUser(Long.valueOf(peerDialogId)) == null ? i + 1 : 0;
+                j += starsSubscription.pricing.amount;
+            } else {
+                if (messagesController.getChat(Long.valueOf(-peerDialogId)) == null) {
+                }
                 j += starsSubscription.pricing.amount;
             }
         }

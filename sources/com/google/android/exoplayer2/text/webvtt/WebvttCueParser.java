@@ -223,23 +223,23 @@ public abstract class WebvttCueParser {
 
     static {
         HashMap hashMap = new HashMap();
-        hashMap.put("white", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying)));
-        hashMap.put("lime", Integer.valueOf(Color.rgb(0, NotificationCenter.playerDidStartPlaying, 0)));
-        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying)));
-        hashMap.put("red", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, 0, 0)));
-        hashMap.put("yellow", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying, 0)));
-        hashMap.put("magenta", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, 0, NotificationCenter.playerDidStartPlaying)));
-        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.playerDidStartPlaying)));
+        hashMap.put("white", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
+        hashMap.put("red", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, NotificationCenter.notificationsCountUpdated)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.notificationsCountUpdated)));
         hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
         HashMap hashMap2 = new HashMap();
-        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying)));
-        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, NotificationCenter.playerDidStartPlaying, 0)));
-        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying)));
-        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, 0, 0)));
-        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, NotificationCenter.playerDidStartPlaying, 0)));
-        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(NotificationCenter.playerDidStartPlaying, 0, NotificationCenter.playerDidStartPlaying)));
-        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.playerDidStartPlaying)));
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, NotificationCenter.notificationsCountUpdated)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.notificationsCountUpdated)));
         hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
     }

@@ -40,7 +40,7 @@ import org.telegram.ui.web.AddressBarList;
 import org.telegram.ui.web.BookmarksFragment;
 import org.telegram.ui.web.WebMetadataCache;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class BookmarksFragment extends UniversalFragment {
     private final Runnable closeToTabs;
     private ActionBarMenuItem gotoItem;
@@ -58,7 +58,7 @@ public class BookmarksFragment extends UniversalFragment {
     public HashSet selected = new HashSet();
     private final HashSet addedUrls = new HashSet();
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -96,7 +96,7 @@ public class BookmarksFragment extends UniversalFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public class 2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         private Runnable applySearch = new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$2$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable

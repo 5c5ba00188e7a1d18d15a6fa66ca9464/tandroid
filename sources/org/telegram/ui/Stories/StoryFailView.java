@@ -15,7 +15,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryFailView extends FrameLayout {
     private final TextView button;
     private final Paint redPaint;

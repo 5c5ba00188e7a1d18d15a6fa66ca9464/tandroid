@@ -1,10 +1,10 @@
 package org.telegram.ui;
 
-import android.graphics.RenderNode;
+import android.widget.ImageView;
 
 /* loaded from: classes4.dex */
 public abstract /* synthetic */ class PhotoViewer$$ExternalSyntheticApiModelOutline4 {
-    public static /* bridge */ /* synthetic */ int m(RenderNode renderNode) {
-        return renderNode.getHeight();
+    public static /* bridge */ /* synthetic */ void m(ImageView imageView) {
+        imageView.invalidateOutline();
     }
 }

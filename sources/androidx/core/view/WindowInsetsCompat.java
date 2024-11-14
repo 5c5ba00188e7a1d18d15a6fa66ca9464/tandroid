@@ -840,6 +840,10 @@ public class WindowInsetsCompat {
             throw new IllegalArgumentException("type needs to be >= FIRST and <= LAST, type=" + i);
         }
 
+        public static int navigationBars() {
+            return 2;
+        }
+
         public static int systemBars() {
             return 7;
         }

@@ -161,6 +161,7 @@ public final class BulletinFactory {
     public static class UndoObject {
         public Runnable onAction;
         public Runnable onUndo;
+        public CharSequence undoText;
     }
 
     private BulletinFactory(FrameLayout frameLayout, Theme.ResourcesProvider resourcesProvider) {
@@ -220,7 +221,7 @@ public final class BulletinFactory {
         String string;
         BulletinFactory$$ExternalSyntheticLambda0 bulletinFactory$$ExternalSyntheticLambda0;
         final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
-        int i5 = NotificationCenter.stealthModeChanged;
+        int i5 = NotificationCenter.customTypefacesLoaded;
         if (i > 1) {
             Object[] objArr = new Object[0];
             replaceTags = AndroidUtilities.replaceTags(i2 <= 1 ? LocaleController.formatPluralString("FwdMessageToManyChats", i, objArr) : LocaleController.formatPluralString("FwdMessagesToManyChats", i, objArr));
@@ -264,7 +265,7 @@ public final class BulletinFactory {
         SpannableStringBuilder replaceTags;
         String formatString;
         final Bulletin.LottieLayout lottieLayout = new Bulletin.LottieLayout(context, null, i3, i4);
-        int i5 = NotificationCenter.stealthModeChanged;
+        int i5 = NotificationCenter.customTypefacesLoaded;
         if (i > 1) {
             replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("InvLinkToChats", R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0])));
             lottieLayout.setAnimation(R.raw.forward, 30, 30, new String[0]);
@@ -1235,9 +1236,13 @@ public final class BulletinFactory {
         return create(usersLayout, 5000);
     }
 
+    public Bulletin makeForError(TLRPC.TL_error tL_error) {
+        return !LaunchActivity.isActive ? new Bulletin.EmptyBulletin() : tL_error == null ? createErrorBulletin(LocaleController.formatString(R.string.UnknownError, new Object[0])) : createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text));
+    }
+
     public void showForError(TLRPC.TL_error tL_error) {
         if (LaunchActivity.isActive) {
-            createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text)).show();
+            createErrorBulletin(tL_error == null ? LocaleController.formatString(R.string.UnknownError, new Object[0]) : LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text)).show();
         }
     }
 

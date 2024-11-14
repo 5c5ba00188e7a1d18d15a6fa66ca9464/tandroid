@@ -5,7 +5,7 @@ import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import org.telegram.messenger.FileLog;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class GlShader {
     private static final String TAG = "GlShader";
     private int program;

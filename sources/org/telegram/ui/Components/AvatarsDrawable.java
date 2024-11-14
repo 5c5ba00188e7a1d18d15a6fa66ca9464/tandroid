@@ -397,7 +397,7 @@ public class AvatarsDrawable {
                     }
                     float f6 = -dp4;
                     i5 = 2;
-                    canvas.saveLayerAlpha(f6, f6, this.width + dp4, this.height + dp4, NotificationCenter.playerDidStartPlaying, 31);
+                    canvas.saveLayerAlpha(f6, f6, this.width + dp4, this.height + dp4, NotificationCenter.notificationsCountUpdated, 31);
                 }
                 float f7 = 2.0f;
                 float f8 = 1.0f;

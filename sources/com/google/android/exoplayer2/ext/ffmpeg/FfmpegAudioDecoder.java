@@ -119,12 +119,12 @@ public final class FfmpegAudioDecoder extends SimpleDecoder {
         byte[] bArr2 = list.get(1);
         byte[] bArr3 = new byte[bArr.length + bArr2.length + 6];
         bArr3[0] = (byte) (bArr.length >> 8);
-        bArr3[1] = (byte) (bArr.length & NotificationCenter.playerDidStartPlaying);
+        bArr3[1] = (byte) (bArr.length & NotificationCenter.notificationsCountUpdated);
         System.arraycopy(bArr, 0, bArr3, 2, bArr.length);
         bArr3[bArr.length + 2] = 0;
         bArr3[bArr.length + 3] = 0;
         bArr3[bArr.length + 4] = (byte) (bArr2.length >> 8);
-        bArr3[bArr.length + 5] = (byte) (bArr2.length & NotificationCenter.playerDidStartPlaying);
+        bArr3[bArr.length + 5] = (byte) (bArr2.length & NotificationCenter.notificationsCountUpdated);
         System.arraycopy(bArr2, 0, bArr3, bArr.length + 6, bArr2.length);
         return bArr3;
     }

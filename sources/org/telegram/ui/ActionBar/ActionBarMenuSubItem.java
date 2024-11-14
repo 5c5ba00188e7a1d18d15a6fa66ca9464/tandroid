@@ -31,6 +31,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     private ValueAnimator enabledAnimator;
     boolean expandIfMultiline;
     private int iconColor;
+    private int iconResId;
     public RLottieImageView imageView;
     private int itemHeight;
     public Runnable openSwipeBackLayout;
@@ -144,6 +145,10 @@ public class ActionBarMenuSubItem extends FrameLayout {
         return this.checkView;
     }
 
+    public int getIconResId() {
+        return this.iconResId;
+    }
+
     public ImageView getImageView() {
         return this.imageView;
     }
@@ -192,6 +197,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setAnimatedIcon(int i) {
+        this.iconResId = 0;
         this.imageView.setAnimation(i, 24, 24);
     }
 
@@ -240,10 +246,13 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setIcon(int i) {
-        this.imageView.setImageResource(i);
+        RLottieImageView rLottieImageView = this.imageView;
+        this.iconResId = i;
+        rLottieImageView.setImageResource(i);
     }
 
     public void setIcon(Drawable drawable) {
+        this.iconResId = 0;
         this.imageView.setImageDrawable(drawable);
     }
 
@@ -348,15 +357,17 @@ public class ActionBarMenuSubItem extends FrameLayout {
         int dp2;
         this.textView.setText(charSequence);
         if (i == 0 && drawable == null && this.checkView == null) {
+            this.iconResId = 0;
             this.imageView.setVisibility(4);
             this.textView.setPadding(0, 0, 0, 0);
             return;
         }
-        RLottieImageView rLottieImageView = this.imageView;
         if (drawable != null) {
-            rLottieImageView.setImageDrawable(drawable);
+            this.iconResId = 0;
+            this.imageView.setImageDrawable(drawable);
         } else {
-            rLottieImageView.setImageResource(i);
+            this.iconResId = i;
+            this.imageView.setImageResource(i);
         }
         this.imageView.setVisibility(0);
         TextView textView = this.textView;

@@ -14,6 +14,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -131,7 +132,7 @@ import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.HintView2;
 
-/* loaded from: classes3.dex */
+/* loaded from: classes4.dex */
 public class StarsIntroActivity extends GradientHeaderActivity implements NotificationCenter.NotificationCenterDelegate {
     private FrameLayout aboveTitleView;
     private UniversalAdapter adapter;
@@ -152,7 +153,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     private final int BUTTON_SUBSCRIPTIONS_EXPAND = -3;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class 2 extends StarParticlesView {
         Paint[] paints;
         final /* synthetic */ int val$particlesCount;
@@ -219,14 +220,14 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class ExpandView extends FrameLayout {
         public final ImageView arrowView;
         private int lastId;
         private boolean needDivider;
         public final AnimatedTextView textView;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -319,7 +320,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class GiftStarsSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
         private final int BUTTON_EXPAND;
         private UniversalAdapter adapter;
@@ -330,7 +331,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private final TLRPC.User user;
         private final Runnable whenPurchased;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class HeaderView extends LinearLayout {
             public final BackupImageView avatarImageView;
             public final StarParticlesView particlesView;
@@ -612,7 +613,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public class NestedFrameLayout extends GradientHeaderActivity.ContentView implements NestedScrollingParent3 {
         private NestedScrollingParentHelper nestedScrollingParentHelper;
 
@@ -740,7 +741,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarTierView extends FrameLayout {
         private final AnimatedFloat animatedStarsCount;
         private SpannableString loading;
@@ -751,7 +752,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private final TextView textView;
         private final AnimatedTextView textView2;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -891,7 +892,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsBalanceView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private final AnimatedTextView amountTextView;
         private ValueAnimator bounceAnimator;
@@ -1018,7 +1019,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsNeededSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
         private final int BUTTON_EXPAND;
         private UniversalAdapter adapter;
@@ -1029,7 +1030,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private final long starsNeeded;
         private Runnable whenPurchased;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class HeaderView extends LinearLayout {
             public final StarsBalanceView balanceView;
             public final GLIconTextureView iconView;
@@ -1403,7 +1404,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsOptionsSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate {
         private final int BUTTON_EXPAND;
         private UniversalAdapter adapter;
@@ -1600,7 +1601,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsSubscriptionView extends LinearLayout {
         private final int currentAccount;
         public final BackupImageView imageView;
@@ -1608,12 +1609,14 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         public final LinearLayout priceLayout;
         public final TextView priceSubtitleView;
         public final TextView priceTitleView;
+        public final TextView productView;
         private final Theme.ResourcesProvider resourcesProvider;
         public final TextView subtitleView;
         public final LinearLayout textLayout;
+        private boolean threeLines;
         public final SimpleTextView titleView;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -1673,30 +1676,37 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             simpleTextView.setTextColor(Theme.getColor(i2, resourcesProvider));
             simpleTextView.setTextSize(16);
             simpleTextView.setTypeface(AndroidUtilities.bold());
+            NotificationCenter.listenEmojiLoading(simpleTextView);
             linearLayout.addView(simpleTextView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 2.0f));
             TextView textView = new TextView(context);
-            this.subtitleView = textView;
+            this.productView = textView;
+            textView.setTextColor(Theme.getColor(i2, resourcesProvider));
+            textView.setTextSize(1, 13.0f);
+            textView.setVisibility(8);
+            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 1.0f));
+            TextView textView2 = new TextView(context);
+            this.subtitleView = textView2;
             int i3 = Theme.key_windowBackgroundWhiteGrayText2;
-            textView.setTextColor(Theme.getColor(i3, resourcesProvider));
-            textView.setTextSize(1, 14.0f);
-            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
+            textView2.setTextColor(Theme.getColor(i3, resourcesProvider));
+            textView2.setTextSize(1, 14.0f);
+            linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 0.0f));
             LinearLayout linearLayout2 = new LinearLayout(context);
             this.priceLayout = linearLayout2;
             linearLayout2.setOrientation(1);
             addView(linearLayout2, LayoutHelper.createLinear(-2, -2, 0.0f, 16, 0, 0, 18, 0));
-            TextView textView2 = new TextView(context);
-            this.priceTitleView = textView2;
-            textView2.setTextColor(Theme.getColor(i2, resourcesProvider));
-            textView2.setTextSize(1, 16.0f);
-            textView2.setTypeface(AndroidUtilities.bold());
-            textView2.setGravity(5);
-            linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2, 5, 0, 0, 0, 1));
             TextView textView3 = new TextView(context);
-            this.priceSubtitleView = textView3;
-            textView3.setTextColor(Theme.getColor(i3, resourcesProvider));
-            textView3.setTextSize(1, 13.0f);
+            this.priceTitleView = textView3;
+            textView3.setTextColor(Theme.getColor(i2, resourcesProvider));
+            textView3.setTextSize(1, 16.0f);
+            textView3.setTypeface(AndroidUtilities.bold());
             textView3.setGravity(5);
-            linearLayout2.addView(textView3, LayoutHelper.createLinear(-1, -2, 5, 0, 0, 0, 0));
+            linearLayout2.addView(textView3, LayoutHelper.createLinear(-1, -2, 5, 0, 0, 0, 1));
+            TextView textView4 = new TextView(context);
+            this.priceSubtitleView = textView4;
+            textView4.setTextColor(Theme.getColor(i3, resourcesProvider));
+            textView4.setTextSize(1, 13.0f);
+            textView4.setGravity(5);
+            linearLayout2.addView(textView4, LayoutHelper.createLinear(-1, -2, 5, 0, 0, 0, 0));
         }
 
         @Override // android.widget.LinearLayout, android.view.View
@@ -1709,22 +1719,50 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
 
         @Override // android.widget.LinearLayout, android.view.View
         protected void onMeasure(int i, int i2) {
-            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f), 1073741824));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.threeLines ? 68.0f : 58.0f), 1073741824));
         }
 
         public void set(TL_stars.StarsSubscription starsSubscription, boolean z) {
+            String userName;
             TextView textView;
             String str;
             int i;
-            TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-DialogObject.getPeerDialogId(starsSubscription.peer)));
-            if (chat == null) {
-                return;
+            long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
+            this.threeLines = !TextUtils.isEmpty(starsSubscription.title);
+            if (peerDialogId < 0) {
+                TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerDialogId));
+                AvatarDrawable avatarDrawable = new AvatarDrawable();
+                avatarDrawable.setInfo(chat);
+                this.imageView.setForUserOrChat(chat, avatarDrawable);
+                userName = chat != null ? chat.title : null;
+            } else {
+                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId));
+                AvatarDrawable avatarDrawable2 = new AvatarDrawable();
+                avatarDrawable2.setInfo(user);
+                this.imageView.setForUserOrChat(user, avatarDrawable2);
+                userName = UserObject.getUserName(user);
             }
-            AvatarDrawable avatarDrawable = new AvatarDrawable();
-            avatarDrawable.setInfo(chat);
-            this.imageView.setForUserOrChat(chat, avatarDrawable);
             long currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
-            this.titleView.setText(chat.title);
+            SimpleTextView simpleTextView = this.titleView;
+            simpleTextView.setText(Emoji.replaceEmoji(userName, simpleTextView.getPaint().getFontMetricsInt(), false));
+            if (TextUtils.isEmpty(starsSubscription.title)) {
+                this.productView.setVisibility(8);
+            } else {
+                this.productView.setVisibility(0);
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                if (starsSubscription.photo != null) {
+                    ImageReceiverSpan imageReceiverSpan = new ImageReceiverSpan(this.productView, this.currentAccount, 14.0f);
+                    imageReceiverSpan.setRoundRadius(4.0f);
+                    imageReceiverSpan.enableShadow(false);
+                    SpannableString spannableString = new SpannableString("x");
+                    spannableString.setSpan(imageReceiverSpan, 0, 1, 33);
+                    imageReceiverSpan.imageReceiver.setImage(ImageLocation.getForWebFile(WebFile.createWithWebDocument(starsSubscription.photo)), "14_14", null, null, 0, 0);
+                    spannableStringBuilder.append((CharSequence) spannableString).append((CharSequence) " ");
+                }
+                spannableStringBuilder.append(Emoji.replaceEmoji(starsSubscription.title, this.titleView.getPaint().getFontMetricsInt(), false));
+                this.productView.setText(spannableStringBuilder);
+            }
+            this.subtitleView.setTextSize(1, this.threeLines ? 13.0f : 14.0f);
             if (starsSubscription.canceled) {
                 TextView textView2 = this.subtitleView;
                 long j = starsSubscription.until_date;
@@ -1773,7 +1811,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsTransactionView extends LinearLayout {
         public static HashMap cachedPlatformDrawables;
         private final TextView amountTextView;
@@ -1794,7 +1832,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private final TextView titleTextView;
         private final LinearLayout.LayoutParams titleTextViewParams;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -2190,7 +2228,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
+    /* loaded from: classes4.dex */
     public static class StarsTransactionsLayout extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private final PageAdapter adapter;
         private final long bot_id;
@@ -2198,7 +2236,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private final ViewPagerFixed.TabsView tabsView;
         private final ViewPagerFixed viewPager;
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         public static class Page extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
             private final long bot_id;
             private final int currentAccount;
@@ -2322,7 +2360,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             }
         }
 
-        /* loaded from: classes3.dex */
+        /* loaded from: classes4.dex */
         private static class PageAdapter extends ViewPagerFixed.Adapter {
             private final long bot_id;
             private final int classGuid;
@@ -2469,10 +2507,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         spannableStringBuilder.setSpan(loadingSpan, 0, 1, 33);
         textView.setText(spannableStringBuilder, TextView.BufferType.SPANNABLE);
         if (!starGift.sold_out) {
-            StarsController.getInstance(i).getStarGift(starGift.id, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda24
+            StarsController.getInstance(i).getStarGift(starGift.id, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda28
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    StarsIntroActivity.lambda$addAvailabilityRow$102(textView, (TL_stars.StarGift) obj);
+                    StarsIntroActivity.lambda$addAvailabilityRow$106(textView, (TL_stars.StarGift) obj);
                 }
             });
         } else {
@@ -2484,7 +2522,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     private static CharSequence appendStatus(SpannableStringBuilder spannableStringBuilder, TextView textView, String str) {
         spannableStringBuilder.append(" ");
         SpannableString spannableString = new SpannableString(str);
-        spannableString.setSpan(new ReplacementSpan(textView.getCurrentTextColor(), str) { // from class: org.telegram.ui.Stars.StarsIntroActivity.10
+        spannableString.setSpan(new ReplacementSpan(textView.getCurrentTextColor(), str) { // from class: org.telegram.ui.Stars.StarsIntroActivity.12
             private final Paint backgroundPaint;
             private final Text layout;
             final /* synthetic */ int val$color;
@@ -2570,7 +2608,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$addAvailabilityRow$102(TextView textView, TL_stars.StarGift starGift) {
+    public static /* synthetic */ void lambda$addAvailabilityRow$106(TextView textView, TL_stars.StarGift starGift) {
         if (starGift == null) {
             return;
         }
@@ -2620,6 +2658,13 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$10(Runnable runnable, DialogInterface dialogInterface) {
+        if (runnable != null) {
+            runnable.run();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$openConfirmPurchaseSheet$5(StarsBalanceView starsBalanceView, View view) {
         BaseFragment lastFragment;
         if (starsBalanceView.lastBalance > 0 && (lastFragment = LaunchActivity.getLastFragment()) != null) {
@@ -2631,50 +2676,48 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$6(BottomSheet bottomSheet, ButtonWithCounterView buttonWithCounterView) {
+    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$6(Context context) {
+        Browser.openUrl(context, LocaleController.getString(R.string.StarsTOSLink));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$7(BottomSheet bottomSheet, ButtonWithCounterView buttonWithCounterView) {
         bottomSheet.setCanDismissWithSwipe(false);
         buttonWithCounterView.setLoading(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$7(final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, Boolean bool) {
+    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$8(final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, Boolean bool) {
         if (bool.booleanValue()) {
             bottomSheet.dismiss();
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda68
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda72
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$openConfirmPurchaseSheet$6(BottomSheet.this, buttonWithCounterView);
+                    StarsIntroActivity.lambda$openConfirmPurchaseSheet$7(BottomSheet.this, buttonWithCounterView);
                 }
             }, 400L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$8(Utilities.Callback callback, final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, View view) {
+    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$9(Utilities.Callback callback, final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, View view) {
         if (callback == null) {
             bottomSheet.dismiss();
             return;
         }
         bottomSheet.setCanDismissWithSwipe(false);
         buttonWithCounterView.setLoading(true);
-        callback.run(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda44
+        callback.run(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda46
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                StarsIntroActivity.lambda$openConfirmPurchaseSheet$7(BottomSheet.this, buttonWithCounterView, (Boolean) obj);
+                StarsIntroActivity.lambda$openConfirmPurchaseSheet$8(BottomSheet.this, buttonWithCounterView, (Boolean) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openConfirmPurchaseSheet$9(Runnable runnable, DialogInterface dialogInterface) {
-        if (runnable != null) {
-            runnable.run();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$10(StarsBalanceView starsBalanceView, View view) {
+    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$11(StarsBalanceView starsBalanceView, View view) {
         BaseFragment lastFragment;
         if (starsBalanceView.lastBalance > 0 && (lastFragment = LaunchActivity.getLastFragment()) != null) {
             BaseFragment.BottomSheetParams bottomSheetParams = new BaseFragment.BottomSheetParams();
@@ -2685,55 +2728,55 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$11(Context context) {
+    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$12(Context context) {
         Browser.openUrl(context, LocaleController.getString(R.string.StarsSubscribeInfoLink));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$12(BottomSheet bottomSheet, ButtonWithCounterView buttonWithCounterView) {
+    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$13(BottomSheet bottomSheet, ButtonWithCounterView buttonWithCounterView) {
         bottomSheet.setCanDismissWithSwipe(false);
         buttonWithCounterView.setLoading(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$13(final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, Boolean bool) {
+    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$14(final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, Boolean bool) {
         if (bool.booleanValue()) {
             bottomSheet.dismiss();
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda96
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda101
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$openStarsChannelInviteSheet$12(BottomSheet.this, buttonWithCounterView);
+                    StarsIntroActivity.lambda$openStarsChannelInviteSheet$13(BottomSheet.this, buttonWithCounterView);
                 }
             }, 400L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$14(Utilities.Callback callback, final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, View view) {
+    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$15(Utilities.Callback callback, final BottomSheet bottomSheet, final ButtonWithCounterView buttonWithCounterView, View view) {
         if (callback == null) {
             bottomSheet.dismiss();
             return;
         }
         bottomSheet.setCanDismissWithSwipe(false);
         buttonWithCounterView.setLoading(true);
-        callback.run(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda93
+        callback.run(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda95
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                StarsIntroActivity.lambda$openStarsChannelInviteSheet$13(BottomSheet.this, buttonWithCounterView, (Boolean) obj);
+                StarsIntroActivity.lambda$openStarsChannelInviteSheet$14(BottomSheet.this, buttonWithCounterView, (Boolean) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$15(Runnable runnable, DialogInterface dialogInterface) {
+    public static /* synthetic */ void lambda$openStarsChannelInviteSheet$16(Runnable runnable, DialogInterface dialogInterface) {
         if (runnable != null) {
             runnable.run();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setGiftImage$16(int i, int i2, ImageReceiver imageReceiver, final boolean[] zArr) {
+    public static /* synthetic */ void lambda$setGiftImage$17(int i, int i2, ImageReceiver imageReceiver, final boolean[] zArr) {
         TLRPC.Document document;
         String str = UserConfig.getInstance(i).premiumGiftsStickerPack;
         if (str == null) {
@@ -2806,41 +2849,14 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setGiftImage$19(Runnable runnable, Runnable runnable2) {
+    public static /* synthetic */ void lambda$setGiftImage$20(Runnable runnable, Runnable runnable2) {
         runnable.run();
         runnable2.run();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$72(Context context) {
+    public static /* synthetic */ void lambda$showActionGiftSheet$74(Context context) {
         new ExplainStarsSheet(context).show();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$73(BottomSheet[] bottomSheetArr, long j, long j2) {
-        bottomSheetArr[0].dismiss();
-        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (safeLastFragment == null || UserObject.isService(j)) {
-            return;
-        }
-        Bundle bundle = new Bundle();
-        if (j > 0) {
-            bundle.putLong("user_id", j);
-            if (j == j2) {
-                bundle.putBoolean("my_profile", true);
-                bundle.putBoolean("open_gifts", true);
-            }
-        } else {
-            bundle.putLong("chat_id", -j);
-        }
-        safeLastFragment.presentFragment(new ProfileActivity(bundle));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$74(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
-        BottomSheet bottomSheet = bottomSheetArr[0];
-        Objects.requireNonNull(bottomSheet);
-        new GiftSheet(context, i, j, new BottomSheet$$ExternalSyntheticLambda11(bottomSheet)).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2871,12 +2887,39 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$77(StarsIntroActivity starsIntroActivity, TLRPC.TL_messageActionStarGift tL_messageActionStarGift) {
+    public static /* synthetic */ void lambda$showActionGiftSheet$77(BottomSheet[] bottomSheetArr, long j, long j2) {
+        bottomSheetArr[0].dismiss();
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (safeLastFragment == null || UserObject.isService(j)) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        if (j > 0) {
+            bundle.putLong("user_id", j);
+            if (j == j2) {
+                bundle.putBoolean("my_profile", true);
+                bundle.putBoolean("open_gifts", true);
+            }
+        } else {
+            bundle.putLong("chat_id", -j);
+        }
+        safeLastFragment.presentFragment(new ProfileActivity(bundle));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showActionGiftSheet$78(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
+        BottomSheet bottomSheet = bottomSheetArr[0];
+        Objects.requireNonNull(bottomSheet);
+        new GiftSheet(context, i, j, new BottomSheet$$ExternalSyntheticLambda11(bottomSheet)).show();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showActionGiftSheet$79(StarsIntroActivity starsIntroActivity, TLRPC.TL_messageActionStarGift tL_messageActionStarGift) {
         BulletinFactory.of(starsIntroActivity).createSimpleBulletin(R.raw.stars_topup, LocaleController.getString(R.string.Gift2ConvertedTitle), LocaleController.formatPluralStringComma("Gift2Converted", (int) tL_messageActionStarGift.convert_stars)).show(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$78(AlertDialog alertDialog, TLObject tLObject, BottomSheet[] bottomSheetArr, int i, long j, long j2, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, TLRPC.TL_error tL_error, Theme.ResourcesProvider resourcesProvider) {
+    public static /* synthetic */ void lambda$showActionGiftSheet$80(AlertDialog alertDialog, TLObject tLObject, BottomSheet[] bottomSheetArr, int i, long j, long j2, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, TLRPC.TL_error tL_error, Theme.ResourcesProvider resourcesProvider) {
         BulletinFactory of;
         String string;
         alertDialog.dismissUnless(400L);
@@ -2912,70 +2955,48 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             return;
         }
         final StarsIntroActivity starsIntroActivity = new StarsIntroActivity();
-        starsIntroActivity.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda99
+        starsIntroActivity.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda103
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showActionGiftSheet$77(StarsIntroActivity.this, tL_messageActionStarGift);
+                StarsIntroActivity.lambda$showActionGiftSheet$79(StarsIntroActivity.this, tL_messageActionStarGift);
             }
         });
         safeLastFragment.presentFragment(starsIntroActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$79(final AlertDialog alertDialog, final BottomSheet[] bottomSheetArr, final int i, final long j, final long j2, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda92
+    public static /* synthetic */ void lambda$showActionGiftSheet$81(final AlertDialog alertDialog, final BottomSheet[] bottomSheetArr, final int i, final long j, final long j2, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda93
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showActionGiftSheet$78(AlertDialog.this, tLObject, bottomSheetArr, i, j, j2, tL_messageActionStarGift, tL_error, resourcesProvider);
+                StarsIntroActivity.lambda$showActionGiftSheet$80(AlertDialog.this, tLObject, bottomSheetArr, i, j, j2, tL_messageActionStarGift, tL_error, resourcesProvider);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$80(int i, final int i2, final long j, final BottomSheet[] bottomSheetArr, final long j2, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i3) {
+    public static /* synthetic */ void lambda$showActionGiftSheet$82(int i, final int i2, final long j, final BottomSheet[] bottomSheetArr, final long j2, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i3) {
         final AlertDialog alertDialog = new AlertDialog(ApplicationLoader.applicationContext, 3);
         alertDialog.showDelayed(500L);
         TL_stars.convertStarGift convertstargift = new TL_stars.convertStarGift();
         convertstargift.msg_id = i;
         convertstargift.user_id = MessagesController.getInstance(i2).getInputUser(j);
-        ConnectionsManager.getInstance(i2).sendRequest(convertstargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda86
+        ConnectionsManager.getInstance(i2).sendRequest(convertstargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda87
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showActionGiftSheet$79(AlertDialog.this, bottomSheetArr, i2, j, j2, tL_messageActionStarGift, resourcesProvider, tLObject, tL_error);
+                StarsIntroActivity.lambda$showActionGiftSheet$81(AlertDialog.this, bottomSheetArr, i2, j, j2, tL_messageActionStarGift, resourcesProvider, tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$81(Context context, final Theme.ResourcesProvider resourcesProvider, int i, TLRPC.User user, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final int i2, final int i3, final long j, final BottomSheet[] bottomSheetArr, final long j2) {
-        new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.Gift2ConvertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("Gift2ConvertText2", i, UserObject.getForcedFirstName(user), LocaleController.formatPluralStringComma("Gift2ConvertStars", (int) tL_messageActionStarGift.convert_stars)))).setPositiveButton(LocaleController.getString(R.string.Gift2ConvertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda67
+    public static /* synthetic */ void lambda$showActionGiftSheet$83(Context context, final Theme.ResourcesProvider resourcesProvider, int i, TLRPC.User user, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final int i2, final int i3, final long j, final BottomSheet[] bottomSheetArr, final long j2) {
+        new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.Gift2ConvertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("Gift2ConvertText2", i, UserObject.getForcedFirstName(user), LocaleController.formatPluralStringComma("Gift2ConvertStars", (int) tL_messageActionStarGift.convert_stars)))).setPositiveButton(LocaleController.getString(R.string.Gift2ConvertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda70
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i4) {
-                StarsIntroActivity.lambda$showActionGiftSheet$80(i2, i3, j, bottomSheetArr, j2, tL_messageActionStarGift, resourcesProvider, dialogInterface, i4);
+                StarsIntroActivity.lambda$showActionGiftSheet$82(i2, i3, j, bottomSheetArr, j2, tL_messageActionStarGift, resourcesProvider, dialogInterface, i4);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$82(BottomSheet[] bottomSheetArr, long j) {
-        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (safeLastFragment == null) {
-            return;
-        }
-        bottomSheetArr[0].dismiss();
-        if ((safeLastFragment instanceof ProfileActivity) && ((ProfileActivity) safeLastFragment).myProfile) {
-            return;
-        }
-        Bundle bundle = new Bundle();
-        bundle.putLong("user_id", j);
-        bundle.putBoolean("my_profile", true);
-        bundle.putBoolean("open_gifts", true);
-        safeLastFragment.presentFragment(new ProfileActivity(bundle));
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$83(BottomSheet[] bottomSheetArr, View view) {
-        bottomSheetArr[0].dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2996,7 +3017,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         if (tLObject instanceof TLRPC.TL_boolTrue) {
             bottomSheetArr[0].dismiss();
             StarsController.getInstance(i).invalidateProfileGifts(j);
-            BulletinFactory.of(safeLastFragment).createEmojiBulletin(starGift.sticker, LocaleController.getString(z ? R.string.Gift2MadePrivateTitle : R.string.Gift2MadePublicTitle), AndroidUtilities.replaceSingleTag(LocaleController.getString(z ? R.string.Gift2MadePrivate : R.string.Gift2MadePublic), safeLastFragment instanceof ProfileActivity ? null : new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda95
+            BulletinFactory.of(safeLastFragment).createEmojiBulletin(starGift.sticker, LocaleController.getString(z ? R.string.Gift2MadePrivateTitle : R.string.Gift2MadePublicTitle), AndroidUtilities.replaceSingleTag(LocaleController.getString(z ? R.string.Gift2MadePrivate : R.string.Gift2MadePublic), safeLastFragment instanceof ProfileActivity ? null : new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda99
                 @Override // java.lang.Runnable
                 public final void run() {
                     StarsIntroActivity.lambda$showActionGiftSheet$84(i, safeLastFragment);
@@ -3009,7 +3030,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showActionGiftSheet$86(final BottomSheet[] bottomSheetArr, final int i, final long j, final TL_stars.StarGift starGift, final boolean z, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda81
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda88
             @Override // java.lang.Runnable
             public final void run() {
                 StarsIntroActivity.lambda$showActionGiftSheet$85(TLObject.this, bottomSheetArr, i, j, starGift, z, tL_error, resourcesProvider);
@@ -3018,7 +3039,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showActionGiftSheet$87(ButtonWithCounterView buttonWithCounterView, TLRPC.TL_messageActionStarGift tL_messageActionStarGift, int i, final int i2, long j, final BottomSheet[] bottomSheetArr, final long j2, final TL_stars.StarGift starGift, final Theme.ResourcesProvider resourcesProvider, View view) {
+    public static /* synthetic */ void lambda$showActionGiftSheet$87(ButtonWithCounterView buttonWithCounterView, TLRPC.TL_messageActionStarGift tL_messageActionStarGift, int i, final int i2, long j, final BottomSheet[] bottomSheetArr, final long j2, final TL_stars.StarGift starGift, final Theme.ResourcesProvider resourcesProvider) {
         if (buttonWithCounterView.isLoading()) {
             return;
         }
@@ -3028,7 +3049,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         savestargift.unsave = z;
         savestargift.msg_id = i;
         savestargift.user_id = MessagesController.getInstance(i2).getInputUser(j);
-        ConnectionsManager.getInstance(i2).sendRequest(savestargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda65
+        ConnectionsManager.getInstance(i2).sendRequest(savestargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda68
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 StarsIntroActivity.lambda$showActionGiftSheet$86(bottomSheetArr, i2, j2, starGift, z, resourcesProvider, tLObject, tL_error);
@@ -3037,7 +3058,29 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showBoostsSheet$56(BottomSheet[] bottomSheetArr, long j) {
+    public static /* synthetic */ void lambda$showActionGiftSheet$88(BottomSheet[] bottomSheetArr, long j) {
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (safeLastFragment == null) {
+            return;
+        }
+        bottomSheetArr[0].dismiss();
+        if ((safeLastFragment instanceof ProfileActivity) && ((ProfileActivity) safeLastFragment).myProfile) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putLong("user_id", j);
+        bundle.putBoolean("my_profile", true);
+        bundle.putBoolean("open_gifts", true);
+        safeLastFragment.presentFragment(new ProfileActivity(bundle));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showActionGiftSheet$89(BottomSheet[] bottomSheetArr, View view) {
+        bottomSheetArr[0].dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showBoostsSheet$58(BottomSheet[] bottomSheetArr, long j) {
         BottomSheet bottomSheet = bottomSheetArr[0];
         if (bottomSheet != null) {
             bottomSheet.dismiss();
@@ -3050,7 +3093,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showBoostsSheet$57(BottomSheet[] bottomSheetArr, long j, TL_stories.Boost boost) {
+    public static /* synthetic */ void lambda$showBoostsSheet$59(BottomSheet[] bottomSheetArr, long j, TL_stories.Boost boost) {
         BottomSheet bottomSheet = bottomSheetArr[0];
         if (bottomSheet != null) {
             bottomSheet.dismiss();
@@ -3063,12 +3106,12 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showBoostsSheet$58(Context context) {
+    public static /* synthetic */ void lambda$showBoostsSheet$60(Context context) {
         Browser.openUrl(context, LocaleController.getString(R.string.StarsTOSLink));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showBoostsSheet$59(BottomSheet[] bottomSheetArr, View view) {
+    public static /* synthetic */ void lambda$showBoostsSheet$61(BottomSheet[] bottomSheetArr, View view) {
         BottomSheet bottomSheet = bottomSheetArr[0];
         if (bottomSheet != null) {
             bottomSheet.dismiss();
@@ -3076,7 +3119,47 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$100(final ButtonWithCounterView buttonWithCounterView, TL_stars.UserStarGift userStarGift, final int i, final BottomSheet[] bottomSheetArr, final long j, final TL_stars.StarGift starGift, final Theme.ResourcesProvider resourcesProvider, View view) {
+    public static /* synthetic */ void lambda$showGiftSheet$100(TLObject tLObject, BottomSheet[] bottomSheetArr, final int i, long j, TL_stars.StarGift starGift, boolean z, TLRPC.TL_error tL_error, Theme.ResourcesProvider resourcesProvider, ButtonWithCounterView buttonWithCounterView) {
+        BulletinFactory of;
+        String string;
+        final BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (safeLastFragment == null) {
+            return;
+        }
+        if (tLObject instanceof TLRPC.TL_boolTrue) {
+            bottomSheetArr[0].dismiss();
+            StarsController.getInstance(i).invalidateProfileGifts(j);
+            BulletinFactory.of(safeLastFragment).createEmojiBulletin(starGift.sticker, LocaleController.getString(z ? R.string.Gift2MadePrivateTitle : R.string.Gift2MadePublicTitle), AndroidUtilities.replaceSingleTag(LocaleController.getString(z ? R.string.Gift2MadePrivate : R.string.Gift2MadePublic), safeLastFragment instanceof ProfileActivity ? null : new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda100
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StarsIntroActivity.lambda$showGiftSheet$99(i, safeLastFragment);
+                }
+            })).show(true);
+        } else {
+            if (tL_error != null) {
+                of = BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider);
+                string = LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text);
+            } else {
+                of = BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider);
+                string = LocaleController.getString(R.string.UnknownError);
+            }
+            of.createErrorBulletin(string).show(false);
+        }
+        buttonWithCounterView.setLoading(false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showGiftSheet$101(final BottomSheet[] bottomSheetArr, final int i, final long j, final TL_stars.StarGift starGift, final boolean z, final Theme.ResourcesProvider resourcesProvider, final ButtonWithCounterView buttonWithCounterView, final TLObject tLObject, final TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda97
+            @Override // java.lang.Runnable
+            public final void run() {
+                StarsIntroActivity.lambda$showGiftSheet$100(TLObject.this, bottomSheetArr, i, j, starGift, z, tL_error, resourcesProvider, buttonWithCounterView);
+            }
+        });
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showGiftSheet$102(final ButtonWithCounterView buttonWithCounterView, TL_stars.UserStarGift userStarGift, final int i, final BottomSheet[] bottomSheetArr, final long j, final TL_stars.StarGift starGift, final Theme.ResourcesProvider resourcesProvider) {
         if (buttonWithCounterView.isLoading()) {
             return;
         }
@@ -3086,21 +3169,26 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         savestargift.unsave = z;
         savestargift.msg_id = userStarGift.msg_id;
         savestargift.user_id = MessagesController.getInstance(i).getInputUser(userStarGift.from_id);
-        ConnectionsManager.getInstance(i).sendRequest(savestargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda85
+        ConnectionsManager.getInstance(i).sendRequest(savestargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda90
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showGiftSheet$99(bottomSheetArr, i, j, starGift, z, resourcesProvider, buttonWithCounterView, tLObject, tL_error);
+                StarsIntroActivity.lambda$showGiftSheet$101(bottomSheetArr, i, j, starGift, z, resourcesProvider, buttonWithCounterView, tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$88(Context context) {
+    public static /* synthetic */ void lambda$showGiftSheet$103(BottomSheet[] bottomSheetArr, View view) {
+        bottomSheetArr[0].dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showGiftSheet$91(Context context) {
         new ExplainStarsSheet(context).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$89(BottomSheet[] bottomSheetArr, long j, TL_stars.UserStarGift userStarGift, long j2) {
+    public static /* synthetic */ void lambda$showGiftSheet$92(BottomSheet[] bottomSheetArr, long j, TL_stars.UserStarGift userStarGift, long j2) {
         BaseFragment profileActivity;
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
@@ -3126,19 +3214,19 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$90(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showGiftSheet$93(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
         BottomSheet bottomSheet = bottomSheetArr[0];
         Objects.requireNonNull(bottomSheet);
         new GiftSheet(context, i, j, new BottomSheet$$ExternalSyntheticLambda11(bottomSheet)).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$91(StarsIntroActivity starsIntroActivity, TL_stars.UserStarGift userStarGift) {
+    public static /* synthetic */ void lambda$showGiftSheet$94(StarsIntroActivity starsIntroActivity, TL_stars.UserStarGift userStarGift) {
         BulletinFactory.of(starsIntroActivity).createSimpleBulletin(R.raw.stars_topup, LocaleController.getString(R.string.Gift2ConvertedTitle), LocaleController.formatPluralStringComma("Gift2Converted", (int) userStarGift.convert_stars)).show(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$92(AlertDialog alertDialog, TLObject tLObject, BottomSheet[] bottomSheetArr, int i, long j, long j2, final TL_stars.UserStarGift userStarGift, TLRPC.TL_error tL_error, Theme.ResourcesProvider resourcesProvider) {
+    public static /* synthetic */ void lambda$showGiftSheet$95(AlertDialog alertDialog, TLObject tLObject, BottomSheet[] bottomSheetArr, int i, long j, long j2, final TL_stars.UserStarGift userStarGift, TLRPC.TL_error tL_error, Theme.ResourcesProvider resourcesProvider) {
         BulletinFactory of;
         String string;
         alertDialog.dismissUnless(400L);
@@ -3174,57 +3262,52 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             return;
         }
         final StarsIntroActivity starsIntroActivity = new StarsIntroActivity();
-        starsIntroActivity.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda103
+        starsIntroActivity.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda106
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$91(StarsIntroActivity.this, userStarGift);
+                StarsIntroActivity.lambda$showGiftSheet$94(StarsIntroActivity.this, userStarGift);
             }
         });
         safeLastFragment.presentFragment(starsIntroActivity);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$93(final AlertDialog alertDialog, final BottomSheet[] bottomSheetArr, final int i, final long j, final long j2, final TL_stars.UserStarGift userStarGift, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda101
+    public static /* synthetic */ void lambda$showGiftSheet$96(final AlertDialog alertDialog, final BottomSheet[] bottomSheetArr, final int i, final long j, final long j2, final TL_stars.UserStarGift userStarGift, final Theme.ResourcesProvider resourcesProvider, final TLObject tLObject, final TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda104
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$92(AlertDialog.this, tLObject, bottomSheetArr, i, j, j2, userStarGift, tL_error, resourcesProvider);
+                StarsIntroActivity.lambda$showGiftSheet$95(AlertDialog.this, tLObject, bottomSheetArr, i, j, j2, userStarGift, tL_error, resourcesProvider);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$94(final TL_stars.UserStarGift userStarGift, final int i, final BottomSheet[] bottomSheetArr, final long j, final long j2, final Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$showGiftSheet$97(final TL_stars.UserStarGift userStarGift, final int i, final BottomSheet[] bottomSheetArr, final long j, final long j2, final Theme.ResourcesProvider resourcesProvider, DialogInterface dialogInterface, int i2) {
         final AlertDialog alertDialog = new AlertDialog(ApplicationLoader.applicationContext, 3);
         alertDialog.showDelayed(500L);
         TL_stars.convertStarGift convertstargift = new TL_stars.convertStarGift();
         convertstargift.msg_id = userStarGift.msg_id;
         convertstargift.user_id = MessagesController.getInstance(i).getInputUser(userStarGift.from_id);
-        ConnectionsManager.getInstance(i).sendRequest(convertstargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda89
+        ConnectionsManager.getInstance(i).sendRequest(convertstargift, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda94
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showGiftSheet$93(AlertDialog.this, bottomSheetArr, i, j, j2, userStarGift, resourcesProvider, tLObject, tL_error);
+                StarsIntroActivity.lambda$showGiftSheet$96(AlertDialog.this, bottomSheetArr, i, j, j2, userStarGift, resourcesProvider, tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$95(Context context, final Theme.ResourcesProvider resourcesProvider, int i, TLRPC.User user, long j, final TL_stars.UserStarGift userStarGift, final int i2, final BottomSheet[] bottomSheetArr, final long j2, final long j3) {
-        new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.Gift2ConvertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("Gift2ConvertText2", i, (user == null || UserObject.isService(j)) ? LocaleController.getString(R.string.StarsTransactionHidden) : UserObject.getForcedFirstName(user), LocaleController.formatPluralStringComma("Gift2ConvertStars", (int) userStarGift.convert_stars)))).setPositiveButton(LocaleController.getString(R.string.Gift2ConvertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda84
+    public static /* synthetic */ void lambda$showGiftSheet$98(Context context, final Theme.ResourcesProvider resourcesProvider, int i, TLRPC.User user, long j, final TL_stars.UserStarGift userStarGift, final int i2, final BottomSheet[] bottomSheetArr, final long j2, final long j3) {
+        new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.Gift2ConvertTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("Gift2ConvertText2", i, (user == null || UserObject.isService(j)) ? LocaleController.getString(R.string.StarsTransactionHidden) : UserObject.getForcedFirstName(user), LocaleController.formatPluralStringComma("Gift2ConvertStars", (int) userStarGift.convert_stars)))).setPositiveButton(LocaleController.getString(R.string.Gift2ConvertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda89
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
-                StarsIntroActivity.lambda$showGiftSheet$94(TL_stars.UserStarGift.this, i2, bottomSheetArr, j2, j3, resourcesProvider, dialogInterface, i3);
+                StarsIntroActivity.lambda$showGiftSheet$97(TL_stars.UserStarGift.this, i2, bottomSheetArr, j2, j3, resourcesProvider, dialogInterface, i3);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$96(BottomSheet[] bottomSheetArr, View view) {
-        bottomSheetArr[0].dismiss();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$97(int i, BaseFragment baseFragment) {
+    public static /* synthetic */ void lambda$showGiftSheet$99(int i, BaseFragment baseFragment) {
         Bundle bundle = new Bundle();
         bundle.putLong("user_id", UserConfig.getInstance(i).getClientUserId());
         bundle.putBoolean("my_profile", true);
@@ -3233,63 +3316,23 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$98(TLObject tLObject, BottomSheet[] bottomSheetArr, final int i, long j, TL_stars.StarGift starGift, boolean z, TLRPC.TL_error tL_error, Theme.ResourcesProvider resourcesProvider, ButtonWithCounterView buttonWithCounterView) {
-        BulletinFactory of;
-        String string;
-        final BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (safeLastFragment == null) {
-            return;
-        }
-        if (tLObject instanceof TLRPC.TL_boolTrue) {
-            bottomSheetArr[0].dismiss();
-            StarsController.getInstance(i).invalidateProfileGifts(j);
-            BulletinFactory.of(safeLastFragment).createEmojiBulletin(starGift.sticker, LocaleController.getString(z ? R.string.Gift2MadePrivateTitle : R.string.Gift2MadePublicTitle), AndroidUtilities.replaceSingleTag(LocaleController.getString(z ? R.string.Gift2MadePrivate : R.string.Gift2MadePublic), safeLastFragment instanceof ProfileActivity ? null : new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda100
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showGiftSheet$97(i, safeLastFragment);
-                }
-            })).show(true);
-        } else {
-            if (tL_error != null) {
-                of = BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider);
-                string = LocaleController.formatString(R.string.UnknownErrorCode, tL_error.text);
-            } else {
-                of = BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider);
-                string = LocaleController.getString(R.string.UnknownError);
-            }
-            of.createErrorBulletin(string).show(false);
-        }
-        buttonWithCounterView.setLoading(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showGiftSheet$99(final BottomSheet[] bottomSheetArr, final int i, final long j, final TL_stars.StarGift starGift, final boolean z, final Theme.ResourcesProvider resourcesProvider, final ButtonWithCounterView buttonWithCounterView, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda90
-            @Override // java.lang.Runnable
-            public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$98(TLObject.this, bottomSheetArr, i, j, starGift, z, tL_error, resourcesProvider, buttonWithCounterView);
-            }
-        });
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$61(OutlineTextContainerView outlineTextContainerView, EditTextBoldCursor editTextBoldCursor, View view, boolean z) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$63(OutlineTextContainerView outlineTextContainerView, EditTextBoldCursor editTextBoldCursor, View view, boolean z) {
         outlineTextContainerView.animateSelection(z, !TextUtils.isEmpty(editTextBoldCursor.getText()));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$62(Context context) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$64(Context context) {
         Browser.openUrl(context, LocaleController.getString(R.string.PaidContentInfoLink));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$63(EditTextBoldCursor editTextBoldCursor, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$65(EditTextBoldCursor editTextBoldCursor, BottomSheet[] bottomSheetArr) {
         AndroidUtilities.hideKeyboard(editTextBoldCursor);
         bottomSheetArr[0].dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$showMediaPriceSheet$64(boolean[] zArr, Utilities.Callback2 callback2, ButtonWithCounterView buttonWithCounterView, final EditTextBoldCursor editTextBoldCursor, final BottomSheet[] bottomSheetArr, TextView textView, int i, KeyEvent keyEvent) {
+    public static /* synthetic */ boolean lambda$showMediaPriceSheet$66(boolean[] zArr, Utilities.Callback2 callback2, ButtonWithCounterView buttonWithCounterView, final EditTextBoldCursor editTextBoldCursor, final BottomSheet[] bottomSheetArr, TextView textView, int i, KeyEvent keyEvent) {
         if (i != 5) {
             return false;
         }
@@ -3299,10 +3342,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         if (callback2 != null) {
             zArr[0] = true;
             buttonWithCounterView.setLoading(true);
-            callback2.run(Long.valueOf(Long.parseLong(editTextBoldCursor.getText().toString())), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda74
+            callback2.run(Long.valueOf(Long.parseLong(editTextBoldCursor.getText().toString())), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda66
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$showMediaPriceSheet$63(EditTextBoldCursor.this, bottomSheetArr);
+                    StarsIntroActivity.lambda$showMediaPriceSheet$65(EditTextBoldCursor.this, bottomSheetArr);
                 }
             });
         } else {
@@ -3313,13 +3356,13 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$65(EditTextBoldCursor editTextBoldCursor, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$67(EditTextBoldCursor editTextBoldCursor, BottomSheet[] bottomSheetArr) {
         AndroidUtilities.hideKeyboard(editTextBoldCursor);
         bottomSheetArr[0].dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$66(boolean[] zArr, Utilities.Callback2 callback2, final EditTextBoldCursor editTextBoldCursor, ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, View view) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$68(boolean[] zArr, Utilities.Callback2 callback2, final EditTextBoldCursor editTextBoldCursor, ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, View view) {
         if (zArr[0]) {
             return;
         }
@@ -3330,24 +3373,24 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             String obj = editTextBoldCursor.getText().toString();
             zArr[0] = true;
             buttonWithCounterView.setLoading(true);
-            callback2.run(Long.valueOf(TextUtils.isEmpty(obj) ? 0L : Long.parseLong(obj)), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda62
+            callback2.run(Long.valueOf(TextUtils.isEmpty(obj) ? 0L : Long.parseLong(obj)), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda67
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$showMediaPriceSheet$65(EditTextBoldCursor.this, bottomSheetArr);
+                    StarsIntroActivity.lambda$showMediaPriceSheet$67(EditTextBoldCursor.this, bottomSheetArr);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$67(boolean[] zArr, EditTextBoldCursor editTextBoldCursor, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$69(boolean[] zArr, EditTextBoldCursor editTextBoldCursor, BottomSheet[] bottomSheetArr) {
         zArr[0] = false;
         AndroidUtilities.hideKeyboard(editTextBoldCursor);
         bottomSheetArr[0].dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$68(final boolean[] zArr, Utilities.Callback2 callback2, ButtonWithCounterView buttonWithCounterView, final EditTextBoldCursor editTextBoldCursor, final BottomSheet[] bottomSheetArr, View view) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$70(final boolean[] zArr, Utilities.Callback2 callback2, ButtonWithCounterView buttonWithCounterView, final EditTextBoldCursor editTextBoldCursor, final BottomSheet[] bottomSheetArr, View view) {
         if (zArr[0]) {
             return;
         }
@@ -3357,20 +3400,20 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         } else {
             zArr[0] = true;
             buttonWithCounterView.setLoading(true);
-            callback2.run(0L, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda64
+            callback2.run(0L, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda69
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$showMediaPriceSheet$67(zArr, editTextBoldCursor, bottomSheetArr);
+                    StarsIntroActivity.lambda$showMediaPriceSheet$69(zArr, editTextBoldCursor, bottomSheetArr);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMediaPriceSheet$71(BottomSheet[] bottomSheetArr, final EditTextBoldCursor editTextBoldCursor) {
+    public static /* synthetic */ void lambda$showMediaPriceSheet$73(BottomSheet[] bottomSheetArr, final EditTextBoldCursor editTextBoldCursor) {
         bottomSheetArr[0].setFocusable(true);
         editTextBoldCursor.requestFocus();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda63
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda65
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.showKeyboard(EditTextBoldCursor.this);
@@ -3379,17 +3422,17 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSoldOutGiftSheet$101(BottomSheet[] bottomSheetArr, View view) {
+    public static /* synthetic */ void lambda$showSoldOutGiftSheet$105(BottomSheet[] bottomSheetArr, View view) {
         bottomSheetArr[0].dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$39(Context context) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$40(Context context) {
         Browser.openUrl(context, LocaleController.getString(R.string.StarsTOSLink));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$40(ButtonWithCounterView buttonWithCounterView, BottomSheet[] bottomSheetArr, int i, long j) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$41(ButtonWithCounterView buttonWithCounterView, BottomSheet[] bottomSheetArr, int i, long j) {
         buttonWithCounterView.setLoading(false);
         BottomSheet bottomSheet = bottomSheetArr[0];
         if (bottomSheet != null) {
@@ -3404,50 +3447,50 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$41(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final int i, final long j, TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda97
+    public static /* synthetic */ void lambda$showSubscriptionSheet$42(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final int i, final long j, TLObject tLObject, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda102
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$40(ButtonWithCounterView.this, bottomSheetArr, i, j);
+                StarsIntroActivity.lambda$showSubscriptionSheet$41(ButtonWithCounterView.this, bottomSheetArr, i, j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$42(final ButtonWithCounterView buttonWithCounterView, TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final long j) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$43(final ButtonWithCounterView buttonWithCounterView, TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final long j) {
         buttonWithCounterView.setLoading(true);
         TL_stars.TL_fulfillStarsSubscription tL_fulfillStarsSubscription = new TL_stars.TL_fulfillStarsSubscription();
         tL_fulfillStarsSubscription.subscription_id = starsSubscription.id;
         tL_fulfillStarsSubscription.peer = new TLRPC.TL_inputPeerSelf();
-        ConnectionsManager.getInstance(i).sendRequest(tL_fulfillStarsSubscription, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda87
+        ConnectionsManager.getInstance(i).sendRequest(tL_fulfillStarsSubscription, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda92
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showSubscriptionSheet$41(ButtonWithCounterView.this, bottomSheetArr, i, j, tLObject, tL_error);
+                StarsIntroActivity.lambda$showSubscriptionSheet$42(ButtonWithCounterView.this, bottomSheetArr, i, j, tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$43(final ButtonWithCounterView buttonWithCounterView, final int i, final TL_stars.StarsSubscription starsSubscription, final BottomSheet[] bottomSheetArr, final long j, Context context, Theme.ResourcesProvider resourcesProvider, TLRPC.Chat chat, View view) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$44(final ButtonWithCounterView buttonWithCounterView, final int i, final TL_stars.StarsSubscription starsSubscription, final BottomSheet[] bottomSheetArr, final long j, Context context, Theme.ResourcesProvider resourcesProvider, String str, View view) {
         if (buttonWithCounterView.isLoading()) {
             return;
         }
         StarsController starsController = StarsController.getInstance(i);
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda82
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda86
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$42(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, j);
+                StarsIntroActivity.lambda$showSubscriptionSheet$43(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, j);
             }
         };
         if (starsController.balance < starsSubscription.pricing.amount) {
-            new StarsNeededSheet(context, resourcesProvider, starsSubscription.pricing.amount, 2, chat == null ? "" : chat.title, runnable).show();
+            new StarsNeededSheet(context, resourcesProvider, starsSubscription.pricing.amount, j < 0 ? 2 : 7, str, runnable).show();
         } else {
             runnable.run();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$44(ButtonWithCounterView buttonWithCounterView, BottomSheet[] bottomSheetArr, int i, TLRPC.Chat chat) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$45(ButtonWithCounterView buttonWithCounterView, BottomSheet[] bottomSheetArr, int i, TLObject tLObject, String str) {
         buttonWithCounterView.setLoading(false);
         BottomSheet bottomSheet = bottomSheetArr[0];
         if (bottomSheet != null) {
@@ -3456,22 +3499,22 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         StarsController.getInstance(i).invalidateSubscriptions(true);
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
-            BulletinFactory.of(safeLastFragment).createUsersBulletin(Collections.singletonList(chat), LocaleController.getString(R.string.StarsSubscriptionRenewedToast), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.StarsSubscriptionRenewedToastText, chat == null ? "" : chat.title))).show(false);
+            BulletinFactory.of(safeLastFragment).createUsersBulletin(Collections.singletonList(tLObject), LocaleController.getString(R.string.StarsSubscriptionRenewedToast), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.StarsSubscriptionRenewedToastText, str))).show(false);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$45(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final int i, final TLRPC.Chat chat, TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda91
+    public static /* synthetic */ void lambda$showSubscriptionSheet$46(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final int i, final TLObject tLObject, final String str, TLObject tLObject2, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda98
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$44(ButtonWithCounterView.this, bottomSheetArr, i, chat);
+                StarsIntroActivity.lambda$showSubscriptionSheet$45(ButtonWithCounterView.this, bottomSheetArr, i, tLObject, str);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$46(final ButtonWithCounterView buttonWithCounterView, TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final TLRPC.Chat chat, View view) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$47(final ButtonWithCounterView buttonWithCounterView, TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final TLObject tLObject, final String str, View view) {
         if (buttonWithCounterView.isLoading()) {
             return;
         }
@@ -3480,16 +3523,16 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         tL_changeStarsSubscription.canceled = Boolean.FALSE;
         tL_changeStarsSubscription.peer = new TLRPC.TL_inputPeerSelf();
         tL_changeStarsSubscription.subscription_id = starsSubscription.id;
-        ConnectionsManager.getInstance(i).sendRequest(tL_changeStarsSubscription, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda79
+        ConnectionsManager.getInstance(i).sendRequest(tL_changeStarsSubscription, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda85
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showSubscriptionSheet$45(ButtonWithCounterView.this, bottomSheetArr, i, chat, tLObject, tL_error);
+            public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
+                StarsIntroActivity.lambda$showSubscriptionSheet$46(ButtonWithCounterView.this, bottomSheetArr, i, tLObject, str, tLObject2, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$47(ButtonWithCounterView buttonWithCounterView, BottomSheet[] bottomSheetArr, int i, TLRPC.Chat chat, TL_stars.StarsSubscription starsSubscription) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$48(ButtonWithCounterView buttonWithCounterView, BottomSheet[] bottomSheetArr, int i, TLObject tLObject, TL_stars.StarsSubscription starsSubscription) {
         buttonWithCounterView.setLoading(false);
         BottomSheet bottomSheet = bottomSheetArr[0];
         if (bottomSheet != null) {
@@ -3498,22 +3541,22 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         StarsController.getInstance(i).invalidateSubscriptions(true);
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
-            BulletinFactory.of(safeLastFragment).createUsersBulletin(Collections.singletonList(chat), LocaleController.getString(R.string.StarsSubscriptionCancelledToast), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.StarsSubscriptionCancelledToastText, LocaleController.formatDateChat(starsSubscription.until_date)))).show(false);
+            BulletinFactory.of(safeLastFragment).createUsersBulletin(Collections.singletonList(tLObject), LocaleController.getString(R.string.StarsSubscriptionCancelledToast), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.StarsSubscriptionCancelledToastText, LocaleController.formatDateChat(starsSubscription.until_date)))).show(false);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$48(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final int i, final TLRPC.Chat chat, final TL_stars.StarsSubscription starsSubscription, TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda88
+    public static /* synthetic */ void lambda$showSubscriptionSheet$49(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final int i, final TLObject tLObject, final TL_stars.StarsSubscription starsSubscription, TLObject tLObject2, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda91
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$47(ButtonWithCounterView.this, bottomSheetArr, i, chat, starsSubscription);
+                StarsIntroActivity.lambda$showSubscriptionSheet$48(ButtonWithCounterView.this, bottomSheetArr, i, tLObject, starsSubscription);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$49(final ButtonWithCounterView buttonWithCounterView, final TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final TLRPC.Chat chat, View view) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$50(final ButtonWithCounterView buttonWithCounterView, final TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final TLObject tLObject, View view) {
         if (buttonWithCounterView.isLoading()) {
             return;
         }
@@ -3522,21 +3565,21 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         tL_changeStarsSubscription.canceled = Boolean.TRUE;
         tL_changeStarsSubscription.peer = new TLRPC.TL_inputPeerSelf();
         tL_changeStarsSubscription.subscription_id = starsSubscription.id;
-        ConnectionsManager.getInstance(i).sendRequest(tL_changeStarsSubscription, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda83
+        ConnectionsManager.getInstance(i).sendRequest(tL_changeStarsSubscription, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda84
             @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showSubscriptionSheet$48(ButtonWithCounterView.this, bottomSheetArr, i, chat, starsSubscription, tLObject, tL_error);
+            public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
+                StarsIntroActivity.lambda$showSubscriptionSheet$49(ButtonWithCounterView.this, bottomSheetArr, i, tLObject, starsSubscription, tLObject2, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$50(BaseFragment baseFragment, long j, TLRPC.Chat chat) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$51(BaseFragment baseFragment, long j, TLRPC.Chat chat) {
         BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.stars_send, LocaleController.getString(R.string.StarsSubscriptionCompleted), AndroidUtilities.replaceTags(LocaleController.formatPluralString("StarsSubscriptionCompletedText", (int) j, chat.title))).show(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$51(Long l, int i, final long j) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$52(Long l, int i, final long j) {
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment == null) {
             return;
@@ -3548,27 +3591,27 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$showSubscriptionSheet$50(BaseFragment.this, j, chat);
+                    StarsIntroActivity.lambda$showSubscriptionSheet$51(BaseFragment.this, j, chat);
                 }
             }, 250L);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$52(final int i, final long j, String str, final Long l) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$53(final int i, final long j, String str, final Long l) {
         if (!"paid".equals(str) || l.longValue() == 0) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda102
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda107
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$51(l, i, j);
+                StarsIntroActivity.lambda$showSubscriptionSheet$52(l, i, j);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$53(ButtonWithCounterView buttonWithCounterView, TLObject tLObject, BottomSheet[] bottomSheetArr, Theme.ResourcesProvider resourcesProvider, final int i, TLRPC.TL_messages_checkChatInvite tL_messages_checkChatInvite) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$54(ButtonWithCounterView buttonWithCounterView, TLObject tLObject, BottomSheet[] bottomSheetArr, Theme.ResourcesProvider resourcesProvider, final int i, TLRPC.TL_messages_checkChatInvite tL_messages_checkChatInvite) {
         buttonWithCounterView.setLoading(false);
         if (!(tLObject instanceof TLRPC.ChatInvite)) {
             BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider).createErrorBulletin(LocaleController.getString(R.string.LinkHashExpired)).show(false);
@@ -3580,43 +3623,58 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show(false);
         } else {
             final long j = tL_starsSubscriptionPricing.amount;
-            StarsController.getInstance(i).subscribeTo(tL_messages_checkChatInvite.hash, chatInvite, new Utilities.Callback2() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda98
+            StarsController.getInstance(i).subscribeTo(tL_messages_checkChatInvite.hash, chatInvite, new Utilities.Callback2() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda105
                 @Override // org.telegram.messenger.Utilities.Callback2
                 public final void run(Object obj, Object obj2) {
-                    StarsIntroActivity.lambda$showSubscriptionSheet$52(i, j, (String) obj, (Long) obj2);
+                    StarsIntroActivity.lambda$showSubscriptionSheet$53(i, j, (String) obj, (Long) obj2);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$54(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final Theme.ResourcesProvider resourcesProvider, final int i, final TLRPC.TL_messages_checkChatInvite tL_messages_checkChatInvite, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda94
+    public static /* synthetic */ void lambda$showSubscriptionSheet$55(final ButtonWithCounterView buttonWithCounterView, final BottomSheet[] bottomSheetArr, final Theme.ResourcesProvider resourcesProvider, final int i, final TLRPC.TL_messages_checkChatInvite tL_messages_checkChatInvite, final TLObject tLObject, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda96
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$53(ButtonWithCounterView.this, tLObject, bottomSheetArr, resourcesProvider, i, tL_messages_checkChatInvite);
+                StarsIntroActivity.lambda$showSubscriptionSheet$54(ButtonWithCounterView.this, tLObject, bottomSheetArr, resourcesProvider, i, tL_messages_checkChatInvite);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showSubscriptionSheet$55(final ButtonWithCounterView buttonWithCounterView, TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final Theme.ResourcesProvider resourcesProvider, View view) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$56(final ButtonWithCounterView buttonWithCounterView, TL_stars.StarsSubscription starsSubscription, final int i, final BottomSheet[] bottomSheetArr, final Theme.ResourcesProvider resourcesProvider, boolean[] zArr, Context context, View view) {
         if (buttonWithCounterView.isLoading()) {
             return;
         }
         buttonWithCounterView.setLoading(true);
-        final TLRPC.TL_messages_checkChatInvite tL_messages_checkChatInvite = new TLRPC.TL_messages_checkChatInvite();
-        tL_messages_checkChatInvite.hash = starsSubscription.chat_invite_hash;
-        ConnectionsManager.getInstance(i).sendRequest(tL_messages_checkChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda80
-            @Override // org.telegram.tgnet.RequestDelegate
-            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                StarsIntroActivity.lambda$showSubscriptionSheet$54(ButtonWithCounterView.this, bottomSheetArr, resourcesProvider, i, tL_messages_checkChatInvite, tLObject, tL_error);
-            }
-        });
+        if (starsSubscription.chat_invite_hash != null) {
+            final TLRPC.TL_messages_checkChatInvite tL_messages_checkChatInvite = new TLRPC.TL_messages_checkChatInvite();
+            tL_messages_checkChatInvite.hash = starsSubscription.chat_invite_hash;
+            ConnectionsManager.getInstance(i).sendRequest(tL_messages_checkChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda79
+                @Override // org.telegram.tgnet.RequestDelegate
+                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                    StarsIntroActivity.lambda$showSubscriptionSheet$55(ButtonWithCounterView.this, bottomSheetArr, resourcesProvider, i, tL_messages_checkChatInvite, tLObject, tL_error);
+                }
+            });
+        } else if (starsSubscription.invoice_slug != null) {
+            zArr[0] = true;
+            Browser.openUrl(context, Uri.parse("https://t.me/$" + starsSubscription.invoice_slug), true, false, false, new Browser.Progress() { // from class: org.telegram.ui.Stars.StarsIntroActivity.11
+                @Override // org.telegram.messenger.browser.Browser.Progress
+                public void end() {
+                    ButtonWithCounterView.this.setLoading(false);
+                }
+            }, null, false, true, false);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$20(boolean z, long j, TL_stars.StarsTransaction starsTransaction, int i, Theme.ResourcesProvider resourcesProvider, final BackupImageView backupImageView, final LinearLayout linearLayout, View view) {
+    public static /* synthetic */ void lambda$showSubscriptionSheet$57(int i, NotificationCenter.NotificationCenterDelegate notificationCenterDelegate, DialogInterface dialogInterface) {
+        NotificationCenter.getInstance(i).removeObserver(notificationCenterDelegate, NotificationCenter.starSubscriptionsLoaded);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showTransactionSheet$21(boolean z, long j, TL_stars.StarsTransaction starsTransaction, int i, Theme.ResourcesProvider resourcesProvider, final BackupImageView backupImageView, final LinearLayout linearLayout, View view) {
         final long peerDialogId = z ? j : DialogObject.getPeerDialogId(starsTransaction.peer.peer);
         ArrayList arrayList = new ArrayList();
         for (int i2 = 0; i2 < starsTransaction.extended_media.size(); i2++) {
@@ -3671,7 +3729,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$21(Context context, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showTransactionSheet$22(Context context, BottomSheet[] bottomSheetArr) {
         BottomSheet bottomSheet;
         BaseFragment baseFragment;
         StarAppsSheet starAppsSheet = new StarAppsSheet(context);
@@ -3682,7 +3740,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$22(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
+    public static /* synthetic */ void lambda$showTransactionSheet$23(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
@@ -3691,23 +3749,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$23(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showTransactionSheet$24(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
         BottomSheet bottomSheet = bottomSheetArr[0];
         Objects.requireNonNull(bottomSheet);
         new GiftSheet(context, i, j, new BottomSheet$$ExternalSyntheticLambda11(bottomSheet)).show();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$24(BottomSheet[] bottomSheetArr, int i) {
-        bottomSheetArr[0].dismiss();
-        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (safeLastFragment != null) {
-            Bundle bundle = new Bundle();
-            bundle.putLong("user_id", UserConfig.getInstance(i).getClientUserId());
-            bundle.putBoolean("my_profile", true);
-            bundle.putBoolean("open_gifts", true);
-            safeLastFragment.presentFragment(new ProfileActivity(bundle));
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3724,7 +3769,20 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$26(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
+    public static /* synthetic */ void lambda$showTransactionSheet$26(BottomSheet[] bottomSheetArr, int i) {
+        bottomSheetArr[0].dismiss();
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (safeLastFragment != null) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("user_id", UserConfig.getInstance(i).getClientUserId());
+            bundle.putBoolean("my_profile", true);
+            bundle.putBoolean("open_gifts", true);
+            safeLastFragment.presentFragment(new ProfileActivity(bundle));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showTransactionSheet$27(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
@@ -3733,14 +3791,14 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$27(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
+    public static /* synthetic */ void lambda$showTransactionSheet$28(Context context, int i, long j, BottomSheet[] bottomSheetArr) {
         BottomSheet bottomSheet = bottomSheetArr[0];
         Objects.requireNonNull(bottomSheet);
         new GiftSheet(context, i, j, new BottomSheet$$ExternalSyntheticLambda11(bottomSheet)).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$28(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
+    public static /* synthetic */ void lambda$showTransactionSheet$29(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
@@ -3749,7 +3807,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$29(BottomSheet[] bottomSheetArr, int i) {
+    public static /* synthetic */ void lambda$showTransactionSheet$30(BottomSheet[] bottomSheetArr, int i) {
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
@@ -3761,24 +3819,11 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$30(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
+    public static /* synthetic */ void lambda$showTransactionSheet$31(BottomSheet[] bottomSheetArr, TL_stars.StarsTransaction starsTransaction, long j) {
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
             safeLastFragment.presentFragment((starsTransaction.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0 ? ChatActivity.of(j, starsTransaction.giveaway_post_id) : ChatActivity.of(j));
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$31(BottomSheet[] bottomSheetArr, long j, Context context) {
-        bottomSheetArr[0].dismiss();
-        if (UserObject.isService(j)) {
-            Browser.openUrl(context, LocaleController.getString(R.string.StarsTransactionUnknownLink));
-            return;
-        }
-        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (safeLastFragment != null) {
-            safeLastFragment.presentFragment(ChatActivity.of(j));
         }
     }
 
@@ -3796,7 +3841,20 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$33(BottomSheet[] bottomSheetArr, long j, TL_stars.StarsTransaction starsTransaction) {
+    public static /* synthetic */ void lambda$showTransactionSheet$33(BottomSheet[] bottomSheetArr, long j, Context context) {
+        bottomSheetArr[0].dismiss();
+        if (UserObject.isService(j)) {
+            Browser.openUrl(context, LocaleController.getString(R.string.StarsTransactionUnknownLink));
+            return;
+        }
+        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (safeLastFragment != null) {
+            safeLastFragment.presentFragment(ChatActivity.of(j));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$showTransactionSheet$34(BottomSheet[] bottomSheetArr, long j, TL_stars.StarsTransaction starsTransaction) {
         bottomSheetArr[0].dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
@@ -3808,23 +3866,23 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$35(TL_stars.StarsTransaction starsTransaction, BottomSheet[] bottomSheetArr, Theme.ResourcesProvider resourcesProvider, View view) {
+    public static /* synthetic */ void lambda$showTransactionSheet$36(TL_stars.StarsTransaction starsTransaction, BottomSheet[] bottomSheetArr, Theme.ResourcesProvider resourcesProvider, View view) {
         AndroidUtilities.addToClipboard(starsTransaction.id);
         BulletinFactory.of(bottomSheetArr[0].topBulletinContainer, resourcesProvider).createSimpleBulletin(R.raw.copy, LocaleController.getString(R.string.StarsTransactionIDCopied)).show(false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$36(Context context) {
+    public static /* synthetic */ void lambda$showTransactionSheet$37(Context context) {
         Browser.openUrl(context, LocaleController.getString(R.string.StarsTOSLink));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$37(Context context, TL_stars.StarsTransaction starsTransaction, View view) {
+    public static /* synthetic */ void lambda$showTransactionSheet$38(Context context, TL_stars.StarsTransaction starsTransaction, View view) {
         Browser.openUrl(context, starsTransaction.transaction_url);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showTransactionSheet$38(BottomSheet[] bottomSheetArr, View view) {
+    public static /* synthetic */ void lambda$showTransactionSheet$39(BottomSheet[] bottomSheetArr, View view) {
         bottomSheetArr[0].dismiss();
     }
 
@@ -3832,32 +3890,37 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         return new 2(context, i, i2);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x039a  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x03ce  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x03f0  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x03ac  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x03e0  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0402  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static BottomSheet openConfirmPurchaseSheet(Context context, Theme.ResourcesProvider resourcesProvider, int i, MessageObject messageObject, long j, String str, long j2, TLRPC.WebDocument webDocument, final Utilities.Callback callback, final Runnable runnable) {
+    public static BottomSheet openConfirmPurchaseSheet(final Context context, Theme.ResourcesProvider resourcesProvider, int i, MessageObject messageObject, long j, String str, long j2, TLRPC.WebDocument webDocument, int i2, final Utilities.Callback callback, final Runnable runnable) {
         ViewGroup viewGroup;
         ViewGroup viewGroup2;
-        String formatPluralStringComma;
-        TLRPC.Message message;
-        String str2;
-        boolean z;
-        TLRPC.TL_messageMediaPaidMedia tL_messageMediaPaidMedia;
-        int i2;
         int i3;
-        int i4;
-        String formatPluralString;
-        int i5;
+        String str2;
+        SpannableStringBuilder replaceTags;
+        boolean z;
+        SpannableStringBuilder replaceStars;
+        TLRPC.Message message;
         String str3;
-        char c;
-        String formatPluralString2;
-        char c2;
-        String formatPluralString3;
         boolean z2;
+        TLRPC.TL_messageMediaPaidMedia tL_messageMediaPaidMedia;
+        int i4;
+        int i5;
         int i6;
+        String formatPluralString;
+        int i7;
+        String formatPluralString2;
+        String str4;
+        char c;
+        String formatPluralString3;
+        char c2;
+        String formatPluralString4;
+        boolean z3;
+        int i8;
         TLRPC.User user;
         TLRPC.MessageFwdHeader messageFwdHeader;
         TLRPC.Peer peer;
@@ -3985,7 +4048,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
         final StarsBalanceView starsBalanceView = new StarsBalanceView(context, i);
         ScaleStateListAnimator.apply(starsBalanceView);
-        starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda25
+        starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda20
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StarsIntroActivity.lambda$openConfirmPurchaseSheet$5(StarsIntroActivity.StarsBalanceView.this, view);
@@ -3997,9 +4060,22 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         TextView textView2 = new TextView(context);
         textView2.setTextSize(1, 20.0f);
         textView2.setTypeface(AndroidUtilities.bold());
-        int i7 = Theme.key_dialogTextBlack;
-        textView2.setTextColor(Theme.getColor(i7, resourcesProvider));
-        textView2.setText(Emoji.replaceEmoji(webDocument != null ? str : LocaleController.getString(R.string.StarsConfirmPurchaseTitle), textView2.getPaint().getFontMetricsInt(), false));
+        int i9 = Theme.key_dialogTextBlack;
+        textView2.setTextColor(Theme.getColor(i9, resourcesProvider));
+        if (i2 > 0) {
+            if (webDocument == null) {
+                i3 = R.string.StarsConfirmSubscriptionTitle;
+                str2 = LocaleController.getString(i3);
+            }
+            str2 = str;
+        } else {
+            if (webDocument == null) {
+                i3 = R.string.StarsConfirmPurchaseTitle;
+                str2 = LocaleController.getString(i3);
+            }
+            str2 = str;
+        }
+        textView2.setText(Emoji.replaceEmoji(str2, textView2.getPaint().getFontMetricsInt(), false));
         NotificationCenter.listenEmojiLoading(textView2);
         textView2.setGravity(17);
         viewGroup3.addView(textView2, LayoutHelper.createLinear(-2, -2, 1, 0, webDocument != null ? -8 : 8, 0, 0));
@@ -4008,6 +4084,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             linearLayout2.setOrientation(0);
             linearLayout2.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(28.0f), Theme.getColor(Theme.key_windowBackgroundGray, resourcesProvider)));
             BackupImageView backupImageView5 = new BackupImageView(context);
+            backupImageView5.setRoundRadius(AndroidUtilities.dp(14.0f));
             AvatarDrawable avatarDrawable2 = new AvatarDrawable();
             avatarDrawable2.setInfo(user2);
             backupImageView5.setForUserOrChat(user2, avatarDrawable2);
@@ -4017,13 +4094,13 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             textView3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
             textView3.setText(UserObject.getUserName(user2));
             linearLayout2.addView(textView3, LayoutHelper.createLinear(-2, -2, 16, 6, 0, 10, 0));
-            viewGroup3.addView(linearLayout2, LayoutHelper.createLinear(-2, 28, 1, 0, 8, 0, 0));
+            viewGroup3.addView(linearLayout2, LayoutHelper.createLinear(-2, 28, 1, 0, 8, 0, 2));
         }
         TextView textView4 = new TextView(context);
         textView4.setTextSize(1, 14.0f);
-        textView4.setTextColor(Theme.getColor(i7, resourcesProvider));
+        textView4.setTextColor(Theme.getColor(i9, resourcesProvider));
         if (messageObject == null || (message = messageObject.messageOwner) == null || !(message.media instanceof TLRPC.TL_messageMediaPaidMedia)) {
-            formatPluralStringComma = LocaleController.formatPluralStringComma("StarsConfirmPurchaseText2", (int) j2, str, UserObject.getUserName(user2));
+            replaceTags = AndroidUtilities.replaceTags(i2 > 0 ? LocaleController.formatPluralStringComma("StarsConfirmSubscriptionText2", (int) j2, str, UserObject.getUserName(user2)) : LocaleController.formatPluralStringComma("StarsConfirmPurchaseText2", (int) j2, str, UserObject.getUserName(user2)));
         } else {
             long dialogId = messageObject.getDialogId();
             TLRPC.Message message3 = messageObject.messageOwner;
@@ -4036,116 +4113,137 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             MessagesController messagesController = MessagesController.getInstance(i);
             if (dialogId >= 0) {
                 TLRPC.User user3 = messagesController.getUser(Long.valueOf(dialogId));
-                str2 = UserObject.getUserName(user3);
+                str3 = UserObject.getUserName(user3);
                 if (user3 != null && user3.bot) {
-                    z = true;
+                    z2 = true;
                     tL_messageMediaPaidMedia = (TLRPC.TL_messageMediaPaidMedia) messageObject.messageOwner.media;
-                    i2 = 0;
-                    i3 = 0;
-                    int i8 = 0;
-                    while (i2 < tL_messageMediaPaidMedia.extended_media.size()) {
-                        TLRPC.MessageExtendedMedia messageExtendedMedia2 = tL_messageMediaPaidMedia.extended_media.get(i2);
+                    i4 = 0;
+                    i5 = 0;
+                    int i10 = 0;
+                    while (i4 < tL_messageMediaPaidMedia.extended_media.size()) {
+                        TLRPC.MessageExtendedMedia messageExtendedMedia2 = tL_messageMediaPaidMedia.extended_media.get(i4);
                         if (messageExtendedMedia2 instanceof TLRPC.TL_messageExtendedMediaPreview) {
                             if ((((TLRPC.TL_messageExtendedMediaPreview) messageExtendedMedia2).flags & 4) != 0) {
-                                z2 = true;
+                                z3 = true;
                             }
-                            z2 = false;
+                            z3 = false;
                         } else {
                             if (messageExtendedMedia2 instanceof TLRPC.TL_messageExtendedMedia) {
-                                z2 = ((TLRPC.TL_messageExtendedMedia) messageExtendedMedia2).media instanceof TLRPC.TL_messageMediaDocument;
+                                z3 = ((TLRPC.TL_messageExtendedMedia) messageExtendedMedia2).media instanceof TLRPC.TL_messageMediaDocument;
                             }
-                            z2 = false;
+                            z3 = false;
                         }
-                        if (z2) {
-                            i6 = 1;
-                            i3++;
+                        if (z3) {
+                            i8 = 1;
+                            i5++;
                         } else {
-                            i6 = 1;
-                            i8++;
+                            i8 = 1;
+                            i10++;
                         }
-                        i2 += i6;
+                        i4 += i8;
                     }
-                    if (i3 != 0) {
-                        str3 = z ? "StarsConfirmPurchaseMediaBotOne2" : "StarsConfirmPurchaseMediaOne2";
-                        int i9 = (int) j2;
-                        if (i8 == 1) {
-                            formatPluralString3 = LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SinglePhoto);
+                    if (i5 != 0) {
+                        str4 = z2 ? "StarsConfirmPurchaseMediaBotOne2" : "StarsConfirmPurchaseMediaOne2";
+                        int i11 = (int) j2;
+                        if (i10 == 1) {
+                            formatPluralString4 = LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SinglePhoto);
                             c2 = 0;
                         } else {
                             c2 = 0;
-                            formatPluralString3 = LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Photos", i8, new Object[0]);
+                            formatPluralString4 = LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Photos", i10, new Object[0]);
                         }
                         Object[] objArr = new Object[2];
-                        objArr[c2] = formatPluralString3;
-                        objArr[1] = str2;
-                        formatPluralStringComma = LocaleController.formatPluralString(str3, i9, objArr);
-                    } else if (i8 == 0) {
-                        str3 = z ? "StarsConfirmPurchaseMediaBotOne2" : "StarsConfirmPurchaseMediaOne2";
-                        int i10 = (int) j2;
-                        if (i3 == 1) {
-                            formatPluralString2 = LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SingleVideo);
+                        objArr[c2] = formatPluralString4;
+                        objArr[1] = str3;
+                        formatPluralString2 = LocaleController.formatPluralString(str4, i11, objArr);
+                    } else if (i10 == 0) {
+                        str4 = z2 ? "StarsConfirmPurchaseMediaBotOne2" : "StarsConfirmPurchaseMediaOne2";
+                        int i12 = (int) j2;
+                        if (i5 == 1) {
+                            formatPluralString3 = LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SingleVideo);
                             c = 0;
                         } else {
                             c = 0;
-                            formatPluralString2 = LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Videos", i3, new Object[0]);
+                            formatPluralString3 = LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Videos", i5, new Object[0]);
                         }
                         Object[] objArr2 = new Object[2];
-                        objArr2[c] = formatPluralString2;
-                        objArr2[1] = str2;
-                        formatPluralStringComma = LocaleController.formatPluralString(str3, i10, objArr2);
+                        objArr2[c] = formatPluralString3;
+                        objArr2[1] = str3;
+                        formatPluralString2 = LocaleController.formatPluralString(str4, i12, objArr2);
                     } else {
-                        String str4 = z ? "StarsConfirmPurchaseMediaBotTwo2" : "StarsConfirmPurchaseMediaTwo2";
-                        int i11 = (int) j2;
-                        if (i8 == 1) {
+                        String str5 = z2 ? "StarsConfirmPurchaseMediaBotTwo2" : "StarsConfirmPurchaseMediaTwo2";
+                        int i13 = (int) j2;
+                        if (i10 == 1) {
                             formatPluralString = LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SinglePhoto);
-                            i5 = 1;
-                            i4 = 0;
+                            i7 = 1;
+                            i6 = 0;
                         } else {
-                            i4 = 0;
-                            formatPluralString = LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Photos", i8, new Object[0]);
-                            i5 = 1;
+                            i6 = 0;
+                            formatPluralString = LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Photos", i10, new Object[0]);
+                            i7 = 1;
                         }
-                        String string = i3 == i5 ? LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SingleVideo) : LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Videos", i3, new Object[i4]);
+                        String string = i5 == i7 ? LocaleController.getString(R.string.StarsConfirmPurchaseMedia_SingleVideo) : LocaleController.formatPluralString("StarsConfirmPurchaseMedia_Videos", i5, new Object[i6]);
                         Object[] objArr3 = new Object[3];
-                        objArr3[i4] = formatPluralString;
-                        objArr3[i5] = string;
-                        objArr3[2] = str2;
-                        formatPluralStringComma = LocaleController.formatPluralString(str4, i11, objArr3);
+                        objArr3[i6] = formatPluralString;
+                        objArr3[i7] = string;
+                        objArr3[2] = str3;
+                        formatPluralString2 = LocaleController.formatPluralString(str5, i13, objArr3);
                     }
+                    replaceTags = AndroidUtilities.replaceTags(formatPluralString2);
                 }
             } else {
                 TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-dialogId));
-                str2 = chat == null ? "" : chat.title;
+                str3 = chat == null ? "" : chat.title;
             }
-            z = false;
+            z2 = false;
             tL_messageMediaPaidMedia = (TLRPC.TL_messageMediaPaidMedia) messageObject.messageOwner.media;
-            i2 = 0;
-            i3 = 0;
-            int i82 = 0;
-            while (i2 < tL_messageMediaPaidMedia.extended_media.size()) {
+            i4 = 0;
+            i5 = 0;
+            int i102 = 0;
+            while (i4 < tL_messageMediaPaidMedia.extended_media.size()) {
             }
-            if (i3 != 0) {
+            if (i5 != 0) {
             }
+            replaceTags = AndroidUtilities.replaceTags(formatPluralString2);
         }
-        textView4.setText(AndroidUtilities.replaceTags(formatPluralStringComma));
+        textView4.setText(replaceTags);
         textView4.setMaxWidth(HintView2.cutInFancyHalf(textView4.getText(), textView4.getPaint()));
         textView4.setGravity(17);
-        viewGroup3.addView(textView4, LayoutHelper.createLinear(-2, -2, 1, 0, 6, 0, 24));
+        viewGroup3.addView(textView4, LayoutHelper.createLinear(-2, -2, 1, 0, 6, 0, 18));
         final ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
-        buttonWithCounterView.setText(replaceStars(AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("StarsConfirmPurchaseButton", (int) j2))), false);
+        if (i2 > 0) {
+            replaceStars = replaceStars(AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("StarsConfirmSubscriptionButton", (int) j2)));
+            z = false;
+        } else {
+            z = false;
+            replaceStars = replaceStars(AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("StarsConfirmPurchaseButton", (int) j2)));
+        }
+        buttonWithCounterView.setText(replaceStars, z);
         viewGroup3.addView(buttonWithCounterView, LayoutHelper.createFrame(-1, 48.0f));
+        LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+        linksTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
+        linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider));
+        linksTextView.setTextSize(1, 14.0f);
+        linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(i2 > 0 ? R.string.StarsConfirmSubscriptionTOS : R.string.StarsConfirmPurchaseTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda21
+            @Override // java.lang.Runnable
+            public final void run() {
+                StarsIntroActivity.lambda$openConfirmPurchaseSheet$6(context);
+            }
+        }));
+        linksTextView.setGravity(17);
+        viewGroup3.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 0.0f, 12.0f, 0.0f, 2.0f));
         builder.setCustomView(viewGroup3);
         final BottomSheet create = builder.create();
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda26
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda22
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$openConfirmPurchaseSheet$8(Utilities.Callback.this, create, buttonWithCounterView, view);
+                StarsIntroActivity.lambda$openConfirmPurchaseSheet$9(Utilities.Callback.this, create, buttonWithCounterView, view);
             }
         });
-        create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda27
+        create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda23
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                StarsIntroActivity.lambda$openConfirmPurchaseSheet$9(runnable, dialogInterface);
+                StarsIntroActivity.lambda$openConfirmPurchaseSheet$10(runnable, dialogInterface);
             }
         });
         create.fixNavigationBar();
@@ -4190,10 +4288,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         imageView2.setTranslationY(AndroidUtilities.dp(26.0f));
         final StarsBalanceView starsBalanceView = new StarsBalanceView(context, i);
         ScaleStateListAnimator.apply(starsBalanceView);
-        starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda75
+        starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda80
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$openStarsChannelInviteSheet$10(StarsIntroActivity.StarsBalanceView.this, view);
+                StarsIntroActivity.lambda$openStarsChannelInviteSheet$11(StarsIntroActivity.StarsBalanceView.this, view);
             }
         });
         frameLayout.addView(starsBalanceView, LayoutHelper.createFrame(-2, -2.0f, 53, 0.0f, 0.0f, -8.0f, 0.0f));
@@ -4231,10 +4329,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         buttonWithCounterView.setText(LocaleController.getString(R.string.StarsSubscribeButton), false);
         linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
-        linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsSubscribeInfo), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda76
+        linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsSubscribeInfo), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda81
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$openStarsChannelInviteSheet$11(context);
+                StarsIntroActivity.lambda$openStarsChannelInviteSheet$12(context);
             }
         }));
         linksTextView.setGravity(17);
@@ -4244,16 +4342,16 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         linearLayout.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 49, 14, 14, 14, 6));
         builder.setCustomView(linearLayout);
         final BottomSheet create = builder.create();
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda77
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda82
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$openStarsChannelInviteSheet$14(Utilities.Callback.this, create, buttonWithCounterView, view);
+                StarsIntroActivity.lambda$openStarsChannelInviteSheet$15(Utilities.Callback.this, create, buttonWithCounterView, view);
             }
         });
-        create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda78
+        create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda83
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
-                StarsIntroActivity.lambda$openStarsChannelInviteSheet$15(runnable, dialogInterface);
+                StarsIntroActivity.lambda$openStarsChannelInviteSheet$16(runnable, dialogInterface);
             }
         });
         create.fixNavigationBar(Theme.getColor(i2, resourcesProvider));
@@ -4330,29 +4428,29 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     public static Runnable setGiftImage(View view, final ImageReceiver imageReceiver, final int i) {
         final boolean[] zArr = new boolean[1];
         final int currentAccount = imageReceiver.getCurrentAccount();
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda20
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$setGiftImage$16(currentAccount, i, imageReceiver, zArr);
+                StarsIntroActivity.lambda$setGiftImage$17(currentAccount, i, imageReceiver, zArr);
             }
         };
         runnable.run();
-        final Runnable listen = NotificationCenter.getInstance(currentAccount).listen(view, NotificationCenter.didUpdatePremiumGiftStickers, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda21
+        final Runnable listen = NotificationCenter.getInstance(currentAccount).listen(view, NotificationCenter.didUpdatePremiumGiftStickers, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda25
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 runnable.run();
             }
         });
-        final Runnable listen2 = NotificationCenter.getInstance(currentAccount).listen(view, NotificationCenter.diceStickersDidLoad, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda22
+        final Runnable listen2 = NotificationCenter.getInstance(currentAccount).listen(view, NotificationCenter.diceStickersDidLoad, new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda26
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 runnable.run();
             }
         });
-        return new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda23
+        return new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$setGiftImage$19(listen, listen2);
+                StarsIntroActivity.lambda$setGiftImage$20(listen, listen2);
             }
         };
     }
@@ -4372,26 +4470,49 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         imageReceiver.setImage(ImageLocation.getForDocument(starGift.sticker), i + "_" + i, ImageLocation.getForDocument(closestPhotoSizeWithSize, starGift.sticker), i + "_" + i, svgThumb, 0L, null, starGift, 0);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:105:0x035d  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0350  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x02f6  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x021d  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x01b3  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01b0  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x01cf  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0228  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02f2  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x034d  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x035a  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x036c  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static BottomSheet showActionGiftSheet(final Context context, final int i, final long j, boolean z, int i2, final int i3, final TLRPC.TL_messageActionStarGift tL_messageActionStarGift, final Theme.ResourcesProvider resourcesProvider) {
+        BottomSheet[] bottomSheetArr;
         int i4;
         String str;
         String formatPluralStringComma;
-        int i5;
+        final long clientUserId;
         long j2;
-        final BottomSheet[] bottomSheetArr;
-        LinearLayout linearLayout;
+        long j3;
+        int i5;
+        final long j4;
         TableView tableView;
-        BottomSheet.Builder builder;
-        TL_stars.StarGift starGift;
-        Runnable runnable;
-        TLRPC.TL_messageActionStarGift tL_messageActionStarGift2;
-        final TL_stars.StarGift starGift2;
-        Theme.ResourcesProvider resourcesProvider2;
-        CharSequence make;
-        int i6;
-        LinearLayout linearLayout2;
+        LinearLayout linearLayout;
+        TableView tableView2;
         final BottomSheet[] bottomSheetArr2;
-        Context context2;
+        TL_stars.StarGift starGift;
+        BottomSheet.Builder builder;
+        TableView tableView3;
+        long j5;
+        Runnable runnable;
+        TableView tableView4;
+        final ButtonWithCounterView buttonWithCounterView;
+        final TL_stars.StarGift starGift2;
+        TLRPC.TL_textWithEntities tL_textWithEntities;
+        LinearLayout linearLayout2;
+        final BottomSheet[] bottomSheetArr3;
+        BaseFragment safeLastFragment;
         if (tL_messageActionStarGift == null || context == null) {
             return null;
         }
@@ -4400,7 +4521,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             return null;
         }
         BottomSheet.Builder builder2 = new BottomSheet.Builder(context, false, resourcesProvider);
-        final BottomSheet[] bottomSheetArr3 = new BottomSheet[1];
+        BottomSheet[] bottomSheetArr4 = new BottomSheet[1];
         LinearLayout linearLayout3 = new LinearLayout(context);
         linearLayout3.setOrientation(1);
         linearLayout3.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(8.0f));
@@ -4410,214 +4531,283 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         setGiftImage(backupImageView.getImageReceiver(), starGift3, NotificationCenter.audioRouteChanged);
         linearLayout3.addView(backupImageView, LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 17, 0, -8, 0, 10));
         TextView textView = new TextView(context);
-        int i7 = Theme.key_dialogTextBlack;
-        textView.setTextColor(Theme.getColor(i7, resourcesProvider));
+        int i6 = Theme.key_dialogTextBlack;
+        textView.setTextColor(Theme.getColor(i6, resourcesProvider));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setGravity(17);
         textView.setText(LocaleController.getString(z ? R.string.Gift2TitleSent : R.string.Gift2TitleReceived));
         linearLayout3.addView(textView, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         final TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(j));
+        boolean isBot = UserObject.isBot(user);
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
-        linksTextView.setTextColor(Theme.getColor(i7, resourcesProvider));
+        linksTextView.setTextColor(Theme.getColor(i6, resourcesProvider));
         linksTextView.setTextSize(1, 14.0f);
         linksTextView.setGravity(17);
-        int i8 = Theme.key_chat_messageLinkIn;
-        linksTextView.setLinkTextColor(Theme.getColor(i8, resourcesProvider));
+        int i7 = Theme.key_chat_messageLinkIn;
+        linksTextView.setLinkTextColor(Theme.getColor(i7, resourcesProvider));
         linksTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
         linksTextView.setDisablePaddingsOffsetY(true);
         int currentTime = MessagesController.getInstance(i).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(i).getCurrentTime() - i2);
         final int max = Math.max(1, currentTime / 86400);
-        if (!z) {
-            boolean z2 = tL_messageActionStarGift.converted;
-            long j3 = tL_messageActionStarGift.convert_stars;
-            if (z2) {
-                i4 = (int) j3;
-                str = "Gift2InfoConverted";
+        if (!isBot) {
+            if (!z) {
+                bottomSheetArr = bottomSheetArr4;
+                if (tL_messageActionStarGift.converted) {
+                    i4 = (int) tL_messageActionStarGift.convert_stars;
+                    str = "Gift2InfoConverted";
+                } else {
+                    i4 = (int) tL_messageActionStarGift.convert_stars;
+                    str = "Gift2Info";
+                }
+                formatPluralStringComma = LocaleController.formatPluralStringComma(str, i4);
+            } else if (!tL_messageActionStarGift.saved || tL_messageActionStarGift.converted) {
+                bottomSheetArr = bottomSheetArr4;
+                formatPluralStringComma = LocaleController.formatPluralStringComma(tL_messageActionStarGift.converted ? "Gift2InfoOutConverted" : "Gift2InfoOut", (int) tL_messageActionStarGift.convert_stars, UserObject.getForcedFirstName(user));
             } else {
-                i4 = (int) j3;
-                str = "Gift2Info";
+                formatPluralStringComma = LocaleController.formatString(R.string.Gift2InfoOutPinned, UserObject.getForcedFirstName(user));
             }
-            formatPluralStringComma = LocaleController.formatPluralStringComma(str, i4);
-        } else if (!tL_messageActionStarGift.saved || tL_messageActionStarGift.converted) {
-            formatPluralStringComma = LocaleController.formatPluralStringComma(tL_messageActionStarGift.converted ? "Gift2InfoOutConverted" : "Gift2InfoOut", (int) tL_messageActionStarGift.convert_stars, UserObject.getForcedFirstName(user));
-        } else {
-            formatPluralStringComma = LocaleController.formatString(R.string.Gift2InfoOutPinned, UserObject.getForcedFirstName(user));
+            linksTextView.setText(TextUtils.concat(AndroidUtilities.replaceTags(formatPluralStringComma), " ", AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda47
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StarsIntroActivity.lambda$showActionGiftSheet$74(context);
+                }
+            }), true)));
+            linearLayout3.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 17, 5, 5, 5, 4));
+            TableView tableView5 = new TableView(context, resourcesProvider);
+            clientUserId = UserConfig.getInstance(i).getClientUserId();
+            j2 = !z ? clientUserId : j;
+            j3 = !z ? j : clientUserId;
+            TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(j2));
+            if (j2 == clientUserId) {
+                i5 = i7;
+                final BottomSheet[] bottomSheetArr5 = bottomSheetArr;
+                final long j6 = j2;
+                tableView = tableView5;
+                linearLayout = linearLayout3;
+                j4 = clientUserId;
+                final long j7 = j2;
+                final BottomSheet[] bottomSheetArr6 = bottomSheetArr;
+                tableView.addRowUser(LocaleController.getString(R.string.Gift2From), i, j2, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda48
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarsIntroActivity.lambda$showActionGiftSheet$75(bottomSheetArr5, j6, clientUserId);
+                    }
+                }, (j2 == clientUserId || j2 == UserObject.ANONYMOUS || UserObject.isDeleted(user2) || isBot) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda49
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarsIntroActivity.lambda$showActionGiftSheet$76(context, i, j7, bottomSheetArr6);
+                    }
+                });
+            } else {
+                i5 = i7;
+                j4 = clientUserId;
+                tableView = tableView5;
+                linearLayout = linearLayout3;
+            }
+            if (j3 != j4) {
+                final BottomSheet[] bottomSheetArr7 = bottomSheetArr;
+                final long j8 = j3;
+                final long j9 = j4;
+                final long j10 = j3;
+                final BottomSheet[] bottomSheetArr8 = bottomSheetArr;
+                tableView.addRowUser(LocaleController.getString(R.string.Gift2To), i, j3, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda50
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarsIntroActivity.lambda$showActionGiftSheet$77(bottomSheetArr7, j8, j9);
+                    }
+                }, (j3 == j4 || j3 == UserObject.ANONYMOUS || UserObject.isDeleted(MessagesController.getInstance(i).getUser(Long.valueOf(j3))) || UserObject.isBot(MessagesController.getInstance(i).getUser(Long.valueOf(j3)))) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda51
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarsIntroActivity.lambda$showActionGiftSheet$78(context, i, j10, bottomSheetArr8);
+                    }
+                });
+            }
+            tableView2 = tableView;
+            tableView2.addRowDateTime(LocaleController.getString(R.string.StarsTransactionDate), i2);
+            if (!z || tL_messageActionStarGift.converted || tL_messageActionStarGift.convert_stars <= 0 || currentTime <= 0) {
+                bottomSheetArr2 = bottomSheetArr;
+                starGift = starGift3;
+                builder = builder2;
+                tableView3 = tableView2;
+                j5 = j4;
+                runnable = null;
+            } else {
+                bottomSheetArr2 = bottomSheetArr;
+                starGift = starGift3;
+                builder = builder2;
+                tableView3 = tableView2;
+                j5 = j4;
+                runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda52
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarsIntroActivity.lambda$showActionGiftSheet$83(context, resourcesProvider, max, user, tL_messageActionStarGift, i3, i, j, bottomSheetArr2, j4);
+                    }
+                };
+            }
+            tableView4 = tableView3;
+            tableView4.addRow(LocaleController.getString(R.string.Gift2Value), replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(starGift.stars, ','), " ", runnable != null ? "" : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) tL_messageActionStarGift.convert_stars), runnable, resourcesProvider)), 0.8f));
+            starGift2 = starGift;
+            buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
+            final BottomSheet[] bottomSheetArr9 = bottomSheetArr2;
+            final long j11 = j5;
+            final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda53
+                @Override // java.lang.Runnable
+                public final void run() {
+                    StarsIntroActivity.lambda$showActionGiftSheet$87(ButtonWithCounterView.this, tL_messageActionStarGift, i3, i, j, bottomSheetArr9, j11, starGift2, resourcesProvider);
+                }
+            };
+            tableView4.addRow(LocaleController.getString(R.string.Gift2Visibility), LocaleController.getString(!tL_messageActionStarGift.saved ? R.string.Gift2Visible : R.string.Gift2Invisible), LocaleController.getString(!tL_messageActionStarGift.saved ? R.string.Gift2VisibleHide : R.string.Gift2InvisibleShow), runnable2);
+            if (starGift2.limited) {
+                addAvailabilityRow(tableView4, i, starGift2, resourcesProvider);
+            }
+            tL_textWithEntities = tL_messageActionStarGift.message;
+            if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text)) {
+                TLRPC.TL_textWithEntities tL_textWithEntities2 = tL_messageActionStarGift.message;
+                tableView4.addFullRow(tL_textWithEntities2.text, tL_textWithEntities2.entities);
+            }
+            linearLayout2 = linearLayout;
+            linearLayout2.addView(tableView4, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 12.0f));
+            if (!z || tL_messageActionStarGift.converted) {
+                bottomSheetArr3 = bottomSheetArr2;
+            } else {
+                LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+                linksTextView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray2, resourcesProvider));
+                linksTextView2.setTextSize(1, 14.0f);
+                linksTextView2.setGravity(17);
+                linksTextView2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
+                linksTextView2.setLinkTextColor(Theme.getColor(i5, resourcesProvider));
+                linksTextView2.setDisablePaddingsOffsetY(true);
+                bottomSheetArr3 = bottomSheetArr2;
+                final long j12 = j5;
+                linksTextView2.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(tL_messageActionStarGift.saved ? R.string.Gift2ProfileVisible2 : R.string.Gift2ProfileInvisible), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda54
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarsIntroActivity.lambda$showActionGiftSheet$88(bottomSheetArr3, j12);
+                    }
+                }), true, AndroidUtilities.dp(2.6666667f), AndroidUtilities.dp(0.66f)));
+                linearLayout2.addView(linksTextView2, LayoutHelper.createLinear(-1, -2, 17, 5, 6, 5, 16));
+            }
+            if (!z || tL_messageActionStarGift.converted) {
+                BottomSheet.Builder builder3 = builder;
+                buttonWithCounterView.setText(LocaleController.getString(R.string.OK), false);
+                linearLayout2.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
+                builder3.setCustomView(linearLayout2);
+                BottomSheet create = builder3.create();
+                bottomSheetArr3[0] = create;
+                create.useBackgroundTopPadding = false;
+                buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda56
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        StarsIntroActivity.lambda$showActionGiftSheet$89(bottomSheetArr3, view);
+                    }
+                });
+                bottomSheetArr3[0].fixNavigationBar();
+                safeLastFragment = LaunchActivity.getSafeLastFragment();
+                if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
+                    bottomSheetArr3[0].makeAttached(safeLastFragment);
+                }
+                bottomSheetArr3[0].show();
+                return bottomSheetArr3[0];
+            }
+            buttonWithCounterView.setText(LocaleController.getString(tL_messageActionStarGift.saved ? R.string.Gift2ProfileMakeInvisible : R.string.Gift2ProfileMakeVisible), false);
+            linearLayout2.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 0.0f, 0.0f, 0.0f, 4.0f));
+            buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda55
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    runnable2.run();
+                }
+            });
+            BottomSheet.Builder builder4 = builder;
+            builder4.setCustomView(linearLayout2);
+            BottomSheet create2 = builder4.create();
+            bottomSheetArr3[0] = create2;
+            create2.useBackgroundTopPadding = false;
+            create2.fixNavigationBar();
+            BaseFragment safeLastFragment2 = LaunchActivity.getSafeLastFragment();
+            if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment2)) {
+                bottomSheetArr3[0].makeAttached(safeLastFragment2);
+            }
+            bottomSheetArr3[0].show();
+            return bottomSheetArr3[0];
         }
-        linksTextView.setText(TextUtils.concat(AndroidUtilities.replaceTags(formatPluralStringComma), " ", AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda46
+        formatPluralStringComma = LocaleController.getString(tL_messageActionStarGift.saved ? R.string.Gift2Info2BotRemove : R.string.Gift2Info2BotKeep);
+        bottomSheetArr = bottomSheetArr4;
+        linksTextView.setText(TextUtils.concat(AndroidUtilities.replaceTags(formatPluralStringComma), " ", AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda47
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showActionGiftSheet$72(context);
+                StarsIntroActivity.lambda$showActionGiftSheet$74(context);
             }
         }), true)));
         linearLayout3.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 17, 5, 5, 5, 4));
-        TableView tableView2 = new TableView(context, resourcesProvider);
-        final long clientUserId = UserConfig.getInstance(i).getClientUserId();
-        long j4 = z ? clientUserId : j;
-        long j5 = z ? j : clientUserId;
-        TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(j4));
-        if (j4 != clientUserId) {
-            i5 = i8;
-            final long j6 = j4;
-            bottomSheetArr = bottomSheetArr3;
-            linearLayout = linearLayout3;
-            j2 = clientUserId;
-            final long j7 = j4;
-            tableView2.addRowUser(LocaleController.getString(R.string.Gift2From), i, j4, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda47
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showActionGiftSheet$73(bottomSheetArr3, j6, clientUserId);
-                }
-            }, (j4 == clientUserId || j4 == UserObject.ANONYMOUS || UserObject.isDeleted(user2)) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda48
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showActionGiftSheet$74(context, i, j7, bottomSheetArr);
-                }
-            });
-        } else {
-            i5 = i8;
-            j2 = clientUserId;
-            bottomSheetArr = bottomSheetArr3;
-            linearLayout = linearLayout3;
+        TableView tableView52 = new TableView(context, resourcesProvider);
+        clientUserId = UserConfig.getInstance(i).getClientUserId();
+        if (!z) {
         }
-        if (j5 != j2) {
-            final BottomSheet[] bottomSheetArr4 = bottomSheetArr;
-            final long j8 = j5;
-            final long j9 = j2;
-            final long j10 = j5;
-            final BottomSheet[] bottomSheetArr5 = bottomSheetArr;
-            tableView2.addRowUser(LocaleController.getString(R.string.Gift2To), i, j5, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda49
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showActionGiftSheet$75(bottomSheetArr4, j8, j9);
-                }
-            }, (j4 == j2 || j4 == UserObject.ANONYMOUS || UserObject.isDeleted(user2)) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda50
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showActionGiftSheet$76(context, i, j10, bottomSheetArr5);
-                }
-            });
+        if (!z) {
         }
-        if (z || tL_messageActionStarGift.converted || currentTime <= 0) {
-            tableView = tableView2;
-            builder = builder2;
-            starGift = starGift3;
-            runnable = null;
-        } else {
-            tableView = tableView2;
-            builder = builder2;
-            starGift = starGift3;
-            final BottomSheet[] bottomSheetArr6 = bottomSheetArr;
-            final long j11 = j2;
-            runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda51
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showActionGiftSheet$81(context, resourcesProvider, max, user, tL_messageActionStarGift, i3, i, j, bottomSheetArr6, j11);
-                }
-            };
+        TLRPC.User user22 = MessagesController.getInstance(i).getUser(Long.valueOf(j2));
+        if (j2 == clientUserId) {
         }
-        String string = LocaleController.getString(R.string.Gift2Value);
-        SpannableStringBuilder replaceStarsWithPlain = replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(starGift.stars, ','), 0.8f);
-        if (runnable == null) {
-            resourcesProvider2 = resourcesProvider;
-            make = "";
-            starGift2 = starGift;
-            i6 = 3;
-            tL_messageActionStarGift2 = tL_messageActionStarGift;
-        } else {
-            tL_messageActionStarGift2 = tL_messageActionStarGift;
-            starGift2 = starGift;
-            resourcesProvider2 = resourcesProvider;
-            make = ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) tL_messageActionStarGift2.convert_stars), runnable, resourcesProvider2);
-            i6 = 3;
+        if (j3 != j4) {
         }
-        CharSequence[] charSequenceArr = new CharSequence[i6];
-        charSequenceArr[0] = replaceStarsWithPlain;
-        charSequenceArr[1] = " ";
-        charSequenceArr[2] = make;
-        CharSequence concat = TextUtils.concat(charSequenceArr);
-        TableView tableView3 = tableView;
-        tableView3.addRow(string, concat);
-        final long j12 = j2;
-        tableView3.addRowDateTime(LocaleController.getString(R.string.StarsTransactionDate), i2);
-        if (starGift2.limited) {
-            addAvailabilityRow(tableView3, i, starGift2, resourcesProvider2);
+        tableView2 = tableView;
+        tableView2.addRowDateTime(LocaleController.getString(R.string.StarsTransactionDate), i2);
+        if (z) {
         }
-        TLRPC.TL_textWithEntities tL_textWithEntities = tL_messageActionStarGift2.message;
-        if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text)) {
-            TLRPC.TL_textWithEntities tL_textWithEntities2 = tL_messageActionStarGift2.message;
-            tableView3.addFullRow(tL_textWithEntities2.text, tL_textWithEntities2.entities);
-        }
-        LinearLayout linearLayout4 = linearLayout;
-        linearLayout4.addView(tableView3, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 12.0f));
-        if (z || tL_messageActionStarGift2.converted) {
-            linearLayout2 = linearLayout4;
-            bottomSheetArr2 = bottomSheetArr;
-            context2 = context;
-        } else {
-            linearLayout2 = linearLayout4;
-            context2 = context;
-            LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context2, resourcesProvider2);
-            linksTextView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray2, resourcesProvider2));
-            linksTextView2.setTextSize(1, 14.0f);
-            linksTextView2.setGravity(17);
-            linksTextView2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
-            linksTextView2.setLinkTextColor(Theme.getColor(i5, resourcesProvider2));
-            linksTextView2.setDisablePaddingsOffsetY(true);
-            bottomSheetArr2 = bottomSheetArr;
-            linksTextView2.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(tL_messageActionStarGift2.saved ? R.string.Gift2ProfileVisible2 : R.string.Gift2ProfileInvisible), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda52
-                @Override // java.lang.Runnable
-                public final void run() {
-                    StarsIntroActivity.lambda$showActionGiftSheet$82(bottomSheetArr2, j12);
-                }
-            }), true, AndroidUtilities.dp(2.6666667f), AndroidUtilities.dp(0.66f)));
-            linearLayout2.addView(linksTextView2, LayoutHelper.createLinear(-1, -2, 17, 5, 6, 5, 16));
-        }
-        if (z || tL_messageActionStarGift2.converted) {
-            BottomSheet.Builder builder3 = builder;
-            ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context2, resourcesProvider2);
-            buttonWithCounterView.setText(LocaleController.getString(R.string.OK), false);
-            linearLayout2.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
-            builder3.setCustomView(linearLayout2);
-            BottomSheet create = builder3.create();
-            bottomSheetArr2[0] = create;
-            create.useBackgroundTopPadding = false;
-            buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda54
-                @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    StarsIntroActivity.lambda$showActionGiftSheet$83(bottomSheetArr2, view);
-                }
-            });
-            bottomSheetArr2[0].fixNavigationBar();
-            BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-            if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
-                bottomSheetArr2[0].makeAttached(safeLastFragment);
+        bottomSheetArr2 = bottomSheetArr;
+        starGift = starGift3;
+        builder = builder2;
+        tableView3 = tableView2;
+        j5 = j4;
+        runnable = null;
+        tableView4 = tableView3;
+        tableView4.addRow(LocaleController.getString(R.string.Gift2Value), replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(starGift.stars, ','), " ", runnable != null ? "" : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) tL_messageActionStarGift.convert_stars), runnable, resourcesProvider)), 0.8f));
+        starGift2 = starGift;
+        buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
+        final BottomSheet[] bottomSheetArr92 = bottomSheetArr2;
+        final long j112 = j5;
+        final Runnable runnable22 = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda53
+            @Override // java.lang.Runnable
+            public final void run() {
+                StarsIntroActivity.lambda$showActionGiftSheet$87(ButtonWithCounterView.this, tL_messageActionStarGift, i3, i, j, bottomSheetArr92, j112, starGift2, resourcesProvider);
             }
-            bottomSheetArr2[0].show();
-            return bottomSheetArr2[0];
+        };
+        tableView4.addRow(LocaleController.getString(R.string.Gift2Visibility), LocaleController.getString(!tL_messageActionStarGift.saved ? R.string.Gift2Visible : R.string.Gift2Invisible), LocaleController.getString(!tL_messageActionStarGift.saved ? R.string.Gift2VisibleHide : R.string.Gift2InvisibleShow), runnable22);
+        if (starGift2.limited) {
         }
-        final ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context2, resourcesProvider2);
-        buttonWithCounterView2.setText(LocaleController.getString(tL_messageActionStarGift2.saved ? R.string.Gift2ProfileMakeInvisible : R.string.Gift2ProfileMakeVisible), false);
-        linearLayout2.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48, 0.0f, 0.0f, 0.0f, 4.0f));
-        final BottomSheet[] bottomSheetArr7 = bottomSheetArr2;
-        buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda53
+        tL_textWithEntities = tL_messageActionStarGift.message;
+        if (tL_textWithEntities != null) {
+            TLRPC.TL_textWithEntities tL_textWithEntities22 = tL_messageActionStarGift.message;
+            tableView4.addFullRow(tL_textWithEntities22.text, tL_textWithEntities22.entities);
+        }
+        linearLayout2 = linearLayout;
+        linearLayout2.addView(tableView4, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 12.0f));
+        if (z) {
+        }
+        bottomSheetArr3 = bottomSheetArr2;
+        if (z) {
+        }
+        BottomSheet.Builder builder32 = builder;
+        buttonWithCounterView.setText(LocaleController.getString(R.string.OK), false);
+        linearLayout2.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
+        builder32.setCustomView(linearLayout2);
+        BottomSheet create3 = builder32.create();
+        bottomSheetArr3[0] = create3;
+        create3.useBackgroundTopPadding = false;
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda56
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$showActionGiftSheet$87(ButtonWithCounterView.this, tL_messageActionStarGift, i3, i, j, bottomSheetArr7, j12, starGift2, resourcesProvider, view);
+                StarsIntroActivity.lambda$showActionGiftSheet$89(bottomSheetArr3, view);
             }
         });
-        BottomSheet.Builder builder4 = builder;
-        builder4.setCustomView(linearLayout2);
-        BottomSheet create2 = builder4.create();
-        bottomSheetArr2[0] = create2;
-        create2.useBackgroundTopPadding = false;
-        create2.fixNavigationBar();
-        BaseFragment safeLastFragment2 = LaunchActivity.getSafeLastFragment();
-        if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment2)) {
-            bottomSheetArr2[0].makeAttached(safeLastFragment2);
+        bottomSheetArr3[0].fixNavigationBar();
+        safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (!AndroidUtilities.isTablet()) {
+            bottomSheetArr3[0].makeAttached(safeLastFragment);
         }
-        bottomSheetArr2[0].show();
-        return bottomSheetArr2[0];
+        bottomSheetArr3[0].show();
+        return bottomSheetArr3[0];
     }
 
     public static BottomSheet showBoostsSheet(final Context context, int i, final long j, final TL_stories.Boost boost, Theme.ResourcesProvider resourcesProvider) {
@@ -4673,18 +4863,18 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         textView2.setText(spannableStringBuilder);
         linearLayout.addView(textView2, LayoutHelper.createLinear(-2, 20, 17, 20, 4, 20, 4));
         TableView tableView = new TableView(context, resourcesProvider);
-        tableView.addRowUser(LocaleController.getString(R.string.BoostFrom), i, j, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda32
+        tableView.addRowUser(LocaleController.getString(R.string.BoostFrom), i, j, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showBoostsSheet$56(bottomSheetArr, j);
+                StarsIntroActivity.lambda$showBoostsSheet$58(bottomSheetArr, j);
             }
         });
         tableView.addRow(LocaleController.getString(R.string.BoostGift), LocaleController.formatPluralString("BoostStars", (int) boost.stars, new Object[0]));
         if (boost.giveaway_msg_id != 0) {
-            tableView.addRowLink(LocaleController.getString(R.string.BoostReason), LocaleController.getString(R.string.BoostReasonGiveaway), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda33
+            tableView.addRowLink(LocaleController.getString(R.string.BoostReason), LocaleController.getString(R.string.BoostReasonGiveaway), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda34
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$showBoostsSheet$57(bottomSheetArr, j, boost);
+                    StarsIntroActivity.lambda$showBoostsSheet$59(bottomSheetArr, j, boost);
                 }
             });
         }
@@ -4697,20 +4887,20 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         linksTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
         linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider));
         linksTextView.setTextSize(1, 14.0f);
-        linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda34
+        linksTextView.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda35
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showBoostsSheet$58(context);
+                StarsIntroActivity.lambda$showBoostsSheet$60(context);
             }
         }));
         linksTextView.setGravity(17);
         linearLayout.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 14.0f, 15.0f, 14.0f, 7.0f));
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
         buttonWithCounterView.setText(LocaleController.getString(R.string.OK), false);
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda35
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda36
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$showBoostsSheet$59(bottomSheetArr, view);
+                StarsIntroActivity.lambda$showBoostsSheet$61(bottomSheetArr, view);
             }
         });
         linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 16.0f, 8.0f, 16.0f, 0.0f));
@@ -4725,7 +4915,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
         gLIconTextureView.setPaused(false);
         bottomSheetArr[0].show();
-        bottomSheetArr[0].setOnDismissListener(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda36
+        bottomSheetArr[0].setOnDismissListener(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda37
             @Override // java.lang.Runnable
             public final void run() {
                 GLIconTextureView.this.setPaused(true);
@@ -4734,12 +4924,17 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         return bottomSheetArr[0];
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x02fc  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0330  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0369  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x03c5  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x03c0  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0305  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0357  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x037e  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x038b  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x039b  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x03c9  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x041f  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x04cd  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x038e  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0381  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0326  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4747,46 +4942,42 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         int i2;
         TableView tableView;
         TL_stars.StarGift starGift;
-        float f;
         char c;
         Runnable runnable;
-        TL_stars.UserStarGift userStarGift2;
         Theme.ResourcesProvider resourcesProvider2;
+        TL_stars.StarGift starGift2;
         CharSequence make;
-        int i3;
         TableView tableView2;
         TLRPC.TL_textWithEntities tL_textWithEntities;
-        Context context2;
-        final TL_stars.StarGift starGift2;
         BaseFragment safeLastFragment;
         String formatPluralStringComma;
-        final Context context3 = context;
-        if (userStarGift == null || context3 == null) {
+        final Context context2 = context;
+        if (userStarGift == null || context2 == null) {
             return null;
         }
         TL_stars.StarGift starGift3 = userStarGift.gift;
         if (starGift3 == null) {
             return null;
         }
-        BottomSheet.Builder builder = new BottomSheet.Builder(context3, false, resourcesProvider);
+        BottomSheet.Builder builder = new BottomSheet.Builder(context2, false, resourcesProvider);
         final BottomSheet[] bottomSheetArr = new BottomSheet[1];
-        LinearLayout linearLayout = new LinearLayout(context3);
+        LinearLayout linearLayout = new LinearLayout(context2);
         linearLayout.setOrientation(1);
         linearLayout.setPadding(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(8.0f));
         linearLayout.setClipChildren(false);
         linearLayout.setClipToPadding(false);
-        BackupImageView backupImageView = new BackupImageView(context3);
+        BackupImageView backupImageView = new BackupImageView(context2);
         setGiftImage(backupImageView.getImageReceiver(), starGift3, NotificationCenter.audioRouteChanged);
         linearLayout.addView(backupImageView, LayoutHelper.createLinear(NotificationCenter.audioRouteChanged, NotificationCenter.audioRouteChanged, 17, 0, -8, 0, 10));
-        TextView textView = new TextView(context3);
-        int i4 = Theme.key_dialogTextBlack;
-        textView.setTextColor(Theme.getColor(i4, resourcesProvider));
+        TextView textView = new TextView(context2);
+        int i3 = Theme.key_dialogTextBlack;
+        textView.setTextColor(Theme.getColor(i3, resourcesProvider));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setGravity(17);
         textView.setText(LocaleController.getString(z ? R.string.Gift2TitleReceived : R.string.Gift2TitleProfile));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 9));
-        TextView textView2 = new TextView(context3);
+        TextView textView2 = new TextView(context2);
         textView2.setTextSize(1, 18.0f);
         textView2.setTypeface(AndroidUtilities.bold());
         textView2.setGravity(17);
@@ -4794,26 +4985,31 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         textView2.setText(replaceStarsWithPlain(LocaleController.formatNumber((int) Math.abs(Math.max(userStarGift.gift.convert_stars, userStarGift.convert_stars)), ' ') + " ⭐️", 0.8f));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(j));
+        boolean isBot = UserObject.isBot(MessagesController.getInstance(i).getUser(Long.valueOf(userStarGift.from_id)));
         if (z) {
-            LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context3, resourcesProvider);
-            linksTextView.setTextColor(Theme.getColor(i4, resourcesProvider));
+            LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context2, resourcesProvider);
+            linksTextView.setTextColor(Theme.getColor(i3, resourcesProvider));
             linksTextView.setTextSize(1, 14.0f);
             linksTextView.setGravity(17);
             linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider));
             linksTextView.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
             linksTextView.setDisablePaddingsOffsetY(true);
             int currentTime = MessagesController.getInstance(i).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(i).getCurrentTime() - userStarGift.date);
-            long j2 = userStarGift.convert_stars;
-            if (z) {
-                formatPluralStringComma = LocaleController.formatPluralStringComma(currentTime <= 0 ? "Gift2Info2Expired" : "Gift2Info", (int) j2);
+            if (isBot) {
+                formatPluralStringComma = LocaleController.getString(userStarGift.unsaved ? R.string.Gift2Info2BotKeep : R.string.Gift2Info2BotRemove);
             } else {
-                formatPluralStringComma = LocaleController.formatPluralStringComma("Gift2Info2Out", (int) j2, UserObject.getForcedFirstName(user));
+                long j2 = userStarGift.convert_stars;
+                if (z) {
+                    formatPluralStringComma = LocaleController.formatPluralStringComma(currentTime <= 0 ? "Gift2Info2Expired" : "Gift2Info", (int) j2);
+                } else {
+                    formatPluralStringComma = LocaleController.formatPluralStringComma("Gift2Info2Out", (int) j2, UserObject.getForcedFirstName(user));
+                }
             }
-            context3 = context;
-            linksTextView.setText(TextUtils.concat(AndroidUtilities.replaceTags(formatPluralStringComma), " ", AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda56
+            context2 = context;
+            linksTextView.setText(TextUtils.concat(AndroidUtilities.replaceTags(formatPluralStringComma), " ", AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda58
                 @Override // java.lang.Runnable
                 public final void run() {
-                    StarsIntroActivity.lambda$showGiftSheet$88(context3);
+                    StarsIntroActivity.lambda$showGiftSheet$91(context2);
                 }
             }), true)));
             linearLayout.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 17, 5, 5, 5, 4));
@@ -4822,100 +5018,155 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             i2 = 0;
         }
         final int max = Math.max(1, i2 / 86400);
-        TableView tableView3 = new TableView(context3, resourcesProvider);
+        TableView tableView3 = new TableView(context2, resourcesProvider);
         final long clientUserId = UserConfig.getInstance(i).getClientUserId();
         long j3 = ((userStarGift.flags & 2) == 0 || userStarGift.name_hidden) ? 2666000L : userStarGift.from_id;
         final TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(j3));
         final long j4 = j3;
         final long j5 = j3;
-        tableView3.addRowUser(LocaleController.getString(R.string.Gift2From), i, j3, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda57
+        tableView3.addRowUser(LocaleController.getString(R.string.Gift2From), i, j3, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda59
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$89(bottomSheetArr, j4, userStarGift, clientUserId);
+                StarsIntroActivity.lambda$showGiftSheet$92(bottomSheetArr, j4, userStarGift, clientUserId);
             }
-        }, (j3 == clientUserId || j3 == UserObject.ANONYMOUS || UserObject.isDeleted(user2)) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda58
+        }, (j3 == clientUserId || j3 == UserObject.ANONYMOUS || isBot || UserObject.isDeleted(user2)) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda60
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showGiftSheet$90(context, i, j5, bottomSheetArr);
+                StarsIntroActivity.lambda$showGiftSheet$93(context, i, j5, bottomSheetArr);
             }
         });
         tableView3.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(userStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(userStarGift.date * 1000))));
         if (z) {
-            int i5 = userStarGift.flags;
-            if ((i5 & 8) != 0 && (i5 & 2) != 0 && i2 > 0) {
-                final long j6 = j3;
-                starGift = starGift3;
-                tableView = tableView3;
-                f = 0.8f;
+            int i4 = userStarGift.flags;
+            if ((i4 & 8) != 0 && (i4 & 16) != 0) {
                 c = 2;
-                runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda59
+                if ((i4 & 2) != 0 && i2 > 0) {
+                    final long j6 = j3;
+                    tableView = tableView3;
+                    starGift = starGift3;
+                    runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda61
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StarsIntroActivity.lambda$showGiftSheet$98(context, resourcesProvider, max, user2, j6, userStarGift, i, bottomSheetArr, j, clientUserId);
+                        }
+                    };
+                    String string = LocaleController.getString(R.string.Gift2Value);
+                    String str = "⭐️ " + LocaleController.formatNumber(starGift.stars, ',');
+                    if (runnable == null) {
+                    }
+                    CharSequence[] charSequenceArr = new CharSequence[3];
+                    charSequenceArr[0] = str;
+                    charSequenceArr[1] = " ";
+                    charSequenceArr[c] = make;
+                    tableView2 = tableView;
+                    tableView2.addRow(string, replaceStarsWithPlain(TextUtils.concat(charSequenceArr), 0.8f));
+                    if (starGift2.limited) {
+                    }
+                    final ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider2);
+                    final TL_stars.StarGift starGift4 = starGift2;
+                    final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda62
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            StarsIntroActivity.lambda$showGiftSheet$102(ButtonWithCounterView.this, userStarGift, i, bottomSheetArr, clientUserId, starGift4, resourcesProvider);
+                        }
+                    };
+                    tableView2.addRow(LocaleController.getString(R.string.Gift2Visibility), LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2Visible : R.string.Gift2Invisible), LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2VisibleHide : R.string.Gift2InvisibleShow), runnable2);
+                    tL_textWithEntities = userStarGift.message;
+                    if (tL_textWithEntities != null) {
+                        TLRPC.TL_textWithEntities tL_textWithEntities2 = userStarGift.message;
+                        tableView2.addFullRow(tL_textWithEntities2.text, tL_textWithEntities2.entities);
+                    }
+                    linearLayout.addView(tableView2, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 12.0f));
+                    if (j == UserConfig.getInstance(i).getClientUserId()) {
+                    }
+                    if (z) {
+                    }
+                    ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, resourcesProvider2);
+                    buttonWithCounterView2.setText(LocaleController.getString(R.string.OK), false);
+                    linearLayout.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48));
+                    builder.setCustomView(linearLayout);
+                    BottomSheet create = builder.create();
+                    bottomSheetArr[0] = create;
+                    create.useBackgroundTopPadding = false;
+                    buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda64
+                        @Override // android.view.View.OnClickListener
+                        public final void onClick(View view) {
+                            StarsIntroActivity.lambda$showGiftSheet$103(bottomSheetArr, view);
+                        }
+                    });
+                    bottomSheetArr[0].fixNavigationBar();
+                    safeLastFragment = LaunchActivity.getSafeLastFragment();
+                    if (!AndroidUtilities.isTablet()) {
+                        bottomSheetArr[0].makeAttached(safeLastFragment);
+                    }
+                    bottomSheetArr[0].show();
+                    return bottomSheetArr[0];
+                }
+                tableView = tableView3;
+                starGift = starGift3;
+                runnable = null;
+                String string2 = LocaleController.getString(R.string.Gift2Value);
+                String str2 = "⭐️ " + LocaleController.formatNumber(starGift.stars, ',');
+                if (runnable == null) {
+                    make = "";
+                    resourcesProvider2 = resourcesProvider;
+                    starGift2 = starGift;
+                } else {
+                    resourcesProvider2 = resourcesProvider;
+                    starGift2 = starGift;
+                    make = ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) userStarGift.convert_stars), runnable, resourcesProvider2);
+                }
+                CharSequence[] charSequenceArr2 = new CharSequence[3];
+                charSequenceArr2[0] = str2;
+                charSequenceArr2[1] = " ";
+                charSequenceArr2[c] = make;
+                tableView2 = tableView;
+                tableView2.addRow(string2, replaceStarsWithPlain(TextUtils.concat(charSequenceArr2), 0.8f));
+                if (starGift2.limited) {
+                    addAvailabilityRow(tableView2, i, starGift2, resourcesProvider2);
+                }
+                final ButtonWithCounterView buttonWithCounterView3 = new ButtonWithCounterView(context, resourcesProvider2);
+                final TL_stars.StarGift starGift42 = starGift2;
+                final Runnable runnable22 = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda62
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StarsIntroActivity.lambda$showGiftSheet$95(context, resourcesProvider, max, user2, j6, userStarGift, i, bottomSheetArr, j, clientUserId);
+                        StarsIntroActivity.lambda$showGiftSheet$102(ButtonWithCounterView.this, userStarGift, i, bottomSheetArr, clientUserId, starGift42, resourcesProvider);
                     }
                 };
-                String string = LocaleController.getString(R.string.Gift2Value);
-                SpannableStringBuilder replaceStarsWithPlain = replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(starGift.stars, ','), f);
-                if (runnable != null) {
-                    resourcesProvider2 = resourcesProvider;
-                    make = "";
-                    i3 = 3;
-                    userStarGift2 = userStarGift;
-                } else {
-                    userStarGift2 = userStarGift;
-                    resourcesProvider2 = resourcesProvider;
-                    make = ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) userStarGift2.convert_stars), runnable, resourcesProvider2);
-                    i3 = 3;
-                }
-                CharSequence[] charSequenceArr = new CharSequence[i3];
-                charSequenceArr[0] = replaceStarsWithPlain;
-                charSequenceArr[1] = " ";
-                charSequenceArr[c] = make;
-                CharSequence concat = TextUtils.concat(charSequenceArr);
-                tableView2 = tableView;
-                tableView2.addRow(string, concat);
-                if (starGift.limited) {
-                    addAvailabilityRow(tableView2, i, starGift, resourcesProvider2);
-                }
-                tL_textWithEntities = userStarGift2.message;
+                tableView2.addRow(LocaleController.getString(R.string.Gift2Visibility), LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2Visible : R.string.Gift2Invisible), LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2VisibleHide : R.string.Gift2InvisibleShow), runnable22);
+                tL_textWithEntities = userStarGift.message;
                 if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text)) {
-                    TLRPC.TL_textWithEntities tL_textWithEntities2 = userStarGift2.message;
-                    tableView2.addFullRow(tL_textWithEntities2.text, tL_textWithEntities2.entities);
+                    TLRPC.TL_textWithEntities tL_textWithEntities22 = userStarGift.message;
+                    tableView2.addFullRow(tL_textWithEntities22.text, tL_textWithEntities22.entities);
                 }
                 linearLayout.addView(tableView2, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 12.0f));
-                if (j != UserConfig.getInstance(i).getClientUserId()) {
-                    context2 = context;
-                    starGift2 = starGift;
-                    LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context2, resourcesProvider2);
+                if (j == UserConfig.getInstance(i).getClientUserId()) {
+                    LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider2);
                     linksTextView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray2, resourcesProvider2));
                     linksTextView2.setTextSize(1, 14.0f);
                     linksTextView2.setGravity(17);
                     linksTextView2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
                     linksTextView2.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider2));
                     linksTextView2.setDisablePaddingsOffsetY(true);
-                    linksTextView2.setText(LocaleController.getString(!userStarGift2.unsaved ? R.string.Gift2ProfileVisible : R.string.Gift2ProfileInvisible));
+                    linksTextView2.setText(LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2ProfileVisible : R.string.Gift2ProfileInvisible));
                     linearLayout.addView(linksTextView2, LayoutHelper.createLinear(-1, -2, 17, 5, 6, 5, 16));
-                } else {
-                    context2 = context;
-                    starGift2 = starGift;
                 }
                 if (z) {
-                    int i6 = userStarGift2.flags;
-                    if ((i6 & 8) != 0 && (i6 & 2) != 0) {
-                        final ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context2, resourcesProvider2);
-                        buttonWithCounterView.setText(LocaleController.getString(!userStarGift2.unsaved ? R.string.Gift2ProfileMakeInvisible : R.string.Gift2ProfileMakeVisible), false);
-                        linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 0.0f, 0.0f, 0.0f, 4.0f));
-                        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda60
+                    int i5 = userStarGift.flags;
+                    if ((i5 & 8) != 0 && (i5 & 2) != 0) {
+                        buttonWithCounterView3.setText(LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2ProfileMakeInvisible : R.string.Gift2ProfileMakeVisible), false);
+                        linearLayout.addView(buttonWithCounterView3, LayoutHelper.createLinear(-1, 48, 0.0f, 0.0f, 0.0f, 4.0f));
+                        buttonWithCounterView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda63
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                StarsIntroActivity.lambda$showGiftSheet$100(ButtonWithCounterView.this, userStarGift, i, bottomSheetArr, clientUserId, starGift2, resourcesProvider, view);
+                                runnable22.run();
                             }
                         });
                         builder.setCustomView(linearLayout);
-                        BottomSheet create = builder.create();
-                        bottomSheetArr[0] = create;
-                        create.useBackgroundTopPadding = false;
-                        create.fixNavigationBar();
+                        BottomSheet create2 = builder.create();
+                        bottomSheetArr[0] = create2;
+                        create2.useBackgroundTopPadding = false;
+                        create2.fixNavigationBar();
                         BaseFragment safeLastFragment2 = LaunchActivity.getSafeLastFragment();
                         if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment2)) {
                             bottomSheetArr[0].makeAttached(safeLastFragment2);
@@ -4924,17 +5175,17 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                         return bottomSheetArr[0];
                     }
                 }
-                ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context2, resourcesProvider2);
-                buttonWithCounterView2.setText(LocaleController.getString(R.string.OK), false);
-                linearLayout.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48));
+                ButtonWithCounterView buttonWithCounterView22 = new ButtonWithCounterView(context, resourcesProvider2);
+                buttonWithCounterView22.setText(LocaleController.getString(R.string.OK), false);
+                linearLayout.addView(buttonWithCounterView22, LayoutHelper.createLinear(-1, 48));
                 builder.setCustomView(linearLayout);
-                BottomSheet create2 = builder.create();
-                bottomSheetArr[0] = create2;
-                create2.useBackgroundTopPadding = false;
-                buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda61
+                BottomSheet create3 = builder.create();
+                bottomSheetArr[0] = create3;
+                create3.useBackgroundTopPadding = false;
+                buttonWithCounterView22.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda64
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        StarsIntroActivity.lambda$showGiftSheet$96(bottomSheetArr, view);
+                        StarsIntroActivity.lambda$showGiftSheet$103(bottomSheetArr, view);
                     }
                 });
                 bottomSheetArr[0].fixNavigationBar();
@@ -4948,49 +5199,53 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
         tableView = tableView3;
         starGift = starGift3;
-        f = 0.8f;
         c = 2;
         runnable = null;
-        String string2 = LocaleController.getString(R.string.Gift2Value);
-        SpannableStringBuilder replaceStarsWithPlain2 = replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(starGift.stars, ','), f);
-        if (runnable != null) {
+        String string22 = LocaleController.getString(R.string.Gift2Value);
+        String str22 = "⭐️ " + LocaleController.formatNumber(starGift.stars, ',');
+        if (runnable == null) {
         }
-        CharSequence[] charSequenceArr2 = new CharSequence[i3];
-        charSequenceArr2[0] = replaceStarsWithPlain2;
-        charSequenceArr2[1] = " ";
-        charSequenceArr2[c] = make;
-        CharSequence concat2 = TextUtils.concat(charSequenceArr2);
+        CharSequence[] charSequenceArr22 = new CharSequence[3];
+        charSequenceArr22[0] = str22;
+        charSequenceArr22[1] = " ";
+        charSequenceArr22[c] = make;
         tableView2 = tableView;
-        tableView2.addRow(string2, concat2);
-        if (starGift.limited) {
+        tableView2.addRow(string22, replaceStarsWithPlain(TextUtils.concat(charSequenceArr22), 0.8f));
+        if (starGift2.limited) {
         }
-        tL_textWithEntities = userStarGift2.message;
+        final ButtonWithCounterView buttonWithCounterView32 = new ButtonWithCounterView(context, resourcesProvider2);
+        final TL_stars.StarGift starGift422 = starGift2;
+        final Runnable runnable222 = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda62
+            @Override // java.lang.Runnable
+            public final void run() {
+                StarsIntroActivity.lambda$showGiftSheet$102(ButtonWithCounterView.this, userStarGift, i, bottomSheetArr, clientUserId, starGift422, resourcesProvider);
+            }
+        };
+        tableView2.addRow(LocaleController.getString(R.string.Gift2Visibility), LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2Visible : R.string.Gift2Invisible), LocaleController.getString(!userStarGift.unsaved ? R.string.Gift2VisibleHide : R.string.Gift2InvisibleShow), runnable222);
+        tL_textWithEntities = userStarGift.message;
         if (tL_textWithEntities != null) {
-            TLRPC.TL_textWithEntities tL_textWithEntities22 = userStarGift2.message;
-            tableView2.addFullRow(tL_textWithEntities22.text, tL_textWithEntities22.entities);
         }
         linearLayout.addView(tableView2, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 12.0f));
-        if (j != UserConfig.getInstance(i).getClientUserId()) {
+        if (j == UserConfig.getInstance(i).getClientUserId()) {
         }
         if (z) {
         }
-        ButtonWithCounterView buttonWithCounterView22 = new ButtonWithCounterView(context2, resourcesProvider2);
-        buttonWithCounterView22.setText(LocaleController.getString(R.string.OK), false);
-        linearLayout.addView(buttonWithCounterView22, LayoutHelper.createLinear(-1, 48));
+        ButtonWithCounterView buttonWithCounterView222 = new ButtonWithCounterView(context, resourcesProvider2);
+        buttonWithCounterView222.setText(LocaleController.getString(R.string.OK), false);
+        linearLayout.addView(buttonWithCounterView222, LayoutHelper.createLinear(-1, 48));
         builder.setCustomView(linearLayout);
-        BottomSheet create22 = builder.create();
-        bottomSheetArr[0] = create22;
-        create22.useBackgroundTopPadding = false;
-        buttonWithCounterView22.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda61
+        BottomSheet create32 = builder.create();
+        bottomSheetArr[0] = create32;
+        create32.useBackgroundTopPadding = false;
+        buttonWithCounterView222.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda64
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$showGiftSheet$96(bottomSheetArr, view);
+                StarsIntroActivity.lambda$showGiftSheet$103(bottomSheetArr, view);
             }
         });
         bottomSheetArr[0].fixNavigationBar();
         safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (!AndroidUtilities.isTablet()) {
-            bottomSheetArr[0].makeAttached(safeLastFragment);
         }
         bottomSheetArr[0].show();
         return bottomSheetArr[0];
@@ -5030,10 +5285,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         editTextBoldCursor.setHighlightColor(Theme.getColor(Theme.key_chat_inTextSelectionHighlight, resourcesProvider));
         editTextBoldCursor.setHandlesColor(Theme.getColor(Theme.key_chat_TextSelectionCursor, resourcesProvider));
         editTextBoldCursor.setGravity(LocaleController.isRTL ? 5 : 3);
-        editTextBoldCursor.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda37
+        editTextBoldCursor.setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda38
             @Override // android.view.View.OnFocusChangeListener
             public final void onFocusChange(View view, boolean z2) {
-                StarsIntroActivity.lambda$showMediaPriceSheet$61(OutlineTextContainerView.this, editTextBoldCursor, view, z2);
+                StarsIntroActivity.lambda$showMediaPriceSheet$63(OutlineTextContainerView.this, editTextBoldCursor, view, z2);
             }
         });
         LinearLayout linearLayout2 = new LinearLayout(context);
@@ -5051,10 +5306,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
         outlineTextContainerView.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 21, 0.0f, 0.0f, 14.0f, 0.0f));
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context);
-        linksTextView.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PaidContentInfo), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda38
+        linksTextView.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PaidContentInfo), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showMediaPriceSheet$62(context);
+                StarsIntroActivity.lambda$showMediaPriceSheet$64(context);
             }
         }), true));
         linksTextView.setTextSize(1, 12.0f);
@@ -5073,7 +5328,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         builder.setCustomView(linearLayout);
         final BottomSheet[] bottomSheetArr = {builder.create()};
         editTextBoldCursor.setText(j <= 0 ? "" : Long.toString(j));
-        editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Stars.StarsIntroActivity.11
+        editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Stars.StarsIntroActivity.13
             private boolean ignore;
             private int shakeDp = 2;
 
@@ -5157,30 +5412,30 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             }
         });
         final boolean[] zArr = {false};
-        editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda39
+        editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda40
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView3, int i2, KeyEvent keyEvent) {
-                boolean lambda$showMediaPriceSheet$64;
-                lambda$showMediaPriceSheet$64 = StarsIntroActivity.lambda$showMediaPriceSheet$64(zArr, callback2, buttonWithCounterView2, editTextBoldCursor, bottomSheetArr, textView3, i2, keyEvent);
-                return lambda$showMediaPriceSheet$64;
+                boolean lambda$showMediaPriceSheet$66;
+                lambda$showMediaPriceSheet$66 = StarsIntroActivity.lambda$showMediaPriceSheet$66(zArr, callback2, buttonWithCounterView2, editTextBoldCursor, bottomSheetArr, textView3, i2, keyEvent);
+                return lambda$showMediaPriceSheet$66;
             }
         });
-        buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda40
+        buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda41
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$showMediaPriceSheet$66(zArr, callback2, editTextBoldCursor, buttonWithCounterView2, bottomSheetArr, view);
+                StarsIntroActivity.lambda$showMediaPriceSheet$68(zArr, callback2, editTextBoldCursor, buttonWithCounterView2, bottomSheetArr, view);
             }
         });
         if (buttonWithCounterView3 != null) {
-            buttonWithCounterView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda41
+            buttonWithCounterView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda42
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    StarsIntroActivity.lambda$showMediaPriceSheet$68(zArr, callback2, buttonWithCounterView3, editTextBoldCursor, bottomSheetArr, view);
+                    StarsIntroActivity.lambda$showMediaPriceSheet$70(zArr, callback2, buttonWithCounterView3, editTextBoldCursor, bottomSheetArr, view);
                 }
             });
         }
         bottomSheetArr[0].fixNavigationBar();
-        bottomSheetArr[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda42
+        bottomSheetArr[0].setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda43
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
@@ -5188,10 +5443,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         });
         bottomSheetArr[0].show();
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda43
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda44
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showMediaPriceSheet$71(bottomSheetArr, editTextBoldCursor);
+                StarsIntroActivity.lambda$showMediaPriceSheet$73(bottomSheetArr, editTextBoldCursor);
             }
         }, lastFragment instanceof ChatActivity ? ((ChatActivity) lastFragment).needEnterText() : false ? 200L : 80L);
         return bottomSheetArr[0];
@@ -5242,10 +5497,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         builder.setCustomView(linearLayout);
         final BottomSheet[] bottomSheetArr = {builder.create()};
         bottomSheetArr[0].useBackgroundTopPadding = false;
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda66
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda71
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                StarsIntroActivity.lambda$showSoldOutGiftSheet$101(bottomSheetArr, view);
+                StarsIntroActivity.lambda$showSoldOutGiftSheet$105(bottomSheetArr, view);
             }
         });
         bottomSheetArr[0].fixNavigationBar();
@@ -5257,15 +5512,28 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         return bottomSheetArr[0];
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0670  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static BottomSheet showSubscriptionSheet(final Context context, final int i, final TL_stars.StarsSubscription starsSubscription, final Theme.ResourcesProvider resourcesProvider) {
-        BottomSheet.Builder builder;
-        String formatString;
+        boolean[] zArr;
+        String str;
+        final TLRPC.Chat chat;
+        boolean z;
+        TLObject tLObject;
+        long j;
+        final long j2;
+        boolean z2;
+        String publicUsername;
         final ButtonWithCounterView buttonWithCounterView;
         View.OnClickListener onClickListener;
+        BaseFragment safeLastFragment;
         if (starsSubscription == null || context == null) {
             return null;
         }
-        BottomSheet.Builder builder2 = new BottomSheet.Builder(context, false, resourcesProvider);
+        BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
         final BottomSheet[] bottomSheetArr = new BottomSheet[1];
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
@@ -5274,43 +5542,73 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         linearLayout.setClipToPadding(false);
         FrameLayout frameLayout = new FrameLayout(context);
         linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2, 7, 0, 0, 0, 10));
+        final boolean[] zArr2 = new boolean[1];
+        final NotificationCenter.NotificationCenterDelegate notificationCenterDelegate = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.Stars.StarsIntroActivity.9
+            @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+            public void didReceivedNotification(int i2, int i3, Object... objArr) {
+                BottomSheet bottomSheet;
+                if (i2 == NotificationCenter.starSubscriptionsLoaded && zArr2[0] && (bottomSheet = bottomSheetArr[0]) != null) {
+                    bottomSheet.dismiss();
+                }
+            }
+        };
+        NotificationCenter.getInstance(i).addObserver(notificationCenterDelegate, NotificationCenter.starSubscriptionsLoaded);
+        long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
         BackupImageView backupImageView = new BackupImageView(context);
-        backupImageView.setRoundRadius(AndroidUtilities.dp(50.0f));
-        final long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
-        AvatarDrawable avatarDrawable = new AvatarDrawable();
         if (peerDialogId >= 0) {
             TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(peerDialogId));
-            avatarDrawable.setInfo(user);
-            backupImageView.setForUserOrChat(user, avatarDrawable);
-            builder = builder2;
+            chat = user;
+            zArr = zArr2;
+            str = UserObject.getUserName(user);
+            z = !UserObject.isBot(user);
         } else {
-            builder = builder2;
-            TLRPC.Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
-            avatarDrawable.setInfo(chat);
-            backupImageView.setForUserOrChat(chat, avatarDrawable);
+            zArr = zArr2;
+            TLRPC.Chat chat2 = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
+            str = chat2 == null ? "" : chat2.title;
+            chat = chat2;
+            z = false;
+        }
+        if (starsSubscription.photo != null) {
+            backupImageView.setRoundRadius(AndroidUtilities.dp(21.0f));
+            backupImageView.setImage(ImageLocation.getForWebFile(WebFile.createWithWebDocument(starsSubscription.photo)), "100_100", (Drawable) null, 0, (Object) null);
+        } else {
+            backupImageView.setRoundRadius(AndroidUtilities.dp(50.0f));
+            AvatarDrawable avatarDrawable = new AvatarDrawable();
+            if (peerDialogId >= 0) {
+                TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(peerDialogId));
+                avatarDrawable.setInfo(user2);
+                tLObject = user2;
+            } else {
+                TLRPC.Chat chat3 = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
+                avatarDrawable.setInfo(chat3);
+                tLObject = chat3;
+            }
+            backupImageView.setForUserOrChat(tLObject, avatarDrawable);
         }
         frameLayout.addView(backupImageView, LayoutHelper.createFrame(100, 100, 17));
         Drawable drawable = context.getResources().getDrawable(R.drawable.star_small_outline);
         drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogBackground, resourcesProvider), PorterDuff.Mode.SRC_IN));
         Drawable drawable2 = context.getResources().getDrawable(R.drawable.star_small_inner);
-        ImageView imageView = new ImageView(context);
-        imageView.setImageDrawable(drawable);
-        frameLayout.addView(imageView, LayoutHelper.createFrame(28, 28, 17));
-        imageView.setTranslationX(AndroidUtilities.dp(34.0f));
-        imageView.setTranslationY(AndroidUtilities.dp(35.0f));
-        imageView.setScaleX(1.1f);
-        imageView.setScaleY(1.1f);
-        ImageView imageView2 = new ImageView(context);
-        imageView2.setImageDrawable(drawable2);
-        frameLayout.addView(imageView2, LayoutHelper.createFrame(28, 28, 17));
-        imageView2.setTranslationX(AndroidUtilities.dp(34.0f));
-        imageView2.setTranslationY(AndroidUtilities.dp(35.0f));
+        if (starsSubscription.photo == null) {
+            ImageView imageView = new ImageView(context);
+            imageView.setImageDrawable(drawable);
+            frameLayout.addView(imageView, LayoutHelper.createFrame(28, 28, 17));
+            imageView.setTranslationX(AndroidUtilities.dp(34.0f));
+            imageView.setTranslationY(AndroidUtilities.dp(35.0f));
+            imageView.setScaleX(1.1f);
+            imageView.setScaleY(1.1f);
+            ImageView imageView2 = new ImageView(context);
+            imageView2.setImageDrawable(drawable2);
+            frameLayout.addView(imageView2, LayoutHelper.createFrame(28, 28, 17));
+            imageView2.setTranslationX(AndroidUtilities.dp(34.0f));
+            imageView2.setTranslationY(AndroidUtilities.dp(35.0f));
+        }
         TextView textView = new TextView(context);
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setGravity(17);
-        textView.setText(LocaleController.getString(R.string.StarsSubscriptionTitle));
+        textView.setText(!TextUtils.isEmpty(starsSubscription.title) ? starsSubscription.title : LocaleController.getString(R.string.StarsSubscriptionTitle));
         linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         TextView textView2 = new TextView(context);
         textView2.setTextSize(1, 14.0f);
@@ -5319,11 +5617,12 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing = starsSubscription.pricing;
         int i2 = tL_starsSubscriptionPricing.period;
         if (i2 == 2592000) {
-            formatString = LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount));
+            textView2.setText(replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount)), 0.8f));
+            j = peerDialogId;
         } else {
-            formatString = LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount), i2 == 300 ? "5min" : "min");
+            j = peerDialogId;
+            textView2.setText(replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount), i2 == 300 ? "5min" : "min"), 0.8f));
         }
-        textView2.setText(replaceStarsWithPlain(formatString, 0.8f));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         TableView tableView = new TableView(context, resourcesProvider);
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
@@ -5336,19 +5635,29 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         linksTextView.setSingleLine(true);
         linksTextView.setDisablePaddingsOffsetY(true);
         AvatarSpan avatarSpan = new AvatarSpan(linksTextView, i, 24.0f);
-        final TLRPC.Chat chat2 = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
-        boolean z = chat2 == null;
-        String str = chat2 == null ? "" : chat2.title;
-        avatarSpan.setChat(chat2);
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("x  " + ((Object) str));
+        if (j >= 0) {
+            TLRPC.User user3 = MessagesController.getInstance(i).getUser(Long.valueOf(j));
+            boolean z3 = user3 == null || UserObject.isDeleted(user3);
+            publicUsername = UserObject.getPublicUsername(user3);
+            avatarSpan.setUser(user3);
+            z2 = z3;
+            j2 = j;
+        } else {
+            j2 = j;
+            TLRPC.Chat chat4 = MessagesController.getInstance(i).getChat(Long.valueOf(-j2));
+            z2 = chat4 == null;
+            publicUsername = ChatObject.getPublicUsername(chat4);
+            avatarSpan.setChat(chat4);
+        }
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("x  " + ((Object) publicUsername));
         spannableStringBuilder.setSpan(avatarSpan, 0, 1, 33);
-        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stars.StarsIntroActivity.9
+        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stars.StarsIntroActivity.10
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
                 bottomSheetArr[0].dismiss();
-                BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-                if (safeLastFragment != null) {
-                    safeLastFragment.presentFragment(ChatActivity.of(peerDialogId));
+                BaseFragment safeLastFragment2 = LaunchActivity.getSafeLastFragment();
+                if (safeLastFragment2 != null) {
+                    safeLastFragment2.presentFragment(ChatActivity.of(j2));
                 }
             }
 
@@ -5358,11 +5667,15 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             }
         }, 3, spannableStringBuilder.length(), 33);
         linksTextView.setText(spannableStringBuilder);
-        if (!z) {
-            tableView.addRowUnpadded(LocaleController.getString(R.string.StarsSubscriptionChannel), linksTextView);
+        if (!z2) {
+            tableView.addRowUnpadded(LocaleController.getString(j2 < 0 ? R.string.StarsSubscriptionChannel : z ? R.string.StarsSubscriptionBusiness : R.string.StarsSubscriptionBot), linksTextView);
+        }
+        if (j2 >= 0 && !TextUtils.isEmpty(starsSubscription.title)) {
+            tableView.addRow(LocaleController.getString(z ? R.string.StarsSubscriptionBusinessProduct : R.string.StarsSubscriptionBotProduct), starsSubscription.title);
         }
         CharSequence string = LocaleController.getString(R.string.StarsSubscriptionSince);
         int i4 = R.string.formatDateAtTime;
+        final long j3 = j2;
         tableView.addRow(string, LocaleController.formatString(i4, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date((starsSubscription.until_date - starsSubscription.pricing.period) * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date((starsSubscription.until_date - starsSubscription.pricing.period) * 1000))));
         long currentTime = ConnectionsManager.getInstance(i).getCurrentTime();
         tableView.addRow(LocaleController.getString(starsSubscription.canceled ? R.string.StarsSubscriptionUntilExpires : currentTime > ((long) starsSubscription.until_date) ? R.string.StarsSubscriptionUntilExpired : R.string.StarsSubscriptionUntilRenews), LocaleController.formatString(i4, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(starsSubscription.until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(starsSubscription.until_date * 1000))));
@@ -5372,10 +5685,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         linksTextView2.setTextColor(Theme.getColor(i5, resourcesProvider));
         linksTextView2.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
         linksTextView2.setTextSize(1, 14.0f);
-        linksTextView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda69
+        linksTextView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda73
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showSubscriptionSheet$39(context);
+                StarsIntroActivity.lambda$showSubscriptionSheet$40(context);
             }
         }));
         linksTextView2.setGravity(17);
@@ -5390,19 +5703,37 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             linksTextView3.setMaxLines(4);
             linksTextView3.setGravity(17);
             linearLayout.addView(linksTextView3, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
-            if (starsSubscription.chat_invite_hash != null) {
+            if (starsSubscription.chat_invite_hash != null || starsSubscription.invoice_slug != null) {
                 buttonWithCounterView = new ButtonWithCounterView(context, true, resourcesProvider);
                 buttonWithCounterView.setText(LocaleController.getString(R.string.StarsSubscriptionAgain), false);
                 linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
-                onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda73
+                final boolean[] zArr3 = zArr;
+                onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda77
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        StarsIntroActivity.lambda$showSubscriptionSheet$55(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, resourcesProvider, view);
+                        StarsIntroActivity.lambda$showSubscriptionSheet$56(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, resourcesProvider, zArr3, context, view);
                     }
                 };
                 buttonWithCounterView.setOnClickListener(onClickListener);
             }
-        } else if (starsSubscription.can_refulfill) {
+            builder.setCustomView(linearLayout);
+            BottomSheet create = builder.create();
+            bottomSheetArr[0] = create;
+            create.useBackgroundTopPadding = false;
+            create.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda78
+                @Override // android.content.DialogInterface.OnDismissListener
+                public final void onDismiss(DialogInterface dialogInterface) {
+                    StarsIntroActivity.lambda$showSubscriptionSheet$57(i, notificationCenterDelegate, dialogInterface);
+                }
+            });
+            bottomSheetArr[0].fixNavigationBar();
+            safeLastFragment = LaunchActivity.getSafeLastFragment();
+            if (!AndroidUtilities.isTablet()) {
+            }
+            bottomSheetArr[0].show();
+            return bottomSheetArr[0];
+        }
+        if (starsSubscription.can_refulfill) {
             LinkSpanDrawable.LinksTextView linksTextView4 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
             linksTextView4.setTextColor(Theme.getColor(i5, resourcesProvider));
             linksTextView4.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
@@ -5412,68 +5743,91 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             linksTextView4.setMaxLines(4);
             linksTextView4.setGravity(17);
             linearLayout.addView(linksTextView4, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
-            final ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, true, resourcesProvider);
-            buttonWithCounterView2.setText(LocaleController.getString(R.string.StarsSubscriptionRefulfill), false);
-            linearLayout.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48));
-            buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda70
+            buttonWithCounterView = new ButtonWithCounterView(context, true, resourcesProvider);
+            buttonWithCounterView.setText(LocaleController.getString(R.string.StarsSubscriptionRefulfill), false);
+            linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
+            final String str2 = str;
+            onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda74
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    StarsIntroActivity.lambda$showSubscriptionSheet$43(ButtonWithCounterView.this, i, starsSubscription, bottomSheetArr, peerDialogId, context, resourcesProvider, chat2, view);
+                    StarsIntroActivity.lambda$showSubscriptionSheet$44(ButtonWithCounterView.this, i, starsSubscription, bottomSheetArr, j3, context, resourcesProvider, str2, view);
+                }
+            };
+            buttonWithCounterView.setOnClickListener(onClickListener);
+            builder.setCustomView(linearLayout);
+            BottomSheet create2 = builder.create();
+            bottomSheetArr[0] = create2;
+            create2.useBackgroundTopPadding = false;
+            create2.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda78
+                @Override // android.content.DialogInterface.OnDismissListener
+                public final void onDismiss(DialogInterface dialogInterface) {
+                    StarsIntroActivity.lambda$showSubscriptionSheet$57(i, notificationCenterDelegate, dialogInterface);
                 }
             });
-        } else {
-            if (starsSubscription.canceled) {
-                LinkSpanDrawable.LinksTextView linksTextView5 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
-                linksTextView5.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
-                linksTextView5.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
-                linksTextView5.setTextSize(1, 14.0f);
-                linksTextView5.setText(LocaleController.getString(R.string.StarsSubscriptionCancelledText));
-                linksTextView5.setSingleLine(false);
-                linksTextView5.setMaxLines(4);
-                linksTextView5.setGravity(17);
-                linearLayout.addView(linksTextView5, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
-                if (starsSubscription.chat_invite_hash != null) {
-                    buttonWithCounterView = new ButtonWithCounterView(context, true, resourcesProvider);
-                    buttonWithCounterView.setText(LocaleController.getString(R.string.StarsSubscriptionRenew), false);
-                    linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
-                    onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda71
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            StarsIntroActivity.lambda$showSubscriptionSheet$46(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, chat2, view);
-                        }
-                    };
-                }
-            } else {
-                LinkSpanDrawable.LinksTextView linksTextView6 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
-                linksTextView6.setTextColor(Theme.getColor(i5, resourcesProvider));
-                linksTextView6.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
-                linksTextView6.setTextSize(1, 14.0f);
-                linksTextView6.setText(LocaleController.formatString(R.string.StarsSubscriptionCancelInfo, LocaleController.formatDateChat(starsSubscription.until_date)));
-                linksTextView6.setSingleLine(false);
-                linksTextView6.setMaxLines(4);
-                linksTextView6.setGravity(17);
-                linearLayout.addView(linksTextView6, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
-                buttonWithCounterView = new ButtonWithCounterView(context, false, resourcesProvider);
-                buttonWithCounterView.setText(LocaleController.getString(R.string.StarsSubscriptionCancel), false);
-                buttonWithCounterView.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
-                linearLayout.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48));
-                onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda72
+            bottomSheetArr[0].fixNavigationBar();
+            safeLastFragment = LaunchActivity.getSafeLastFragment();
+            if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
+                bottomSheetArr[0].makeAttached(safeLastFragment);
+            }
+            bottomSheetArr[0].show();
+            return bottomSheetArr[0];
+        }
+        if (starsSubscription.canceled) {
+            LinkSpanDrawable.LinksTextView linksTextView5 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+            linksTextView5.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
+            linksTextView5.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
+            linksTextView5.setTextSize(1, 14.0f);
+            linksTextView5.setText(LocaleController.getString(R.string.StarsSubscriptionCancelledText));
+            linksTextView5.setSingleLine(false);
+            linksTextView5.setMaxLines(4);
+            linksTextView5.setGravity(17);
+            linearLayout.addView(linksTextView5, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
+            if (starsSubscription.chat_invite_hash != null || starsSubscription.invoice_slug != null) {
+                final ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, true, resourcesProvider);
+                buttonWithCounterView2.setText(LocaleController.getString(R.string.StarsSubscriptionRenew), false);
+                linearLayout.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48));
+                final String str3 = str;
+                buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda75
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
-                        StarsIntroActivity.lambda$showSubscriptionSheet$49(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, chat2, view);
+                        StarsIntroActivity.lambda$showSubscriptionSheet$47(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, chat, str3, view);
                     }
-                };
+                });
             }
-            buttonWithCounterView.setOnClickListener(onClickListener);
+        } else {
+            LinkSpanDrawable.LinksTextView linksTextView6 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+            linksTextView6.setTextColor(Theme.getColor(i5, resourcesProvider));
+            linksTextView6.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
+            linksTextView6.setTextSize(1, 14.0f);
+            linksTextView6.setText(LocaleController.formatString(R.string.StarsSubscriptionCancelInfo, LocaleController.formatDateChat(starsSubscription.until_date)));
+            linksTextView6.setSingleLine(false);
+            linksTextView6.setMaxLines(4);
+            linksTextView6.setGravity(17);
+            linearLayout.addView(linksTextView6, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
+            final ButtonWithCounterView buttonWithCounterView3 = new ButtonWithCounterView(context, false, resourcesProvider);
+            buttonWithCounterView3.setText(LocaleController.getString(R.string.StarsSubscriptionCancel), false);
+            buttonWithCounterView3.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
+            linearLayout.addView(buttonWithCounterView3, LayoutHelper.createLinear(-1, 48));
+            buttonWithCounterView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda76
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    StarsIntroActivity.lambda$showSubscriptionSheet$50(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, chat, view);
+                }
+            });
         }
-        BottomSheet.Builder builder3 = builder;
-        builder3.setCustomView(linearLayout);
-        BottomSheet create = builder3.create();
-        bottomSheetArr[0] = create;
-        create.useBackgroundTopPadding = false;
-        create.fixNavigationBar();
-        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-        if (!AndroidUtilities.isTablet() && !AndroidUtilities.hasDialogOnTop(safeLastFragment)) {
+        builder.setCustomView(linearLayout);
+        BottomSheet create22 = builder.create();
+        bottomSheetArr[0] = create22;
+        create22.useBackgroundTopPadding = false;
+        create22.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda78
+            @Override // android.content.DialogInterface.OnDismissListener
+            public final void onDismiss(DialogInterface dialogInterface) {
+                StarsIntroActivity.lambda$showSubscriptionSheet$57(i, notificationCenterDelegate, dialogInterface);
+            }
+        });
+        bottomSheetArr[0].fixNavigationBar();
+        safeLastFragment = LaunchActivity.getSafeLastFragment();
+        if (!AndroidUtilities.isTablet()) {
             bottomSheetArr[0].makeAttached(safeLastFragment);
         }
         bottomSheetArr[0].show();
@@ -5546,31 +5900,31 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x09dd  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0a73  */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x0aa3  */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x0ac5  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0aad  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x0a7e  */
-    /* JADX WARN: Removed duplicated region for block: B:138:0x0577  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0367  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0380  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x039b  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x03f0  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x03c9  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x0383  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x036a  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x045e  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x070c  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x071a  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x072b  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x07fc A[LOOP:0: B:58:0x0777->B:68:0x07fc, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0808 A[EDGE_INSN: B:69:0x0808->B:70:0x0808 BREAK  A[LOOP:0: B:58:0x0777->B:68:0x07fc], SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0884 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0948  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x09a7  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x09da  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x0a70  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0aa0  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0ac2  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0aaa  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0a7b  */
+    /* JADX WARN: Removed duplicated region for block: B:138:0x0576  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x0366  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x037f  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x039a  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x03ef  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x03ff  */
+    /* JADX WARN: Removed duplicated region for block: B:179:0x03c8  */
+    /* JADX WARN: Removed duplicated region for block: B:180:0x0382  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0369  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x045d  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x070a  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0718  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0729  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x07c6  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x07f9 A[LOOP:0: B:58:0x0775->B:68:0x07f9, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0805 A[EDGE_INSN: B:69:0x0805->B:70:0x0805 BREAK  A[LOOP:0: B:58:0x0775->B:68:0x07f9], SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0881 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0945  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x09a4  */
     /* JADX WARN: Type inference failed for: r4v23 */
     /* JADX WARN: Type inference failed for: r4v24, types: [boolean] */
     /* JADX WARN: Type inference failed for: r4v25 */
@@ -5705,7 +6059,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
-                            StarsIntroActivity.lambda$showTransactionSheet$20(z, j, starsTransaction, i, resourcesProvider, backupImageView, linearLayout2, view2);
+                            StarsIntroActivity.lambda$showTransactionSheet$21(z, j, starsTransaction, i, resourcesProvider, backupImageView, linearLayout2, view2);
                         }
                     });
                     viewGroup2 = linearLayout2;
@@ -5721,7 +6075,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 backupImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
-                        StarsIntroActivity.lambda$showTransactionSheet$20(z, j, starsTransaction, i, resourcesProvider, backupImageView, linearLayout22, view2);
+                        StarsIntroActivity.lambda$showTransactionSheet$21(z, j, starsTransaction, i, resourcesProvider, backupImageView, linearLayout22, view2);
                     }
                 });
                 viewGroup2 = linearLayout22;
@@ -5790,7 +6144,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     CharSequence replaceArrows = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.GiftStarsSubtitleLinkName).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda11
                         @Override // java.lang.Runnable
                         public final void run() {
-                            StarsIntroActivity.lambda$showTransactionSheet$21(context, bottomSheetArr2);
+                            StarsIntroActivity.lambda$showTransactionSheet$22(context, bottomSheetArr2);
                         }
                     }), true);
                     CharSequence[] charSequenceArr = new CharSequence[3];
@@ -5828,19 +6182,19 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                             tableView3.addRowUser(LocaleController.getString(R.string.StarGiveawayPrizeFrom), i, peerDialogId2, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda18
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    StarsIntroActivity.lambda$showTransactionSheet$28(bottomSheetArr5, starsTransaction, peerDialogId2);
+                                    StarsIntroActivity.lambda$showTransactionSheet$29(bottomSheetArr5, starsTransaction, peerDialogId2);
                                 }
                             });
                             tableView4.addRowUser(LocaleController.getString(R.string.StarGiveawayPrizeTo), i, UserConfig.getInstance(i).getClientUserId(), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda19
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    StarsIntroActivity.lambda$showTransactionSheet$29(bottomSheetArr3, i);
+                                    StarsIntroActivity.lambda$showTransactionSheet$30(bottomSheetArr3, i);
                                 }
                             });
                             tableView4.addRowLink(LocaleController.getString(R.string.StarGiveawayReason), LocaleController.getString(R.string.StarGiveawayReasonLink), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    StarsIntroActivity.lambda$showTransactionSheet$30(bottomSheetArr3, starsTransaction, peerDialogId2);
+                                    StarsIntroActivity.lambda$showTransactionSheet$31(bottomSheetArr3, starsTransaction, peerDialogId2);
                                 }
                             });
                             tableView4.addRow(LocaleController.getString(R.string.StarGiveawayGift), LocaleController.formatPluralStringComma("Stars", (int) starsTransaction.stars));
@@ -5862,7 +6216,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                 runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda4
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        StarsIntroActivity.lambda$showTransactionSheet$32(bottomSheetArr3, peerDialogId2, context2);
+                                        StarsIntroActivity.lambda$showTransactionSheet$33(bottomSheetArr3, peerDialogId2, context2);
                                     }
                                 };
                             } else {
@@ -5872,7 +6226,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                 runnable = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda3
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        StarsIntroActivity.lambda$showTransactionSheet$31(bottomSheetArr3, peerDialogId2, context2);
+                                        StarsIntroActivity.lambda$showTransactionSheet$32(bottomSheetArr3, peerDialogId2, context2);
                                     }
                                 };
                             }
@@ -5975,7 +6329,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     linksTextView3.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda8
                         @Override // java.lang.Runnable
                         public final void run() {
-                            StarsIntroActivity.lambda$showTransactionSheet$36(context);
+                            StarsIntroActivity.lambda$showTransactionSheet$37(context);
                         }
                     }));
                     linksTextView3.setGravity(17);
@@ -6017,18 +6371,18 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                         tableView3.addRowUser(LocaleController.getString(R.string.StarGiveawayPrizeFrom), i, UserConfig.getInstance(i).getClientUserId(), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda15
                             @Override // java.lang.Runnable
                             public final void run() {
-                                StarsIntroActivity.lambda$showTransactionSheet$25(bottomSheetArr6, i);
+                                StarsIntroActivity.lambda$showTransactionSheet$26(bottomSheetArr6, i);
                             }
                         });
                         tableView3.addRowUser(LocaleController.getString(R.string.StarGiveawayPrizeTo), i, peerDialogId3, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda16
                             @Override // java.lang.Runnable
                             public final void run() {
-                                StarsIntroActivity.lambda$showTransactionSheet$26(bottomSheetArr6, starsTransaction, peerDialogId3);
+                                StarsIntroActivity.lambda$showTransactionSheet$27(bottomSheetArr6, starsTransaction, peerDialogId3);
                             }
                         }, !UserObject.isDeleted(user4) ? LocaleController.getString(R.string.Gift2ButtonSendGift) : null, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda17
                             @Override // java.lang.Runnable
                             public final void run() {
-                                StarsIntroActivity.lambda$showTransactionSheet$27(context, i, peerDialogId3, bottomSheetArr6);
+                                StarsIntroActivity.lambda$showTransactionSheet$28(context, i, peerDialogId3, bottomSheetArr6);
                             }
                         });
                         charSequence = " ";
@@ -6113,7 +6467,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                 final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda5
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        StarsIntroActivity.lambda$showTransactionSheet$33(bottomSheetArr3, peerDialogId4, starsTransaction2);
+                                        StarsIntroActivity.lambda$showTransactionSheet$34(bottomSheetArr3, peerDialogId4, starsTransaction2);
                                     }
                                 };
                                 spannableStringBuilder3.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stars.StarsIntroActivity.8
@@ -6159,7 +6513,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                     imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda7
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view2) {
-                                            StarsIntroActivity.lambda$showTransactionSheet$35(TL_stars.StarsTransaction.this, bottomSheetArr3, resourcesProvider3, view2);
+                                            StarsIntroActivity.lambda$showTransactionSheet$36(TL_stars.StarsTransaction.this, bottomSheetArr3, resourcesProvider3, view2);
                                         }
                                     });
                                     ScaleStateListAnimator.apply(imageView);
@@ -6194,7 +6548,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                 linksTextView32.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda8
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        StarsIntroActivity.lambda$showTransactionSheet$36(context);
+                                        StarsIntroActivity.lambda$showTransactionSheet$37(context);
                                     }
                                 }));
                                 linksTextView32.setGravity(17);
@@ -6218,14 +6572,14 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                                     buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda9
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view2) {
-                                            StarsIntroActivity.lambda$showTransactionSheet$37(context, starsTransaction2, view2);
+                                            StarsIntroActivity.lambda$showTransactionSheet$38(context, starsTransaction2, view2);
                                         }
                                     });
                                 } else {
                                     buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda10
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view2) {
-                                            StarsIntroActivity.lambda$showTransactionSheet$38(bottomSheetArr3, view2);
+                                            StarsIntroActivity.lambda$showTransactionSheet$39(bottomSheetArr3, view2);
                                         }
                                     });
                                 }
@@ -6262,7 +6616,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                         linksTextView322.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda8
                             @Override // java.lang.Runnable
                             public final void run() {
-                                StarsIntroActivity.lambda$showTransactionSheet$36(context);
+                                StarsIntroActivity.lambda$showTransactionSheet$37(context);
                             }
                         }));
                         linksTextView322.setGravity(17);
@@ -6293,18 +6647,18 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     tableView3.addRowUser(LocaleController.getString(R.string.StarGiveawayPrizeFrom), i, peerDialogId3, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda12
                         @Override // java.lang.Runnable
                         public final void run() {
-                            StarsIntroActivity.lambda$showTransactionSheet$22(bottomSheetArr2, starsTransaction, peerDialogId3);
+                            StarsIntroActivity.lambda$showTransactionSheet$23(bottomSheetArr2, starsTransaction, peerDialogId3);
                         }
                     }, !UserObject.isDeleted(user4) ? LocaleController.getString(R.string.Gift2ButtonSendGift) : null, new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda13
                         @Override // java.lang.Runnable
                         public final void run() {
-                            StarsIntroActivity.lambda$showTransactionSheet$23(context, i, peerDialogId3, bottomSheetArr7);
+                            StarsIntroActivity.lambda$showTransactionSheet$24(context, i, peerDialogId3, bottomSheetArr7);
                         }
                     });
                     tableView3.addRowUser(LocaleController.getString(R.string.StarGiveawayPrizeTo), i, UserConfig.getInstance(i).getClientUserId(), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda14
                         @Override // java.lang.Runnable
                         public final void run() {
-                            StarsIntroActivity.lambda$showTransactionSheet$24(bottomSheetArr8, i);
+                            StarsIntroActivity.lambda$showTransactionSheet$25(bottomSheetArr8, i);
                         }
                     });
                     resourcesProvider2 = resourcesProvider;
@@ -6349,7 +6703,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 linksTextView3222.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StarsTransactionTOS), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StarsIntroActivity.lambda$showTransactionSheet$36(context);
+                        StarsIntroActivity.lambda$showTransactionSheet$37(context);
                     }
                 }));
                 linksTextView3222.setGravity(17);
@@ -6401,7 +6755,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         CharSequence replaceArrows2 = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.GiftStarsSubtitleLinkName).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
-                StarsIntroActivity.lambda$showTransactionSheet$21(context, bottomSheetArr2);
+                StarsIntroActivity.lambda$showTransactionSheet$22(context, bottomSheetArr2);
             }
         }), true);
         CharSequence[] charSequenceArr2 = new CharSequence[3];
@@ -6504,7 +6858,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         gLIconRenderer.updateColors();
         this.iconTextureView.setStarParticlesView(this.particlesView);
         this.aboveTitleView.addView(this.iconTextureView, LayoutHelper.createFrame(NotificationCenter.storiesSendAsUpdate, 190.0f, 17, 0.0f, 32.0f, 0.0f, 24.0f));
-        configureHeader(LocaleController.getString(R.string.TelegramStars), AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.TelegramStarsInfo2), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda28
+        configureHeader(LocaleController.getString(R.string.TelegramStars), AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.TelegramStarsInfo2), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda29
             @Override // java.lang.Runnable
             public final void run() {
                 StarsIntroActivity.lambda$createView$0(context);
@@ -6517,7 +6871,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         defaultItemAnimator.setDurations(350L);
         this.listView.setItemAnimator(defaultItemAnimator);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda29
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda30
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i) {
                 StarsIntroActivity.this.lambda$createView$1(view2, i);
@@ -6556,7 +6910,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         this.balanceLayout.addView(this.starBalanceTitleView, LayoutHelper.createFrame(-1, -2.0f, 17, 24.0f, 0.0f, 24.0f, 0.0f));
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(getContext(), this.resourceProvider);
         this.buyButton = buttonWithCounterView;
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda30
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda31
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 StarsIntroActivity.this.lambda$createView$2(context, view2);
@@ -6569,7 +6923,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         spannableStringBuilder.setSpan(new ColoredImageSpan(R.drawable.menu_stars_gift), 0, 1, 33);
         spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.TelegramStarsGift));
         this.giftButton.setText(spannableStringBuilder, false);
-        this.giftButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda31
+        this.giftButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda32
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 StarsIntroActivity.this.lambda$createView$3(view2);
@@ -6724,7 +7078,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             if (i2 != -3) {
                 if (uItem.instanceOf(StarTierView.Factory.class)) {
                     if (uItem.object instanceof TL_stars.TL_starsTopupOption) {
-                        StarsController.getInstance(this.currentAccount).buy(getParentActivity(), (TL_stars.TL_starsTopupOption) uItem.object, new Utilities.Callback2() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda55
+                        StarsController.getInstance(this.currentAccount).buy(getParentActivity(), (TL_stars.TL_starsTopupOption) uItem.object, new Utilities.Callback2() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda57
                             @Override // org.telegram.messenger.Utilities.Callback2
                             public final void run(Object obj, Object obj2) {
                                 StarsIntroActivity.this.lambda$onItemClick$4(uItem, (Boolean) obj, (String) obj2);

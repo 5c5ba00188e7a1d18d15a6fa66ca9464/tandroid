@@ -86,7 +86,7 @@ public class ReorderingHintDrawable extends Drawable {
         rect3.top = dp2;
         this.tempRect.inset(-AndroidUtilities.dp(AndroidUtilities.lerp(10, 11, interpolation)), -AndroidUtilities.dp(AndroidUtilities.lerp(2, 3, interpolation)));
         this.primaryRectDrawable.setBounds(this.tempRect);
-        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(128, NotificationCenter.playerDidStartPlaying, interpolation));
+        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(128, NotificationCenter.notificationsCountUpdated, interpolation));
         this.primaryRectDrawable.draw(canvas);
     }
 
@@ -108,7 +108,7 @@ public class ReorderingHintDrawable extends Drawable {
         rect2.bottom = rect2.top + ((int) (AndroidUtilities.dpf2(AndroidUtilities.lerp(6, 4, interpolation)) * this.scaleY));
         this.tempRect.offset(0, AndroidUtilities.dp(AndroidUtilities.lerp(0, 8, interpolation)));
         this.primaryRectDrawable.setBounds(this.tempRect);
-        this.primaryRectDrawable.setAlpha(NotificationCenter.playerDidStartPlaying);
+        this.primaryRectDrawable.setAlpha(NotificationCenter.notificationsCountUpdated);
         this.primaryRectDrawable.draw(canvas);
     }
 
@@ -130,7 +130,7 @@ public class ReorderingHintDrawable extends Drawable {
         rect2.bottom = rect2.top + ((int) (AndroidUtilities.dpf2(4.0f) * this.scaleY));
         this.tempRect.offset(0, AndroidUtilities.dp(8.0f));
         this.primaryRectDrawable.setBounds(this.tempRect);
-        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(NotificationCenter.playerDidStartPlaying, 128, interpolation));
+        this.primaryRectDrawable.setAlpha(AndroidUtilities.lerp(NotificationCenter.notificationsCountUpdated, 128, interpolation));
         this.primaryRectDrawable.draw(canvas);
     }
 

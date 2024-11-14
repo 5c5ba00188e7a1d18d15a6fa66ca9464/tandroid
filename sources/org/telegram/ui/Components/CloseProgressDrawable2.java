@@ -31,7 +31,7 @@ public abstract class CloseProgressDrawable2 extends Drawable {
         this.paint = new Paint(1);
         this.interpolator = new DecelerateInterpolator();
         this.rect = new RectF();
-        this.globalColorAlpha = NotificationCenter.playerDidStartPlaying;
+        this.globalColorAlpha = NotificationCenter.notificationsCountUpdated;
         this.paint.setColor(-1);
         this.paint.setStrokeWidth(AndroidUtilities.dp(f));
         this.paint.setStrokeCap(Paint.Cap.ROUND);
@@ -42,7 +42,7 @@ public abstract class CloseProgressDrawable2 extends Drawable {
     private void setColor(int i) {
         if (this.currentColor != i) {
             this.globalColorAlpha = Color.alpha(i);
-            this.paint.setColor(ColorUtils.setAlphaComponent(i, NotificationCenter.playerDidStartPlaying));
+            this.paint.setColor(ColorUtils.setAlphaComponent(i, NotificationCenter.notificationsCountUpdated));
         }
     }
 

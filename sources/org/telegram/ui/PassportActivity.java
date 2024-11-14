@@ -3841,7 +3841,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (byte b : bArr) {
             i += b & 255;
         }
-        if (i % NotificationCenter.playerDidStartPlaying != 239) {
+        if (i % NotificationCenter.notificationsCountUpdated != 239) {
             return false;
         }
         return l == null || Utilities.bytesToLong(Utilities.computeSHA256(bArr)) == l.longValue();
@@ -6783,15 +6783,15 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         for (int i2 = 0; i2 < 32; i2++) {
             i += 255 & bArr[i2];
         }
-        int i3 = i % NotificationCenter.playerDidStartPlaying;
+        int i3 = i % NotificationCenter.notificationsCountUpdated;
         if (i3 != 239) {
-            int i4 = NotificationCenter.needCheckSystemBarColors - i3;
+            int i4 = NotificationCenter.themeAccentListUpdated - i3;
             int nextInt = Utilities.random.nextInt(32);
             int i5 = (bArr[nextInt] & 255) + i4;
             if (i5 < 255) {
-                i5 += NotificationCenter.playerDidStartPlaying;
+                i5 += NotificationCenter.notificationsCountUpdated;
             }
-            bArr[nextInt] = (byte) (i5 % NotificationCenter.playerDidStartPlaying);
+            bArr[nextInt] = (byte) (i5 % NotificationCenter.notificationsCountUpdated);
         }
         return bArr;
     }

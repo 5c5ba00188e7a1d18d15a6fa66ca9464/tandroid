@@ -4,7 +4,7 @@ import java.util.List;
 import org.webrtc.CameraEnumerationAndroid;
 import org.webrtc.CameraVideoCapturer;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public interface CameraEnumerator {
     CameraVideoCapturer createCapturer(String str, CameraVideoCapturer.CameraEventsHandler cameraEventsHandler);
 

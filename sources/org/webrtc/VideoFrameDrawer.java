@@ -8,7 +8,7 @@ import org.webrtc.GlGenericDrawer;
 import org.webrtc.RendererCommon;
 import org.webrtc.VideoFrame;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class VideoFrameDrawer {
     public static final String TAG = "VideoFrameDrawer";
     static final float[] srcPoints = {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
@@ -22,7 +22,7 @@ public class VideoFrameDrawer {
     private final Matrix renderRotateMatrix = new Matrix();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoFrame$TextureBuffer$Type;
 
@@ -41,7 +41,7 @@ public class VideoFrameDrawer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class YuvUploader {
         private ByteBuffer copyBuffer;
         private int[] yuvTextures;

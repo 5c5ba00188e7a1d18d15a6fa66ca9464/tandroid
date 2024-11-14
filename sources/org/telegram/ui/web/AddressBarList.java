@@ -63,7 +63,7 @@ import org.telegram.ui.web.AddressBarList;
 import org.telegram.ui.web.BrowserHistory;
 import org.telegram.ui.web.WebMetadataCache;
 
-/* loaded from: classes.dex */
+/* loaded from: classes5.dex */
 public class AddressBarList extends FrameLayout {
     private int backgroundColor;
     private final BookmarksList bookmarksList;
@@ -95,7 +95,7 @@ public class AddressBarList extends FrameLayout {
     public final ArrayList suggestions;
     private int textColor;
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class Address2View extends FrameLayout {
         private final Paint dividerPaint;
         public final ImageView iconView;
@@ -103,7 +103,7 @@ public class AddressBarList extends FrameLayout {
         private boolean needDivider;
         public final TextView textView;
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -201,7 +201,7 @@ public class AddressBarList extends FrameLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class BookmarkView extends FrameLayout implements Theme.Colorable {
         public final CheckBox2 checkBox;
         private final Paint dividerPaint;
@@ -216,7 +216,7 @@ public class AddressBarList extends FrameLayout {
         public final TextView textView;
         public final TextView timeView;
 
-        /* loaded from: classes.dex */
+        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -709,7 +709,7 @@ public class AddressBarList extends FrameLayout {
         }
     }
 
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class BookmarksList implements NotificationCenter.NotificationCenterDelegate {
         private boolean attached;
         private final int currentAccount;
@@ -803,7 +803,7 @@ public class AddressBarList extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
+    /* loaded from: classes5.dex */
     public static class QueryEntry {
         public long lastUsage;
         public final String query;

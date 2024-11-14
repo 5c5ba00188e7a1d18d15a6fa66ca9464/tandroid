@@ -662,7 +662,7 @@ public class MessageObject {
             }
             if (z2) {
                 this.maxSizeWidth -= 50;
-                i = NotificationCenter.proxyChangedByRotation;
+                i = NotificationCenter.proxyCheckDone;
             } else {
                 i = NotificationCenter.storyQualityUpdate;
             }
@@ -1634,8 +1634,7 @@ public class MessageObject {
                 }
                 this.copySeparator.setColor(ColorUtils.setAlphaComponent(i2, 38));
                 canvas.drawRect(AndroidUtilities.dp(10.0f) + rectF.left, (rectF.bottom - AndroidUtilities.dp(38.0f)) - AndroidUtilities.getShadowHeight(), rectF.right - AndroidUtilities.dp(6.66f), rectF.bottom - AndroidUtilities.dp(38.0f), this.copySeparator);
-                float min = Math.min(rectF.width() - AndroidUtilities.dp(12.0f), (this.copyIcon.getIntrinsicWidth() * 0.8f) + AndroidUtilities.dp(5.0f) + this.copyText.getCurrentWidth());
-                float centerX = rectF.centerX() - (min / 2.0f);
+                float centerX = rectF.centerX() - (Math.min(rectF.width() - AndroidUtilities.dp(12.0f), ((this.copyIcon.getIntrinsicWidth() * 0.8f) + AndroidUtilities.dp(5.0f)) + this.copyText.getCurrentWidth()) / 2.0f);
                 float dp = rectF.bottom - (AndroidUtilities.dp(38.0f) / 2.0f);
                 if (this.copyIconColor != i) {
                     Drawable drawable2 = this.copyIcon;
@@ -1645,7 +1644,7 @@ public class MessageObject {
                 this.copyIcon.setAlpha(i3);
                 this.copyIcon.setBounds((int) centerX, (int) (dp - ((r10.getIntrinsicHeight() * 0.8f) / 2.0f)), (int) ((this.copyIcon.getIntrinsicWidth() * 0.8f) + centerX), (int) (((this.copyIcon.getIntrinsicHeight() * 0.8f) / 2.0f) + dp));
                 this.copyIcon.draw(canvas);
-                this.copyText.ellipsize(((int) (min - ((this.copyIcon.getIntrinsicWidth() * 0.8f) + AndroidUtilities.dp(5.0f)))) + AndroidUtilities.dp(12.0f)).draw(canvas, centerX + (this.copyIcon.getIntrinsicWidth() * 0.8f) + AndroidUtilities.dp(5.0f), dp, i, f);
+                this.copyText.ellipsize(((int) (r1 - ((this.copyIcon.getIntrinsicWidth() * 0.8f) + AndroidUtilities.dp(5.0f)))) + AndroidUtilities.dp(12.0f)).draw(canvas, centerX + (this.copyIcon.getIntrinsicWidth() * 0.8f) + AndroidUtilities.dp(5.0f), dp, i, f);
             }
         }
 
@@ -2584,7 +2583,7 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:703:0x0b29  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x19c6  */
     /* JADX WARN: Type inference failed for: r12v25 */
-    /* JADX WARN: Type inference failed for: r12v26, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r12v26, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r12v31 */
     /* JADX WARN: Type inference failed for: r12v32 */
     /* JADX WARN: Type inference failed for: r14v11 */
@@ -10802,17 +10801,17 @@ public class MessageObject {
         string = LocaleController.getString(R.string.ActionPinnedNoText);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:123:0x0199, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x0198, code lost:
     
         if (r8.isEmpty() == false) goto L185;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:126:0x02d5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:126:0x02d4, code lost:
     
         r8 = r7.photoThumbs;
         r1 = r0.thumbs;
         r0 = r0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:209:0x02d3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:209:0x02d2, code lost:
     
         if (r8.isEmpty() == false) goto L185;
      */
@@ -12936,7 +12935,7 @@ public class MessageObject {
         TLRPC.Message message = this.messageOwner;
         if (message.send_state != 2 || message.id >= 0) {
             if (this.scheduled && message.id > 0) {
-                if (message.date < ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - (this.messageOwner.video_processing_pending ? NotificationCenter.stealthModeChanged : 60)) {
+                if (message.date < ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - (this.messageOwner.video_processing_pending ? NotificationCenter.customTypefacesLoaded : 60)) {
                 }
             }
             return false;
@@ -13703,7 +13702,7 @@ public class MessageObject {
             String lowerCase2 = this.messageOwner.reply_to.quote_text.trim().toLowerCase();
             if (lowerCase2.contains(lowerCase) && !arrayList.contains(lowerCase)) {
                 arrayList.add(lowerCase);
-                handleFoundWords(arrayList, split, true);
+                handleFoundWords(arrayList, split, true, z);
                 return;
             }
             arrayList2.addAll(Arrays.asList(lowerCase2.split("[^\\p{L}#$]+")));
@@ -13712,7 +13711,7 @@ public class MessageObject {
             String lowerCase3 = this.messageOwner.message.trim().toLowerCase();
             if (lowerCase3.contains(lowerCase) && !arrayList.contains(lowerCase)) {
                 arrayList.add(lowerCase);
-                handleFoundWords(arrayList, split, false);
+                handleFoundWords(arrayList, split, false, z);
                 return;
             }
             arrayList2.addAll(Arrays.asList(lowerCase3.split("[^\\p{L}#$]+")));

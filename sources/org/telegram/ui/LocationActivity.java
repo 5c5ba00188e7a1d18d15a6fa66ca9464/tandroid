@@ -321,7 +321,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             ofFloat.setDuration(360L);
             ofFloat.start();
             this.views.put(iMarker, frameLayout);
-            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.stealthModeChanged, null);
+            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.customTypefacesLoaded, null);
         }
 
         public void removeInfoView(IMapsProvider.IMarker iMarker) {
@@ -1961,7 +1961,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         try {
             try {
                 if (z) {
-                    int max = Math.max(i, NotificationCenter.proxyChangedByRotation);
+                    int max = Math.max(i, NotificationCenter.proxyCheckDone);
                     IMapsProvider.LatLng center = onCreateLatLngBoundsBuilder.build().getCenter();
                     double d = max;
                     IMapsProvider.LatLng move = move(center, d, d);
@@ -2585,7 +2585,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:90:0x0988  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0a4a  */
     /* JADX WARN: Type inference failed for: r14v1 */
-    /* JADX WARN: Type inference failed for: r14v2, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r14v2, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v4 */
     /* JADX WARN: Type inference failed for: r14v5 */

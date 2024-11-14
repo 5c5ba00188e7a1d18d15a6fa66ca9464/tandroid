@@ -317,7 +317,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                     if (pack5 != 8) {
                         return -1;
                     }
-                    return NotificationCenter.chatAvailableReactionsUpdated;
+                    return NotificationCenter.attachMenuBotsDidLoad;
                 }
                 i5 += 12;
                 i6 -= 12;

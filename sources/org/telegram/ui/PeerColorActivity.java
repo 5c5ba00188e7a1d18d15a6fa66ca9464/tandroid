@@ -196,7 +196,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             return LocaleController.isRTL ? getMeasuredWidth() - i : i;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0272  */
+        /* JADX WARN: Removed duplicated region for block: B:21:0x0273  */
         /* JADX WARN: Removed duplicated region for block: B:37:? A[RETURN, SYNTHETIC] */
         @Override // android.view.View
         /*
@@ -208,8 +208,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             this.drawable.draw(canvas);
             Text text = this.buttonText;
             int measuredWidth = getMeasuredWidth() - AndroidUtilities.dp(171.0f);
-            LevelLock levelLock = this.lock;
-            text.ellipsize(measuredWidth - (levelLock != null ? levelLock.getIntrinsicWidth() + AndroidUtilities.dp(8.0f) : 0));
+            text.ellipsize(measuredWidth - (this.lock != null ? r3.getIntrinsicWidth() + AndroidUtilities.dp(8.0f) : 0));
             float measuredWidth2 = LocaleController.isRTL ? (getMeasuredWidth() - this.buttonText.getWidth()) - AndroidUtilities.dp(71.0f) : AndroidUtilities.dp(71.0f);
             this.buttonText.draw(canvas, measuredWidth2, getMeasuredHeight() / 2.0f);
             if (this.lock != null) {
@@ -226,7 +225,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             } else {
                 if (this.color1Drawable == null || this.color2Drawable == null) {
                     if (this.userText != null && !z) {
-                        int measuredWidth3 = (int) ((getMeasuredWidth() - AndroidUtilities.dp(116.0f)) - Math.min(this.buttonText.getWidth() + (this.lock == null ? 0 : r3.getIntrinsicWidth() + AndroidUtilities.dp(12.0f)), getMeasuredWidth() - AndroidUtilities.dp(164.0f)));
+                        float measuredWidth3 = (int) ((getMeasuredWidth() - AndroidUtilities.dp(116.0f)) - Math.min(this.buttonText.getWidth() + (this.lock == null ? 0 : r3.getIntrinsicWidth() + AndroidUtilities.dp(12.0f)), getMeasuredWidth() - AndroidUtilities.dp(164.0f)));
                         int min = (int) Math.min(this.userText.getWidth(), measuredWidth3);
                         RectF rectF = AndroidUtilities.rectTmp;
                         rectF.set(LocaleController.isRTL ? AndroidUtilities.dp(15.0f) : (getMeasuredWidth() - AndroidUtilities.dp(33.0f)) - min, (getMeasuredHeight() - AndroidUtilities.dp(22.0f)) / 2.0f, LocaleController.isRTL ? AndroidUtilities.dp(33.0f) + min : getMeasuredWidth() - AndroidUtilities.dp(15.0f), (getMeasuredHeight() + AndroidUtilities.dp(22.0f)) / 2.0f);

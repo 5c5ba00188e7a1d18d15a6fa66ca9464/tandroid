@@ -1,5 +1,5 @@
 package org.telegram.ui.bots;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract /* synthetic */ class BotBiometry$$ExternalSyntheticApiModelOutline1 {
 }

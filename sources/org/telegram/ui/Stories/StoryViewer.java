@@ -75,7 +75,7 @@ import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 import org.webrtc.MediaStreamTrack;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryViewer implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet {
     public static boolean animationInProgress;
     private static boolean isInSilentMode;
@@ -204,7 +204,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     public LongSparseIntArray savedPositions = new LongSparseIntArray();
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 10 extends AnimatorListenerAdapter {
         10() {
         }
@@ -295,7 +295,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 11 extends AnimatorListenerAdapter {
         11() {
         }
@@ -373,7 +373,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 2 extends SizeNotifierFrameLayout {
         float lastTouchX;
         SparseArray lastX;
@@ -1181,7 +1181,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class 5 implements PeerStoriesView.Delegate {
         final /* synthetic */ ArrayList val$peerIds;
         final /* synthetic */ StoriesController.StoriesList val$storiesList;
@@ -1584,20 +1584,20 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface HolderClip {
         void clip(Canvas canvas, RectF rectF, float f, boolean z);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface HolderDrawAbove {
         void draw(Canvas canvas, RectF rectF, float f, boolean z);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public interface PlaceProvider {
 
-        /* loaded from: classes4.dex */
+        /* loaded from: classes5.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$loadNext(PlaceProvider placeProvider, boolean z) {
             }
@@ -1610,7 +1610,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         void preLayout(long j, int i, Runnable runnable);
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class TransitionViewHolder {
         public float alpha = 1.0f;
         public ImageReceiver avatarImage;
@@ -1654,7 +1654,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public class VideoPlayerHolder extends VideoPlayerHolderBase {
         boolean logBuffering;
 

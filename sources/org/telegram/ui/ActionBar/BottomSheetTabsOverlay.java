@@ -32,6 +32,7 @@ import android.widget.OverScroller;
 import com.google.zxing.common.detector.MathUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BotFullscreenButtons$$ExternalSyntheticApiModelOutline2;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -161,8 +162,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
 
         SheetView getWindowView();
 
-        boolean isFullSize();
-
         void release();
 
         BottomSheetTabs.WebTabData saveState();
@@ -241,7 +240,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             cancelDismissAnimator();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.dismissProgress, f);
             this.dismissAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$TabPreview$$ExternalSyntheticLambda5
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$TabPreview$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     BottomSheetTabsOverlay.TabPreview.this.lambda$animateDismiss$0(valueAnimator);
@@ -316,9 +315,9 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 canvas.scale(1.0f, AndroidUtilities.lerp(1.0f, 1.25f, f8));
                 BottomSheetTabs.WebTabData webTabData = this.tabData;
                 if (webTabData != null && (obj = webTabData.previewNode) != null && Build.VERSION.SDK_INT >= 29) {
-                    hasDisplayList = BottomSheetTabsOverlay$TabPreview$$ExternalSyntheticApiModelOutline0.m(obj).hasDisplayList();
+                    hasDisplayList = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(obj).hasDisplayList();
                     if (hasDisplayList) {
-                        RenderNode m = BottomSheetTabsOverlay$TabPreview$$ExternalSyntheticApiModelOutline0.m(this.tabData.previewNode);
+                        RenderNode m = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(this.tabData.previewNode);
                         float width2 = rectF.width();
                         width = m.getWidth();
                         float f11 = width2 / width;
@@ -564,7 +563,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                 this.blurBitmapPaint.setAlpha((int) (this.openProgress * 255.0f));
                 canvas.drawRect(0.0f, 0.0f, width, height, this.blurBitmapPaint);
             }
-            canvas.saveLayerAlpha(0.0f, 0.0f, width, height, NotificationCenter.playerDidStartPlaying, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, width, height, NotificationCenter.notificationsCountUpdated, 31);
             float dp = AndroidUtilities.statusBarHeight + AndroidUtilities.dp(40.0f) + AndroidUtilities.dp(55.0f);
             float dp2 = AndroidUtilities.dp(68.0f);
             int min = (int) Math.min(AndroidUtilities.dp(340.0f), 0.95f * width);
@@ -1059,11 +1058,8 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             }
         });
         this.animator.addListener(new 2(saveState, sheet));
-        if (this.slowerDismiss || sheet.isFullSize()) {
-            AndroidUtilities.applySpring(this.animator, 220.0d, 30.0d, 1.0d);
-        } else {
-            AndroidUtilities.applySpring(this.animator, 350.0d, 30.0d, 1.0d);
-        }
+        AndroidUtilities.applySpring(this.animator, 220.0d, 30.0d, 1.0d);
+        this.animator.setDuration(((float) r13.getDuration()) * 1.2f);
         this.animator.start();
         this.slowerDismiss = false;
         return true;

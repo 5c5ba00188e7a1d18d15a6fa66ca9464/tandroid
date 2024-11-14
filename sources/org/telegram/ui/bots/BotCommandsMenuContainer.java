@@ -24,7 +24,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RecyclerListView;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class BotCommandsMenuContainer extends FrameLayout implements NestedScrollingParent {
     Paint backgroundPaint;
     private float containerY;

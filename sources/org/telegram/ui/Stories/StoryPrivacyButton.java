@@ -23,7 +23,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public class StoryPrivacyButton extends View {
     private final Paint arrowPaint;
     private final Path arrowPath;
@@ -107,7 +107,7 @@ public class StoryPrivacyButton extends View {
             canvas.scale(scale, scale, rectF.centerX(), rectF.centerY());
             float f = this.crossfadeT.set(0.0f);
             if (f > 0.0f) {
-                this.backgroundPaint[1].setAlpha(NotificationCenter.playerDidStartPlaying);
+                this.backgroundPaint[1].setAlpha(NotificationCenter.notificationsCountUpdated);
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), this.backgroundPaint[1]);
             }
             if (f < 1.0f) {

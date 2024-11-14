@@ -478,7 +478,7 @@ public class EditWidgetActivity extends BaseFragment {
             while (i < 2) {
                 Drawable drawable = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
                 if (drawable != null) {
-                    drawable.setAlpha((i != 1 || this.oldBackgroundDrawable == null || ((BaseFragment) EditWidgetActivity.this).parentLayout == null) ? NotificationCenter.playerDidStartPlaying : (int) (255.0f * themeAnimationValue));
+                    drawable.setAlpha((i != 1 || this.oldBackgroundDrawable == null || ((BaseFragment) EditWidgetActivity.this).parentLayout == null) ? NotificationCenter.notificationsCountUpdated : (int) (255.0f * themeAnimationValue));
                     if ((drawable instanceof ColorDrawable) || (drawable instanceof GradientDrawable) || (drawable instanceof MotionBackgroundDrawable)) {
                         drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
                         if (drawable instanceof BackgroundGradientDrawable) {

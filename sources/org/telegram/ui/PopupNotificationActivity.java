@@ -475,7 +475,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             if (this.audioViews.size() > 0) {
                 ViewGroup viewGroup5 = (ViewGroup) this.audioViews.get(0);
                 this.audioViews.remove(0);
-                popupAudioView = (PopupAudioView) viewGroup5.findViewWithTag(Integer.valueOf(NotificationCenter.stealthModeChanged));
+                popupAudioView = (PopupAudioView) viewGroup5.findViewWithTag(Integer.valueOf(NotificationCenter.customTypefacesLoaded));
                 viewGroup3 = viewGroup5;
             } else {
                 FrameLayout frameLayout3 = new FrameLayout(this);
@@ -486,7 +486,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 FrameLayout frameLayout5 = new FrameLayout(this);
                 frameLayout4.addView(frameLayout5, LayoutHelper.createFrame(-1, -2.0f, 17, 20.0f, 0.0f, 20.0f, 0.0f));
                 PopupAudioView popupAudioView2 = new PopupAudioView(this);
-                popupAudioView2.setTag(Integer.valueOf(NotificationCenter.stealthModeChanged));
+                popupAudioView2.setTag(Integer.valueOf(NotificationCenter.customTypefacesLoaded));
                 frameLayout5.addView(popupAudioView2);
                 frameLayout3.setTag(3);
                 frameLayout3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda7
@@ -527,7 +527,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 });
                 TextView textView3 = new TextView(this);
                 textView3.setTextSize(1, 16.0f);
-                textView3.setTag(Integer.valueOf(NotificationCenter.onReceivedChannelDifference));
+                textView3.setTag(Integer.valueOf(NotificationCenter.stealthModeChanged));
                 int i6 = Theme.key_windowBackgroundWhiteBlackText;
                 textView3.setTextColor(Theme.getColor(i6));
                 textView3.setLinkTextColor(Theme.getColor(i6));
@@ -536,7 +536,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 frameLayout6.setTag(1);
                 viewGroup2 = frameLayout6;
             }
-            TextView textView4 = (TextView) viewGroup2.findViewWithTag(Integer.valueOf(NotificationCenter.onReceivedChannelDifference));
+            TextView textView4 = (TextView) viewGroup2.findViewWithTag(Integer.valueOf(NotificationCenter.stealthModeChanged));
             textView4.setTextSize(2, SharedConfig.fontSize);
             textView4.setText(messageObject.messageText);
             viewGroup = viewGroup2;
@@ -1120,7 +1120,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     int childCount = viewGroup.getChildCount();
                     while (i3 < childCount) {
                         View childAt = this.messageContainer.getChildAt(i3);
-                        if (((Integer) childAt.getTag()).intValue() == 3 && (messageObject2 = (popupAudioView2 = (PopupAudioView) childAt.findViewWithTag(Integer.valueOf(NotificationCenter.stealthModeChanged))).getMessageObject()) != null && messageObject2.currentAccount == i2 && messageObject2.getId() == num.intValue()) {
+                        if (((Integer) childAt.getTag()).intValue() == 3 && (messageObject2 = (popupAudioView2 = (PopupAudioView) childAt.findViewWithTag(Integer.valueOf(NotificationCenter.customTypefacesLoaded))).getMessageObject()) != null && messageObject2.currentAccount == i2 && messageObject2.getId() == num.intValue()) {
                             popupAudioView2.updateButtonState();
                             return;
                         }
@@ -1137,7 +1137,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     int childCount2 = viewGroup2.getChildCount();
                     while (i3 < childCount2) {
                         View childAt2 = this.messageContainer.getChildAt(i3);
-                        if (((Integer) childAt2.getTag()).intValue() == 3 && (messageObject = (popupAudioView = (PopupAudioView) childAt2.findViewWithTag(Integer.valueOf(NotificationCenter.stealthModeChanged))).getMessageObject()) != null && messageObject.currentAccount == i2 && messageObject.getId() == num2.intValue()) {
+                        if (((Integer) childAt2.getTag()).intValue() == 3 && (messageObject = (popupAudioView = (PopupAudioView) childAt2.findViewWithTag(Integer.valueOf(NotificationCenter.customTypefacesLoaded))).getMessageObject()) != null && messageObject.currentAccount == i2 && messageObject.getId() == num2.intValue()) {
                             popupAudioView.updateProgress();
                             return;
                         }
@@ -1153,7 +1153,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                     int childCount3 = viewGroup3.getChildCount();
                     while (i3 < childCount3) {
                         View childAt3 = this.messageContainer.getChildAt(i3);
-                        if (((Integer) childAt3.getTag()).intValue() == 1 && (textView = (TextView) childAt3.findViewWithTag(Integer.valueOf(NotificationCenter.onReceivedChannelDifference))) != null) {
+                        if (((Integer) childAt3.getTag()).intValue() == 1 && (textView = (TextView) childAt3.findViewWithTag(Integer.valueOf(NotificationCenter.stealthModeChanged))) != null) {
                             textView.invalidate();
                         }
                         i3++;
@@ -1334,7 +1334,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         };
         this.popupContainer = relativeLayout2;
         relativeLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-        relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, NotificationCenter.needShareTheme, 12, 0, 12, 0, 13));
+        relativeLayout.addView(this.popupContainer, LayoutHelper.createRelative(-1, NotificationCenter.needCheckSystemBarColors, 12, 0, 12, 0, 13));
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (chatActivityEnterView != null) {
             chatActivityEnterView.onDestroy();

@@ -56,7 +56,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesUtilities;
 
-/* loaded from: classes4.dex */
+/* loaded from: classes5.dex */
 public abstract class StoriesUtilities {
     public static GradientTools closeFriendsGradientTools;
     public static GradientTools errorGradientTools;
@@ -90,7 +90,7 @@ public abstract class StoriesUtilities {
     private static final PathMeasure forumRoundRectPathMeasure = new PathMeasure();
     private static final Path forumSegmentPath = new Path();
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class AvatarStoryParams {
         public boolean allowLongress;
         public float alpha;
@@ -339,7 +339,7 @@ public abstract class StoriesUtilities {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class EnsureStoryFileLoadedObject {
         private boolean cancelled;
         long dialogId;
@@ -359,7 +359,7 @@ public abstract class StoriesUtilities {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class StoryGradientTools {
         private final AnimatedColor animatedColor1;
         private final AnimatedColor animatedColor2;
@@ -445,7 +445,7 @@ public abstract class StoriesUtilities {
         }
     }
 
-    /* loaded from: classes4.dex */
+    /* loaded from: classes5.dex */
     public static class UserStoriesLoadOperation {
         boolean canceled;
         private int currentAccount;
@@ -1157,7 +1157,7 @@ public abstract class StoriesUtilities {
                         paint6.setAlpha((int) ((1.0f - f) * 255.0f));
                         drawSegment(canvas, rectF, paint6, -90.0f, 90.0f, avatarStoryParams, z);
                         drawSegment(canvas, rectF, paint6, 90.0f, 270.0f, avatarStoryParams, z);
-                        paint6.setAlpha(NotificationCenter.playerDidStartPlaying);
+                        paint6.setAlpha(NotificationCenter.notificationsCountUpdated);
                         return;
                     }
                     float f2 = 360.0f / i;
@@ -1192,7 +1192,7 @@ public abstract class StoriesUtilities {
                             paint6.getStrokeWidth();
                             paint6.setAlpha((int) ((1.0f - avatarStoryParams.progressToSegments) * 255.0f));
                             drawSegment(canvas, rectF2, paint6, f6, f7, avatarStoryParams, z);
-                            paint6.setAlpha(NotificationCenter.playerDidStartPlaying);
+                            paint6.setAlpha(NotificationCenter.notificationsCountUpdated);
                         }
                         i3 = i4 + 1;
                         max = i5;

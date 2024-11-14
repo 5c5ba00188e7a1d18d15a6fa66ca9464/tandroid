@@ -66,14 +66,14 @@ public class GroupCreateSpan extends View {
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x02ad  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x02c8  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x033f  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x02bf  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x02df  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x030e  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02e2  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x02d2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -84,6 +84,8 @@ public class GroupCreateSpan extends View {
         TLRPC.Chat chat;
         int min;
         StaticLayout staticLayout;
+        ImageReceiver imageReceiver;
+        Drawable makeMiniAppsDrawable;
         char c;
         int i;
         this.rect = new RectF();
@@ -147,9 +149,9 @@ public class GroupCreateSpan extends View {
                 this.key = contact.key;
                 str = !TextUtils.isEmpty(contact.first_name) ? contact.first_name : contact.last_name;
             }
-            ImageReceiver imageReceiver = new ImageReceiver();
-            this.imageReceiver = imageReceiver;
-            imageReceiver.setRoundRadius(AndroidUtilities.dp(16.0f));
+            ImageReceiver imageReceiver2 = new ImageReceiver();
+            this.imageReceiver = imageReceiver2;
+            imageReceiver2.setRoundRadius(AndroidUtilities.dp(16.0f));
             this.imageReceiver.setParentView(this);
             this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
             if (AndroidUtilities.isTablet()) {
@@ -164,11 +166,19 @@ public class GroupCreateSpan extends View {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
                 this.textX = -this.nameLayout.getLineLeft(0);
             }
-            if (z2 || !"premium".equals((String) obj)) {
-                this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, chat, 1);
+            if (!z2 && "premium".equals((String) obj)) {
+                imageReceiver = this.imageReceiver;
+                makeMiniAppsDrawable = GroupCreateUserCell.makePremiumUsersDrawable(getContext(), true);
             } else {
-                this.imageReceiver.setImageBitmap(GroupCreateUserCell.makePremiumUsersDrawable(getContext(), true));
+                if (z2 || !"miniapps".equals((String) obj)) {
+                    this.imageReceiver.setImage(forUserOrChat, "50_50", this.avatarDrawable, 0L, (String) null, chat, 1);
+                    updateColors();
+                    NotificationCenter.listenEmojiLoading(this);
+                }
+                imageReceiver = this.imageReceiver;
+                makeMiniAppsDrawable = GroupCreateUserCell.makeMiniAppsDrawable(getContext(), true);
             }
+            imageReceiver.setImageBitmap(makeMiniAppsDrawable);
             updateColors();
             NotificationCenter.listenEmojiLoading(this);
         }
@@ -177,6 +187,13 @@ public class GroupCreateSpan extends View {
         switch (str3.hashCode()) {
             case -1716307998:
                 if (str3.equals("archived")) {
+                    c = 11;
+                    break;
+                }
+                c = 65535;
+                break;
+            case -1359418551:
+                if (str3.equals("miniapps")) {
                     c = '\n';
                     break;
                 }
@@ -307,6 +324,11 @@ public class GroupCreateSpan extends View {
                 this.avatarDrawable.setColor(Theme.getColor(Theme.key_premiumGradientBackground2, resourcesProvider));
                 i = R.string.PrivacyPremium;
                 break;
+            case '\n':
+                this.isFlag = true;
+                this.avatarDrawable.setColor(Theme.getColor(Theme.key_avatar_backgroundBlue, resourcesProvider), Theme.getColor(Theme.key_avatar_background2Blue, resourcesProvider));
+                i = R.string.PrivacyMiniapps;
+                break;
             default:
                 this.avatarDrawable.setAvatarType(11);
                 this.uid = -9223372036854775801L;
@@ -316,9 +338,9 @@ public class GroupCreateSpan extends View {
         str = LocaleController.getString(i);
         forUserOrChat = null;
         chat = null;
-        ImageReceiver imageReceiver2 = new ImageReceiver();
-        this.imageReceiver = imageReceiver2;
-        imageReceiver2.setRoundRadius(AndroidUtilities.dp(16.0f));
+        ImageReceiver imageReceiver22 = new ImageReceiver();
+        this.imageReceiver = imageReceiver22;
+        imageReceiver22.setRoundRadius(AndroidUtilities.dp(16.0f));
         this.imageReceiver.setParentView(this);
         this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
         if (AndroidUtilities.isTablet()) {
@@ -326,6 +348,8 @@ public class GroupCreateSpan extends View {
         staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
+        }
+        if (!z2) {
         }
         if (z2) {
         }
