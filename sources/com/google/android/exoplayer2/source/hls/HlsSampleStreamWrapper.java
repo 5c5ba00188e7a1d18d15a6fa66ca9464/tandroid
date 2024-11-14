@@ -796,6 +796,8 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
 
     /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
         java.lang.NullPointerException
+        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:489)
+        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:492)
         */
     @Override // com.google.android.exoplayer2.source.SequenceableLoader
     public long getBufferedPositionUs() {
