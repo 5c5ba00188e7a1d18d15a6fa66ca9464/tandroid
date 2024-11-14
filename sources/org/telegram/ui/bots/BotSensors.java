@@ -195,6 +195,7 @@ public class BotSensors {
                 SensorManager.getOrientation(fArr, new float[3]);
                 try {
                     JSONObject jSONObject = new JSONObject();
+                    jSONObject.put("absolute", true);
                     jSONObject.put("alpha", -r0[0]);
                     jSONObject.put("beta", -r0[1]);
                     jSONObject.put("gamma", r0[2]);
@@ -303,6 +304,9 @@ public class BotSensors {
         }
         Sensor defaultSensor = sensorManager.getDefaultSensor(1);
         this.accelerometer = defaultSensor;
+        if (defaultSensor == null) {
+            return false;
+        }
         this.accelerometerDesiredRefreshRate = j;
         if (!this.paused) {
             this.sensorManager.registerListener(this.accelerometerListener, defaultSensor, getSensorDelay(j));
@@ -320,6 +324,9 @@ public class BotSensors {
         }
         Sensor defaultSensor = sensorManager.getDefaultSensor(4);
         this.gyroscope = defaultSensor;
+        if (defaultSensor == null) {
+            return false;
+        }
         this.gyroscopeDesiredRefreshRate = j;
         if (!this.paused) {
             this.sensorManager.registerListener(this.gyroscopeListener, defaultSensor, getSensorDelay(j));
@@ -336,10 +343,15 @@ public class BotSensors {
             return true;
         }
         this.orientationAccelerometer = sensorManager.getDefaultSensor(1);
-        this.orientationMagnetometer = this.sensorManager.getDefaultSensor(2);
+        Sensor defaultSensor = this.sensorManager.getDefaultSensor(2);
+        this.orientationMagnetometer = defaultSensor;
+        Sensor sensor = this.orientationAccelerometer;
+        if (sensor == null || defaultSensor == null) {
+            return false;
+        }
         this.orientationDesiredRefreshRate = j;
         if (!this.paused) {
-            this.sensorManager.registerListener(this.orientationListener, this.orientationAccelerometer, getSensorDelay(j));
+            this.sensorManager.registerListener(this.orientationListener, sensor, getSensorDelay(j));
             this.sensorManager.registerListener(this.orientationListener, this.orientationMagnetometer, getSensorDelay(j));
         }
         return true;
@@ -364,6 +376,12 @@ public class BotSensors {
         }
         this.accelerometer = null;
         return true;
+    }
+
+    public void stopAll() {
+        stopOrientation();
+        stopGyroscope();
+        stopAccelerometer();
     }
 
     public boolean stopGyroscope() {

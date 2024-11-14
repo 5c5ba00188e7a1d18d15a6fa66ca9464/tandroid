@@ -199,6 +199,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     private boolean preserving;
     private Theme.ResourcesProvider resourcesProvider;
     private String secondaryButtonData;
+    private BotSensors sensors;
     private int shownDialogsCount;
     private final int tag;
     private float viewPortHeightOffset;
@@ -3460,6 +3461,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             this.webView.reload();
         }
         updateKeyboardFocusable();
+        BotSensors botSensors = this.sensors;
+        if (botSensors != null) {
+            botSensors.stopAll();
+        }
     }
 
     public /* synthetic */ void lambda$runWithPermissions$0(Consumer consumer, String[] strArr) {
