@@ -155,9 +155,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     private Paint paint = new Paint(1);
     private boolean needsBottomLayout = true;
     private PhotoViewer.PhotoViewerProvider provider = new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.PhotoPickerActivity.1
-        1() {
-        }
-
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         public boolean allowCaption() {
             return PhotoPickerActivity.this.allowCaption;
@@ -393,443 +390,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends PhotoViewer.EmptyPhotoViewerProvider {
-        1() {
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public boolean allowCaption() {
-            return PhotoPickerActivity.this.allowCaption;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public boolean cancelButtonPressed() {
-            PhotoPickerActivity.this.delegate.actionButtonPressed(true, true, 0);
-            PhotoPickerActivity.this.lambda$onBackPressed$321();
-            return true;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
-            PhotoAttachPhotoCell cellForIndex = PhotoPickerActivity.this.getCellForIndex(i);
-            if (cellForIndex == null) {
-                return null;
-            }
-            BackupImageView imageView = cellForIndex.getImageView();
-            int[] iArr = new int[2];
-            imageView.getLocationInWindow(iArr);
-            PhotoViewer.PlaceProviderObject placeProviderObject = new PhotoViewer.PlaceProviderObject();
-            placeProviderObject.viewX = iArr[0];
-            placeProviderObject.viewY = iArr[1] - (Build.VERSION.SDK_INT >= 21 ? 0 : AndroidUtilities.statusBarHeight);
-            placeProviderObject.parentView = PhotoPickerActivity.this.listView;
-            ImageReceiver imageReceiver = imageView.getImageReceiver();
-            placeProviderObject.imageReceiver = imageReceiver;
-            placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-            placeProviderObject.scale = cellForIndex.getScale();
-            cellForIndex.showCheck(false);
-            return placeProviderObject;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public int getSelectedCount() {
-            return PhotoPickerActivity.this.selectedPhotos.size();
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public HashMap getSelectedPhotos() {
-            return PhotoPickerActivity.this.selectedPhotos;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public ArrayList getSelectedPhotosOrder() {
-            return PhotoPickerActivity.this.selectedPhotosOrder;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
-            PhotoAttachPhotoCell cellForIndex = PhotoPickerActivity.this.getCellForIndex(i);
-            if (cellForIndex != null) {
-                return cellForIndex.getImageView().getImageReceiver().getBitmapSafe();
-            }
-            return null;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public boolean isPhotoChecked(int i) {
-            return PhotoPickerActivity.this.selectedAlbum != null ? i >= 0 && i < PhotoPickerActivity.this.selectedAlbum.photos.size() && PhotoPickerActivity.this.selectedPhotos.containsKey(Integer.valueOf(PhotoPickerActivity.this.selectedAlbum.photos.get(i).imageId)) : i >= 0 && i < PhotoPickerActivity.this.searchResult.size() && PhotoPickerActivity.this.selectedPhotos.containsKey(((MediaController.SearchImage) PhotoPickerActivity.this.searchResult.get(i)).id);
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public boolean scaleToFill() {
-            return false;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void sendButtonPressed(int i, VideoEditedInfo videoEditedInfo, boolean z, int i2, boolean z2) {
-            MediaController.PhotoEntry photoEntry;
-            if (PhotoPickerActivity.this.selectedPhotos.isEmpty()) {
-                if (PhotoPickerActivity.this.selectedAlbum != null) {
-                    if (i < 0 || i >= PhotoPickerActivity.this.selectedAlbum.photos.size()) {
-                        return;
-                    } else {
-                        photoEntry = PhotoPickerActivity.this.selectedAlbum.photos.get(i);
-                    }
-                } else if (i < 0 || i >= PhotoPickerActivity.this.searchResult.size()) {
-                    return;
-                } else {
-                    photoEntry = (MediaController.SearchImage) PhotoPickerActivity.this.searchResult.get(i);
-                }
-                photoEntry.editedInfo = videoEditedInfo;
-                PhotoPickerActivity.this.addToSelectedPhotos(photoEntry, -1);
-            }
-            PhotoPickerActivity.this.sendSelectedPhotos(z, i2);
-        }
-
-        /* JADX WARN: Multi-variable type inference failed */
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public int setPhotoChecked(int i, VideoEditedInfo videoEditedInfo) {
-            int addToSelectedPhotos;
-            ArrayList arrayList;
-            Object obj;
-            MediaController.SearchImage searchImage;
-            int i2;
-            boolean z;
-            if (PhotoPickerActivity.this.selectedAlbum != null) {
-                if (i < 0 || i >= PhotoPickerActivity.this.selectedAlbum.photos.size()) {
-                    return -1;
-                }
-                MediaController.PhotoEntry photoEntry = PhotoPickerActivity.this.selectedAlbum.photos.get(i);
-                addToSelectedPhotos = PhotoPickerActivity.this.addToSelectedPhotos(photoEntry, -1);
-                searchImage = photoEntry;
-                if (addToSelectedPhotos == -1) {
-                    photoEntry.editedInfo = videoEditedInfo;
-                    arrayList = PhotoPickerActivity.this.selectedPhotosOrder;
-                    obj = Integer.valueOf(photoEntry.imageId);
-                    i2 = arrayList.indexOf(obj);
-                    z = true;
-                }
-                searchImage.editedInfo = null;
-                i2 = addToSelectedPhotos;
-                z = false;
-            } else {
-                if (i < 0 || i >= PhotoPickerActivity.this.searchResult.size()) {
-                    return -1;
-                }
-                MediaController.SearchImage searchImage2 = (MediaController.SearchImage) PhotoPickerActivity.this.searchResult.get(i);
-                addToSelectedPhotos = PhotoPickerActivity.this.addToSelectedPhotos(searchImage2, -1);
-                searchImage = searchImage2;
-                if (addToSelectedPhotos == -1) {
-                    searchImage2.editedInfo = videoEditedInfo;
-                    arrayList = PhotoPickerActivity.this.selectedPhotosOrder;
-                    obj = searchImage2.id;
-                    i2 = arrayList.indexOf(obj);
-                    z = true;
-                }
-                searchImage.editedInfo = null;
-                i2 = addToSelectedPhotos;
-                z = false;
-            }
-            int childCount = PhotoPickerActivity.this.listView.getChildCount();
-            int i3 = 0;
-            while (true) {
-                if (i3 >= childCount) {
-                    break;
-                }
-                View childAt = PhotoPickerActivity.this.listView.getChildAt(i3);
-                if (((Integer) childAt.getTag()).intValue() == i) {
-                    ((PhotoAttachPhotoCell) childAt).setChecked(PhotoPickerActivity.this.allowIndices ? i2 : -1, z, false);
-                } else {
-                    i3++;
-                }
-            }
-            PhotoPickerActivity.this.updatePhotosButton(z ? 1 : 2);
-            PhotoPickerActivity.this.delegate.selectedPhotosChanged();
-            return i2;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public int setPhotoUnchecked(Object obj) {
-            Object valueOf = obj instanceof MediaController.PhotoEntry ? Integer.valueOf(((MediaController.PhotoEntry) obj).imageId) : obj instanceof MediaController.SearchImage ? ((MediaController.SearchImage) obj).id : null;
-            if (valueOf == null || !PhotoPickerActivity.this.selectedPhotos.containsKey(valueOf)) {
-                return -1;
-            }
-            PhotoPickerActivity.this.selectedPhotos.remove(valueOf);
-            int indexOf = PhotoPickerActivity.this.selectedPhotosOrder.indexOf(valueOf);
-            if (indexOf >= 0) {
-                PhotoPickerActivity.this.selectedPhotosOrder.remove(indexOf);
-            }
-            if (PhotoPickerActivity.this.allowIndices) {
-                PhotoPickerActivity.this.updateCheckedPhotoIndices();
-            }
-            return indexOf;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void updatePhotoAtIndex(int i) {
-            StringBuilder sb;
-            String str;
-            PhotoAttachPhotoCell cellForIndex = PhotoPickerActivity.this.getCellForIndex(i);
-            if (cellForIndex != null) {
-                if (PhotoPickerActivity.this.selectedAlbum == null) {
-                    cellForIndex.setPhotoEntry((MediaController.SearchImage) PhotoPickerActivity.this.searchResult.get(i), true, false);
-                    return;
-                }
-                BackupImageView imageView = cellForIndex.getImageView();
-                imageView.setOrientation(0, true);
-                MediaController.PhotoEntry photoEntry = PhotoPickerActivity.this.selectedAlbum.photos.get(i);
-                String str2 = photoEntry.thumbPath;
-                if (str2 != null) {
-                    imageView.setImage(str2, null, Theme.chat_attachEmptyDrawable);
-                    return;
-                }
-                if (photoEntry.path == null) {
-                    imageView.setImageDrawable(Theme.chat_attachEmptyDrawable);
-                    return;
-                }
-                imageView.setOrientation(photoEntry.orientation, photoEntry.invert, true);
-                if (photoEntry.isVideo) {
-                    sb = new StringBuilder();
-                    str = "vthumb://";
-                } else {
-                    sb = new StringBuilder();
-                    str = "thumb://";
-                }
-                sb.append(str);
-                sb.append(photoEntry.imageId);
-                sb.append(":");
-                sb.append(photoEntry.path);
-                imageView.setImage(sb.toString(), null, Theme.chat_attachEmptyDrawable);
-            }
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void willHidePhotoViewer() {
-            int childCount = PhotoPickerActivity.this.listView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childAt = PhotoPickerActivity.this.listView.getChildAt(i);
-                if (childAt instanceof PhotoAttachPhotoCell) {
-                    ((PhotoAttachPhotoCell) childAt).showCheck(true);
-                }
-            }
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void willSwitchFromPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i) {
-            int childCount = PhotoPickerActivity.this.listView.getChildCount();
-            for (int i2 = 0; i2 < childCount; i2++) {
-                View childAt = PhotoPickerActivity.this.listView.getChildAt(i2);
-                if (childAt.getTag() != null) {
-                    PhotoAttachPhotoCell photoAttachPhotoCell = (PhotoAttachPhotoCell) childAt;
-                    int intValue = ((Integer) childAt.getTag()).intValue();
-                    if (PhotoPickerActivity.this.selectedAlbum == null ? !(intValue < 0 || intValue >= PhotoPickerActivity.this.searchResult.size()) : !(intValue < 0 || intValue >= PhotoPickerActivity.this.selectedAlbum.photos.size())) {
-                        if (intValue == i) {
-                            photoAttachPhotoCell.showCheck(true);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 10 extends RecyclerView.OnScrollListener {
-        10() {
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrollStateChanged(RecyclerView recyclerView, int i) {
-            if (i == 1) {
-                AndroidUtilities.hideKeyboard(PhotoPickerActivity.this.getParentActivity().getCurrentFocus());
-            }
-        }
-
-        @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
-            if (PhotoPickerActivity.this.selectedAlbum == null) {
-                int findFirstVisibleItemPosition = PhotoPickerActivity.this.layoutManager.findFirstVisibleItemPosition();
-                int abs = findFirstVisibleItemPosition == -1 ? 0 : Math.abs(PhotoPickerActivity.this.layoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1;
-                if (abs <= 0 || findFirstVisibleItemPosition + abs <= PhotoPickerActivity.this.layoutManager.getItemCount() - 2 || PhotoPickerActivity.this.searching || PhotoPickerActivity.this.imageSearchEndReached) {
-                    return;
-                }
-                PhotoPickerActivity photoPickerActivity = PhotoPickerActivity.this;
-                photoPickerActivity.searchImages(photoPickerActivity.type == 1, PhotoPickerActivity.this.lastSearchString, PhotoPickerActivity.this.nextImagesSearchOffset, true);
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 11 implements TextWatcher {
-        11() {
-        }
-
-        @Override // android.text.TextWatcher
-        public void afterTextChanged(Editable editable) {
-            if (PhotoPickerActivity.this.delegate != null) {
-                PhotoPickerActivity.this.delegate.onCaptionChanged(editable);
-            }
-        }
-
-        @Override // android.text.TextWatcher
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override // android.text.TextWatcher
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 12 extends FrameLayout {
-        12(Context context) {
-            super(context);
-        }
-
-        @Override // android.view.View
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-            super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-            accessibilityNodeInfo.setText(LocaleController.formatPluralString("AccDescrSendPhotos", PhotoPickerActivity.this.selectedPhotos.size(), new Object[0]));
-            accessibilityNodeInfo.setClassName(Button.class.getName());
-            accessibilityNodeInfo.setLongClickable(true);
-            accessibilityNodeInfo.setClickable(true);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 13 extends ViewOutlineProvider {
-        13() {
-        }
-
-        @Override // android.view.ViewOutlineProvider
-        public void getOutline(View view, Outline outline) {
-            outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 14 implements View.OnTouchListener {
-        private Rect popupRect = new Rect();
-
-        14() {
-        }
-
-        @Override // android.view.View.OnTouchListener
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getActionMasked() != 0 || PhotoPickerActivity.this.sendPopupWindow == null || !PhotoPickerActivity.this.sendPopupWindow.isShowing()) {
-                return false;
-            }
-            view.getHitRect(this.popupRect);
-            if (this.popupRect.contains((int) motionEvent.getX(), (int) motionEvent.getY())) {
-                return false;
-            }
-            PhotoPickerActivity.this.sendPopupWindow.dismiss();
-            return false;
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 15 extends View {
-        15(Context context) {
-            super(context);
-        }
-
-        @Override // android.view.View
-        protected void onDraw(Canvas canvas) {
-            String format = String.format("%d", Integer.valueOf(Math.max(1, PhotoPickerActivity.this.selectedPhotosOrder.size())));
-            int max = Math.max(AndroidUtilities.dp(16.0f) + ((int) Math.ceil(PhotoPickerActivity.this.textPaint.measureText(format))), AndroidUtilities.dp(24.0f));
-            int measuredWidth = getMeasuredWidth() / 2;
-            getMeasuredHeight();
-            PhotoPickerActivity.this.textPaint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBoxCheck));
-            PhotoPickerActivity.this.paint.setColor(Theme.getColor(PhotoPickerActivity.this.dialogBackgroundKey));
-            int i = max / 2;
-            PhotoPickerActivity.this.rect.set(measuredWidth - i, 0.0f, i + measuredWidth, getMeasuredHeight());
-            canvas.drawRoundRect(PhotoPickerActivity.this.rect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), PhotoPickerActivity.this.paint);
-            PhotoPickerActivity.this.paint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBox));
-            PhotoPickerActivity.this.rect.set(r5 + AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), r2 - AndroidUtilities.dp(2.0f), getMeasuredHeight() - AndroidUtilities.dp(2.0f));
-            canvas.drawRoundRect(PhotoPickerActivity.this.rect, AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f), PhotoPickerActivity.this.paint);
-            canvas.drawText(format, measuredWidth - (r1 / 2), AndroidUtilities.dp(16.2f), PhotoPickerActivity.this.textPaint);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 16 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$show;
-
-        16(boolean z) {
-            r2 = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationCancel(Animator animator) {
-            if (animator.equals(PhotoPickerActivity.this.animatorSet)) {
-                PhotoPickerActivity.this.animatorSet = null;
-            }
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            if (animator.equals(PhotoPickerActivity.this.animatorSet)) {
-                if (!r2) {
-                    PhotoPickerActivity.this.frameLayout2.setVisibility(4);
-                    PhotoPickerActivity.this.writeButtonContainer.setVisibility(4);
-                }
-                PhotoPickerActivity.this.animatorSet = null;
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 2 extends ActionBar.ActionBarMenuOnItemClick {
-        2() {
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i != -1) {
-                if (i == 1) {
-                    PhotoPickerActivity photoPickerActivity = PhotoPickerActivity.this;
-                    photoPickerActivity.listSort = true ^ photoPickerActivity.listSort;
-                    if (PhotoPickerActivity.this.listSort) {
-                        PhotoPickerActivity.this.listView.setPadding(0, 0, 0, AndroidUtilities.dp(48.0f));
-                    } else {
-                        PhotoPickerActivity.this.listView.setPadding(AndroidUtilities.dp(6.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(6.0f), AndroidUtilities.dp(50.0f));
-                    }
-                    PhotoPickerActivity.this.listView.stopScroll();
-                    PhotoPickerActivity.this.layoutManager.scrollToPositionWithOffset(0, 0);
-                    PhotoPickerActivity.this.listAdapter.notifyDataSetChanged();
-                    return;
-                }
-                if (i != 2) {
-                    return;
-                }
-                if (PhotoPickerActivity.this.delegate != null) {
-                    PhotoPickerActivity.this.delegate.onOpenInPressed();
-                }
-            }
-            PhotoPickerActivity.this.lambda$onBackPressed$321();
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 3 implements ActionBarMenuItem.ActionBarSubMenuItemDelegate {
-        3() {
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarSubMenuItemDelegate
-        public void onHideSubMenu() {
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarSubMenuItemDelegate
-        public void onShowSubMenu() {
-            PhotoPickerActivity.this.showAsListItem.setText(LocaleController.getString(PhotoPickerActivity.this.listSort ? R.string.ShowAsGrid : R.string.ShowAsList));
-            PhotoPickerActivity.this.showAsListItem.setIcon(PhotoPickerActivity.this.listSort ? R.drawable.msg_media : R.drawable.msg_list);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
+    class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         Runnable updateSearch = new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$4$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -840,6 +401,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         4() {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$$0() {
             PhotoPickerActivity photoPickerActivity = PhotoPickerActivity.this;
             photoPickerActivity.processSearch(photoPickerActivity.searchItem.getSearchField());
@@ -882,8 +444,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
-    public class 5 extends SizeNotifierFrameLayout {
+    class 5 extends SizeNotifierFrameLayout {
         private boolean ignoreLayout;
         private int lastItemSize;
         private int lastNotifyWidth;
@@ -892,6 +453,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             super(context);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$0() {
             PhotoPickerActivity.this.listAdapter.notifyDataSetChanged();
         }
@@ -953,7 +515,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5;
             int i6;
             int i7;
@@ -1092,162 +654,8 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
-    class 6 extends GridLayoutManager {
-        6(Context context, int i) {
-            super(context, i);
-        }
-
-        @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
-        public boolean supportsPredictiveItemAnimations() {
-            return false;
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 7 extends GridLayoutManager.SpanSizeLookup {
-        7() {
-        }
-
-        @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-        public int getSpanSize(int i) {
-            if (PhotoPickerActivity.this.listAdapter.getItemViewType(i) == 1 || PhotoPickerActivity.this.listSort || (PhotoPickerActivity.this.selectedAlbum == null && TextUtils.isEmpty(PhotoPickerActivity.this.lastSearchString))) {
-                return PhotoPickerActivity.this.layoutManager.getSpanCount();
-            }
-            return PhotoPickerActivity.this.itemSize + (i % PhotoPickerActivity.this.itemsPerRow != PhotoPickerActivity.this.itemsPerRow - 1 ? AndroidUtilities.dp(5.0f) : 0);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 8 implements RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate {
-        8() {
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-        public boolean isIndexSelectable(int i) {
-            return PhotoPickerActivity.this.listAdapter.getItemViewType(i) == 0;
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-        public boolean isSelected(int i) {
-            return PhotoPickerActivity.this.selectedPhotos.containsKey(PhotoPickerActivity.this.selectedAlbum != null ? Integer.valueOf(PhotoPickerActivity.this.selectedAlbum.photos.get(i).imageId) : ((MediaController.SearchImage) PhotoPickerActivity.this.searchResult.get(i)).id);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-        public void onStartStopSelection(boolean z) {
-            PhotoPickerActivity.this.alertOnlyOnce = z ? 1 : 0;
-            if (z) {
-                ((BaseFragment) PhotoPickerActivity.this).parentLayout.getView().requestDisallowInterceptTouchEvent(true);
-            }
-            PhotoPickerActivity.this.listView.hideSelector(true);
-        }
-
-        @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
-        public void setSelected(View view, int i, boolean z) {
-            if (z == PhotoPickerActivity.this.shouldSelect && (view instanceof PhotoAttachPhotoCell)) {
-                ((PhotoAttachPhotoCell) view).callDelegate();
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 9 extends FlickerLoadingView {
-        9(Context context, Theme.ResourcesProvider resourcesProvider) {
-            super(context, resourcesProvider);
-        }
-
-        @Override // org.telegram.ui.Components.FlickerLoadingView
-        public int getColumnsCount() {
-            return 3;
-        }
-
-        @Override // org.telegram.ui.Components.FlickerLoadingView
-        public int getViewType() {
-            return 2;
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
-
-        /* loaded from: classes4.dex */
-        class 1 implements PhotoAttachPhotoCell.PhotoAttachPhotoCellDelegate {
-            1() {
-            }
-
-            private void checkSlowMode() {
-                TLRPC.Chat currentChat;
-                if (!PhotoPickerActivity.this.allowOrder || PhotoPickerActivity.this.chatActivity == null || (currentChat = PhotoPickerActivity.this.chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || PhotoPickerActivity.this.alertOnlyOnce == 2) {
-                    return;
-                }
-                AlertsCreator.showSimpleAlert(PhotoPickerActivity.this, LocaleController.getString(R.string.Slowmode), LocaleController.getString(R.string.SlowmodeSelectSendError));
-                if (PhotoPickerActivity.this.alertOnlyOnce == 1) {
-                    PhotoPickerActivity.this.alertOnlyOnce = 2;
-                }
-            }
-
-            /* JADX WARN: Code restructure failed: missing block: B:14:0x0068, code lost:
-            
-                if (r3 != false) goto L62;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:15:0x00c9, code lost:
-            
-                r4 = org.telegram.ui.PhotoPickerActivity.this.selectedPhotosOrder.size();
-                r1 = r1;
-             */
-            /* JADX WARN: Code restructure failed: missing block: B:32:0x00c7, code lost:
-            
-                if (r3 != false) goto L62;
-             */
-            /* JADX WARN: Multi-variable type inference failed */
-            @Override // org.telegram.ui.Cells.PhotoAttachPhotoCell.PhotoAttachPhotoCellDelegate
-            /*
-                Code decompiled incorrectly, please refer to instructions dump.
-            */
-            public void onCheckClick(PhotoAttachPhotoCell photoAttachPhotoCell) {
-                boolean z;
-                MediaController.SearchImage searchImage;
-                int i;
-                MediaController.SearchImage searchImage2;
-                MediaController.SearchImage searchImage3;
-                int intValue = ((Integer) photoAttachPhotoCell.getTag()).intValue();
-                if (PhotoPickerActivity.this.selectedAlbum != null) {
-                    MediaController.PhotoEntry photoEntry = PhotoPickerActivity.this.selectedAlbum.photos.get(intValue);
-                    z = !PhotoPickerActivity.this.selectedPhotos.containsKey(Integer.valueOf(photoEntry.imageId));
-                    if (z && PhotoPickerActivity.this.maxSelectedPhotos > 0 && PhotoPickerActivity.this.selectedPhotos.size() >= PhotoPickerActivity.this.maxSelectedPhotos) {
-                        checkSlowMode();
-                        return;
-                    }
-                    searchImage3 = photoEntry;
-                    searchImage = photoEntry;
-                    searchImage = photoEntry;
-                    if (PhotoPickerActivity.this.allowIndices) {
-                    }
-                    i = -1;
-                    searchImage2 = searchImage;
-                } else {
-                    AndroidUtilities.hideKeyboard(PhotoPickerActivity.this.getParentActivity().getCurrentFocus());
-                    MediaController.SearchImage searchImage4 = (MediaController.SearchImage) PhotoPickerActivity.this.searchResult.get(intValue);
-                    z = !PhotoPickerActivity.this.selectedPhotos.containsKey(searchImage4.id);
-                    if (z && PhotoPickerActivity.this.maxSelectedPhotos > 0 && PhotoPickerActivity.this.selectedPhotos.size() >= PhotoPickerActivity.this.maxSelectedPhotos) {
-                        checkSlowMode();
-                        return;
-                    }
-                    searchImage3 = searchImage4;
-                    searchImage = searchImage4;
-                    searchImage = searchImage4;
-                    if (PhotoPickerActivity.this.allowIndices) {
-                    }
-                    i = -1;
-                    searchImage2 = searchImage;
-                }
-                photoAttachPhotoCell.setChecked(i, z, true);
-                PhotoPickerActivity.this.addToSelectedPhotos(searchImage2, intValue);
-                PhotoPickerActivity.this.updatePhotosButton(z ? 1 : 2);
-                PhotoPickerActivity.this.delegate.selectedPhotosChanged();
-            }
-        }
 
         public ListAdapter(Context context) {
             this.mContext = context;
@@ -1385,9 +793,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             } else {
                 PhotoAttachPhotoCell photoAttachPhotoCell = new PhotoAttachPhotoCell(this.mContext, null);
                 photoAttachPhotoCell.setDelegate(new PhotoAttachPhotoCell.PhotoAttachPhotoCellDelegate() { // from class: org.telegram.ui.PhotoPickerActivity.ListAdapter.1
-                    1() {
-                    }
-
                     private void checkSlowMode() {
                         TLRPC.Chat currentChat;
                         if (!PhotoPickerActivity.this.allowOrder || PhotoPickerActivity.this.chatActivity == null || (currentChat = PhotoPickerActivity.this.chatActivity.getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || PhotoPickerActivity.this.alertOnlyOnce == 2) {
@@ -1401,16 +806,16 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
 
                     /* JADX WARN: Code restructure failed: missing block: B:14:0x0068, code lost:
                     
-                        if (r3 != false) goto L62;
+                        if (r3 != false) goto L27;
                      */
                     /* JADX WARN: Code restructure failed: missing block: B:15:0x00c9, code lost:
                     
-                        r4 = org.telegram.ui.PhotoPickerActivity.this.selectedPhotosOrder.size();
+                        r4 = r6.this$1.this$0.selectedPhotosOrder.size();
                         r1 = r1;
                      */
                     /* JADX WARN: Code restructure failed: missing block: B:32:0x00c7, code lost:
                     
-                        if (r3 != false) goto L62;
+                        if (r3 != false) goto L27;
                      */
                     /* JADX WARN: Multi-variable type inference failed */
                     @Override // org.telegram.ui.Cells.PhotoAttachPhotoCell.PhotoAttachPhotoCellDelegate
@@ -1467,10 +872,8 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface PhotoPickerActivityDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$canFinishFragment(PhotoPickerActivityDelegate photoPickerActivityDelegate) {
                 return true;
@@ -1491,7 +894,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         void selectedPhotosChanged();
     }
 
-    /* loaded from: classes4.dex */
     public interface PhotoPickerActivitySearchDelegate {
         void shouldClearRecentSearch();
 
@@ -1543,6 +945,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         saveRecentSearch();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int addToSelectedPhotos(Object obj, int i) {
         boolean z = obj instanceof MediaController.PhotoEntry;
         Object valueOf = z ? Integer.valueOf(((MediaController.PhotoEntry) obj).imageId) : obj instanceof MediaController.SearchImage ? ((MediaController.SearchImage) obj).id : null;
@@ -1586,6 +989,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public PhotoAttachPhotoCell getCellForIndex(int i) {
         int childCount = this.listView.getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
@@ -1604,6 +1008,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(DialogInterface dialogInterface, int i) {
         PhotoPickerActivitySearchDelegate photoPickerActivitySearchDelegate = this.searchDelegate;
         if (photoPickerActivitySearchDelegate != null) {
@@ -1613,6 +1018,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$1(View view, int i) {
         if (this.selectedAlbum != null || !this.searchResult.isEmpty()) {
             MediaController.AlbumEntry albumEntry = this.selectedAlbum;
@@ -1667,6 +1073,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$2(View view, int i) {
         if (this.listSort) {
             onListItemClick(view, this.selectedAlbum.photos.get(i));
@@ -1682,10 +1089,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$3(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         ChatActivity chatActivity = this.chatActivity;
         if (chatActivity == null || !chatActivity.isInScheduleMode()) {
@@ -1695,6 +1104,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(KeyEvent keyEvent) {
         ActionBarPopupWindow actionBarPopupWindow;
         if (keyEvent.getKeyCode() == 4 && keyEvent.getRepeatCount() == 0 && (actionBarPopupWindow = this.sendPopupWindow) != null && actionBarPopupWindow.isShowing()) {
@@ -1702,6 +1112,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$6(int i, View view) {
         ActionBarPopupWindow actionBarPopupWindow = this.sendPopupWindow;
         if (actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
@@ -1714,6 +1125,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$createView$7(View view) {
         ActionBarMenuSubItem actionBarMenuSubItem;
         String string;
@@ -1729,9 +1141,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 actionBarPopupWindowLayout.setAnimationEnabled(false);
                 this.sendPopupLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.PhotoPickerActivity.14
                     private Rect popupRect = new Rect();
-
-                    14() {
-                    }
 
                     @Override // android.view.View.OnTouchListener
                     public boolean onTouch(View view2, MotionEvent motionEvent) {
@@ -1807,6 +1216,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$8(TLObject tLObject, boolean z) {
         TLRPC.TL_contacts_resolvedPeer tL_contacts_resolvedPeer = (TLRPC.TL_contacts_resolvedPeer) tLObject;
         MessagesController.getInstance(this.currentAccount).putUsers(tL_contacts_resolvedPeer.users, false);
@@ -1817,6 +1227,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         searchImages(z, str, "", false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchBotUser$9(final boolean z, final TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tLObject != null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda12
@@ -1828,6 +1239,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchImages$10(String str, int i, TLObject tLObject, boolean z, TLRPC.User user) {
         int i2;
         TLRPC.Photo photo;
@@ -1921,6 +1333,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchImages$11(final String str, final int i, final boolean z, final TLRPC.User user, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
@@ -1951,6 +1364,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.delegate.selectedPhotosChanged();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void processSearch(EditText editText) {
         SpoilersTextView spoilersTextView;
         String formatString;
@@ -2002,6 +1416,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void searchImages(final boolean z, final String str, String str2, boolean z2) {
         TLRPC.InputPeer tL_inputPeerEmpty;
         if (this.searching) {
@@ -2047,6 +1462,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(this.imageReqId, this.classGuid);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendSelectedPhotos(boolean z, int i) {
         if (this.selectedPhotos.isEmpty() || this.delegate == null || this.sendPressed) {
             return;
@@ -2062,7 +1478,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    private boolean showCommentTextView(boolean z, boolean z2) {
+    private boolean showCommentTextView(final boolean z, boolean z2) {
         if (this.commentTextView == null) {
             return false;
         }
@@ -2105,12 +1521,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.animatorSet.setInterpolator(new DecelerateInterpolator());
             this.animatorSet.setDuration(180L);
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoPickerActivity.16
-                final /* synthetic */ boolean val$show;
-
-                16(boolean z3) {
-                    r2 = z3;
-                }
-
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationCancel(Animator animator) {
                     if (animator.equals(PhotoPickerActivity.this.animatorSet)) {
@@ -2121,7 +1531,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     if (animator.equals(PhotoPickerActivity.this.animatorSet)) {
-                        if (!r2) {
+                        if (!z) {
                             PhotoPickerActivity.this.frameLayout2.setVisibility(4);
                             PhotoPickerActivity.this.writeButtonContainer.setVisibility(4);
                         }
@@ -2131,15 +1541,15 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             });
             this.animatorSet.start();
         } else {
-            this.writeButtonContainer.setScaleX(z3 ? 1.0f : 0.2f);
-            this.writeButtonContainer.setScaleY(z3 ? 1.0f : 0.2f);
-            this.writeButtonContainer.setAlpha(z3 ? 1.0f : 0.0f);
-            this.selectedCountView.setScaleX(z3 ? 1.0f : 0.2f);
-            this.selectedCountView.setScaleY(z3 ? 1.0f : 0.2f);
-            this.selectedCountView.setAlpha(z3 ? 1.0f : 0.0f);
-            this.frameLayout2.setTranslationY(z3 ? 0.0f : AndroidUtilities.dp(48.0f));
-            this.shadow.setTranslationY(z3 ? 0.0f : AndroidUtilities.dp(48.0f));
-            if (!z3) {
+            this.writeButtonContainer.setScaleX(z ? 1.0f : 0.2f);
+            this.writeButtonContainer.setScaleY(z ? 1.0f : 0.2f);
+            this.writeButtonContainer.setAlpha(z ? 1.0f : 0.0f);
+            this.selectedCountView.setScaleX(z ? 1.0f : 0.2f);
+            this.selectedCountView.setScaleY(z ? 1.0f : 0.2f);
+            this.selectedCountView.setAlpha(z ? 1.0f : 0.0f);
+            this.frameLayout2.setTranslationY(z ? 0.0f : AndroidUtilities.dp(48.0f));
+            this.shadow.setTranslationY(z ? 0.0f : AndroidUtilities.dp(48.0f));
+            if (!z) {
                 this.frameLayout2.setVisibility(4);
                 this.writeButtonContainer.setVisibility(4);
             }
@@ -2147,6 +1557,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateCheckedPhotoIndices() {
         ArrayList arrayList;
         Object obj;
@@ -2184,6 +1595,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateSearchInterface() {
         StickerEmptyView stickerEmptyView;
         boolean z;
@@ -2242,9 +1654,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             actionBar.setTitle(LocaleController.getString(i));
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.PhotoPickerActivity.2
-            2() {
-            }
-
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i6) {
                 if (i6 != -1) {
@@ -2274,9 +1683,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         if (this.isDocumentsPicker) {
             ActionBarMenuItem addItem = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_other);
             addItem.setSubMenuDelegate(new ActionBarMenuItem.ActionBarSubMenuItemDelegate() { // from class: org.telegram.ui.PhotoPickerActivity.3
-                3() {
-                }
-
                 @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarSubMenuItemDelegate
                 public void onHideSubMenu() {
                 }
@@ -2322,22 +1728,15 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.listView.setItemAnimator(null);
         this.listView.setLayoutAnimation(null);
         RecyclerListView recyclerListView2 = this.listView;
-        6 r2 = new GridLayoutManager(context, 4) { // from class: org.telegram.ui.PhotoPickerActivity.6
-            6(Context context2, int i7) {
-                super(context2, i7);
-            }
-
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 4) { // from class: org.telegram.ui.PhotoPickerActivity.6
             @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
             public boolean supportsPredictiveItemAnimations() {
                 return false;
             }
         };
-        this.layoutManager = r2;
-        recyclerListView2.setLayoutManager(r2);
+        this.layoutManager = gridLayoutManager;
+        recyclerListView2.setLayoutManager(gridLayoutManager);
         this.layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.PhotoPickerActivity.7
-            7() {
-            }
-
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
             public int getSpanSize(int i7) {
                 if (PhotoPickerActivity.this.listAdapter.getItemViewType(i7) == 1 || PhotoPickerActivity.this.listSort || (PhotoPickerActivity.this.selectedAlbum == null && TextUtils.isEmpty(PhotoPickerActivity.this.lastSearchString))) {
@@ -2348,7 +1747,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         });
         this.sizeNotifierFrameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         RecyclerListView recyclerListView3 = this.listView;
-        ListAdapter listAdapter = new ListAdapter(context2);
+        ListAdapter listAdapter = new ListAdapter(context);
         this.listAdapter = listAdapter;
         recyclerListView3.setAdapter(listAdapter);
         this.listView.setGlowColor(Theme.getColor(this.dialogBackgroundKey));
@@ -2369,9 +1768,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             });
         }
         RecyclerViewItemRangeSelector recyclerViewItemRangeSelector = new RecyclerViewItemRangeSelector(new RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate() { // from class: org.telegram.ui.PhotoPickerActivity.8
-            8() {
-            }
-
             @Override // org.telegram.ui.Components.RecyclerViewItemRangeSelector.RecyclerViewItemRangeSelectorDelegate
             public boolean isIndexSelectable(int i7) {
                 return PhotoPickerActivity.this.listAdapter.getItemViewType(i7) == 0;
@@ -2402,11 +1798,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         if (this.maxSelectedPhotos != 1) {
             this.listView.addOnItemTouchListener(recyclerViewItemRangeSelector);
         }
-        9 r12 = new FlickerLoadingView(context2, getResourceProvider()) { // from class: org.telegram.ui.PhotoPickerActivity.9
-            9(Context context2, Theme.ResourcesProvider resourcesProvider) {
-                super(context2, resourcesProvider);
-            }
-
+        FlickerLoadingView flickerLoadingView = new FlickerLoadingView(context, getResourceProvider()) { // from class: org.telegram.ui.PhotoPickerActivity.9
             @Override // org.telegram.ui.Components.FlickerLoadingView
             public int getColumnsCount() {
                 return 3;
@@ -2417,10 +1809,10 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 return 2;
             }
         };
-        this.flickerView = r12;
-        r12.setAlpha(0.0f);
+        this.flickerView = flickerLoadingView;
+        flickerLoadingView.setAlpha(0.0f);
         this.flickerView.setVisibility(8);
-        StickerEmptyView stickerEmptyView = new StickerEmptyView(context2, this.flickerView, 1, getResourceProvider());
+        StickerEmptyView stickerEmptyView = new StickerEmptyView(context, this.flickerView, 1, getResourceProvider());
         this.emptyView = stickerEmptyView;
         stickerEmptyView.setAnimateLayoutChange(true);
         this.emptyView.title.setTypeface(Typeface.DEFAULT);
@@ -2438,9 +1830,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         this.emptyView.showProgress(false, false);
         this.sizeNotifierFrameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 126.0f, 0.0f, 0.0f));
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.PhotoPickerActivity.10
-            10() {
-            }
-
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
             public void onScrollStateChanged(RecyclerView recyclerView, int i7) {
                 if (i7 == 1) {
@@ -2449,7 +1838,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             }
 
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i7, int i22) {
+            public void onScrolled(RecyclerView recyclerView, int i7, int i8) {
                 if (PhotoPickerActivity.this.selectedAlbum == null) {
                     int findFirstVisibleItemPosition = PhotoPickerActivity.this.layoutManager.findFirstVisibleItemPosition();
                     int abs = findFirstVisibleItemPosition == -1 ? 0 : Math.abs(PhotoPickerActivity.this.layoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1;
@@ -2465,12 +1854,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             updateSearchInterface();
         }
         if (this.needsBottomLayout) {
-            View view = new View(context2);
+            View view = new View(context);
             this.shadow = view;
             view.setBackgroundResource(R.drawable.header_shadow_reverse);
             this.shadow.setTranslationY(AndroidUtilities.dp(48.0f));
             this.sizeNotifierFrameLayout.addView(this.shadow, LayoutHelper.createFrame(-1, 3.0f, 83, 0.0f, 0.0f, 0.0f, 48.0f));
-            FrameLayout frameLayout = new FrameLayout(context2);
+            FrameLayout frameLayout = new FrameLayout(context);
             this.frameLayout2 = frameLayout;
             frameLayout.setBackgroundColor(Theme.getColor(this.dialogBackgroundKey));
             this.frameLayout2.setVisibility(4);
@@ -2488,7 +1877,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             if (editTextEmoji != null) {
                 editTextEmoji.onDestroy();
             }
-            this.commentTextView = new EditTextEmoji(context2, this.sizeNotifierFrameLayout, null, 1, false);
+            this.commentTextView = new EditTextEmoji(context, this.sizeNotifierFrameLayout, null, 1, false);
             this.commentTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MessagesController.getInstance(UserConfig.selectedAccount).maxCaptionLength)});
             this.commentTextView.setHint(LocaleController.getString(R.string.AddCaption));
             this.commentTextView.onResume();
@@ -2501,9 +1890,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 this.commentTextView.setText(charSequence);
             }
             this.commentTextView.getEditText().addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PhotoPickerActivity.11
-                11() {
-                }
-
                 @Override // android.text.TextWatcher
                 public void afterTextChanged(Editable editable) {
                     if (PhotoPickerActivity.this.delegate != null) {
@@ -2512,18 +1898,14 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 }
 
                 @Override // android.text.TextWatcher
-                public void beforeTextChanged(CharSequence charSequence2, int i7, int i22, int i32) {
+                public void beforeTextChanged(CharSequence charSequence2, int i7, int i8, int i9) {
                 }
 
                 @Override // android.text.TextWatcher
-                public void onTextChanged(CharSequence charSequence2, int i7, int i22, int i32) {
+                public void onTextChanged(CharSequence charSequence2, int i7, int i8, int i9) {
                 }
             });
-            12 r13 = new FrameLayout(context2) { // from class: org.telegram.ui.PhotoPickerActivity.12
-                12(Context context2) {
-                    super(context2);
-                }
-
+            FrameLayout frameLayout2 = new FrameLayout(context) { // from class: org.telegram.ui.PhotoPickerActivity.12
                 @Override // android.view.View
                 public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                     super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
@@ -2533,15 +1915,15 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     accessibilityNodeInfo.setClickable(true);
                 }
             };
-            this.writeButtonContainer = r13;
-            r13.setFocusable(true);
+            this.writeButtonContainer = frameLayout2;
+            frameLayout2.setFocusable(true);
             this.writeButtonContainer.setFocusableInTouchMode(true);
             this.writeButtonContainer.setVisibility(4);
             this.writeButtonContainer.setScaleX(0.2f);
             this.writeButtonContainer.setScaleY(0.2f);
             this.writeButtonContainer.setAlpha(0.0f);
             this.sizeNotifierFrameLayout.addView(this.writeButtonContainer, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 12.0f, 10.0f));
-            this.writeButton = new ImageView(context2);
+            this.writeButton = new ImageView(context);
             int dp = AndroidUtilities.dp(56.0f);
             int i7 = Theme.key_dialogFloatingButton;
             int color = Theme.getColor(i7);
@@ -2551,7 +1933,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             }
             this.writeButtonDrawable = Theme.createSimpleSelectorCircleDrawable(dp, color, Theme.getColor(i7));
             if (i8 < 21) {
-                Drawable mutate = context2.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
+                Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow_profile).mutate();
                 mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
                 CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, this.writeButtonDrawable, 0, 0);
                 combinedDrawable.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
@@ -2564,9 +1946,6 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.writeButton.setScaleType(ImageView.ScaleType.CENTER);
             if (i8 >= 21) {
                 this.writeButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.PhotoPickerActivity.13
-                    13() {
-                    }
-
                     @Override // android.view.ViewOutlineProvider
                     public void getOutline(View view2, Outline outline) {
                         outline.setOval(0, 0, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
@@ -2590,11 +1969,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             });
             this.textPaint.setTextSize(AndroidUtilities.dp(12.0f));
             this.textPaint.setTypeface(AndroidUtilities.bold());
-            15 r14 = new View(context2) { // from class: org.telegram.ui.PhotoPickerActivity.15
-                15(Context context2) {
-                    super(context2);
-                }
-
+            View view2 = new View(context) { // from class: org.telegram.ui.PhotoPickerActivity.15
                 @Override // android.view.View
                 protected void onDraw(Canvas canvas) {
                     String format = String.format("%d", Integer.valueOf(Math.max(1, PhotoPickerActivity.this.selectedPhotosOrder.size())));
@@ -2612,8 +1987,8 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     canvas.drawText(format, measuredWidth - (r1 / 2), AndroidUtilities.dp(16.2f), PhotoPickerActivity.this.textPaint);
                 }
             };
-            this.selectedCountView = r14;
-            r14.setAlpha(0.0f);
+            this.selectedCountView = view2;
+            view2.setAlpha(0.0f);
             this.selectedCountView.setScaleX(0.2f);
             this.selectedCountView.setScaleY(0.2f);
             this.sizeNotifierFrameLayout.addView(this.selectedCountView, LayoutHelper.createFrame(42, 24.0f, 85, 0.0f, 0.0f, -2.0f, 9.0f));

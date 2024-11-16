@@ -25,23 +25,19 @@ public abstract class FragmentHostCallback extends FragmentContainer {
         this.mWindowAnimations = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentHostCallback(FragmentActivity fragmentActivity) {
+    FragmentHostCallback(FragmentActivity fragmentActivity) {
         this(fragmentActivity, fragmentActivity, new Handler(), 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Activity getActivity() {
+    Activity getActivity() {
         return this.mActivity;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Context getContext() {
+    Context getContext() {
         return this.mContext;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Handler getHandler() {
+    Handler getHandler() {
         return this.mHandler;
     }
 

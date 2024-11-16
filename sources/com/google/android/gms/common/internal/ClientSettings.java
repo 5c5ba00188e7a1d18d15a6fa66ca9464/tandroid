@@ -26,7 +26,6 @@ public final class ClientSettings {
     private final SignInOptions zai;
     private Integer zaj;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Account zaa;
         private ArraySet zab;

@@ -10,9 +10,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class StreamReader {
+abstract class StreamReader {
     private long currentGranule;
     private ExtractorOutput extractorOutput;
     private boolean formatSet;
@@ -27,9 +26,7 @@ public abstract class StreamReader {
     private final OggPacket oggPacket = new OggPacket();
     private SetupData setupData = new SetupData();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class SetupData {
+    static class SetupData {
         Format format;
         OggSeeker oggSeeker;
 
@@ -37,9 +34,7 @@ public abstract class StreamReader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class UnseekableOggSeeker implements OggSeeker {
+    private static final class UnseekableOggSeeker implements OggSeeker {
         private UnseekableOggSeeker() {
         }
 
@@ -135,32 +130,27 @@ public abstract class StreamReader {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long convertGranuleToTime(long j) {
+    protected long convertGranuleToTime(long j) {
         return (j * 1000000) / this.sampleRate;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long convertTimeToGranule(long j) {
+    protected long convertTimeToGranule(long j) {
         return (this.sampleRate * j) / 1000000;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void init(ExtractorOutput extractorOutput, TrackOutput trackOutput) {
+    void init(ExtractorOutput extractorOutput, TrackOutput trackOutput) {
         this.extractorOutput = extractorOutput;
         this.trackOutput = trackOutput;
         reset(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onSeekEnd(long j) {
+    protected void onSeekEnd(long j) {
         this.currentGranule = j;
     }
 
     protected abstract long preparePayload(ParsableByteArray parsableByteArray);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
+    final int read(ExtractorInput extractorInput, PositionHolder positionHolder) {
         assertInitialized();
         int i = this.state;
         if (i == 0) {
@@ -183,8 +173,7 @@ public abstract class StreamReader {
 
     protected abstract boolean readHeaders(ParsableByteArray parsableByteArray, long j, SetupData setupData);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void reset(boolean z) {
+    protected void reset(boolean z) {
         int i;
         if (z) {
             this.setupData = new SetupData();
@@ -198,8 +187,7 @@ public abstract class StreamReader {
         this.currentGranule = 0L;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void seek(long j, long j2) {
+    final void seek(long j, long j2) {
         this.oggPacket.reset();
         if (j == 0) {
             reset(!this.seekMapSet);

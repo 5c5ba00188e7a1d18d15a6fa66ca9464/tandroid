@@ -15,7 +15,6 @@ public class AppCenterIngestion implements Ingestion {
     private final LogSerializer mLogSerializer;
     private String mLogUrl = "https://in.appcenter.ms";
 
-    /* loaded from: classes.dex */
     private static class IngestionCallTemplate extends AbstractAppCallTemplate {
         private final LogContainer mLogContainer;
         private final LogSerializer mLogSerializer;

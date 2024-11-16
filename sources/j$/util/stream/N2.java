@@ -8,13 +8,11 @@ abstract class N2 extends d implements Iterable {
     Object e;
     Object[] f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public N2() {
+    N2() {
         this.e = c(16);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public N2(int i) {
+    N2(int i) {
         super(i);
         this.e = c(1 << this.a);
     }
@@ -79,14 +77,11 @@ abstract class N2 extends d implements Iterable {
         return j$.util.P.a(spliterator());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void u(Object obj, int i, int i2, Object obj2);
+    protected abstract void u(Object obj, int i, int i2, Object obj2);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract int v(Object obj);
+    protected abstract int v(Object obj);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final int w(long j) {
+    protected final int w(long j) {
         if (this.c == 0) {
             if (j < this.b) {
                 return 0;
@@ -104,8 +99,7 @@ abstract class N2 extends d implements Iterable {
         throw new IndexOutOfBoundsException(Long.toString(j));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void x(long j) {
+    protected final void x(long j) {
         long v;
         int i = this.c;
         if (i == 0) {
@@ -144,8 +138,7 @@ abstract class N2 extends d implements Iterable {
 
     protected abstract Object[] y();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void z() {
+    protected final void z() {
         long v;
         if (this.b == v(this.e)) {
             if (this.f == null) {

@@ -10,11 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzga {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(zzfz zzfzVar, String str) {
+abstract class zzga {
+    static String zza(zzfz zzfzVar, String str) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ");
         sb.append(str);
@@ -148,8 +146,7 @@ public abstract class zzga {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final void zza(StringBuilder sb, int i, String str, Object obj) {
+    static final void zza(StringBuilder sb, int i, String str, Object obj) {
         if (obj instanceof List) {
             Iterator it = ((List) obj).iterator();
             while (it.hasNext()) {

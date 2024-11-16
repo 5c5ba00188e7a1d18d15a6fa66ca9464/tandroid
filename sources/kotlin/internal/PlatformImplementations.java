@@ -1,7 +1,7 @@
 package kotlin.internal;
 
 import java.lang.reflect.Method;
-import kotlin.collections.ArraysKt;
+import kotlin.collections.ArraysKt___ArraysKt;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.random.FallbackThreadLocalRandom;
 import kotlin.random.Random;
@@ -9,7 +9,6 @@ import kotlin.random.Random;
 /* loaded from: classes.dex */
 public class PlatformImplementations {
 
-    /* loaded from: classes.dex */
     private static final class ReflectThrowable {
         public static final ReflectThrowable INSTANCE = new ReflectThrowable();
         public static final Method addSuppressed;
@@ -18,6 +17,7 @@ public class PlatformImplementations {
         static {
             Method method;
             Method method2;
+            Object singleOrNull;
             Method[] throwableMethods = Throwable.class.getMethods();
             Intrinsics.checkNotNullExpressionValue(throwableMethods, "throwableMethods");
             int length = throwableMethods.length;
@@ -33,7 +33,8 @@ public class PlatformImplementations {
                 if (Intrinsics.areEqual(method2.getName(), "addSuppressed")) {
                     Class<?>[] parameterTypes = method2.getParameterTypes();
                     Intrinsics.checkNotNullExpressionValue(parameterTypes, "it.parameterTypes");
-                    if (Intrinsics.areEqual(ArraysKt.singleOrNull(parameterTypes), Throwable.class)) {
+                    singleOrNull = ArraysKt___ArraysKt.singleOrNull(parameterTypes);
+                    if (Intrinsics.areEqual(singleOrNull, Throwable.class)) {
                         break;
                     }
                 }

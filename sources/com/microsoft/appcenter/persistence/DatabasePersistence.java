@@ -233,7 +233,6 @@ public class DatabasePersistence extends Persistence {
                         asString = FileManager.read(largePayloadFile);
                         if (asString == null) {
                             throw new JSONException("Log payload is null and not stored as a file.");
-                            break;
                         }
                     }
                     Log deserializeLog = getLogSerializer().deserializeLog(asString, nextValues.getAsString("type"));

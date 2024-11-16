@@ -9,8 +9,7 @@ final class A1 extends O1 implements N1, b2 {
     final /* synthetic */ j$.util.function.i0 c;
     final /* synthetic */ j$.util.function.f d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public A1(Supplier supplier, j$.util.function.i0 i0Var, j$.util.function.f fVar) {
+    A1(Supplier supplier, j$.util.function.i0 i0Var, j$.util.function.f fVar) {
         this.b = supplier;
         this.c = i0Var;
         this.d = fVar;

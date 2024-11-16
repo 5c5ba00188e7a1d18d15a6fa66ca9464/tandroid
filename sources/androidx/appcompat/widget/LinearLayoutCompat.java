@@ -31,7 +31,6 @@ public abstract class LinearLayoutCompat extends ViewGroup {
     private boolean mUseLargestChild;
     private float mWeightSum;
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends LinearLayout.LayoutParams {
         public LayoutParams(int i, int i2) {
             super(i, i2);
@@ -286,8 +285,7 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         return this.mWeightSum;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean hasDividerBeforeChildAt(int i) {
+    protected boolean hasDividerBeforeChildAt(int i) {
         if (i == 0) {
             return (this.mShowDividers & 1) != 0;
         }
@@ -1221,9 +1219,8 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         accessibilityNodeInfo.setClassName("androidx.appcompat.widget.LinearLayoutCompat");
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         if (this.mOrientation == 1) {
             layoutVertical(i, i2, i3, i4);
         } else {
@@ -1231,9 +1228,8 @@ public abstract class LinearLayoutCompat extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         if (this.mOrientation == 1) {
             measureVertical(i, i2);
         } else {

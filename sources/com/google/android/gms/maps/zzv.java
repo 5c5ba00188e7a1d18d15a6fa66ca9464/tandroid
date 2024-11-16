@@ -3,13 +3,11 @@ package com.google.android.gms.maps;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.internal.zzs;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzv extends zzs {
+final class zzv extends zzs {
     final /* synthetic */ GoogleMap.OnCameraMoveListener zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzv(GoogleMap googleMap, GoogleMap.OnCameraMoveListener onCameraMoveListener) {
+    zzv(GoogleMap googleMap, GoogleMap.OnCameraMoveListener onCameraMoveListener) {
         this.zza = onCameraMoveListener;
     }
 

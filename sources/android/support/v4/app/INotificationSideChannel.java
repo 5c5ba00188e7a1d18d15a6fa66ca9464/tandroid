@@ -11,10 +11,8 @@ import android.os.Parcelable;
 public interface INotificationSideChannel extends IInterface {
     public static final String DESCRIPTOR = "android$support$v4$app$INotificationSideChannel".replace('$', '.');
 
-    /* loaded from: classes.dex */
     public static abstract class Stub extends Binder implements INotificationSideChannel {
 
-        /* loaded from: classes.dex */
         private static class Proxy implements INotificationSideChannel {
             private IBinder mRemote;
 
@@ -78,7 +76,6 @@ public interface INotificationSideChannel extends IInterface {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class _Parcel {
         /* JADX INFO: Access modifiers changed from: private */
         public static void writeTypedObject(Parcel parcel, Parcelable parcelable, int i) {

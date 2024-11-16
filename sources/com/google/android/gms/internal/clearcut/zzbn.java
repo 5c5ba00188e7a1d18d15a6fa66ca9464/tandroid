@@ -14,7 +14,6 @@ public abstract class zzbn extends zzba {
     private static final boolean zzfy = zzfd.zzed();
     zzbp zzfz;
 
-    /* loaded from: classes.dex */
     static class zza extends zzbn {
         private final byte[] buffer;
         private final int limit;
@@ -323,9 +322,7 @@ public abstract class zzbn extends zzba {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class zzb extends zza {
+    static final class zzb extends zza {
         private final ByteBuffer zzga;
         private int zzgb;
 
@@ -341,7 +338,6 @@ public abstract class zzbn extends zzba {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class zzc extends IOException {
         /* JADX WARN: Illegal instructions before constructor call */
         /*
@@ -366,9 +362,7 @@ public abstract class zzbn extends zzba {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class zzd extends zzbn {
+    static final class zzd extends zzbn {
         private final int zzgb;
         private final ByteBuffer zzgc;
         private final ByteBuffer zzgd;
@@ -608,9 +602,7 @@ public abstract class zzbn extends zzba {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class zze extends zzbn {
+    static final class zze extends zzbn {
         private final ByteBuffer zzgc;
         private final ByteBuffer zzgd;
         private final long zzge;
@@ -933,8 +925,7 @@ public abstract class zzbn extends zzba {
         return zzr(i) + 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, zzdo zzdoVar, zzef zzefVar) {
+    static int zzb(int i, zzdo zzdoVar, zzef zzefVar) {
         return zzr(i) + zzb(zzdoVar, zzefVar);
     }
 
@@ -947,8 +938,7 @@ public abstract class zzbn extends zzba {
         return zzt(size) + size;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(zzdo zzdoVar, zzef zzefVar) {
+    static int zzb(zzdo zzdoVar, zzef zzefVar) {
         zzas zzasVar = (zzas) zzdoVar;
         int zzs = zzasVar.zzs();
         if (zzs == -1) {
@@ -972,8 +962,7 @@ public abstract class zzbn extends zzba {
         return zzr(i) + zzc(zzdoVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(int i, zzdo zzdoVar, zzef zzefVar) {
+    static int zzc(int i, zzdo zzdoVar, zzef zzefVar) {
         int zzr = zzr(i) << 1;
         zzas zzasVar = (zzas) zzdoVar;
         int zzs = zzasVar.zzs();
@@ -1168,8 +1157,7 @@ public abstract class zzbn extends zzba {
 
     public abstract void zza(int i, zzdo zzdoVar);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(int i, zzdo zzdoVar, zzef zzefVar);
+    abstract void zza(int i, zzdo zzdoVar, zzef zzefVar);
 
     public abstract void zza(int i, String str);
 

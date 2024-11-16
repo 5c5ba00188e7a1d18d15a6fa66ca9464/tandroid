@@ -4,6 +4,9 @@ import java.util.ListIterator;
 
 /* loaded from: classes.dex */
 public abstract class zzac extends zzab implements ListIterator {
+    protected zzac() {
+    }
+
     @Override // java.util.ListIterator
     public final void add(Object obj) {
         throw new UnsupportedOperationException();

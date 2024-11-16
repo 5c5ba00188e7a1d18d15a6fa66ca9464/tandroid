@@ -16,17 +16,8 @@ public final /* synthetic */ class k implements j$.util.function.f {
     @Override // j$.util.function.BiFunction
     public final /* synthetic */ BiFunction andThen(Function function) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.a(this, function);
-            case 1:
-                return j$.com.android.tools.r8.a.a(this, function);
-            case 2:
-                return j$.com.android.tools.r8.a.a(this, function);
-            case 3:
-                return j$.com.android.tools.r8.a.a(this, function);
-            default:
-                return j$.com.android.tools.r8.a.a(this, function);
         }
+        return j$.com.android.tools.r8.a.a(this, function);
     }
 
     @Override // j$.util.function.BiFunction

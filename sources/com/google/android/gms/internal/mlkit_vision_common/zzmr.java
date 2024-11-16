@@ -4,11 +4,9 @@ import com.google.mlkit.common.sdkinternal.LazyInstanceMap;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzmr extends LazyInstanceMap {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzmr(zzmq zzmqVar) {
+final class zzmr extends LazyInstanceMap {
+    /* synthetic */ zzmr(zzmq zzmqVar) {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.LazyInstanceMap

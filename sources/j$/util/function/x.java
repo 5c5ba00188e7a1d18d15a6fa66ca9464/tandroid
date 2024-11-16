@@ -17,11 +17,8 @@ public final /* synthetic */ class x implements Function {
     @Override // j$.util.function.Function
     public final /* synthetic */ Function andThen(Function function) {
         switch (this.a) {
-            case 0:
-                return Function.-CC.$default$andThen(this, function);
-            default:
-                return Function.-CC.$default$andThen(this, function);
         }
+        return Function.-CC.$default$andThen(this, function);
     }
 
     @Override // j$.util.function.Function
@@ -37,10 +34,7 @@ public final /* synthetic */ class x implements Function {
     @Override // j$.util.function.Function
     public final /* synthetic */ Function compose(Function function) {
         switch (this.a) {
-            case 0:
-                return Function.-CC.$default$compose(this, function);
-            default:
-                return Function.-CC.$default$compose(this, function);
         }
+        return Function.-CC.$default$compose(this, function);
     }
 }

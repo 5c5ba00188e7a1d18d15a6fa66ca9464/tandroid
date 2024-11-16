@@ -33,9 +33,7 @@ public class CodeHighlighting {
     private static HashMap<String, TokenPattern[]> compiledPatterns;
     private static final HashMap<String, Highlighting> processedHighlighting = new HashMap<>();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CachedPattern {
+    private static class CachedPattern {
         private Pattern pattern;
         private String patternSource;
         private int patternSourceFlags;
@@ -53,9 +51,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CachedToSpan {
+    private static class CachedToSpan {
         public int end;
         public int group;
         public int start;
@@ -67,7 +63,6 @@ public class CodeHighlighting {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ColorSpan extends CharacterStyle {
         public int group;
 
@@ -102,9 +97,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Highlighting {
+    private static class Highlighting {
         String language;
         SpannableString result;
         String text;
@@ -113,9 +106,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class LinkedList {
+    private static class LinkedList {
         public Node head;
         public int length = 0;
         public Node tail;
@@ -164,7 +155,6 @@ public class CodeHighlighting {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LockedSpannableString extends SpannableString {
         private boolean ready;
 
@@ -211,9 +201,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Match {
+    private static class Match {
         int index;
         int length;
         String string;
@@ -222,9 +210,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Node {
+    private static class Node {
         public Node next;
         public Node prev;
         public StringToken value;
@@ -233,9 +219,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ParsedPattern {
+    private static class ParsedPattern {
         private CachedPattern cachedPattern;
         boolean caseInsensitive;
         boolean multiline;
@@ -256,9 +240,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class RematchOptions {
+    private static class RematchOptions {
         TokenPattern cause;
         int reach;
 
@@ -266,7 +248,6 @@ public class CodeHighlighting {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Span extends CharacterStyle {
         public final String code;
         public final int currentType;
@@ -307,9 +288,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class StreamReader {
+    private static class StreamReader {
         private final InputStream is;
 
         public StreamReader(InputStream inputStream) {
@@ -337,9 +316,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class StringToken {
+    private static class StringToken {
         final int group;
         final LinkedList inside;
         final int insideLength;
@@ -376,9 +353,7 @@ public class CodeHighlighting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TokenPattern {
+    private static class TokenPattern {
         public boolean greedy;
         public int group;
         public String insideLanguage;
@@ -523,7 +498,7 @@ public class CodeHighlighting {
             parse();
         }
         long currentTimeMillis = System.currentTimeMillis();
-        StringToken[][] stringTokenArr = new StringToken[1];
+        StringToken[][] stringTokenArr = new StringToken[1][];
         try {
             String charSequence = spannable.subSequence(i, i2).toString();
             HashMap<String, TokenPattern[]> hashMap = compiledPatterns;
@@ -563,14 +538,12 @@ public class CodeHighlighting {
         AndroidUtilities.runOnUIThread(runnable);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     private static void matchGrammar(String str, LinkedList linkedList, TokenPattern[] tokenPatternArr, Node node, int i, RematchOptions rematchOptions, TokenPattern tokenPattern, int i2) {
         TokenPattern tokenPattern2;
         int i3;
         int i4;
         Match matchPattern;
         int i5;
-        Node node2;
         StringToken stringToken;
         int i6;
         String str2 = str;
@@ -588,9 +561,9 @@ public class CodeHighlighting {
             if (rematchOptions != null && rematchOptions.cause == tokenPattern3) {
                 return;
             }
+            Node node2 = node.next;
             int i8 = i;
-            Node node3 = node.next;
-            while (node3 != linkedList.tail) {
+            while (node2 != linkedList.tail) {
                 if (rematchOptions != null && i8 >= rematchOptions.reach) {
                     return;
                 }
@@ -598,7 +571,7 @@ public class CodeHighlighting {
                     FileLog.e("[CodeHighlighter] Something went terribly wrong, ABORT, ABORT!");
                     return;
                 }
-                StringToken stringToken2 = node3.value;
+                StringToken stringToken2 = node2.value;
                 String str3 = stringToken2.string;
                 if (str3 != null && !stringToken2.token) {
                     if (tokenPattern3.greedy) {
@@ -608,37 +581,38 @@ public class CodeHighlighting {
                         }
                         int i9 = matchPattern.index;
                         int i10 = matchPattern.length + i9;
-                        Node node4 = node3;
                         while (true) {
-                            i8 += node4.value.length();
+                            i8 += node2.value.length();
                             if (i9 < i8) {
                                 break;
                             } else {
-                                node4 = node4.next;
+                                node2 = node2.next;
                             }
                         }
-                        i8 -= node4.value.length();
-                        StringToken stringToken3 = node4.value;
+                        i8 -= node2.value.length();
+                        StringToken stringToken3 = node2.value;
                         if (stringToken3.string == null || stringToken3.token) {
                             tokenPattern2 = tokenPattern3;
                             i3 = length;
-                            node3 = node4;
-                            i8 += node3.value.length();
+                            node2 = node2;
+                            i8 += node2.value.length();
+                            node2 = node2.next;
                             str2 = str;
                             tokenPattern3 = tokenPattern2;
                             length = i3;
-                            node3 = node3.next;
                         } else {
+                            Node node3 = node2;
                             int i11 = i8;
                             int i12 = 1;
-                            for (Node node5 = node4; node5 != linkedList.tail && (i11 < i10 || !node5.value.token); node5 = node5.next) {
+                            while (node3 != linkedList.tail && (i11 < i10 || !node3.value.token)) {
                                 i12++;
-                                i11 += node5.value.length();
+                                i11 += node3.value.length();
+                                node3 = node3.next;
                             }
                             str3 = str2.substring(i8, i11);
                             matchPattern.index -= i8;
                             i5 = i12 - 1;
-                            node2 = str3;
+                            node2 = node3;
                             i4 = 0;
                         }
                     } else {
@@ -646,7 +620,6 @@ public class CodeHighlighting {
                         matchPattern = matchPattern(tokenPattern3, 0, str3);
                         if (matchPattern != null) {
                             i5 = 1;
-                            node2 = node3;
                         }
                     }
                     int i13 = matchPattern.index;
@@ -656,13 +629,13 @@ public class CodeHighlighting {
                     if (rematchOptions != null && length2 > rematchOptions.reach) {
                         rematchOptions.reach = length2;
                     }
-                    Node node6 = node2.prev;
+                    Node node4 = node2.prev;
                     if (substring.length() > 0) {
-                        node6 = linkedList.addAfter(node6, new StringToken(substring));
+                        node4 = linkedList.addAfter(node4, new StringToken(substring));
                         i8 += substring.length();
                     }
                     int i14 = i8;
-                    linkedList.removeRange(node6, i5);
+                    linkedList.removeRange(node4, i5);
                     TokenPattern[] tokenPatternArr3 = tokenPattern3.insideTokenPatterns;
                     if (tokenPatternArr3 != null) {
                         i3 = length;
@@ -672,7 +645,7 @@ public class CodeHighlighting {
                         String str4 = tokenPattern3.insideLanguage;
                         stringToken = str4 != null ? new StringToken(tokenPattern3.group, tokenize(matchPattern.string, compiledPatterns.get(str4), tokenPattern3, i2 + 1), matchPattern.length) : new StringToken(tokenPattern3.group, matchPattern.string);
                     }
-                    Node addAfter = linkedList.addAfter(node6, stringToken);
+                    Node addAfter = linkedList.addAfter(node4, stringToken);
                     if (substring2.length() > 0) {
                         linkedList.addAfter(addAfter, new StringToken(substring2));
                     }
@@ -688,21 +661,21 @@ public class CodeHighlighting {
                     } else {
                         tokenPattern2 = tokenPattern3;
                     }
-                    node3 = addAfter;
+                    node2 = addAfter;
                     i8 = i14;
-                    i8 += node3.value.length();
+                    i8 += node2.value.length();
+                    node2 = node2.next;
                     str2 = str;
                     tokenPattern3 = tokenPattern2;
                     length = i3;
-                    node3 = node3.next;
                 }
                 tokenPattern2 = tokenPattern3;
                 i3 = length;
-                i8 += node3.value.length();
+                i8 += node2.value.length();
+                node2 = node2.next;
                 str2 = str;
                 tokenPattern3 = tokenPattern2;
                 length = i3;
-                node3 = node3.next;
             }
             i7++;
             str2 = str;
@@ -896,6 +869,7 @@ public class CodeHighlighting {
     }
 
     private static TokenPattern[] readTokens(StreamReader streamReader, ParsedPattern[] parsedPatternArr, HashMap<Integer, String[]> hashMap) {
+        TokenPattern tokenPattern;
         int readUint8 = streamReader.readUint8();
         TokenPattern[] tokenPatternArr = new TokenPattern[readUint8];
         for (int i = 0; i < readUint8; i++) {
@@ -909,9 +883,11 @@ public class CodeHighlighting {
                 tokenPatternArr[i] = new TokenPattern(i3, parsedPatternArr[readUint16].getCachedPattern());
             } else if (i2 == 1) {
                 if (i3 == 0) {
-                    tokenPatternArr[i] = new TokenPattern(parsedPatternArr[readUint16].getCachedPattern(), readTokens(streamReader, parsedPatternArr, hashMap));
+                    tokenPattern = new TokenPattern(parsedPatternArr[readUint16].getCachedPattern(), readTokens(streamReader, parsedPatternArr, hashMap));
+                    tokenPatternArr[i] = tokenPattern;
                 } else {
-                    tokenPatternArr[i] = new TokenPattern(i3, parsedPatternArr[readUint16].getCachedPattern(), readTokens(streamReader, parsedPatternArr, hashMap));
+                    tokenPattern = new TokenPattern(i3, parsedPatternArr[readUint16].getCachedPattern(), readTokens(streamReader, parsedPatternArr, hashMap));
+                    tokenPatternArr[i] = tokenPattern;
                 }
             } else if (i2 == 2) {
                 tokenPatternArr[i] = new TokenPattern(parsedPatternArr[readUint16].getCachedPattern(), hashMap.get(Integer.valueOf(streamReader.readUint8()))[0]);

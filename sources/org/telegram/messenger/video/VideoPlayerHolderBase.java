@@ -87,9 +87,7 @@ public class VideoPlayerHolderBase {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements VideoPlayer.VideoPlayerDelegate {
+    class 2 implements VideoPlayer.VideoPlayerDelegate {
         2() {
         }
 
@@ -231,7 +229,7 @@ public class VideoPlayerHolderBase {
         if (this.videoPlayer == null) {
             return;
         }
-        long j = this.currentSeekThread * ((float) this.duration);
+        long j = (long) (this.currentSeekThread * this.duration);
         if (this.lastSeek <= -1) {
             this.lastSeek = j;
         }
@@ -451,7 +449,7 @@ public class VideoPlayerHolderBase {
         if (this.lastState == 4) {
             this.progress = 1.0f;
         } else {
-            this.progress = j != 0 ? ((float) this.currentPosition) / ((float) j) : ((float) this.currentPosition) / ((float) this.playerDuration);
+            this.progress = j != 0 ? this.currentPosition / j : this.currentPosition / this.playerDuration;
             if (!this.seeking) {
                 this.currentSeek = this.progress;
                 this.lastSeek = this.currentPosition;

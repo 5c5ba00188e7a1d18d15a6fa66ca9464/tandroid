@@ -35,13 +35,11 @@ public class WebRtcAudioTrack {
     private final long nativeAudioTrack;
     private final ThreadUtils.ThreadChecker threadChecker;
 
-    /* loaded from: classes5.dex */
     public enum AudioTrackStartErrorCode {
         AUDIO_TRACK_START_EXCEPTION,
         AUDIO_TRACK_START_STATE_MISMATCH
     }
 
-    /* loaded from: classes5.dex */
     private class AudioTrackThread extends Thread {
         private volatile boolean keepAlive;
         private long lastPlaybackHeadPosition;
@@ -130,7 +128,6 @@ public class WebRtcAudioTrack {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface ErrorCallback {
         void onWebRtcAudioTrackError(String str);
 
@@ -140,7 +137,6 @@ public class WebRtcAudioTrack {
     }
 
     @Deprecated
-    /* loaded from: classes5.dex */
     public interface WebRtcAudioTrackErrorCallback {
         void onWebRtcAudioTrackError(String str);
 

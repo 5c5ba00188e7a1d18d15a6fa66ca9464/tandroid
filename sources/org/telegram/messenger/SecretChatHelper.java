@@ -41,7 +41,6 @@ public class SecretChatHelper extends BaseController {
     private ArrayList<Integer> sendingNotifyLayer;
     private boolean startingSecretChat;
 
-    /* loaded from: classes3.dex */
     public static class TL_decryptedMessageHolder extends TLObject {
         public static int constructor = 1431655929;
         public int date;
@@ -756,7 +755,7 @@ public class SecretChatHelper extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v3 */
     public /* synthetic */ void lambda$resendMessages$15(int i, TLRPC.EncryptedChat encryptedChat, int i2) {
         int i3;
@@ -1210,13 +1209,12 @@ public class SecretChatHelper extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:19:0x007a A[Catch: Exception -> 0x0038, TryCatch #0 {Exception -> 0x0038, blocks: (B:6:0x001b, B:8:0x001f, B:10:0x002b, B:11:0x003b, B:14:0x0046, B:16:0x0060, B:19:0x007a, B:22:0x0093, B:25:0x009c, B:28:0x00b1, B:32:0x00cb, B:34:0x00dc, B:35:0x00e3, B:37:0x00e7, B:39:0x00ed, B:41:0x00f1, B:43:0x00ff, B:44:0x0106, B:45:0x0109, B:47:0x0110, B:49:0x0114, B:51:0x011a, B:53:0x011e, B:54:0x015a, B:59:0x0164, B:63:0x016b, B:65:0x016e, B:67:0x0172, B:68:0x0177, B:70:0x018c, B:71:0x0198, B:73:0x019f, B:75:0x01d9, B:78:0x01f2, B:79:0x01fa, B:80:0x0222, B:82:0x0235, B:83:0x0238, B:85:0x0213, B:87:0x0217, B:96:0x023d, B:98:0x0244, B:99:0x0065, B:103:0x0071), top: B:5:0x001b }] */
     /* JADX WARN: Removed duplicated region for block: B:96:0x023d A[Catch: Exception -> 0x0038, TryCatch #0 {Exception -> 0x0038, blocks: (B:6:0x001b, B:8:0x001f, B:10:0x002b, B:11:0x003b, B:14:0x0046, B:16:0x0060, B:19:0x007a, B:22:0x0093, B:25:0x009c, B:28:0x00b1, B:32:0x00cb, B:34:0x00dc, B:35:0x00e3, B:37:0x00e7, B:39:0x00ed, B:41:0x00f1, B:43:0x00ff, B:44:0x0106, B:45:0x0109, B:47:0x0110, B:49:0x0114, B:51:0x011a, B:53:0x011e, B:54:0x015a, B:59:0x0164, B:63:0x016b, B:65:0x016e, B:67:0x0172, B:68:0x0177, B:70:0x018c, B:71:0x0198, B:73:0x019f, B:75:0x01d9, B:78:0x01f2, B:79:0x01fa, B:80:0x0222, B:82:0x0235, B:83:0x0238, B:85:0x0213, B:87:0x0217, B:96:0x023d, B:98:0x0244, B:99:0x0065, B:103:0x0071), top: B:5:0x001b }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public ArrayList<TLRPC.Message> decryptMessage(TLRPC.EncryptedMessage encryptedMessage) {
+    protected ArrayList<TLRPC.Message> decryptMessage(TLRPC.EncryptedMessage encryptedMessage) {
         byte[] bArr;
         boolean z;
         int i;
@@ -1375,8 +1373,7 @@ public class SecretChatHelper extends BaseController {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void performSendEncryptedRequest(final TLRPC.DecryptedMessage decryptedMessage, final TLRPC.Message message, final TLRPC.EncryptedChat encryptedChat, final TLRPC.InputEncryptedFile inputEncryptedFile, final String str, final MessageObject messageObject) {
+    protected void performSendEncryptedRequest(final TLRPC.DecryptedMessage decryptedMessage, final TLRPC.Message message, final TLRPC.EncryptedChat encryptedChat, final TLRPC.InputEncryptedFile inputEncryptedFile, final String str, final MessageObject messageObject) {
         if (decryptedMessage == null || encryptedChat.auth_key == null || (encryptedChat instanceof TLRPC.TL_encryptedChatRequested) || (encryptedChat instanceof TLRPC.TL_encryptedChatWaiting)) {
             return;
         }
@@ -1389,8 +1386,7 @@ public class SecretChatHelper extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void performSendEncryptedRequest(TLRPC.TL_messages_sendEncryptedMultiMedia tL_messages_sendEncryptedMultiMedia, SendMessagesHelper.DelayedMessage delayedMessage) {
+    protected void performSendEncryptedRequest(TLRPC.TL_messages_sendEncryptedMultiMedia tL_messages_sendEncryptedMultiMedia, SendMessagesHelper.DelayedMessage delayedMessage) {
         for (int i = 0; i < tL_messages_sendEncryptedMultiMedia.files.size(); i++) {
             performSendEncryptedRequest(tL_messages_sendEncryptedMultiMedia.messages.get(i), delayedMessage.messages.get(i), delayedMessage.encryptedChat, tL_messages_sendEncryptedMultiMedia.files.get(i), delayedMessage.originalPaths.get(i), delayedMessage.messageObjects.get(i));
         }
@@ -2095,8 +2091,7 @@ public class SecretChatHelper extends BaseController {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void processPendingEncMessages() {
+    protected void processPendingEncMessages() {
         if (this.pendingEncMessagesToDelete.isEmpty()) {
             return;
         }
@@ -2111,8 +2106,7 @@ public class SecretChatHelper extends BaseController {
         this.pendingEncMessagesToDelete.clear();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void processUpdateEncryption(TLRPC.TL_updateEncryption tL_updateEncryption, ConcurrentHashMap<Long, TLRPC.User> concurrentHashMap) {
+    protected void processUpdateEncryption(TLRPC.TL_updateEncryption tL_updateEncryption, ConcurrentHashMap<Long, TLRPC.User> concurrentHashMap) {
         byte[] bArr;
         final TLRPC.EncryptedChat encryptedChat = tL_updateEncryption.chat;
         final long makeEncryptedDialogId = DialogObject.makeEncryptedDialogId(encryptedChat.id);

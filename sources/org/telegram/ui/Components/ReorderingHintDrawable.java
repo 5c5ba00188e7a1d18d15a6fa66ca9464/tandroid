@@ -21,9 +21,7 @@ public class ReorderingHintDrawable extends Drawable {
     private final int intrinsicHeight = AndroidUtilities.dp(24.0f);
     private long startedTime = -1;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
-    public static class RectDrawable extends Drawable {
+    protected static class RectDrawable extends Drawable {
         private final RectF tempRect = new RectF();
         private final Paint paint = new Paint(1);
 

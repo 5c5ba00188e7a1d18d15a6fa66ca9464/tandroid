@@ -8,8 +8,7 @@ public final class zzjx {
     private final Boolean zzd;
     private final Boolean zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzjx(zzjv zzjvVar, zzjw zzjwVar) {
+    /* synthetic */ zzjx(zzjv zzjvVar, zzjw zzjwVar) {
         Long l;
         zzke zzkeVar;
         Boolean bool;

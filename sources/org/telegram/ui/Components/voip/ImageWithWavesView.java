@@ -27,7 +27,6 @@ public class ImageWithWavesView extends FrameLayout {
     private boolean isConnectedCalled;
     private boolean isMuted;
 
-    /* loaded from: classes3.dex */
     public static class AvatarWavesDrawable {
         float amplitude;
         float animateAmplitudeDiff;

@@ -100,12 +100,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     private int ttlPeriod;
     private int type;
 
-    /* loaded from: classes4.dex */
     public interface FilterUsersActivityDelegate {
         void didSelectChats(ArrayList arrayList, int i);
     }
 
-    /* loaded from: classes4.dex */
     public class GroupCreateAdapter extends RecyclerListView.FastScrollAdapter {
         private Context context;
         private SearchAdapterHelper searchAdapterHelper;
@@ -808,7 +806,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
     private static class ItemDecoration extends RecyclerView.ItemDecoration {
         private boolean single;
         private int skipRows;
@@ -839,9 +836,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SpansContainer extends ViewGroup {
+    private class SpansContainer extends ViewGroup {
         private View addingSpan;
         private boolean animationStarted;
         private ArrayList animators;
@@ -1070,6 +1065,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     public void checkVisibleRows() {
         long j;
         char c;
@@ -1087,63 +1083,75 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 c = '\t';
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -1237460524:
                             if (str.equals("groups")) {
                                 c = 2;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -1197490811:
                             if (str.equals("non_contacts")) {
                                 c = 1;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -567451565:
                             if (str.equals("contacts")) {
                                 c = 0;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -268161860:
                             if (str.equals("new_chats")) {
                                 c = '\b';
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 3029900:
                             if (str.equals("bots")) {
                                 c = 4;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 3496342:
                             if (str.equals("read")) {
                                 c = 6;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 104264043:
                             if (str.equals("muted")) {
                                 c = 5;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 151051367:
                             if (str.equals("existing_chats")) {
                                 c = 7;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 1432626128:
                             if (str.equals("channels")) {
                                 c = 3;
                                 break;
                             }
+                            c = 65535;
+                            break;
+                        default:
+                            c = 65535;
                             break;
                     }
-                    c = 65535;
                     switch (c) {
                         case 0:
                             j = Long.MIN_VALUE;

@@ -31,9 +31,7 @@ import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 public abstract class AnimatorInflaterCompat {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PathDataEvaluator implements TypeEvaluator {
+    private static class PathDataEvaluator implements TypeEvaluator {
         private PathParser.PathDataNode[] mNodeArray;
 
         PathDataEvaluator() {

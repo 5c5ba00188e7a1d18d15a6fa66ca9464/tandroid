@@ -9,8 +9,7 @@ public final class zzki {
     private final zzla zze;
     private final zzdj zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzki(zzkg zzkgVar, zzkh zzkhVar) {
+    /* synthetic */ zzki(zzkg zzkgVar, zzkh zzkhVar) {
         zzmj zzmjVar;
         zzkf zzkfVar;
         zzkd zzkdVar;

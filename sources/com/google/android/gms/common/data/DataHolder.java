@@ -26,15 +26,13 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
     boolean zae = false;
     private boolean zak = true;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final String[] zaa;
         private final ArrayList zab = new ArrayList();
         private final HashMap zac = new HashMap();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DataHolder(int i, String[] strArr, CursorWindow[] cursorWindowArr, int i2, Bundle bundle) {
+    DataHolder(int i, String[] strArr, CursorWindow[] cursorWindowArr, int i2, Bundle bundle) {
         this.zaa = i;
         this.zag = strArr;
         this.zah = cursorWindowArr;

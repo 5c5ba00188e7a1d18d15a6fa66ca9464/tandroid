@@ -65,9 +65,7 @@ public class Camera2Session {
     private boolean opened = false;
     private final Rect cropRegion = new Rect();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends CameraDevice.StateCallback {
+    class 1 extends CameraDevice.StateCallback {
         final /* synthetic */ String val$cameraId;
 
         1(String str) {
@@ -106,9 +104,7 @@ public class Camera2Session {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends CameraCaptureSession.StateCallback {
+    class 2 extends CameraCaptureSession.StateCallback {
         final /* synthetic */ String val$cameraId;
 
         2(String str) {
@@ -160,7 +156,6 @@ public class Camera2Session {
         }
     }
 
-    /* loaded from: classes3.dex */
     class 3 implements ImageReader.OnImageAvailableListener {
         final /* synthetic */ File val$file;
         final /* synthetic */ int val$orientation;
@@ -246,9 +241,7 @@ public class Camera2Session {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class CompareSizesByArea implements Comparator<android.util.Size> {
+    static class CompareSizesByArea implements Comparator<android.util.Size> {
         CompareSizesByArea() {
         }
 

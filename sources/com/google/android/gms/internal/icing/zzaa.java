@@ -6,8 +6,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class zzaa extends zza implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaa(IBinder iBinder) {
+    zzaa(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.appdatasearch.internal.ILightweightAppDataSearch");
     }
 

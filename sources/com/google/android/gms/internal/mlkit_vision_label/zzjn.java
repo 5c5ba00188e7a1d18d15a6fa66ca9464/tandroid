@@ -9,8 +9,7 @@ public final class zzjn {
     private final Long zze;
     private final Long zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzjn(zzjl zzjlVar, zzjm zzjmVar) {
+    /* synthetic */ zzjn(zzjl zzjlVar, zzjm zzjmVar) {
         Long l;
         Long l2;
         Long l3;

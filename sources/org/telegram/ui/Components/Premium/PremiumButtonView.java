@@ -70,9 +70,8 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(0);
         AnimatedTextView animatedTextView = new AnimatedTextView(context, true, true, true) { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 if (PremiumButtonView.this.loadingT > 0.0f) {
                     if (PremiumButtonView.this.loadingDrawable == null) {
                         PremiumButtonView.this.loadingDrawable = new CircularProgressDrawable(PremiumButtonView.this.buttonTextView.getTextColor());
@@ -115,9 +114,8 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         addView(this.buttonLayout);
         if (z) {
             AnimatedTextView animatedTextView2 = new AnimatedTextView(context, true, true, true) { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.2
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     if (PremiumButtonView.this.loadingT > 0.0f) {
                         if (PremiumButtonView.this.loadingDrawable == null) {
                             PremiumButtonView.this.loadingDrawable = new CircularProgressDrawable(PremiumButtonView.this.buttonTextView.getTextColor());

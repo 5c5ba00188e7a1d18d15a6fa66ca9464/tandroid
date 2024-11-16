@@ -4,8 +4,7 @@ package kotlinx.coroutines;
 public abstract class MainCoroutineDispatcher extends CoroutineDispatcher {
     public abstract MainCoroutineDispatcher getImmediate();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final String toStringInternalImpl() {
+    protected final String toStringInternalImpl() {
         MainCoroutineDispatcher mainCoroutineDispatcher;
         MainCoroutineDispatcher main = Dispatchers.getMain();
         if (this == main) {

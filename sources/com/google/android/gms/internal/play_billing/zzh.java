@@ -9,8 +9,7 @@ public abstract class zzh implements IInterface {
     private final IBinder zza;
     private final String zzb = "com.android.vending.billing.IInAppBillingService";
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzh(IBinder iBinder, String str) {
+    protected zzh(IBinder iBinder, String str) {
         this.zza = iBinder;
     }
 
@@ -19,15 +18,13 @@ public abstract class zzh implements IInterface {
         return this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzn() {
+    protected final Parcel zzn() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.zzb);
         return obtain;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zzo(int i, Parcel parcel) {
+    protected final Parcel zzo(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {

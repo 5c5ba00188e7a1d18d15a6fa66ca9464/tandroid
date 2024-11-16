@@ -43,7 +43,7 @@ public class VideoPlayerRewinder {
             long j = currentTimeMillis - VideoPlayerRewinder.this.rewindLastTime;
             VideoPlayerRewinder.this.rewindLastTime = currentTimeMillis;
             float max = Math.max(0.0f, (-VideoPlayerRewinder.this.getRewindSpeed()) * VideoPlayerRewinder.this.playSpeed);
-            VideoPlayerRewinder.access$522(VideoPlayerRewinder.this, ((float) j) * max);
+            VideoPlayerRewinder.access$522(VideoPlayerRewinder.this, (long) (j * max));
             VideoPlayerRewinder videoPlayerRewinder = VideoPlayerRewinder.this;
             videoPlayerRewinder.rewindBackSeekPlayerPosition = Utilities.clamp(videoPlayerRewinder.rewindBackSeekPlayerPosition, duration, 0L);
             VideoPlayerRewinder videoPlayerRewinder2 = VideoPlayerRewinder.this;
@@ -57,10 +57,8 @@ public class VideoPlayerRewinder {
                     videoPlayerRewinder4.seekTo(videoPlayerRewinder4.rewindBackSeekPlayerPosition, false);
                 }
             }
-            long j2 = VideoPlayerRewinder.this.rewindBackSeekPlayerPosition - VideoPlayerRewinder.this.startRewindFrom;
-            float duration2 = ((float) VideoPlayerRewinder.this.rewindBackSeekPlayerPosition) / ((float) VideoPlayerRewinder.this.getDuration());
             VideoPlayerRewinder videoPlayerRewinder5 = VideoPlayerRewinder.this;
-            videoPlayerRewinder5.updateRewindProgressUi(j2, duration2, videoPlayerRewinder5.rewindByBackSeek);
+            videoPlayerRewinder5.updateRewindProgressUi(VideoPlayerRewinder.this.rewindBackSeekPlayerPosition - VideoPlayerRewinder.this.startRewindFrom, VideoPlayerRewinder.this.rewindBackSeekPlayerPosition / VideoPlayerRewinder.this.getDuration(), videoPlayerRewinder5.rewindByBackSeek);
             if (VideoPlayerRewinder.this.rewindBackSeekPlayerPosition == 0 || VideoPlayerRewinder.this.rewindBackSeekPlayerPosition >= duration) {
                 VideoPlayerRewinder videoPlayerRewinder6 = VideoPlayerRewinder.this;
                 if (videoPlayerRewinder6.rewindByBackSeek) {
@@ -256,7 +254,7 @@ public class VideoPlayerRewinder {
     }
 
     public float getVideoProgress() {
-        return ((float) this.rewindBackSeekPlayerPosition) / ((float) getDuration());
+        return this.rewindBackSeekPlayerPosition / getDuration();
     }
 
     protected void onRewindCanceled() {

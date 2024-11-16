@@ -280,7 +280,7 @@ public class AudioPlayerCell extends View implements DownloadController.FileDown
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
-        this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
         if (this.hasMiniProgress != 0) {
             if (this.miniButtonState == 1) {
                 return;

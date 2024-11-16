@@ -54,9 +54,8 @@ public abstract class EditEmojiTextCell extends FrameLayout {
         animatedTextDrawable.setGravity(5);
         this.maxLength = i;
         EditTextEmoji editTextEmoji = new EditTextEmoji(context, sizeNotifierFrameLayout, null, i2, true) { // from class: org.telegram.ui.Cells.EditEmojiTextCell.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEmoji
-            public void extendActionMode(ActionMode actionMode, Menu menu) {
+            protected void extendActionMode(ActionMode actionMode, Menu menu) {
                 int i3 = R.id.menu_bold;
                 if (menu.findItem(i3) != null) {
                     return;

@@ -45,8 +45,7 @@ public final class ComplexColorCompat {
         throw new XmlPullParserException(xml.getPositionDescription() + ": unsupported complex color tag " + name);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ComplexColorCompat from(int i) {
+    static ComplexColorCompat from(int i) {
         return new ComplexColorCompat(null, null, i);
     }
 

@@ -11,9 +11,7 @@ final class FixedFrameRateEstimator {
     private Matcher candidateMatcher = new Matcher();
     private long lastFramePresentationTimeNs = -9223372036854775807L;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Matcher {
+    private static final class Matcher {
         private long firstFrameDurationNs;
         private long firstFramePresentationTimeNs;
         private long frameCount;

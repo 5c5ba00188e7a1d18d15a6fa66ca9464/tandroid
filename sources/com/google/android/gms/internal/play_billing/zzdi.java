@@ -12,9 +12,8 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzdi implements zzdp {
+final class zzdi implements zzdp {
     private static final int[] zza = new int[0];
     private static final Unsafe zzb = zzeq.zzg();
     private final int[] zzc;
@@ -332,7 +331,6 @@ public final class zzdi implements zzdp {
         return zzf;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:65:0x024f  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x026b  */
     /* JADX WARN: Removed duplicated region for block: B:82:0x026e  */
@@ -340,7 +338,7 @@ public final class zzdi implements zzdp {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static zzdi zzl(Class cls, zzdc zzdcVar, zzdk zzdkVar, zzct zzctVar, zzeg zzegVar, zzbo zzboVar, zzda zzdaVar) {
+    static zzdi zzl(Class cls, zzdc zzdcVar, zzdk zzdkVar, zzct zzctVar, zzeg zzegVar, zzbo zzboVar, zzda zzdaVar) {
         int i;
         int charAt;
         int charAt2;
@@ -968,7 +966,6 @@ public final class zzdi implements zzdp {
     
         if (r3 > 0) goto L81;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:11:0x003c. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1996,7 +1993,6 @@ public final class zzdi implements zzdp {
         r5 = r6 << 3;
         r4 = com.google.android.gms.internal.play_billing.zzbi.zzw((java.lang.String) r4);
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:12:0x003b. Please report as an issue. */
     @Override // com.google.android.gms.internal.play_billing.zzdp
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2526,7 +2522,6 @@ public final class zzdi implements zzdp {
     
         if (r3 != null) goto L69;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x001c. Please report as an issue. */
     @Override // com.google.android.gms.internal.play_billing.zzdp
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2807,9 +2802,8 @@ public final class zzdi implements zzdp {
         throw null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Failed to find 'out' block for switch in B:105:0x008b. Please report as an issue. */
-    public final int zzc(Object obj, byte[] bArr, int i, int i2, int i3, zzan zzanVar) {
+    final int zzc(Object obj, byte[] bArr, int i, int i2, int i3, zzan zzanVar) {
         Unsafe unsafe;
         int i4;
         zzdi zzdiVar;
@@ -3616,7 +3610,6 @@ public final class zzdi implements zzdp {
         }
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:5:0x001d. Please report as an issue. */
     @Override // com.google.android.gms.internal.play_billing.zzdp
     public final void zzg(Object obj, Object obj2) {
         zzG(obj);
@@ -4290,7 +4283,6 @@ public final class zzdi implements zzdp {
         }
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:8:0x002a. Please report as an issue. */
     @Override // com.google.android.gms.internal.play_billing.zzdp
     public final void zzi(Object obj, zzey zzeyVar) {
         int i;
@@ -4722,155 +4714,155 @@ public final class zzdi implements zzdp {
                 long j = zzy2 & i2;
                 switch (zzx) {
                     case 0:
-                        if ((i7 & i) == 0) {
+                        if ((i7 & i) != 0) {
+                            zzeyVar.zzf(i8, zzeq.zza(obj, j));
                             break;
                         } else {
-                            zzeyVar.zzf(i8, zzeq.zza(obj, j));
-                            continue;
+                            break;
                         }
                     case 1:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzo(i8, zzeq.zzb(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 2:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzt(i8, unsafe.getLong(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 3:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzJ(i8, unsafe.getLong(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 4:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzr(i8, unsafe.getInt(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 5:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzm(i8, unsafe.getLong(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 6:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzk(i8, unsafe.getInt(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 7:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzb(i8, zzeq.zzw(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 8:
                         if ((i7 & i) != 0) {
                             zzV(i8, unsafe.getObject(obj, j), zzeyVar);
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 9:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzv(i8, unsafe.getObject(obj, j), zzB(i5));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 10:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzd(i8, (zzba) unsafe.getObject(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 11:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzH(i8, unsafe.getInt(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 12:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzi(i8, unsafe.getInt(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 13:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzw(i8, unsafe.getInt(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 14:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzy(i8, unsafe.getLong(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 15:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzA(i8, unsafe.getInt(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 16:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzC(i8, unsafe.getLong(obj, j));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 17:
                         if ((i7 & i) != 0) {
                             zzeyVar.zzq(i8, unsafe.getObject(obj, j), zzB(i5));
                             break;
                         } else {
-                            continue;
+                            break;
                         }
                     case 18:
                         zzdr.zzF(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 19:
                         zzdr.zzJ(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 20:
                         zzdr.zzM(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 21:
                         zzdr.zzU(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 22:
                         zzdr.zzL(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 23:
                         zzdr.zzI(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 24:
                         zzdr.zzH(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 25:
                         zzdr.zzD(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar, false);
-                        continue;
+                        break;
                     case 26:
                         zzdr.zzS(this.zzc[i5], (List) unsafe.getObject(obj, j), zzeyVar);
                         break;

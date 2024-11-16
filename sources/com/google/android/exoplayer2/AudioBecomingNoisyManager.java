@@ -13,7 +13,6 @@ final class AudioBecomingNoisyManager {
     private final AudioBecomingNoisyReceiver receiver;
     private boolean receiverRegistered;
 
-    /* loaded from: classes.dex */
     private final class AudioBecomingNoisyReceiver extends BroadcastReceiver implements Runnable {
         private final Handler eventHandler;
         private final EventListener listener;
@@ -38,7 +37,6 @@ final class AudioBecomingNoisyManager {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface EventListener {
         void onAudioBecomingNoisy();
     }

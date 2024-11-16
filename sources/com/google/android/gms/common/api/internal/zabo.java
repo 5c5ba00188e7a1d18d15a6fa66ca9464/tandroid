@@ -6,8 +6,7 @@ import com.google.android.gms.common.api.Api;
 final class zabo implements Runnable {
     final /* synthetic */ zabp zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zabo(zabp zabpVar) {
+    zabo(zabp zabpVar) {
         this.zaa = zabpVar;
     }
 

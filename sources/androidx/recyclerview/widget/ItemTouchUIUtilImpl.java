@@ -5,9 +5,8 @@ import android.os.Build;
 import android.view.View;
 import androidx.core.view.ViewCompat;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class ItemTouchUIUtilImpl implements ItemTouchUIUtil {
+class ItemTouchUIUtilImpl implements ItemTouchUIUtil {
     static final ItemTouchUIUtil INSTANCE = new ItemTouchUIUtilImpl();
 
     ItemTouchUIUtilImpl() {

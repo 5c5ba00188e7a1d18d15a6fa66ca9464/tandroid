@@ -66,7 +66,6 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
     private boolean wasSaved = false;
     private int shiftDp = -4;
 
-    /* loaded from: classes4.dex */
     public static class AdminedChannelsFetcher {
         public final int currentAccount;
         public final boolean for_personal;
@@ -135,8 +134,7 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ChooseChannelFragment extends UniversalFragment {
+    static class ChooseChannelFragment extends UniversalFragment {
         private AdminedChannelsFetcher channels;
         private boolean invalidateAfterPause = false;
         private String query;
@@ -206,9 +204,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             return this.fragmentView;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.UniversalFragment
-        public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+        protected void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
             if (TextUtils.isEmpty(this.query)) {
                 arrayList.add(UItem.asHeader(LocaleController.getString(R.string.EditProfileChannelSelect)));
             }
@@ -251,9 +248,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             return LocaleController.getString(R.string.EditProfileChannelTitle);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.UniversalFragment
-        public void onClick(UItem uItem, View view, int i, float f, float f2) {
+        protected void onClick(UItem uItem, View view, int i, float f, float f2) {
             int i2 = uItem.id;
             if (i2 == 1) {
                 this.whenSelected.run(null);
@@ -280,9 +276,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.UniversalFragment
-        public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
+        protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
             return false;
         }
 
@@ -583,9 +578,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
     public View createView(Context context) {
         boolean z = false;
         EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(R.string.EditProfileFirstName), z, false, -1, this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
-            public void onTextChanged(CharSequence charSequence) {
+            protected void onTextChanged(CharSequence charSequence) {
                 super.onTextChanged(charSequence);
                 UserInfoActivity.this.checkDone(true);
             }
@@ -598,9 +592,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         boolean z2 = false;
         boolean z3 = false;
         EditTextCell editTextCell2 = new EditTextCell(context, LocaleController.getString(R.string.EditProfileLastName), z3, z2, -1, this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
-            public void onTextChanged(CharSequence charSequence) {
+            protected void onTextChanged(CharSequence charSequence) {
                 super.onTextChanged(charSequence);
                 UserInfoActivity.this.checkDone(true);
             }
@@ -609,9 +602,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         editTextCell2.setBackgroundColor(getThemedColor(i));
         this.lastNameEdit.hideKeyboardOnEnter();
         EditTextCell editTextCell3 = new EditTextCell(context, LocaleController.getString(R.string.EditProfileBioHint), true, z2, getMessagesController().getAboutLimit(), this.resourceProvider) { // from class: org.telegram.ui.UserInfoActivity.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
-            public void onTextChanged(CharSequence charSequence) {
+            protected void onTextChanged(CharSequence charSequence) {
                 super.onTextChanged(charSequence);
                 UserInfoActivity.this.checkDone(true);
             }
@@ -661,9 +653,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
+    protected void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter) {
         ArrayList<TLRPC.PrivacyRule> privacyRules;
         arrayList.add(UItem.asHeader(LocaleController.getString(R.string.EditProfileName)));
         arrayList.add(UItem.asCustom(this.firstNameEdit));
@@ -750,9 +741,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public void onClick(UItem uItem, View view, int i, float f, float f2) {
+    protected void onClick(UItem uItem, View view, int i, float f, float f2) {
         BaseFragment openingHoursActivity;
         int i2 = uItem.id;
         if (i2 == 1) {
@@ -811,9 +801,8 @@ public class UserInfoActivity extends UniversalFragment implements NotificationC
         processDone(false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UniversalFragment
-    public boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
+    protected boolean onLongClick(UItem uItem, View view, int i, float f, float f2) {
         return false;
     }
 

@@ -3,11 +3,9 @@ package j$.util.concurrent;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class d extends a implements Iterator {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public d(k[] kVarArr, int i, int i2, ConcurrentHashMap concurrentHashMap) {
+final class d extends a implements Iterator {
+    d(k[] kVarArr, int i, int i2, ConcurrentHashMap concurrentHashMap) {
         super(kVarArr, i, i2, concurrentHashMap);
     }
 

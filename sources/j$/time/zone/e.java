@@ -9,8 +9,7 @@ import java.util.TimeZone;
 final class e extends f {
     private final Set c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public e() {
+    e() {
         LinkedHashSet linkedHashSet = new LinkedHashSet();
         for (String str : TimeZone.getAvailableIDs()) {
             linkedHashSet.add(str);

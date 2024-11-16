@@ -212,9 +212,8 @@ public abstract class TextSelectionHint extends View {
         hideInternal();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         int i;
         Path.Direction direction;
         float f;
@@ -279,9 +278,8 @@ public abstract class TextSelectionHint extends View {
         canvas.restore();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         if (getMeasuredWidth() != this.lastW || this.textLayout == null) {
             Animator animator = this.a;

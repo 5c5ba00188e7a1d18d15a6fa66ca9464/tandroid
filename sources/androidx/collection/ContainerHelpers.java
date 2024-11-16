@@ -6,8 +6,7 @@ abstract class ContainerHelpers {
     static final long[] EMPTY_LONGS = new long[0];
     static final Object[] EMPTY_OBJECTS = new Object[0];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int binarySearch(int[] iArr, int i, int i2) {
+    static int binarySearch(int[] iArr, int i, int i2) {
         int i3 = i - 1;
         int i4 = 0;
         while (i4 <= i3) {
@@ -25,8 +24,7 @@ abstract class ContainerHelpers {
         return i4 ^ (-1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int binarySearch(long[] jArr, int i, long j) {
+    static int binarySearch(long[] jArr, int i, long j) {
         int i2 = i - 1;
         int i3 = 0;
         while (i3 <= i2) {

@@ -57,9 +57,7 @@ public class SelfStoryViewsView extends FrameLayout {
     ViewPagerInner viewPager;
     ContainerView viewPagerContainer;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 4 extends PagerAdapter {
+    class 4 extends PagerAdapter {
         final /* synthetic */ Context val$context;
         final /* synthetic */ StoryViewer val$storyViewer;
 
@@ -123,9 +121,7 @@ public class SelfStoryViewsView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class ContainerView extends FrameLayout implements NestedScrollingParent3 {
+    private class ContainerView extends FrameLayout implements NestedScrollingParent3 {
         private final NestedScrollingParentHelper nestedScrollingParentHelper;
 
         public ContainerView(Context context) {
@@ -187,7 +183,6 @@ public class SelfStoryViewsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public class StoryItemInternal {
         public TL_stories.StoryItem storyItem;
         public StoriesController.UploadingStory uploadingStory;
@@ -201,9 +196,7 @@ public class SelfStoryViewsView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class ViewPagerInner extends ViewPager {
+    private class ViewPagerInner extends ViewPager {
         boolean gesturesEnabled;
 
         public ViewPagerInner(Context context) {

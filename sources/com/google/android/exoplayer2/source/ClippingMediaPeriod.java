@@ -21,7 +21,6 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
     private ClippingSampleStream[] sampleStreams = new ClippingSampleStream[0];
     long startUs;
 
-    /* loaded from: classes.dex */
     private final class ClippingSampleStream implements SampleStream {
         public final SampleStream childStream;
         private boolean sentEos;

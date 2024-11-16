@@ -47,7 +47,6 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
     private final TextView textView;
     private final TextView valueTextView;
 
-    /* loaded from: classes4.dex */
     public interface OnCheckedChangeListener {
         void onCheckedChanged(ArchivedStickerSetCell archivedStickerSetCell, boolean z);
     }

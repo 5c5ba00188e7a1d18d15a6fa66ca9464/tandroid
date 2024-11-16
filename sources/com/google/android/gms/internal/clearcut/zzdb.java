@@ -10,15 +10,13 @@ final class zzdb extends zzcy {
         return (zzcn) zzfd.zzo(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzcy
-    public final void zza(Object obj, long j) {
+    final void zza(Object obj, long j) {
         zzc(obj, j).zzv();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzcy
-    public final void zza(Object obj, Object obj2, long j) {
+    final void zza(Object obj, Object obj2, long j) {
         zzcn zzc = zzc(obj, j);
         zzcn zzc2 = zzc(obj2, j);
         int size = zzc.size();

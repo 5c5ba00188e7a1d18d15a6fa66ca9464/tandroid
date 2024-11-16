@@ -41,9 +41,8 @@ public class VideoCapturerDevice {
     private VideoCapturer videoCapturer;
     private SurfaceTextureHelper videoCapturerSurfaceTextureHelper;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 1 extends MediaProjection.Callback {
+    class 1 extends MediaProjection.Callback {
         1() {
         }
 
@@ -65,9 +64,8 @@ public class VideoCapturerDevice {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 2 implements CameraVideoCapturer.CameraEventsHandler {
+    class 2 implements CameraVideoCapturer.CameraEventsHandler {
         2() {
         }
 
@@ -109,9 +107,8 @@ public class VideoCapturerDevice {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 3 implements CameraVideoCapturer.CameraSwitchHandler {
+    class 3 implements CameraVideoCapturer.CameraSwitchHandler {
         3() {
         }
 

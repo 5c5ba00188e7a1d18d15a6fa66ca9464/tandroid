@@ -4,9 +4,8 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaj implements GoogleApiClient.OnConnectionFailedListener {
+final class zaj implements GoogleApiClient.OnConnectionFailedListener {
     public final int zaa;
     public final GoogleApiClient zab;
     public final GoogleApiClient.OnConnectionFailedListener zac;

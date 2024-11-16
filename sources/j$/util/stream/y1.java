@@ -1,8 +1,7 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class y1 extends t0 {
+final class y1 extends t0 {
     public final /* synthetic */ int h;
     final /* synthetic */ Object i;
 

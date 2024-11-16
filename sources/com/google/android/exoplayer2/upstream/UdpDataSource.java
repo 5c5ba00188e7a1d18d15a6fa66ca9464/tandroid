@@ -22,7 +22,6 @@ public final class UdpDataSource extends BaseDataSource {
     private final int socketTimeoutMillis;
     private Uri uri;
 
-    /* loaded from: classes.dex */
     public static final class UdpDataSourceException extends DataSourceException {
         public UdpDataSourceException(Throwable th, int i) {
             super(th, i);

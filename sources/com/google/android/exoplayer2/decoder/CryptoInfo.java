@@ -17,7 +17,6 @@ public final class CryptoInfo {
     public int numSubSamples;
     private final PatternHolderV24 patternHolder;
 
-    /* loaded from: classes.dex */
     private static final class PatternHolderV24 {
         private final MediaCodec.CryptoInfo frameworkCryptoInfo;
         private final MediaCodec.CryptoInfo.Pattern pattern;

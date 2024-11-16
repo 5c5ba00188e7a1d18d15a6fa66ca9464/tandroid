@@ -103,9 +103,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     private static Paint linkBackgroundInactive = new Paint(1);
     private static Paint dragPaint = new Paint(1);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 implements RecyclerListView.OnItemClickListener {
+    class 3 implements RecyclerListView.OnItemClickListener {
         3() {
         }
 
@@ -209,9 +207,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
 
@@ -301,14 +297,14 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
             if (i == 1) {
                 ChangeUsernameActivity changeUsernameActivity = ChangeUsernameActivity.this;
-                return new RecyclerListView.Holder(new UsernameHelpCell(changeUsernameActivity.getContext()));
+                return new RecyclerListView.Holder(changeUsernameActivity.new UsernameHelpCell(changeUsernameActivity.getContext()));
             }
             if (i == 2) {
                 return new RecyclerListView.Holder(new TextInfoPrivacyCell(ChangeUsernameActivity.this.getContext()));
             }
             if (i == 3) {
                 ChangeUsernameActivity changeUsernameActivity2 = ChangeUsernameActivity.this;
-                return new RecyclerListView.Holder(new InputCell(changeUsernameActivity2.getContext()));
+                return new RecyclerListView.Holder(changeUsernameActivity2.new InputCell(changeUsernameActivity2.getContext()));
             }
             if (i != 4) {
                 return null;
@@ -345,8 +341,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class InputCell extends FrameLayout {
+    class InputCell extends FrameLayout {
         public EditTextBoldCursor field;
         public TextView tme;
 
@@ -402,7 +397,7 @@ public class ChangeUsernameActivity extends BaseFragment {
                         int indexOf = formatString.indexOf(str);
                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(formatString);
                         if (indexOf >= 0) {
-                            spannableStringBuilder.setSpan(new LinkSpan(str), indexOf, str.length() + indexOf, 33);
+                            spannableStringBuilder.setSpan(ChangeUsernameActivity.this.new LinkSpan(str), indexOf, str.length() + indexOf, 33);
                         }
                     }
                 }
@@ -465,7 +460,6 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         private String url;
 
@@ -492,7 +486,6 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         public TouchHelperCallback() {
         }
@@ -548,7 +541,6 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class UsernameCell extends FrameLayout {
         public boolean active;
         private AnimatedFloat activeFloat;
@@ -780,8 +772,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class UsernameHelpCell extends FrameLayout {
+    class UsernameHelpCell extends FrameLayout {
         private Integer height;
         private ValueAnimator heightUpdateAnimator;
         private LinkSpanDrawable.LinksTextView text1View;
@@ -811,7 +802,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             this.text1View.setPadding(AndroidUtilities.dp(3.0f), 0, AndroidUtilities.dp(3.0f), 0);
             LinkSpanDrawable.LinksTextView linksTextView6 = ChangeUsernameActivity.this.statusTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.ChangeUsernameActivity.UsernameHelpCell.1
                 /* JADX WARN: Multi-variable type inference failed */
-                /* JADX WARN: Type inference failed for: r6v0, types: [org.telegram.ui.Components.LinkSpanDrawable$LinksTextView, org.telegram.ui.ChangeUsernameActivity$UsernameHelpCell$1] */
+                /* JADX WARN: Type inference failed for: r6v0, types: [org.telegram.ui.ChangeUsernameActivity$UsernameHelpCell$1, org.telegram.ui.Components.LinkSpanDrawable$LinksTextView] */
                 /* JADX WARN: Type inference failed for: r7v0, types: [java.lang.CharSequence] */
                 /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.CharSequence] */
                 /* JADX WARN: Type inference failed for: r7v3, types: [android.text.SpannableStringBuilder] */
@@ -1479,9 +1470,8 @@ public class ChangeUsernameActivity extends BaseFragment {
         this.listView = new RecyclerListView(context) { // from class: org.telegram.ui.ChangeUsernameActivity.2
             private Paint backgroundPaint = new Paint(1);
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 int childAdapterPosition;
                 int size = ChangeUsernameActivity.this.usernames.size() + 3;
                 int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;

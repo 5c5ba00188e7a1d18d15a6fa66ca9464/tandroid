@@ -86,10 +86,10 @@ final class o extends a2 {
             case 0:
                 this.c = null;
                 this.a.m();
-                return;
+                break;
             default:
                 super.m();
-                return;
+                break;
         }
     }
 
@@ -99,16 +99,16 @@ final class o extends a2 {
             case 0:
                 this.c = new HashSet();
                 this.a.n(-1L);
-                return;
+                break;
             case 2:
                 this.a.n(-1L);
-                return;
+                break;
             case 7:
                 this.a.n(-1L);
-                return;
+                break;
             default:
                 super.n(j);
-                return;
+                break;
         }
     }
 }

@@ -96,8 +96,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     private int usersStartRow;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Button extends FrameLayout {
+    static class Button extends FrameLayout {
         private ShapeDrawable background;
         float countAlpha;
         AnimatedFloat countAlphaAnimated;
@@ -364,7 +363,6 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class HeaderCell extends FrameLayout {
         public AnimatedTextView actionTextView;
         public AnimatedTextView textView;
@@ -427,18 +425,14 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TitleCell extends FrameLayout {
+    private class TitleCell extends FrameLayout {
         private boolean already;
         private FoldersPreview preview;
         private TextView subtitleTextView;
         private String title;
         private TextView titleTextView;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class FoldersPreview extends View {
+        private class FoldersPreview extends View {
             AnimatedTextView.AnimatedTextDrawable countText;
             StaticLayout leftFolder;
             StaticLayout leftFolder2;
@@ -1643,7 +1637,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                     if (!(FolderBottomSheet.this.invite instanceof TL_chatlists.TL_chatlists_chatlistInviteAlready) && FolderBottomSheet.this.updates == null) {
                         z = false;
                     }
-                    view = folderBottomSheet.titleCell = new TitleCell(context, z, FolderBottomSheet.this.escapedTitle);
+                    view = folderBottomSheet.titleCell = folderBottomSheet2.new TitleCell(context, z, FolderBottomSheet.this.escapedTitle);
                 } else {
                     if (i == 1) {
                         view = new TextInfoPrivacyCell(FolderBottomSheet.this.getContext());

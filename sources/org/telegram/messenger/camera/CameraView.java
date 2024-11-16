@@ -171,86 +171,6 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     private int videoHeight;
     private int videoWidth;
 
-    /* loaded from: classes3.dex */
-    public class 1 implements ValueAnimator.AnimatorUpdateListener {
-        1() {
-        }
-
-        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            boolean z;
-            float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-            if (floatValue < 0.5f) {
-                z = false;
-            } else {
-                floatValue -= 1.0f;
-                z = true;
-            }
-            float f = floatValue * 180.0f;
-            CameraView.this.textureView.setRotationY(f);
-            CameraView.this.blurredStubView.setRotationY(f);
-            if (z) {
-                CameraView cameraView = CameraView.this;
-                if (cameraView.flipHalfReached) {
-                    return;
-                }
-                cameraView.flipHalfReached = true;
-            }
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 2 extends AnimatorListenerAdapter {
-        2() {
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            CameraView cameraView = CameraView.this;
-            cameraView.flipAnimator = null;
-            cameraView.textureView.setTranslationY(0.0f);
-            CameraView.this.textureView.setRotationX(0.0f);
-            CameraView.this.textureView.setRotationY(0.0f);
-            CameraView.this.textureView.setScaleX(1.0f);
-            CameraView.this.textureView.setScaleY(1.0f);
-            CameraView.this.blurredStubView.setRotationY(0.0f);
-            CameraView cameraView2 = CameraView.this;
-            if (!cameraView2.flipHalfReached) {
-                cameraView2.flipHalfReached = true;
-            }
-            cameraView2.invalidate();
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 3 extends AnimatorListenerAdapter {
-        final /* synthetic */ boolean val$show;
-
-        3(boolean z) {
-            r2 = z;
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            CameraView.this.textureView.setAlpha(r2 ? 1.0f : 0.0f);
-            CameraView.this.textureViewAnimator = null;
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 4 extends AnimatorListenerAdapter {
-        4() {
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            super.onAnimationEnd(animator);
-            CameraView.this.blurredStubView.setVisibility(8);
-        }
-    }
-
-    /* loaded from: classes3.dex */
     public class CameraGLThread extends DispatchQueue {
         private static final int EGL_CONTEXT_CLIENT_VERSION = 12440;
         private static final int EGL_OPENGL_ES2_BIT = 4;
@@ -594,26 +514,32 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
             requestRender(false, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1() {
             requestRender(false, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2() {
             requestRender(false, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$3() {
             requestRender(false, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDraw$4() {
             CameraView.this.onFirstFrameRendered(0);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onDraw$5() {
             CameraView.this.onFirstFrameRendered(1);
         }
@@ -867,6 +793,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void updTex(SurfaceTexture surfaceTexture) {
             SurfaceTexture[] surfaceTextureArr = this.cameraSurface;
             if (surfaceTexture == surfaceTextureArr[0]) {
@@ -1212,13 +1139,11 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface CameraViewDelegate {
         void onCameraInit();
     }
 
-    /* loaded from: classes3.dex */
-    public static class EncoderHandler extends Handler {
+    private static class EncoderHandler extends Handler {
         private WeakReference<VideoRecorder> mWeakEncoder;
 
         public EncoderHandler(VideoRecorder videoRecorder) {
@@ -1266,8 +1191,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
-    /* loaded from: classes3.dex */
-    public class VideoRecorder implements Runnable {
+    /* JADX INFO: Access modifiers changed from: private */
+    class VideoRecorder implements Runnable {
         private static final String AUDIO_MIME_TYPE = "audio/mp4a-latm";
         private static final int FRAME_RATE = 30;
         private static final int IFRAME_INTERVAL = 1;
@@ -1337,18 +1262,18 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         private boolean writingToDifferentFile;
         private int zeroTimeStamps;
 
-        /* loaded from: classes3.dex */
-        public class 1 implements Runnable {
+        class 1 implements Runnable {
             1() {
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$run$0(double d) {
                 CameraView.this.receivedAmplitude(d);
             }
 
             /* JADX WARN: Code restructure failed: missing block: B:11:0x0030, code lost:
             
-                if (org.telegram.messenger.camera.CameraView.VideoRecorder.this.sendWhenDone == 0) goto L141;
+                if (r16.this$1.sendWhenDone == 0) goto L66;
              */
             @Override // java.lang.Runnable
             /*
@@ -1457,10 +1382,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             this.recorderRunnable = new 1();
         }
 
-        /* synthetic */ VideoRecorder(CameraView cameraView, 1 r2) {
-            this();
-        }
-
+        /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Code restructure failed: missing block: B:24:0x0062, code lost:
         
             org.telegram.messenger.FileLog.d(r0);
@@ -1590,6 +1512,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void handleStopRecording(int i) {
             if (this.running) {
                 this.sendWhenDone = i;
@@ -1670,6 +1593,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void handleVideoFrameAvailable(long j, Integer num) {
             long j2;
             try {
@@ -1820,6 +1744,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             EGL14.eglSwapBuffers(this.eglDisplay, this.eglSurface);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$drainEncoder$2(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
             try {
                 this.mediaMuxer.writeSampleData(this.videoTrackIndex, byteBuffer, bufferInfo, true);
@@ -1828,6 +1753,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$drainEncoder$3(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
             try {
                 this.mediaMuxer.writeSampleData(this.audioTrackIndex, byteBuffer, bufferInfo, false);
@@ -1836,6 +1762,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$handleStopRecording$0(CountDownLatch countDownLatch) {
             try {
                 this.mediaMuxer.finishMovie();
@@ -1845,6 +1772,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             countDownLatch.countDown();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$handleStopRecording$1() {
             if (CameraView.this.cameraSession[0] != null) {
                 CameraView.this.cameraSession[0].stopVideoRecording();
@@ -1855,6 +1783,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             CameraView.this.onRecordingFinishRunnable.run();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Removed duplicated region for block: B:33:0x010c A[Catch: all -> 0x00ec, TRY_LEAVE, TryCatch #2 {all -> 0x00ec, blocks: (B:23:0x00e1, B:25:0x00e7, B:26:0x00f4, B:27:0x00f6, B:29:0x00fe, B:31:0x0102, B:33:0x010c, B:99:0x00ee), top: B:21:0x00df, outer: #1 }] */
         /* JADX WARN: Removed duplicated region for block: B:45:0x01d7  */
         /* JADX WARN: Removed duplicated region for block: B:87:0x03e9  */
@@ -2083,7 +2012,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             r13.flags = r14.flags;
             r13.presentationTimeUs = r14.presentationTimeUs;
             r8 = org.telegram.messenger.AndroidUtilities.cloneByteBuffer(r8);
-            r17.fileWriteQueue.postRunnable(new org.telegram.messenger.camera.CameraView$VideoRecorder$$ExternalSyntheticLambda1());
+            r17.fileWriteQueue.postRunnable(new org.telegram.messenger.camera.CameraView$VideoRecorder$$ExternalSyntheticLambda1(r17, r8, r13));
          */
         /* JADX WARN: Code restructure failed: missing block: B:101:0x020f, code lost:
         
@@ -2091,7 +2020,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:102:0x021a, code lost:
         
-            if ((r17.audioBufferInfo.flags & 4) == 0) goto L360;
+            if ((r17.audioBufferInfo.flags & 4) == 0) goto L177;
          */
         /* JADX WARN: Code restructure failed: missing block: B:104:?, code lost:
         
@@ -2111,7 +2040,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:114:0x01be, code lost:
         
-            if (r17.audioTrackIndex != (-5)) goto L353;
+            if (r17.audioTrackIndex != (-5)) goto L170;
          */
         /* JADX WARN: Code restructure failed: missing block: B:116:0x01c0, code lost:
         
@@ -2119,7 +2048,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:123:0x01aa, code lost:
         
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L351;
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L168;
          */
         /* JADX WARN: Code restructure failed: missing block: B:124:0x01ac, code lost:
         
@@ -2127,15 +2056,15 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:128:0x0195, code lost:
         
-            if (r18 == false) goto L346;
+            if (r18 == false) goto L163;
          */
         /* JADX WARN: Code restructure failed: missing block: B:130:0x0199, code lost:
         
-            if (r17.running != false) goto L276;
+            if (r17.running != false) goto L93;
          */
         /* JADX WARN: Code restructure failed: missing block: B:132:0x019d, code lost:
         
-            if (r17.sendWhenDone != 0) goto L276;
+            if (r17.sendWhenDone != 0) goto L93;
          */
         /* JADX WARN: Code restructure failed: missing block: B:134:?, code lost:
         
@@ -2151,7 +2080,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:76:0x0185, code lost:
         
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L363;
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L180;
          */
         /* JADX WARN: Code restructure failed: missing block: B:78:0x01ac, code lost:
         
@@ -2163,23 +2092,23 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:81:0x0193, code lost:
         
-            if (r2 != (-1)) goto L279;
+            if (r2 != (-1)) goto L96;
          */
         /* JADX WARN: Code restructure failed: missing block: B:83:0x01a6, code lost:
         
-            if (r2 != (-3)) goto L350;
+            if (r2 != (-3)) goto L167;
          */
         /* JADX WARN: Code restructure failed: missing block: B:86:0x01b4, code lost:
         
-            if (r2 != (-2)) goto L345;
+            if (r2 != (-2)) goto L162;
          */
         /* JADX WARN: Code restructure failed: missing block: B:89:0x01cb, code lost:
         
-            if (r2 < 0) goto L359;
+            if (r2 < 0) goto L176;
          */
         /* JADX WARN: Code restructure failed: missing block: B:92:0x01cf, code lost:
         
-            if (android.os.Build.VERSION.SDK_INT >= 21) goto L294;
+            if (android.os.Build.VERSION.SDK_INT >= 21) goto L111;
          */
         /* JADX WARN: Code restructure failed: missing block: B:93:0x01d1, code lost:
         
@@ -2187,7 +2116,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:94:0x01da, code lost:
         
-            if (r8 == null) goto L357;
+            if (r8 == null) goto L174;
          */
         /* JADX WARN: Code restructure failed: missing block: B:95:0x01dc, code lost:
         
@@ -2195,7 +2124,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:96:0x01e2, code lost:
         
-            if ((r13.flags & 2) == 0) goto L299;
+            if ((r13.flags & 2) == 0) goto L116;
          */
         /* JADX WARN: Code restructure failed: missing block: B:97:0x01e4, code lost:
         
@@ -2203,7 +2132,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
          */
         /* JADX WARN: Code restructure failed: missing block: B:99:0x01e8, code lost:
         
-            if (r13.size == 0) goto L302;
+            if (r13.size == 0) goto L119;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2496,6 +2425,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.innerPaint.setColor(ConnectionsManager.DEFAULT_DATACENTER_ID);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void addToDualWait(long j) {
         long currentTimeMillis = System.currentTimeMillis();
         long j2 = this.toggleDualUntil;
@@ -2544,6 +2474,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         return i > i3 ? i3 : i < i2 ? i2 : i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void createCamera(final SurfaceTexture surfaceTexture, final int i) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
@@ -2597,12 +2528,14 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.cameraSession[0] = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$10(CameraGLThread cameraGLThread) {
         updateCameraInfoSize(0);
         cameraGLThread.reinitForNewCamera();
         addToDualWait(350L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$11(int i, CameraSession cameraSession, final CameraGLThread cameraGLThread) {
         if (this.cameraSession[i] != null) {
             if (BuildVars.LOGS_ENABLED) {
@@ -2622,10 +2555,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$12(CameraGLThread cameraGLThread, int i) {
         cameraGLThread.setCurrentSession(this.cameraSession[i], i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$13(final int i, SurfaceTexture surfaceTexture) {
         final CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread == null) {
@@ -2686,12 +2621,14 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$8(CameraGLThread cameraGLThread) {
         updateCameraInfoSize(0);
         cameraGLThread.reinitForNewCamera();
         addToDualWait(350L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createCamera$9(int i, final CameraGLThread cameraGLThread) {
         requestLayout();
         if (this.dual && i == 1 && this.initFirstCameraAfterSecond) {
@@ -2705,11 +2642,13 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$enableDualInternal$0() {
         this.closingDualCamera = false;
         enableDualInternal();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$enableDualInternal$1(Handler handler) {
         this.initFirstCameraAfterSecond = true;
         updateCameraInfoSize(1);
@@ -2719,6 +2658,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         addToDualWait(1200L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7() {
         CameraGLThread cameraGLThread = this.cameraThread;
         if (cameraGLThread != null) {
@@ -2734,10 +2674,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSurfaceTextureDestroyed$5() {
         this.cameraThread = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resetCamera$4() {
         this.inited = false;
         synchronized (this.layoutLock) {
@@ -2747,10 +2689,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.cameraThread.reinitForNewCamera();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showTexture$6(ValueAnimator valueAnimator) {
         this.textureView.setAlpha(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$switchCamera$3() {
         this.inited = false;
         synchronized (this.layoutLock) {
@@ -2760,6 +2704,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.cameraThread.reinitForNewCamera();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$toggleDual$2() {
         this.closingDualCamera = false;
         this.dualCameraAppeared = false;
@@ -2770,6 +2715,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int loadShader(int i, String str) {
         int glCreateShader = GLES20.glCreateShader(i);
         GLES20.glShaderSource(glCreateShader, str);
@@ -2786,6 +2732,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onFirstFrameRendered(int i) {
         if (i != 0) {
             onDualCameraSuccess();
@@ -2794,9 +2741,6 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.flipping = false;
         if (this.blurredStubView.getVisibility() == 0) {
             this.blurredStubView.animate().alpha(0.0f).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.4
-                4() {
-                }
-
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     super.onAnimationEnd(animator);
@@ -2907,7 +2851,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         if (this.flipAnimator != null) {
             canvas.drawColor(-16777216);
         }
@@ -2944,7 +2888,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             canvas.drawCircle(this.cx, this.cy, f * interpolation, this.innerPaint);
             float f2 = this.focusProgress;
             if (f2 < 1.0f) {
-                float f3 = f2 + (((float) j2) / 200.0f);
+                float f3 = f2 + (j2 / 200.0f);
                 this.focusProgress = f3;
                 if (f3 > 1.0f) {
                     this.focusProgress = 1.0f;
@@ -2952,7 +2896,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             } else {
                 float f4 = this.innerAlpha;
                 if (f4 != 0.0f) {
-                    float f5 = f4 - (((float) j2) / 150.0f);
+                    float f5 = f4 - (j2 / 150.0f);
                     this.innerAlpha = f5;
                     if (f5 < 0.0f) {
                         this.innerAlpha = 0.0f;
@@ -2960,7 +2904,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 } else {
                     float f6 = this.outerAlpha;
                     if (f6 != 0.0f) {
-                        float f7 = f6 - (((float) j2) / 150.0f);
+                        float f7 = f6 - (j2 / 150.0f);
                         this.outerAlpha = f7;
                         if (f7 < 0.0f) {
                             this.outerAlpha = 0.0f;
@@ -3119,7 +3063,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.measurementsCount = 0;
     }
@@ -3153,7 +3097,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         CameraSessionWrapper cameraSessionWrapper;
         int width;
         int height;
@@ -3364,7 +3308,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         }
     }
 
-    public void showTexture(boolean z, boolean z2) {
+    public void showTexture(final boolean z, boolean z2) {
         if (this.textureView == null) {
             return;
         }
@@ -3386,15 +3330,9 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         });
         this.textureViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.3
-            final /* synthetic */ boolean val$show;
-
-            3(boolean z3) {
-                r2 = z3;
-            }
-
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
-                CameraView.this.textureView.setAlpha(r2 ? 1.0f : 0.0f);
+                CameraView.this.textureView.setAlpha(z ? 1.0f : 0.0f);
                 CameraView.this.textureViewAnimator = null;
             }
         });
@@ -3432,9 +3370,6 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.textureView.setCameraDistance(r0.getMeasuredHeight() * 4.0f);
         this.blurredStubView.setCameraDistance(r0.getMeasuredHeight() * 4.0f);
         this.flipAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.camera.CameraView.1
-            1() {
-            }
-
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 boolean z;
@@ -3458,9 +3393,6 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             }
         });
         this.flipAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.messenger.camera.CameraView.2
-            2() {
-            }
-
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 super.onAnimationEnd(animator);

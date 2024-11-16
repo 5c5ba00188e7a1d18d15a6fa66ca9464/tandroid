@@ -19,9 +19,7 @@ final class EmojiTextWatcher implements TextWatcher {
     private int mEmojiReplaceStrategy = 0;
     private boolean mEnabled = true;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class InitCallbackImpl extends EmojiCompat.InitCallback {
+    private static class InitCallbackImpl extends EmojiCompat.InitCallback {
         private final Reference mViewRef;
 
         InitCallbackImpl(EditText editText) {
@@ -35,8 +33,7 @@ final class EmojiTextWatcher implements TextWatcher {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiTextWatcher(EditText editText, boolean z) {
+    EmojiTextWatcher(EditText editText, boolean z) {
         this.mEditText = editText;
         this.mExpectInitializedEmojiCompat = z;
     }

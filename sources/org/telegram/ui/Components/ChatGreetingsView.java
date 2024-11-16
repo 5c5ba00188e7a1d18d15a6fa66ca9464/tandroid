@@ -69,9 +69,7 @@ public abstract class ChatGreetingsView extends LinearLayout {
     private boolean visiblePartSet;
     boolean wasDraw;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements ImageReceiver.ImageReceiverDelegate {
+    class 2 implements ImageReceiver.ImageReceiverDelegate {
         final /* synthetic */ Runnable val$whenDone;
         private boolean waited;
 
@@ -124,7 +122,6 @@ public abstract class ChatGreetingsView extends LinearLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Listener {
         void onGreetings(TLRPC.Document document);
     }
@@ -444,9 +441,8 @@ public abstract class ChatGreetingsView extends LinearLayout {
         super.onDetachedFromWindow();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.LinearLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         this.ignoreLayot = true;
         if (!this.preview) {
             this.descriptionView.setVisibility(0);

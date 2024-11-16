@@ -41,9 +41,7 @@ public final class NotificationManagerCompat {
     private static Set sEnabledNotificationListenerPackages = new HashSet();
     private static final Object sLock = new Object();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static boolean areNotificationsEnabled(NotificationManager notificationManager) {
             return notificationManager.areNotificationsEnabled();
         }
@@ -53,9 +51,7 @@ public final class NotificationManagerCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class CancelTask implements Task {
+    private static class CancelTask implements Task {
         final boolean all = false;
         final int id;
         final String packageName;
@@ -81,9 +77,7 @@ public final class NotificationManagerCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class NotifyTask implements Task {
+    private static class NotifyTask implements Task {
         final int id;
         final Notification notif;
         final String packageName;
@@ -106,7 +100,6 @@ public final class NotificationManagerCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class ServiceConnectedEvent {
         final ComponentName componentName;
         final IBinder iBinder;
@@ -117,18 +110,14 @@ public final class NotificationManagerCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class SideChannelManager implements Handler.Callback, ServiceConnection {
+    private static class SideChannelManager implements Handler.Callback, ServiceConnection {
         private final Context mContext;
         private final Handler mHandler;
         private final HandlerThread mHandlerThread;
         private final Map mRecordMap = new HashMap();
         private Set mCachedEnabledPackages = new HashSet();
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static class ListenerRecord {
+        private static class ListenerRecord {
             final ComponentName componentName;
             INotificationSideChannel service;
             boolean bound = false;
@@ -341,9 +330,7 @@ public final class NotificationManagerCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface Task {
+    private interface Task {
         void send(INotificationSideChannel iNotificationSideChannel);
     }
 

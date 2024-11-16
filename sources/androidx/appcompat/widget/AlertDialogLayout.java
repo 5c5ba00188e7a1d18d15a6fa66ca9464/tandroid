@@ -137,13 +137,12 @@ public class AlertDialogLayout extends LinearLayoutCompat {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:25:0x00a7  */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         int i5;
         int i6;
         int paddingLeft = getPaddingLeft();
@@ -192,9 +191,8 @@ public class AlertDialogLayout extends LinearLayoutCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         if (tryOnMeasure(i, i2)) {
             return;
         }

@@ -18,9 +18,7 @@ public class FireworksEffect {
     private ArrayList particles = new ArrayList();
     private ArrayList freeParticles = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Particle {
+    private class Particle {
         float alpha;
         int color;
         float currentTime;
@@ -78,7 +76,7 @@ public class FireworksEffect {
                 float f3 = particle.x;
                 float f4 = particle.vx;
                 float f5 = particle.velocity;
-                float f6 = (float) j;
+                float f6 = j;
                 particle.x = f3 + (((f4 * f5) * f6) / 500.0f);
                 float f7 = particle.y;
                 float f8 = particle.vy;

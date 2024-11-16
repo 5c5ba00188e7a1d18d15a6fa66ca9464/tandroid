@@ -16,7 +16,6 @@ public class SessionContext {
     private final NavigableMap mSessions = new TreeMap();
     private final long mAppLaunchTimestamp = System.currentTimeMillis();
 
-    /* loaded from: classes.dex */
     public static class SessionInfo {
         private final long mAppLaunchTimestamp;
         private final UUID mSessionId;

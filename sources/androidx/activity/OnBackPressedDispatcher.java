@@ -20,9 +20,7 @@ public final class OnBackPressedDispatcher {
     final ArrayDeque mOnBackPressedCallbacks = new ArrayDeque();
     private boolean mBackInvokedCallbackRegistered = false;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api33Impl {
+    static class Api33Impl {
         static OnBackInvokedCallback createOnBackInvokedCallback(Runnable runnable) {
             Objects.requireNonNull(runnable);
             return new OnBackPressedDispatcher$Api33Impl$$ExternalSyntheticLambda0(runnable);
@@ -37,7 +35,6 @@ public final class OnBackPressedDispatcher {
         }
     }
 
-    /* loaded from: classes.dex */
     private class LifecycleOnBackPressedCancellable implements LifecycleEventObserver, Cancellable {
         private Cancellable mCurrentCancellable;
         private final Lifecycle mLifecycle;
@@ -79,9 +76,7 @@ public final class OnBackPressedDispatcher {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class OnBackPressedCancellable implements Cancellable {
+    private class OnBackPressedCancellable implements Cancellable {
         private final OnBackPressedCallback mOnBackPressedCallback;
 
         OnBackPressedCancellable(OnBackPressedCallback onBackPressedCallback) {

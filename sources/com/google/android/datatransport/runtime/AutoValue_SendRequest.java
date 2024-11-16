@@ -13,13 +13,15 @@ final class AutoValue_SendRequest extends SendRequest {
     private final TransportContext transportContext;
     private final String transportName;
 
-    /* loaded from: classes.dex */
     static final class Builder extends SendRequest.Builder {
         private Encoding encoding;
         private Event event;
         private Transformer transformer;
         private TransportContext transportContext;
         private String transportName;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.runtime.SendRequest.Builder
         public SendRequest build() {

@@ -30,9 +30,7 @@ final class MultiDexExtractor implements Closeable {
     private final File sourceApk;
     private final long sourceCrc;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ExtractedDex extends File {
+    private static class ExtractedDex extends File {
         public long crc;
 
         public ExtractedDex(File file, String str) {
@@ -41,8 +39,7 @@ final class MultiDexExtractor implements Closeable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MultiDexExtractor(File file, File file2) {
+    MultiDexExtractor(File file, File file2) {
         Log.i("MultiDex", "MultiDexExtractor(" + file.getPath() + ", " + file2.getPath() + ")");
         this.sourceApk = file;
         this.dexDir = file2;
@@ -294,8 +291,7 @@ final class MultiDexExtractor implements Closeable {
         this.lockRaf.close();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public List load(Context context, String str, boolean z) {
+    List load(Context context, String str, boolean z) {
         List list;
         Log.i("MultiDex", "MultiDexExtractor.load(" + this.sourceApk.getPath() + ", " + z + ", " + str + ")");
         if (!this.cacheLock.isValid()) {

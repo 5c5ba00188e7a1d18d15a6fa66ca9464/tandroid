@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zzl extends com.google.android.gms.internal.maps.zza implements IMapViewDelegate {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzl(IBinder iBinder) {
+    zzl(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.internal.IMapViewDelegate");
     }
 

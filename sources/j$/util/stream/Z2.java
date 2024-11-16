@@ -6,6 +6,9 @@ import j$.util.function.Consumer;
 final class Z2 extends a3 implements Consumer {
     final Object[] b = new Object[128];
 
+    Z2() {
+    }
+
     @Override // j$.util.function.Consumer
     public final void accept(Object obj) {
         int i = this.a;

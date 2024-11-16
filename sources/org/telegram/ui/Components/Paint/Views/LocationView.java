@@ -26,7 +26,6 @@ public class LocationView extends EntityView {
     public final LocationMarker marker;
     public TL_stories.MediaArea mediaArea;
 
-    /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;

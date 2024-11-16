@@ -4,16 +4,13 @@ import j$.util.function.BiConsumer;
 import j$.util.function.LongFunction;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class h0 extends b implements LongStream {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public h0(j$.util.Q q, int i) {
+abstract class h0 extends b implements LongStream {
+    h0(j$.util.Q q, int i) {
         super(q, i, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public h0(b bVar, int i) {
+    h0(b bVar, int i) {
         super(bVar, i);
     }
 
@@ -187,9 +184,8 @@ public abstract class h0 extends b implements LongStream {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final T2 q0() {
+    final T2 q0() {
         return T2.LONG_VALUE;
     }
 
@@ -248,9 +244,8 @@ public abstract class h0 extends b implements LongStream {
         return new w(this, S2.p | S2.n, f0Var, 2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final x0 v0(long j, j$.util.function.I i) {
+    final x0 v0(long j, j$.util.function.I i) {
         return t0.T(j);
     }
 

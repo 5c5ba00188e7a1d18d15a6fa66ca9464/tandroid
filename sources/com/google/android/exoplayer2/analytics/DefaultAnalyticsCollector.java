@@ -50,9 +50,7 @@ public class DefaultAnalyticsCollector implements AnalyticsCollector {
     private Player player;
     private final Timeline.Window window;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaPeriodQueueTracker {
+    private static final class MediaPeriodQueueTracker {
         private MediaSource.MediaPeriodId currentPlayerMediaPeriod;
         private ImmutableList mediaPeriodQueue = ImmutableList.of();
         private ImmutableMap mediaPeriodTimelines = ImmutableMap.of();

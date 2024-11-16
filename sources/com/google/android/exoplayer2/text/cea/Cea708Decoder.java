@@ -40,8 +40,7 @@ public final class Cea708Decoder extends CeaDecoder {
     private int previousSequenceNumber = -1;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Cea708CueInfo {
+    static final class Cea708CueInfo {
         private static final Comparator LEAST_IMPORTANT_FIRST = new Comparator() { // from class: com.google.android.exoplayer2.text.cea.Cea708Decoder$Cea708CueInfo$$ExternalSyntheticLambda0
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
@@ -68,9 +67,7 @@ public final class Cea708Decoder extends CeaDecoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CueInfoBuilder {
+    private static final class CueInfoBuilder {
         public static final int COLOR_SOLID_BLACK;
         public static final int COLOR_SOLID_WHITE = getArgbColorFromCeaColor(2, 2, 2, 0);
         public static final int COLOR_TRANSPARENT;
@@ -382,9 +379,7 @@ public final class Cea708Decoder extends CeaDecoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DtvCcPacket {
+    private static final class DtvCcPacket {
         int currentIndex = 0;
         public final byte[] packetData;
         public final int packetSize;
@@ -436,7 +431,6 @@ public final class Cea708Decoder extends CeaDecoder {
         if (i != 0) {
             if (i == 3) {
                 this.cues = getDisplayCues();
-                return;
             }
             int i2 = 8;
             if (i == 8) {
@@ -446,33 +440,31 @@ public final class Cea708Decoder extends CeaDecoder {
             switch (i) {
                 case 12:
                     resetCueBuilders();
-                    return;
+                    break;
                 case 13:
                     this.currentCueInfoBuilder.append('\n');
-                    return;
+                    break;
                 case 14:
-                    return;
+                    break;
                 default:
                     if (i >= 17 && i <= 23) {
                         Log.w("Cea708Decoder", "Currently unsupported COMMAND_EXT1 Command: " + i);
                         parsableBitArray = this.captionChannelPacketData;
+                    } else if (i < 24 || i > 31) {
+                        Log.w("Cea708Decoder", "Invalid C0 command: " + i);
+                        break;
                     } else {
-                        if (i < 24 || i > 31) {
-                            Log.w("Cea708Decoder", "Invalid C0 command: " + i);
-                            return;
-                        }
                         Log.w("Cea708Decoder", "Currently unsupported COMMAND_P16 Command: " + i);
                         parsableBitArray = this.captionChannelPacketData;
                         i2 = 16;
                     }
                     parsableBitArray.skipBits(i2);
-                    return;
+                    break;
             }
         }
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0003. Please report as an issue. */
     private void handleC1Command(int i) {
         CueInfoBuilder cueInfoBuilder;
         ParsableBitArray parsableBitArray;
@@ -492,9 +484,9 @@ public final class Cea708Decoder extends CeaDecoder {
                     this.currentWindow = i4;
                     cueInfoBuilder = this.cueInfoBuilders[i4];
                     this.currentCueInfoBuilder = cueInfoBuilder;
-                    return;
+                    break;
                 }
-                return;
+                break;
             case NotificationCenter.fileUploadProgressChanged /* 136 */:
                 while (i3 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
@@ -502,14 +494,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     }
                     i3++;
                 }
-                return;
+                break;
             case NotificationCenter.fileLoadProgressChanged /* 137 */:
                 for (int i5 = 1; i5 <= 8; i5++) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i5].setVisibility(true);
                     }
                 }
-                return;
+                break;
             case NotificationCenter.fileLoaded /* 138 */:
                 while (i3 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
@@ -517,14 +509,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     }
                     i3++;
                 }
-                return;
+                break;
             case NotificationCenter.fileLoadFailed /* 139 */:
                 for (int i6 = 1; i6 <= 8; i6++) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i6].setVisibility(!r2.isVisible());
                     }
                 }
-                return;
+                break;
             case NotificationCenter.filePreparingStarted /* 140 */:
                 while (i3 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
@@ -532,59 +524,61 @@ public final class Cea708Decoder extends CeaDecoder {
                     }
                     i3++;
                 }
-                return;
+                break;
             case NotificationCenter.fileNewChunkAvailable /* 141 */:
                 parsableBitArray = this.captionChannelPacketData;
                 parsableBitArray.skipBits(i2);
-                return;
+                break;
             case NotificationCenter.filePreparingFailed /* 142 */:
-                return;
+                break;
             case NotificationCenter.dialogsUnreadCounterChanged /* 143 */:
                 resetCueBuilders();
-                return;
+                break;
             case NotificationCenter.messagePlayingProgressDidChanged /* 144 */:
                 if (this.currentCueInfoBuilder.isDefined()) {
                     handleSetPenAttributes();
-                    return;
+                    break;
                 }
                 parsableBitArray = this.captionChannelPacketData;
                 i2 = 16;
                 parsableBitArray.skipBits(i2);
-                return;
+                break;
             case NotificationCenter.messagePlayingDidReset /* 145 */:
                 if (this.currentCueInfoBuilder.isDefined()) {
                     handleSetPenColor();
-                    return;
+                    break;
+                } else {
+                    parsableBitArray = this.captionChannelPacketData;
+                    i2 = 24;
+                    parsableBitArray.skipBits(i2);
+                    break;
                 }
-                parsableBitArray = this.captionChannelPacketData;
-                i2 = 24;
-                parsableBitArray.skipBits(i2);
-                return;
             case NotificationCenter.messagePlayingPlayStateChanged /* 146 */:
                 if (this.currentCueInfoBuilder.isDefined()) {
                     handleSetPenLocation();
-                    return;
+                    break;
                 }
                 parsableBitArray = this.captionChannelPacketData;
                 i2 = 16;
                 parsableBitArray.skipBits(i2);
-                return;
+                break;
             case NotificationCenter.messagePlayingDidStart /* 147 */:
             case NotificationCenter.messagePlayingDidSeek /* 148 */:
             case NotificationCenter.messagePlayingGoingToStop /* 149 */:
             case 150:
             default:
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);
-                return;
+                break;
             case NotificationCenter.recordStarted /* 151 */:
                 if (this.currentCueInfoBuilder.isDefined()) {
                     handleSetWindowAttributes();
-                    return;
+                    break;
+                } else {
+                    parsableBitArray = this.captionChannelPacketData;
+                    i2 = 32;
+                    parsableBitArray.skipBits(i2);
+                    break;
                 }
-                parsableBitArray = this.captionChannelPacketData;
-                i2 = 32;
-                parsableBitArray.skipBits(i2);
-                return;
             case NotificationCenter.recordStartError /* 152 */:
             case NotificationCenter.recordStopped /* 153 */:
             case NotificationCenter.recordPaused /* 154 */:
@@ -599,9 +593,9 @@ public final class Cea708Decoder extends CeaDecoder {
                     this.currentWindow = i7;
                     cueInfoBuilder = this.cueInfoBuilders[i7];
                     this.currentCueInfoBuilder = cueInfoBuilder;
-                    return;
+                    break;
                 }
-                return;
+                break;
         }
     }
 
@@ -678,8 +672,6 @@ public final class Cea708Decoder extends CeaDecoder {
         this.currentCueInfoBuilder.append((char) (i & NotificationCenter.notificationsCountUpdated));
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:21:0x0028. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:22:0x002b. Please report as an issue. */
     private void handleG2Character(int i) {
         CueInfoBuilder cueInfoBuilder;
         char c = ' ';

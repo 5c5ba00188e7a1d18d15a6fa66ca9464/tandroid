@@ -2,13 +2,11 @@ package com.google.android.gms.internal.play_billing;
 
 import java.nio.charset.Charset;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class zzax extends zzaw {
+class zzax extends zzaw {
     protected final byte[] zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzax(byte[] bArr) {
+    zzax(byte[] bArr) {
         bArr.getClass();
         this.zza = bArr;
     }
@@ -60,9 +58,8 @@ public class zzax extends zzaw {
         return this.zza[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzba
-    public byte zzb(int i) {
+    byte zzb(int i) {
         return this.zza[i];
     }
 
@@ -91,9 +88,8 @@ public class zzax extends zzaw {
         return new String(this.zza, 0, zzd(), charset);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzba
-    public final void zzh(zzaq zzaqVar) {
+    final void zzh(zzaq zzaqVar) {
         ((zzbf) zzaqVar).zzc(this.zza, 0, zzd());
     }
 

@@ -11,8 +11,7 @@ import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 public final class zze extends LazyInstanceMap {
     private final MlKitContext zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zze(MlKitContext mlKitContext) {
+    zze(MlKitContext mlKitContext) {
         this.zza = mlKitContext;
     }
 

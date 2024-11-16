@@ -33,8 +33,7 @@ public abstract class ChatActivityContainer extends FrameLayout {
         chatActivity.isInsideContainer = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void initChatActivity() {
+    protected void initChatActivity() {
         if (this.chatActivity.onFragmentCreate()) {
             ChatActivity chatActivity = this.chatActivity;
             this.fragmentView = chatActivity.fragmentView;

@@ -46,9 +46,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ExoPlayerImplInternal implements Handler.Callback, MediaPeriod.Callback, TrackSelector.InvalidationListener, MediaSourceList.MediaSourceListInfoRefreshListener, DefaultMediaClock.PlaybackParametersListener, PlayerMessage.Sender {
+final class ExoPlayerImplInternal implements Handler.Callback, MediaPeriod.Callback, TrackSelector.InvalidationListener, MediaSourceList.MediaSourceListInfoRefreshListener, DefaultMediaClock.PlaybackParametersListener, PlayerMessage.Sender {
     private final long backBufferDurationUs;
     private final BandwidthMeter bandwidthMeter;
     private final Clock clock;
@@ -93,9 +92,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
     private final TrackSelector trackSelector;
     private final Timeline.Window window;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaSourceListUpdateMessage {
+    private static final class MediaSourceListUpdateMessage {
         private final List mediaSourceHolders;
         private final long positionUs;
         private final ShuffleOrder shuffleOrder;
@@ -109,13 +106,10 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         }
     }
 
-    /* loaded from: classes.dex */
     private static class MoveMediaItemsMessage {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class PendingMessageInfo implements Comparable {
+    private static final class PendingMessageInfo implements Comparable {
         public final PlayerMessage message;
         public int resolvedPeriodIndex;
         public long resolvedPeriodTimeUs;
@@ -145,7 +139,6 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class PlaybackInfoUpdate {
         public int discontinuityReason;
         private boolean hasPendingChange;
@@ -186,14 +179,11 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         }
     }
 
-    /* loaded from: classes.dex */
     public interface PlaybackInfoUpdateListener {
         void onPlaybackInfoUpdate(PlaybackInfoUpdate playbackInfoUpdate);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class PositionUpdateForPlaylistChange {
+    private static final class PositionUpdateForPlaylistChange {
         public final boolean endPlayback;
         public final boolean forceBufferingState;
         public final MediaSource.MediaPeriodId periodId;
@@ -211,9 +201,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SeekPosition {
+    private static final class SeekPosition {
         public final Timeline timeline;
         public final int windowIndex;
         public final long windowPositionUs;
@@ -1715,8 +1703,7 @@ public final class ExoPlayerImplInternal implements Handler.Callback, MediaPerio
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object resolveSubsequentPeriod(Timeline.Window window, Timeline.Period period, int i, boolean z, Object obj, Timeline timeline, Timeline timeline2) {
+    static Object resolveSubsequentPeriod(Timeline.Window window, Timeline.Period period, int i, boolean z, Object obj, Timeline timeline, Timeline timeline2) {
         int indexOfPeriod = timeline.getIndexOfPeriod(obj);
         int periodCount = timeline.getPeriodCount();
         int i2 = indexOfPeriod;

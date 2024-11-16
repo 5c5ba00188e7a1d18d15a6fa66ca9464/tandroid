@@ -10,7 +10,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public interface TsPayloadReader {
 
-    /* loaded from: classes.dex */
     public static final class DvbSubtitleInfo {
         public final byte[] initializationData;
         public final String language;
@@ -23,7 +22,6 @@ public interface TsPayloadReader {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class EsInfo {
         public final byte[] descriptorBytes;
         public final List dvbSubtitleInfos;
@@ -38,14 +36,12 @@ public interface TsPayloadReader {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Factory {
         SparseArray createInitialPayloadReaders();
 
         TsPayloadReader createPayloadReader(int i, EsInfo esInfo);
     }
 
-    /* loaded from: classes.dex */
     public static final class TrackIdGenerator {
         private final int firstTrackId;
         private String formatId;

@@ -101,7 +101,7 @@ public class MessageBackgroundDrawable extends Drawable {
             }
             this.lastAnimationTime = elapsedRealtime;
             if (this.isSelected) {
-                float f8 = this.currentAnimationProgress + (((float) j) / 240.0f);
+                float f8 = this.currentAnimationProgress + (j / 240.0f);
                 this.currentAnimationProgress = f8;
                 if (f8 >= 1.0f) {
                     this.currentAnimationProgress = 1.0f;
@@ -113,7 +113,7 @@ public class MessageBackgroundDrawable extends Drawable {
                 }
                 invalidate();
             }
-            float f9 = this.currentAnimationProgress - (((float) j) / 240.0f);
+            float f9 = this.currentAnimationProgress - (j / 240.0f);
             this.currentAnimationProgress = f9;
             if (f9 <= 0.0f) {
                 this.currentAnimationProgress = 0.0f;

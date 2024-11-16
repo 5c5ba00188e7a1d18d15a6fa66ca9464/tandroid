@@ -4,8 +4,7 @@ import android.os.Process;
 
 /* loaded from: classes.dex */
 final class zza extends Thread {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(ThreadGroup threadGroup, String str) {
+    zza(ThreadGroup threadGroup, String str) {
         super(threadGroup, "GmsDynamite");
     }
 

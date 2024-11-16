@@ -251,9 +251,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     private String voiceChatHash;
     private boolean waitingForScrollFinished;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 10 extends LinearLayoutManager {
+    class 10 extends LinearLayoutManager {
         private boolean fixOffset;
 
         10(Context context) {
@@ -448,9 +446,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 16 implements View.OnClickListener {
+    class 16 implements View.OnClickListener {
         16() {
         }
 
@@ -479,9 +475,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 extends ActionBar.ActionBarMenuOnItemClick {
+    class 2 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
         2(Context context) {
@@ -748,9 +742,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 20 implements DialogInterface.OnClickListener {
+    class 20 implements DialogInterface.OnClickListener {
         final /* synthetic */ Runnable val$runnable;
         final /* synthetic */ HashSet val$selectedTopics;
         final /* synthetic */ ArrayList val$topicsToRemove;
@@ -800,9 +792,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 22 implements ChatNotificationsPopupWrapper.Callback {
+    class 22 implements ChatNotificationsPopupWrapper.Callback {
         final /* synthetic */ TLRPC.TL_forumTopic val$topic;
 
         22(TLRPC.TL_forumTopic tL_forumTopic) {
@@ -894,9 +884,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 7 extends DefaultItemAnimator {
+    class 7 extends DefaultItemAnimator {
         Runnable finishRunnable;
         int scrollAnimationIndex;
 
@@ -964,9 +952,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             AndroidUtilities.runOnUIThread(runnable2);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.DefaultItemAnimator
-        public void onAllAnimationsDone() {
+        protected void onAllAnimationsDone() {
             super.onAllAnimationsDone();
             Runnable runnable = this.finishRunnable;
             if (runnable != null) {
@@ -984,9 +971,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends AdapterWithDiffUtils {
+    private class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
 
@@ -1050,7 +1035,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             if (i == 0) {
-                TopicDialogCell topicDialogCell = new TopicDialogCell(null, viewGroup.getContext(), true, false);
+                TopicDialogCell topicDialogCell = TopicsFragment.this.new TopicDialogCell(null, viewGroup.getContext(), true, false);
                 topicDialogCell.inPreviewMode = ((BaseFragment) TopicsFragment.this).inPreviewMode;
                 topicDialogCell.setArchivedPullAnimation(TopicsFragment.this.pullForegroundDrawable);
                 return new RecyclerListView.Holder(topicDialogCell);
@@ -1107,7 +1092,6 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
     private class EmptyViewContainer extends FrameLayout {
         boolean increment;
         float progress;
@@ -1161,9 +1145,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Item extends AdapterWithDiffUtils.Item {
+    private class Item extends AdapterWithDiffUtils.Item {
         TLRPC.TL_forumTopic topic;
 
         public Item(int i, TLRPC.TL_forumTopic tL_forumTopic) {
@@ -1185,8 +1167,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class MessagesSearchContainer extends ViewPagerFixed implements FilteredSearchView.UiCallback {
+    class MessagesSearchContainer extends ViewPagerFixed implements FilteredSearchView.UiCallback {
         boolean canLoadMore;
         SearchViewPager.ChatPreviewDelegate chatPreviewDelegate;
         StickerEmptyView emptyView;
@@ -1213,9 +1194,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         int topicsStartRow;
         private ViewPagerAdapter viewPagerAdapter;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class Item {
+        class Item {
             int filterIndex;
             private final int type;
 
@@ -1224,9 +1203,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+        private class SearchAdapter extends RecyclerListView.SelectionAdapter {
             private SearchAdapter() {
             }
 
@@ -1295,7 +1272,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
 
             /* JADX WARN: Multi-variable type inference failed */
-            /* JADX WARN: Type inference failed for: r9v5, types: [org.telegram.ui.TopicsFragment$TopicDialogCell, org.telegram.ui.Cells.DialogCell] */
+            /* JADX WARN: Type inference failed for: r9v5, types: [org.telegram.ui.Cells.DialogCell, org.telegram.ui.TopicsFragment$TopicDialogCell] */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 FrameLayout frameLayout;
@@ -1307,7 +1284,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     if (i != 3) {
                         throw new RuntimeException("unsupported view type");
                     }
-                    ?? topicDialogCell = new TopicDialogCell(null, viewGroup.getContext(), false, true);
+                    ?? topicDialogCell = TopicsFragment.this.new TopicDialogCell(null, viewGroup.getContext(), false, true);
                     topicDialogCell.inPreviewMode = ((BaseFragment) TopicsFragment.this).inPreviewMode;
                     frameLayout = topicDialogCell;
                 }
@@ -1316,9 +1293,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
+        private class ViewPagerAdapter extends ViewPagerFixed.Adapter {
             ArrayList items;
 
             public ViewPagerAdapter() {
@@ -1736,12 +1711,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface OnTopicSelectedListener {
         void onTopicSelected(TLRPC.TL_forumTopic tL_forumTopic);
     }
 
-    /* loaded from: classes4.dex */
     public class TopicDialogCell extends DialogCell {
         private AnimatedEmojiDrawable animatedEmojiDrawable;
         boolean attached;
@@ -1825,9 +1798,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             return this.closed;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Cells.DialogCell, android.view.ViewGroup, android.view.View
-        public void onAttachedToWindow() {
+        protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             this.attached = true;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
@@ -1836,9 +1808,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Cells.DialogCell, android.view.ViewGroup, android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             this.attached = false;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
@@ -1847,9 +1818,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Cells.DialogCell, android.view.View
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             PullForegroundDrawable pullForegroundDrawable;
             float f;
             float measuredHeight;
@@ -1986,8 +1956,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class TopicsRecyclerView extends BlurredRecyclerView {
+    class TopicsRecyclerView extends BlurredRecyclerView {
         private boolean firstLayout;
         private boolean ignoreLayout;
         Paint paint;
@@ -2058,15 +2027,13 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             view.setAlpha(1.0f);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView
-        public boolean allowSelectChildAtPosition(View view) {
+        protected boolean allowSelectChildAtPosition(View view) {
             return !(view instanceof HeaderCell) || view.isClickable();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             if (TopicsFragment.this.generalTopicViewMoving != null) {
                 canvas.save();
                 canvas.translate(TopicsFragment.this.generalTopicViewMoving.getLeft(), TopicsFragment.this.generalTopicViewMoving.getY());
@@ -2107,9 +2074,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             return this.viewOffset;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
         }
 
@@ -2144,9 +2110,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             return super.onInterceptTouchEvent(motionEvent);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             super.onLayout(z, i, i2, i3, i4);
             if ((TopicsFragment.this.dialogRemoveFinished == 0 && TopicsFragment.this.dialogInsertFinished == 0 && TopicsFragment.this.dialogChangeFinished == 0) || TopicsFragment.this.itemAnimator.isRunning()) {
                 return;
@@ -2154,9 +2119,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             TopicsFragment.this.onDialogAnimationFinished();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             if (this.firstLayout && TopicsFragment.this.getMessagesController().dialogsLoaded) {
                 if (TopicsFragment.this.hiddenCount > 0) {
                     this.ignoreLayout = true;
@@ -2222,7 +2186,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                             TopicsFragment.TopicsRecyclerView.this.lambda$onTouchEvent$0(valueAnimator);
                         }
                     });
-                    ofFloat.setDuration(Math.max(100L, 350.0f - ((getViewOffset() / PullForegroundDrawable.getMaxOverscroll()) * 120.0f)));
+                    ofFloat.setDuration(Math.max(100L, (long) (350.0f - ((getViewOffset() / PullForegroundDrawable.getMaxOverscroll()) * 120.0f))));
                     ofFloat.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                     setScrollEnabled(false);
                     ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.TopicsFragment.TopicsRecyclerView.1
@@ -2275,7 +2239,6 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         private RecyclerView.ViewHolder currentItemViewHolder;
         private boolean swipeFolderBack;
@@ -3600,9 +3563,8 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 this.actionBarPaint = new Paint();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (TopicsFragment.this.isInPreviewMode()) {
                     this.actionBarPaint.setColor(TopicsFragment.this.getThemedColor(Theme.key_windowBackgroundWhite));
@@ -3633,10 +3595,9 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 return super.drawChild(canvas, view, j);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Multi-variable type inference failed */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
+            protected void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
                 for (int i2 = 0; i2 < TopicsFragment.this.recyclerListView.getChildCount(); i2++) {
                     View childAt = TopicsFragment.this.recyclerListView.getChildAt(i2);
                     if (childAt.getY() < AndroidUtilities.dp(100.0f) && childAt.getVisibility() == 0) {
@@ -3655,14 +3616,13 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 return (int) (((BaseFragment) TopicsFragment.this).actionBar.getHeight() + (((TopicsFragment.this.searchTabsView == null || TopicsFragment.this.searchTabsView.getVisibility() == 8) ? 0.0f : TopicsFragment.this.searchTabsView.getMeasuredHeight()) * TopicsFragment.this.searchAnimationProgress));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:15:0x0066  */
             /* JADX WARN: Removed duplicated region for block: B:34:0x00c8  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;

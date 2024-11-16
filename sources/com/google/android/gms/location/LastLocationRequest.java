@@ -17,7 +17,6 @@ public final class LastLocationRequest extends AbstractSafeParcelable {
     private final String zzd;
     private final zzd zze;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private long zza = Long.MAX_VALUE;
         private int zzb = 0;
@@ -30,8 +29,7 @@ public final class LastLocationRequest extends AbstractSafeParcelable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LastLocationRequest(long j, int i, boolean z, String str, zzd zzdVar) {
+    LastLocationRequest(long j, int i, boolean z, String str, zzd zzdVar) {
         this.zza = j;
         this.zzb = i;
         this.zzc = z;

@@ -15,8 +15,7 @@ public final class LoyaltyPointsBalance extends AbstractSafeParcelable {
     long zze;
     int zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LoyaltyPointsBalance(int i, String str, double d, String str2, long j, int i2) {
+    LoyaltyPointsBalance(int i, String str, double d, String str2, long j, int i2) {
         this.zza = i;
         this.zzb = str;
         this.zzc = d;

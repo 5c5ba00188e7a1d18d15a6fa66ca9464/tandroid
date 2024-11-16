@@ -60,9 +60,7 @@ public abstract class VideoTimelinePlayView extends View {
     private int videoWidth;
     private final Paint whitePaint;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class BitmapFrame {
+    private static class BitmapFrame {
         float alpha;
         Bitmap bitmap;
 
@@ -71,7 +69,6 @@ public abstract class VideoTimelinePlayView extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface VideoTimelineViewDelegate {
         void didStartDragging(int i);
 
@@ -648,7 +645,7 @@ public abstract class VideoTimelinePlayView extends View {
 
     public void setProgress(float f) {
         long j = this.videoLength;
-        float f2 = j == 0 ? 0.0f : 240.0f / ((float) j);
+        float f2 = j == 0 ? 0.0f : 240.0f / j;
         float f3 = this.playProgress;
         if (f < f3 && f <= this.progressLeft + f2 && f3 + f2 >= this.progressRight) {
             this.loopProgress.set(1.0f, true);

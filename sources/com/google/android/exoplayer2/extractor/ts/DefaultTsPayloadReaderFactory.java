@@ -76,7 +76,6 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
         return new SparseArray();
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:25:0x002e. Please report as an issue. */
     @Override // com.google.android.exoplayer2.extractor.ts.TsPayloadReader.Factory
     public TsPayloadReader createPayloadReader(int i, TsPayloadReader.EsInfo esInfo) {
         if (i != 2) {
@@ -114,32 +113,26 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                 if (i != 135) {
                     switch (i) {
                         case 15:
-                            if (isSet(2)) {
-                                return null;
+                            if (!isSet(2)) {
+                                break;
                             }
-                            return new PesReader(new AdtsReader(false, esInfo.language));
+                            break;
                         case 16:
-                            return new PesReader(new H263Reader(buildUserDataReader(esInfo)));
+                            break;
                         case 17:
-                            if (isSet(2)) {
-                                return null;
+                            if (!isSet(2)) {
+                                break;
                             }
-                            return new PesReader(new LatmReader(esInfo.language));
+                            break;
                         default:
                             switch (i) {
-                                case 128:
-                                    break;
-                                case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
-                                    break;
                                 case NotificationCenter.walletSyncProgressChanged /* 130 */:
                                     if (!isSet(64)) {
-                                        return null;
                                     }
                                     break;
-                                default:
-                                    return null;
                             }
                     }
+                    return null;
                 }
                 return new PesReader(new Ac3Reader(esInfo.language));
             }

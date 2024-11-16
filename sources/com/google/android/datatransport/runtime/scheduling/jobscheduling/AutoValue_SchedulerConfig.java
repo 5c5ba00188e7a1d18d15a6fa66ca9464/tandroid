@@ -3,14 +3,12 @@ package com.google.android.datatransport.runtime.scheduling.jobscheduling;
 import com.google.android.datatransport.runtime.time.Clock;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_SchedulerConfig extends SchedulerConfig {
+final class AutoValue_SchedulerConfig extends SchedulerConfig {
     private final Clock clock;
     private final Map values;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_SchedulerConfig(Clock clock, Map map) {
+    AutoValue_SchedulerConfig(Clock clock, Map map) {
         if (clock == null) {
             throw new NullPointerException("Null clock");
         }
@@ -32,15 +30,13 @@ public final class AutoValue_SchedulerConfig extends SchedulerConfig {
         return this.clock.equals(schedulerConfig.getClock()) && this.values.equals(schedulerConfig.getValues());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig
-    public Clock getClock() {
+    Clock getClock() {
         return this.clock;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig
-    public Map getValues() {
+    Map getValues() {
         return this.values;
     }
 

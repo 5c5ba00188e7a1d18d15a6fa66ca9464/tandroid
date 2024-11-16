@@ -37,7 +37,6 @@ public class ConfigFetchHandler {
     public static final long DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = TimeUnit.HOURS.toSeconds(12);
     static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, 128, 256};
 
-    /* loaded from: classes.dex */
     public static class FetchResponse {
         private final Date fetchTime;
         private final ConfigContainer fetchedConfigs;
@@ -152,9 +151,9 @@ public class ConfigFetchHandler {
             return fetchFromBackend.getStatus() != 0 ? Tasks.forResult(fetchFromBackend) : this.fetchedConfigsCache.put(fetchFromBackend.getFetchedConfigs()).onSuccessTask(this.executor, new SuccessContinuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda3
                 @Override // com.google.android.gms.tasks.SuccessContinuation
                 public final Task then(Object obj) {
-                    Task forResult;
-                    forResult = Tasks.forResult(ConfigFetchHandler.FetchResponse.this);
-                    return forResult;
+                    Task lambda$fetchFromBackendAndCacheResponse$3;
+                    lambda$fetchFromBackendAndCacheResponse$3 = ConfigFetchHandler.lambda$fetchFromBackendAndCacheResponse$3(ConfigFetchHandler.FetchResponse.this, (ConfigContainer) obj);
+                    return lambda$fetchFromBackendAndCacheResponse$3;
                 }
             });
         } catch (FirebaseRemoteConfigException e) {
@@ -217,6 +216,11 @@ public class ConfigFetchHandler {
 
     private boolean isThrottleableServerError(int i) {
         return i == 429 || i == 502 || i == 503 || i == 504;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ Task lambda$fetchFromBackendAndCacheResponse$3(FetchResponse fetchResponse, ConfigContainer configContainer) {
+        return Tasks.forResult(fetchResponse);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -60,7 +60,6 @@ public class DialogsBotsAdapter extends UniversalAdapter {
     private int topPeersEnd;
     private int topPeersStart;
 
-    /* loaded from: classes3.dex */
     public static class PopularBots {
         private boolean cacheLoaded;
         private long cacheTime;

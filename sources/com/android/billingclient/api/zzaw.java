@@ -14,8 +14,7 @@ final class zzaw implements zzar {
     private final zzfm zza;
     private final zzay zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaw(Context context, zzfm zzfmVar) {
+    zzaw(Context context, zzfm zzfmVar) {
         this.zzb = new zzay(context);
         this.zza = zzfmVar;
     }

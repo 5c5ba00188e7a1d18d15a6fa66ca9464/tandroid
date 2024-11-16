@@ -4,23 +4,23 @@ import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCC
 
 /* loaded from: classes.dex */
 final class zzbp extends zzbo {
-    /* JADX INFO: Access modifiers changed from: package-private */
+    zzbp() {
+    }
+
     @Override // com.google.android.gms.internal.play_billing.zzbo
-    public final zzbs zza(Object obj) {
+    final zzbs zza(Object obj) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
         throw null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzbo
-    public final void zzb(Object obj) {
+    final void zzb(Object obj) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);
         throw null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzbo
-    public final boolean zzc(zzdf zzdfVar) {
+    final boolean zzc(zzdf zzdfVar) {
         return false;
     }
 }

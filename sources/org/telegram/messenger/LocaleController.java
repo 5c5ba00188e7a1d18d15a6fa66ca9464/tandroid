@@ -502,7 +502,7 @@ public class LocaleController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class TimeZoneChangedReceiver extends BroadcastReceiver {
+    class TimeZoneChangedReceiver extends BroadcastReceiver {
         private TimeZoneChangedReceiver() {
         }
 
@@ -1566,216 +1566,39 @@ public class LocaleController {
 
     public static int getCurrencyExpDivider(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 65726:
-                if (str.equals("BHD")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 65759:
-                if (str.equals("BIF")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 66267:
-                if (str.equals("BYR")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 66813:
-                if (str.equals("CLF")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 66823:
-                if (str.equals("CLP")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 67122:
-                if (str.equals("CVE")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 67712:
-                if (str.equals("DJF")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 70719:
-                if (str.equals("GNF")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 72732:
-                if (str.equals("IQD")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 72801:
-                if (str.equals("ISK")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 73631:
-                if (str.equals("JOD")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 73683:
-                if (str.equals("JPY")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 74532:
-                if (str.equals("KMF")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 74704:
-                if (str.equals("KRW")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case 74840:
-                if (str.equals("KWD")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case 75863:
-                if (str.equals("LYD")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case 76263:
-                if (str.equals("MGA")) {
-                    c = 16;
-                    break;
-                }
-                break;
-            case 76618:
-                if (str.equals("MRO")) {
-                    c = 17;
-                    break;
-                }
-                break;
-            case 78388:
-                if (str.equals("OMR")) {
-                    c = 18;
-                    break;
-                }
-                break;
-            case 79710:
-                if (str.equals("PYG")) {
-                    c = 19;
-                    break;
-                }
-                break;
-            case 81569:
-                if (str.equals("RWF")) {
-                    c = 20;
-                    break;
-                }
-                break;
-            case 83210:
-                if (str.equals("TND")) {
-                    c = 21;
-                    break;
-                }
-                break;
-            case 83974:
-                if (str.equals("UGX")) {
-                    c = 22;
-                    break;
-                }
-                break;
-            case 84517:
-                if (str.equals("UYI")) {
-                    c = 23;
-                    break;
-                }
-                break;
-            case 85132:
-                if (str.equals("VND")) {
-                    c = 24;
-                    break;
-                }
-                break;
-            case 85367:
-                if (str.equals("VUV")) {
-                    c = 25;
-                    break;
-                }
-                break;
-            case 86653:
-                if (str.equals("XAF")) {
-                    c = 26;
-                    break;
-                }
-                break;
-            case 87087:
-                if (str.equals("XOF")) {
-                    c = 27;
-                    break;
-                }
-                break;
-            case 87118:
-                if (str.equals("XPF")) {
-                    c = 28;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case '\b':
-            case '\n':
-            case 14:
-            case 15:
-            case 18:
-            case 21:
+        switch (str) {
+            case "BHD":
+            case "IQD":
+            case "JOD":
+            case "KWD":
+            case "LYD":
+            case "OMR":
+            case "TND":
                 return 1000;
-            case 1:
-            case 2:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case '\t':
-            case 11:
-            case '\f':
-            case '\r':
-            case 16:
-            case 19:
-            case 20:
-            case 22:
-            case 23:
-            case 24:
-            case 25:
-            case 26:
-            case 27:
-            case 28:
+            case "BIF":
+            case "BYR":
+            case "CLP":
+            case "CVE":
+            case "DJF":
+            case "GNF":
+            case "ISK":
+            case "JPY":
+            case "KMF":
+            case "KRW":
+            case "MGA":
+            case "PYG":
+            case "RWF":
+            case "UGX":
+            case "UYI":
+            case "VND":
+            case "VUV":
+            case "XAF":
+            case "XOF":
+            case "XPF":
                 return 1;
-            case 3:
+            case "CLF":
                 return 10000;
-            case 17:
+            case "MRO":
                 return 10;
             default:
                 return 100;
@@ -1825,109 +1648,9 @@ public class LocaleController {
         if (str == null) {
             return null;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 3325:
-                if (str.equals("he")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 3355:
-                if (str.equals("id")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3365:
-                if (str.equals("in")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 3374:
-                if (str.equals("iw")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 3391:
-                if (str.equals("ji")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 3404:
-                if (str.equals("jv")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 3405:
-                if (str.equals("jw")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 3508:
-                if (str.equals("nb")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 3521:
-                if (str.equals("no")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 3704:
-                if (str.equals("tl")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 3856:
-                if (str.equals("yi")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 101385:
-                if (str.equals("fil")) {
-                    c = 11;
-                    break;
-                }
-                break;
+        switch (str) {
         }
-        switch (c) {
-            case 0:
-                return "iw";
-            case 1:
-                return "in";
-            case 2:
-                return "id";
-            case 3:
-                return "he";
-            case 4:
-                return "yi";
-            case 5:
-                return "jw";
-            case 6:
-                return "jv";
-            case 7:
-                return "no";
-            case '\b':
-                return "nb";
-            case '\t':
-                return "fil";
-            case '\n':
-                return "ji";
-            case 11:
-                return "tl";
-            default:
-                return null;
-        }
+        return null;
     }
 
     private HashMap<String, String> getLocaleFileStrings(File file) {
@@ -2973,6 +2696,7 @@ public class LocaleController {
         return true;
     }
 
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
     public String formatCurrencyDecimalString(long j, String str, boolean z) {
         String str2;
         double d;
@@ -3205,7 +2929,7 @@ public class LocaleController {
                 str2 = " %.4f";
                 break;
             case '\t':
-                double d4 = ((float) abs) / 100.0f;
+                double d4 = abs / 100.0f;
                 str2 = abs % 100 != 0 ? " %.2f" : " %.0f";
                 d = d4;
                 break;
@@ -3233,6 +2957,7 @@ public class LocaleController {
         return formatCurrencyString(j, true, true, false, str);
     }
 
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
     public String formatCurrencyString(long j, boolean z, boolean z2, boolean z3, String str) {
         double d;
         int length;
@@ -3475,7 +3200,7 @@ public class LocaleController {
                 str2 = " %.4f";
                 break;
             case '\t':
-                double d4 = ((float) abs) / 100.0f;
+                double d4 = abs / 100.0f;
                 if (z && abs % 100 == 0) {
                     str2 = " %.0f";
                 }

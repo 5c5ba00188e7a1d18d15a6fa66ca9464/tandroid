@@ -1211,9 +1211,6 @@ public abstract class Theme {
     private static final Object sync = new Object();
     private static float lastBrightnessValue = 1.0f;
     private static Runnable switchDayBrightnessRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme.1
-        1() {
-        }
-
         @Override // java.lang.Runnable
         public void run() {
             boolean unused = Theme.switchDayRunnableScheduled = false;
@@ -1221,9 +1218,6 @@ public abstract class Theme {
         }
     };
     private static Runnable switchNightBrightnessRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.Theme.2
-        2() {
-        }
-
         @Override // java.lang.Runnable
         public void run() {
             boolean unused = Theme.switchNightRunnableScheduled = false;
@@ -1252,375 +1246,11 @@ public abstract class Theme {
     public static Path[] chat_filePath = new Path[2];
     public static Path[] chat_updatePath = new Path[3];
 
-    /* loaded from: classes4.dex */
-    public class 1 implements Runnable {
-        1() {
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            boolean unused = Theme.switchDayRunnableScheduled = false;
-            Theme.applyDayNightThemeMaybe(false);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 10 extends MessageDrawable {
-        final /* synthetic */ SparseIntArray val$colors;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        10(int i, boolean z, boolean z2, SparseIntArray sparseIntArray) {
-            super(i, z, z2);
-            r4 = sparseIntArray;
-        }
-
-        @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
-        protected int getColor(int i) {
-            int indexOfKey = r4.indexOfKey(i);
-            return indexOfKey > 0 ? r4.valueAt(indexOfKey) : Theme.defaultColors[i];
-        }
-
-        @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
-        protected int getCurrentColor(int i) {
-            return r4.get(i);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 11 extends BackgroundGradientDrawable.ListenerAdapter {
-        11() {
-        }
-
-        @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-        public void onSizeReady(int i, int i2) {
-            Point point = AndroidUtilities.displaySize;
-            if ((point.x <= point.y) == (i <= i2)) {
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 12 extends BackgroundGradientDrawable.ListenerAdapter {
-        12() {
-        }
-
-        @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-        public void onSizeReady(int i, int i2) {
-            Point point = AndroidUtilities.displaySize;
-            if ((point.x <= point.y) == (i <= i2)) {
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
-            }
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 13 extends BackgroundGradientDrawable.ListenerAdapter {
-        final /* synthetic */ View val$ownerView;
-        final /* synthetic */ boolean val$thumb;
-
-        13(boolean z, View view) {
-            r1 = z;
-            r2 = view;
-        }
-
-        @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-        public void onSizeReady(int i, int i2) {
-            if (!r1) {
-                Point point = AndroidUtilities.displaySize;
-                if ((point.x <= point.y) != (i <= i2)) {
-                    return;
-                }
-            }
-            r2.invalidate();
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 2 implements Runnable {
-        2() {
-        }
-
-        @Override // java.lang.Runnable
-        public void run() {
-            boolean unused = Theme.switchNightRunnableScheduled = false;
-            Theme.applyDayNightThemeMaybe(true);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 extends StateListDrawable {
-        3() {
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:9:0x002d  */
-        @Override // android.graphics.drawable.DrawableContainer
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public boolean selectDrawable(int i) {
-            ColorFilter colorFilter;
-            Paint paint;
-            if (Build.VERSION.SDK_INT >= 21) {
-                return super.selectDrawable(i);
-            }
-            Drawable stateDrawable = Theme.getStateDrawable(this, i);
-            if (stateDrawable instanceof BitmapDrawable) {
-                paint = ((BitmapDrawable) stateDrawable).getPaint();
-            } else {
-                if (!(stateDrawable instanceof NinePatchDrawable)) {
-                    colorFilter = null;
-                    boolean selectDrawable = super.selectDrawable(i);
-                    if (colorFilter != null) {
-                        stateDrawable.setColorFilter(colorFilter);
-                    }
-                    return selectDrawable;
-                }
-                paint = ((NinePatchDrawable) stateDrawable).getPaint();
-            }
-            colorFilter = paint.getColorFilter();
-            boolean selectDrawable2 = super.selectDrawable(i);
-            if (colorFilter != null) {
-            }
-            return selectDrawable2;
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 4 extends StateListDrawable {
-        4() {
-        }
-
-        /* JADX WARN: Removed duplicated region for block: B:9:0x002d  */
-        @Override // android.graphics.drawable.DrawableContainer
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
-        public boolean selectDrawable(int i) {
-            ColorFilter colorFilter;
-            Paint paint;
-            if (Build.VERSION.SDK_INT >= 21) {
-                return super.selectDrawable(i);
-            }
-            Drawable stateDrawable = Theme.getStateDrawable(this, i);
-            if (stateDrawable instanceof BitmapDrawable) {
-                paint = ((BitmapDrawable) stateDrawable).getPaint();
-            } else {
-                if (!(stateDrawable instanceof NinePatchDrawable)) {
-                    colorFilter = null;
-                    boolean selectDrawable = super.selectDrawable(i);
-                    if (colorFilter != null) {
-                        stateDrawable.setColorFilter(colorFilter);
-                    }
-                    return selectDrawable;
-                }
-                paint = ((NinePatchDrawable) stateDrawable).getPaint();
-            }
-            colorFilter = paint.getColorFilter();
-            boolean selectDrawable2 = super.selectDrawable(i);
-            if (colorFilter != null) {
-            }
-            return selectDrawable2;
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 6 extends Drawable {
-        private RectF rect = new RectF();
-        final /* synthetic */ Paint val$backgroundPaint;
-        final /* synthetic */ View val$containerView;
-        final /* synthetic */ int val$rad;
-        final /* synthetic */ ResourcesProvider val$resourcesProvider;
-        final /* synthetic */ View val$view;
-
-        6(View view, View view2, int i, Paint paint, ResourcesProvider resourcesProvider) {
-            r1 = view;
-            r2 = view2;
-            r3 = i;
-            r4 = paint;
-            r5 = resourcesProvider;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            Rect bounds = getBounds();
-            this.rect.set(bounds.left, bounds.top, bounds.right, bounds.bottom);
-            Theme.applyServiceShaderMatrixForView(r1, r2);
-            RectF rectF = this.rect;
-            float f = r3;
-            Paint paint = r4;
-            if (paint == null) {
-                paint = Theme.getThemePaint("paintChatActionBackground", r5);
-            }
-            canvas.drawRoundRect(rectF, f, f, paint);
-            ResourcesProvider resourcesProvider = r5;
-            if (resourcesProvider != null) {
-                if (!resourcesProvider.hasGradientService()) {
-                    return;
-                }
-            } else if (!Theme.hasGradientService()) {
-                return;
-            }
-            RectF rectF2 = this.rect;
-            float f2 = r3;
-            canvas.drawRoundRect(rectF2, f2, f2, Theme.getThemePaint("paintChatActionBackgroundDarken", r5));
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getOpacity() {
-            return -2;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setAlpha(int i) {
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setColorFilter(ColorFilter colorFilter) {
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 7 extends Drawable {
-        RectF rect;
-        final /* synthetic */ int val$maskType;
-        final /* synthetic */ int val$radius;
-
-        7(int i, int i2) {
-            r1 = i;
-            r2 = i2;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            int i;
-            Rect bounds = getBounds();
-            int i2 = r1;
-            if (i2 != 7) {
-                if (i2 == 1 || i2 == 6) {
-                    i = r2;
-                    if (i <= 0) {
-                        i = AndroidUtilities.dp(20.0f);
-                    }
-                } else {
-                    i = i2 == 3 ? Math.max(bounds.width(), bounds.height()) / 2 : (int) Math.ceil(Math.sqrt(((bounds.left - bounds.centerX()) * (bounds.left - bounds.centerX())) + ((bounds.top - bounds.centerY()) * (bounds.top - bounds.centerY()))));
-                }
-                canvas.drawCircle(bounds.centerX(), bounds.centerY(), i, Theme.maskPaint);
-                return;
-            }
-            if (this.rect == null) {
-                this.rect = new RectF();
-            }
-            this.rect.set(bounds);
-            int i3 = r2;
-            if (i3 <= 0) {
-                i3 = AndroidUtilities.dp(6.0f);
-            }
-            float f = i3;
-            canvas.drawRoundRect(this.rect, f, f, Theme.maskPaint);
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getOpacity() {
-            return 0;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setAlpha(int i) {
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setColorFilter(ColorFilter colorFilter) {
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 8 extends Drawable {
-        final /* synthetic */ int val$leftInset;
-        final /* synthetic */ int val$rightInset;
-
-        8(int i, int i2) {
-            r1 = i;
-            r2 = i2;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void draw(Canvas canvas) {
-            Rect bounds = getBounds();
-            canvas.drawCircle((bounds.centerX() - r1) + r2, bounds.centerY(), (Math.max(bounds.width(), bounds.height()) / 2) + r1 + r2, Theme.maskPaint);
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public int getOpacity() {
-            return 0;
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setAlpha(int i) {
-        }
-
-        @Override // android.graphics.drawable.Drawable
-        public void setColorFilter(ColorFilter colorFilter) {
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 9 implements SensorEventListener {
-        9() {
-        }
-
-        @Override // android.hardware.SensorEventListener
-        public void onAccuracyChanged(Sensor sensor, int i) {
-        }
-
-        @Override // android.hardware.SensorEventListener
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            Runnable runnable;
-            float f = sensorEvent.values[0];
-            if (f <= 0.0f) {
-                f = 0.1f;
-            }
-            if (ApplicationLoader.mainInterfacePaused || !ApplicationLoader.isScreenOn) {
-                return;
-            }
-            float unused = Theme.lastBrightnessValue = f > 500.0f ? 1.0f : ((float) Math.ceil((Math.log(f) * 9.932299613952637d) + 27.05900001525879d)) / 100.0f;
-            if (Theme.lastBrightnessValue > Theme.autoNightBrighnessThreshold) {
-                if (Theme.switchNightRunnableScheduled) {
-                    boolean unused2 = Theme.switchNightRunnableScheduled = false;
-                    AndroidUtilities.cancelRunOnUIThread(Theme.switchNightBrightnessRunnable);
-                }
-                if (Theme.switchDayRunnableScheduled) {
-                    return;
-                }
-                boolean unused3 = Theme.switchDayRunnableScheduled = true;
-                runnable = Theme.switchDayBrightnessRunnable;
-            } else {
-                if (MediaController.getInstance().isRecordingOrListeningByProximity()) {
-                    return;
-                }
-                if (Theme.switchDayRunnableScheduled) {
-                    boolean unused4 = Theme.switchDayRunnableScheduled = false;
-                    AndroidUtilities.cancelRunOnUIThread(Theme.switchDayBrightnessRunnable);
-                }
-                if (Theme.switchNightRunnableScheduled) {
-                    return;
-                }
-                boolean unused5 = Theme.switchNightRunnableScheduled = true;
-                runnable = Theme.switchNightBrightnessRunnable;
-            }
-            AndroidUtilities.runOnUIThread(runnable, Theme.access$3000());
-        }
-    }
-
-    /* loaded from: classes4.dex */
     public static class AdaptiveRipple {
         private static final int defaultBackgroundColorKey = Theme.key_windowBackgroundWhite;
         private static float[] tempHSV;
 
-        /* loaded from: classes4.dex */
-        public static class CircleDrawable extends Drawable {
+        private static class CircleDrawable extends Drawable {
             private static Paint maskPaint;
             private Paint paint;
             private float radius;
@@ -1799,7 +1429,6 @@ public abstract class Theme {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class BackgroundDrawableSettings {
         public Boolean isCustomTheme;
         public Boolean isPatternWallpaper;
@@ -1808,12 +1437,10 @@ public abstract class Theme {
         public Drawable wallpaper;
     }
 
-    /* loaded from: classes4.dex */
     public interface Colorable {
         void updateColors();
     }
 
-    /* loaded from: classes4.dex */
     public static class MessageDrawable extends Drawable {
         public static MotionBackgroundDrawable[] motionBackground = new MotionBackgroundDrawable[3];
         private int alpha;
@@ -1859,7 +1486,6 @@ public abstract class Theme {
         Drawable transitionDrawable;
         int transitionDrawableColor;
 
-        /* loaded from: classes4.dex */
         public static class PathDrawParams {
             boolean lastDrawFullBottom;
             boolean lastDrawFullTop;
@@ -2750,7 +2376,6 @@ public abstract class Theme {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class OverrideWallpaperInfo {
         public long accessHash;
         public int color;
@@ -2828,6 +2453,7 @@ public abstract class Theme {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void delete() {
             ApplicationLoader.applicationContext.getSharedPreferences("themeconfig", 0).edit().remove(getKey()).commit();
             new File(ApplicationLoader.getFilesDirFixed(), this.fileName).delete();
@@ -2849,6 +2475,7 @@ public abstract class Theme {
             return sb.toString();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void save() {
             try {
                 String key = getKey();
@@ -2901,23 +2528,18 @@ public abstract class Theme {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class PatternsLoader implements NotificationCenter.NotificationCenterDelegate {
         private static PatternsLoader loader;
         private int account = UserConfig.selectedAccount;
         private HashMap watingForLoad;
 
-        /* loaded from: classes4.dex */
-        public static class LoadingPattern {
+        /* JADX INFO: Access modifiers changed from: private */
+        static class LoadingPattern {
             public ArrayList accents;
             public TLRPC.TL_wallPaper pattern;
 
             private LoadingPattern() {
                 this.accents = new ArrayList();
-            }
-
-            /* synthetic */ LoadingPattern(1 r1) {
-                this();
             }
         }
 
@@ -2942,7 +2564,8 @@ public abstract class Theme {
             });
         }
 
-        /* renamed from: checkCurrentWallpaperInternal */
+        /* JADX INFO: Access modifiers changed from: private */
+        /* renamed from: checkCurrentWallpaperInternal, reason: merged with bridge method [inline-methods] */
         public void lambda$checkCurrentWallpaper$2(ArrayList arrayList, boolean z) {
             if (arrayList != null && Theme.currentTheme.themeAccents != null && !Theme.currentTheme.themeAccents.isEmpty() && arrayList.contains(Theme.currentTheme.getAccent(false))) {
                 Theme.reloadWallpaper(true);
@@ -3102,6 +2725,7 @@ public abstract class Theme {
             return bitmap2;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didReceivedNotification$3(LoadingPattern loadingPattern) {
             TLRPC.TL_wallPaper tL_wallPaper = loadingPattern.pattern;
             File pathToAttach = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tL_wallPaper.document, true);
@@ -3124,6 +2748,7 @@ public abstract class Theme {
             checkCurrentWallpaper(arrayList, false);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
         /* JADX WARN: Type inference failed for: r12v0 */
         /* JADX WARN: Type inference failed for: r12v1 */
@@ -3198,6 +2823,7 @@ public abstract class Theme {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1(final ArrayList arrayList) {
             int size = arrayList.size();
             ArrayList arrayList2 = null;
@@ -3268,36 +2894,12 @@ public abstract class Theme {
 
         /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
-            public static void $default$applyServiceShaderMatrix(ResourcesProvider resourcesProvider, int i, int i2, float f, float f2) {
-                Theme.applyServiceShaderMatrix(i, i2, f, f2);
-            }
-
-            public static ColorFilter $default$getAnimatedEmojiColorFilter(ResourcesProvider resourcesProvider) {
-                return Theme.chat_animatedEmojiTextColorFilter;
-            }
-
-            public static int $default$getColorOrDefault(ResourcesProvider resourcesProvider, int i) {
-                return resourcesProvider.getColor(i);
-            }
-
-            public static int $default$getCurrentColor(ResourcesProvider resourcesProvider, int i) {
-                return resourcesProvider.getColor(i);
-            }
-
             public static Drawable $default$getDrawable(ResourcesProvider resourcesProvider, String str) {
                 return null;
             }
 
-            public static Paint $default$getPaint(ResourcesProvider resourcesProvider, String str) {
-                return Theme.getThemePaint(str);
-            }
-
             public static boolean $default$hasGradientService(ResourcesProvider resourcesProvider) {
                 return false;
-            }
-
-            public static boolean $default$isDark(ResourcesProvider resourcesProvider) {
-                return Theme.isCurrentThemeDark();
             }
 
             public static void $default$setAnimatedColor(ResourcesProvider resourcesProvider, int i, int i2) {
@@ -3325,22 +2927,20 @@ public abstract class Theme {
         void setAnimatedColor(int i, int i2);
     }
 
-    /* loaded from: classes4.dex */
     public static class RippleRadMaskDrawable extends Drawable {
         private float[] radii;
         private Path path = new Path();
         boolean invalidatePath = true;
 
         public RippleRadMaskDrawable(float f, float f2) {
-            this.radii = r0;
+            this.radii = new float[]{r4, r4, r4, r4, 0.0f, 0.0f, 0.0f, 0.0f};
             float dp = AndroidUtilities.dp(f);
-            float[] fArr = {dp, dp, dp, dp};
-            float[] fArr2 = this.radii;
+            float[] fArr = this.radii;
             float dp2 = AndroidUtilities.dp(f2);
-            fArr2[7] = dp2;
-            fArr2[6] = dp2;
-            fArr2[5] = dp2;
-            fArr2[4] = dp2;
+            fArr[7] = dp2;
+            fArr[6] = dp2;
+            fArr[5] = dp2;
+            fArr[4] = dp2;
         }
 
         public RippleRadMaskDrawable(float f, float f2, float f3, float f4) {
@@ -3432,7 +3032,6 @@ public abstract class Theme {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ThemeAccent {
         public int accentColor;
         public int accentColor2;
@@ -3569,7 +3168,7 @@ public abstract class Theme {
 
         /* JADX WARN: Code restructure failed: missing block: B:6:0x0023, code lost:
         
-            if (r3 < 85.0f) goto L23;
+            if (r3 < 85.0f) goto L8;
          */
         /* JADX WARN: Removed duplicated region for block: B:13:0x0034  */
         /* JADX WARN: Removed duplicated region for block: B:9:0x0031  */
@@ -3601,7 +3200,7 @@ public abstract class Theme {
 
         /* JADX WARN: Code restructure failed: missing block: B:6:0x0023, code lost:
         
-            if (r5 < 85.0f) goto L23;
+            if (r5 < 85.0f) goto L8;
          */
         /* JADX WARN: Removed duplicated region for block: B:13:0x0046  */
         /* JADX WARN: Removed duplicated region for block: B:9:0x0043  */
@@ -3960,7 +3559,7 @@ public abstract class Theme {
 
         /* JADX WARN: Code restructure failed: missing block: B:73:0x0267, code lost:
         
-            if (r4 == null) goto L189;
+            if (r4 == null) goto L82;
          */
         /* JADX WARN: Multi-variable type inference failed */
         /* JADX WARN: Type inference failed for: r4v24 */
@@ -4092,7 +3691,6 @@ public abstract class Theme {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ThemeInfo implements NotificationCenter.NotificationCenterDelegate {
         public int accentBaseColor;
         public LongSparseArray accentsByThemeId;
@@ -4348,6 +3946,7 @@ public abstract class Theme {
             themeAccent.patternMotion = wallPaperSettings5.motion;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isDefaultMainAccent() {
             if (!this.firstAccentIsDefault) {
                 return false;
@@ -4362,6 +3961,7 @@ public abstract class Theme {
             return (themeAccent2 == null || themeAccent == null || themeAccent.accentColor != themeAccent2.accentColor) ? false : true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isDefaultMyMessages() {
             if (!this.firstAccentIsDefault) {
                 return false;
@@ -4376,6 +3976,7 @@ public abstract class Theme {
             return themeAccent != null && themeAccent2 != null && themeAccent.accentColor2 == themeAccent2.accentColor2 && themeAccent.myMessagesAccentColor == themeAccent2.myMessagesAccentColor && themeAccent.myMessagesGradientAccentColor1 == themeAccent2.myMessagesGradientAccentColor1 && themeAccent.myMessagesGradientAccentColor2 == themeAccent2.myMessagesGradientAccentColor2 && themeAccent.myMessagesGradientAccentColor3 == themeAccent2.myMessagesGradientAccentColor3 && themeAccent.myMessagesAnimated == themeAccent2.myMessagesAnimated;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isDefaultMyMessagesBubbles() {
             if (!this.firstAccentIsDefault) {
                 return false;
@@ -4390,6 +3991,7 @@ public abstract class Theme {
             return themeAccent != null && themeAccent2 != null && themeAccent.myMessagesAccentColor == themeAccent2.myMessagesAccentColor && themeAccent.myMessagesGradientAccentColor1 == themeAccent2.myMessagesGradientAccentColor1 && themeAccent.myMessagesGradientAccentColor2 == themeAccent2.myMessagesGradientAccentColor2 && themeAccent.myMessagesGradientAccentColor3 == themeAccent2.myMessagesGradientAccentColor3 && themeAccent.myMessagesAnimated == themeAccent2.myMessagesAnimated;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didReceivedNotification$0(File file) {
             createBackground(file, this.newPathToWallpaper);
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$ThemeInfo$$ExternalSyntheticLambda2
@@ -4400,6 +4002,7 @@ public abstract class Theme {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didReceivedNotification$1(TLObject tLObject, ThemeInfo themeInfo) {
             if (!(tLObject instanceof TLRPC.TL_wallPaper)) {
                 onFinishLoadingRemoteTheme();
@@ -4411,6 +4014,7 @@ public abstract class Theme {
             FileLoader.getInstance(themeInfo.account).loadFile(tL_wallPaper.document, tL_wallPaper, 1, 1);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didReceivedNotification$2(final ThemeInfo themeInfo, final TLObject tLObject, TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$ThemeInfo$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
@@ -4454,6 +4058,7 @@ public abstract class Theme {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void loadThemeDocument() {
             this.loaded = false;
             this.loadingThemeWallpaperName = null;
@@ -4464,6 +4069,7 @@ public abstract class Theme {
             fileLoader.loadFile(tL_theme.document, tL_theme, 1, 1);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void loadWallpapers(SharedPreferences sharedPreferences) {
             ArrayList arrayList = this.themeAccents;
             if (arrayList == null || arrayList.isEmpty()) {
@@ -4477,6 +4083,7 @@ public abstract class Theme {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void onFinishLoadingRemoteTheme() {
             this.loaded = true;
             this.previewParsed = false;
@@ -4486,11 +4093,13 @@ public abstract class Theme {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void removeObservers() {
             NotificationCenter.getInstance(this.account).removeObserver(this, NotificationCenter.fileLoaded);
             NotificationCenter.getInstance(this.account).removeObserver(this, NotificationCenter.fileLoadFailed);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setAccentColorOptions(int[] iArr, int[] iArr2, int[] iArr3, int[] iArr4, int[] iArr5, int[] iArr6, int[] iArr7, int[] iArr8, String[] strArr, int[] iArr9, int[] iArr10) {
             this.defaultAccentCount = iArr.length;
             this.themeAccents = new ArrayList();
@@ -7967,9 +7576,6 @@ public abstract class Theme {
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
             AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda92());
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
-                9() {
-                }
-
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i788) {
                 }
@@ -8009,7 +7615,7 @@ public abstract class Theme {
                         boolean unused5 = Theme.switchNightRunnableScheduled = true;
                         runnable = Theme.switchNightBrightnessRunnable;
                     }
-                    AndroidUtilities.runOnUIThread(runnable, Theme.access$3000());
+                    AndroidUtilities.runOnUIThread(runnable, Theme.getAutoNightSwitchThemeDelay());
                 }
             };
             viewPos = new int[2];
@@ -8026,10 +7632,6 @@ public abstract class Theme {
 
     private static float abs(float f) {
         return f > 0.0f ? f : -f;
-    }
-
-    static /* synthetic */ long access$3000() {
-        return getAutoNightSwitchThemeDelay();
     }
 
     public static int adaptHSV(int i, float f, float f2) {
@@ -8671,7 +8273,7 @@ public abstract class Theme {
 
     /* JADX WARN: Code restructure failed: missing block: B:38:0x0040, code lost:
     
-        if (r8 == false) goto L143;
+        if (r8 == false) goto L23;
      */
     /* JADX WARN: Code restructure failed: missing block: B:39:0x0042, code lost:
     
@@ -8863,7 +8465,7 @@ public abstract class Theme {
 
     /* JADX WARN: Code restructure failed: missing block: B:40:0x006b, code lost:
     
-        if (r10 == false) goto L83;
+        if (r10 == false) goto L32;
      */
     /* JADX WARN: Code restructure failed: missing block: B:41:0x006d, code lost:
     
@@ -9169,6 +8771,7 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void checkIsDark(SparseIntArray sparseIntArray, ThemeInfo themeInfo) {
         if (themeInfo == null || sparseIntArray == null || themeInfo.isDark != -1) {
             return;
@@ -9209,7 +8812,7 @@ public abstract class Theme {
 
     /* JADX WARN: Code restructure failed: missing block: B:14:0x0040, code lost:
     
-        if (r25.isColor() == false) goto L211;
+        if (r25.isColor() == false) goto L19;
      */
     /* JADX WARN: Code restructure failed: missing block: B:15:0x0042, code lost:
     
@@ -9217,7 +8820,7 @@ public abstract class Theme {
      */
     /* JADX WARN: Code restructure failed: missing block: B:180:0x0056, code lost:
     
-        if (r24.patternBgColor != 0) goto L211;
+        if (r24.patternBgColor != 0) goto L19;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:111:0x0225  */
@@ -9371,13 +8974,10 @@ public abstract class Theme {
                     } else {
                         BackgroundGradientDrawable backgroundGradientDrawable2 = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(i11), new int[]{i10, i9});
                         backgroundGradientDisposable = backgroundGradientDrawable2.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.11
-                            11() {
-                            }
-
                             @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                            public void onSizeReady(int i12, int i22) {
+                            public void onSizeReady(int i12, int i13) {
                                 Point point = AndroidUtilities.displaySize;
-                                if ((point.x <= point.y) == (i12 <= i22)) {
+                                if ((point.x <= point.y) == (i12 <= i13)) {
                                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
                                 }
                             }
@@ -9483,13 +9083,10 @@ public abstract class Theme {
                             if (i13 != 0) {
                                 ?? backgroundGradientDrawable3 = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(overrideWallpaperInfo.rotation), new int[]{i12, i13});
                                 backgroundGradientDisposable = backgroundGradientDrawable3.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.12
-                                    12() {
-                                    }
-
                                     @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                                    public void onSizeReady(int i14, int i22) {
+                                    public void onSizeReady(int i14, int i15) {
                                         Point point = AndroidUtilities.displaySize;
-                                        if ((point.x <= point.y) == (i14 <= i22)) {
+                                        if ((point.x <= point.y) == (i14 <= i15)) {
                                             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
                                         }
                                     }
@@ -9879,22 +9476,14 @@ public abstract class Theme {
         return combinedDrawable;
     }
 
-    public static Drawable createCircleSelectorDrawable(int i, int i2, int i3) {
+    public static Drawable createCircleSelectorDrawable(int i, final int i2, final int i3) {
         if (Build.VERSION.SDK_INT >= 21) {
             maskPaint.setColor(-1);
             return new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), null, new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.8
-                final /* synthetic */ int val$leftInset;
-                final /* synthetic */ int val$rightInset;
-
-                8(int i22, int i32) {
-                    r1 = i22;
-                    r2 = i32;
-                }
-
                 @Override // android.graphics.drawable.Drawable
                 public void draw(Canvas canvas) {
                     Rect bounds = getBounds();
-                    canvas.drawCircle((bounds.centerX() - r1) + r2, bounds.centerY(), (Math.max(bounds.width(), bounds.height()) / 2) + r1 + r2, Theme.maskPaint);
+                    canvas.drawCircle((bounds.centerX() - i2) + i3, bounds.centerY(), (Math.max(bounds.width(), bounds.height()) / 2) + i2 + i3, Theme.maskPaint);
                 }
 
                 @Override // android.graphics.drawable.Drawable
@@ -10347,10 +9936,7 @@ public abstract class Theme {
         mutate.setColorFilter(new PorterDuffColorFilter(i, mode));
         Drawable mutate2 = resources.getDrawable(org.telegram.messenger.R.drawable.search_dark_activated).mutate();
         mutate2.setColorFilter(new PorterDuffColorFilter(i2, mode));
-        4 r4 = new StateListDrawable() { // from class: org.telegram.ui.ActionBar.Theme.4
-            4() {
-            }
-
+        StateListDrawable stateListDrawable = new StateListDrawable() { // from class: org.telegram.ui.ActionBar.Theme.4
             /* JADX WARN: Removed duplicated region for block: B:9:0x002d  */
             @Override // android.graphics.drawable.DrawableContainer
             /*
@@ -10368,25 +9954,25 @@ public abstract class Theme {
                 } else {
                     if (!(stateDrawable instanceof NinePatchDrawable)) {
                         colorFilter = null;
-                        boolean selectDrawable2 = super.selectDrawable(i3);
+                        boolean selectDrawable = super.selectDrawable(i3);
                         if (colorFilter != null) {
                             stateDrawable.setColorFilter(colorFilter);
                         }
-                        return selectDrawable2;
+                        return selectDrawable;
                     }
                     paint = ((NinePatchDrawable) stateDrawable).getPaint();
                 }
                 colorFilter = paint.getColorFilter();
-                boolean selectDrawable22 = super.selectDrawable(i3);
+                boolean selectDrawable2 = super.selectDrawable(i3);
                 if (colorFilter != null) {
                 }
-                return selectDrawable22;
+                return selectDrawable2;
             }
         };
-        r4.addState(new int[]{R.attr.state_enabled, R.attr.state_focused}, mutate2);
-        r4.addState(new int[]{R.attr.state_focused}, mutate2);
-        r4.addState(StateSet.WILD_CARD, mutate);
-        return r4;
+        stateListDrawable.addState(new int[]{R.attr.state_enabled, R.attr.state_focused}, mutate2);
+        stateListDrawable.addState(new int[]{R.attr.state_focused}, mutate2);
+        stateListDrawable.addState(StateSet.WILD_CARD, mutate);
+        return stateListDrawable;
     }
 
     public static Drawable createEditTextDrawable(Context context, boolean z) {
@@ -10403,10 +9989,7 @@ public abstract class Theme {
         if (i3 != 0) {
             mutate2.setColorFilter(new PorterDuffColorFilter(i3, PorterDuff.Mode.MULTIPLY));
         }
-        3 r4 = new StateListDrawable() { // from class: org.telegram.ui.ActionBar.Theme.3
-            3() {
-            }
-
+        StateListDrawable stateListDrawable = new StateListDrawable() { // from class: org.telegram.ui.ActionBar.Theme.3
             /* JADX WARN: Removed duplicated region for block: B:9:0x002d  */
             @Override // android.graphics.drawable.DrawableContainer
             /*
@@ -10424,26 +10007,26 @@ public abstract class Theme {
                 } else {
                     if (!(stateDrawable instanceof NinePatchDrawable)) {
                         colorFilter = null;
-                        boolean selectDrawable2 = super.selectDrawable(i4);
+                        boolean selectDrawable = super.selectDrawable(i4);
                         if (colorFilter != null) {
                             stateDrawable.setColorFilter(colorFilter);
                         }
-                        return selectDrawable2;
+                        return selectDrawable;
                     }
                     paint = ((NinePatchDrawable) stateDrawable).getPaint();
                 }
                 colorFilter = paint.getColorFilter();
-                boolean selectDrawable22 = super.selectDrawable(i4);
+                boolean selectDrawable2 = super.selectDrawable(i4);
                 if (colorFilter != null) {
                 }
-                return selectDrawable22;
+                return selectDrawable2;
             }
         };
-        r4.setEnterFadeDuration(1);
-        r4.setExitFadeDuration(NotificationCenter.storyQualityUpdate);
-        r4.addState(new int[]{R.attr.state_selected}, mutate2);
-        r4.addState(new int[0], mutate);
-        return r4;
+        stateListDrawable.setEnterFadeDuration(1);
+        stateListDrawable.setExitFadeDuration(NotificationCenter.storyQualityUpdate);
+        stateListDrawable.addState(new int[]{R.attr.state_selected}, mutate2);
+        stateListDrawable.addState(new int[0], mutate);
+        return stateListDrawable;
     }
 
     public static ThemeInfo createNewTheme(String str) {
@@ -10536,7 +10119,7 @@ public abstract class Theme {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static Drawable createSelectorDrawable(int i, int i2, int i3) {
+    public static Drawable createSelectorDrawable(int i, final int i2, final int i3) {
         Drawable drawable;
         int i4 = Build.VERSION.SDK_INT;
         if (i4 < 21) {
@@ -10551,27 +10134,20 @@ public abstract class Theme {
                 maskPaint.setColor(-1);
                 drawable = new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.7
                     RectF rect;
-                    final /* synthetic */ int val$maskType;
-                    final /* synthetic */ int val$radius;
-
-                    7(int i22, int i32) {
-                        r1 = i22;
-                        r2 = i32;
-                    }
 
                     @Override // android.graphics.drawable.Drawable
                     public void draw(Canvas canvas) {
                         int i5;
                         Rect bounds = getBounds();
-                        int i22 = r1;
-                        if (i22 != 7) {
-                            if (i22 == 1 || i22 == 6) {
-                                i5 = r2;
+                        int i6 = i2;
+                        if (i6 != 7) {
+                            if (i6 == 1 || i6 == 6) {
+                                i5 = i3;
                                 if (i5 <= 0) {
                                     i5 = AndroidUtilities.dp(20.0f);
                                 }
                             } else {
-                                i5 = i22 == 3 ? Math.max(bounds.width(), bounds.height()) / 2 : (int) Math.ceil(Math.sqrt(((bounds.left - bounds.centerX()) * (bounds.left - bounds.centerX())) + ((bounds.top - bounds.centerY()) * (bounds.top - bounds.centerY()))));
+                                i5 = i6 == 3 ? Math.max(bounds.width(), bounds.height()) / 2 : (int) Math.ceil(Math.sqrt(((bounds.left - bounds.centerX()) * (bounds.left - bounds.centerX())) + ((bounds.top - bounds.centerY()) * (bounds.top - bounds.centerY()))));
                             }
                             canvas.drawCircle(bounds.centerX(), bounds.centerY(), i5, Theme.maskPaint);
                             return;
@@ -10580,11 +10156,11 @@ public abstract class Theme {
                             this.rect = new RectF();
                         }
                         this.rect.set(bounds);
-                        int i32 = r2;
-                        if (i32 <= 0) {
-                            i32 = AndroidUtilities.dp(6.0f);
+                        int i7 = i3;
+                        if (i7 <= 0) {
+                            i7 = AndroidUtilities.dp(6.0f);
                         }
-                        float f = i32;
+                        float f = i7;
                         canvas.drawRoundRect(this.rect, f, f, Theme.maskPaint);
                     }
 
@@ -10601,17 +10177,17 @@ public abstract class Theme {
                     public void setColorFilter(ColorFilter colorFilter) {
                     }
                 };
-            } else if (i22 == 2) {
+            } else if (i2 == 2) {
                 drawable = new ColorDrawable(-1);
             }
             BaseCell.RippleDrawableSafe rippleDrawableSafe = new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), null, drawable);
             if (i4 >= 23) {
-                if (i22 == 1) {
-                    if (i32 <= 0) {
-                        i32 = AndroidUtilities.dp(20.0f);
+                if (i2 == 1) {
+                    if (i3 <= 0) {
+                        i3 = AndroidUtilities.dp(20.0f);
                     }
-                    rippleDrawableSafe.setRadius(i32);
-                } else if (i22 == 5) {
+                    rippleDrawableSafe.setRadius(i3);
+                } else if (i2 == 5) {
                     rippleDrawableSafe.setRadius(-1);
                 }
             }
@@ -10651,36 +10227,23 @@ public abstract class Theme {
         return createServiceDrawable(i, view, view2, paint, null);
     }
 
-    public static Drawable createServiceDrawable(int i, View view, View view2, Paint paint, ResourcesProvider resourcesProvider) {
+    public static Drawable createServiceDrawable(final int i, final View view, final View view2, final Paint paint, final ResourcesProvider resourcesProvider) {
         return new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.6
             private RectF rect = new RectF();
-            final /* synthetic */ Paint val$backgroundPaint;
-            final /* synthetic */ View val$containerView;
-            final /* synthetic */ int val$rad;
-            final /* synthetic */ ResourcesProvider val$resourcesProvider;
-            final /* synthetic */ View val$view;
-
-            6(View view3, View view22, int i2, Paint paint2, ResourcesProvider resourcesProvider2) {
-                r1 = view3;
-                r2 = view22;
-                r3 = i2;
-                r4 = paint2;
-                r5 = resourcesProvider2;
-            }
 
             @Override // android.graphics.drawable.Drawable
             public void draw(Canvas canvas) {
                 Rect bounds = getBounds();
                 this.rect.set(bounds.left, bounds.top, bounds.right, bounds.bottom);
-                Theme.applyServiceShaderMatrixForView(r1, r2);
+                Theme.applyServiceShaderMatrixForView(view, view2);
                 RectF rectF = this.rect;
-                float f = r3;
-                Paint paint2 = r4;
+                float f = i;
+                Paint paint2 = paint;
                 if (paint2 == null) {
-                    paint2 = Theme.getThemePaint("paintChatActionBackground", r5);
+                    paint2 = Theme.getThemePaint("paintChatActionBackground", resourcesProvider);
                 }
                 canvas.drawRoundRect(rectF, f, f, paint2);
-                ResourcesProvider resourcesProvider2 = r5;
+                ResourcesProvider resourcesProvider2 = resourcesProvider;
                 if (resourcesProvider2 != null) {
                     if (!resourcesProvider2.hasGradientService()) {
                         return;
@@ -10689,8 +10252,8 @@ public abstract class Theme {
                     return;
                 }
                 RectF rectF2 = this.rect;
-                float f2 = r3;
-                canvas.drawRoundRect(rectF2, f2, f2, Theme.getThemePaint("paintChatActionBackgroundDarken", r5));
+                float f2 = i;
+                canvas.drawRoundRect(rectF2, f2, f2, Theme.getThemePaint("paintChatActionBackgroundDarken", resourcesProvider));
             }
 
             @Override // android.graphics.drawable.Drawable
@@ -10747,136 +10310,7 @@ public abstract class Theme {
         return stateListDrawable;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:107:0x03f7, code lost:
-    
-        if (r9 > 1.0f) goto L454;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:108:0x03f9, code lost:
-    
-        r2 = r3.inSampleSize * 2;
-        r3.inSampleSize = r2;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:109:0x0403, code lost:
-    
-        if (r2 < r9) goto L546;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:112:0x0405, code lost:
-    
-        r3.inJustDecodeBounds = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x0408, code lost:
-    
-        if (r6 == null) goto L459;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x040a, code lost:
-    
-        r2 = android.graphics.BitmapFactory.decodeFile(r6.getAbsolutePath(), r3);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:115:0x0421, code lost:
-    
-        if (r2 == null) goto L463;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x0423, code lost:
-    
-        r3 = new android.graphics.Paint();
-        r3.setFilterBitmap(true);
-        r6 = java.lang.Math.min(r2.getWidth() / 560.0f, r2.getHeight() / 560.0f);
-        r0.set(0.0f, 0.0f, r2.getWidth() / r6, r2.getHeight() / r6);
-        r0.offset((r12.getWidth() - r0.width()) / 2.0f, (r12.getHeight() - r0.height()) / 2.0f);
-        r15.drawBitmap(r2, (android.graphics.Rect) null, r0, r3);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x0469, code lost:
-    
-        r2 = true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:148:0x0413, code lost:
-    
-        r5.getChannel().position(r8);
-        r2 = android.graphics.BitmapFactory.decodeStream(r5, null, r3);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:167:0x0282, code lost:
-    
-        if (r6 > 1.0f) goto L400;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:168:0x0284, code lost:
-    
-        r2 = r5.inSampleSize * 2;
-        r5.inSampleSize = r2;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:169:0x028e, code lost:
-    
-        if (r2 < r6) goto L548;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:173:0x0294, code lost:
-    
-        r2 = android.graphics.Bitmap.Config.ALPHA_8;
-        r5.inPreferredConfig = r2;
-        r5.inJustDecodeBounds = false;
-        r5 = android.graphics.BitmapFactory.decodeFile(r34, r5);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:174:0x029f, code lost:
-    
-        if (r5 == null) goto L421;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:175:0x02a1, code lost:
-    
-        if (r29 == 0) goto L419;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:176:0x02a3, code lost:
-    
-        if (r35 == null) goto L419;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:177:0x02a5, code lost:
-    
-        r0 = new org.telegram.ui.Components.MotionBackgroundDrawable(r14, r28, r29, r30, true);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:178:0x02b0, code lost:
-    
-        if (r10 == null) goto L418;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:180:0x02b6, code lost:
-    
-        if (r10.getConfig() == r2) goto L418;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:181:0x02b8, code lost:
-    
-        r2 = r10.copy(r2, false);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:183:0x02bd, code lost:
-    
-        r10.recycle();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:184:0x02c0, code lost:
-    
-        r10 = r2;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:186:0x02c2, code lost:
-    
-        r0 = th;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:187:0x02c3, code lost:
-    
-        r10 = r2;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:188:0x0329, code lost:
-    
-        org.telegram.messenger.FileLog.e(r0);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:189:0x02c5, code lost:
-    
-        r0.setPatternBitmap((int) (r35.patternIntensity * 100.0f), r5);
-        r0.setBounds(0, 0, r10.getWidth(), r10.getHeight());
-        r0.draw(r15);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:190:0x02e0, code lost:
-    
-        r2 = new android.graphics.Paint();
-        r2.setFilterBitmap(true);
-        r3 = java.lang.Math.min(r5.getWidth() / 560.0f, r5.getHeight() / 560.0f);
-        r0.set(0.0f, 0.0f, r5.getWidth() / r3, r5.getHeight() / r3);
-        r0.offset((r10.getWidth() - r0.width()) / 2.0f, (r10.getHeight() - r0.height()) / 2.0f);
-        r15.drawBitmap(r5, (android.graphics.Rect) null, r0, r2);
-     */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x046e A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:130:0x0481 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:161:0x0262 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:16:0x00a2 A[Catch: all -> 0x001b, TryCatch #14 {all -> 0x001b, blocks: (B:3:0x0008, B:5:0x0015, B:6:0x001e, B:8:0x0082, B:12:0x0091, B:16:0x00a2, B:19:0x00ab, B:23:0x00be, B:26:0x00c7, B:30:0x00d5, B:33:0x00de, B:36:0x00f1, B:194:0x00fb, B:196:0x0109, B:198:0x010f, B:201:0x0120, B:206:0x012b, B:208:0x0135, B:212:0x01bb, B:40:0x01cd, B:42:0x021f, B:45:0x022f, B:49:0x023b, B:54:0x0248, B:188:0x0329, B:64:0x0490, B:66:0x04b6, B:68:0x04d9, B:70:0x04f3, B:71:0x0518, B:73:0x05a6, B:75:0x05c8, B:76:0x05f0, B:83:0x062b, B:59:0x0335, B:61:0x036b, B:87:0x033f, B:88:0x034b, B:91:0x0356, B:93:0x0382, B:121:0x046e, B:124:0x0487, B:131:0x0481, B:140:0x0634, B:146:0x063d, B:145:0x063a, B:213:0x014b, B:215:0x0153, B:217:0x015f, B:220:0x016e, B:221:0x017f, B:223:0x0187, B:225:0x0193, B:228:0x01a2, B:78:0x0618, B:128:0x047c), top: B:2:0x0008, inners: #2, #6, #9 }] */
@@ -10929,22 +10363,29 @@ public abstract class Theme {
         Drawable drawable;
         Drawable drawable2;
         Drawable drawable3;
+        BitmapFactory.Options options;
         int i19;
         int i20;
+        int i21;
+        int i22;
         boolean z;
         Bitmap bitmap;
         FileInputStream fileInputStream;
+        BitmapFactory.Options options2;
         File file;
-        int i21;
-        int i22;
+        int i23;
+        int i24;
+        Bitmap decodeStream;
+        int i25;
+        int i26;
         Drawable createDitheredGradientBitmapDrawable;
         try {
             String[] strArr = new String[1];
-            SparseIntArray themeFileValues = getThemeFileValues(new File(str), null, strArr);
+            final SparseIntArray themeFileValues = getThemeFileValues(new File(str), null, strArr);
             if (themeAccent != null) {
                 checkIsDark(themeFileValues, themeAccent.parentTheme);
             }
-            int i23 = currentColorsNoAccent.get(key_wallpaperFileOffset, -1);
+            int i27 = currentColorsNoAccent.get(key_wallpaperFileOffset, -1);
             Bitmap createBitmap = Bitmaps.createBitmap(560, 678, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(createBitmap);
             Paint paint2 = new Paint();
@@ -10955,10 +10396,10 @@ public abstract class Theme {
             int previewColor5 = getPreviewColor(themeFileValues, key_chat_inBubble);
             int previewColor6 = getPreviewColor(themeFileValues, key_chat_outBubble);
             themeFileValues.get(key_chat_outBubbleGradient1);
-            int i24 = themeFileValues.get(key_chat_wallpaper);
-            int i25 = themeFileValues.get(key_chat_wallpaper_gradient_to1);
-            int i26 = themeFileValues.get(key_chat_wallpaper_gradient_to2);
-            int i27 = themeFileValues.get(key_chat_wallpaper_gradient_to3);
+            int i28 = themeFileValues.get(key_chat_wallpaper);
+            int i29 = themeFileValues.get(key_chat_wallpaper_gradient_to1);
+            int i30 = themeFileValues.get(key_chat_wallpaper_gradient_to2);
+            int i31 = themeFileValues.get(key_chat_wallpaper_gradient_to3);
             if (themeAccent != null) {
                 paint = paint2;
                 i = (int) themeAccent.backgroundOverrideColor;
@@ -10968,9 +10409,9 @@ public abstract class Theme {
             }
             try {
                 if (i != 0 || themeAccent == null) {
-                    i2 = i27;
+                    i2 = i31;
                 } else {
-                    i2 = i27;
+                    i2 = i31;
                     if (themeAccent.backgroundOverrideColor != 0) {
                         i = 0;
                         i3 = themeAccent == null ? (int) themeAccent.backgroundGradientOverrideColor1 : 0;
@@ -10981,12 +10422,12 @@ public abstract class Theme {
                             i4 = i2;
                             i5 = i;
                             if (themeAccent.backgroundGradientOverrideColor1 != 0) {
-                                i25 = 0;
+                                i29 = 0;
                                 i6 = themeAccent != null ? (int) themeAccent.backgroundGradientOverrideColor2 : 0;
                                 if (i6 != 0 && themeAccent != null && themeAccent.backgroundGradientOverrideColor2 != 0) {
                                     i6 = 0;
                                 } else if (i6 == 0) {
-                                    i6 = i26;
+                                    i6 = i30;
                                 }
                                 i7 = themeAccent != null ? (int) themeAccent.backgroundGradientOverrideColor3 : 0;
                                 if (i7 == 0 || themeAccent == null) {
@@ -10998,7 +10439,7 @@ public abstract class Theme {
                                     if (themeAccent.backgroundGradientOverrideColor3 != 0) {
                                         c = 0;
                                         i8 = 0;
-                                        int i28 = i8;
+                                        int i32 = i8;
                                         if (!TextUtils.isEmpty(strArr[c])) {
                                             try {
                                                 queryParameter = Uri.parse(strArr[c]).getQueryParameter("bg_color");
@@ -11013,16 +10454,16 @@ public abstract class Theme {
                                                     if (queryParameter.length() >= 13) {
                                                         try {
                                                             if (AndroidUtilities.isValidWallChar(queryParameter.charAt(6))) {
-                                                                i25 = Integer.parseInt(queryParameter.substring(7, 13), 16) | (-16777216);
-                                                                themeAccent.backgroundGradientOverrideColor1 = i25;
+                                                                i29 = Integer.parseInt(queryParameter.substring(7, 13), 16) | (-16777216);
+                                                                themeAccent.backgroundGradientOverrideColor1 = i29;
                                                             }
                                                         } catch (Exception e2) {
                                                             e = e2;
-                                                            i11 = i28;
+                                                            i11 = i32;
                                                             i12 = i9;
                                                             FileLog.e(e);
                                                             i13 = i12;
-                                                            i14 = i25;
+                                                            i14 = i29;
                                                             i15 = i11;
                                                             mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
                                                             setDrawableColor(mutate, previewColor2);
@@ -11040,10 +10481,10 @@ public abstract class Theme {
                                                             drawable2 = mutate3;
                                                             drawable3 = mutate4;
                                                             RectF rectF = new RectF();
-                                                            int i29 = 80;
+                                                            int i33 = 80;
                                                             if (str2 == null) {
                                                             }
-                                                            i20 = 80;
+                                                            i22 = 80;
                                                             z = false;
                                                             if (z) {
                                                             }
@@ -11071,7 +10512,7 @@ public abstract class Theme {
                                                             }
                                                             canvas.setBitmap(null);
                                                             File file2 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file2));
+                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file2));
                                                             SharedConfig.saveConfig();
                                                             return file2.getAbsolutePath();
                                                         }
@@ -11086,11 +10527,11 @@ public abstract class Theme {
                                                             themeAccent.backgroundGradientOverrideColor2 = i12;
                                                         } catch (Exception e3) {
                                                             e = e3;
-                                                            i11 = i28;
+                                                            i11 = i32;
                                                             i10 = i16;
                                                             FileLog.e(e);
                                                             i13 = i12;
-                                                            i14 = i25;
+                                                            i14 = i29;
                                                             i15 = i11;
                                                             mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
                                                             setDrawableColor(mutate, previewColor2);
@@ -11108,10 +10549,10 @@ public abstract class Theme {
                                                             drawable2 = mutate32;
                                                             drawable3 = mutate42;
                                                             RectF rectF2 = new RectF();
-                                                            int i292 = 80;
+                                                            int i332 = 80;
                                                             if (str2 == null) {
                                                             }
-                                                            i20 = 80;
+                                                            i22 = 80;
                                                             z = false;
                                                             if (z) {
                                                             }
@@ -11139,7 +10580,7 @@ public abstract class Theme {
                                                             }
                                                             canvas.setBitmap(null);
                                                             File file22 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file22));
+                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22));
                                                             SharedConfig.saveConfig();
                                                             return file22.getAbsolutePath();
                                                         }
@@ -11150,14 +10591,14 @@ public abstract class Theme {
                                                             themeAccent.backgroundGradientOverrideColor3 = parseInt;
                                                             i13 = i12;
                                                             i15 = parseInt;
-                                                            i14 = i25;
+                                                            i14 = i29;
                                                         } catch (Exception e4) {
                                                             e = e4;
                                                             i11 = parseInt;
                                                             i10 = i16;
                                                             FileLog.e(e);
                                                             i13 = i12;
-                                                            i14 = i25;
+                                                            i14 = i29;
                                                             i15 = i11;
                                                             mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
                                                             setDrawableColor(mutate, previewColor2);
@@ -11175,10 +10616,10 @@ public abstract class Theme {
                                                             drawable2 = mutate322;
                                                             drawable3 = mutate422;
                                                             RectF rectF22 = new RectF();
-                                                            int i2922 = 80;
+                                                            int i3322 = 80;
                                                             if (str2 == null) {
                                                             }
-                                                            i20 = 80;
+                                                            i22 = 80;
                                                             z = false;
                                                             if (z) {
                                                             }
@@ -11206,14 +10647,14 @@ public abstract class Theme {
                                                             }
                                                             canvas.setBitmap(null);
                                                             File file222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file222));
+                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file222));
                                                             SharedConfig.saveConfig();
                                                             return file222.getAbsolutePath();
                                                         }
                                                     } else {
                                                         i13 = i12;
-                                                        i14 = i25;
-                                                        i15 = i28;
+                                                        i14 = i29;
+                                                        i15 = i32;
                                                     }
                                                     i10 = i16;
                                                 } catch (Exception e5) {
@@ -11233,28 +10674,20 @@ public abstract class Theme {
                                                     Drawable drawable4 = mutate4222;
                                                     Drawable drawable5 = mutate2222;
                                                     Drawable drawable6 = mutate3222;
-                                                    10 r9 = new MessageDrawable(2, i18 == 1, false) { // from class: org.telegram.ui.ActionBar.Theme.10
-                                                        final /* synthetic */ SparseIntArray val$colors;
-
-                                                        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-                                                        10(int i30, boolean z2, boolean z22, SparseIntArray themeFileValues2) {
-                                                            super(i30, z2, z22);
-                                                            r4 = themeFileValues2;
+                                                    MessageDrawable messageDrawable = new MessageDrawable(2, i18 == 1, false) { // from class: org.telegram.ui.ActionBar.Theme.10
+                                                        @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
+                                                        protected int getColor(int i34) {
+                                                            int indexOfKey = themeFileValues.indexOfKey(i34);
+                                                            return indexOfKey > 0 ? themeFileValues.valueAt(indexOfKey) : Theme.defaultColors[i34];
                                                         }
 
                                                         @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
-                                                        protected int getColor(int i30) {
-                                                            int indexOfKey = r4.indexOfKey(i30);
-                                                            return indexOfKey > 0 ? r4.valueAt(indexOfKey) : Theme.defaultColors[i30];
-                                                        }
-
-                                                        @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
-                                                        protected int getCurrentColor(int i30) {
-                                                            return r4.get(i30);
+                                                        protected int getCurrentColor(int i34) {
+                                                            return themeFileValues.get(i34);
                                                         }
                                                     };
-                                                    messageDrawableArr222[i18] = r9;
-                                                    setDrawableColor(r9, i18 == 0 ? previewColor5 : previewColor6);
+                                                    messageDrawableArr222[i18] = messageDrawable;
+                                                    setDrawableColor(messageDrawable, i18 == 0 ? previewColor5 : previewColor6);
                                                     i18++;
                                                     mutate4222 = drawable4;
                                                     mutate3222 = drawable6;
@@ -11264,57 +10697,162 @@ public abstract class Theme {
                                                 drawable2 = mutate3222;
                                                 drawable3 = mutate4222;
                                                 RectF rectF222 = new RectF();
-                                                int i29222 = 80;
+                                                int i33222 = 80;
                                                 if (str2 == null) {
                                                     try {
-                                                        BitmapFactory.Options options = new BitmapFactory.Options();
+                                                        options = new BitmapFactory.Options();
                                                         options.inJustDecodeBounds = true;
                                                         BitmapFactory.decodeFile(str2, options);
-                                                        int i30 = options.outWidth;
-                                                        if (i30 > 0 && (i19 = options.outHeight) > 0) {
-                                                            float min = Math.min(i30 / 560.0f, i19 / 560.0f);
-                                                            options.inSampleSize = 1;
-                                                        }
-                                                        bitmap = createBitmap;
-                                                        createBitmap = bitmap;
+                                                        i19 = options.outWidth;
                                                     } catch (Throwable th) {
                                                         th = th;
                                                     }
+                                                    if (i19 > 0 && (i20 = options.outHeight) > 0) {
+                                                        float min = Math.min(i19 / 560.0f, i20 / 560.0f);
+                                                        options.inSampleSize = 1;
+                                                        if (min > 1.0f) {
+                                                            do {
+                                                                i21 = options.inSampleSize * 2;
+                                                                options.inSampleSize = i21;
+                                                            } while (i21 < min);
+                                                        }
+                                                        Bitmap.Config config = Bitmap.Config.ALPHA_8;
+                                                        options.inPreferredConfig = config;
+                                                        options.inJustDecodeBounds = false;
+                                                        Bitmap decodeFile = BitmapFactory.decodeFile(str2, options);
+                                                        if (decodeFile != null) {
+                                                            if (i13 == 0 || themeAccent == null) {
+                                                                Paint paint4 = new Paint();
+                                                                paint4.setFilterBitmap(true);
+                                                                float min2 = Math.min(decodeFile.getWidth() / 560.0f, decodeFile.getHeight() / 560.0f);
+                                                                rectF222.set(0.0f, 0.0f, decodeFile.getWidth() / min2, decodeFile.getHeight() / min2);
+                                                                rectF222.offset((createBitmap.getWidth() - rectF222.width()) / 2.0f, (createBitmap.getHeight() - rectF222.height()) / 2.0f);
+                                                                canvas.drawBitmap(decodeFile, (Rect) null, rectF222, paint4);
+                                                            } else {
+                                                                MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable(i10, i14, i13, i15, true);
+                                                                if (createBitmap != null && createBitmap.getConfig() != config) {
+                                                                    Bitmap copy = createBitmap.copy(config, false);
+                                                                    try {
+                                                                        createBitmap.recycle();
+                                                                        createBitmap = copy;
+                                                                    } catch (Throwable th2) {
+                                                                        th = th2;
+                                                                        createBitmap = copy;
+                                                                        FileLog.e(th);
+                                                                        i22 = 80;
+                                                                        z = false;
+                                                                        if (z) {
+                                                                        }
+                                                                        Paint paint3222 = paint;
+                                                                        paint3222.setColor(previewColor);
+                                                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222);
+                                                                        if (mutate != null) {
+                                                                        }
+                                                                        if (drawable != null) {
+                                                                        }
+                                                                        messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
+                                                                        messageDrawableArr222[1].setTop(0, 560, 522, false, false);
+                                                                        messageDrawableArr222[1].draw(canvas);
+                                                                        messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, 430, createBitmap.getWidth() - 20, 522);
+                                                                        messageDrawableArr222[1].setTop(430, 560, 522, false, false);
+                                                                        messageDrawableArr222[1].draw(canvas);
+                                                                        messageDrawableArr222[0].setBounds(20, 323, 399, 415);
+                                                                        messageDrawableArr222[0].setTop(323, 560, 522, false, false);
+                                                                        messageDrawableArr222[0].draw(canvas);
+                                                                        paint3222.setColor(previewColor3);
+                                                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222);
+                                                                        if (drawable2 != null) {
+                                                                        }
+                                                                        if (drawable3 != null) {
+                                                                        }
+                                                                        canvas.setBitmap(null);
+                                                                        File file2222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file2222));
+                                                                        SharedConfig.saveConfig();
+                                                                        return file2222.getAbsolutePath();
+                                                                    }
+                                                                }
+                                                                motionBackgroundDrawable.setPatternBitmap((int) (themeAccent.patternIntensity * 100.0f), decodeFile);
+                                                                motionBackgroundDrawable.setBounds(0, 0, createBitmap.getWidth(), createBitmap.getHeight());
+                                                                motionBackgroundDrawable.draw(canvas);
+                                                            }
+                                                            i22 = i33222;
+                                                            z = true;
+                                                            if (z) {
+                                                                Drawable createDefaultWallpaper = createDefaultWallpaper(createBitmap.getWidth(), createBitmap.getHeight() - 120);
+                                                                createDefaultWallpaper.setBounds(0, 120, createBitmap.getWidth(), createBitmap.getHeight() - 120);
+                                                                createDefaultWallpaper.draw(canvas);
+                                                            }
+                                                            Paint paint32222 = paint;
+                                                            paint32222.setColor(previewColor);
+                                                            canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222);
+                                                            if (mutate != null) {
+                                                                int intrinsicHeight = (120 - mutate.getIntrinsicHeight()) / 2;
+                                                                mutate.setBounds(13, intrinsicHeight, mutate.getIntrinsicWidth() + 13, mutate.getIntrinsicHeight() + intrinsicHeight);
+                                                                mutate.draw(canvas);
+                                                            }
+                                                            if (drawable != null) {
+                                                                int width = (createBitmap.getWidth() - drawable.getIntrinsicWidth()) - 10;
+                                                                int intrinsicHeight2 = (120 - drawable.getIntrinsicHeight()) / 2;
+                                                                drawable.setBounds(width, intrinsicHeight2, drawable.getIntrinsicWidth() + width, drawable.getIntrinsicHeight() + intrinsicHeight2);
+                                                                drawable.draw(canvas);
+                                                            }
+                                                            messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
+                                                            messageDrawableArr222[1].setTop(0, 560, 522, false, false);
+                                                            messageDrawableArr222[1].draw(canvas);
+                                                            messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, 430, createBitmap.getWidth() - 20, 522);
+                                                            messageDrawableArr222[1].setTop(430, 560, 522, false, false);
+                                                            messageDrawableArr222[1].draw(canvas);
+                                                            messageDrawableArr222[0].setBounds(20, 323, 399, 415);
+                                                            messageDrawableArr222[0].setTop(323, 560, 522, false, false);
+                                                            messageDrawableArr222[0].draw(canvas);
+                                                            paint32222.setColor(previewColor3);
+                                                            canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222);
+                                                            if (drawable2 != null) {
+                                                                int height = (createBitmap.getHeight() - 120) + ((120 - drawable2.getIntrinsicHeight()) / 2);
+                                                                drawable2.setBounds(22, height, drawable2.getIntrinsicWidth() + 22, drawable2.getIntrinsicHeight() + height);
+                                                                drawable2.draw(canvas);
+                                                            }
+                                                            if (drawable3 != null) {
+                                                                int width2 = (createBitmap.getWidth() - drawable3.getIntrinsicWidth()) - 22;
+                                                                int height2 = (createBitmap.getHeight() - 120) + ((120 - drawable3.getIntrinsicHeight()) / 2);
+                                                                drawable3.setBounds(width2, height2, drawable3.getIntrinsicWidth() + width2, drawable3.getIntrinsicHeight() + height2);
+                                                                drawable3.draw(canvas);
+                                                            }
+                                                            canvas.setBitmap(null);
+                                                            File file22222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22222));
+                                                            SharedConfig.saveConfig();
+                                                            return file22222.getAbsolutePath();
+                                                        }
+                                                    }
+                                                    bitmap = createBitmap;
+                                                    createBitmap = bitmap;
                                                 } else {
                                                     if (i10 != 0) {
                                                         if (i14 == 0) {
                                                             createDitheredGradientBitmapDrawable = new ColorDrawable(i10);
                                                         } else {
                                                             if (i13 == 0) {
-                                                                int i31 = themeFileValues2.get(key_chat_wallpaper_gradient_rotation, -1);
-                                                                if (i31 == -1) {
-                                                                    i31 = 45;
+                                                                int i34 = themeFileValues.get(key_chat_wallpaper_gradient_rotation, -1);
+                                                                if (i34 == -1) {
+                                                                    i34 = 45;
                                                                 }
-                                                                i22 = 120;
-                                                                createDitheredGradientBitmapDrawable = BackgroundGradientDrawable.createDitheredGradientBitmapDrawable(i31, new int[]{i10, i26}, createBitmap.getWidth(), createBitmap.getHeight() - 120);
-                                                                i29222 = 90;
-                                                                createDitheredGradientBitmapDrawable.setBounds(0, i22, createBitmap.getWidth(), createBitmap.getHeight() - i22);
+                                                                i26 = 120;
+                                                                createDitheredGradientBitmapDrawable = BackgroundGradientDrawable.createDitheredGradientBitmapDrawable(i34, new int[]{i10, i30}, createBitmap.getWidth(), createBitmap.getHeight() - 120);
+                                                                i33222 = 90;
+                                                                createDitheredGradientBitmapDrawable.setBounds(0, i26, createBitmap.getWidth(), createBitmap.getHeight() - i26);
                                                                 createDitheredGradientBitmapDrawable.draw(canvas);
-                                                                i20 = i29222;
+                                                                i22 = i33222;
                                                                 z = true;
                                                                 if (z) {
-                                                                    Drawable createDefaultWallpaper = createDefaultWallpaper(createBitmap.getWidth(), createBitmap.getHeight() - 120);
-                                                                    createDefaultWallpaper.setBounds(0, 120, createBitmap.getWidth(), createBitmap.getHeight() - 120);
-                                                                    createDefaultWallpaper.draw(canvas);
                                                                 }
-                                                                Paint paint3222 = paint;
-                                                                paint3222.setColor(previewColor);
-                                                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222);
+                                                                Paint paint322222 = paint;
+                                                                paint322222.setColor(previewColor);
+                                                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222);
                                                                 if (mutate != null) {
-                                                                    int intrinsicHeight = (120 - mutate.getIntrinsicHeight()) / 2;
-                                                                    mutate.setBounds(13, intrinsicHeight, mutate.getIntrinsicWidth() + 13, mutate.getIntrinsicHeight() + intrinsicHeight);
-                                                                    mutate.draw(canvas);
                                                                 }
                                                                 if (drawable != null) {
-                                                                    int width = (createBitmap.getWidth() - drawable.getIntrinsicWidth()) - 10;
-                                                                    int intrinsicHeight2 = (120 - drawable.getIntrinsicHeight()) / 2;
-                                                                    drawable.setBounds(width, intrinsicHeight2, drawable.getIntrinsicWidth() + width, drawable.getIntrinsicHeight() + intrinsicHeight2);
-                                                                    drawable.draw(canvas);
                                                                 }
                                                                 messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
                                                                 messageDrawableArr222[1].setTop(0, 560, 522, false, false);
@@ -11325,37 +10863,30 @@ public abstract class Theme {
                                                                 messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                                 messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                                 messageDrawableArr222[0].draw(canvas);
-                                                                paint3222.setColor(previewColor3);
-                                                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222);
+                                                                paint322222.setColor(previewColor3);
+                                                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222);
                                                                 if (drawable2 != null) {
-                                                                    int height = (createBitmap.getHeight() - 120) + ((120 - drawable2.getIntrinsicHeight()) / 2);
-                                                                    drawable2.setBounds(22, height, drawable2.getIntrinsicWidth() + 22, drawable2.getIntrinsicHeight() + height);
-                                                                    drawable2.draw(canvas);
                                                                 }
                                                                 if (drawable3 != null) {
-                                                                    int width2 = (createBitmap.getWidth() - drawable3.getIntrinsicWidth()) - 22;
-                                                                    int height2 = (createBitmap.getHeight() - 120) + ((120 - drawable3.getIntrinsicHeight()) / 2);
-                                                                    drawable3.setBounds(width2, height2, drawable3.getIntrinsicWidth() + width2, drawable3.getIntrinsicHeight() + height2);
-                                                                    drawable3.draw(canvas);
                                                                 }
                                                                 canvas.setBitmap(null);
-                                                                File file2222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file2222));
+                                                                File file222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file222222));
                                                                 SharedConfig.saveConfig();
-                                                                return file2222.getAbsolutePath();
+                                                                return file222222.getAbsolutePath();
                                                             }
                                                             createDitheredGradientBitmapDrawable = new MotionBackgroundDrawable(i10, i14, i13, i15, true);
                                                         }
-                                                        i22 = 120;
-                                                        createDitheredGradientBitmapDrawable.setBounds(0, i22, createBitmap.getWidth(), createBitmap.getHeight() - i22);
+                                                        i26 = 120;
+                                                        createDitheredGradientBitmapDrawable.setBounds(0, i26, createBitmap.getWidth(), createBitmap.getHeight() - i26);
                                                         createDitheredGradientBitmapDrawable.draw(canvas);
-                                                        i20 = i29222;
+                                                        i22 = i33222;
                                                         z = true;
                                                         if (z) {
                                                         }
-                                                        Paint paint32222 = paint;
-                                                        paint32222.setColor(previewColor);
-                                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222);
+                                                        Paint paint3222222 = paint;
+                                                        paint3222222.setColor(previewColor);
+                                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222);
                                                         if (mutate != null) {
                                                         }
                                                         if (drawable != null) {
@@ -11369,32 +10900,32 @@ public abstract class Theme {
                                                         messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                         messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                         messageDrawableArr222[0].draw(canvas);
-                                                        paint32222.setColor(previewColor3);
-                                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222);
+                                                        paint3222222.setColor(previewColor3);
+                                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222);
                                                         if (drawable2 != null) {
                                                         }
                                                         if (drawable3 != null) {
                                                         }
                                                         canvas.setBitmap(null);
-                                                        File file22222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file22222));
+                                                        File file2222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file2222222));
                                                         SharedConfig.saveConfig();
-                                                        return file22222.getAbsolutePath();
+                                                        return file2222222.getAbsolutePath();
                                                     }
-                                                    if (i23 >= 0 || !TextUtils.isEmpty(strArr[0])) {
+                                                    if (i27 >= 0 || !TextUtils.isEmpty(strArr[0])) {
                                                         try {
-                                                            BitmapFactory.Options options2 = new BitmapFactory.Options();
+                                                            options2 = new BitmapFactory.Options();
                                                             options2.inJustDecodeBounds = true;
                                                             if (TextUtils.isEmpty(strArr[0])) {
                                                                 fileInputStream = new FileInputStream(str);
                                                                 try {
                                                                     bitmap = createBitmap;
                                                                     try {
-                                                                        fileInputStream.getChannel().position(i23);
+                                                                        fileInputStream.getChannel().position(i27);
                                                                         BitmapFactory.decodeStream(fileInputStream, null, options2);
                                                                         file = null;
-                                                                    } catch (Throwable th2) {
-                                                                        th = th2;
+                                                                    } catch (Throwable th3) {
+                                                                        th = th3;
                                                                         try {
                                                                             FileLog.e(th);
                                                                             if (fileInputStream != null) {
@@ -11405,12 +10936,12 @@ public abstract class Theme {
                                                                                     z = false;
                                                                                     FileLog.e(e);
                                                                                     createBitmap = bitmap;
-                                                                                    i20 = 80;
+                                                                                    i22 = 80;
                                                                                     if (z) {
                                                                                     }
-                                                                                    Paint paint322222 = paint;
-                                                                                    paint322222.setColor(previewColor);
-                                                                                    canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222);
+                                                                                    Paint paint32222222 = paint;
+                                                                                    paint32222222.setColor(previewColor);
+                                                                                    canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222);
                                                                                     if (mutate != null) {
                                                                                     }
                                                                                     if (drawable != null) {
@@ -11424,27 +10955,27 @@ public abstract class Theme {
                                                                                     messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                                                     messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                                                     messageDrawableArr222[0].draw(canvas);
-                                                                                    paint322222.setColor(previewColor3);
-                                                                                    canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222);
+                                                                                    paint32222222.setColor(previewColor3);
+                                                                                    canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222);
                                                                                     if (drawable2 != null) {
                                                                                     }
                                                                                     if (drawable3 != null) {
                                                                                     }
                                                                                     canvas.setBitmap(null);
-                                                                                    File file222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                                                    createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file222222));
+                                                                                    File file22222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                                    createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22222222));
                                                                                     SharedConfig.saveConfig();
-                                                                                    return file222222.getAbsolutePath();
+                                                                                    return file22222222.getAbsolutePath();
                                                                                 }
                                                                             }
                                                                             createBitmap = bitmap;
-                                                                            i20 = 80;
+                                                                            i22 = 80;
                                                                             z = false;
                                                                             if (z) {
                                                                             }
-                                                                            Paint paint3222222 = paint;
-                                                                            paint3222222.setColor(previewColor);
-                                                                            canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222);
+                                                                            Paint paint322222222 = paint;
+                                                                            paint322222222.setColor(previewColor);
+                                                                            canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222);
                                                                             if (mutate != null) {
                                                                             }
                                                                             if (drawable != null) {
@@ -11458,34 +10989,34 @@ public abstract class Theme {
                                                                             messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                                             messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                                             messageDrawableArr222[0].draw(canvas);
-                                                                            paint3222222.setColor(previewColor3);
-                                                                            canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222);
+                                                                            paint322222222.setColor(previewColor3);
+                                                                            canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222);
                                                                             if (drawable2 != null) {
                                                                             }
                                                                             if (drawable3 != null) {
                                                                             }
                                                                             canvas.setBitmap(null);
-                                                                            File file2222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file2222222));
+                                                                            File file222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                            createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file222222222));
                                                                             SharedConfig.saveConfig();
-                                                                            return file2222222.getAbsolutePath();
+                                                                            return file222222222.getAbsolutePath();
                                                                         } finally {
                                                                         }
                                                                     }
-                                                                } catch (Throwable th3) {
-                                                                    th = th3;
+                                                                } catch (Throwable th4) {
+                                                                    th = th4;
                                                                     bitmap = createBitmap;
                                                                     FileLog.e(th);
                                                                     if (fileInputStream != null) {
                                                                     }
                                                                     createBitmap = bitmap;
-                                                                    i20 = 80;
+                                                                    i22 = 80;
                                                                     z = false;
                                                                     if (z) {
                                                                     }
-                                                                    Paint paint32222222 = paint;
-                                                                    paint32222222.setColor(previewColor);
-                                                                    canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222);
+                                                                    Paint paint3222222222 = paint;
+                                                                    paint3222222222.setColor(previewColor);
+                                                                    canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222222);
                                                                     if (mutate != null) {
                                                                     }
                                                                     if (drawable != null) {
@@ -11499,17 +11030,17 @@ public abstract class Theme {
                                                                     messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                                     messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                                     messageDrawableArr222[0].draw(canvas);
-                                                                    paint32222222.setColor(previewColor3);
-                                                                    canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222);
+                                                                    paint3222222222.setColor(previewColor3);
+                                                                    canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222222);
                                                                     if (drawable2 != null) {
                                                                     }
                                                                     if (drawable3 != null) {
                                                                     }
                                                                     canvas.setBitmap(null);
-                                                                    File file22222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                                    createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file22222222));
+                                                                    File file2222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                    createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file2222222222));
                                                                     SharedConfig.saveConfig();
-                                                                    return file22222222.getAbsolutePath();
+                                                                    return file2222222222.getAbsolutePath();
                                                                 }
                                                             } else {
                                                                 File file3 = new File(ApplicationLoader.getFilesDirFixed(), Utilities.MD5(strArr[0]) + ".wp");
@@ -11518,63 +11049,118 @@ public abstract class Theme {
                                                                 bitmap = createBitmap;
                                                                 fileInputStream = null;
                                                             }
-                                                            int i32 = options2.outWidth;
-                                                            if (i32 > 0 && (i21 = options2.outHeight) > 0) {
-                                                                float min2 = Math.min(i32 / 560.0f, i21 / 560.0f);
-                                                                options2.inSampleSize = 1;
-                                                            }
-                                                            z = false;
-                                                            if (fileInputStream != null) {
-                                                                try {
-                                                                    fileInputStream.close();
-                                                                } catch (Exception e7) {
-                                                                    e = e7;
-                                                                    FileLog.e(e);
-                                                                    createBitmap = bitmap;
-                                                                    i20 = 80;
-                                                                    if (z) {
-                                                                    }
-                                                                    Paint paint322222222 = paint;
-                                                                    paint322222222.setColor(previewColor);
-                                                                    canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222);
-                                                                    if (mutate != null) {
-                                                                    }
-                                                                    if (drawable != null) {
-                                                                    }
-                                                                    messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
-                                                                    messageDrawableArr222[1].setTop(0, 560, 522, false, false);
-                                                                    messageDrawableArr222[1].draw(canvas);
-                                                                    messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, 430, createBitmap.getWidth() - 20, 522);
-                                                                    messageDrawableArr222[1].setTop(430, 560, 522, false, false);
-                                                                    messageDrawableArr222[1].draw(canvas);
-                                                                    messageDrawableArr222[0].setBounds(20, 323, 399, 415);
-                                                                    messageDrawableArr222[0].setTop(323, 560, 522, false, false);
-                                                                    messageDrawableArr222[0].draw(canvas);
-                                                                    paint322222222.setColor(previewColor3);
-                                                                    canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222);
-                                                                    if (drawable2 != null) {
-                                                                    }
-                                                                    if (drawable3 != null) {
-                                                                    }
-                                                                    canvas.setBitmap(null);
-                                                                    File file222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                                    createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file222222222));
-                                                                    SharedConfig.saveConfig();
-                                                                    return file222222222.getAbsolutePath();
-                                                                }
-                                                            }
-                                                            createBitmap = bitmap;
-                                                            i20 = 80;
-                                                        } catch (Throwable th4) {
-                                                            th = th4;
+                                                            i23 = options2.outWidth;
+                                                        } catch (Throwable th5) {
+                                                            th = th5;
                                                             bitmap = createBitmap;
                                                             fileInputStream = null;
                                                         }
+                                                        if (i23 > 0 && (i24 = options2.outHeight) > 0) {
+                                                            float min3 = Math.min(i23 / 560.0f, i24 / 560.0f);
+                                                            options2.inSampleSize = 1;
+                                                            if (min3 > 1.0f) {
+                                                                do {
+                                                                    i25 = options2.inSampleSize * 2;
+                                                                    options2.inSampleSize = i25;
+                                                                } while (i25 < min3);
+                                                            }
+                                                            options2.inJustDecodeBounds = false;
+                                                            if (file != null) {
+                                                                decodeStream = BitmapFactory.decodeFile(file.getAbsolutePath(), options2);
+                                                            } else {
+                                                                fileInputStream.getChannel().position(i27);
+                                                                decodeStream = BitmapFactory.decodeStream(fileInputStream, null, options2);
+                                                            }
+                                                            if (decodeStream != null) {
+                                                                Paint paint5 = new Paint();
+                                                                paint5.setFilterBitmap(true);
+                                                                float min4 = Math.min(decodeStream.getWidth() / 560.0f, decodeStream.getHeight() / 560.0f);
+                                                                rectF222.set(0.0f, 0.0f, decodeStream.getWidth() / min4, decodeStream.getHeight() / min4);
+                                                                rectF222.offset((bitmap.getWidth() - rectF222.width()) / 2.0f, (bitmap.getHeight() - rectF222.height()) / 2.0f);
+                                                                canvas.drawBitmap(decodeStream, (Rect) null, rectF222, paint5);
+                                                                z = true;
+                                                                if (fileInputStream != null) {
+                                                                    try {
+                                                                        fileInputStream.close();
+                                                                    } catch (Exception e7) {
+                                                                        e = e7;
+                                                                        FileLog.e(e);
+                                                                        createBitmap = bitmap;
+                                                                        i22 = 80;
+                                                                        if (z) {
+                                                                        }
+                                                                        Paint paint32222222222 = paint;
+                                                                        paint32222222222.setColor(previewColor);
+                                                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222222);
+                                                                        if (mutate != null) {
+                                                                        }
+                                                                        if (drawable != null) {
+                                                                        }
+                                                                        messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
+                                                                        messageDrawableArr222[1].setTop(0, 560, 522, false, false);
+                                                                        messageDrawableArr222[1].draw(canvas);
+                                                                        messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, 430, createBitmap.getWidth() - 20, 522);
+                                                                        messageDrawableArr222[1].setTop(430, 560, 522, false, false);
+                                                                        messageDrawableArr222[1].draw(canvas);
+                                                                        messageDrawableArr222[0].setBounds(20, 323, 399, 415);
+                                                                        messageDrawableArr222[0].setTop(323, 560, 522, false, false);
+                                                                        messageDrawableArr222[0].draw(canvas);
+                                                                        paint32222222222.setColor(previewColor3);
+                                                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222222);
+                                                                        if (drawable2 != null) {
+                                                                        }
+                                                                        if (drawable3 != null) {
+                                                                        }
+                                                                        canvas.setBitmap(null);
+                                                                        File file22222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22222222222));
+                                                                        SharedConfig.saveConfig();
+                                                                        return file22222222222.getAbsolutePath();
+                                                                    }
+                                                                }
+                                                                createBitmap = bitmap;
+                                                                i22 = 80;
+                                                                if (z) {
+                                                                }
+                                                                Paint paint322222222222 = paint;
+                                                                paint322222222222.setColor(previewColor);
+                                                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222222);
+                                                                if (mutate != null) {
+                                                                }
+                                                                if (drawable != null) {
+                                                                }
+                                                                messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, NotificationCenter.botStarsUpdated, createBitmap.getWidth() - 20, 308);
+                                                                messageDrawableArr222[1].setTop(0, 560, 522, false, false);
+                                                                messageDrawableArr222[1].draw(canvas);
+                                                                messageDrawableArr222[1].setBounds(NotificationCenter.didStartedCall, 430, createBitmap.getWidth() - 20, 522);
+                                                                messageDrawableArr222[1].setTop(430, 560, 522, false, false);
+                                                                messageDrawableArr222[1].draw(canvas);
+                                                                messageDrawableArr222[0].setBounds(20, 323, 399, 415);
+                                                                messageDrawableArr222[0].setTop(323, 560, 522, false, false);
+                                                                messageDrawableArr222[0].draw(canvas);
+                                                                paint322222222222.setColor(previewColor3);
+                                                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222222);
+                                                                if (drawable2 != null) {
+                                                                }
+                                                                if (drawable3 != null) {
+                                                                }
+                                                                canvas.setBitmap(null);
+                                                                File file222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file222222222222));
+                                                                SharedConfig.saveConfig();
+                                                                return file222222222222.getAbsolutePath();
+                                                            }
+                                                        }
+                                                        z = false;
+                                                        if (fileInputStream != null) {
+                                                        }
+                                                        createBitmap = bitmap;
+                                                        i22 = 80;
                                                         if (z) {
                                                         }
-                                                        Paint paint3222222222 = paint;
-                                                        paint3222222222.setColor(previewColor);
-                                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222222);
+                                                        Paint paint3222222222222 = paint;
+                                                        paint3222222222222.setColor(previewColor);
+                                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222222222);
                                                         if (mutate != null) {
                                                         }
                                                         if (drawable != null) {
@@ -11588,28 +11174,28 @@ public abstract class Theme {
                                                         messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                         messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                         messageDrawableArr222[0].draw(canvas);
-                                                        paint3222222222.setColor(previewColor3);
-                                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222222);
+                                                        paint3222222222222.setColor(previewColor3);
+                                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222222222);
                                                         if (drawable2 != null) {
                                                         }
                                                         if (drawable3 != null) {
                                                         }
                                                         canvas.setBitmap(null);
-                                                        File file2222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file2222222222));
+                                                        File file2222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file2222222222222));
                                                         SharedConfig.saveConfig();
-                                                        return file2222222222.getAbsolutePath();
+                                                        return file2222222222222.getAbsolutePath();
                                                     }
                                                     bitmap = createBitmap;
                                                     createBitmap = bitmap;
                                                 }
-                                                i20 = 80;
+                                                i22 = 80;
                                                 z = false;
                                                 if (z) {
                                                 }
-                                                Paint paint32222222222 = paint;
-                                                paint32222222222.setColor(previewColor);
-                                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222222);
+                                                Paint paint32222222222222 = paint;
+                                                paint32222222222222.setColor(previewColor);
+                                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222222222);
                                                 if (mutate != null) {
                                                 }
                                                 if (drawable != null) {
@@ -11623,22 +11209,22 @@ public abstract class Theme {
                                                 messageDrawableArr222[0].setBounds(20, 323, 399, 415);
                                                 messageDrawableArr222[0].setTop(323, 560, 522, false, false);
                                                 messageDrawableArr222[0].draw(canvas);
-                                                paint32222222222.setColor(previewColor3);
-                                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222222);
+                                                paint32222222222222.setColor(previewColor3);
+                                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222222222);
                                                 if (drawable2 != null) {
                                                 }
                                                 if (drawable3 != null) {
                                                 }
                                                 canvas.setBitmap(null);
-                                                File file22222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file22222222222));
+                                                File file22222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22222222222222));
                                                 SharedConfig.saveConfig();
-                                                return file22222222222.getAbsolutePath();
+                                                return file22222222222222.getAbsolutePath();
                                             }
                                         }
-                                        i14 = i25;
+                                        i14 = i29;
                                         i10 = i5;
-                                        i15 = i28;
+                                        i15 = i32;
                                         i13 = i9;
                                         mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
                                         setDrawableColor(mutate, previewColor2);
@@ -11656,16 +11242,16 @@ public abstract class Theme {
                                         drawable2 = mutate32222;
                                         drawable3 = mutate42222;
                                         RectF rectF2222 = new RectF();
-                                        int i292222 = 80;
+                                        int i332222 = 80;
                                         if (str2 == null) {
                                         }
-                                        i20 = 80;
+                                        i22 = 80;
                                         z = false;
                                         if (z) {
                                         }
-                                        Paint paint322222222222 = paint;
-                                        paint322222222222.setColor(previewColor);
-                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222222);
+                                        Paint paint322222222222222 = paint;
+                                        paint322222222222222.setColor(previewColor);
+                                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222222222);
                                         if (mutate != null) {
                                         }
                                         if (drawable != null) {
@@ -11679,29 +11265,29 @@ public abstract class Theme {
                                         messageDrawableArr2222[0].setBounds(20, 323, 399, 415);
                                         messageDrawableArr2222[0].setTop(323, 560, 522, false, false);
                                         messageDrawableArr2222[0].draw(canvas);
-                                        paint322222222222.setColor(previewColor3);
-                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222222);
+                                        paint322222222222222.setColor(previewColor3);
+                                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222222222);
                                         if (drawable2 != null) {
                                         }
                                         if (drawable3 != null) {
                                         }
                                         canvas.setBitmap(null);
-                                        File file222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file222222222222));
+                                        File file222222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file222222222222222));
                                         SharedConfig.saveConfig();
-                                        return file222222222222.getAbsolutePath();
+                                        return file222222222222222.getAbsolutePath();
                                     }
                                 }
                                 if (i7 != 0) {
                                     i8 = i7;
                                 }
                                 c = 0;
-                                int i282 = i8;
+                                int i322 = i8;
                                 if (!TextUtils.isEmpty(strArr[c])) {
                                 }
-                                i14 = i25;
+                                i14 = i29;
                                 i10 = i5;
-                                i15 = i282;
+                                i15 = i322;
                                 i13 = i9;
                                 mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
                                 setDrawableColor(mutate, previewColor2);
@@ -11719,16 +11305,16 @@ public abstract class Theme {
                                 drawable2 = mutate322222;
                                 drawable3 = mutate422222;
                                 RectF rectF22222 = new RectF();
-                                int i2922222 = 80;
+                                int i3322222 = 80;
                                 if (str2 == null) {
                                 }
-                                i20 = 80;
+                                i22 = 80;
                                 z = false;
                                 if (z) {
                                 }
-                                Paint paint3222222222222 = paint;
-                                paint3222222222222.setColor(previewColor);
-                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222222222);
+                                Paint paint3222222222222222 = paint;
+                                paint3222222222222222.setColor(previewColor);
+                                canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint3222222222222222);
                                 if (mutate != null) {
                                 }
                                 if (drawable != null) {
@@ -11742,21 +11328,21 @@ public abstract class Theme {
                                 messageDrawableArr22222[0].setBounds(20, 323, 399, 415);
                                 messageDrawableArr22222[0].setTop(323, 560, 522, false, false);
                                 messageDrawableArr22222[0].draw(canvas);
-                                paint3222222222222.setColor(previewColor3);
-                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222222222);
+                                paint3222222222222222.setColor(previewColor3);
+                                canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint3222222222222222);
                                 if (drawable2 != null) {
                                 }
                                 if (drawable3 != null) {
                                 }
                                 canvas.setBitmap(null);
-                                File file2222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file2222222222222));
+                                File file2222222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                                createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file2222222222222222));
                                 SharedConfig.saveConfig();
-                                return file2222222222222.getAbsolutePath();
+                                return file2222222222222222.getAbsolutePath();
                             }
                         }
                         if (i3 != 0) {
-                            i25 = i3;
+                            i29 = i3;
                         }
                         if (themeAccent != null) {
                         }
@@ -11773,12 +11359,12 @@ public abstract class Theme {
                         if (i7 != 0) {
                         }
                         c = 0;
-                        int i2822 = i8;
+                        int i3222 = i8;
                         if (!TextUtils.isEmpty(strArr[c])) {
                         }
-                        i14 = i25;
+                        i14 = i29;
                         i10 = i5;
-                        i15 = i2822;
+                        i15 = i3222;
                         i13 = i9;
                         mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
                         setDrawableColor(mutate, previewColor2);
@@ -11796,16 +11382,16 @@ public abstract class Theme {
                         drawable2 = mutate3222222;
                         drawable3 = mutate4222222;
                         RectF rectF222222 = new RectF();
-                        int i29222222 = 80;
+                        int i33222222 = 80;
                         if (str2 == null) {
                         }
-                        i20 = 80;
+                        i22 = 80;
                         z = false;
                         if (z) {
                         }
-                        Paint paint32222222222222 = paint;
-                        paint32222222222222.setColor(previewColor);
-                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222222222);
+                        Paint paint32222222222222222 = paint;
+                        paint32222222222222222.setColor(previewColor);
+                        canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint32222222222222222);
                         if (mutate != null) {
                         }
                         if (drawable != null) {
@@ -11819,28 +11405,28 @@ public abstract class Theme {
                         messageDrawableArr222222[0].setBounds(20, 323, 399, 415);
                         messageDrawableArr222222[0].setTop(323, 560, 522, false, false);
                         messageDrawableArr222222[0].draw(canvas);
-                        paint32222222222222.setColor(previewColor3);
-                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222222222);
+                        paint32222222222222222.setColor(previewColor3);
+                        canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint32222222222222222);
                         if (drawable2 != null) {
                         }
                         if (drawable3 != null) {
                         }
                         canvas.setBitmap(null);
-                        File file22222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file22222222222222));
+                        File file22222222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+                        createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22222222222222222));
                         SharedConfig.saveConfig();
-                        return file22222222222222.getAbsolutePath();
+                        return file22222222222222222.getAbsolutePath();
                     }
                 }
-                createBitmap.compress(Bitmap.CompressFormat.JPEG, i20, new FileOutputStream(file22222222222222));
+                createBitmap.compress(Bitmap.CompressFormat.JPEG, i22, new FileOutputStream(file22222222222222222));
                 SharedConfig.saveConfig();
-                return file22222222222222.getAbsolutePath();
-            } catch (Throwable th5) {
-                FileLog.e(th5);
+                return file22222222222222222.getAbsolutePath();
+            } catch (Throwable th6) {
+                FileLog.e(th6);
                 return null;
             }
             if (i == 0) {
-                i = i24;
+                i = i28;
             }
             if (themeAccent == null) {
             }
@@ -11865,12 +11451,12 @@ public abstract class Theme {
             if (i7 != 0) {
             }
             c = 0;
-            int i28222 = i8;
+            int i32222 = i8;
             if (!TextUtils.isEmpty(strArr[c])) {
             }
-            i14 = i25;
+            i14 = i29;
             i10 = i5;
-            i15 = i28222;
+            i15 = i32222;
             i13 = i9;
             mutate = ApplicationLoader.applicationContext.getResources().getDrawable(org.telegram.messenger.R.drawable.preview_back).mutate();
             setDrawableColor(mutate, previewColor2);
@@ -11888,16 +11474,16 @@ public abstract class Theme {
             drawable2 = mutate32222222;
             drawable3 = mutate42222222;
             RectF rectF2222222 = new RectF();
-            int i292222222 = 80;
+            int i332222222 = 80;
             if (str2 == null) {
             }
-            i20 = 80;
+            i22 = 80;
             z = false;
             if (z) {
             }
-            Paint paint322222222222222 = paint;
-            paint322222222222222.setColor(previewColor);
-            canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222222222);
+            Paint paint322222222222222222 = paint;
+            paint322222222222222222.setColor(previewColor);
+            canvas.drawRect(0.0f, 0.0f, createBitmap.getWidth(), 120.0f, paint322222222222222222);
             if (mutate != null) {
             }
             if (drawable != null) {
@@ -11911,16 +11497,16 @@ public abstract class Theme {
             messageDrawableArr2222222[0].setBounds(20, 323, 399, 415);
             messageDrawableArr2222222[0].setTop(323, 560, 522, false, false);
             messageDrawableArr2222222[0].draw(canvas);
-            paint322222222222222.setColor(previewColor3);
-            canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222222222);
+            paint322222222222222222.setColor(previewColor3);
+            canvas.drawRect(0.0f, createBitmap.getHeight() - 120, createBitmap.getWidth(), createBitmap.getHeight(), paint322222222222222222);
             if (drawable2 != null) {
             }
             if (drawable3 != null) {
             }
             canvas.setBitmap(null);
-            File file222222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
-        } catch (Throwable th6) {
-            FileLog.e(th6);
+            File file222222222222222222 = new File(FileLoader.getDirectory(4), "-2147483648_" + SharedConfig.getLastLocalId() + ".jpg");
+        } catch (Throwable th7) {
+            FileLog.e(th7);
             return null;
         }
     }
@@ -12060,6 +11646,7 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static int getAccentColor(float[] fArr, int i, int i2) {
         float[] tempHsv = getTempHsv(3);
         float[] tempHsv2 = getTempHsv(4);
@@ -12117,7 +11704,8 @@ public abstract class Theme {
         return file;
     }
 
-    private static long getAutoNightSwitchThemeDelay() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static long getAutoNightSwitchThemeDelay() {
         return Math.abs(lastThemeSwitchTime - SystemClock.elapsedRealtime()) >= 12000 ? 1800L : 12000L;
     }
 
@@ -12271,7 +11859,7 @@ public abstract class Theme {
 
     /* JADX WARN: Code restructure failed: missing block: B:16:0x0056, code lost:
     
-        if (r2 <= 31) goto L47;
+        if (r2 <= 31) goto L22;
      */
     /* JADX WARN: Code restructure failed: missing block: B:17:0x005c, code lost:
     
@@ -12281,7 +11869,7 @@ public abstract class Theme {
      */
     /* JADX WARN: Code restructure failed: missing block: B:20:0x005a, code lost:
     
-        if (r2 == 1) goto L47;
+        if (r2 == 1) goto L22;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -12470,6 +12058,7 @@ public abstract class Theme {
         return indexOfKey >= 0 ? currentColors.valueAt(indexOfKey) : serviceMessageColor;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Drawable getStateDrawable(Drawable drawable, int i) {
         Drawable stateDrawable;
         if (Build.VERSION.SDK_INT >= 29 && (drawable instanceof StateListDrawable)) {
@@ -12522,7 +12111,7 @@ public abstract class Theme {
 
     /* JADX WARN: Code restructure failed: missing block: B:67:0x00bc, code lost:
     
-        if (r4 == null) goto L151;
+        if (r4 == null) goto L59;
      */
     /* JADX WARN: Removed duplicated region for block: B:37:0x0092 A[Catch: all -> 0x0050, TryCatch #0 {all -> 0x0050, blocks: (B:9:0x0021, B:13:0x002c, B:15:0x0032, B:18:0x0045, B:20:0x0048, B:21:0x0095, B:24:0x0053, B:42:0x005b, B:26:0x005f, B:28:0x0067, B:30:0x0077, B:34:0x007f, B:35:0x008c, B:37:0x0092, B:40:0x0084, B:23:0x0097, B:44:0x009e, B:49:0x00ad), top: B:8:0x0021 }] */
     /*
@@ -12674,7 +12263,7 @@ public abstract class Theme {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static Drawable getThemedWallpaper(boolean z, View view) {
+    public static Drawable getThemedWallpaper(final boolean z, final View view) {
         MotionBackgroundDrawable motionBackgroundDrawable;
         File file;
         int i;
@@ -12706,23 +12295,15 @@ public abstract class Theme {
                 if (file == null) {
                     BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(i6), new int[]{i2, i3});
                     backgroundGradientDrawable.startDithering(!z ? BackgroundGradientDrawable.Sizes.ofDeviceScreen() : BackgroundGradientDrawable.Sizes.ofDeviceScreen(0.125f, BackgroundGradientDrawable.Sizes.Orientation.PORTRAIT), view != null ? new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.13
-                        final /* synthetic */ View val$ownerView;
-                        final /* synthetic */ boolean val$thumb;
-
-                        13(boolean z2, View view2) {
-                            r1 = z2;
-                            r2 = view2;
-                        }
-
                         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
-                        public void onSizeReady(int i7, int i22) {
-                            if (!r1) {
+                        public void onSizeReady(int i7, int i8) {
+                            if (!z) {
                                 Point point = AndroidUtilities.displaySize;
-                                if ((point.x <= point.y) != (i7 <= i22)) {
+                                if ((point.x <= point.y) != (i7 <= i8)) {
                                     return;
                                 }
                             }
-                            r2.invalidate();
+                            view.invalidate();
                         }
                     } : null);
                     return backgroundGradientDrawable;
@@ -12744,7 +12325,7 @@ public abstract class Theme {
                                 fileInputStream.getChannel().position(i);
                                 BitmapFactory.Options options = new BitmapFactory.Options();
                                 int i7 = 1;
-                                if (z2) {
+                                if (z) {
                                     options.inJustDecodeBounds = true;
                                     float f = options.outWidth;
                                     float f2 = options.outHeight;
@@ -12994,6 +12575,7 @@ public abstract class Theme {
         return isWallpaperMotion;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$applyThemeInBackground$2(String[] strArr, ThemeInfo themeInfo, boolean z, boolean z2, Runnable runnable) {
         String[] split;
         try {
@@ -13081,16 +12663,19 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$applyThemeInBackground$3(Runnable runnable, SparseIntArray sparseIntArray) {
         currentColorsNoAccent = sparseIntArray;
         runnable.run();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$applyThemeInBackground$4(Runnable runnable, SparseIntArray sparseIntArray) {
         currentColorsNoAccent = sparseIntArray;
         runnable.run();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:32:0x00a6  */
     /* JADX WARN: Removed duplicated region for block: B:35:? A[RETURN, SYNTHETIC] */
     /*
@@ -13150,6 +12735,7 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$checkCurrentRemoteTheme$7(final ThemeAccent themeAccent, final ThemeInfo themeInfo, final TLRPC.TL_theme tL_theme, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
@@ -13159,10 +12745,12 @@ public abstract class Theme {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getThemeFileValuesInBackground$10(Utilities.Callback callback, File file, String str, String[] strArr) {
         callback.run(getThemeFileValues(file, str, strArr));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:110:0x0216  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -13339,6 +12927,7 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadRemoteThemes$9(final int i, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
@@ -13348,6 +12937,7 @@ public abstract class Theme {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadWallpaper$11(Drawable drawable) {
         wallpaperLoadTask = null;
         createCommonChatResources();
@@ -13358,6 +12948,7 @@ public abstract class Theme {
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$loadWallpaper$12(OverrideWallpaperInfo overrideWallpaperInfo, File file, int i, boolean z, TLRPC.Document document, boolean z2) {
         final Drawable loadWallpaperInternal = loadWallpaperInternal(overrideWallpaperInfo, file, i, z, document, z2);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda17
@@ -13368,10 +12959,12 @@ public abstract class Theme {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$refreshThemeColors$5(boolean z) {
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewTheme, Boolean.FALSE, Boolean.valueOf(z));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v2, types: [boolean] */
     /* JADX WARN: Type inference failed for: r3v0, types: [boolean] */
     public static /* synthetic */ int lambda$sortAccents$0(ThemeAccent themeAccent, ThemeAccent themeAccent2) {
@@ -13400,6 +12993,7 @@ public abstract class Theme {
         return i < i2 ? 1 : 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$sortThemes$1(ThemeInfo themeInfo, ThemeInfo themeInfo2) {
         if (themeInfo.pathToFile == null && themeInfo.assetName == null) {
             return -1;
@@ -13410,10 +13004,12 @@ public abstract class Theme {
         return themeInfo.name.compareTo(themeInfo2.name);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$turnOffAutoNight$14(BaseFragment baseFragment) {
         baseFragment.presentFragment(new ThemeActivity(1));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$unrefAudioVisualizeDrawable$13(MessageObject messageObject) {
         AudioVisualizerDrawable audioVisualizerDrawable = (AudioVisualizerDrawable) animatedOutVisualizerDrawables.remove(messageObject);
         if (audioVisualizerDrawable != null) {
@@ -13444,6 +13040,7 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Bitmap loadScreenSizedBitmap(FileInputStream fileInputStream, int i) {
         int i2;
         try {
@@ -13836,7 +13433,7 @@ public abstract class Theme {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(12:(12:47|(2:48|(3:50|(2:53|54)|55)(0))|69|71|72|(1:78)|79|(2:81|(2:102|103))(2:107|(3:109|(1:111)|(1:114)))|(6:84|(1:86)|87|(1:89)|(1:91)|92)|94|95|(2:97|98)(1:100))(2:139|(4:142|(2:145|146)|147|140))|68|69|71|72|(3:74|76|78)|79|(0)(0)|(0)|94|95|(0)(0)) */
-    /* JADX WARN: Can't wrap try/catch for region: R(24:1|(1:3)(1:163)|(1:5)(1:162)|(1:8)|9|(1:161)(1:13)|14|(1:16)(1:160)|17|(5:(1:20)(1:44)|(1:22)(1:43)|(1:24)(1:42)|(1:26)(1:41)|(5:29|(2:31|(1:33))|34|(1:40)(1:38)|39))|45|(12:47|(2:48|(3:50|(2:53|54)|55)(0))|69|71|72|(1:78)|79|(2:81|(2:102|103))(2:107|(3:109|(1:111)|(1:114)))|(6:84|(1:86)|87|(1:89)|(1:91)|92)|94|95|(2:97|98)(1:100))(2:139|(4:142|(2:145|146)|147|140))|68|69|71|72|(3:74|76|78)|79|(0)(0)|(0)|94|95|(0)(0)|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(25:0|1|(1:3)(1:163)|(1:5)(1:162)|(1:8)|9|(1:161)(1:13)|14|(1:16)(1:160)|17|(5:(1:20)(1:44)|(1:22)(1:43)|(1:24)(1:42)|(1:26)(1:41)|(5:29|(2:31|(1:33))|34|(1:40)(1:38)|39))|45|(12:47|(2:48|(3:50|(2:53|54)|55)(0))|69|71|72|(1:78)|79|(2:81|(2:102|103))(2:107|(3:109|(1:111)|(1:114)))|(6:84|(1:86)|87|(1:89)|(1:91)|92)|94|95|(2:97|98)(1:100))(2:139|(4:142|(2:145|146)|147|140))|68|69|71|72|(3:74|76|78)|79|(0)(0)|(0)|94|95|(0)(0)|(1:(0))) */
     /* JADX WARN: Code restructure failed: missing block: B:115:0x019b, code lost:
     
         r0 = e;
@@ -13851,7 +13448,7 @@ public abstract class Theme {
      */
     /* JADX WARN: Code restructure failed: missing block: B:119:0x0207, code lost:
     
-        if (r7 != null) goto L309;
+        if (r7 != null) goto L135;
      */
     /* JADX WARN: Code restructure failed: missing block: B:120:0x0209, code lost:
     
@@ -13867,7 +13464,7 @@ public abstract class Theme {
      */
     /* JADX WARN: Code restructure failed: missing block: B:125:0x0222, code lost:
     
-        if (r4 != null) goto L328;
+        if (r4 != null) goto L154;
      */
     /* JADX WARN: Code restructure failed: missing block: B:127:0x0224, code lost:
     
@@ -14044,6 +13641,7 @@ public abstract class Theme {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void saveOtherThemes(boolean z) {
         saveOtherThemes(z, false);
     }
@@ -14490,6 +14088,7 @@ public abstract class Theme {
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetNewWallpapper, new Object[0]);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void sortAccents(ThemeInfo themeInfo) {
         Collections.sort(themeInfo.themeAccents, new Comparator() { // from class: org.telegram.ui.ActionBar.Theme$$ExternalSyntheticLambda12
             @Override // java.util.Comparator
@@ -14592,6 +14191,7 @@ public abstract class Theme {
         chat_msgAudioVisualizeDrawable = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static boolean useBlackText(int i, int i2) {
         float red = Color.red(i) / 255.0f;
         float green = Color.green(i) / 255.0f;

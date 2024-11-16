@@ -16,8 +16,7 @@ final class MediaPeriodInfo {
     public final long requestedContentPositionUs;
     public final long startPositionUs;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MediaPeriodInfo(MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, long j3, long j4, boolean z, boolean z2, boolean z3, boolean z4) {
+    MediaPeriodInfo(MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, long j3, long j4, boolean z, boolean z2, boolean z3, boolean z4) {
         boolean z5 = true;
         Assertions.checkArgument(!z4 || z2);
         Assertions.checkArgument(!z3 || z2);

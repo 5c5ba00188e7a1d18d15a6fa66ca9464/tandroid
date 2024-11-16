@@ -5,8 +5,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class zzbz extends com.google.android.gms.internal.maps.zza implements IUiSettingsDelegate {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbz(IBinder iBinder) {
+    zzbz(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.internal.IUiSettingsDelegate");
     }
 

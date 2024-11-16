@@ -19,9 +19,7 @@ public class DialogCellTags {
     private final ArrayList tags = new ArrayList();
     private Tag moreTags = null;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Tag {
+    private static class Tag {
         int color;
         public int colorId;
         public int filterId;

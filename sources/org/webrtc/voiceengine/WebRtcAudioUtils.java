@@ -183,8 +183,7 @@ public final class WebRtcAudioUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void logAudioState(String str) {
+    static void logAudioState(String str) {
         logDeviceInfo(str);
         AudioManager audioManager = (AudioManager) ContextUtils.getApplicationContext().getSystemService(MediaStreamTrack.AUDIO_TRACK_KIND);
         logAudioStateBasic(str, audioManager);
@@ -230,8 +229,7 @@ public final class WebRtcAudioUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String modeToString(int i) {
+    static String modeToString(int i) {
         return i != 0 ? i != 1 ? i != 2 ? i != 3 ? "MODE_INVALID" : "MODE_IN_COMMUNICATION" : "MODE_IN_CALL" : "MODE_RINGTONE" : "MODE_NORMAL";
     }
 

@@ -38,9 +38,7 @@ public class EmuDetector {
     private boolean isTelephony = false;
     private boolean isCheckPackage = true;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public enum EmulatorTypes {
+    private enum EmulatorTypes {
         GENY,
         ANDY,
         NOX,
@@ -49,14 +47,11 @@ public class EmuDetector {
         X86
     }
 
-    /* loaded from: classes3.dex */
     public interface OnEmulatorDetectorListener {
         void onResult(boolean z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class Property {
+    static class Property {
         public String name;
         public String seek_value;
 

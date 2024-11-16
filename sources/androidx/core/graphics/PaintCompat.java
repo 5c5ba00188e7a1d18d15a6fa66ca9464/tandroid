@@ -9,7 +9,6 @@ import androidx.core.util.Pair;
 public abstract class PaintCompat {
     private static final ThreadLocal sRectThreadLocal = new ThreadLocal();
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean hasGlyph(Paint paint, String str) {
             return paint.hasGlyph(str);

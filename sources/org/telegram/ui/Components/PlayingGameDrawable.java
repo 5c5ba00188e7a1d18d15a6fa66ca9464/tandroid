@@ -52,7 +52,7 @@ public class PlayingGameDrawable extends StatusDrawable {
         if (this.progress >= 1.0f) {
             this.progress = 0.0f;
         }
-        float f = this.progress + (((float) j) / 300.0f);
+        float f = this.progress + (j / 300.0f);
         this.progress = f;
         if (f > 1.0f) {
             this.progress = 1.0f;

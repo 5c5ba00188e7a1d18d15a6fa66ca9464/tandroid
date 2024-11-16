@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import java.util.Comparator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class M2 implements j$.util.N {
+abstract class M2 implements j$.util.N {
     int a;
     final int b;
     int c;
@@ -12,8 +11,7 @@ public abstract class M2 implements j$.util.N {
     Object e;
     final /* synthetic */ N2 f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public M2(N2 n2, int i, int i2, int i3, int i4) {
+    M2(N2 n2, int i, int i2, int i3, int i4) {
         this.f = n2;
         this.a = i;
         this.b = i2;

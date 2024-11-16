@@ -59,7 +59,6 @@ public class ReactedUsersListView extends FrameLayout {
     private boolean showReactionPreview;
     private List userReactions;
 
-    /* loaded from: classes3.dex */
     public static class ContainerLinerLayout extends LinearLayout {
         public boolean hasHeader;
 
@@ -113,17 +112,14 @@ public class ReactedUsersListView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface OnCustomEmojiSelectedListener {
         void showCustomEmojiAlert(ReactedUsersListView reactedUsersListView, ArrayList arrayList);
     }
 
-    /* loaded from: classes3.dex */
     public interface OnHeightChangedListener {
         void onHeightChanged(ReactedUsersListView reactedUsersListView, int i);
     }
 
-    /* loaded from: classes3.dex */
     public interface OnProfileSelectedListener {
         void onProfileSelected(ReactedUsersListView reactedUsersListView, long j, TLRPC.MessagePeerReaction messagePeerReaction);
     }
@@ -143,9 +139,8 @@ public class ReactedUsersListView extends FrameLayout {
         this.showReactionPreview = z2;
         this.predictiveCount = reactionCount == null ? 6 : reactionCount.count;
         this.listView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ReactedUsersListView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 MessageContainsEmojiButton messageContainsEmojiButton = ReactedUsersListView.this.messageContainsEmojiButton;
                 if (messageContainsEmojiButton != null) {
                     messageContainsEmojiButton.measure(i2, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3), 0));

@@ -144,9 +144,7 @@ public class StoriesController {
     private boolean blocklistLoading = false;
     private long lastBlocklistRequested = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 1 implements RequestDelegate {
+    class 1 implements RequestDelegate {
         final /* synthetic */ Consumer val$consumer;
         final /* synthetic */ long val$hash;
 
@@ -185,7 +183,6 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class BotPreview extends TL_stories.StoryItem {
         public final BotPreviewsList list;
 
@@ -206,7 +203,6 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class BotPreviewsList extends StoriesList {
         private final ArrayList fakeDays;
         public final String lang_code;
@@ -580,7 +576,6 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class SearchStoriesList extends StoriesList {
         private int count;
         private final ArrayList fakeDays;
@@ -768,7 +763,6 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class StoriesList {
         private static HashMap lastLoadTime;
         private final SortedSet cachedObjects;
@@ -1412,8 +1406,7 @@ public class StoriesController {
             return (this.showVideos && this.showPhotos) ? this.totalCount < 0 ? this.messageObjects.size() : Math.max(this.messageObjects.size(), this.totalCount) : this.messageObjects.size();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public ArrayList getDays() {
+        protected ArrayList getDays() {
             ArrayList arrayList = new ArrayList(this.groupedByDay.keySet());
             Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Stories.StoriesController$StoriesList$$ExternalSyntheticLambda0
                 @Override // java.util.Comparator
@@ -1583,8 +1576,7 @@ public class StoriesController {
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public boolean markAsRead(int i) {
+        protected boolean markAsRead(int i) {
             if (this.seenStories.contains(Integer.valueOf(i))) {
                 return false;
             }
@@ -1770,52 +1762,35 @@ public class StoriesController {
             }
         }
 
-        public void updateStories(List list) {
-            MessageObject messageObject;
-            int i;
-            FileLog.d("StoriesList " + this.type + "{" + this.dialogId + "} updateStories {" + StoriesController.storyItemIds(list) + "}");
-            if (list == null) {
-                return;
-            }
-            boolean z = false;
-            for (int i2 = 0; i2 < list.size(); i2++) {
-                TL_stories.StoryItem storyItem = (TL_stories.StoryItem) list.get(i2);
-                if (storyItem != null) {
-                    boolean z2 = this.loadedObjects.contains(Integer.valueOf(storyItem.id)) || this.cachedObjects.contains(Integer.valueOf(storyItem.id));
-                    boolean z3 = this.type == 1 ? true : storyItem.pinned;
-                    if (storyItem instanceof TL_stories.TL_storyItemDeleted) {
-                        z3 = false;
-                    }
-                    if (z2 != z3) {
-                        if (z3) {
-                            FileLog.d("StoriesList put story " + storyItem.id);
-                            pushObject(toMessageObject(storyItem, null), false);
-                            int i3 = this.totalCount;
-                            if (i3 != -1) {
-                                i = i3 + 1;
-                                this.totalCount = i;
-                            }
-                        } else {
-                            FileLog.d("StoriesList remove story " + storyItem.id);
-                            removeObject(storyItem.id, true);
-                            int i4 = this.totalCount;
-                            if (i4 != -1) {
-                                i = i4 - 1;
-                                this.totalCount = i;
-                            }
-                        }
-                    } else if (z2 && z3 && ((messageObject = (MessageObject) this.messageObjectsMap.get(Integer.valueOf(storyItem.id))) == null || !equal(messageObject.storyItem, storyItem))) {
-                        FileLog.d("StoriesList update story " + storyItem.id);
-                        this.messageObjectsMap.put(Integer.valueOf(storyItem.id), toMessageObject(storyItem, null));
-                    }
-                    z = true;
-                }
-            }
-            if (z) {
-                fill(true);
-                saveCache();
-            }
-        }
+        /*  JADX ERROR: JadxRuntimeException in pass: ConstructorVisitor
+            jadx.core.utils.exceptions.JadxRuntimeException: Duplicate predecessors in PHI insn: B:30:0x0105, 0x0105: PHI (r5v13 ?? I:java.lang.StringBuilder) = (r5v19 ?? I:java.lang.StringBuilder) binds: [B:30:0x0105] A[DONT_GENERATE, DONT_INLINE]
+            	at jadx.core.dex.instructions.PhiInsn.bindArg(PhiInsn.java:44)
+            	at jadx.core.dex.visitors.ConstructorVisitor.insertPhiInsn(ConstructorVisitor.java:157)
+            	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:91)
+            	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
+            	at jadx.core.dex.visitors.ConstructorVisitor.visit(ConstructorVisitor.java:42)
+            */
+        public void updateStories(
+        /*  JADX ERROR: JadxRuntimeException in pass: ConstructorVisitor
+            jadx.core.utils.exceptions.JadxRuntimeException: Duplicate predecessors in PHI insn: B:30:0x0105, 0x0105: PHI (r5v13 ?? I:java.lang.StringBuilder) = (r5v19 ?? I:java.lang.StringBuilder) binds: [B:30:0x0105] A[DONT_GENERATE, DONT_INLINE]
+            	at jadx.core.dex.instructions.PhiInsn.bindArg(PhiInsn.java:44)
+            	at jadx.core.dex.visitors.ConstructorVisitor.insertPhiInsn(ConstructorVisitor.java:157)
+            	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:91)
+            	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
+            */
+        /*  JADX ERROR: Method generation error
+            jadx.core.utils.exceptions.JadxRuntimeException: Code variable not set in r9v0 ??
+            	at jadx.core.dex.instructions.args.SSAVar.getCodeVar(SSAVar.java:238)
+            	at jadx.core.codegen.MethodGen.addMethodArguments(MethodGen.java:223)
+            	at jadx.core.codegen.MethodGen.addDefinition(MethodGen.java:168)
+            	at jadx.core.codegen.ClassGen.addMethodCode(ClassGen.java:401)
+            	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:335)
+            	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:301)
+            	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+            	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+            	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
+            	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:258)
+            */
 
         public void updateStoryViews(List list, ArrayList arrayList) {
             TL_stories.StoryItem storyItem;
@@ -1842,7 +1817,6 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class StoryLimit {
         public int type;
         public long until;
@@ -1866,7 +1840,6 @@ public class StoriesController {
         }
     }
 
-    /* loaded from: classes5.dex */
     public class UploadingStory implements NotificationCenter.NotificationCenterDelegate {
         boolean canceled;
         float convertingProgress;
@@ -2261,7 +2234,7 @@ public class StoriesController {
                         long j = storyEntry2.cover;
                         if (j >= 0) {
                             tL_documentAttributeVideo.flags = i3 | 20;
-                            double d = ((float) j) - (storyEntry2.left * ((float) storyEntry2.duration));
+                            double d = j - (storyEntry2.left * storyEntry2.duration);
                             Double.isNaN(d);
                             tL_documentAttributeVideo.video_start_ts = d / 1000.0d;
                         }
@@ -2546,7 +2519,7 @@ public class StoriesController {
                     this.convertingProgress = floatValue;
                     this.progress = (floatValue * 0.3f) + (this.uploadProgress * 0.7f);
                     NotificationCenter.getInstance(StoriesController.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.uploadStoryProgress, this.path, Float.valueOf(this.progress));
-                    if (this.firstSecondSize < 0 && this.convertingProgress * ((float) this.duration) >= 1000.0f) {
+                    if (this.firstSecondSize < 0 && this.convertingProgress * this.duration >= 1000.0f) {
                         this.firstSecondSize = longValue;
                     }
                     FileLoader.getInstance(StoriesController.this.currentAccount).checkUploadNewDataAvailable(str, false, Math.max(1L, longValue), longValue2, Float.valueOf(this.convertingProgress));
@@ -2589,7 +2562,7 @@ public class StoriesController {
                 }
                 if (i != NotificationCenter.fileUploadFailed) {
                     if (i == NotificationCenter.fileUploadProgressChanged && ((String) objArr[0]).equals(this.path)) {
-                        float min = Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue()));
+                        float min = Math.min(1.0f, ((Long) objArr[1]).longValue() / ((Long) objArr[2]).longValue());
                         this.uploadProgress = min;
                         this.progress = (this.convertingProgress * 0.3f) + (min * 0.7f);
                         NotificationCenter.getInstance(StoriesController.this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.uploadStoryProgress, this.path, Float.valueOf(this.progress));
@@ -2705,6 +2678,10 @@ public class StoriesController {
             }
         };
         this.draftsController = new DraftsController(i);
+    }
+
+    static /* synthetic */ String access$700(List list) {
+        return storyItemIds(list);
     }
 
     private void addUploadingStoryToList(long j, UploadingStory uploadingStory, LongSparseArray longSparseArray) {
@@ -4607,8 +4584,7 @@ public class StoriesController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void loadSkippedStories(long j) {
+    void loadSkippedStories(long j) {
         boolean z;
         TL_stories.PeerStories stories = getStories(j);
         if (stories == null) {
@@ -4620,8 +4596,7 @@ public class StoriesController {
         loadSkippedStories(stories, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void loadSkippedStories(final TL_stories.PeerStories peerStories, final boolean z) {
+    void loadSkippedStories(final TL_stories.PeerStories peerStories, final boolean z) {
         if (peerStories == null) {
             return;
         }

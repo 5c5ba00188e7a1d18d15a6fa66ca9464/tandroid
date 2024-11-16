@@ -168,7 +168,7 @@ public class StackLinearChartView extends BaseChartView {
                         f23 = f;
                         long j = lineViewData.line.y[i9];
                         if (j > 0) {
-                            f33 += ((float) j) * lineViewData.alpha;
+                            f33 += j * lineViewData.alpha;
                             i10++;
                         }
                         i11 = i5;
@@ -507,7 +507,7 @@ public class StackLinearChartView extends BaseChartView {
                             if (f33 != 0.0f) {
                                 f3 = centerX;
                                 f4 = centerY;
-                                f5 = (((float) jArr[i9]) * lineViewData2.alpha) / f33;
+                                f5 = (jArr[i9] * lineViewData2.alpha) / f33;
                                 float[] fArr222 = ((StackLinearChartData) this.chartData).xPercentage;
                                 f6 = (fArr222[i9] * f27) - f28;
                                 if (i9 != min) {
@@ -674,7 +674,7 @@ public class StackLinearChartView extends BaseChartView {
                     if (lineViewData2.enabled || lineViewData2.alpha != f3) {
                         long j3 = ((StackLinearChartData) this.chartData).simplifiedY[i5][i4];
                         if (j3 > 0) {
-                            f4 += ((float) j3) * lineViewData2.alpha;
+                            f4 += j3 * lineViewData2.alpha;
                             i6++;
                         }
                         i7 = i5;
@@ -700,7 +700,7 @@ public class StackLinearChartView extends BaseChartView {
                         } else {
                             lineViewData = lineViewData3;
                             if (f4 != 0.0f) {
-                                f = (((float) ((StackLinearChartData) this.chartData).simplifiedY[i9][i4]) * lineViewData.alpha) / f4;
+                                f = (((StackLinearChartData) this.chartData).simplifiedY[i9][i4] * lineViewData.alpha) / f4;
                                 f2 = 0.0f;
                             }
                             f2 = 0.0f;
@@ -799,7 +799,7 @@ public class StackLinearChartView extends BaseChartView {
                 if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
                     long j = lineViewData.line.y[i5];
                     if (j > 0) {
-                        f9 += ((float) j) * lineViewData.alpha;
+                        f9 += j * lineViewData.alpha;
                         i6++;
                     }
                 }
@@ -838,7 +838,7 @@ public class StackLinearChartView extends BaseChartView {
                         }
                     } else {
                         if (f9 != f8) {
-                            f = (((float) jArr[i5]) * lineViewData2.alpha) / f9;
+                            f = (jArr[i5] * lineViewData2.alpha) / f9;
                             float f1022 = (((StackLinearChartData) this.chartData).xPercentage[i5] * f5) - f7;
                             float measuredHeight32 = f * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT);
                             float f1122 = i9;
@@ -878,9 +878,8 @@ public class StackLinearChartView extends BaseChartView {
         return 0.1f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         tick();
         drawChart(canvas);
         drawBottomLine(canvas);

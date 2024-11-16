@@ -4,6 +4,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class zzt extends AbstractCollection {
@@ -13,8 +14,7 @@ abstract class zzt extends AbstractCollection {
     final Collection zzd;
     final /* synthetic */ zzw zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzt(zzw zzwVar, Object obj, Collection collection, zzt zztVar) {
+    zzt(zzw zzwVar, Object obj, Collection collection, zzt zztVar) {
         this.zze = zzwVar;
         this.zza = obj;
         this.zzb = collection;
@@ -24,12 +24,14 @@ abstract class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean add(Object obj) {
+        int i;
         zzb();
         boolean isEmpty = this.zzb.isEmpty();
         boolean add = this.zzb.add(obj);
         if (add) {
             zzw zzwVar = this.zze;
-            zzw.zzj(zzwVar, zzw.zzd(zzwVar) + 1);
+            i = zzwVar.zzb;
+            zzwVar.zzb = i + 1;
             if (isEmpty) {
                 zza();
                 return true;
@@ -40,6 +42,7 @@ abstract class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean addAll(Collection collection) {
+        int i;
         if (collection.isEmpty()) {
             return false;
         }
@@ -50,7 +53,8 @@ abstract class zzt extends AbstractCollection {
         }
         int size2 = this.zzb.size();
         zzw zzwVar = this.zze;
-        zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
+        i = zzwVar.zzb;
+        zzwVar.zzb = i + (size2 - size);
         if (size != 0) {
             return addAll;
         }
@@ -60,13 +64,15 @@ abstract class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final void clear() {
+        int i;
         int size = size();
         if (size == 0) {
             return;
         }
         this.zzb.clear();
         zzw zzwVar = this.zze;
-        zzw.zzj(zzwVar, zzw.zzd(zzwVar) - size);
+        i = zzwVar.zzb;
+        zzwVar.zzb = i - size;
         zzc();
     }
 
@@ -105,10 +111,13 @@ abstract class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean remove(Object obj) {
+        int i;
         zzb();
         boolean remove = this.zzb.remove(obj);
         if (remove) {
-            zzw.zzj(this.zze, zzw.zzd(r0) - 1);
+            zzw zzwVar = this.zze;
+            i = zzwVar.zzb;
+            zzwVar.zzb = i - 1;
             zzc();
         }
         return remove;
@@ -116,6 +125,7 @@ abstract class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean removeAll(Collection collection) {
+        int i;
         if (collection.isEmpty()) {
             return false;
         }
@@ -124,7 +134,9 @@ abstract class zzt extends AbstractCollection {
         if (removeAll) {
             int size2 = this.zzb.size();
             zzw zzwVar = this.zze;
-            zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
+            int i2 = size2 - size;
+            i = zzwVar.zzb;
+            zzwVar.zzb = i + i2;
             zzc();
         }
         return removeAll;
@@ -132,13 +144,16 @@ abstract class zzt extends AbstractCollection {
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean retainAll(Collection collection) {
+        int i;
         collection.getClass();
         int size = size();
         boolean retainAll = this.zzb.retainAll(collection);
         if (retainAll) {
             int size2 = this.zzb.size();
             zzw zzwVar = this.zze;
-            zzw.zzj(zzwVar, zzw.zzd(zzwVar) + (size2 - size));
+            int i2 = size2 - size;
+            i = zzwVar.zzb;
+            zzwVar.zzb = i + i2;
             zzc();
         }
         return retainAll;
@@ -156,19 +171,21 @@ abstract class zzt extends AbstractCollection {
         return this.zzb.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza() {
+    final void zza() {
+        Map map;
         zzt zztVar = this.zzc;
         if (zztVar != null) {
             zztVar.zza();
             return;
         }
         zzw zzwVar = this.zze;
-        zzw.zzg(zzwVar).put(this.zza, this.zzb);
+        Object obj = this.zza;
+        map = zzwVar.zza;
+        map.put(obj, this.zzb);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzb() {
+    final void zzb() {
+        Map map;
         zzt zztVar = this.zzc;
         if (zztVar != null) {
             zztVar.zzb();
@@ -180,21 +197,25 @@ abstract class zzt extends AbstractCollection {
         }
         if (this.zzb.isEmpty()) {
             zzw zzwVar = this.zze;
-            Collection collection = (Collection) zzw.zzg(zzwVar).get(this.zza);
+            Object obj = this.zza;
+            map = zzwVar.zza;
+            Collection collection = (Collection) map.get(obj);
             if (collection != null) {
                 this.zzb = collection;
             }
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzc() {
+    final void zzc() {
+        Map map;
         zzt zztVar = this.zzc;
         if (zztVar != null) {
             zztVar.zzc();
         } else if (this.zzb.isEmpty()) {
             zzw zzwVar = this.zze;
-            zzw.zzg(zzwVar).remove(this.zza);
+            Object obj = this.zza;
+            map = zzwVar.zza;
+            map.remove(obj);
         }
     }
 }

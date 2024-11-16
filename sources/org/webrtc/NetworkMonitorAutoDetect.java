@@ -41,9 +41,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     private WifiManagerDelegate wifiManagerDelegate;
     private String wifiSSID;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public static class ConnectivityManagerDelegate {
+    static class ConnectivityManagerDelegate {
         private final ConnectivityManager connectivityManager;
 
         ConnectivityManagerDelegate() {
@@ -286,9 +284,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public static class NetworkState {
+    static class NetworkState {
         private final boolean connected;
         private final int subtype;
         private final int type;
@@ -324,7 +320,6 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
-    /* loaded from: classes5.dex */
     private class SimpleNetworkCallback extends ConnectivityManager.NetworkCallback {
         private SimpleNetworkCallback() {
         }
@@ -390,9 +385,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public static class WifiDirectManagerDelegate extends BroadcastReceiver {
+    static class WifiDirectManagerDelegate extends BroadcastReceiver {
         private static final int WIFI_P2P_NETWORK_HANDLE = 0;
         private final Context context;
         private final NetworkChangeDetector.Observer observer;
@@ -467,9 +460,7 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public static class WifiManagerDelegate {
+    static class WifiManagerDelegate {
         private final Context context;
 
         WifiManagerDelegate() {

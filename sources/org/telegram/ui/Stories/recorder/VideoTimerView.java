@@ -53,7 +53,7 @@ public class VideoTimerView extends View implements FlashViews.Invertable {
         if (f > 0.0f) {
             long currentTimeMillis = System.currentTimeMillis() % 2000;
             Paint paint = this.recordPaint;
-            double d = ((float) currentTimeMillis) / 1000.0f;
+            double d = currentTimeMillis / 1000.0f;
             Double.isNaN(d);
             paint.setAlpha((int) (Utilities.clamp((((float) Math.sin(d * 3.141592653589793d)) / 4.0f) + 0.75f, 1.0f, 0.0f) * 255.0f));
             invalidate();

@@ -47,8 +47,7 @@ public abstract class ZoneId implements Serializable {
         a = Collections.unmodifiableMap(hashMap);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ZoneId() {
+    ZoneId() {
         if (getClass() != ZoneOffset.class && getClass() != n.class) {
             throw new AssertionError("Invalid subclass");
         }

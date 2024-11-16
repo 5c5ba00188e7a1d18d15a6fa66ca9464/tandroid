@@ -30,8 +30,7 @@ final class zza implements zzb {
     private boolean zzd;
     private zzof zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(Context context, ImageLabelerOptions imageLabelerOptions) {
+    zza(Context context, ImageLabelerOptions imageLabelerOptions) {
         this.zza = context;
         this.zzb = imageLabelerOptions;
     }

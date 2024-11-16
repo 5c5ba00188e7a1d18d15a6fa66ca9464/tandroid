@@ -5,7 +5,6 @@ import java.util.function.BinaryOperator;
 /* loaded from: classes2.dex */
 public interface BiFunction<T, U, R> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class VivifiedWrapper implements BiFunction {
         public final /* synthetic */ java.util.function.BiFunction a;
 

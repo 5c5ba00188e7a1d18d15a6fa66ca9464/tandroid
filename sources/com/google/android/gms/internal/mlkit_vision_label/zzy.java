@@ -4,14 +4,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzy extends zzbp {
+final class zzy extends zzbp {
     final transient Map zza;
     final /* synthetic */ zzag zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzy(zzag zzagVar, Map map) {
+    zzy(zzag zzagVar, Map map) {
         this.zzb = zzagVar;
         this.zza = map;
     }

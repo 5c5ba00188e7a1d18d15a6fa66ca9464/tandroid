@@ -6,8 +6,7 @@ import java.util.List;
 final class AutoValue_BatchedLogRequest extends BatchedLogRequest {
     private final List logRequests;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_BatchedLogRequest(List list) {
+    AutoValue_BatchedLogRequest(List list) {
         if (list == null) {
             throw new NullPointerException("Null logRequests");
         }

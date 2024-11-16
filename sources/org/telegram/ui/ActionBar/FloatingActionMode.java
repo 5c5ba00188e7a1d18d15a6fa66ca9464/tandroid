@@ -54,9 +54,7 @@ public final class FloatingActionMode extends ActionMode {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class FloatingToolbarVisibilityHelper {
+    private static final class FloatingToolbarVisibilityHelper {
         private boolean mActive;
         private boolean mHideRequested;
         private long mLastShowTime;

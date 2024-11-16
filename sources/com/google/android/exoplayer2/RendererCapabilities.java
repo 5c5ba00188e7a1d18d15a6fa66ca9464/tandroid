@@ -3,7 +3,6 @@ package com.google.android.exoplayer2;
 /* loaded from: classes.dex */
 public interface RendererCapabilities {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static int create(int i) {
             return create(i, 0, 0);

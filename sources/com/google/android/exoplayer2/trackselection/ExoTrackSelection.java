@@ -13,7 +13,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public interface ExoTrackSelection extends TrackSelection {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onDiscontinuity(ExoTrackSelection exoTrackSelection) {
         }
@@ -29,7 +28,6 @@ public interface ExoTrackSelection extends TrackSelection {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Definition {
         public final TrackGroup group;
         public final int[] tracks;
@@ -49,7 +47,6 @@ public interface ExoTrackSelection extends TrackSelection {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Factory {
         ExoTrackSelection[] createTrackSelections(Definition[] definitionArr, BandwidthMeter bandwidthMeter, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline);
     }

@@ -38,7 +38,6 @@ public class EndCloseLayout extends FrameLayout {
     private boolean isClosedState;
     private final TransitionSet transitionSet;
 
-    /* loaded from: classes3.dex */
     class 1 extends ChangeBounds {
         1() {
         }
@@ -166,9 +165,7 @@ public class EndCloseLayout extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class EndCloseView extends View {
+    static class EndCloseView extends View {
         public int backColor;
         private final Paint backgroundPaint;
         private final RectF backgroundRect;

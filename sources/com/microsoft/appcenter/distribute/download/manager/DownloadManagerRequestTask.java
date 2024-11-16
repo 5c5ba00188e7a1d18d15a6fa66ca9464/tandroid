@@ -10,8 +10,7 @@ import com.microsoft.appcenter.utils.AppCenterLog;
 class DownloadManagerRequestTask extends AsyncTask {
     private final DownloadManagerReleaseDownloader mDownloader;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DownloadManagerRequestTask(DownloadManagerReleaseDownloader downloadManagerReleaseDownloader) {
+    DownloadManagerRequestTask(DownloadManagerReleaseDownloader downloadManagerReleaseDownloader) {
         this.mDownloader = downloadManagerReleaseDownloader;
     }
 

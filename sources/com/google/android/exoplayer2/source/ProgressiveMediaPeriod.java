@@ -40,9 +40,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutput, Loader.Callback, Loader.ReleaseCallback, SampleQueue.UpstreamFormatChangedListener {
+final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutput, Loader.Callback, Loader.ReleaseCallback, SampleQueue.UpstreamFormatChangedListener {
     private final Allocator allocator;
     private MediaPeriod.Callback callback;
     private final long continueLoadingCheckIntervalBytes;
@@ -94,9 +93,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
     private long durationUs = -9223372036854775807L;
     private int dataType = 1;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public final class ExtractingLoadable implements Loader.Loadable, IcyDataSource.Listener {
+    final class ExtractingLoadable implements Loader.Loadable, IcyDataSource.Listener {
         private final StatsDataSource dataSource;
         private final ExtractorOutput extractorOutput;
         private TrackOutput icyTrackOutput;
@@ -211,13 +208,10 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Listener {
+    interface Listener {
         void onSourceInfoRefreshed(long j, boolean z, boolean z2);
     }
 
-    /* loaded from: classes.dex */
     private final class SampleStreamImpl implements SampleStream {
         private final int track;
 
@@ -246,9 +240,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TrackId {
+    private static final class TrackId {
         public final int id;
         public final boolean isIcyTrack;
 
@@ -273,9 +265,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TrackState {
+    private static final class TrackState {
         public final boolean[] trackEnabledStates;
         public final boolean[] trackIsAudioVideoFlags;
         public final boolean[] trackNotifiedDownstreamFormats;

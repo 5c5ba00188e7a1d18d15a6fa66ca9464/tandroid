@@ -14,8 +14,7 @@ public final class WalletObjectMessage extends AbstractSafeParcelable {
     UriData zzd;
     UriData zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WalletObjectMessage(String str, String str2, TimeInterval timeInterval, UriData uriData, UriData uriData2) {
+    WalletObjectMessage(String str, String str2, TimeInterval timeInterval, UriData uriData, UriData uriData2) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = timeInterval;

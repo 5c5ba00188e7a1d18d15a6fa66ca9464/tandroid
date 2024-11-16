@@ -6,9 +6,8 @@ final class h2 extends Y1 {
     long c;
     final /* synthetic */ i2 d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public h2(i2 i2Var, e2 e2Var) {
+    h2(i2 i2Var, e2 e2Var) {
         super(e2Var);
         this.d = i2Var;
         this.b = i2Var.m;

@@ -71,9 +71,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
     private final List slowMotionMetadataEntries;
     private Mp4Track[] tracks;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Mp4Track {
+    private static final class Mp4Track {
         public int sampleIndex;
         public final TrackSampleTable sampleTable;
         public final Track track;
@@ -115,7 +113,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
     }
 
     private static long[][] calculateAccumulatedSampleSizes(Mp4Track[] mp4TrackArr) {
-        long[][] jArr = new long[mp4TrackArr.length];
+        long[][] jArr = new long[mp4TrackArr.length][];
         int[] iArr = new int[mp4TrackArr.length];
         long[] jArr2 = new long[mp4TrackArr.length];
         boolean[] zArr = new boolean[mp4TrackArr.length];
@@ -330,7 +328,7 @@ public final class Mp4Extractor implements Extractor, SeekMap {
                 buildUpon.setMaxInputSize(i6);
                 list = parseTraks;
                 if (track.type == 2 && j3 > 0 && (i3 = trackSampleTable.sampleCount) > 1) {
-                    buildUpon.setFrameRate(i3 / (((float) j3) / 1000000.0f));
+                    buildUpon.setFrameRate(i3 / (j3 / 1000000.0f));
                 }
                 gaplessInfoHolder = gaplessInfoHolder3;
                 MetadataUtil.setFormatGaplessInfo(track.type, gaplessInfoHolder, buildUpon);

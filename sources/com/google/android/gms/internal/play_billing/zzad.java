@@ -7,8 +7,7 @@ final class zzad extends zzy {
     private final transient zzx zza;
     private final transient zzu zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzad(zzx zzxVar, zzu zzuVar) {
+    zzad(zzx zzxVar, zzu zzuVar) {
         this.zza = zzxVar;
         this.zzb = zzuVar;
     }
@@ -28,9 +27,8 @@ final class zzad extends zzy {
         return this.zza.size();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
-    public final int zza(Object[] objArr, int i) {
+    final int zza(Object[] objArr, int i) {
         return this.zzb.zza(objArr, 0);
     }
 

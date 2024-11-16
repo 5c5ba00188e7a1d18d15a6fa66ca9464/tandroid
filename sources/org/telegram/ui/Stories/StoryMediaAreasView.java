@@ -77,7 +77,6 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
     private AreaView selectedArea;
     private boolean shined;
 
-    /* loaded from: classes5.dex */
     public static class AreaView extends View {
         public final ButtonBounce bounce;
         private boolean bounceOnTap;
@@ -210,7 +209,7 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
             drawAbove(canvas);
             if (this.supportsShining && this.shining && this.gradient != null) {
                 float measuredWidth = getMeasuredWidth() * 0.7f;
-                float currentTimeMillis = ((float) (System.currentTimeMillis() - this.startTime)) / 600.0f;
+                float currentTimeMillis = (System.currentTimeMillis() - this.startTime) / 600.0f;
                 float measuredWidth2 = ((getMeasuredWidth() + measuredWidth) * currentTimeMillis) - measuredWidth;
                 if (currentTimeMillis >= 1.0f) {
                     this.shining = false;
@@ -249,7 +248,6 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class FitViewWidget extends FrameLayout {
         public final View child;
         public final TL_stories.MediaArea mediaArea;

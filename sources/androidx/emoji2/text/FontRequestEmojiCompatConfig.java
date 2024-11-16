@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
     private static final FontProviderHelper DEFAULT_FONTS_CONTRACT = new FontProviderHelper();
 
-    /* loaded from: classes.dex */
     public static class FontProviderHelper {
         public Typeface buildTypeface(Context context, FontsContractCompat.FontInfo fontInfo) {
             return FontsContractCompat.buildTypeface(context, null, new FontsContractCompat.FontInfo[]{fontInfo});
@@ -36,8 +35,7 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FontRequestMetadataLoader implements EmojiCompat.MetadataRepoLoader {
+    static class FontRequestMetadataLoader implements EmojiCompat.MetadataRepoLoader {
         EmojiCompat.MetadataRepoLoaderCallback mCallback;
         private final Context mContext;
         private Executor mExecutor;
@@ -99,8 +97,7 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void createMetadata() {
+        void createMetadata() {
             synchronized (this.mLock) {
                 try {
                     if (this.mCallback == null) {

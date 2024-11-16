@@ -2,9 +2,8 @@ package com.google.android.play.core.integrity;
 
 import android.content.Context;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class s {
+final class s {
     private final s a = this;
     private final com.google.android.play.integrity.internal.an b;
     private final com.google.android.play.integrity.internal.an c;
@@ -12,8 +11,7 @@ public final class s {
     private final com.google.android.play.integrity.internal.an e;
     private final com.google.android.play.integrity.internal.an f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ s(Context context, r rVar) {
+    /* synthetic */ s(Context context, r rVar) {
         ad adVar;
         m mVar;
         m mVar2;

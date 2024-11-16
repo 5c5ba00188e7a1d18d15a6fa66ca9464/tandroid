@@ -74,7 +74,6 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     private int topOffset;
     private boolean wasLayout;
 
-    /* loaded from: classes3.dex */
     public static abstract class Delegate {
         private String[] lastSearchKeyboardLanguage = new String[0];
 
@@ -115,8 +114,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TrendingStickersAdapter extends RecyclerListView.SelectionAdapter {
+    class TrendingStickersAdapter extends RecyclerListView.SelectionAdapter {
         private final Context context;
         private boolean endReached;
         private boolean loadingMore;
@@ -712,9 +710,8 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
         recyclerListView.setItemAnimator(null);
         recyclerListView.setLayoutAnimation(null);
         FillLastGridLayoutManager fillLastGridLayoutManager = new FillLastGridLayoutManager(context, 5, AndroidUtilities.dp(58.0f), recyclerListView) { // from class: org.telegram.ui.Components.TrendingStickersLayout.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
-            public boolean isLayoutRTL() {
+            protected boolean isLayoutRTL() {
                 return LocaleController.isRTL;
             }
 

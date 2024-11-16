@@ -33,9 +33,7 @@ public class BotSensors {
     private final SensorEventListener absoluteOrientationListener = new 3();
     private final SensorEventListener relativeOrientationListener = new 4();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 1 implements SensorEventListener {
+    class 1 implements SensorEventListener {
         private long lastTime;
         private float[] xyz;
 
@@ -85,9 +83,7 @@ public class BotSensors {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 2 implements SensorEventListener {
+    class 2 implements SensorEventListener {
         private float[] captured = new float[3];
         private long lastTime;
 
@@ -147,9 +143,7 @@ public class BotSensors {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 3 implements SensorEventListener {
+    class 3 implements SensorEventListener {
         private float[] geomagnetic;
         private float[] gravity;
         private long lastTime;
@@ -210,9 +204,7 @@ public class BotSensors {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 4 implements SensorEventListener {
+    class 4 implements SensorEventListener {
         private long lastTime;
         private float[] mDeviceRotationMatrix;
         private float[] mTruncatedRotationVector;

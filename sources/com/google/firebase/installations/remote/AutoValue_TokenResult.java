@@ -8,11 +8,13 @@ final class AutoValue_TokenResult extends TokenResult {
     private final String token;
     private final long tokenExpirationTimestamp;
 
-    /* loaded from: classes.dex */
     static final class Builder extends TokenResult.Builder {
         private TokenResult.ResponseCode responseCode;
         private String token;
         private Long tokenExpirationTimestamp;
+
+        Builder() {
+        }
 
         @Override // com.google.firebase.installations.remote.TokenResult.Builder
         public TokenResult build() {

@@ -112,9 +112,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     private View shadowView;
     private boolean shown;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
+    class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         1() {
         }
 
@@ -348,9 +346,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 8 extends ShareAlert {
+    class 8 extends ShareAlert {
         8(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             super(context, arrayList, str, z, str2, z2, resourcesProvider);
         }
@@ -367,9 +363,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ShareAlert
-        public void onSend(final androidx.collection.LongSparseArray longSparseArray, final int i, TLRPC.TL_forumTopic tL_forumTopic) {
+        protected void onSend(final androidx.collection.LongSparseArray longSparseArray, final int i, TLRPC.TL_forumTopic tL_forumTopic) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiPacksAlert$8$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -379,9 +374,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private final int VIEW_TYPE_EMOJI;
         private final int VIEW_TYPE_HEADER;
         private final int VIEW_TYPE_PADDING;
@@ -582,12 +575,12 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     view = new EmojiImageView(EmojiPacksAlert.this.getContext());
                 } else if (i == 2) {
                     EmojiPacksAlert emojiPacksAlert = EmojiPacksAlert.this;
-                    view = new EmojiPackHeader(emojiPacksAlert.getContext(), EmojiPacksAlert.this.customEmojiPacks.data.length <= 1);
+                    view = emojiPacksAlert.new EmojiPackHeader(emojiPacksAlert.getContext(), EmojiPacksAlert.this.customEmojiPacks.data.length <= 1);
                 } else if (i == 3) {
                     view = new TextView(EmojiPacksAlert.this.getContext());
                 } else if (i == 4) {
                     EmojiPacksAlert emojiPacksAlert2 = EmojiPacksAlert.this;
-                    view = new SeparatorView(emojiPacksAlert2.getContext());
+                    view = emojiPacksAlert2.new SeparatorView(emojiPacksAlert2.getContext());
                 } else {
                     view = null;
                 }
@@ -596,9 +589,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ContentView extends FrameLayout {
+    private class ContentView extends FrameLayout {
         boolean attached;
         private Boolean lastOpen;
         ArrayList lineDrawables;
@@ -610,7 +601,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         ArrayList unusedLineDrawables;
         SparseArray viewsGroupedByLines;
 
-        /* loaded from: classes3.dex */
         class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
             ArrayList drawInBackgroundViews = new ArrayList();
             ArrayList imageViewEmojis;
@@ -917,7 +907,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class EmojiImageView extends View {
         ValueAnimator backAnimator;
         public ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
@@ -1005,8 +994,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class EmojiPackHeader extends FrameLayout {
+    class EmojiPackHeader extends FrameLayout {
         public TextView addButtonView;
         private ValueAnimator animator;
         public BaseFragment dummyFragment;
@@ -1439,9 +1427,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class EmojiPacksLoader implements NotificationCenter.NotificationCenterDelegate {
+    class EmojiPacksLoader implements NotificationCenter.NotificationCenterDelegate {
         private int currentAccount;
         public ArrayList[] data;
         public ArrayList inputStickerSets;
@@ -1718,9 +1704,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class LinkMovementMethodMy extends LinkMovementMethod {
+    private static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
         }
 
@@ -1746,7 +1730,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /* loaded from: classes3.dex */
     class SeparatorView extends View {
         public SeparatorView(Context context) {
             super(context);
@@ -1809,9 +1792,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         RecyclerListView recyclerListView = new RecyclerListView(context, this.resourcesProvider) { // from class: org.telegram.ui.Components.EmojiPacksAlert.4
             private Paint highlightPaint = new Paint(1);
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (EmojiPacksAlert.this.highlightAlpha != null) {
                     EmojiPacksAlert emojiPacksAlert = EmojiPacksAlert.this;
                     if (emojiPacksAlert.highlightStartPosition >= 0 && emojiPacksAlert.highlightEndPosition >= 0 && emojiPacksAlert.adapter != null && isAttachedToWindow()) {
@@ -1846,9 +1828,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 return false;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onDetachedFromWindow() {
+            protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 AnimatedEmojiSpan.release(((BottomSheet) EmojiPacksAlert.this).containerView, (LongSparseArray<AnimatedEmojiDrawable>) EmojiPacksAlert.this.animatedEmojiDrawables);
             }
@@ -1858,16 +1839,14 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 return super.onInterceptTouchEvent(motionEvent) || ContentPreviewViewer.getInstance().onInterceptTouchEvent(motionEvent, EmojiPacksAlert.this.listView, 0, EmojiPacksAlert.this.previewDelegate, this.resourcesProvider);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 super.onLayout(z, i2, i3, i4, i5);
                 EmojiPacksAlert.this.contentView.updateEmojiDrawables();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 View.MeasureSpec.getSize(i2);
                 EmojiPacksAlert.this.gridLayoutManager.setSpanCount(40);
                 super.onMeasure(i2, i3);
@@ -2577,9 +2556,8 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         this.shown = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

@@ -11,6 +11,9 @@ import org.xmlpull.v1.XmlPullParserException;
 class LayoutIncludeDetector {
     private final Deque mXmlParserStack = new ArrayDeque();
 
+    LayoutIncludeDetector() {
+    }
+
     private static boolean isParserOutdated(XmlPullParser xmlPullParser) {
         if (xmlPullParser == null) {
             return true;
@@ -50,8 +53,7 @@ class LayoutIncludeDetector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean detect(AttributeSet attributeSet) {
+    boolean detect(AttributeSet attributeSet) {
         if (!(attributeSet instanceof XmlPullParser)) {
             return false;
         }

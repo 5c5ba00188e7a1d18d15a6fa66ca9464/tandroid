@@ -12,8 +12,7 @@ public class EmojiMetadata {
     private final int mIndex;
     private final MetadataRepo mMetadataRepo;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiMetadata(MetadataRepo metadataRepo, int i) {
+    EmojiMetadata(MetadataRepo metadataRepo, int i) {
         this.mMetadataRepo = metadataRepo;
         this.mIndex = i;
     }

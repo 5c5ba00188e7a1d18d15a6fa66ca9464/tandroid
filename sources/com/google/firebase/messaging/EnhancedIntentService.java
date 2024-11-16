@@ -48,7 +48,6 @@ public abstract class EnhancedIntentService extends Service {
             private final Intent arg$2;
             private final TaskCompletionSource arg$3;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
                 this.arg$2 = intent;
@@ -71,13 +70,11 @@ public abstract class EnhancedIntentService extends Service {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void lambda$onStartCommand$1$EnhancedIntentService(Intent intent, Task task) {
+    final /* synthetic */ void lambda$onStartCommand$1$EnhancedIntentService(Intent intent, Task task) {
         finishTask(intent);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void lambda$processIntent$0$EnhancedIntentService(Intent intent, TaskCompletionSource taskCompletionSource) {
+    final /* synthetic */ void lambda$processIntent$0$EnhancedIntentService(Intent intent, TaskCompletionSource taskCompletionSource) {
         try {
             handleIntent(intent);
         } finally {
@@ -131,7 +128,6 @@ public abstract class EnhancedIntentService extends Service {
             private final EnhancedIntentService arg$1;
             private final Intent arg$2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
                 this.arg$2 = intent;

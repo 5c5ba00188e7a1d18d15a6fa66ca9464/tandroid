@@ -72,9 +72,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
     private List youtubeStoryboards;
     private String youtubeStoryboardsSpecUrl;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends WebViewClient {
+    class 2 extends WebViewClient {
         2() {
         }
 
@@ -166,8 +164,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class YoutubeProxy {
+    class YoutubeProxy {
         private YoutubeProxy() {
         }
 
@@ -453,7 +450,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$seekTo$1(long j, boolean z) {
-        runJsCode("seekTo(" + Math.round(((float) j) / 1000.0f) + ", " + z + ");");
+        runJsCode("seekTo(" + Math.round(j / 1000.0f) + ", " + z + ");");
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
@@ -878,7 +875,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
             }, 100L);
             return;
         }
-        runJsCode("seekTo(" + Math.round(((float) j) / 1000.0f) + ", " + z + ");");
+        runJsCode("seekTo(" + Math.round(j / 1000.0f) + ", " + z + ");");
     }
 
     public void setPlaybackSpeed(float f) {

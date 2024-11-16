@@ -54,7 +54,6 @@ public class FiltersView extends RecyclerListView {
     private static final Pattern longDate = Pattern.compile("^([0-9]{1,2})(\\.| |/|\\-)([0-9]{1,2})(\\.| |/|\\-)([0-9]{1,4})$");
     private static final int[] numberOfDaysEachMonth = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    /* loaded from: classes4.dex */
     private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -76,7 +75,7 @@ public class FiltersView extends RecyclerListView {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            ViewHolder viewHolder = new ViewHolder(new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
+            ViewHolder viewHolder = FiltersView.this.new ViewHolder(new FilterView(viewGroup.getContext(), ((RecyclerListView) FiltersView.this).resourcesProvider));
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-2, AndroidUtilities.dp(32.0f));
             ((ViewGroup.MarginLayoutParams) layoutParams).topMargin = AndroidUtilities.dp(6.0f);
             viewHolder.itemView.setLayoutParams(layoutParams);
@@ -84,7 +83,6 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class DateData {
         public final long maxDate;
         public final long minDate;
@@ -97,7 +95,6 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class FilterView extends FrameLayout {
         BackupImageView avatarImageView;
         MediaFilterData data;
@@ -180,7 +177,6 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class MediaFilterData {
         public TLObject chat;
         public DateData dateData;
@@ -232,7 +228,6 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes4.dex */
     private static class UpdateCallback implements ListUpdateCallback {
         final RecyclerView.Adapter adapter;
         boolean changed;
@@ -265,9 +260,7 @@ public class FiltersView extends RecyclerListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private class ViewHolder extends RecyclerView.ViewHolder {
         FilterView filterView;
 
         public ViewHolder(FilterView filterView) {
@@ -372,9 +365,8 @@ public class FiltersView extends RecyclerListView {
                 return animateAdd;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
+            protected void animateRemoveImpl(final RecyclerView.ViewHolder viewHolder) {
                 final View view = viewHolder.itemView;
                 final ViewPropertyAnimator animate = view.animate();
                 this.mRemoveAnimations.add(viewHolder);
@@ -708,9 +700,8 @@ public class FiltersView extends RecyclerListView {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824));
     }
 

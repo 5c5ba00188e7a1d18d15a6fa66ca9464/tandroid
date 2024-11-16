@@ -3,14 +3,12 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class j1 implements D0 {
+class j1 implements D0 {
     final long[] a;
     int b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public j1(long j) {
+    j1(long j) {
         if (j >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
@@ -18,8 +16,7 @@ public class j1 implements D0 {
         this.b = 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public j1(long[] jArr) {
+    j1(long[] jArr) {
         this.a = jArr;
         this.b = jArr.length;
     }

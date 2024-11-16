@@ -28,7 +28,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public interface AnalyticsListener {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onAudioAttributesChanged(AnalyticsListener analyticsListener, EventTime eventTime, AudioAttributes audioAttributes) {
         }
@@ -250,7 +249,6 @@ public interface AnalyticsListener {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class EventTime {
         public final MediaSource.MediaPeriodId currentMediaPeriodId;
         public final long currentPlaybackPositionMs;
@@ -292,7 +290,6 @@ public interface AnalyticsListener {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Events {
         private final SparseArray eventTimes;
         private final FlagSet flags;

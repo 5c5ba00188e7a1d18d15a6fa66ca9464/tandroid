@@ -45,7 +45,6 @@ public class TextPaintView extends EntityView {
     private Swatch swatch;
     private PaintTypeface typeface;
 
-    /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;
@@ -166,16 +165,14 @@ public class TextPaintView extends EntityView {
                 return super.dispatchTouchEvent(motionEvent);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-            public void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+            protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
                 super.onLayout(z, i4, i5, i6, i7);
                 TextPaintView.this.updateSelectionView();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i4, int i5) {
+            protected void onMeasure(int i4, int i5) {
                 super.onMeasure(i4, i5);
                 TextPaintView.this.updateSelectionView();
             }

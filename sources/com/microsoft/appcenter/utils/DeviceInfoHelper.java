@@ -18,7 +18,6 @@ import java.util.TimeZone;
 public abstract class DeviceInfoHelper {
     private static WrapperSdk sWrapperSdk;
 
-    /* loaded from: classes.dex */
     public static class DeviceInfoException extends Exception {
         public DeviceInfoException(String str, Throwable th) {
             super(str, th);

@@ -5,8 +5,7 @@ public abstract class LuminanceSource {
     private final int height;
     private final int width;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public LuminanceSource(int i, int i2) {
+    protected LuminanceSource(int i, int i2) {
         this.width = i;
         this.height = i2;
     }

@@ -11,8 +11,7 @@ final class zzo {
     private final Messenger zza;
     private final zza zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(IBinder iBinder) {
+    zzo(IBinder iBinder) {
         String interfaceDescriptor = iBinder.getInterfaceDescriptor();
         if ("android.os.IMessenger".equals(interfaceDescriptor)) {
             this.zza = new Messenger(iBinder);
@@ -27,8 +26,7 @@ final class zzo {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(Message message) {
+    final void zza(Message message) {
         Messenger messenger = this.zza;
         if (messenger != null) {
             messenger.send(message);

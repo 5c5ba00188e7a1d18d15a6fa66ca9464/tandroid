@@ -8,7 +8,6 @@ import java.nio.ByteBuffer;
 public final class TeeAudioProcessor extends BaseAudioProcessor {
     private final AudioBufferSink audioBufferSink;
 
-    /* loaded from: classes.dex */
     public interface AudioBufferSink {
         void flush(int i, int i2, int i3);
 

@@ -19,18 +19,16 @@ public class ProfilePremiumCell extends TextCell {
         this.colorKey = i == 1 ? Theme.key_starsGradient1 : Theme.key_premiumGradient2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Cells.TextCell, android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         this.particles.process();
         this.particles.draw(canvas, Theme.getColor(this.colorKey));
         invalidate();
         super.dispatchDraw(canvas);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         float x = this.imageView.getX() + (this.imageView.getWidth() / 2.0f);
         float paddingTop = ((this.imageView.getPaddingTop() + this.imageView.getY()) + (this.imageView.getHeight() / 2.0f)) - AndroidUtilities.dp(3.0f);

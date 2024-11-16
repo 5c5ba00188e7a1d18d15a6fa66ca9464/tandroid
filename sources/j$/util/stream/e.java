@@ -3,9 +3,8 @@ package j$.util.stream;
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.ForkJoinPool;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class e extends CountedCompleter {
+abstract class e extends CountedCompleter {
     static final int g = ForkJoinPool.getCommonPoolParallelism() << 2;
     protected final b a;
     protected j$.util.Q b;
@@ -14,16 +13,14 @@ public abstract class e extends CountedCompleter {
     protected e e;
     private Object f;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public e(b bVar, j$.util.Q q) {
+    protected e(b bVar, j$.util.Q q) {
         super(null);
         this.a = bVar;
         this.b = q;
         this.c = 0L;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public e(e eVar, j$.util.Q q) {
+    protected e(e eVar, j$.util.Q q) {
         super(eVar);
         this.b = q;
         this.a = eVar.a;
@@ -38,16 +35,13 @@ public abstract class e extends CountedCompleter {
         return 1L;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object a();
+    protected abstract Object a();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Object b() {
+    protected Object b() {
         return this.f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean c() {
+    protected final boolean c() {
         return ((e) getCompleter()) == null;
     }
 
@@ -84,11 +78,9 @@ public abstract class e extends CountedCompleter {
         eVar.tryComplete();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract e d(j$.util.Q q);
+    protected abstract e d(j$.util.Q q);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void e(Object obj) {
+    protected void e(Object obj) {
         this.f = obj;
     }
 

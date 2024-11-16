@@ -23,7 +23,6 @@ public class UniversalRecyclerView extends RecyclerListView {
     public LinearLayoutManager layoutManager;
     private boolean reorderingAllowed;
 
-    /* loaded from: classes3.dex */
     private class TouchHelperCallback extends ItemTouchHelper.Callback {
         private TouchHelperCallback() {
         }
@@ -87,9 +86,8 @@ public class UniversalRecyclerView extends RecyclerListView {
         boolean z2 = false;
         if (i3 == -1) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, z2) { // from class: org.telegram.ui.Components.UniversalRecyclerView.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearLayoutManager
-                public int getExtraLayoutSpace(RecyclerView.State state) {
+                protected int getExtraLayoutSpace(RecyclerView.State state) {
                     return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
                 }
             };
@@ -97,9 +95,8 @@ public class UniversalRecyclerView extends RecyclerListView {
             setLayoutManager(linearLayoutManager);
         } else {
             final ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(context, i3) { // from class: org.telegram.ui.Components.UniversalRecyclerView.2
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearLayoutManager
-                public int getExtraLayoutSpace(RecyclerView.State state) {
+                protected int getExtraLayoutSpace(RecyclerView.State state) {
                     return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
                 }
             };
@@ -157,9 +154,8 @@ public class UniversalRecyclerView extends RecyclerListView {
             });
         }
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.UniversalRecyclerView.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 super.onMoveAnimationUpdate(viewHolder);
                 UniversalRecyclerView.this.invalidate();
             }
@@ -213,9 +209,8 @@ public class UniversalRecyclerView extends RecyclerListView {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         this.adapter.drawWhiteSections(canvas, this);
         super.dispatchDraw(canvas);
     }
@@ -281,9 +276,8 @@ public class UniversalRecyclerView extends RecyclerListView {
             return;
         }
         final ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(getContext(), i) { // from class: org.telegram.ui.Components.UniversalRecyclerView.5
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
-            public int getExtraLayoutSpace(RecyclerView.State state) {
+            protected int getExtraLayoutSpace(RecyclerView.State state) {
                 return UniversalRecyclerView.this.doNotDetachViews ? AndroidUtilities.displaySize.y : super.getExtraLayoutSpace(state);
             }
         };

@@ -13,8 +13,7 @@ public abstract class BaseDataSource implements DataSource {
     private int listenerCount;
     private final ArrayList<TransferListener> listeners = new ArrayList<>(1);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public BaseDataSource(boolean z) {
+    protected BaseDataSource(boolean z) {
         this.isNetwork = z;
     }
 
@@ -28,8 +27,7 @@ public abstract class BaseDataSource implements DataSource {
         this.listenerCount++;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void bytesTransferred(int i) {
+    protected final void bytesTransferred(int i) {
         DataSpec dataSpec = (DataSpec) Util.castNonNull(this.dataSpec);
         for (int i2 = 0; i2 < this.listenerCount; i2++) {
             this.listeners.get(i2).onBytesTransferred(this, dataSpec, this.isNetwork, i);
@@ -43,8 +41,7 @@ public abstract class BaseDataSource implements DataSource {
         return emptyMap;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void transferEnded() {
+    protected final void transferEnded() {
         DataSpec dataSpec = (DataSpec) Util.castNonNull(this.dataSpec);
         for (int i = 0; i < this.listenerCount; i++) {
             this.listeners.get(i).onTransferEnd(this, dataSpec, this.isNetwork);
@@ -52,15 +49,13 @@ public abstract class BaseDataSource implements DataSource {
         this.dataSpec = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void transferInitializing(DataSpec dataSpec) {
+    protected final void transferInitializing(DataSpec dataSpec) {
         for (int i = 0; i < this.listenerCount; i++) {
             this.listeners.get(i).onTransferInitializing(this, dataSpec, this.isNetwork);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void transferStarted(DataSpec dataSpec) {
+    protected final void transferStarted(DataSpec dataSpec) {
         this.dataSpec = dataSpec;
         for (int i = 0; i < this.listenerCount; i++) {
             this.listeners.get(i).onTransferStart(this, dataSpec, this.isNetwork);

@@ -5,8 +5,7 @@ import java.util.ArrayDeque;
 
 /* loaded from: classes2.dex */
 final class h1 extends i1 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public h1(F0 f0) {
+    h1(F0 f0) {
         super(f0);
     }
 
@@ -15,24 +14,25 @@ final class h1 extends i1 {
         if (this.a == null) {
             return;
         }
-        if (this.d == null) {
-            j$.util.Q q = this.c;
-            if (q != null) {
-                q.a(consumer);
+        if (this.d != null) {
+            while (s(consumer)) {
+            }
+            return;
+        }
+        j$.util.Q q = this.c;
+        if (q != null) {
+            q.a(consumer);
+            return;
+        }
+        ArrayDeque f = f();
+        while (true) {
+            F0 b = i1.b(f);
+            if (b == null) {
+                this.a = null;
                 return;
             }
-            ArrayDeque f = f();
-            while (true) {
-                F0 b = i1.b(f);
-                if (b == null) {
-                    this.a = null;
-                    return;
-                }
-                b.forEach(consumer);
-            }
+            b.forEach(consumer);
         }
-        do {
-        } while (s(consumer));
     }
 
     @Override // j$.util.Q

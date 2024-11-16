@@ -137,8 +137,7 @@ public class SQLitePreparedStatement {
         return step(this.sqliteStatementHandle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public native int step(long j);
+    native int step(long j);
 
     public SQLitePreparedStatement stepThis() {
         step(this.sqliteStatementHandle);

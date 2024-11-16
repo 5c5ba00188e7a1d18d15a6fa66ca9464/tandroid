@@ -7,6 +7,9 @@ abstract class K implements y3 {
     boolean a;
     Object b;
 
+    K() {
+    }
+
     @Override // j$.util.stream.e2, j$.util.function.n
     public /* synthetic */ void accept(double d) {
         t0.b();

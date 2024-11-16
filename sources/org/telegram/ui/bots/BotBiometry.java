@@ -49,7 +49,6 @@ public class BotBiometry {
     private String iv;
     private BiometricPrompt prompt;
 
-    /* loaded from: classes5.dex */
     public static class Bot {
         public boolean disabled;
         public TLRPC.User user;

@@ -6,8 +6,7 @@ import java.util.Locale;
 public final class SendException extends Exception {
     private final int errorCode;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SendException(String str) {
+    SendException(String str) {
         super(str);
         this.errorCode = parseErrorCode(str);
     }

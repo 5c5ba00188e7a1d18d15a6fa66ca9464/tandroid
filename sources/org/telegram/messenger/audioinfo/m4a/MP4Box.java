@@ -21,8 +21,7 @@ public abstract class MP4Box {
         this.data = new DataInputStream(positionInputStream);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MP4Atom getChild() {
+    protected MP4Atom getChild() {
         return this.child;
     }
 

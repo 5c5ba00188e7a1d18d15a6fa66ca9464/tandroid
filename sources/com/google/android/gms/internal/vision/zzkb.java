@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.vision;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzkb implements zzlf {
+final class zzkb implements zzlf {
     private static final zzkl zzb = new zzka();
     private final zzkl zza;
 

@@ -22,7 +22,6 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public abstract class BillingUtilities {
 
-    /* loaded from: classes3.dex */
     public static class TL_savedPurpose extends TLObject {
         public int flags;
         public long id;

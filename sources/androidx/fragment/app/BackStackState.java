@@ -8,9 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import java.util.ArrayList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class BackStackState implements Parcelable {
+final class BackStackState implements Parcelable {
     public static final Parcelable.Creator<BackStackState> CREATOR = new Parcelable.Creator() { // from class: androidx.fragment.app.BackStackState.1
         @Override // android.os.Parcelable.Creator
         public BackStackState createFromParcel(Parcel parcel) {

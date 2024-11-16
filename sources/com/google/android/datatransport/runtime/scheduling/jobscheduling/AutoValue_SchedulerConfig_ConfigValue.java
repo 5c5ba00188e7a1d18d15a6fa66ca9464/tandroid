@@ -9,12 +9,13 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
     private final Set flags;
     private final long maxAllowedDelay;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Builder extends SchedulerConfig.ConfigValue.Builder {
+    static final class Builder extends SchedulerConfig.ConfigValue.Builder {
         private Long delta;
         private Set flags;
         private Long maxAllowedDelay;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue.Builder
         public SchedulerConfig.ConfigValue build() {
@@ -73,21 +74,18 @@ final class AutoValue_SchedulerConfig_ConfigValue extends SchedulerConfig.Config
         return this.delta == configValue.getDelta() && this.maxAllowedDelay == configValue.getMaxAllowedDelay() && this.flags.equals(configValue.getFlags());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue
-    public long getDelta() {
+    long getDelta() {
         return this.delta;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue
-    public Set getFlags() {
+    Set getFlags() {
         return this.flags;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.datatransport.runtime.scheduling.jobscheduling.SchedulerConfig.ConfigValue
-    public long getMaxAllowedDelay() {
+    long getMaxAllowedDelay() {
         return this.maxAllowedDelay;
     }
 

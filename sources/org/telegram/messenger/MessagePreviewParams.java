@@ -45,7 +45,6 @@ public class MessagePreviewParams {
     public boolean webpageTop;
     public boolean willSeeSenders;
 
-    /* loaded from: classes3.dex */
     public class Messages {
         private long dialogId;
         public LongSparseArray<MessageObject.GroupedMessages> groupedMessagesMap;
@@ -177,7 +176,7 @@ public class MessagePreviewParams {
                     }
                 }
                 if (z) {
-                    return new Messages(this.out, this.type, this.messages, this.dialogId, null);
+                    return MessagePreviewParams.this.new Messages(this.out, this.type, this.messages, this.dialogId, null);
                 }
             }
             return null;
@@ -194,7 +193,6 @@ public class MessagePreviewParams {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class PreviewMediaPoll extends TLRPC.TL_messageMediaPoll {
         public int totalVotersCached;
     }

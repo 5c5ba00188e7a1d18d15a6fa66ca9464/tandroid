@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzeb extends zzdz {
+final class zzeb extends zzdz {
     private final byte[] zza;
     private final boolean zzb;
     private int zzc;

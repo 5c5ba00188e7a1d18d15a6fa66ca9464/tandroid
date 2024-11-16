@@ -105,7 +105,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     LongSparseIntArray dialogsStableIds = new LongSparseIntArray();
     public int lastDialogsEmptyType = -1;
 
-    /* loaded from: classes4.dex */
     public static class DialogsPreloader {
         int currentRequestCount;
         int networkRequestCount;
@@ -124,9 +123,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             }
         };
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements MessagesController.MessagesLoadedCallback {
+        class 1 implements MessagesController.MessagesLoadedCallback {
             final /* synthetic */ long val$dialog_id;
 
             1(long j) {
@@ -246,9 +243,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ItemInternal extends AdapterWithDiffUtils.Item {
+    private class ItemInternal extends AdapterWithDiffUtils.Item {
         TL_chatlists.TL_chatlists_chatlistUpdates chatlistUpdates;
         TLRPC.TL_contact contact;
         TLRPC.Dialog dialog;
@@ -392,7 +387,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LastEmptyView extends FrameLayout {
         public boolean moving;
 
@@ -1065,8 +1059,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         super.notifyItemMoved(i, i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onArchiveSettingsClick() {
+    protected void onArchiveSettingsClick() {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
@@ -1318,7 +1311,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX WARN: Type inference failed for: r4v1, types: [org.telegram.ui.Components.FlickerLoadingView] */
     /* JADX WARN: Type inference failed for: r4v15 */
     /* JADX WARN: Type inference failed for: r4v16, types: [android.view.View] */
-    /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.ui.Cells.HeaderCell, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r4v2, types: [android.view.ViewGroup, org.telegram.ui.Cells.HeaderCell] */
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v30 */
     /* JADX WARN: Type inference failed for: r5v35, types: [org.telegram.ui.Adapters.DialogsAdapter$5] */
@@ -1464,14 +1457,14 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                             }
                             this.lastUpdateTime = elapsedRealtime;
                             if (this.movement == 0) {
-                                float f = this.moveProgress + (((float) j) / 664.0f);
+                                float f = this.moveProgress + (j / 664.0f);
                                 this.moveProgress = f;
                                 if (f >= 1.0f) {
                                     this.movement = 1;
                                     this.moveProgress = 1.0f;
                                 }
                             } else {
-                                float f2 = this.moveProgress - (((float) j) / 664.0f);
+                                float f2 = this.moveProgress - (j / 664.0f);
                                 this.moveProgress = f2;
                                 if (f2 <= 0.0f) {
                                     this.movement = 0;

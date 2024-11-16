@@ -10,9 +10,8 @@ final class zzjz extends zzju {
         return (zzjl) zzma.zzf(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzju
-    public final void zza(Object obj, Object obj2, long j) {
+    final void zza(Object obj, Object obj2, long j) {
         zzjl zzc = zzc(obj, j);
         zzjl zzc2 = zzc(obj2, j);
         int size = zzc.size();
@@ -29,9 +28,8 @@ final class zzjz extends zzju {
         zzma.zza(obj, j, zzc2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzju
-    public final void zzb(Object obj, long j) {
+    final void zzb(Object obj, long j) {
         zzc(obj, j).zzb();
     }
 }

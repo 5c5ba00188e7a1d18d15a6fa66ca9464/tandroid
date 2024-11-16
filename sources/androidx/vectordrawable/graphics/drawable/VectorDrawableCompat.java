@@ -48,9 +48,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
     private final Matrix mTmpMatrix;
     private VectorDrawableCompatState mVectorState;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VClipPath extends VPath {
+    private static class VClipPath extends VPath {
         VClipPath() {
         }
 
@@ -84,9 +82,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VFullPath extends VPath {
+    private static class VFullPath extends VPath {
         float mFillAlpha;
         ComplexColorCompat mFillColor;
         float mStrokeAlpha;
@@ -253,9 +249,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VGroup extends VObject {
+    private static class VGroup extends VObject {
         int mChangingConfigurations;
         final ArrayList mChildren;
         private String mGroupName;
@@ -473,9 +467,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static abstract class VObject {
+    private static abstract class VObject {
         private VObject() {
         }
 
@@ -488,9 +480,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static abstract class VPath extends VObject {
+    private static abstract class VPath extends VObject {
         int mChangingConfigurations;
         int mFillRule;
         protected PathParser.PathDataNode[] mNodes;
@@ -540,9 +530,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VPathRenderer {
+    private static class VPathRenderer {
         private static final Matrix IDENTITY_MATRIX = new Matrix();
         float mBaseHeight;
         float mBaseWidth;
@@ -766,9 +754,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VectorDrawableCompatState extends Drawable.ConstantState {
+    private static class VectorDrawableCompatState extends Drawable.ConstantState {
         boolean mAutoMirrored;
         boolean mCacheDirty;
         boolean mCachedAutoMirrored;
@@ -883,9 +869,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VectorDrawableDelegateState extends Drawable.ConstantState {
+    private static class VectorDrawableDelegateState extends Drawable.ConstantState {
         private final Drawable.ConstantState mDelegateState;
 
         public VectorDrawableDelegateState(Drawable.ConstantState constantState) {
@@ -1246,8 +1230,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         return super.getState();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Object getTargetByName(String str) {
+    Object getTargetByName(String str) {
         return this.mVectorState.mVPathRenderer.mVGTargetsMap.get(str);
     }
 
@@ -1369,8 +1352,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAllowCaching(boolean z) {
+    void setAllowCaching(boolean z) {
         this.mAllowCaching = z;
     }
 

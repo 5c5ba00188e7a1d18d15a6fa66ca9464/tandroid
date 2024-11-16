@@ -9,8 +9,7 @@ abstract class zzj extends zzk {
     int zzb = 0;
     boolean zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzj(int i) {
+    zzj(int i) {
     }
 
     private final void zzb(int i) {

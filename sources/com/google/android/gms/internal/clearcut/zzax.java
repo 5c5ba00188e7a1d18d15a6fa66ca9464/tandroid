@@ -5,8 +5,7 @@ import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 abstract class zzax {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzay zzayVar) {
+    static int zza(int i, byte[] bArr, int i2, int i3, zzay zzayVar) {
         if ((i >>> 3) == 0) {
             throw zzco.zzbm();
         }
@@ -42,16 +41,14 @@ abstract class zzax {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzcn zzcnVar, zzay zzayVar) {
+    static int zza(int i, byte[] bArr, int i2, int i3, zzcn zzcnVar, zzay zzayVar) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zzcnVar);
         zza(bArr, i2, zzayVar);
         int i4 = zzayVar.zzfd;
         throw null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzey zzeyVar, zzay zzayVar) {
+    static int zza(int i, byte[] bArr, int i2, int i3, zzey zzeyVar, zzay zzayVar) {
         if ((i >>> 3) == 0) {
             throw zzco.zzbm();
         }
@@ -103,8 +100,7 @@ abstract class zzax {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, zzay zzayVar) {
+    static int zza(int i, byte[] bArr, int i2, zzay zzayVar) {
         int i3;
         int i4 = i & NotificationCenter.dialogTranslate;
         int i5 = i2 + 1;
@@ -147,8 +143,7 @@ abstract class zzax {
         return i5;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(byte[] bArr, int i, zzay zzayVar) {
+    static int zza(byte[] bArr, int i, zzay zzayVar) {
         int i2 = i + 1;
         byte b = bArr[i];
         if (b < 0) {
@@ -158,8 +153,7 @@ abstract class zzax {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(byte[] bArr, int i, zzcn zzcnVar, zzay zzayVar) {
+    static int zza(byte[] bArr, int i, zzcn zzcnVar, zzay zzayVar) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(zzcnVar);
         int zza = zza(bArr, i, zzayVar);
         int i2 = zzayVar.zzfd + zza;
@@ -173,8 +167,7 @@ abstract class zzax {
         throw zzco.zzbl();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(byte[] bArr, int i, zzay zzayVar) {
+    static int zzb(byte[] bArr, int i, zzay zzayVar) {
         int i2 = i + 1;
         long j = bArr[i];
         if (j >= 0) {
@@ -196,13 +189,11 @@ abstract class zzax {
         return i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(byte[] bArr, int i) {
+    static int zzc(byte[] bArr, int i) {
         return ((bArr[i + 3] & 255) << 24) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(byte[] bArr, int i, zzay zzayVar) {
+    static int zzc(byte[] bArr, int i, zzay zzayVar) {
         int zza = zza(bArr, i, zzayVar);
         int i2 = zzayVar.zzfd;
         if (i2 == 0) {
@@ -213,8 +204,7 @@ abstract class zzax {
         return zza + i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzd(byte[] bArr, int i, zzay zzayVar) {
+    static int zzd(byte[] bArr, int i, zzay zzayVar) {
         int zza = zza(bArr, i, zzayVar);
         int i2 = zzayVar.zzfd;
         if (i2 == 0) {
@@ -229,18 +219,15 @@ abstract class zzax {
         return i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long zzd(byte[] bArr, int i) {
+    static long zzd(byte[] bArr, int i) {
         return ((bArr[i + 7] & 255) << 56) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40) | ((bArr[i + 6] & 255) << 48);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static double zze(byte[] bArr, int i) {
+    static double zze(byte[] bArr, int i) {
         return Double.longBitsToDouble(zzd(bArr, i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zze(byte[] bArr, int i, zzay zzayVar) {
+    static int zze(byte[] bArr, int i, zzay zzayVar) {
         int zza = zza(bArr, i, zzayVar);
         int i2 = zzayVar.zzfd;
         if (i2 == 0) {
@@ -251,8 +238,7 @@ abstract class zzax {
         return zza + i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static float zzf(byte[] bArr, int i) {
+    static float zzf(byte[] bArr, int i) {
         return Float.intBitsToFloat(zzc(bArr, i));
     }
 }

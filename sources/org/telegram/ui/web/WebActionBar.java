@@ -117,7 +117,6 @@ public abstract class WebActionBar extends FrameLayout {
     public final Title[] titles;
     private Utilities.Callback urlCallback;
 
-    /* loaded from: classes5.dex */
     public class ForwardDrawable extends Drawable {
         private AnimatedFloat animatedState;
         private final Paint paint;
@@ -197,7 +196,6 @@ public abstract class WebActionBar extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public class Title {
         public final AnimatedFloat animatedDangerous;
         public boolean isDangerous;
@@ -730,9 +728,9 @@ public abstract class WebActionBar extends FrameLayout {
                 this.pressX = motionEvent.getX();
                 this.pressY = motionEvent.getY();
                 this.pressTime = System.currentTimeMillis();
-                AndroidUtilities.runOnUIThread(this.longPressRunnable, ViewConfiguration.getLongPressTimeout() * 0.8f);
+                AndroidUtilities.runOnUIThread(this.longPressRunnable, (long) (ViewConfiguration.getLongPressTimeout() * 0.8f));
             }
-        } else if (motionEvent.getAction() == 2 && ((float) (System.currentTimeMillis() - this.pressTime)) > ViewConfiguration.getLongPressTimeout() * 0.8f) {
+        } else if (motionEvent.getAction() == 2 && System.currentTimeMillis() - this.pressTime > ViewConfiguration.getLongPressTimeout() * 0.8f) {
             AndroidUtilities.cancelRunOnUIThread(this.longPressRunnable);
             this.longClicked = true;
             onScrolledProgress((motionEvent.getX() - this.pressX) / (getWidth() * 0.8f));
@@ -828,8 +826,7 @@ public abstract class WebActionBar extends FrameLayout {
 
     protected abstract void onAddressColorsChanged(int i, int i2);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onAddressingProgress(float f) {
+    protected void onAddressingProgress(float f) {
         this.backButtonDrawable.setColor(ColorUtils.blendARGB(this.textColor, this.addressTextColor, this.addressingProgress));
         this.backButtonDrawable.setRotatedColor(ColorUtils.blendARGB(this.textColor, this.addressTextColor, this.addressingProgress));
         this.backButton.invalidate();
@@ -842,9 +839,8 @@ public abstract class WebActionBar extends FrameLayout {
         super.onLayout(z, i, i2, i3, i4);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(topPadding() + AndroidUtilities.dp(56.0f), 1073741824));
     }
 

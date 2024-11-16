@@ -5,14 +5,12 @@ import android.os.Handler;
 import androidx.core.provider.FontRequestWorker;
 import androidx.core.provider.FontsContractCompat;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CallbackWithHandler {
+class CallbackWithHandler {
     private final FontsContractCompat.FontRequestCallback mCallback;
     private final Handler mCallbackHandler;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CallbackWithHandler(FontsContractCompat.FontRequestCallback fontRequestCallback, Handler handler) {
+    CallbackWithHandler(FontsContractCompat.FontRequestCallback fontRequestCallback, Handler handler) {
         this.mCallback = fontRequestCallback;
         this.mCallbackHandler = handler;
     }
@@ -37,8 +35,7 @@ public class CallbackWithHandler {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onTypefaceResult(FontRequestWorker.TypefaceResult typefaceResult) {
+    void onTypefaceResult(FontRequestWorker.TypefaceResult typefaceResult) {
         if (typefaceResult.isSuccess()) {
             onTypefaceRetrieved(typefaceResult.mTypeface);
         } else {

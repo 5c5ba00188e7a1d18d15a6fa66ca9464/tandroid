@@ -19,8 +19,7 @@ final class TsDurationReader {
     private long durationUs = -9223372036854775807L;
     private final ParsableByteArray packetBuffer = new ParsableByteArray();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TsDurationReader(int i) {
+    TsDurationReader(int i) {
         this.timestampSearchBytes = i;
     }
 

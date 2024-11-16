@@ -34,9 +34,7 @@ public final class PlayerEmsgHandler implements Handler.Callback {
     private final Handler handler = Util.createHandlerForCurrentLooper(this);
     private final EventMessageDecoder decoder = new EventMessageDecoder();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ManifestExpiryEventInfo {
+    private static final class ManifestExpiryEventInfo {
         public final long eventTimeUs;
         public final long manifestPublishTimeMsInEmsg;
 
@@ -46,14 +44,12 @@ public final class PlayerEmsgHandler implements Handler.Callback {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface PlayerEmsgCallback {
         void onDashManifestPublishTimeExpired(long j);
 
         void onDashManifestRefreshRequested();
     }
 
-    /* loaded from: classes.dex */
     public final class PlayerTrackEmsgHandler implements TrackOutput {
         private final SampleQueue sampleQueue;
         private final FormatHolder formatHolder = new FormatHolder();

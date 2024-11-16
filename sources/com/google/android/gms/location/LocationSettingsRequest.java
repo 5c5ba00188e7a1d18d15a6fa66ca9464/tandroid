@@ -15,7 +15,6 @@ public final class LocationSettingsRequest extends AbstractSafeParcelable {
     private final boolean zzb;
     private final boolean zzc;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private final ArrayList zza = new ArrayList();
         private boolean zzb = false;
@@ -33,8 +32,7 @@ public final class LocationSettingsRequest extends AbstractSafeParcelable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocationSettingsRequest(List list, boolean z, boolean z2) {
+    LocationSettingsRequest(List list, boolean z, boolean z2) {
         this.zza = list;
         this.zzb = z;
         this.zzc = z2;

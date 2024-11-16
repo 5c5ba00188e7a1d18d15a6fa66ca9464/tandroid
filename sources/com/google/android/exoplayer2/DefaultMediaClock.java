@@ -14,7 +14,6 @@ final class DefaultMediaClock implements MediaClock {
     private final StandaloneMediaClock standaloneClock;
     private boolean standaloneClockIsStarted;
 
-    /* loaded from: classes.dex */
     public interface PlaybackParametersListener {
         void onPlaybackParametersChanged(PlaybackParameters playbackParameters);
     }

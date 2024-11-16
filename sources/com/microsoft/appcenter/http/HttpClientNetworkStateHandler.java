@@ -13,7 +13,6 @@ public class HttpClientNetworkStateHandler extends HttpClientDecorator implement
     private final Set mCalls;
     private final NetworkStateHelper mNetworkStateHelper;
 
-    /* loaded from: classes.dex */
     private class Call extends HttpClientCallDecorator {
         Call(HttpClient httpClient, String str, String str2, Map map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback) {
             super(httpClient, str, str2, map, callTemplate, serviceCallback);

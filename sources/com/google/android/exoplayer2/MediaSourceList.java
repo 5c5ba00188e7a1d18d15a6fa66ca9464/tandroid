@@ -29,9 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class MediaSourceList {
+final class MediaSourceList {
     private final HandlerWrapper eventHandler;
     private final AnalyticsCollector eventListener;
     private boolean isPrepared;
@@ -46,8 +45,7 @@ public final class MediaSourceList {
     private final Set enabledMediaSourceHolders = new HashSet();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class ForwardingEventListener implements MediaSourceEventListener, DrmSessionEventListener {
+    final class ForwardingEventListener implements MediaSourceEventListener, DrmSessionEventListener {
         private final MediaSourceHolder id;
 
         public ForwardingEventListener(MediaSourceHolder mediaSourceHolder) {
@@ -288,9 +286,7 @@ public final class MediaSourceList {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaSourceAndListener {
+    private static final class MediaSourceAndListener {
         public final MediaSource.MediaSourceCaller caller;
         public final ForwardingEventListener eventListener;
         public final MediaSource mediaSource;
@@ -302,9 +298,7 @@ public final class MediaSourceList {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class MediaSourceHolder implements MediaSourceInfoHolder {
+    static final class MediaSourceHolder implements MediaSourceInfoHolder {
         public int firstWindowIndexInChild;
         public boolean isRemoved;
         public final MaskingMediaSource mediaSource;
@@ -332,7 +326,6 @@ public final class MediaSourceList {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface MediaSourceListInfoRefreshListener {
         void onPlaylistUpdateRequested();
     }

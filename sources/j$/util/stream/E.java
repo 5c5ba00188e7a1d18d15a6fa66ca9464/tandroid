@@ -33,12 +33,12 @@ public final /* synthetic */ class E implements Predicate, j$.util.function.I, T
         switch (this.a) {
             case 10:
                 ((j$.util.i) obj).accept(i);
-                return;
+                break;
             default:
                 long[] jArr = (long[]) obj;
                 jArr[0] = jArr[0] + 1;
                 jArr[1] = jArr[1] + i;
-                return;
+                break;
         }
     }
 
@@ -47,12 +47,12 @@ public final /* synthetic */ class E implements Predicate, j$.util.function.I, T
         switch (this.a) {
             case 17:
                 ((j$.util.k) obj).accept(j);
-                return;
+                break;
             default:
                 long[] jArr = (long[]) obj;
                 jArr[0] = jArr[0] + 1;
                 jArr[1] = jArr[1] + j;
-                return;
+                break;
         }
     }
 
@@ -61,51 +61,43 @@ public final /* synthetic */ class E implements Predicate, j$.util.function.I, T
         switch (this.a) {
             case 11:
                 ((j$.util.i) obj).a((j$.util.i) obj2);
-                return;
+                break;
             case 16:
                 long[] jArr = (long[]) obj;
                 long[] jArr2 = (long[]) obj2;
                 jArr[0] = jArr[0] + jArr2[0];
                 jArr[1] = jArr[1] + jArr2[1];
-                return;
+                break;
             case 21:
                 ((j$.util.k) obj).a((j$.util.k) obj2);
-                return;
+                break;
             default:
                 long[] jArr3 = (long[]) obj;
                 long[] jArr4 = (long[]) obj2;
                 jArr3[0] = jArr3[0] + jArr4[0];
                 jArr3[1] = jArr3[1] + jArr4[1];
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate and(Predicate predicate) {
         switch (this.a) {
-            case 0:
-                return Predicate.-CC.$default$and(this, predicate);
-            case 1:
-                return Predicate.-CC.$default$and(this, predicate);
-            case 2:
-                return Predicate.-CC.$default$and(this, predicate);
-            default:
-                return Predicate.-CC.$default$and(this, predicate);
         }
+        return Predicate.-CC.$default$and(this, predicate);
     }
 
     @Override // j$.util.function.BiConsumer
     public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
         switch (this.a) {
             case 11:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
             case 16:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
             case 21:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            default:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
         }
+        return BiConsumer.-CC.$default$andThen(this, biConsumer);
     }
 
     @Override // j$.util.function.Consumer
@@ -197,29 +189,15 @@ public final /* synthetic */ class E implements Predicate, j$.util.function.I, T
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate negate() {
         switch (this.a) {
-            case 0:
-                return Predicate.-CC.$default$negate(this);
-            case 1:
-                return Predicate.-CC.$default$negate(this);
-            case 2:
-                return Predicate.-CC.$default$negate(this);
-            default:
-                return Predicate.-CC.$default$negate(this);
         }
+        return Predicate.-CC.$default$negate(this);
     }
 
     @Override // j$.util.function.Predicate
     public /* synthetic */ Predicate or(Predicate predicate) {
         switch (this.a) {
-            case 0:
-                return Predicate.-CC.$default$or(this, predicate);
-            case 1:
-                return Predicate.-CC.$default$or(this, predicate);
-            case 2:
-                return Predicate.-CC.$default$or(this, predicate);
-            default:
-                return Predicate.-CC.$default$or(this, predicate);
         }
+        return Predicate.-CC.$default$or(this, predicate);
     }
 
     @Override // j$.util.function.Predicate

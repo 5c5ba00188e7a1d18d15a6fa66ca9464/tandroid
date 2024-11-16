@@ -47,9 +47,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     int rowCount;
     private SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialog;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SetDefaultReactionCell extends FrameLayout {
+    private class SetDefaultReactionCell extends FrameLayout {
         private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
         private TextView textView;
 
@@ -224,7 +222,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                         i2 = R.drawable.greydivider;
                         view2 = textInfoPrivacyCell;
                     } else if (i == 3) {
-                        SetDefaultReactionCell setDefaultReactionCell = new SetDefaultReactionCell(context);
+                        SetDefaultReactionCell setDefaultReactionCell = ReactionsDoubleTapManageActivity.this.new SetDefaultReactionCell(context);
                         setDefaultReactionCell.update(false);
                         view = setDefaultReactionCell;
                     } else if (i != 4) {

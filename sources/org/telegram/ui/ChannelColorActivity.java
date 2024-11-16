@@ -163,9 +163,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     protected int wallpaperRow;
     protected int wallpaperThemesRow;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    protected class Adapter extends RecyclerListView.SelectionAdapter {
         protected Adapter() {
         }
 
@@ -459,7 +457,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                     frameLayout = peerColorGrid;
                 } else if (i == 1) {
                     ChannelColorActivity channelColorActivity4 = ChannelColorActivity.this;
-                    frameLayout2 = new ProfilePreview(channelColorActivity4.getContext());
+                    frameLayout2 = channelColorActivity4.new ProfilePreview(channelColorActivity4.getContext());
                 } else {
                     frameLayout2 = new TextInfoPrivacyCell(ChannelColorActivity.this.getContext());
                 }
@@ -488,9 +486,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class EmojiCell extends FrameLayout {
+    private static class EmojiCell extends FrameLayout {
         private int color;
         private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
         private boolean needDivider;
@@ -634,8 +630,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class PeerColorPicker extends FrameLayout {
+    static class PeerColorPicker extends FrameLayout {
         public final RecyclerListView.SelectionAdapter adapter;
         private final int currentAccount;
         public final LinearLayoutManager layoutManager;
@@ -643,9 +638,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         private final Theme.ResourcesProvider resourcesProvider;
         private int selectedPosition;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class ColorCell extends View {
+        private class ColorCell extends View {
             private final Paint backgroundPaint;
             private final ButtonBounce bounce;
             private final Path circlePath;
@@ -792,7 +785,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
 
                 @Override // androidx.recyclerview.widget.RecyclerView.Adapter
                 public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
-                    return new RecyclerListView.Holder(new ColorCell(context));
+                    return new RecyclerListView.Holder(PeerColorPicker.this.new ColorCell(context));
                 }
             };
             this.adapter = selectionAdapter;
@@ -886,9 +879,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes4.dex */
-    public class ProfilePreview extends FrameLayout {
+    protected class ProfilePreview extends FrameLayout {
         public final PeerColorActivity.ColoredActionBar backgroundView;
         public LinearLayout infoLayout;
         public final PeerColorActivity.ProfilePreview profileView;
@@ -977,7 +968,6 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ThemeChooser extends FrameLayout {
         private final RecyclerListView.SelectionAdapter adapter;
         private final int currentAccount;
@@ -993,9 +983,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         private final Theme.ResourcesProvider resourcesProvider;
         private boolean withRemovedStub;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 4 implements ResultCallback {
+        class 4 implements ResultCallback {
             final /* synthetic */ int val$currentAccount;
 
             4(int i) {
@@ -1485,7 +1473,6 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ThemeDelegate implements Theme.ResourcesProvider {
         public ThemeDelegate() {
         }

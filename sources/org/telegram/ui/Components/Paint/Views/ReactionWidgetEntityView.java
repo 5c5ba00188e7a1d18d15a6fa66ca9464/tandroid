@@ -37,7 +37,6 @@ public class ReactionWidgetEntityView extends EntityView {
     ReactionImageHolder reactionHolder;
     StoryReactionWidgetBackground storyReactionWidgetBackground;
 
-    /* loaded from: classes3.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
         private RectF arcRect;
 
@@ -344,9 +343,8 @@ public class ReactionWidgetEntityView extends EntityView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
+    protected void updatePosition() {
         Size size = this.baseSize;
         float f = size.width / 2.0f;
         float f2 = size.height / 2.0f;

@@ -10,8 +10,7 @@ import org.telegram.ui.WrappedResourceProvider;
 public class DarkFragmentWrapper extends BaseFragment {
     private final BaseFragment parentFragment;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DarkFragmentWrapper(BaseFragment baseFragment) {
+    DarkFragmentWrapper(BaseFragment baseFragment) {
         this.parentFragment = baseFragment;
     }
 

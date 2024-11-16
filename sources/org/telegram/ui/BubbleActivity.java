@@ -218,9 +218,8 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         return needPresentFragment;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
-    public void onActivityResult(int i, int i2, Intent intent) {
+    protected void onActivityResult(int i, int i2, Intent intent) {
         super.onActivityResult(i, i2, intent);
         ThemeEditorView themeEditorView = ThemeEditorView.getInstance();
         if (themeEditorView != null) {
@@ -257,9 +256,8 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         super.onConfigurationChanged(configuration);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         ApplicationLoader.postInitApplication();
         requestWindowFeature(1);
         setTheme(R.style.Theme_TMessages);
@@ -301,9 +299,8 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         handleIntent(getIntent(), false, bundle != null, false, UserConfig.selectedAccount, 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         int i = this.currentAccount;
         if (i != -1) {
@@ -324,16 +321,14 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         INavigationLayout.INavigationLayoutDelegate.-CC.$default$onMeasureOverride(this, iArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
-    public void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntent(intent, true, false, false, UserConfig.selectedAccount, 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         this.actionBarLayout.onPause();
         ApplicationLoader.externalInterfacePaused = true;
@@ -365,9 +360,8 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.fragment.app.FragmentActivity, android.app.Activity
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         this.actionBarLayout.onResume();
         ApplicationLoader.externalInterfacePaused = false;

@@ -52,7 +52,6 @@ public abstract class StorageDiagramView extends View implements NotificationCen
     AnimatedTextView.AnimatedTextDrawable text2;
     ValueAnimator valueAnimator;
 
-    /* loaded from: classes3.dex */
     public static class ClearViewData {
         public boolean clear;
         public int colorKey;
@@ -161,8 +160,7 @@ public abstract class StorageDiagramView extends View implements NotificationCen
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void onAvatarClick();
+    protected abstract void onAvatarClick();
 
     @Override // android.view.View
     protected void onDetachedFromWindow() {
@@ -512,7 +510,7 @@ public abstract class StorageDiagramView extends View implements NotificationCen
             if (clearViewData2 == null || (!(z2 = clearViewData2.clear) && selectedFilesSize2 <= j)) {
                 this.animateToPercentage[i2] = 0.0f;
             } else {
-                float f3 = ((float) (selectedFilesSize2 > j ? selectedFilesSize2 : clearViewData2.size)) / ((float) j2);
+                float f3 = (selectedFilesSize2 > j ? selectedFilesSize2 : clearViewData2.size) / j2;
                 if (f3 < 0.02777f) {
                     f3 = 0.02777f;
                 }

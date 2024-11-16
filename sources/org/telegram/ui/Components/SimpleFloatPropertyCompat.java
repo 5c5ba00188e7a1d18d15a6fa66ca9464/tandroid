@@ -8,12 +8,10 @@ public class SimpleFloatPropertyCompat extends FloatPropertyCompat {
     private float multiplier;
     private Setter setter;
 
-    /* loaded from: classes3.dex */
     public interface Getter {
         float get(Object obj);
     }
 
-    /* loaded from: classes3.dex */
     public interface Setter {
         void set(Object obj, float f);
     }

@@ -51,9 +51,7 @@ public class StorageUsageView extends FrameLayout {
     ValueAnimator valueAnimator;
     ValueAnimator valueAnimator2;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ProgressView extends View {
+    private class ProgressView extends View {
         public ProgressView(Context context) {
             super(context);
         }
@@ -345,9 +343,9 @@ public class StorageUsageView extends FrameLayout {
             }
             this.freeSizeTextView.setVisibility(0);
             this.totlaSizeTextView.setVisibility(0);
-            float f = (float) j4;
-            float f2 = ((float) (j2 + j)) / f;
-            float f3 = ((float) j5) / f;
+            float f = j4;
+            float f2 = (j2 + j) / f;
+            float f3 = j5 / f;
             if (this.progress != f2) {
                 ValueAnimator valueAnimator = this.valueAnimator;
                 if (valueAnimator != null) {

@@ -12,13 +12,11 @@ import com.google.android.exoplayer2.video.VideoRendererEventListener;
 /* loaded from: classes.dex */
 public interface VideoRendererEventListener {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onVideoInputFormatChanged(VideoRendererEventListener videoRendererEventListener, Format format) {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class EventDispatcher {
         private final Handler handler;
         private final VideoRendererEventListener listener;

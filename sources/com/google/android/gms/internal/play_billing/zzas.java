@@ -4,6 +4,9 @@ import java.util.Comparator;
 
 /* loaded from: classes.dex */
 final class zzas implements Comparator {
+    zzas() {
+    }
+
     @Override // java.util.Comparator
     public final /* synthetic */ int compare(Object obj, Object obj2) {
         zzba zzbaVar = (zzba) obj;

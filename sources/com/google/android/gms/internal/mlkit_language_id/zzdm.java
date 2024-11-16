@@ -2,15 +2,13 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.NoSuchElementException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzdm extends zzdo {
+final class zzdm extends zzdo {
     private int zza = 0;
     private final int zzb;
     private final /* synthetic */ zzdn zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdm(zzdn zzdnVar) {
+    zzdm(zzdn zzdnVar) {
         this.zzc = zzdnVar;
         this.zzb = zzdnVar.zza();
     }

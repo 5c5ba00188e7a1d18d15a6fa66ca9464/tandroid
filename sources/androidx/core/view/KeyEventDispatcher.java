@@ -19,7 +19,6 @@ public abstract class KeyEventDispatcher {
     private static boolean sDialogFieldsFetched = false;
     private static Field sDialogKeyListenerField;
 
-    /* loaded from: classes.dex */
     public interface Component {
         boolean superDispatchKeyEvent(KeyEvent keyEvent);
     }

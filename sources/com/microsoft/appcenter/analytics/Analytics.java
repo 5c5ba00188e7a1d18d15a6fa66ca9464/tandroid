@@ -247,8 +247,7 @@ public class Analytics extends AbstractAppCenterService {
         };
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getEnabledPreferenceKeyPrefix() {
+    String getEnabledPreferenceKeyPrefix() {
         return getEnabledPreferenceKey() + "/";
     }
 

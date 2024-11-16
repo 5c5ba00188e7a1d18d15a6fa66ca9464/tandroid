@@ -9,8 +9,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 final class zzcm extends zzp {
     final /* synthetic */ TaskCompletionSource zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcm(zzda zzdaVar, TaskCompletionSource taskCompletionSource) {
+    zzcm(zzda zzdaVar, TaskCompletionSource taskCompletionSource) {
         this.zza = taskCompletionSource;
     }
 

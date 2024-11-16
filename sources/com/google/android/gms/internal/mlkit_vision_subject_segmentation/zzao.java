@@ -6,7 +6,6 @@ abstract class zzao extends zzap {
     int zzb = 0;
     boolean zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzao(int i) {
+    zzao(int i) {
     }
 }

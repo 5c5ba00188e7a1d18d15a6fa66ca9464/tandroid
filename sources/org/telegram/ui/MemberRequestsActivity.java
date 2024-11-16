@@ -17,9 +17,8 @@ public class MemberRequestsActivity extends BaseFragment {
 
     public MemberRequestsActivity(long j) {
         this.delegate = new MemberRequestsDelegate(this, getLayoutContainer(), j, true) { // from class: org.telegram.ui.MemberRequestsActivity.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Delegates.MemberRequestsDelegate
-            public void onImportersChanged(String str, boolean z, boolean z2) {
+            protected void onImportersChanged(String str, boolean z, boolean z2) {
                 if (z2) {
                     ((BaseFragment) MemberRequestsActivity.this).actionBar.setSearchFieldText("");
                 } else {

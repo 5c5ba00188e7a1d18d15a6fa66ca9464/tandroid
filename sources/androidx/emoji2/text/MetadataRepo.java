@@ -14,9 +14,7 @@ public final class MetadataRepo {
     private final Node mRootNode = new Node(1024);
     private final Typeface mTypeface;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Node {
+    static class Node {
         private final SparseArray mChildren;
         private EmojiMetadata mData;
 
@@ -28,8 +26,7 @@ public final class MetadataRepo {
             this.mChildren = new SparseArray(i);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Node get(int i) {
+        Node get(int i) {
             SparseArray sparseArray = this.mChildren;
             if (sparseArray == null) {
                 return null;
@@ -37,8 +34,7 @@ public final class MetadataRepo {
             return (Node) sparseArray.get(i);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public final EmojiMetadata getData() {
+        final EmojiMetadata getData() {
             return this.mData;
         }
 
@@ -89,18 +85,15 @@ public final class MetadataRepo {
         return this.mMetadataList;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getMetadataVersion() {
+    int getMetadataVersion() {
         return this.mMetadataList.version();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Node getRootNode() {
+    Node getRootNode() {
         return this.mRootNode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Typeface getTypeface() {
+    Typeface getTypeface() {
         return this.mTypeface;
     }
 

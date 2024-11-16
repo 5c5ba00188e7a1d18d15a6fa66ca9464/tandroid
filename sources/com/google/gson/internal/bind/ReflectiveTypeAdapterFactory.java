@@ -47,7 +47,6 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     private final JsonAdapterAnnotationTypeAdapterFactory jsonAdapterFactory;
     private final List reflectionFilters;
 
-    /* loaded from: classes.dex */
     public static abstract class Adapter extends TypeAdapter {
         private final FieldsData fieldsData;
 
@@ -107,9 +106,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class BoundField {
+    static abstract class BoundField {
         final Field field;
         final String fieldName;
         final String serializedName;
@@ -127,7 +124,6 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         abstract void write(JsonWriter jsonWriter, Object obj);
     }
 
-    /* loaded from: classes.dex */
     private static final class FieldReflectionAdapter extends Adapter {
         private final ObjectConstructor constructor;
 
@@ -152,9 +148,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FieldsData {
+    private static class FieldsData {
         public static final FieldsData EMPTY = new FieldsData(Collections.emptyMap(), Collections.emptyList());
         public final Map deserializedFields;
         public final List serializedFields;
@@ -165,7 +159,6 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class RecordAdapter extends Adapter {
         static final Map PRIMITIVE_DEFAULTS = primitiveDefaults();
         private final Map componentIndices;
@@ -341,7 +334,7 @@ public final class ReflectiveTypeAdapterFactory implements TypeAdapterFactory {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0108  */
     /* JADX WARN: Type inference failed for: r7v0 */
-    /* JADX WARN: Type inference failed for: r7v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

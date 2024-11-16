@@ -423,12 +423,11 @@ public class StarReactionsOverlay extends View {
         AndroidUtilities.runOnUIThread(this.hideCounterRunnable, 1500L);
         if (z2) {
             long currentTimeMillis = System.currentTimeMillis();
-            long j = currentTimeMillis - this.lastRippleTime;
-            if (j < 100) {
+            if (currentTimeMillis - this.lastRippleTime < 100) {
                 this.accumulatedRippleIntensity += 0.5f;
                 return;
             }
-            this.accumulatedRippleIntensity *= Utilities.clamp(1.0f - (((float) (j - 100)) / 200.0f), 1.0f, 0.0f);
+            this.accumulatedRippleIntensity *= Utilities.clamp(1.0f - ((r0 - 100) / 200.0f), 1.0f, 0.0f);
             if (getMeasuredWidth() != 0 || this.chatActivity.getLayoutContainer() == null) {
                 getLocationInWindow(this.pos2);
             } else {

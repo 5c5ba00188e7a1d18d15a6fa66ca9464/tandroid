@@ -28,9 +28,8 @@ public abstract class MemberRequestsBottomSheet extends UsersAlertBase {
         this.needSnapToTop = false;
         this.isEmptyViewVisible = false;
         MemberRequestsDelegate memberRequestsDelegate = new MemberRequestsDelegate(baseFragment, this.container, j, false) { // from class: org.telegram.ui.Components.MemberRequestsBottomSheet.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Delegates.MemberRequestsDelegate
-            public void onImportersChanged(String str, boolean z, boolean z2) {
+            protected void onImportersChanged(String str, boolean z, boolean z2) {
                 if (!hasAllImporters()) {
                     if (MemberRequestsBottomSheet.this.membersEmptyView.getVisibility() != 4) {
                         MemberRequestsBottomSheet.this.membersEmptyView.setVisibility(4);
@@ -127,16 +126,14 @@ public abstract class MemberRequestsBottomSheet extends UsersAlertBase {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
-    public void search(String str) {
+    protected void search(String str) {
         super.search(str);
         this.delegate.setQuery(str);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
-    public void setTranslationY(int i) {
+    protected void setTranslationY(int i) {
         super.setTranslationY(i);
         this.currentLoadingView.setTranslationY(this.frameLayout.getMeasuredHeight() + i);
         float f = i;
@@ -153,9 +150,8 @@ public abstract class MemberRequestsBottomSheet extends UsersAlertBase {
         this.delegate.isNeedRestoreList = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.UsersAlertBase
-    public void updateLayout() {
+    protected void updateLayout() {
         if (this.listView.getChildCount() > 0) {
             super.updateLayout();
             return;

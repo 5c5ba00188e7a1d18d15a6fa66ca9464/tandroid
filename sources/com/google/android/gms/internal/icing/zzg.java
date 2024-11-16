@@ -16,8 +16,7 @@ public final class zzg extends AbstractSafeParcelable {
     public final boolean zzc;
     public final Account zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzg(zzk[] zzkVarArr, String str, boolean z, Account account) {
+    zzg(zzk[] zzkVarArr, String str, boolean z, Account account) {
         this.zza = zzkVarArr;
         this.zzb = str;
         this.zzc = z;

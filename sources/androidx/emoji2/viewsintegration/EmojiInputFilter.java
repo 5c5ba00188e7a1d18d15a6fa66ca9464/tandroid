@@ -14,9 +14,7 @@ final class EmojiInputFilter implements InputFilter {
     private EmojiCompat.InitCallback mInitCallback;
     private final TextView mTextView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class InitCallbackImpl extends EmojiCompat.InitCallback {
+    private static class InitCallbackImpl extends EmojiCompat.InitCallback {
         private final Reference mEmojiInputFilterReference;
         private final Reference mViewRef;
 
@@ -55,8 +53,7 @@ final class EmojiInputFilter implements InputFilter {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiInputFilter(TextView textView) {
+    EmojiInputFilter(TextView textView) {
         this.mTextView = textView;
     }
 
@@ -67,8 +64,7 @@ final class EmojiInputFilter implements InputFilter {
         return this.mInitCallback;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void updateSelection(Spannable spannable, int i, int i2) {
+    static void updateSelection(Spannable spannable, int i, int i2) {
         if (i >= 0 && i2 >= 0) {
             Selection.setSelection(spannable, i, i2);
         } else if (i >= 0) {

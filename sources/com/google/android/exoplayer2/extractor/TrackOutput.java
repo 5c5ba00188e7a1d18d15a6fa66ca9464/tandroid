@@ -8,11 +8,9 @@ import java.util.Arrays;
 /* loaded from: classes.dex */
 public interface TrackOutput {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
     }
 
-    /* loaded from: classes.dex */
     public static final class CryptoData {
         public final int clearBlocks;
         public final int cryptoMode;

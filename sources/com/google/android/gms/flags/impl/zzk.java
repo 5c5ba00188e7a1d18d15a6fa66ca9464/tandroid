@@ -7,8 +7,7 @@ import java.util.concurrent.Callable;
 final class zzk implements Callable {
     private final /* synthetic */ Context val$context;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzk(Context context) {
+    zzk(Context context) {
         this.val$context = context;
     }
 

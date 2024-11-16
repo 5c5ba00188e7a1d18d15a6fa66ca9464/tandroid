@@ -28,8 +28,10 @@ public abstract class AppCompatDelegate {
     private static final Object sActivityDelegatesLock = new Object();
     private static final Object sAppLocalesStorageSyncLock = new Object();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void addActiveDelegate(AppCompatDelegate appCompatDelegate) {
+    AppCompatDelegate() {
+    }
+
+    static void addActiveDelegate(AppCompatDelegate appCompatDelegate) {
         synchronized (sActivityDelegatesLock) {
             removeDelegateFromActives(appCompatDelegate);
             sActivityDelegates.add(new WeakReference(appCompatDelegate));
@@ -44,13 +46,11 @@ public abstract class AppCompatDelegate {
         return sDefaultNightMode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static LocaleListCompat getRequestedAppLocales() {
+    static LocaleListCompat getRequestedAppLocales() {
         return sRequestedAppLocales;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void removeActivityDelegate(AppCompatDelegate appCompatDelegate) {
+    static void removeActivityDelegate(AppCompatDelegate appCompatDelegate) {
         synchronized (sActivityDelegatesLock) {
             removeDelegateFromActives(appCompatDelegate);
         }

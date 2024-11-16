@@ -5,8 +5,7 @@ import android.os.Build;
 
 /* loaded from: classes.dex */
 abstract class DeviceUtils {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean canAssumeStrongBiometrics(Context context, String str) {
+    static boolean canAssumeStrongBiometrics(Context context, String str) {
         if (Build.VERSION.SDK_INT >= 30) {
             return false;
         }
@@ -49,24 +48,21 @@ abstract class DeviceUtils {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean shouldDelayShowingPrompt(Context context, String str) {
+    static boolean shouldDelayShowingPrompt(Context context, String str) {
         if (Build.VERSION.SDK_INT != 29) {
             return false;
         }
         return isModelInList(context, str, R$array.delay_showing_prompt_models);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean shouldHideFingerprintDialog(Context context, String str) {
+    static boolean shouldHideFingerprintDialog(Context context, String str) {
         if (Build.VERSION.SDK_INT != 28) {
             return false;
         }
         return isModelInPrefixList(context, str, R$array.hide_fingerprint_instantly_prefixes);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean shouldUseFingerprintForCrypto(Context context, String str, String str2) {
+    static boolean shouldUseFingerprintForCrypto(Context context, String str, String str2) {
         if (Build.VERSION.SDK_INT != 28) {
             return false;
         }

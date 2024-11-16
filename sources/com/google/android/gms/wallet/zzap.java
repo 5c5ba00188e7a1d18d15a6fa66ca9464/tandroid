@@ -9,6 +9,9 @@ import com.google.android.gms.wallet.Wallet;
 
 /* loaded from: classes.dex */
 final class zzap extends Api.AbstractClientBuilder {
+    zzap() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* bridge */ /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         Wallet.WalletOptions walletOptions = (Wallet.WalletOptions) obj;

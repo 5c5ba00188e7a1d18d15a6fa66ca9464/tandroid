@@ -11,9 +11,8 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import org.webrtc.MediaStreamTrack;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AudioFocusManager {
+final class AudioFocusManager {
     private AudioAttributes audioAttributes;
     private AudioFocusRequest audioFocusRequest;
     private final AudioManager audioManager;
@@ -25,8 +24,7 @@ public final class AudioFocusManager {
     private int audioFocusState = 0;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AudioFocusListener implements AudioManager.OnAudioFocusChangeListener {
+    class AudioFocusListener implements AudioManager.OnAudioFocusChangeListener {
         private final Handler eventHandler;
 
         public AudioFocusListener(Handler handler) {
@@ -49,7 +47,6 @@ public final class AudioFocusManager {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface PlayerControl {
         void executePlayerCommand(int i);
 

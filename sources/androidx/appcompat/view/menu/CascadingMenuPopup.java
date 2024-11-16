@@ -30,9 +30,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class CascadingMenuPopup extends MenuPopup implements MenuPresenter, View.OnKeyListener, PopupWindow.OnDismissListener {
+final class CascadingMenuPopup extends MenuPopup implements MenuPresenter, View.OnKeyListener, PopupWindow.OnDismissListener {
     private static final int ITEM_LAYOUT = R$layout.abc_cascading_menu_item_layout;
     private View mAnchorView;
     private final Context mContext;
@@ -135,9 +134,7 @@ public final class CascadingMenuPopup extends MenuPopup implements MenuPresenter
     private boolean mForceShowIcon = false;
     private int mLastPosition = getInitialMenuPosition();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class CascadingMenuInfo {
+    private static class CascadingMenuInfo {
         public final MenuBuilder menu;
         public final int position;
         public final MenuPopupWindow window;

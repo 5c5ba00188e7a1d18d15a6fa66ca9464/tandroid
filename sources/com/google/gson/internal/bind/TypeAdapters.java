@@ -97,9 +97,7 @@ public abstract class TypeAdapters {
     public static final TypeAdapter UUID;
     public static final TypeAdapterFactory UUID_FACTORY;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 42 {
+    static /* synthetic */ class 42 {
         static final /* synthetic */ int[] $SwitchMap$com$google$gson$stream$JsonToken;
 
         static {
@@ -132,7 +130,6 @@ public abstract class TypeAdapters {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class EnumTypeAdapter extends TypeAdapter {
         private final Map nameToConstant = new HashMap();
         private final Map stringToConstant = new HashMap();
@@ -725,9 +722,9 @@ public abstract class TypeAdapters {
         CURRENCY = nullSafe6;
         CURRENCY_FACTORY = newFactory(Currency.class, nullSafe6);
         TypeAdapter typeAdapter13 = new TypeAdapter() { // from class: com.google.gson.internal.bind.TypeAdapters.26
-            /* JADX WARN: Failed to find 'out' block for switch in B:10:0x002f. Please report as an issue. */
             @Override // com.google.gson.TypeAdapter
             public Calendar read(JsonReader jsonReader) {
+                int nextInt;
                 if (jsonReader.peek() == JsonToken.NULL) {
                     jsonReader.nextNull();
                     return null;
@@ -741,64 +738,25 @@ public abstract class TypeAdapters {
                 int i6 = 0;
                 while (jsonReader.peek() != JsonToken.END_OBJECT) {
                     String nextName = jsonReader.nextName();
-                    int nextInt = jsonReader.nextInt();
+                    nextInt = jsonReader.nextInt();
                     nextName.hashCode();
-                    char c = 65535;
-                    switch (nextName.hashCode()) {
-                        case -1181204563:
-                            if (nextName.equals("dayOfMonth")) {
-                                c = 0;
-                                break;
-                            }
-                            break;
-                        case -1074026988:
-                            if (nextName.equals("minute")) {
-                                c = 1;
-                                break;
-                            }
-                            break;
-                        case -906279820:
-                            if (nextName.equals("second")) {
-                                c = 2;
-                                break;
-                            }
-                            break;
-                        case 3704893:
-                            if (nextName.equals("year")) {
-                                c = 3;
-                                break;
-                            }
-                            break;
-                        case 104080000:
-                            if (nextName.equals("month")) {
-                                c = 4;
-                                break;
-                            }
-                            break;
-                        case 985252545:
-                            if (nextName.equals("hourOfDay")) {
-                                c = 5;
-                                break;
-                            }
-                            break;
-                    }
-                    switch (c) {
-                        case 0:
+                    switch (nextName) {
+                        case "dayOfMonth":
                             i3 = nextInt;
                             break;
-                        case 1:
+                        case "minute":
                             i5 = nextInt;
                             break;
-                        case 2:
+                        case "second":
                             i6 = nextInt;
                             break;
-                        case 3:
+                        case "year":
                             i = nextInt;
                             break;
-                        case 4:
+                        case "month":
                             i2 = nextInt;
                             break;
-                        case 5:
+                        case "hourOfDay":
                             i4 = nextInt;
                             break;
                     }

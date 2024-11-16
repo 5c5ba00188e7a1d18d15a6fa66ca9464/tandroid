@@ -57,16 +57,14 @@ public class HeaderCell extends FrameLayout {
         this.linearLayout = linearLayout;
         linearLayout.setOrientation(1);
         GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 1) { // from class: org.telegram.ui.Components.Premium.boosts.cells.HeaderCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
-            public void onAttachedToWindow() {
+            protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
                 setPaused(false);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.View
-            public void onDetachedFromWindow() {
+            protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 setPaused(true);
             }
@@ -95,9 +93,8 @@ public class HeaderCell extends FrameLayout {
                 HeaderCell.this.starParticlesView.setPaused(true);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
                 this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
             }

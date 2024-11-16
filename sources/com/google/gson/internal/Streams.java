@@ -16,12 +16,10 @@ import java.util.Objects;
 /* loaded from: classes.dex */
 public abstract class Streams {
 
-    /* loaded from: classes.dex */
     private static final class AppendableWriter extends Writer {
         private final Appendable appendable;
         private final CurrentWrite currentWrite = new CurrentWrite();
 
-        /* loaded from: classes.dex */
         private static class CurrentWrite implements CharSequence {
             private String cachedString;
             private char[] chars;

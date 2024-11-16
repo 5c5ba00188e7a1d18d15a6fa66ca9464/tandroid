@@ -7,8 +7,7 @@ final class zzbx extends zzbh {
     private final transient zzbg zza;
     private final transient zzbe zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbx(zzbg zzbgVar, zzbe zzbeVar) {
+    zzbx(zzbg zzbgVar, zzbe zzbeVar) {
         this.zza = zzbgVar;
         this.zzb = zzbeVar;
     }
@@ -28,9 +27,8 @@ final class zzbx extends zzbh {
         return this.zza.size();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzaz
-    public final int zza(Object[] objArr, int i) {
+    final int zza(Object[] objArr, int i) {
         return this.zzb.zza(objArr, 0);
     }
 }

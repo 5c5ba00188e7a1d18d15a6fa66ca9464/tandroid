@@ -16,6 +16,9 @@ public abstract class Rating implements Bundleable {
         }
     };
 
+    Rating() {
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public static Rating fromBundle(Bundle bundle) {
         Bundleable.Creator creator;

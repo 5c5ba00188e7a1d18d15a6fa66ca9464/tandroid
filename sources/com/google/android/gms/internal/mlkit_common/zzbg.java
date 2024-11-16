@@ -9,6 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 /* loaded from: classes.dex */
 public abstract class zzbg extends zzai implements ExecutorService {
+    protected zzbg() {
+    }
+
     @Override // java.util.concurrent.ExecutorService
     public final boolean awaitTermination(long j, TimeUnit timeUnit) {
         return zzb().awaitTermination(j, timeUnit);

@@ -26,14 +26,12 @@ public abstract class ResourcesCompat {
     private static final WeakHashMap sColorStateCaches = new WeakHashMap(0);
     private static final Object sColorStateCacheLock = new Object();
 
-    /* loaded from: classes.dex */
     static class Api15Impl {
         static Drawable getDrawableForDensity(Resources resources, int i, int i2) {
             return resources.getDrawableForDensity(i, i2);
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static Drawable getDrawable(Resources resources, int i, Resources.Theme theme) {
             return resources.getDrawable(i, theme);
@@ -44,7 +42,6 @@ public abstract class ResourcesCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static int getColor(Resources resources, int i, Resources.Theme theme) {
             return resources.getColor(i, theme);
@@ -55,9 +52,7 @@ public abstract class ResourcesCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ColorStateListCacheEntry {
+    private static class ColorStateListCacheEntry {
         final Configuration mConfiguration;
         final int mThemeHash;
         final ColorStateList mValue;
@@ -69,9 +64,7 @@ public abstract class ResourcesCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ColorStateListCacheKey {
+    private static final class ColorStateListCacheKey {
         final Resources mResources;
         final Resources.Theme mTheme;
 
@@ -96,7 +89,6 @@ public abstract class ResourcesCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class FontCallback {
         public static Handler getHandler(Handler handler) {
             return handler == null ? new Handler(Looper.getMainLooper()) : handler;

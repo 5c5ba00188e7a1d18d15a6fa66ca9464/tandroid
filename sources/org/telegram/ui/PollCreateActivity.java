@@ -147,9 +147,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
     };
     private boolean isPremium = AccountInstance.getInstance(this.currentAccount).getUserConfig().isPremium();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 extends ActionBar.ActionBarMenuOnItemClick {
+    class 2 extends ActionBar.ActionBarMenuOnItemClick {
         2() {
         }
 
@@ -215,8 +213,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                         tL_pollAnswer.text = tL_textWithEntities;
                         tL_textWithEntities.text = charSequence2.toString();
                         tL_pollAnswer.text.entities = entities2;
-                        tL_pollAnswer.option = r4;
-                        byte[] bArr = {(byte) (tL_messageMediaPoll.poll.answers.size() + 48)};
+                        tL_pollAnswer.option = new byte[]{(byte) (tL_messageMediaPoll.poll.answers.size() + 48)};
                         tL_messageMediaPoll.poll.answers.add(tL_pollAnswer);
                         if ((PollCreateActivity.this.multipleChoise || PollCreateActivity.this.quizPoll) && PollCreateActivity.this.answersChecks[i5]) {
                             serializedData.writeByte(tL_pollAnswer.option[0]);
@@ -254,9 +251,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 9 implements EmojiView.EmojiViewDelegate {
+    class 9 implements EmojiView.EmojiViewDelegate {
         9() {
         }
 
@@ -443,8 +438,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -785,9 +779,8 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
                                 return PollCreateActivity.this.answersChecks[adapterPosition - PollCreateActivity.this.answerStartRow];
                             }
 
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.Cells.PollEditTextCell
-                            public void onCheckBoxClick(PollEditTextCell pollEditTextCell4, boolean z2) {
+                            protected void onCheckBoxClick(PollEditTextCell pollEditTextCell4, boolean z2) {
                                 int adapterPosition;
                                 if (z2 && PollCreateActivity.this.quizPoll) {
                                     Arrays.fill(PollCreateActivity.this.answersChecks, false);
@@ -1036,12 +1029,10 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface PollCreateActivityDelegate {
         void sendPoll(TLRPC.TL_messageMediaPoll tL_messageMediaPoll, HashMap hashMap, boolean z, int i);
     }
 
-    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         public TouchHelperCallback() {
         }
@@ -1727,7 +1718,6 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.PollCreateActivity.3
             private boolean ignoreLayout;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:22:0x006b  */
             /* JADX WARN: Removed duplicated region for block: B:29:0x0099  */
             /* JADX WARN: Removed duplicated region for block: B:33:0x00a7  */
@@ -1737,7 +1727,7 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;
@@ -1859,9 +1849,8 @@ public class PollCreateActivity extends BaseFragment implements NotificationCent
         sizeNotifierFrameLayout2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         FrameLayout frameLayout = (FrameLayout) this.fragmentView;
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.PollCreateActivity.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.RecyclerView
-            public void requestChildOnScreen(View view, View view2) {
+            protected void requestChildOnScreen(View view, View view2) {
                 if (view instanceof PollEditTextCell) {
                     super.requestChildOnScreen(view, view2);
                 }

@@ -59,7 +59,6 @@ public class zzhv {
         final zzhy zzhyVar3 = zzhy.zzf;
         final String str = "STRING";
         zzhv zzhvVar9 = new zzhv(str, i3, zzhyVar3, i) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhu
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i4 = 2;
                 int i5 = 8;
@@ -70,7 +69,6 @@ public class zzhv {
         final String str2 = "GROUP";
         final int i4 = 9;
         zzhv zzhvVar10 = new zzhv(str2, i4, zzhyVar4, i2) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhx
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i5 = 3;
                 int i6 = 9;
@@ -81,7 +79,6 @@ public class zzhv {
         final int i5 = 10;
         final int i6 = 2;
         zzhv zzhvVar11 = new zzhv(str3, i5, zzhyVar4, i6) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhw
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i7 = 2;
                 int i8 = 10;
@@ -92,7 +89,6 @@ public class zzhv {
         final zzhy zzhyVar5 = zzhy.zzg;
         final String str4 = "BYTES";
         zzhv zzhvVar12 = new zzhv(str4, i7, zzhyVar5, i6) { // from class: com.google.android.gms.internal.mlkit_language_id.zzhz
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i8 = 2;
                 int i9 = 11;

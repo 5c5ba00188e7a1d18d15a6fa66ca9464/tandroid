@@ -20,19 +20,15 @@ public final class ListenerSet {
     private final Object releasedLock;
     private boolean throwsWhenUsingWrongThread;
 
-    /* loaded from: classes.dex */
     public interface Event {
         void invoke(Object obj);
     }
 
-    /* loaded from: classes.dex */
     public interface IterationFinishedEvent {
         void invoke(Object obj, FlagSet flagSet);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ListenerHolder {
+    private static final class ListenerHolder {
         private FlagSet.Builder flagsBuilder = new FlagSet.Builder();
         public final Object listener;
         private boolean needsIterationFinishedEvent;

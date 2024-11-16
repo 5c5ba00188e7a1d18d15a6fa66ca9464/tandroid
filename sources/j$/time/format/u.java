@@ -7,13 +7,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class u {
+final class u {
     private final Map a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public u(Map map) {
+    u(Map map) {
         Comparator comparator;
         Comparator comparator2;
         this.a = map;
@@ -39,8 +37,7 @@ public final class u {
         Collections.sort(arrayList, comparator);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String a(long j, TextStyle textStyle) {
+    final String a(long j, TextStyle textStyle) {
         Map map = (Map) this.a.get(textStyle);
         if (map != null) {
             return (String) map.get(Long.valueOf(j));

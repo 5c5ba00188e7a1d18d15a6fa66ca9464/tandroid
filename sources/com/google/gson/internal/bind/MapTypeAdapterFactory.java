@@ -24,7 +24,6 @@ public final class MapTypeAdapterFactory implements TypeAdapterFactory {
     final boolean complexMapKeySerialization;
     private final ConstructorConstructor constructorConstructor;
 
-    /* loaded from: classes.dex */
     private final class Adapter extends TypeAdapter {
         private final ObjectConstructor constructor;
         private final TypeAdapter keyTypeAdapter;

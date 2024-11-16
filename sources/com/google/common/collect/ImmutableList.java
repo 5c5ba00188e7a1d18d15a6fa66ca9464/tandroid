@@ -12,7 +12,6 @@ import java.util.RandomAccess;
 public abstract class ImmutableList extends ImmutableCollection implements List, RandomAccess {
     private static final UnmodifiableListIterator EMPTY_ITR = new Itr(RegularImmutableList.EMPTY, 0);
 
-    /* loaded from: classes.dex */
     public static final class Builder extends ImmutableCollection.ArrayBasedBuilder {
         public Builder() {
             this(4);
@@ -40,9 +39,7 @@ public abstract class ImmutableList extends ImmutableCollection implements List,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Itr extends AbstractIndexedListIterator {
+    static class Itr extends AbstractIndexedListIterator {
         private final ImmutableList list;
 
         Itr(ImmutableList immutableList, int i) {
@@ -56,9 +53,7 @@ public abstract class ImmutableList extends ImmutableCollection implements List,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class SubList extends ImmutableList {
+    class SubList extends ImmutableList {
         final transient int length;
         final transient int offset;
 
@@ -122,13 +117,14 @@ public abstract class ImmutableList extends ImmutableCollection implements List,
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ImmutableList asImmutableList(Object[] objArr) {
+    ImmutableList() {
+    }
+
+    static ImmutableList asImmutableList(Object[] objArr) {
         return asImmutableList(objArr, objArr.length);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ImmutableList asImmutableList(Object[] objArr, int i) {
+    static ImmutableList asImmutableList(Object[] objArr, int i) {
         return i == 0 ? of() : new RegularImmutableList(objArr, i);
     }
 
@@ -188,9 +184,8 @@ public abstract class ImmutableList extends ImmutableCollection implements List,
         return indexOf(obj) >= 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public int copyIntoArray(Object[] objArr, int i) {
+    int copyIntoArray(Object[] objArr, int i) {
         int size = size();
         for (int i2 = 0; i2 < size; i2++) {
             objArr[i + i2] = get(i2);

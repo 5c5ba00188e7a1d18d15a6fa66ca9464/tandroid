@@ -7,8 +7,7 @@ import android.os.Parcel;
 final class zzac implements IGmsServiceBroker {
     private final IBinder zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzac(IBinder iBinder) {
+    zzac(IBinder iBinder) {
         this.zza = iBinder;
     }
 

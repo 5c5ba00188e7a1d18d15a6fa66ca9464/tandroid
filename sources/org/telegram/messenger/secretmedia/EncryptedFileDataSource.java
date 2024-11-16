@@ -18,7 +18,6 @@ public final class EncryptedFileDataSource extends BaseDataSource {
     private boolean opened;
     private Uri uri;
 
-    /* loaded from: classes3.dex */
     public static class EncryptedFileDataSourceException extends IOException {
         public EncryptedFileDataSourceException(Throwable th) {
             super(th);

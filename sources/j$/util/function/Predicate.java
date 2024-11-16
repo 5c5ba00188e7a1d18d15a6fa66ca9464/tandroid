@@ -5,7 +5,6 @@ import j$.util.function.Predicate;
 /* loaded from: classes2.dex */
 public interface Predicate<T> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class -CC {
         public static Predicate $default$and(Predicate predicate, Predicate predicate2) {
             predicate2.getClass();

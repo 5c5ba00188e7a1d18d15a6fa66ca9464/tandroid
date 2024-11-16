@@ -45,7 +45,6 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
     private int currentAccount;
     private LinearLayoutManager linearLayoutManager;
 
-    /* loaded from: classes4.dex */
     public static class AdaptiveIconImageView extends ImageView {
         private int backgroundOuterPadding;
         private Drawable foreground;
@@ -104,8 +103,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class IconHolderView extends LinearLayout {
+    static final class IconHolderView extends LinearLayout {
         private Paint fillPaint;
         private AdaptiveIconImageView iconView;
         private Paint outlinePaint;
@@ -286,9 +284,8 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 return (i4 - i2) + AndroidUtilities.dp(16.0f);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearSmoothScroller
-            public float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+            protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
                 return super.calculateSpeedPerPixel(displayMetrics) * 3.0f;
             }
         };
@@ -335,29 +332,25 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.premiumStatusChangedGlobal);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.premiumStatusChangedGlobal);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         invalidateItemDecorations();
     }

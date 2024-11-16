@@ -25,7 +25,6 @@ public class QuickRepliesEmptyView extends LinearLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private TextView titleView;
 
-    /* loaded from: classes4.dex */
     private class DotTextView extends TextView {
         public DotTextView(Context context) {
             super(context);

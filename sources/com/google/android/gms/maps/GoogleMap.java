@@ -19,39 +19,32 @@ public class GoogleMap {
     private final HashMap zzb = new HashMap();
     private UiSettings zzc;
 
-    /* loaded from: classes.dex */
     public interface CancelableCallback {
         void onCancel();
 
         void onFinish();
     }
 
-    /* loaded from: classes.dex */
     public interface OnCameraIdleListener {
         void onCameraIdle();
     }
 
-    /* loaded from: classes.dex */
     public interface OnCameraMoveListener {
         void onCameraMove();
     }
 
-    /* loaded from: classes.dex */
     public interface OnCameraMoveStartedListener {
         void onCameraMoveStarted(int i);
     }
 
-    /* loaded from: classes.dex */
     public interface OnMapLoadedCallback {
         void onMapLoaded();
     }
 
-    /* loaded from: classes.dex */
     public interface OnMarkerClickListener {
         boolean onMarkerClick(Marker marker);
     }
 
-    /* loaded from: classes.dex */
     public interface OnMyLocationChangeListener {
         void onMyLocationChange(Location location);
     }

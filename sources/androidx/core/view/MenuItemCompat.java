@@ -10,7 +10,6 @@ import androidx.core.internal.view.SupportMenuItem;
 /* loaded from: classes.dex */
 public abstract class MenuItemCompat {
 
-    /* loaded from: classes.dex */
     static class Api26Impl {
         static int getAlphabeticModifiers(MenuItem menuItem) {
             return menuItem.getAlphabeticModifiers();

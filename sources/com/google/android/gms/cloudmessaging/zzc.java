@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 /* loaded from: classes.dex */
 final class zzc implements Parcelable.Creator {
+    zzc() {
+    }
+
     @Override // android.os.Parcelable.Creator
     public final /* synthetic */ Object createFromParcel(Parcel parcel) {
         return new zza(parcel.readStrongBinder());

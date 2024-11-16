@@ -28,7 +28,6 @@ import org.telegram.tgnet.ConnectionsManager;
 public abstract class CommonNotificationBuilder {
     private static final AtomicInteger requestCodeProvider = new AtomicInteger((int) SystemClock.elapsedRealtime());
 
-    /* loaded from: classes.dex */
     public static class DisplayNotificationInfo {
         public final int id = 0;
         public final NotificationCompat.Builder notificationBuilder;
@@ -64,8 +63,7 @@ public abstract class CommonNotificationBuilder {
         return PendingIntent.getBroadcast(context, generatePendingIntentRequestCode(), new Intent("com.google.firebase.MESSAGING_EVENT").setComponent(new ComponentName(context, "com.google.firebase.iid.FirebaseInstanceIdReceiver")).putExtra("wrapped_intent", intent), getPendingIntentFlags(1073741824));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static DisplayNotificationInfo createNotificationInfo(Context context, NotificationParams notificationParams) {
+    static DisplayNotificationInfo createNotificationInfo(Context context, NotificationParams notificationParams) {
         Bundle manifestMetadata = getManifestMetadata(context.getPackageManager(), context.getPackageName());
         return createNotificationInfo(context, context.getPackageName(), notificationParams, getOrCreateChannel(context, notificationParams.getNotificationChannelId(), manifestMetadata), context.getResources(), context.getPackageManager(), manifestMetadata);
     }

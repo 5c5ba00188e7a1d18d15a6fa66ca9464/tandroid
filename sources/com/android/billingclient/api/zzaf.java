@@ -14,16 +14,14 @@ import com.google.android.gms.internal.play_billing.zzgd;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzaf implements ServiceConnection {
+final class zzaf implements ServiceConnection {
     final /* synthetic */ BillingClientImpl zza;
     private final Object zzb = new Object();
     private boolean zzc = false;
     private BillingClientStateListener zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzaf(BillingClientImpl billingClientImpl, BillingClientStateListener billingClientStateListener, zzae zzaeVar) {
+    /* synthetic */ zzaf(BillingClientImpl billingClientImpl, BillingClientStateListener billingClientStateListener, zzae zzaeVar) {
         this.zza = billingClientImpl;
         this.zzd = billingClientStateListener;
     }
@@ -93,13 +91,12 @@ public final class zzaf implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:84:0x01d6  */
     /* JADX WARN: Removed duplicated region for block: B:86:0x01e3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final /* synthetic */ Object zza() {
+    final /* synthetic */ Object zza() {
         Bundle bundle;
         int i;
         int i2;
@@ -269,8 +266,7 @@ public final class zzaf implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzb() {
+    final /* synthetic */ void zzb() {
         zzar zzarVar;
         this.zza.zza = 0;
         this.zza.zzg = null;

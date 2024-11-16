@@ -9,8 +9,7 @@ abstract class zzax extends zzay {
     int zzb = 0;
     boolean zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzax(int i) {
+    zzax(int i) {
     }
 
     private final void zzb(int i) {

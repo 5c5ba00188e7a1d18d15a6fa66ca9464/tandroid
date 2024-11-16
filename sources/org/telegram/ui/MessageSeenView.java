@@ -58,7 +58,6 @@ public class MessageSeenView extends FrameLayout {
     SimpleTextView titleView;
     public ArrayList users;
 
-    /* loaded from: classes4.dex */
     private static class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private static MessageSeenCheckDrawable seenDrawable = new MessageSeenCheckDrawable(R.drawable.msg_mini_checks, Theme.key_windowBackgroundWhiteGrayText);
         AvatarDrawable avatarDrawable;
@@ -482,9 +481,8 @@ public class MessageSeenView extends FrameLayout {
             return recyclerListView;
         }
         RecyclerListView recyclerListView2 = new RecyclerListView(getContext()) { // from class: org.telegram.ui.MessageSeenView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i, int i2) {
+            protected void onMeasure(int i, int i2) {
                 int size = View.MeasureSpec.getSize(i2);
                 int dp = AndroidUtilities.dp(4.0f) + (AndroidUtilities.dp(50.0f) * getAdapter().getItemCount());
                 if (dp <= size) {

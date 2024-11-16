@@ -33,8 +33,7 @@ public class PhotoCropActivity extends BaseFragment {
     private PhotoCropView view;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PhotoCropView extends FrameLayout {
+    class PhotoCropView extends FrameLayout {
         int bitmapHeight;
         int bitmapWidth;
         int bitmapX;
@@ -570,7 +569,6 @@ public class PhotoCropActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface PhotoEditActivityDelegate {
         void didFinishEdit(Bitmap bitmap);
     }

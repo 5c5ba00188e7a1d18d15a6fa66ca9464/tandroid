@@ -68,7 +68,6 @@ public abstract class SenderSelectPopup extends ActionBarPopupWindow {
     private TLRPC.TL_channels_sendAsPeers sendAsPeers;
     protected List springAnimations;
 
-    /* loaded from: classes3.dex */
     private class BackButtonFrameLayout extends FrameLayout {
         public BackButtonFrameLayout(Context context) {
             super(context);
@@ -83,12 +82,10 @@ public abstract class SenderSelectPopup extends ActionBarPopupWindow {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface OnSelectCallback {
         void onPeerSelected(RecyclerView recyclerView, SenderView senderView, TLRPC.Peer peer);
     }
 
-    /* loaded from: classes3.dex */
     public static final class SenderView extends LinearLayout {
         public final SimpleAvatarView avatar;
         public final TextView subtitle;
@@ -311,8 +308,10 @@ public abstract class SenderSelectPopup extends ActionBarPopupWindow {
                 @Override // android.view.View
                 public boolean onTouchEvent(MotionEvent motionEvent) {
                     View contentView = SenderSelectPopup.this.getContentView();
-                    contentView.getLocationInWindow(r2);
-                    int[] iArr = {iArr[0] + SenderSelectPopup.this.popupX, iArr[1] + SenderSelectPopup.this.popupY};
+                    int[] iArr = new int[2];
+                    contentView.getLocationInWindow(iArr);
+                    iArr[0] = iArr[0] + SenderSelectPopup.this.popupX;
+                    iArr[1] = iArr[1] + SenderSelectPopup.this.popupY;
                     getLocationInWindow(new int[2]);
                     if ((motionEvent.getAction() != 0 || motionEvent.getX() > iArr[0]) && motionEvent.getX() < iArr[0] + contentView.getWidth() && motionEvent.getY() > iArr[1] && motionEvent.getY() < iArr[1] + contentView.getHeight()) {
                         motionEvent.offsetLocation(r1[0] - iArr[0], (AndroidUtilities.statusBarHeight + r1[1]) - iArr[1]);

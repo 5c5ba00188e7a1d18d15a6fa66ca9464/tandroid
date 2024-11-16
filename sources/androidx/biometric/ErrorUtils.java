@@ -5,8 +5,7 @@ import android.util.Log;
 
 /* loaded from: classes.dex */
 abstract class ErrorUtils {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String getFingerprintErrorString(Context context, int i) {
+    static String getFingerprintErrorString(Context context, int i) {
         int i2;
         if (context == null) {
             return "";
@@ -38,8 +37,7 @@ abstract class ErrorUtils {
         return context.getString(i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isKnownError(int i) {
+    static boolean isKnownError(int i) {
         switch (i) {
             case 1:
             case 2:
@@ -62,8 +60,7 @@ abstract class ErrorUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isLockoutError(int i) {
+    static boolean isLockoutError(int i) {
         return i == 7 || i == 9;
     }
 }

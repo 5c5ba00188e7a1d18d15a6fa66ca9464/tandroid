@@ -272,47 +272,49 @@ public final class SsaDecoder extends SimpleSubtitleDecoder {
     private static int toLineAnchor(int i) {
         switch (i) {
             case -1:
-                return Integer.MIN_VALUE;
+                break;
             case 0:
             default:
                 Log.w("SsaDecoder", "Unknown alignment: " + i);
-                return Integer.MIN_VALUE;
+                break;
             case 1:
             case 2:
             case 3:
-                return 2;
+                break;
             case 4:
             case 5:
             case 6:
-                return 1;
+                break;
             case 7:
             case 8:
             case 9:
-                return 0;
+                break;
         }
+        return Integer.MIN_VALUE;
     }
 
     private static int toPositionAnchor(int i) {
         switch (i) {
             case -1:
-                return Integer.MIN_VALUE;
+                break;
             case 0:
             default:
                 Log.w("SsaDecoder", "Unknown alignment: " + i);
-                return Integer.MIN_VALUE;
+                break;
             case 1:
             case 4:
             case 7:
-                return 0;
+                break;
             case 2:
             case 5:
             case 8:
-                return 1;
+                break;
             case 3:
             case 6:
             case 9:
-                return 2;
+                break;
         }
+        return Integer.MIN_VALUE;
     }
 
     private static Layout.Alignment toTextAlignment(int i) {

@@ -14,7 +14,6 @@ public final class zzfi$zzg extends zzjb implements zzkm {
     private boolean zzh;
     private float zzi;
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzjb.zzb implements zzkm {
         private zza() {
             super(zzfi$zzg.zzj);
@@ -25,7 +24,6 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum zzb implements zzje {
         zzc(0),
         zza(1),
@@ -66,7 +64,6 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum zzc implements zzje {
         zzd(0),
         zza(1),
@@ -111,7 +108,6 @@ public final class zzfi$zzg extends zzjb implements zzkm {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum zzd implements zzje {
         zzd(0),
         zza(1),
@@ -165,10 +161,9 @@ public final class zzfi$zzg extends zzjb implements zzkm {
     private zzfi$zzg() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r5v21, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
+    /* JADX WARN: Type inference failed for: r5v21, types: [com.google.android.gms.internal.vision.zzjb$zza, com.google.android.gms.internal.vision.zzkx] */
     @Override // com.google.android.gms.internal.vision.zzjb
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzfk zzfkVar = null;
         switch (zzfk.zza[i - 1]) {
             case 1:

@@ -8,8 +8,7 @@ final class M1 implements N1, d2 {
     private long b;
     final /* synthetic */ j$.util.function.S c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public M1(j$.util.function.S s) {
+    M1(j$.util.function.S s) {
         this.c = s;
     }
 

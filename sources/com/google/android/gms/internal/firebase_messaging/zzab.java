@@ -14,9 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzab implements ObjectEncoderContext {
+final class zzab implements ObjectEncoderContext {
     private static final Charset zza = Charset.forName("UTF-8");
     private static final FieldDescriptor zzg;
     private static final FieldDescriptor zzh;
@@ -39,16 +38,14 @@ public final class zzab implements ObjectEncoderContext {
         zzi = zzaa.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzab(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
+    zzab(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
         this.zzb = outputStream;
         this.zzc = map;
         this.zzd = map2;
         this.zze = objectEncoder;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) {
+    static final /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) {
         objectEncoderContext.add(zzg, entry.getKey());
         objectEncoderContext.add(zzh, entry.getValue());
     }
@@ -161,8 +158,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final ObjectEncoderContext zza(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+    final ObjectEncoderContext zza(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
         if (obj == null) {
             return this;
         }
@@ -257,8 +253,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) {
+    final zzab zzd(FieldDescriptor fieldDescriptor, int i, boolean z) {
         if (z && i == 0) {
             return this;
         }
@@ -298,8 +293,7 @@ public final class zzab implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzab zzf(Object obj) {
+    final zzab zzf(Object obj) {
         if (obj == null) {
             return this;
         }

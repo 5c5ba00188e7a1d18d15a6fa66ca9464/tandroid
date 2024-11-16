@@ -19,9 +19,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class FontProvider {
+abstract class FontProvider {
     private static final Comparator sByteArrayComparator = new Comparator() { // from class: androidx.core.provider.FontProvider$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
@@ -31,9 +30,7 @@ public abstract class FontProvider {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static Cursor query(ContentResolver contentResolver, Uri uri, String[] strArr, String str, String[] strArr2, String str2, Object obj) {
             return contentResolver.query(uri, strArr, str, strArr2, str2, (CancellationSignal) obj);
         }
@@ -63,8 +60,7 @@ public abstract class FontProvider {
         return fontRequest.getCertificates() != null ? fontRequest.getCertificates() : FontResourcesParserCompat.readCerts(resources, fontRequest.getCertificatesArrayResId());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static FontsContractCompat.FontFamilyResult getFontFamilyResult(Context context, FontRequest fontRequest, CancellationSignal cancellationSignal) {
+    static FontsContractCompat.FontFamilyResult getFontFamilyResult(Context context, FontRequest fontRequest, CancellationSignal cancellationSignal) {
         ProviderInfo provider = getProvider(context.getPackageManager(), fontRequest, context.getResources());
         return provider == null ? FontsContractCompat.FontFamilyResult.create(1, null) : FontsContractCompat.FontFamilyResult.create(0, query(context, fontRequest, provider.authority, cancellationSignal));
     }

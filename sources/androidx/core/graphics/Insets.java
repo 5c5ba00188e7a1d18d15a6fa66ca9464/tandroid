@@ -10,7 +10,6 @@ public final class Insets {
     public final int right;
     public final int top;
 
-    /* loaded from: classes.dex */
     static class Api29Impl {
         static android.graphics.Insets of(int i, int i2, int i3, int i4) {
             return android.graphics.Insets.of(i, i2, i3, i4);

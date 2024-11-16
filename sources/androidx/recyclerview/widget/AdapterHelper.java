@@ -10,9 +10,8 @@ import java.util.Date;
 import java.util.List;
 import org.telegram.messenger.BuildVars;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AdapterHelper implements OpReorderer.Callback {
+class AdapterHelper implements OpReorderer.Callback {
     private final ArrayList lastNotifies;
     final Callback mCallback;
     final boolean mDisableRecycler;
@@ -23,9 +22,7 @@ public class AdapterHelper implements OpReorderer.Callback {
     final ArrayList mPostponedList;
     private Pools$Pool mUpdateOpPool;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Callback {
+    interface Callback {
         RecyclerView.ViewHolder findViewHolder(int i);
 
         void markViewHoldersUpdated(int i, int i2, Object obj);
@@ -43,9 +40,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         void onDispatchSecondPass(UpdateOp updateOp);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class UpdateOp {
+    static class UpdateOp {
         int cmd;
         int itemCount;
         Object payload;
@@ -102,8 +97,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AdapterHelper(Callback callback) {
+    AdapterHelper(Callback callback) {
         this(callback, false);
     }
 
@@ -456,8 +450,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void consumePostponedUpdates() {
+    void consumePostponedUpdates() {
         int size = this.mPostponedList.size();
         for (int i = 0; i < size; i++) {
             this.mCallback.onDispatchSecondPass((UpdateOp) this.mPostponedList.get(i));
@@ -466,8 +459,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         this.mExistingUpdateTypes = 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void consumeUpdatesInOnePass() {
+    void consumeUpdatesInOnePass() {
         consumePostponedUpdates();
         int size = this.mPendingUpdates.size();
         for (int i = 0; i < size; i++) {
@@ -508,8 +500,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int findPositionOffset(int i) {
+    int findPositionOffset(int i) {
         return findPositionOffset(i, 0);
     }
 
@@ -557,18 +548,15 @@ public class AdapterHelper implements OpReorderer.Callback {
         return TextUtils.join("\n\n", arrayList);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasAnyUpdateTypes(int i) {
+    boolean hasAnyUpdateTypes(int i) {
         return (i & this.mExistingUpdateTypes) != 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasPendingUpdates() {
+    boolean hasPendingUpdates() {
         return this.mPendingUpdates.size() > 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasUpdates() {
+    boolean hasUpdates() {
         return (this.mPostponedList.isEmpty() || this.mPendingUpdates.isEmpty()) ? false : true;
     }
 
@@ -585,8 +573,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         return updateOp;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean onItemRangeChanged(int i, int i2, Object obj) {
+    boolean onItemRangeChanged(int i, int i2, Object obj) {
         if (i2 < 1) {
             return false;
         }
@@ -598,8 +585,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         return this.mPendingUpdates.size() == 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean onItemRangeInserted(int i, int i2) {
+    boolean onItemRangeInserted(int i, int i2) {
         if (i2 < 1) {
             return false;
         }
@@ -611,8 +597,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         return this.mPendingUpdates.size() == 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean onItemRangeMoved(int i, int i2, int i3) {
+    boolean onItemRangeMoved(int i, int i2, int i3) {
         if (i == i2) {
             return false;
         }
@@ -627,8 +612,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         return this.mPendingUpdates.size() == 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean onItemRangeRemoved(int i, int i2) {
+    boolean onItemRangeRemoved(int i, int i2) {
         if (i2 < 1) {
             return false;
         }
@@ -640,8 +624,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         return this.mPendingUpdates.size() == 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void preProcess() {
+    void preProcess() {
         this.mOpReorderer.reorderOps(this.mPendingUpdates);
         int size = this.mPendingUpdates.size();
         for (int i = 0; i < size; i++) {
@@ -681,8 +664,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         list.clear();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void reset() {
+    void reset() {
         recycleUpdateOpsAndClearList(this.mPendingUpdates);
         recycleUpdateOpsAndClearList(this.mPostponedList);
         this.mExistingUpdateTypes = 0;

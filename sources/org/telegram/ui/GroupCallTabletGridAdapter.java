@@ -98,9 +98,8 @@ public class GroupCallTabletGridAdapter extends RecyclerListView.SelectionAdapte
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new RecyclerListView.Holder(new GroupCallGridCell(viewGroup.getContext(), true) { // from class: org.telegram.ui.GroupCallTabletGridAdapter.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.voip.GroupCallGridCell, android.view.ViewGroup, android.view.View
-            public void onAttachedToWindow() {
+            protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
                 if (!GroupCallTabletGridAdapter.this.visible || getParticipant() == null) {
                     return;
@@ -108,9 +107,8 @@ public class GroupCallTabletGridAdapter extends RecyclerListView.SelectionAdapte
                 GroupCallTabletGridAdapter.this.attachRenderer(this, true);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.voip.GroupCallGridCell, android.view.ViewGroup, android.view.View
-            public void onDetachedFromWindow() {
+            protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 GroupCallTabletGridAdapter.this.attachRenderer(this, false);
             }

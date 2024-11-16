@@ -12,7 +12,6 @@ import androidx.emoji2.text.EmojiCompat;
 public final class EmojiTextViewHelper {
     private final HelperInternal mHelper;
 
-    /* loaded from: classes.dex */
     static class HelperInternal {
         HelperInternal() {
         }
@@ -24,7 +23,6 @@ public final class EmojiTextViewHelper {
         abstract void setEnabled(boolean z);
     }
 
-    /* loaded from: classes.dex */
     private static class HelperInternal19 extends HelperInternal {
         private final EmojiInputFilter mEmojiInputFilter;
         private boolean mEnabled = true;
@@ -120,7 +118,6 @@ public final class EmojiTextViewHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class SkippingHelper19 extends HelperInternal {
         private final HelperInternal19 mHelperDelegate;
 

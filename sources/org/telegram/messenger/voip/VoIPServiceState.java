@@ -5,7 +5,6 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public interface VoIPServiceState {
 
-    /* loaded from: classes3.dex */
     public abstract /* synthetic */ class -CC {
         public static long $default$getCallDuration(VoIPServiceState voIPServiceState) {
             return 0L;

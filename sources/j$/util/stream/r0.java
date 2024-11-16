@@ -2,14 +2,12 @@ package j$.util.stream;
 
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class r0 implements x3 {
+final class r0 implements x3 {
     final q0 a;
     final Supplier b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public r0(T2 t2, q0 q0Var, Supplier supplier) {
+    r0(T2 t2, q0 q0Var, Supplier supplier) {
         this.a = q0Var;
         this.b = supplier;
     }

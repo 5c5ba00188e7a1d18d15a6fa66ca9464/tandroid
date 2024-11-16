@@ -13,14 +13,12 @@ import com.google.android.gms.internal.base.zav;
 
 /* loaded from: classes.dex */
 public final class zaz extends GmsClient {
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zaz(Context context, Looper looper, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+    protected zaz(Context context, Looper looper, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         super(context, looper, 308, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -38,9 +36,8 @@ public final class zaz extends GmsClient {
         return 17895000;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.common.moduleinstall.internal.IModuleInstallService";
     }
 

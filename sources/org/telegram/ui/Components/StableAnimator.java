@@ -71,7 +71,7 @@ public class StableAnimator extends TimeAnimator {
                 StableAnimator.this.lambda$start$0(timeAnimator, j, j2);
             }
         });
-        int duration = (int) (((float) getDuration()) / AndroidUtilities.screenRefreshTime);
+        int duration = (int) (getDuration() / AndroidUtilities.screenRefreshTime);
         this.times = duration;
         this.totalTimes = duration;
         super.start();

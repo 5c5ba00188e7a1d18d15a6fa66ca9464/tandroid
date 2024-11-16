@@ -34,9 +34,7 @@ import java.util.Locale;
 /* loaded from: classes.dex */
 public abstract class TextViewCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static boolean getIncludeFontPadding(TextView textView) {
             return textView.getIncludeFontPadding();
         }
@@ -50,9 +48,7 @@ public abstract class TextViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api17Impl {
+    static class Api17Impl {
         static Drawable[] getCompoundDrawablesRelative(TextView textView) {
             return textView.getCompoundDrawablesRelative();
         }
@@ -86,9 +82,7 @@ public abstract class TextViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static int getBreakStrategy(TextView textView) {
             return textView.getBreakStrategy();
         }
@@ -122,17 +116,13 @@ public abstract class TextViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static DecimalFormatSymbols getInstance(Locale locale) {
             return DecimalFormatSymbols.getInstance(locale);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static String[] getDigitStrings(DecimalFormatSymbols decimalFormatSymbols) {
             return decimalFormatSymbols.getDigitStrings();
         }
@@ -146,7 +136,6 @@ public abstract class TextViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class OreoCallback implements ActionMode.Callback {
         private final ActionMode.Callback mCallback;
         private boolean mCanUseMenuBuilderReferences;
@@ -306,20 +295,25 @@ public abstract class TextViewCompat {
         boolean z = Api17Impl.getLayoutDirection(textView) == 1;
         switch (Api17Impl.getTextDirection(textView)) {
             case 2:
-                return TextDirectionHeuristics.ANYRTL_LTR;
+                break;
             case 3:
-                return TextDirectionHeuristics.LTR;
+                break;
             case 4:
-                return TextDirectionHeuristics.RTL;
+                break;
             case 5:
-                return TextDirectionHeuristics.LOCALE;
+                break;
             case 6:
-                return TextDirectionHeuristics.FIRSTSTRONG_LTR;
+                break;
             case 7:
-                return TextDirectionHeuristics.FIRSTSTRONG_RTL;
+                break;
             default:
-                return z ? TextDirectionHeuristics.FIRSTSTRONG_RTL : TextDirectionHeuristics.FIRSTSTRONG_LTR;
+                if (!z) {
+                    break;
+                } else {
+                    break;
+                }
         }
+        return TextDirectionHeuristics.LTR;
     }
 
     public static PrecomputedTextCompat.Params getTextMetricsParams(TextView textView) {

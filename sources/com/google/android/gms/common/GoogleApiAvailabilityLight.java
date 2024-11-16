@@ -15,6 +15,9 @@ public class GoogleApiAvailabilityLight {
     public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE = GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
     private static final GoogleApiAvailabilityLight zza = new GoogleApiAvailabilityLight();
 
+    GoogleApiAvailabilityLight() {
+    }
+
     public static GoogleApiAvailabilityLight getInstance() {
         return zza;
     }

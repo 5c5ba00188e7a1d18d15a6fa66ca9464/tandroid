@@ -42,9 +42,7 @@ public class AppCompatViewInflater {
     private static final String[] sClassPrefixList = {"android.widget.", "android.view.", "android.webkit."};
     private static final SimpleArrayMap sConstructorMap = new SimpleArrayMap();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class DeclaredOnClickListener implements View.OnClickListener {
+    private static class DeclaredOnClickListener implements View.OnClickListener {
         private final View mHostView;
         private final String mMethodName;
         private Context mResolvedContext;
@@ -257,8 +255,9 @@ public class AppCompatViewInflater {
     }
 
     public final View createView(View view, String str, Context context, AttributeSet attributeSet, boolean z, boolean z2, boolean z3, boolean z4) {
+        Context context2;
         View createRatingBar;
-        Context context2 = (!z || view == null) ? context : view.getContext();
+        context2 = (!z || view == null) ? context : view.getContext();
         if (z2 || z3) {
             context2 = themifyContext(context2, attributeSet, z2, z3);
         }
@@ -266,147 +265,60 @@ public class AppCompatViewInflater {
             context2 = TintContextWrapper.wrap(context2);
         }
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1946472170:
-                if (str.equals("RatingBar")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1455429095:
-                if (str.equals("CheckedTextView")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1346021293:
-                if (str.equals("MultiAutoCompleteTextView")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -938935918:
-                if (str.equals("TextView")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -937446323:
-                if (str.equals("ImageButton")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -658531749:
-                if (str.equals("SeekBar")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case -339785223:
-                if (str.equals("Spinner")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 776382189:
-                if (str.equals("RadioButton")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 799298502:
-                if (str.equals("ToggleButton")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 1125864064:
-                if (str.equals("ImageView")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 1413872058:
-                if (str.equals("AutoCompleteTextView")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 1601505219:
-                if (str.equals("CheckBox")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 1666676343:
-                if (str.equals("EditText")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 2001146706:
-                if (str.equals("Button")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "RatingBar":
                 createRatingBar = createRatingBar(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 1:
+            case "CheckedTextView":
                 createRatingBar = createCheckedTextView(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 2:
+            case "MultiAutoCompleteTextView":
                 createRatingBar = createMultiAutoCompleteTextView(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 3:
+            case "TextView":
                 createRatingBar = createTextView(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 4:
+            case "ImageButton":
                 createRatingBar = createImageButton(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 5:
+            case "SeekBar":
                 createRatingBar = createSeekBar(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 6:
+            case "Spinner":
                 createRatingBar = createSpinner(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 7:
+            case "RadioButton":
                 createRatingBar = createRadioButton(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case '\b':
+            case "ToggleButton":
                 createRatingBar = createToggleButton(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case '\t':
+            case "ImageView":
                 createRatingBar = createImageView(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case '\n':
+            case "AutoCompleteTextView":
                 createRatingBar = createAutoCompleteTextView(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case 11:
+            case "CheckBox":
                 createRatingBar = createCheckBox(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case '\f':
+            case "EditText":
                 createRatingBar = createEditText(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;
-            case '\r':
+            case "Button":
                 createRatingBar = createButton(context2, attributeSet);
                 verifyNotNull(createRatingBar, str);
                 break;

@@ -39,7 +39,6 @@ import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class WebmEncoder {
 
-    /* loaded from: classes3.dex */
     public static class FrameDrawer {
         private final int H;
         private final int W;
@@ -531,7 +530,7 @@ public class WebmEncoder {
                 return z;
             }
             int i6 = convertVideoParams.bitrate;
-            convertVideoParams.bitrate = (int) (i6 * (261120.0f / ((float) length)) * 0.9f);
+            convertVideoParams.bitrate = (int) (i6 * (261120.0f / length) * 0.9f);
             convertVideoParams.cacheFile.delete();
             FileLog.d("webm encoded too much, got " + length + ", old bitrate = " + i6 + " new bitrate = " + convertVideoParams.bitrate);
             return convert(convertVideoParams, i - 1);

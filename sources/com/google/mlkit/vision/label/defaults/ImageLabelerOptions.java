@@ -6,7 +6,6 @@ import com.google.mlkit.vision.label.ImageLabelerOptionsBase;
 public class ImageLabelerOptions extends ImageLabelerOptionsBase {
     public static final ImageLabelerOptions DEFAULT_OPTIONS = new Builder().build();
 
-    /* loaded from: classes.dex */
     public static class Builder extends ImageLabelerOptionsBase.Builder {
         public Builder() {
             setConfidenceThreshold(0.5f);

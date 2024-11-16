@@ -16,7 +16,6 @@ public final class zzcz {
     private static final GmsLogger zzb = new GmsLogger("ModelDownloadLogger", "");
     public static final Component zza = Component.builder(zza.class).add(Dependency.required(zzcv.class)).add(Dependency.required(SharedPrefManager.class)).factory(zzdb.zza).build();
 
-    /* loaded from: classes.dex */
     public static class zza extends LazyInstanceMap {
         private final zzcv zza;
         private final SharedPrefManager zzb;
@@ -39,8 +38,7 @@ public final class zzcz {
         this.zze = sharedPrefManager;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ zza zza(ComponentContainer componentContainer) {
+    static final /* synthetic */ zza zza(ComponentContainer componentContainer) {
         return new zza((zzcv) componentContainer.get(zzcv.class), (SharedPrefManager) componentContainer.get(SharedPrefManager.class));
     }
 }

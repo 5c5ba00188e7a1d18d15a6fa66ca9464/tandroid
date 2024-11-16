@@ -36,8 +36,7 @@ public final class MarkerOptions extends AbstractSafeParcelable {
         this.zzm = 1.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MarkerOptions(LatLng latLng, String str, String str2, IBinder iBinder, float f, float f2, boolean z, boolean z2, boolean z3, float f3, float f4, float f5, float f6, float f7) {
+    MarkerOptions(LatLng latLng, String str, String str2, IBinder iBinder, float f, float f2, boolean z, boolean z2, boolean z3, float f3, float f4, float f5, float f6, float f7) {
         this.zze = 0.5f;
         this.zzf = 1.0f;
         this.zzh = true;

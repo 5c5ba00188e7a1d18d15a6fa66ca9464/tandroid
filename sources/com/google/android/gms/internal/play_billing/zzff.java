@@ -21,8 +21,7 @@ public final class zzff extends zzcb implements zzdg {
         return (zzfe) zzb.zzg();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzy(zzff zzffVar, int i) {
+    static /* synthetic */ void zzy(zzff zzffVar, int i) {
         zzffVar.zzg = i - 1;
         zzffVar.zzd |= 1;
     }

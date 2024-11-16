@@ -113,9 +113,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     private final int VIEW_TYPE_SCANQR = 5;
     private final int VIEW_TYPE_SETTINGS = 6;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 extends UndoView {
+    class 4 extends UndoView {
         4(Context context) {
             super(context);
         }
@@ -160,9 +158,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 5 implements SessionBottomSheet.Callback {
+    class 5 implements SessionBottomSheet.Callback {
         5() {
         }
 
@@ -201,9 +197,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 6 implements CameraScanActivity.CameraScanActivityDelegate {
+    class 6 implements CameraScanActivity.CameraScanActivityDelegate {
         private TLObject response = null;
         private TLRPC.TL_error error = null;
 
@@ -325,14 +319,11 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Delegate {
         void sessionsLoaded();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -583,7 +574,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 } else if (i != 5) {
                     textCell = i != 6 ? new SessionCell(this.mContext, SessionsActivity.this.currentType) : new TextSettingsCell(this.mContext);
                 } else {
-                    textCell = new ScanQRCodeView(this.mContext);
+                    textCell = SessionsActivity.this.new ScanQRCodeView(this.mContext);
                 }
                 return new RecyclerListView.Holder(textCell);
             }
@@ -594,8 +585,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ScanQRCodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+    class ScanQRCodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         TextView buttonTextView;
         CellFlickerDrawable flickerDrawable;
         BackupImageView imageView;

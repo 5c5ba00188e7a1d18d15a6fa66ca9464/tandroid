@@ -28,7 +28,6 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
     Node root;
     int size;
 
-    /* loaded from: classes.dex */
     class EntrySet extends AbstractSet {
         EntrySet() {
         }
@@ -73,7 +72,6 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* loaded from: classes.dex */
     final class KeySet extends AbstractSet {
         KeySet() {
         }
@@ -113,9 +111,7 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public abstract class LinkedTreeMapIterator implements Iterator {
+    private abstract class LinkedTreeMapIterator implements Iterator {
         int expectedModCount;
         Node lastReturned = null;
         Node next;
@@ -156,9 +152,7 @@ public final class LinkedTreeMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Node implements Map.Entry {
+    static final class Node implements Map.Entry {
         final boolean allowNullValue;
         int height;
         final Object key;

@@ -20,7 +20,6 @@ public class SampleToChunkBox extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_3 = null;
     List entries;
 
-    /* loaded from: classes.dex */
     public static class Entry {
         long firstChunk;
         long sampleDescriptionIndex;

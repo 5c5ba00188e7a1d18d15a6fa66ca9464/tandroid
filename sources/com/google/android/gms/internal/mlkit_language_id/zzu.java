@@ -4,6 +4,9 @@ package com.google.android.gms.internal.mlkit_language_id;
 final class zzu extends zzt {
     private final zzs zza = new zzs();
 
+    zzu() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_language_id.zzt
     public final void zza(Throwable th, Throwable th2) {
         if (th2 == th) {

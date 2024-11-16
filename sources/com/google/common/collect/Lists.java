@@ -12,8 +12,7 @@ import java.util.RandomAccess;
 
 /* loaded from: classes.dex */
 public abstract class Lists {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static List cast(Iterable iterable) {
+    static List cast(Iterable iterable) {
         return (List) iterable;
     }
 
@@ -22,8 +21,7 @@ public abstract class Lists {
         return Ints.saturatedCast(i + 5 + (i / 10));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean equalsImpl(List list, Object obj) {
+    static boolean equalsImpl(List list, Object obj) {
         if (obj == Preconditions.checkNotNull(list)) {
             return true;
         }
@@ -46,8 +44,7 @@ public abstract class Lists {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int indexOfImpl(List list, Object obj) {
+    static int indexOfImpl(List list, Object obj) {
         if (list instanceof RandomAccess) {
             return indexOfRandomAccess(list, obj);
         }
@@ -81,8 +78,7 @@ public abstract class Lists {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int lastIndexOfImpl(List list, Object obj) {
+    static int lastIndexOfImpl(List list, Object obj) {
         if (list instanceof RandomAccess) {
             return lastIndexOfRandomAccess(list, obj);
         }

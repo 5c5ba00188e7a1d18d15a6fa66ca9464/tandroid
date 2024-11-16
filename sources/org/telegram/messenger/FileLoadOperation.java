@@ -154,7 +154,6 @@ public class FileLoadOperation {
     public static volatile DispatchQueue filesQueue = new DispatchQueue("writeFileQueue");
     private static final Object lockObject = new Object();
 
-    /* loaded from: classes3.dex */
     public interface FileLoadOperationDelegate {
         void didChangedLoadProgress(FileLoadOperation fileLoadOperation, long j, long j2);
 
@@ -171,9 +170,7 @@ public class FileLoadOperation {
         void saveFilePath(FilePathDatabase.PathData pathData, File file);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class PreloadRange {
+    private static class PreloadRange {
         private long fileOffset;
         private long length;
 
@@ -183,7 +180,6 @@ public class FileLoadOperation {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Range {
         private long end;
         private long start;
@@ -198,9 +194,7 @@ public class FileLoadOperation {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
-    public static class RequestInfo {
+    protected static class RequestInfo {
         public boolean cancelled;
         public boolean cancelling;
         public int chunkSize;
@@ -1950,13 +1944,11 @@ public class FileLoadOperation {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public File getCacheFileFinal() {
+    protected File getCacheFileFinal() {
         return this.cacheFileFinal;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public File getCurrentFile() {
+    protected File getCurrentFile() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final File[] fileArr = new File[1];
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda16
@@ -1973,8 +1965,7 @@ public class FileLoadOperation {
         return fileArr[0];
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public File getCurrentFileFast() {
+    protected File getCurrentFileFast() {
         return (this.state == 3 && !this.preloadFinished && this.cacheFileFinalReady) ? this.cacheFileFinal : this.cacheFileTemp;
     }
 
@@ -1990,18 +1981,15 @@ public class FileLoadOperation {
         return this.documentId;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float getDownloadedLengthFromOffset(float f) {
+    protected float getDownloadedLengthFromOffset(float f) {
         ArrayList<Range> arrayList = this.notLoadedBytesRangesCopy;
-        long j = this.totalBytesCount;
-        if (j == 0 || arrayList == null) {
+        if (this.totalBytesCount == 0 || arrayList == null) {
             return 0.0f;
         }
-        return f + (((float) getDownloadedLengthFromOffsetInternal(arrayList, (int) (((float) j) * f), j)) / ((float) this.totalBytesCount));
+        return f + (getDownloadedLengthFromOffsetInternal(arrayList, (int) (r4 * f), r4) / this.totalBytesCount);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long[] getDownloadedLengthFromOffset(final long j, final long j2) {
+    protected long[] getDownloadedLengthFromOffset(final long j, final long j2) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final long[] jArr = new long[2];
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda23
@@ -2053,8 +2041,7 @@ public class FileLoadOperation {
         return this.isPreloadVideoOperation;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onFail(boolean z, final int i) {
+    protected void onFail(boolean z, final int i) {
         StringBuilder sb;
         cleanup();
         this.state = i == 1 ? 4 : 2;
@@ -2588,8 +2575,7 @@ public class FileLoadOperation {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void removeStreamListener(final FileLoadOperationStream fileLoadOperationStream) {
+    protected void removeStreamListener(final FileLoadOperationStream fileLoadOperationStream) {
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoadOperation$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
@@ -2694,7 +2680,7 @@ public class FileLoadOperation {
     /* JADX WARN: Removed duplicated region for block: B:65:0x0400  */
     /* JADX WARN: Removed duplicated region for block: B:83:0x0476  */
     /* JADX WARN: Type inference failed for: r1v36 */
-    /* JADX WARN: Type inference failed for: r1v37, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v37, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v41 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3454,7 +3440,6 @@ public class FileLoadOperation {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:129:0x0254  */
     /* JADX WARN: Removed duplicated region for block: B:134:0x0263  */
@@ -3473,7 +3458,7 @@ public class FileLoadOperation {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void startDownloadRequest(int i) {
+    protected void startDownloadRequest(int i) {
         int i2;
         long j;
         long j2;
@@ -3612,7 +3597,6 @@ public class FileLoadOperation {
                                                 try {
                                                     if (preloadRange.length > 2147483647L) {
                                                         throw new RuntimeException("cast long to integer");
-                                                        break;
                                                     }
                                                 } catch (Exception unused) {
                                                 }

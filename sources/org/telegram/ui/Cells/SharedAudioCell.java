@@ -526,7 +526,7 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
         return onTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(42:1|(1:3)(1:101)|4|(2:5|6)|(33:97|14|(1:16)|17|(1:96)|19|20|(1:22)(1:95)|23|(1:25)(1:94)|26|27|(3:29|(5:31|(1:33)(1:39)|34|(1:36)(1:38)|37)|40)|41|42|(21:78|(1:80)|81|(1:83)|84|(1:86)(1:89)|87|88|54|(1:56)(1:76)|57|(1:59)|60|61|(1:63)|64|(1:66)(1:74)|67|(1:69)(1:73)|70|71)|49|(1:51)(1:77)|52|53|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71)|13|14|(0)|17|(0)|19|20|(0)(0)|23|(0)(0)|26|27|(0)|41|42|(2:44|46)|78|(0)|81|(0)|84|(0)(0)|87|88|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71) */
+    /* JADX WARN: Can't wrap try/catch for region: R(43:0|1|(1:3)(1:101)|4|(2:5|6)|(33:97|14|(1:16)|17|(1:96)|19|20|(1:22)(1:95)|23|(1:25)(1:94)|26|27|(3:29|(5:31|(1:33)(1:39)|34|(1:36)(1:38)|37)|40)|41|42|(21:78|(1:80)|81|(1:83)|84|(1:86)(1:89)|87|88|54|(1:56)(1:76)|57|(1:59)|60|61|(1:63)|64|(1:66)(1:74)|67|(1:69)(1:73)|70|71)|49|(1:51)(1:77)|52|53|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71)|13|14|(0)|17|(0)|19|20|(0)(0)|23|(0)(0)|26|27|(0)|41|42|(2:44|46)|78|(0)|81|(0)|84|(0)(0)|87|88|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71) */
     /* JADX WARN: Code restructure failed: missing block: B:90:0x01ad, code lost:
     
         r0 = move-exception;
@@ -708,7 +708,7 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
-        this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
         if (this.hasMiniProgress != 0) {
             if (this.miniButtonState == 1) {
                 return;

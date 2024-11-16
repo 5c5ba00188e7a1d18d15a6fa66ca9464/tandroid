@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.vision;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzib {
+final class zzib {
     private final zzii zza;
     private final byte[] zzb;
 
@@ -12,8 +11,7 @@ public final class zzib {
         this.zza = zzii.zza(bArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzib(int i, zzhs zzhsVar) {
+    /* synthetic */ zzib(int i, zzhs zzhsVar) {
         this(i);
     }
 

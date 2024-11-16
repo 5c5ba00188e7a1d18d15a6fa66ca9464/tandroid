@@ -6,6 +6,9 @@ import java.util.List;
 final class zzfh extends zzfd {
     private final zzfg zza = new zzfg();
 
+    zzfh() {
+    }
+
     @Override // com.google.android.gms.internal.vision.zzfd
     public final void zza(Throwable th) {
         th.printStackTrace();

@@ -9,8 +9,7 @@ public final class zznj {
     private final Integer zzc;
     private final Boolean zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zznj(zzng zzngVar, zzni zzniVar) {
+    /* synthetic */ zznj(zzng zzngVar, zzni zzniVar) {
         zznh zznhVar;
         Integer num;
         zznhVar = zzngVar.zza;

@@ -32,9 +32,7 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$encoders$proto$Protobuf$IntEncoding;
 
         static {
@@ -55,8 +53,7 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufDataEncoderContext(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
+    ProtobufDataEncoderContext(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
         this.output = outputStream;
         this.objectEncoders = map;
         this.valueEncoders = map2;
@@ -182,8 +179,7 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         return add(fieldDescriptor, obj, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+    ObjectEncoderContext add(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
         if (obj == null) {
             return this;
         }
@@ -290,13 +286,11 @@ final class ProtobufDataEncoderContext implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, boolean z, boolean z2) {
+    ProtobufDataEncoderContext add(FieldDescriptor fieldDescriptor, boolean z, boolean z2) {
         return add(fieldDescriptor, z ? 1 : 0, z2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufDataEncoderContext encode(Object obj) {
+    ProtobufDataEncoderContext encode(Object obj) {
         if (obj == null) {
             return this;
         }

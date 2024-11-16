@@ -600,9 +600,8 @@ public class HintView2 extends View {
         return this.bounds.contains(motionEvent.getX() - f, motionEvent.getY() - f2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         float f;
         float f2;
         if (this.drawingMyBlur) {
@@ -797,7 +796,7 @@ public class HintView2 extends View {
         invalidate();
         Runnable runnable2 = this.onHidden;
         if (runnable2 != null) {
-            AndroidUtilities.runOnUIThread(runnable2, this.show.get() * ((float) this.show.getDuration()));
+            AndroidUtilities.runOnUIThread(runnable2, (long) (this.show.get() * this.show.getDuration()));
         }
         this.links.clear();
     }

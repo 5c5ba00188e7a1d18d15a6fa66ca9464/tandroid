@@ -21,7 +21,6 @@ public final class MessagingClientEvent {
     private final String topic_;
     private final int ttl_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private long project_number_ = 0;
         private String message_id_ = "";
@@ -107,7 +106,6 @@ public final class MessagingClientEvent {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum Event implements zzx {
         UNKNOWN_EVENT(0),
         MESSAGE_DELIVERED(1),
@@ -125,7 +123,6 @@ public final class MessagingClientEvent {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum MessageType implements zzx {
         UNKNOWN(0),
         DATA_MESSAGE(1),
@@ -144,7 +141,6 @@ public final class MessagingClientEvent {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum SDKPlatform implements zzx {
         UNKNOWN_OS(0),
         ANDROID(1),

@@ -56,9 +56,7 @@ public class MP4Builder {
     private ByteBuffer sizeBuffer = null;
     private boolean allowSyncFiles = true;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class InterleaveChunkMdat implements Box {
+    private static class InterleaveChunkMdat implements Box {
         private long contentSize;
         private long dataOffset;
         private Container parent;

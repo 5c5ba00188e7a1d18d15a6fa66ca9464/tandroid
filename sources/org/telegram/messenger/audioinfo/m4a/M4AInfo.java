@@ -32,12 +32,10 @@ public class M4AInfo extends AudioInfo {
 
     /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
         java.lang.NullPointerException
-        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:489)
-        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:492)
+        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:493)
+        	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:496)
         */
-    /* JADX WARN: Failed to find 'out' block for switch in B:67:0x0140. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:143:0x0273 A[Catch: Exception -> 0x0255, TryCatch #1 {Exception -> 0x0255, blocks: (B:136:0x0239, B:138:0x0250, B:141:0x0268, B:143:0x0273, B:145:0x028a, B:146:0x02a3, B:148:0x02a7, B:152:0x02a1, B:154:0x0257, B:156:0x025f), top: B:135:0x0239 }] */
-    /* JADX WARN: Removed duplicated region for block: B:153:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -142,45 +140,24 @@ public class M4AInfo extends AudioInfo {
         }
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:8:0x0029. Please report as an issue. */
     void moov(MP4Atom mP4Atom) {
+        MP4Atom nextChild;
         Logger logger = LOGGER;
         if (logger.isLoggable(this.debugLevel)) {
             logger.log(this.debugLevel, mP4Atom.toString());
         }
         while (mP4Atom.hasMoreChildren()) {
-            MP4Atom nextChild = mP4Atom.nextChild();
+            nextChild = mP4Atom.nextChild();
             String type = nextChild.getType();
             type.hashCode();
-            char c = 65535;
-            switch (type.hashCode()) {
-                case 3363941:
-                    if (type.equals("mvhd")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case 3568424:
-                    if (type.equals("trak")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 3585340:
-                    if (type.equals("udta")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (type) {
+                case "mvhd":
                     mvhd(nextChild);
                     break;
-                case 1:
+                case "trak":
                     trak(nextChild);
                     break;
-                case 2:
+                case "udta":
                     udta(nextChild);
                     break;
             }

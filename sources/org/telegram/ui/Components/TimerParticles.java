@@ -20,9 +20,7 @@ public class TimerParticles {
     private ArrayList particles;
     private final int particlesCount;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Particle {
+    private static class Particle {
         float alpha;
         float currentTime;
         float lifeTime;
@@ -68,7 +66,7 @@ public class TimerParticles {
                 float f3 = particle.x;
                 float f4 = particle.vx;
                 float f5 = particle.velocity;
-                float f6 = (float) j;
+                float f6 = j;
                 particle.x = f3 + (((f4 * f5) * f6) / 200.0f);
                 particle.y += ((particle.vy * f5) * f6) / 200.0f;
                 particle.currentTime += f6;

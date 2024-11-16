@@ -2,9 +2,8 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzdr {
+abstract class zzdr {
     public static final /* synthetic */ int $r8$clinit = 0;
     private static final Class zzb;
     private static final zzeg zzc;
@@ -35,8 +34,7 @@ public abstract class zzdr {
         zzd = new zzei();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzA(Object obj, int i, int i2, Object obj2, zzeg zzegVar) {
+    static Object zzA(Object obj, int i, int i2, Object obj2, zzeg zzegVar) {
         if (obj2 == null) {
             obj2 = zzegVar.zzc(obj);
         }
@@ -44,8 +42,7 @@ public abstract class zzdr {
         return obj2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzB(zzeg zzegVar, Object obj, Object obj2) {
+    static void zzB(zzeg zzegVar, Object obj, Object obj2) {
         zzegVar.zzh(obj, zzegVar.zze(zzegVar.zzd(obj), zzegVar.zzd(obj2)));
     }
 
@@ -186,16 +183,14 @@ public abstract class zzdr {
         zzeyVar.zzK(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzV(Object obj, Object obj2) {
+    static boolean zzV(Object obj, Object obj2) {
         if (obj != obj2) {
             return obj != null && obj.equals(obj2);
         }
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, List list, boolean z) {
+    static int zza(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -203,8 +198,7 @@ public abstract class zzdr {
         return size * (zzbi.zzx(i << 3) + 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, List list) {
+    static int zzb(int i, List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -217,8 +211,7 @@ public abstract class zzdr {
         return zzx;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(int i, List list, boolean z) {
+    static int zzc(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -226,8 +219,7 @@ public abstract class zzdr {
         return zzd(list) + (size * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzd(List list) {
+    static int zzd(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -245,8 +237,7 @@ public abstract class zzdr {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zze(int i, List list, boolean z) {
+    static int zze(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -254,13 +245,11 @@ public abstract class zzdr {
         return size * (zzbi.zzx(i << 3) + 4);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzf(List list) {
+    static int zzf(List list) {
         return list.size() * 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzg(int i, List list, boolean z) {
+    static int zzg(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -268,13 +257,11 @@ public abstract class zzdr {
         return size * (zzbi.zzx(i << 3) + 8);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzh(List list) {
+    static int zzh(List list) {
         return list.size() * 8;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzi(int i, List list, zzdp zzdpVar) {
+    static int zzi(int i, List list, zzdp zzdpVar) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -286,8 +273,7 @@ public abstract class zzdr {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzj(int i, List list, boolean z) {
+    static int zzj(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -295,8 +281,7 @@ public abstract class zzdr {
         return zzk(list) + (size * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzk(List list) {
+    static int zzk(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -314,16 +299,14 @@ public abstract class zzdr {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzl(int i, List list, boolean z) {
+    static int zzl(int i, List list, boolean z) {
         if (list.size() == 0) {
             return 0;
         }
         return zzm(list) + (list.size() * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzm(List list) {
+    static int zzm(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -341,13 +324,11 @@ public abstract class zzdr {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzn(int i, Object obj, zzdp zzdpVar) {
+    static int zzn(int i, Object obj, zzdp zzdpVar) {
         return zzbi.zzx(i << 3) + zzbi.zzv((zzdf) obj, zzdpVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzo(int i, List list, zzdp zzdpVar) {
+    static int zzo(int i, List list, zzdp zzdpVar) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -359,8 +340,7 @@ public abstract class zzdr {
         return zzx;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzp(int i, List list, boolean z) {
+    static int zzp(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -368,8 +348,7 @@ public abstract class zzdr {
         return zzq(list) + (size * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzq(List list) {
+    static int zzq(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -388,8 +367,7 @@ public abstract class zzdr {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzr(int i, List list, boolean z) {
+    static int zzr(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -397,8 +375,7 @@ public abstract class zzdr {
         return zzs(list) + (size * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzs(List list) {
+    static int zzs(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -417,8 +394,7 @@ public abstract class zzdr {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzt(int i, List list) {
+    static int zzt(int i, List list) {
         int size = list.size();
         int i2 = 0;
         if (size == 0) {
@@ -453,8 +429,7 @@ public abstract class zzdr {
         return zzx;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzu(int i, List list, boolean z) {
+    static int zzu(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -462,8 +437,7 @@ public abstract class zzdr {
         return zzv(list) + (size * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzv(List list) {
+    static int zzv(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -481,8 +455,7 @@ public abstract class zzdr {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzw(int i, List list, boolean z) {
+    static int zzw(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -490,8 +463,7 @@ public abstract class zzdr {
         return zzx(list) + (size * zzbi.zzx(i << 3));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzx(List list) {
+    static int zzx(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;

@@ -118,7 +118,6 @@ public class FilterChatlistActivity extends BaseFragment {
     };
     private float doneButtonAlpha = 1.0f;
 
-    /* loaded from: classes4.dex */
     public static class HintInnerCell extends FrameLayout {
         private RLottieImageView imageView;
         private TextView subtitleTextView;
@@ -151,7 +150,6 @@ public class FilterChatlistActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class InviteLinkCell extends FrameLayout {
         private ActionBarPopupWindow actionBarPopupWindow;
         ButtonsBox buttonsBox;
@@ -168,9 +166,7 @@ public class FilterChatlistActivity extends BaseFragment {
         SimpleTextView spoilerTextView;
         SimpleTextView textView;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class ButtonsBox extends FrameLayout {
+        class ButtonsBox extends FrameLayout {
             private Paint paint;
             private Path path;
             private float[] radii;
@@ -686,13 +682,9 @@ public class FilterChatlistActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends InviteLinkCell {
+        class 1 extends InviteLinkCell {
             1(Context context, BaseFragment baseFragment) {
                 super(context, baseFragment);
             }
@@ -1361,7 +1353,7 @@ public class FilterChatlistActivity extends BaseFragment {
                     FilterChatlistActivity.this.lambda$updateDoneProgress$8(valueAnimator2);
                 }
             });
-            this.doneButtonDrawableAnimator.setDuration(Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f);
+            this.doneButtonDrawableAnimator.setDuration((long) (Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f));
             this.doneButtonDrawableAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.doneButtonDrawableAnimator.start();
         }

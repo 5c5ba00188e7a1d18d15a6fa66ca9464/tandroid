@@ -77,9 +77,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
     private final Theme.ResourcesProvider resourcesProvider;
     private final ArrayList whiteSections;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class FullscreenCustomFrameLayout extends FrameLayout {
+    private class FullscreenCustomFrameLayout extends FrameLayout {
         private int minusHeight;
 
         public FullscreenCustomFrameLayout(Context context) {
@@ -123,9 +121,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Section {
+    private static class Section {
         public int end;
         public int start;
 
@@ -282,8 +278,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getThemedColor(int i) {
+    protected int getThemedColor(int i) {
         return Theme.getColor(i, this.resourcesProvider);
     }
 

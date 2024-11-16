@@ -4,8 +4,7 @@ package com.google.android.gms.internal.mlkit_vision_common;
 final class zzn extends zzh {
     private final zzp zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzn(zzp zzpVar, int i) {
+    zzn(zzp zzpVar, int i) {
         super(zzpVar.size(), i);
         this.zza = zzpVar;
     }

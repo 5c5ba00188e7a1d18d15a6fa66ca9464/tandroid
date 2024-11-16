@@ -137,9 +137,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     private static final Pattern exprParensPattern = Pattern.compile("[()]");
     private static final Pattern playerIdPattern = Pattern.compile(".*?-([a-zA-Z0-9_-]+)(?:/watch_as3|/html5player(?:-new)?|(?:/[a-z]{2}_[A-Z]{2})?/base)?\\.([a-z]+)$");
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class AparatVideoTask extends AsyncTask {
+    private class AparatVideoTask extends AsyncTask {
         private boolean canRetry = true;
         private String[] results = new String[2];
         private String videoId;
@@ -200,14 +198,12 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface CallJavaResultInterface {
         void jsCallFinished(String str);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ControlsView extends FrameLayout {
+    class ControlsView extends FrameLayout {
         private int bufferedPosition;
         private AnimatorSet currentAnimation;
         private int currentProgressX;
@@ -290,7 +286,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                     long currentTimeMillis = System.currentTimeMillis();
                     long j = currentTimeMillis - WebPlayerView.this.lastUpdateTime;
                     WebPlayerView.this.lastUpdateTime = currentTimeMillis;
-                    WebPlayerView.access$4724(WebPlayerView.this, ((float) j) / 150.0f);
+                    WebPlayerView.access$4724(WebPlayerView.this, j / 150.0f);
                     if (WebPlayerView.this.currentAlpha < 0.0f) {
                         WebPlayerView.this.currentAlpha = 0.0f;
                     }
@@ -528,9 +524,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CoubVideoTask extends AsyncTask {
+    private class CoubVideoTask extends AsyncTask {
         private boolean canRetry = true;
         private String[] results = new String[4];
         private String videoId;
@@ -589,9 +583,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class JSExtractor {
+    private static class JSExtractor {
         private String jsCode;
         ArrayList codeLines = new ArrayList();
         private String[] operators = {"|", "^", "&", ">>", "<<", "-", "+", "%", "/", "*"};
@@ -816,7 +808,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class JavaScriptInterface {
         private final CallJavaResultInterface callJavaResultInterface;
 
@@ -830,9 +821,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TwitchClipVideoTask extends AsyncTask {
+    private class TwitchClipVideoTask extends AsyncTask {
         private String currentUrl;
         private String videoId;
         private boolean canRetry = true;
@@ -886,9 +875,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TwitchStreamVideoTask extends AsyncTask {
+    private class TwitchStreamVideoTask extends AsyncTask {
         private String currentUrl;
         private String videoId;
         private boolean canRetry = true;
@@ -954,9 +941,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class VimeoVideoTask extends AsyncTask {
+    private class VimeoVideoTask extends AsyncTask {
         private boolean canRetry = true;
         private String[] results = new String[2];
         private String videoId;
@@ -1016,7 +1001,6 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface WebPlayerViewDelegate {
         boolean checkInlinePermissions();
 
@@ -1040,8 +1024,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class YoutubeVideoTask extends AsyncTask {
+    class YoutubeVideoTask extends AsyncTask {
         private boolean canRetry = true;
         private CountDownLatch countDownLatch = new CountDownLatch(1);
         private String[] result = new String[2];
@@ -1538,9 +1521,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         };
         this.surfaceTextureListener = new TextureView.SurfaceTextureListener() { // from class: org.telegram.ui.Components.WebPlayerView.2
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes3.dex */
-            public class 1 implements ViewTreeObserver.OnPreDrawListener {
+            class 1 implements ViewTreeObserver.OnPreDrawListener {
                 1() {
                 }
 
@@ -1652,9 +1633,8 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         this.delegate = webPlayerViewDelegate;
         this.backgroundPaint.setColor(-16777216);
         AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context) { // from class: org.telegram.ui.Components.WebPlayerView.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, i3);
                 if (WebPlayerView.this.textureViewContainer != null) {
                     ViewGroup.LayoutParams layoutParams = WebPlayerView.this.textureView.getLayoutParams();

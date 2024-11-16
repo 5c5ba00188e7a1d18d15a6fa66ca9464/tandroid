@@ -181,9 +181,8 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+    protected void onStreamChanged(Format[] formatArr, long j, long j2) {
         this.outputStreamOffsetUs = j2;
         this.streamFormat = formatArr[0];
         if (this.decoder != null) {

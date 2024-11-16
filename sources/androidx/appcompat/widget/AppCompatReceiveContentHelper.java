@@ -18,7 +18,6 @@ import androidx.core.view.ViewCompat;
 /* loaded from: classes.dex */
 abstract class AppCompatReceiveContentHelper {
 
-    /* loaded from: classes.dex */
     private static final class OnDropApi24Impl {
         static boolean onDropForTextView(DragEvent dragEvent, TextView textView, Activity activity) {
             activity.requestDragAndDropPermissions(dragEvent);
@@ -42,8 +41,7 @@ abstract class AppCompatReceiveContentHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean maybeHandleDragEventViaPerformReceiveContent(View view, DragEvent dragEvent) {
+    static boolean maybeHandleDragEventViaPerformReceiveContent(View view, DragEvent dragEvent) {
         int i = Build.VERSION.SDK_INT;
         if (i < 31 && i >= 24 && dragEvent.getLocalState() == null && ViewCompat.getOnReceiveContentMimeTypes(view) != null) {
             Activity tryGetActivity = tryGetActivity(view);
@@ -61,8 +59,7 @@ abstract class AppCompatReceiveContentHelper {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean maybeHandleMenuActionViaPerformReceiveContent(TextView textView, int i) {
+    static boolean maybeHandleMenuActionViaPerformReceiveContent(TextView textView, int i) {
         if (Build.VERSION.SDK_INT >= 31 || ViewCompat.getOnReceiveContentMimeTypes(textView) == null || !(i == 16908322 || i == 16908337)) {
             return false;
         }

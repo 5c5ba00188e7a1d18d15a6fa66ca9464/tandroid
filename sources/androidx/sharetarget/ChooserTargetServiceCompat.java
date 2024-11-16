@@ -19,9 +19,7 @@ import java.util.List;
 /* loaded from: classes.dex */
 public class ChooserTargetServiceCompat extends ChooserTargetService {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class ShortcutHolder implements Comparable {
+    static class ShortcutHolder implements Comparable {
         private final ShortcutInfoCompat mShortcut;
         private final ComponentName mTargetClass;
 

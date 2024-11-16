@@ -18,16 +18,13 @@ abstract class ResourcesFlusher {
     private static Field sThemedResourceCache_mUnthemedEntriesField;
     private static boolean sThemedResourceCache_mUnthemedEntriesFieldFetched;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static void clear(LongSparseArray longSparseArray) {
             longSparseArray.clear();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void flush(Resources resources) {
+    static void flush(Resources resources) {
         int i = Build.VERSION.SDK_INT;
         if (i >= 28) {
             return;

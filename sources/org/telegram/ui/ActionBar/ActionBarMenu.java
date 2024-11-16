@@ -20,7 +20,6 @@ public class ActionBarMenu extends LinearLayout {
     private Runnable onLayoutListener;
     protected ActionBar parentActionBar;
 
-    /* loaded from: classes4.dex */
     public static class LazyItem {
         Boolean allowCloseAnimation;
         int backgroundColor;
@@ -419,8 +418,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void redrawPopup(int i) {
+    protected void redrawPopup(int i) {
         int childCount = getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
             View childAt = getChildAt(i2);
@@ -478,8 +476,7 @@ public class ActionBarMenu extends LinearLayout {
         this.onLayoutListener = runnable;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setPopupItemsColor(int i, boolean z) {
+    protected void setPopupItemsColor(int i, boolean z) {
         int childCount = getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
             View childAt = getChildAt(i2);
@@ -489,8 +486,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setPopupItemsSelectorColor(int i) {
+    protected void setPopupItemsSelectorColor(int i) {
         int childCount = getChildCount();
         for (int i2 = 0; i2 < childCount; i2++) {
             View childAt = getChildAt(i2);
@@ -557,8 +553,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateItemsBackgroundColor() {
+    protected void updateItemsBackgroundColor() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = getChildAt(i);
@@ -568,8 +563,7 @@ public class ActionBarMenu extends LinearLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateItemsColor() {
+    protected void updateItemsColor() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = getChildAt(i);

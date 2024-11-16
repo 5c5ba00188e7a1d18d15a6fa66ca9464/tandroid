@@ -12,18 +12,15 @@ import androidx.emoji2.text.EmojiCompat;
 import androidx.emoji2.text.MetadataRepo;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class EmojiProcessor {
+final class EmojiProcessor {
     private final int[] mEmojiAsDefaultStyleExceptions;
     private EmojiCompat.GlyphChecker mGlyphChecker;
     private final MetadataRepo mMetadataRepo;
     private final EmojiCompat.SpanFactory mSpanFactory;
     private final boolean mUseEmojiAsDefaultStyle;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CodepointIndexFinder {
+    private static final class CodepointIndexFinder {
         static int findIndexBackward(CharSequence charSequence, int i, int i2) {
             int length = charSequence.length();
             if (i < 0 || length < i || i2 < 0) {
@@ -92,9 +89,7 @@ public final class EmojiProcessor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class ProcessorSm {
+    static final class ProcessorSm {
         private int mCurrentDepth;
         private MetadataRepo.Node mCurrentNode;
         private final int[] mEmojiAsDefaultStyleExceptions;
@@ -185,8 +180,7 @@ public final class EmojiProcessor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiProcessor(MetadataRepo metadataRepo, EmojiCompat.SpanFactory spanFactory, EmojiCompat.GlyphChecker glyphChecker, boolean z, int[] iArr) {
+    EmojiProcessor(MetadataRepo metadataRepo, EmojiCompat.SpanFactory spanFactory, EmojiCompat.GlyphChecker glyphChecker, boolean z, int[] iArr) {
         this.mSpanFactory = spanFactory;
         this.mMetadataRepo = metadataRepo;
         this.mGlyphChecker = glyphChecker;
@@ -218,8 +212,7 @@ public final class EmojiProcessor {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean handleDeleteSurroundingText(InputConnection inputConnection, Editable editable, int i, int i2, boolean z) {
+    static boolean handleDeleteSurroundingText(InputConnection inputConnection, Editable editable, int i, int i2, boolean z) {
         int max;
         int min;
         if (editable != null && inputConnection != null && i >= 0 && i2 >= 0) {
@@ -257,8 +250,7 @@ public final class EmojiProcessor {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean handleOnKeyDown(Editable editable, int i, KeyEvent keyEvent) {
+    static boolean handleOnKeyDown(Editable editable, int i, KeyEvent keyEvent) {
         if (!(i != 67 ? i != 112 ? false : delete(editable, keyEvent, true) : delete(editable, keyEvent, false))) {
             return false;
         }
@@ -281,7 +273,6 @@ public final class EmojiProcessor {
         return !KeyEvent.metaStateHasNoModifiers(keyEvent.getMetaState());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0049 A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:100:0x000e, B:103:0x0013, B:105:0x0017, B:107:0x0024, B:9:0x003a, B:11:0x0042, B:13:0x0045, B:15:0x0049, B:17:0x0055, B:19:0x0058, B:23:0x0065, B:29:0x0074, B:30:0x0080, B:34:0x009b, B:60:0x00ab, B:64:0x00b7, B:65:0x00c1, B:47:0x00cb, B:50:0x00d2, B:37:0x00d7, B:39:0x00e2, B:71:0x00e9, B:75:0x00f3, B:78:0x00ff, B:79:0x0104, B:81:0x010d, B:6:0x002f), top: B:99:0x000e }] */
     /* JADX WARN: Removed duplicated region for block: B:36:0x00d7 A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:43:0x00a2 A[SYNTHETIC] */
@@ -291,7 +282,7 @@ public final class EmojiProcessor {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public CharSequence process(CharSequence charSequence, int i, int i2, int i3, boolean z) {
+    CharSequence process(CharSequence charSequence, int i, int i2, int i3, boolean z) {
         UnprecomputeTextOnModificationSpannable unprecomputeTextOnModificationSpannable;
         ProcessorSm processorSm;
         UnprecomputeTextOnModificationSpannable unprecomputeTextOnModificationSpannable2;

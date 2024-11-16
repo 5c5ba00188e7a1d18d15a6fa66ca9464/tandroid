@@ -17,9 +17,7 @@ public final class SpannableBuilder extends SpannableStringBuilder {
     private final Class mWatcherClass;
     private final List mWatchers;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class WatcherWrapper implements TextWatcher, SpanWatcher {
+    private static class WatcherWrapper implements TextWatcher, SpanWatcher {
         private final AtomicInteger mBlockCalls = new AtomicInteger(0);
         final Object mObject;
 

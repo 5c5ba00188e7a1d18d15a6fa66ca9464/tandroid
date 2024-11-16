@@ -43,9 +43,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
     private PaintTypefaceListView typefaceListView;
     private int x;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static final class AlignFramePair {
+    private static final class AlignFramePair {
         private final int fromAlign;
         private final int fromFrame;
         private final int toAlign;
@@ -59,7 +57,6 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Delegate {
         void onColorPickerSelected();
 
@@ -72,7 +69,6 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         void onTypefaceButtonClicked();
     }
 
-    /* loaded from: classes3.dex */
     public static final class TypefaceCell extends TextView {
         private Drawable expandDrawable;
         private boolean isCurrent;

@@ -116,8 +116,7 @@ public class GradientTools {
         updateBounds();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateBounds() {
+    protected void updateBounds() {
         if (this.shader == null) {
             return;
         }

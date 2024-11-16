@@ -30,9 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DefaultDrmSession implements DrmSession {
+class DefaultDrmSession implements DrmSession {
     final MediaDrmCallback callback;
     private CryptoConfig cryptoConfig;
     private ExoMediaDrm.KeyRequest currentKeyRequest;
@@ -58,7 +57,6 @@ public class DefaultDrmSession implements DrmSession {
     private int state;
     final UUID uuid;
 
-    /* loaded from: classes.dex */
     public interface ProvisioningManager {
         void onProvisionCompleted();
 
@@ -67,16 +65,13 @@ public class DefaultDrmSession implements DrmSession {
         void provisionRequired(DefaultDrmSession defaultDrmSession);
     }
 
-    /* loaded from: classes.dex */
     public interface ReferenceCountListener {
         void onReferenceCountDecremented(DefaultDrmSession defaultDrmSession, int i);
 
         void onReferenceCountIncremented(DefaultDrmSession defaultDrmSession, int i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class RequestHandler extends Handler {
+    private class RequestHandler extends Handler {
         private boolean isReleased;
 
         public RequestHandler(Looper looper) {
@@ -158,9 +153,7 @@ public class DefaultDrmSession implements DrmSession {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class RequestTask {
+    private static final class RequestTask {
         public final boolean allowRetry;
         public int errorCount;
         public final Object request;
@@ -175,7 +168,6 @@ public class DefaultDrmSession implements DrmSession {
         }
     }
 
-    /* loaded from: classes.dex */
     private class ResponseHandler extends Handler {
         public ResponseHandler(Looper looper) {
             super(looper);
@@ -198,7 +190,6 @@ public class DefaultDrmSession implements DrmSession {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class UnexpectedDrmSessionException extends IOException {
         public UnexpectedDrmSessionException(Throwable th) {
             super(th);

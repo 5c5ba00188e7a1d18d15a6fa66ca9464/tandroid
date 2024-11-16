@@ -247,9 +247,8 @@ public class StickerEmptyView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (getVisibility() == 0) {
             setSticker();

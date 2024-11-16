@@ -8,8 +8,7 @@ public final class zzrc {
     private final zzav zzd;
     private final zzav zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzrc(zzra zzraVar, zzrb zzrbVar) {
+    /* synthetic */ zzrc(zzra zzraVar, zzrb zzrbVar) {
         zznp zznpVar;
         zznj zznjVar;
         zzrz zzrzVar;

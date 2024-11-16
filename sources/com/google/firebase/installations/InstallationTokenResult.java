@@ -5,7 +5,6 @@ import com.google.firebase.installations.AutoValue_InstallationTokenResult;
 /* loaded from: classes.dex */
 public abstract class InstallationTokenResult {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract InstallationTokenResult build();
 

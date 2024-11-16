@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import kotlin.jvm.internal.Intrinsics;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class EmptyMap implements Map, Serializable {
+final class EmptyMap implements Map, Serializable {
     public static final EmptyMap INSTANCE = new EmptyMap();
 
     private EmptyMap() {

@@ -21,9 +21,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class NotificationCompatBuilder implements NotificationBuilderWithBuilderAccessor {
+class NotificationCompatBuilder implements NotificationBuilderWithBuilderAccessor {
     private RemoteViews mBigContentView;
     private final Notification.Builder mBuilder;
     private final NotificationCompat.Builder mBuilderCompat;
@@ -34,9 +33,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     private final List mActionExtrasList = new ArrayList();
     private final Bundle mExtras = new Bundle();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static Notification build(Notification.Builder builder) {
             return builder.build();
         }
@@ -54,24 +51,19 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api17Impl {
         static Notification.Builder setShowWhen(Notification.Builder builder, boolean z) {
             return builder.setShowWhen(z);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api19Impl {
+    static class Api19Impl {
         static Notification.Builder setExtras(Notification.Builder builder, Bundle bundle) {
             return builder.setExtras(bundle);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api20Impl {
+    static class Api20Impl {
         static Notification.Builder addAction(Notification.Builder builder, Notification.Action action) {
             return builder.addAction(action);
         }
@@ -113,7 +105,6 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static Notification.Builder addPerson(Notification.Builder builder, String str) {
             return builder.addPerson(str);
@@ -140,9 +131,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static Notification.Action.Builder createBuilder(Icon icon, CharSequence charSequence, PendingIntent pendingIntent) {
             return new Notification.Action.Builder(icon, charSequence, pendingIntent);
         }
@@ -152,9 +141,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static Notification.Action.Builder setAllowGeneratedReplies(Notification.Action.Builder builder, boolean z) {
             return builder.setAllowGeneratedReplies(z);
         }
@@ -176,7 +163,6 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api26Impl {
         static Notification.Builder createBuilder(Context context, String str) {
             return new Notification.Builder(context, str);
@@ -207,9 +193,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static Notification.Builder addPerson(Notification.Builder builder, android.app.Person person) {
             return builder.addPerson(person);
         }
@@ -219,9 +203,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    static class Api29Impl {
         static Notification.Builder setAllowSystemGeneratedContextualActions(Notification.Builder builder, boolean z) {
             return builder.setAllowSystemGeneratedContextualActions(z);
         }
@@ -239,9 +221,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api31Impl {
+    static class Api31Impl {
         static Notification.Action.Builder setAuthenticationRequired(Notification.Action.Builder builder, boolean z) {
             return builder.setAuthenticationRequired(z);
         }
@@ -251,8 +231,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public NotificationCompatBuilder(NotificationCompat.Builder builder) {
+    NotificationCompatBuilder(NotificationCompat.Builder builder) {
         int i;
         Object obj;
         AudioAttributes audioAttributes;
@@ -591,8 +570,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         return this.mBuilder;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Context getContext() {
+    Context getContext() {
         return this.mContext;
     }
 }

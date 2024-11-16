@@ -20,9 +20,7 @@ public final class MaskingMediaSource extends WrappingMediaSource {
     private final boolean useLazyPreparation;
     private final Timeline.Window window;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MaskingTimeline extends ForwardingTimeline {
+    private static final class MaskingTimeline extends ForwardingTimeline {
         public static final Object MASKING_EXTERNAL_PERIOD_UID = new Object();
         private final Object replacedInternalPeriodUid;
         private final Object replacedInternalWindowUid;
@@ -80,7 +78,6 @@ public final class MaskingMediaSource extends WrappingMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class PlaceholderTimeline extends Timeline {
         private final MediaItem mediaItem;
 

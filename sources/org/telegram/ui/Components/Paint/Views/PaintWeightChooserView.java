@@ -41,7 +41,6 @@ public class PaintWeightChooserView extends View {
     private RectF touchRect;
     private ValueOverride valueOverride;
 
-    /* loaded from: classes3.dex */
     public interface ValueOverride {
         float get();
 
@@ -145,14 +144,14 @@ public class PaintWeightChooserView extends View {
         if (z2) {
             float f4 = this.hideProgress;
             if (f4 != 1.0f) {
-                max = Math.min(1.0f, f4 + (((float) min) / 200.0f));
+                max = Math.min(1.0f, f4 + (min / 200.0f));
                 this.hideProgress = max;
                 invalidate();
                 z = this.isTouchInProgress;
                 if (z) {
                     float f5 = this.showProgress;
                     if (f5 != 1.0f) {
-                        max2 = Math.min(1.0f, f5 + (((float) min) / 200.0f));
+                        max2 = Math.min(1.0f, f5 + (min / 200.0f));
                         this.showProgress = max2;
                         invalidate();
                         float height = this.touchRect.height();
@@ -204,7 +203,7 @@ public class PaintWeightChooserView extends View {
                 if (!z) {
                     float f9 = this.showProgress;
                     if (f9 != 0.0f) {
-                        max2 = Math.max(0.0f, f9 - (((float) min) / 200.0f));
+                        max2 = Math.max(0.0f, f9 - (min / 200.0f));
                         this.showProgress = max2;
                         invalidate();
                     }
@@ -253,7 +252,7 @@ public class PaintWeightChooserView extends View {
         if (!z2) {
             float f10 = this.hideProgress;
             if (f10 != 0.0f) {
-                max = Math.max(0.0f, f10 - (((float) min) / 200.0f));
+                max = Math.max(0.0f, f10 - (min / 200.0f));
                 this.hideProgress = max;
                 invalidate();
             }

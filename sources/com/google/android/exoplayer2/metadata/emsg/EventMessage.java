@@ -74,32 +74,11 @@ public final class EventMessage implements Metadata.Entry {
     public Format getWrappedMetadataFormat() {
         String str = this.schemeIdUri;
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1468477611:
-                if (str.equals("urn:scte:scte35:2014:bin")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -795945609:
-                if (str.equals("https://aomedia.org/emsg/ID3")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 1303648457:
-                if (str.equals("https://developer.apple.com/streaming/emsg-id3")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "urn:scte:scte35:2014:bin":
                 return SCTE35_FORMAT;
-            case 1:
-            case 2:
+            case "https://aomedia.org/emsg/ID3":
+            case "https://developer.apple.com/streaming/emsg-id3":
                 return ID3_FORMAT;
             default:
                 return null;

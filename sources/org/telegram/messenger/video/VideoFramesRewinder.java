@@ -56,8 +56,7 @@ public class VideoFramesRewinder {
     };
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Frame {
+    class Frame {
         Bitmap bitmap;
         long position;
 
@@ -142,14 +141,14 @@ public class VideoFramesRewinder {
             min = (int) (min * max);
             min2 = (int) (min2 * max);
         }
-        AnimatedFileDrawable.seekToMs(this.ptr, this.prepareToMs - (this.prepareWithSpeed * 350.0f), this.meta, false);
+        AnimatedFileDrawable.seekToMs(this.ptr, this.prepareToMs - ((long) (this.prepareWithSpeed * 350.0f)), this.meta, false);
         long j = this.meta[3];
         int i7 = 0;
         int i8 = 0;
         for (char c = 3; this.meta[c] <= this.until.get() && i7 < this.maxFramesCount && !this.stop.get(); c = 3) {
             float f = 1000.0f / i4;
             long j2 = j;
-            long j3 = ((float) j) + (this.prepareWithSpeed * f);
+            long j3 = (long) (j + (this.prepareWithSpeed * f));
             Frame remove = !this.freeFrames.isEmpty() ? this.freeFrames.remove(i5) : new Frame();
             Bitmap bitmap = remove.bitmap;
             if (bitmap == null || bitmap.getWidth() != min || remove.bitmap.getHeight() != min2) {
@@ -273,7 +272,7 @@ public class VideoFramesRewinder {
             Frame next = it.next();
             arrayList.add(Long.valueOf(next.position));
             float f2 = 25.0f * f;
-            if (((float) Math.abs(next.position - j)) < f2) {
+            if (Math.abs(next.position - j) < f2) {
                 if (this.currentFrame != next) {
                     FileLog.d("[VideoFramesRewinder] found a frame " + next.position + "ms to fit to " + j + "ms from " + this.frames.size() + " frames");
                     this.currentFrame = next;
@@ -291,7 +290,7 @@ public class VideoFramesRewinder {
                 for (int size = arrayList.size() - 2; size >= 0; size--) {
                     long longValue = ((Long) arrayList.get(size + 1)).longValue();
                     long longValue2 = ((Long) arrayList.get(size)).longValue();
-                    if (((float) Math.abs(longValue - longValue2)) > f2) {
+                    if (Math.abs(longValue - longValue2) > f2) {
                         prepare(longValue2);
                         return;
                     }

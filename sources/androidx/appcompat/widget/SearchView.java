@@ -104,9 +104,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     private boolean mVoiceButtonEnabled;
     private final Intent mVoiceWebSearchIntent;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    static class Api29Impl {
         static void refreshAutoCompleteResults(AutoCompleteTextView autoCompleteTextView) {
             autoCompleteTextView.refreshAutoCompleteResults();
         }
@@ -116,21 +114,16 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnCloseListener {
     }
 
-    /* loaded from: classes.dex */
     public interface OnQueryTextListener {
     }
 
-    /* loaded from: classes.dex */
     public interface OnSuggestionListener {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PreQAutoCompleteTextViewReflector {
+    private static class PreQAutoCompleteTextViewReflector {
         private Method mDoAfterTextChanged;
         private Method mDoBeforeTextChanged;
         private Method mEnsureImeVisible;
@@ -200,9 +193,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class SavedState extends AbsSavedState {
+    static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator() { // from class: androidx.appcompat.widget.SearchView.SavedState.1
             @Override // android.os.Parcelable.Creator
             public SavedState createFromParcel(Parcel parcel) {
@@ -241,7 +232,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SearchAutoComplete extends AppCompatAutoCompleteTextView {
         private boolean mHasPendingShowSoftInputRequest;
         final Runnable mRunShowSoftInputIfNecessary;
@@ -394,7 +384,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         }
     }
 
-    /* loaded from: classes.dex */
     private static class UpdatableTouchDelegate extends TouchDelegate {
         private final Rect mActualBounds;
         private boolean mDelegateTargeted;
@@ -1003,13 +992,11 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         return (searchableInfo == null || searchableInfo.getHintId() == 0) ? this.mDefaultQueryHint : getContext().getText(this.mSearchable.getHintId());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getSuggestionCommitIconResId() {
+    int getSuggestionCommitIconResId() {
         return this.mSuggestionCommitIconResId;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getSuggestionRowLayout() {
+    int getSuggestionRowLayout() {
         return this.mSuggestionRowLayout;
     }
 
@@ -1077,9 +1064,8 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         if (z) {
             getChildBoundsWithinSearchView(this.mSearchSrcTextView, this.mSearchSrcTextViewBounds);
@@ -1097,7 +1083,6 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:11:0x001f, code lost:
     
         if (r0 <= 0) goto L22;
@@ -1108,7 +1093,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         int i3;
         int mode;
         if (isIconified()) {
@@ -1147,8 +1132,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size22, 1073741824));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onQueryRefine(CharSequence charSequence) {
+    protected void onQueryRefine(CharSequence charSequence) {
         setQuery(charSequence);
     }
 

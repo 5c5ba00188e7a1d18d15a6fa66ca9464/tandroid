@@ -8,7 +8,6 @@ import java.util.concurrent.RejectedExecutionException;
 /* loaded from: classes.dex */
 public abstract class ExecutorCompat {
 
-    /* loaded from: classes.dex */
     private static class HandlerExecutor implements Executor {
         private final Handler mHandler;
 

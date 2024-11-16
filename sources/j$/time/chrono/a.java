@@ -11,6 +11,9 @@ public abstract class a implements f {
         new Locale("ja", "JP", "JP");
     }
 
+    protected a() {
+    }
+
     @Override // java.lang.Comparable
     public final int compareTo(Object obj) {
         ((f) obj).getClass();

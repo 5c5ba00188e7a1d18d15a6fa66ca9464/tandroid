@@ -81,7 +81,6 @@ public class VideoPlayerSeekBar {
     private float timestampChangeT = 1.0f;
     private float lastWidth = -1.0f;
 
-    /* loaded from: classes3.dex */
     public interface SeekBarDelegate {
         void onSeekBarContinuousDrag(float f);
 
@@ -314,12 +313,12 @@ public class VideoPlayerSeekBar {
             this.currentTimestamp = size;
         }
         if (this.timestampChangeT < 1.0f) {
-            this.timestampChangeT = Math.min(this.timestampChangeT + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
+            this.timestampChangeT = Math.min(this.timestampChangeT + (Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate)) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
             this.parentView.invalidate();
             this.lastTimestampUpdate = SystemClock.elapsedRealtime();
         }
         if (this.timestampsAppearing < 1.0f) {
-            this.timestampsAppearing = Math.min(this.timestampsAppearing + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / 200.0f), 1.0f);
+            this.timestampsAppearing = Math.min(this.timestampsAppearing + (Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate)) / 200.0f), 1.0f);
             this.parentView.invalidate();
             this.lastTimestampsAppearingUpdate = SystemClock.elapsedRealtime();
         }
@@ -564,10 +563,10 @@ public class VideoPlayerSeekBar {
             }
             float f15 = this.currentRadius;
             if (f15 < dp) {
-                float dp2 = f15 + (AndroidUtilities.dp(1.0f) * (((float) j) / 60.0f));
+                float dp2 = f15 + (AndroidUtilities.dp(1.0f) * (j / 60.0f));
                 this.currentRadius = dp2;
             } else {
-                float dp3 = f15 - (AndroidUtilities.dp(1.0f) * (((float) j) / 60.0f));
+                float dp3 = f15 - (AndroidUtilities.dp(1.0f) * (j / 60.0f));
                 this.currentRadius = dp3;
             }
         }
@@ -839,7 +838,7 @@ public class VideoPlayerSeekBar {
                 if (uRLSpanNoUnderline != null && uRLSpanNoUnderline.getURL() != null && uRLSpanNoUnderline.label != null && uRLSpanNoUnderline.getURL().startsWith("video?") && (parseInt = Utilities.parseInt((CharSequence) uRLSpanNoUnderline.getURL().substring(6))) != null && parseInt.intValue() >= 0) {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(uRLSpanNoUnderline.label);
                     Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.timestampLabelPaint.getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
-                    this.timestamps.add(new Pair(Float.valueOf(((float) (parseInt.intValue() * 1000)) / ((float) j)), spannableStringBuilder));
+                    this.timestamps.add(new Pair(Float.valueOf((parseInt.intValue() * 1000) / j), spannableStringBuilder));
                 }
             }
             Collections.sort(this.timestamps, new Comparator() { // from class: org.telegram.ui.Components.VideoPlayerSeekBar$$ExternalSyntheticLambda0

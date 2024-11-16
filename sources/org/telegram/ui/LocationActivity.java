@@ -199,7 +199,6 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     private boolean isSharingAllowed = true;
     private Bitmap[] bitmapCache = new Bitmap[7];
 
-    /* loaded from: classes4.dex */
     public static class LiveLocation {
         public TLRPC.Chat chat;
         public IMapsProvider.IMarker directionMarker;
@@ -210,12 +209,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         public TLRPC.User user;
     }
 
-    /* loaded from: classes4.dex */
     public interface LocationActivityDelegate {
         void didSelectLocation(TLRPC.MessageMedia messageMedia, int i, boolean z, int i2);
     }
 
-    /* loaded from: classes4.dex */
     public class MapOverlayView extends FrameLayout {
         private HashMap views;
 
@@ -348,8 +345,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class NestedFrameLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
+    class NestedFrameLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
         private boolean first;
         private NestedScrollingParentHelper nestedScrollingParentHelper;
 
@@ -380,9 +376,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             return drawChild;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-        public void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
+        protected void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
             super.drawList(canvas, z, arrayList);
             if (LocationActivity.this.sharedMediaLayout != null) {
                 canvas.save();
@@ -392,9 +387,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             super.onLayout(z, i, i2, i3, i4);
             if (!z) {
                 LocationActivity.this.updateClipView(true);
@@ -500,9 +494,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class SearchButton extends TextView {
+    private static class SearchButton extends TextView {
         private float additionanTranslationY;
         private float currentTranslationY;
 
@@ -531,7 +523,6 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class VenueLocation {
         public IMapsProvider.IMarker marker;
         public int num;
@@ -2585,7 +2576,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:90:0x0988  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x0a4a  */
     /* JADX WARN: Type inference failed for: r14v1 */
-    /* JADX WARN: Type inference failed for: r14v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v3 */
     /* JADX WARN: Type inference failed for: r14v4 */
     /* JADX WARN: Type inference failed for: r14v5 */

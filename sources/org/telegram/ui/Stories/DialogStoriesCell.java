@@ -131,9 +131,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
     ValueAnimator valueAnimator;
     ArrayList viewsDrawInParent;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Adapter extends AdapterWithDiffUtils {
+    private class Adapter extends AdapterWithDiffUtils {
         boolean mini;
 
         public Adapter(boolean z) {
@@ -159,7 +157,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            StoryCell storyCell = new StoryCell(viewGroup.getContext());
+            StoryCell storyCell = DialogStoriesCell.this.new StoryCell(viewGroup.getContext());
             storyCell.mini = this.mini;
             if (this.mini) {
                 storyCell.setProgressToCollapsed(1.0f, 1.0f, 0.0f, false);
@@ -168,9 +166,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Item extends AdapterWithDiffUtils.Item {
+    private class Item extends AdapterWithDiffUtils.Item {
         final long dialogId;
 
         public Item(long j) {
@@ -190,7 +186,6 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes5.dex */
     public class StoryCell extends FrameLayout {
         AvatarDrawable avatarDrawable;
         public ImageReceiver avatarImage;
@@ -914,9 +909,8 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
                 return super.drawChild(canvas, view, j);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                 super.onLayout(z, i3, i4, i5, i6);
                 for (int i7 = 0; i7 < DialogStoriesCell.this.afterNextLayout.size(); i7++) {
                     ((Runnable) DialogStoriesCell.this.afterNextLayout.get(i7)).run();
@@ -986,9 +980,8 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
         this.grayPaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
         this.addNewStoryDrawable = ContextCompat.getDrawable(getContext(), R.drawable.msg_mini_addstory);
         RecyclerListView recyclerListView3 = new RecyclerListView(getContext()) { // from class: org.telegram.ui.Stories.DialogStoriesCell.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 DialogStoriesCell.this.viewsDrawInParent.clear();
                 for (int i3 = 0; i3 < getChildCount(); i3++) {
                     StoryCell storyCell = (StoryCell) getChildAt(i3);

@@ -8,7 +8,6 @@ final class MotionPhotoDescription {
     public final List items;
     public final long photoPresentationTimestampUs;
 
-    /* loaded from: classes.dex */
     public static final class ContainerItem {
         public final long length;
         public final String mime;

@@ -36,7 +36,6 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
     private TextView percentTextView;
     private String stickersShortName;
 
-    /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private RLottieImageView imageView;

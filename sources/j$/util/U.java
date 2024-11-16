@@ -3,15 +3,13 @@ package j$.util;
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class U implements z, j$.util.function.W, j {
+final class U implements z, j$.util.function.W, j {
     boolean a = false;
     long b;
     final /* synthetic */ K c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public U(K k) {
+    U(K k) {
         this.c = k;
     }
 

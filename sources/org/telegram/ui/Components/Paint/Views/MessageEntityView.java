@@ -73,7 +73,6 @@ public abstract class MessageEntityView extends EntityView {
     private int videoHeight;
     private int videoWidth;
 
-    /* loaded from: classes3.dex */
     public class MessageEntityViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;
@@ -289,49 +288,16 @@ public abstract class MessageEntityView extends EntityView {
             public Paint getPaint(String str) {
                 Paint themePaint;
                 str.hashCode();
-                char c = 65535;
-                switch (str.hashCode()) {
-                    case -1490966183:
-                        if (str.equals("paintChatActionText2")) {
-                            c = 0;
-                            break;
-                        }
-                        break;
-                    case 1712385955:
-                        if (str.equals("paintChatBotButton")) {
-                            c = 1;
-                            break;
-                        }
-                        break;
-                    case 1790254137:
-                        if (str.equals("paintChatActionBackgroundDarken")) {
-                            c = 2;
-                            break;
-                        }
-                        break;
-                    case 1897339317:
-                        if (str.equals("paintChatActionBackgroundSelected")) {
-                            c = 3;
-                            break;
-                        }
-                        break;
-                    case 2030114297:
-                        if (str.equals("paintChatActionText")) {
-                            c = 4;
-                            break;
-                        }
-                        break;
-                }
-                switch (c) {
-                    case 0:
+                switch (str) {
+                    case "paintChatActionText2":
                         return this.chat_actionTextPaint2;
-                    case 1:
+                    case "paintChatBotButton":
                         return this.chat_botButtonPaint;
-                    case 2:
+                    case "paintChatActionBackgroundDarken":
                         return this.chat_actionBackgroundGradientDarkenPaint;
-                    case 3:
+                    case "paintChatActionBackgroundSelected":
                         return this.chat_actionBackgroundSelectedPaint;
-                    case 4:
+                    case "paintChatActionText":
                         return this.chat_actionTextPaint;
                     default:
                         themePaint = Theme.getThemePaint(str);
@@ -768,9 +734,8 @@ public abstract class MessageEntityView extends EntityView {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 canvas.save();
                 this.selectorRect.setEmpty();
                 drawChatBackgroundElements(canvas);
@@ -1047,9 +1012,8 @@ public abstract class MessageEntityView extends EntityView {
                         this.dst = new RectF();
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.ChatMessageCell
-                    public boolean drawPhotoImage(Canvas canvas) {
+                    protected boolean drawPhotoImage(Canvas canvas) {
                         PreviewView.TextureViewHolder textureViewHolder2;
                         ImageReceiver photoImage = getPhotoImage();
                         3 r1 = 3.this;
@@ -1098,9 +1062,8 @@ public abstract class MessageEntityView extends EntityView {
                         return super.getThemedPaint(str);
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.View
-                    public void onDraw(Canvas canvas) {
+                    protected void onDraw(Canvas canvas) {
                         3 r0 = 3.this;
                         PreviewView.TextureViewHolder textureViewHolder2 = textureViewHolder;
                         if ((textureViewHolder2 != null && textureViewHolder2.active && textureViewHolder2.textureViewActive) || MessageEntityView.this.clipVideoMessageForBitmap) {
@@ -1510,9 +1473,8 @@ public abstract class MessageEntityView extends EntityView {
         invalidateAll();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
+    protected void updatePosition() {
         setX(getPositionX() - (getMeasuredWidth() / 2.0f));
         setY(getPositionY() - (getMeasuredHeight() / 2.0f));
         updateSelectionView();

@@ -4,8 +4,7 @@ import java.util.Arrays;
 
 /* loaded from: classes2.dex */
 final class w2 extends z {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public w2(b bVar) {
+    w2(b bVar) {
         super(bVar, S2.q | S2.o, 0);
     }
 

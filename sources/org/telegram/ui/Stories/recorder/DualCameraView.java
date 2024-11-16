@@ -653,9 +653,8 @@ public abstract class DualCameraView extends CameraView {
         onCameraError();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.messenger.camera.CameraView, android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         this.toScreen.reset();
         this.toScreen.postTranslate(1.0f, -1.0f);

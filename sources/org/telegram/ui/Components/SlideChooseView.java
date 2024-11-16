@@ -44,10 +44,8 @@ public class SlideChooseView extends View {
     private float xTouchDown;
     private float yTouchDown;
 
-    /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onTouchEnd(Callback callback) {
             }

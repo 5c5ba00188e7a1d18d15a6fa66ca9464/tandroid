@@ -62,9 +62,7 @@ public class DataUsage2Activity extends BaseFragment {
     private static int[] titles = {R.string.LocalVideoCache, R.string.LocalDocumentCache, R.string.LocalPhotoCache, R.string.MessagesSettings, R.string.LocalMusicCache, R.string.LocalAudioCache, R.string.CallsDataUsage};
     private static int[] stats = {2, 5, 4, 1, 7, 3, 0};
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class Cell extends FrameLayout {
+    class Cell extends FrameLayout {
         ImageView arrowView;
         boolean divider;
         ImageView imageView;
@@ -182,7 +180,6 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class CustomCharacterSpan extends MetricAffectingSpan {
         double ratio;
 
@@ -209,9 +206,7 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ItemInner extends AdapterWithDiffUtils.Item {
+    private static class ItemInner extends AdapterWithDiffUtils.Item {
         public int imageColor;
         public int imageResId;
         public int index;
@@ -272,9 +267,7 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class ListView extends RecyclerListView {
+    class ListView extends RecyclerListView {
         Adapter adapter;
         private boolean animateChart;
         private CacheChart chart;
@@ -294,10 +287,8 @@ public class DataUsage2Activity extends BaseFragment {
         private long totalSizeOut;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class Adapter extends AdapterWithDiffUtils {
+        class Adapter extends AdapterWithDiffUtils {
 
-            /* loaded from: classes4.dex */
             class 1 extends CacheChart {
                 1(Context context, int i, int[] iArr, int i2, int[] iArr2) {
                     super(context, i, iArr, i2, iArr2);
@@ -478,7 +469,7 @@ public class DataUsage2Activity extends BaseFragment {
                     view = ListView.this.chart;
                 } else if (i == 1) {
                     ListView listView = ListView.this;
-                    view = new SubtitleCell(listView.getContext());
+                    view = DataUsage2Activity.this.new SubtitleCell(listView.getContext());
                 } else if (i != 3) {
                     if (i == 4) {
                         View headerCell = new HeaderCell(ListView.this.getContext());
@@ -493,7 +484,7 @@ public class DataUsage2Activity extends BaseFragment {
                         view = new RoundingCell(ListView.this.getContext());
                     } else if (i != 7) {
                         ListView listView2 = ListView.this;
-                        view = new Cell(listView2.getContext());
+                        view = DataUsage2Activity.this.new Cell(listView2.getContext());
                     } else {
                         view = new View(ListView.this.getContext()) { // from class: org.telegram.ui.DataUsage2Activity.ListView.Adapter.2
                             {
@@ -515,9 +506,7 @@ public class DataUsage2Activity extends BaseFragment {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class Size extends CacheChart.SegmentSize {
+        class Size extends CacheChart.SegmentSize {
             int inCount;
             long inSize;
             int index;
@@ -693,7 +682,7 @@ public class DataUsage2Activity extends BaseFragment {
                 Size size = new Size(i, bytesCount, getReceivedBytesCount(DataUsage2Activity.stats[i]), getSentBytesCount(DataUsage2Activity.stats[i]), getReceivedItemsCount(DataUsage2Activity.stats[i]), getSentItemsCount(DataUsage2Activity.stats[i]));
                 sizeArr2[i] = size;
                 sizeArr[i] = size;
-                this.tempSizes[i] = ((float) bytesCount) / ((float) this.totalSize);
+                this.tempSizes[i] = bytesCount / this.totalSize;
             }
             Arrays.sort(this.segments, new Comparator() { // from class: org.telegram.ui.DataUsage2Activity$ListView$$ExternalSyntheticLambda1
                 @Override // java.util.Comparator
@@ -735,7 +724,7 @@ public class DataUsage2Activity extends BaseFragment {
                     spannableString.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString.length(), 33);
                     spannableString.setSpan(new RelativeSizeSpan(0.8f), 0, spannableString.length(), 33);
                     str = formatString;
-                    spannableString.setSpan(new CustomCharacterSpan(0.1d), 0, spannableString.length(), 33);
+                    spannableString.setSpan(DataUsage2Activity.this.new CustomCharacterSpan(0.1d), 0, spannableString.length(), 33);
                     int i5 = DataUsage2Activity.particles[i4];
                     int themedColor = getThemedColor(DataUsage2Activity.colors[i4]);
                     if (j == 0) {
@@ -844,9 +833,8 @@ public class DataUsage2Activity extends BaseFragment {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
         }
 
@@ -859,7 +847,6 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     private class PageAdapter extends ViewPagerFixed.Adapter {
         private PageAdapter() {
         }
@@ -874,7 +861,7 @@ public class DataUsage2Activity extends BaseFragment {
         @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
         public View createView(int i) {
             DataUsage2Activity dataUsage2Activity = DataUsage2Activity.this;
-            return new ListView(dataUsage2Activity.getContext());
+            return dataUsage2Activity.new ListView(dataUsage2Activity.getContext());
         }
 
         @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
@@ -901,7 +888,6 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class RoundingCell extends View {
         Paint paint;
         Path path;
@@ -961,7 +947,6 @@ public class DataUsage2Activity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     class SubtitleCell extends FrameLayout {
         TextView textView;
 

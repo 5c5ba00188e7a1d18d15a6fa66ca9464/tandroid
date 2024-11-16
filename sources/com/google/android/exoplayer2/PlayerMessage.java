@@ -22,12 +22,10 @@ public final class PlayerMessage {
     private long positionMs = -9223372036854775807L;
     private boolean deleteAfterDelivery = true;
 
-    /* loaded from: classes.dex */
     public interface Sender {
         void sendMessage(PlayerMessage playerMessage);
     }
 
-    /* loaded from: classes.dex */
     public interface Target {
         void handleMessage(int i, Object obj);
     }

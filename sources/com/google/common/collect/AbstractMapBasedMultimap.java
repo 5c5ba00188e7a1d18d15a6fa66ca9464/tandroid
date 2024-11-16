@@ -20,18 +20,14 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class AbstractMapBasedMultimap extends AbstractMultimap implements Serializable {
+abstract class AbstractMapBasedMultimap extends AbstractMultimap implements Serializable {
     private transient Map map;
     private transient int totalSize;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AsMap extends Maps.ViewCachingAbstractMap {
+    private class AsMap extends Maps.ViewCachingAbstractMap {
         final transient Map submap;
 
-        /* loaded from: classes.dex */
         class AsMapEntries extends Maps.EntrySet {
             AsMapEntries() {
             }
@@ -43,7 +39,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
             @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
             public Iterator iterator() {
-                return new AsMapIterator();
+                return AsMap.this.new AsMapIterator();
             }
 
             @Override // com.google.common.collect.Maps.EntrySet
@@ -63,7 +59,6 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
             }
         }
 
-        /* loaded from: classes.dex */
         class AsMapIterator implements Iterator {
             Collection collection;
             final Iterator delegateIterator;
@@ -170,7 +165,6 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
     }
 
-    /* loaded from: classes.dex */
     private abstract class Itr implements Iterator {
         final Iterator keyIterator;
         Object key = null;
@@ -212,7 +206,6 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
     }
 
-    /* loaded from: classes.dex */
     private class KeySet extends Maps.KeySet {
         KeySet(Map map) {
             super(map);
@@ -283,7 +276,6 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
     }
 
-    /* loaded from: classes.dex */
     class NavigableAsMap extends SortedAsMap implements NavigableMap {
         NavigableAsMap(NavigableMap navigableMap) {
             super(navigableMap);
@@ -306,7 +298,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.common.collect.AbstractMapBasedMultimap.SortedAsMap
         public NavigableSet createKeySet() {
-            return new NavigableKeySet(sortedMap());
+            return AbstractMapBasedMultimap.this.new NavigableKeySet(sortedMap());
         }
 
         @Override // java.util.NavigableMap
@@ -316,7 +308,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableMap
         public NavigableMap descendingMap() {
-            return new NavigableAsMap(sortedMap().descendingMap());
+            return AbstractMapBasedMultimap.this.new NavigableAsMap(sortedMap().descendingMap());
         }
 
         @Override // java.util.NavigableMap
@@ -349,7 +341,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableMap
         public NavigableMap headMap(Object obj, boolean z) {
-            return new NavigableAsMap(sortedMap().headMap(obj, z));
+            return AbstractMapBasedMultimap.this.new NavigableAsMap(sortedMap().headMap(obj, z));
         }
 
         @Override // java.util.NavigableMap
@@ -433,7 +425,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableMap
         public NavigableMap subMap(Object obj, boolean z, Object obj2, boolean z2) {
-            return new NavigableAsMap(sortedMap().subMap(obj, z, obj2, z2));
+            return AbstractMapBasedMultimap.this.new NavigableAsMap(sortedMap().subMap(obj, z, obj2, z2));
         }
 
         @Override // com.google.common.collect.AbstractMapBasedMultimap.SortedAsMap, java.util.SortedMap, java.util.NavigableMap
@@ -443,13 +435,11 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableMap
         public NavigableMap tailMap(Object obj, boolean z) {
-            return new NavigableAsMap(sortedMap().tailMap(obj, z));
+            return AbstractMapBasedMultimap.this.new NavigableAsMap(sortedMap().tailMap(obj, z));
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class NavigableKeySet extends SortedKeySet implements NavigableSet {
+    class NavigableKeySet extends SortedKeySet implements NavigableSet {
         NavigableKeySet(NavigableMap navigableMap) {
             super(navigableMap);
         }
@@ -466,7 +456,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableSet
         public NavigableSet descendingSet() {
-            return new NavigableKeySet(sortedMap().descendingMap());
+            return AbstractMapBasedMultimap.this.new NavigableKeySet(sortedMap().descendingMap());
         }
 
         @Override // java.util.NavigableSet
@@ -481,7 +471,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableSet
         public NavigableSet headSet(Object obj, boolean z) {
-            return new NavigableKeySet(sortedMap().headMap(obj, z));
+            return AbstractMapBasedMultimap.this.new NavigableKeySet(sortedMap().headMap(obj, z));
         }
 
         @Override // java.util.NavigableSet
@@ -517,7 +507,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableSet
         public NavigableSet subSet(Object obj, boolean z, Object obj2, boolean z2) {
-            return new NavigableKeySet(sortedMap().subMap(obj, z, obj2, z2));
+            return AbstractMapBasedMultimap.this.new NavigableKeySet(sortedMap().subMap(obj, z, obj2, z2));
         }
 
         @Override // com.google.common.collect.AbstractMapBasedMultimap.SortedKeySet, java.util.SortedSet, java.util.NavigableSet
@@ -527,21 +517,17 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
         @Override // java.util.NavigableSet
         public NavigableSet tailSet(Object obj, boolean z) {
-            return new NavigableKeySet(sortedMap().tailMap(obj, z));
+            return AbstractMapBasedMultimap.this.new NavigableKeySet(sortedMap().tailMap(obj, z));
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class RandomAccessWrappedList extends WrappedList implements RandomAccess {
+    private class RandomAccessWrappedList extends WrappedList implements RandomAccess {
         RandomAccessWrappedList(AbstractMapBasedMultimap abstractMapBasedMultimap, Object obj, List list, WrappedCollection wrappedCollection) {
             super(obj, list, wrappedCollection);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class SortedAsMap extends AsMap implements SortedMap {
+    private class SortedAsMap extends AsMap implements SortedMap {
         SortedSet sortedKeySet;
 
         SortedAsMap(SortedMap sortedMap) {
@@ -554,7 +540,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
 
         SortedSet createKeySet() {
-            return new SortedKeySet(sortedMap());
+            return AbstractMapBasedMultimap.this.new SortedKeySet(sortedMap());
         }
 
         @Override // java.util.SortedMap
@@ -563,7 +549,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
 
         public SortedMap headMap(Object obj) {
-            return new SortedAsMap(sortedMap().headMap(obj));
+            return AbstractMapBasedMultimap.this.new SortedAsMap(sortedMap().headMap(obj));
         }
 
         @Override // com.google.common.collect.AbstractMapBasedMultimap.AsMap, java.util.AbstractMap, java.util.Map
@@ -587,17 +573,15 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
 
         public SortedMap subMap(Object obj, Object obj2) {
-            return new SortedAsMap(sortedMap().subMap(obj, obj2));
+            return AbstractMapBasedMultimap.this.new SortedAsMap(sortedMap().subMap(obj, obj2));
         }
 
         public SortedMap tailMap(Object obj) {
-            return new SortedAsMap(sortedMap().tailMap(obj));
+            return AbstractMapBasedMultimap.this.new SortedAsMap(sortedMap().tailMap(obj));
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class SortedKeySet extends KeySet implements SortedSet {
+    private class SortedKeySet extends KeySet implements SortedSet {
         SortedKeySet(SortedMap sortedMap) {
             super(sortedMap);
         }
@@ -613,7 +597,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
 
         public SortedSet headSet(Object obj) {
-            return new SortedKeySet(sortedMap().headMap(obj));
+            return AbstractMapBasedMultimap.this.new SortedKeySet(sortedMap().headMap(obj));
         }
 
         @Override // java.util.SortedSet
@@ -626,25 +610,21 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
 
         public SortedSet subSet(Object obj, Object obj2) {
-            return new SortedKeySet(sortedMap().subMap(obj, obj2));
+            return AbstractMapBasedMultimap.this.new SortedKeySet(sortedMap().subMap(obj, obj2));
         }
 
         public SortedSet tailSet(Object obj) {
-            return new SortedKeySet(sortedMap().tailMap(obj));
+            return AbstractMapBasedMultimap.this.new SortedKeySet(sortedMap().tailMap(obj));
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class WrappedCollection extends AbstractCollection {
+    class WrappedCollection extends AbstractCollection {
         final WrappedCollection ancestor;
         final Collection ancestorDelegate;
         Collection delegate;
         final Object key;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public class WrappedIterator implements Iterator {
+        class WrappedIterator implements Iterator {
             final Iterator delegateIterator;
             final Collection originalDelegate;
 
@@ -868,11 +848,8 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class WrappedList extends WrappedCollection implements List {
+    class WrappedList extends WrappedCollection implements List {
 
-        /* loaded from: classes.dex */
         private class WrappedListIterator extends WrappedCollection.WrappedIterator implements ListIterator {
             WrappedListIterator() {
                 super();
@@ -1009,8 +986,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractMapBasedMultimap(Map map) {
+    protected AbstractMapBasedMultimap(Map map) {
         Preconditions.checkArgument(map.isEmpty());
         this.map = map;
     }
@@ -1075,14 +1051,12 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
         return new AbstractMultimap.Entries();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Map createMaybeNavigableAsMap() {
+    final Map createMaybeNavigableAsMap() {
         Map map = this.map;
         return map instanceof NavigableMap ? new NavigableAsMap((NavigableMap) this.map) : map instanceof SortedMap ? new SortedAsMap((SortedMap) this.map) : new AsMap(this.map);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Set createMaybeNavigableKeySet() {
+    final Set createMaybeNavigableKeySet() {
         Map map = this.map;
         return map instanceof NavigableMap ? new NavigableKeySet((NavigableMap) this.map) : map instanceof SortedMap ? new SortedKeySet((SortedMap) this.map) : new KeySet(this.map);
     }
@@ -1160,8 +1134,7 @@ public abstract class AbstractMapBasedMultimap extends AbstractMultimap implemen
 
     abstract Collection wrapCollection(Object obj, Collection collection);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final List wrapList(Object obj, List list, WrappedCollection wrappedCollection) {
+    final List wrapList(Object obj, List list, WrappedCollection wrappedCollection) {
         return list instanceof RandomAccess ? new RandomAccessWrappedList(this, obj, list, wrappedCollection) : new WrappedList(obj, list, wrappedCollection);
     }
 }

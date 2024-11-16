@@ -7,8 +7,7 @@ abstract class zzh {
     private static final Logger zza = Logger.getLogger(zzh.class.getName());
     private static final zzg zzb = new zzg(null);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(String str) {
+    static String zza(String str) {
         return str == null ? "" : str;
     }
 }

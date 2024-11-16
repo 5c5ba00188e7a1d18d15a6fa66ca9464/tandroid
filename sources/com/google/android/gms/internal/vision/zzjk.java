@@ -11,33 +11,27 @@ public class zzjk extends IOException {
         this.zza = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjk zza() {
+    static zzjk zza() {
         return new zzjk("While parsing a protocol message, the input ended unexpectedly in the middle of a field.  This could mean either that the input has been truncated or that an embedded message misreported its own length.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjk zzb() {
+    static zzjk zzb() {
         return new zzjk("CodedInputStream encountered an embedded string or message which claimed to have negative size.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjk zzd() {
+    static zzjk zzd() {
         return new zzjk("Protocol message contained an invalid tag (zero).");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjn zzf() {
+    static zzjn zzf() {
         return new zzjn("Protocol message tag had invalid wire type.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjk zzg() {
+    static zzjk zzg() {
         return new zzjk("Failed to parse the message.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjk zzh() {
+    static zzjk zzh() {
         return new zzjk("Protocol message had invalid UTF-8.");
     }
 }

@@ -11,23 +11,19 @@ public abstract class StateListDrawableCompat extends DrawableContainerCompat {
     private boolean mMutated;
     private StateListState mStateListState;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class StateListState extends DrawableContainerCompat.DrawableContainerState {
+    static class StateListState extends DrawableContainerCompat.DrawableContainerState {
         int[][] mStateSets;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public StateListState(StateListState stateListState, StateListDrawableCompat stateListDrawableCompat, Resources resources) {
+        StateListState(StateListState stateListState, StateListDrawableCompat stateListDrawableCompat, Resources resources) {
             super(stateListState, stateListDrawableCompat, resources);
             if (stateListState != null) {
                 this.mStateSets = stateListState.mStateSets;
             } else {
-                this.mStateSets = new int[getCapacity()];
+                this.mStateSets = new int[getCapacity()][];
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public int addStateSet(int[] iArr, Drawable drawable) {
+        int addStateSet(int[] iArr, Drawable drawable) {
             int addChild = addChild(drawable);
             this.mStateSets[addChild] = iArr;
             return addChild;
@@ -36,13 +32,12 @@ public abstract class StateListDrawableCompat extends DrawableContainerCompat {
         @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat.DrawableContainerState
         public void growArray(int i, int i2) {
             super.growArray(i, i2);
-            int[][] iArr = new int[i2];
+            int[][] iArr = new int[i2][];
             System.arraycopy(this.mStateSets, 0, iArr, 0, i);
             this.mStateSets = iArr;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public int indexOfStateSet(int[] iArr) {
+        int indexOfStateSet(int[] iArr) {
             int[][] iArr2 = this.mStateSets;
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++) {
@@ -57,8 +52,7 @@ public abstract class StateListDrawableCompat extends DrawableContainerCompat {
         abstract void mutate();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public StateListDrawableCompat(StateListState stateListState) {
+    StateListDrawableCompat(StateListState stateListState) {
         if (stateListState != null) {
             setConstantState(stateListState);
         }
@@ -70,8 +64,7 @@ public abstract class StateListDrawableCompat extends DrawableContainerCompat {
         onStateChange(getState());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int[] extractStateSet(AttributeSet attributeSet) {
+    int[] extractStateSet(AttributeSet attributeSet) {
         int attributeCount = attributeSet.getAttributeCount();
         int[] iArr = new int[attributeCount];
         int i = 0;
@@ -101,9 +94,8 @@ public abstract class StateListDrawableCompat extends DrawableContainerCompat {
     @Override // android.graphics.drawable.Drawable
     protected abstract boolean onStateChange(int[] iArr);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // androidx.appcompat.graphics.drawable.DrawableContainerCompat
-    public void setConstantState(DrawableContainerCompat.DrawableContainerState drawableContainerState) {
+    void setConstantState(DrawableContainerCompat.DrawableContainerState drawableContainerState) {
         super.setConstantState(drawableContainerState);
         if (drawableContainerState instanceof StateListState) {
             this.mStateListState = (StateListState) drawableContainerState;

@@ -52,15 +52,13 @@ public class AppCompatImageHelper {
         return i > 21 ? this.mInternalImageTint != null : i == 21;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void applyImageLevel() {
+    void applyImageLevel() {
         if (this.mView.getDrawable() != null) {
             this.mView.getDrawable().setLevel(this.mLevel);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void applySupportImageTint() {
+    void applySupportImageTint() {
         Drawable drawable = this.mView.getDrawable();
         if (drawable != null) {
             DrawableUtils.fixDrawable(drawable);
@@ -81,8 +79,7 @@ public class AppCompatImageHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getSupportImageTintList() {
+    ColorStateList getSupportImageTintList() {
         TintInfo tintInfo = this.mImageTint;
         if (tintInfo != null) {
             return tintInfo.mTintList;
@@ -90,8 +87,7 @@ public class AppCompatImageHelper {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getSupportImageTintMode() {
+    PorterDuff.Mode getSupportImageTintMode() {
         TintInfo tintInfo = this.mImageTint;
         if (tintInfo != null) {
             return tintInfo.mTintMode;
@@ -99,8 +95,7 @@ public class AppCompatImageHelper {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasOverlappingRendering() {
+    boolean hasOverlappingRendering() {
         return Build.VERSION.SDK_INT < 21 || !AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(this.mView.getBackground());
     }
 
@@ -134,8 +129,7 @@ public class AppCompatImageHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void obtainLevelFromDrawable(Drawable drawable) {
+    void obtainLevelFromDrawable(Drawable drawable) {
         this.mLevel = drawable.getLevel();
     }
 
@@ -152,8 +146,7 @@ public class AppCompatImageHelper {
         applySupportImageTint();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportImageTintList(ColorStateList colorStateList) {
+    void setSupportImageTintList(ColorStateList colorStateList) {
         if (this.mImageTint == null) {
             this.mImageTint = new TintInfo();
         }
@@ -163,8 +156,7 @@ public class AppCompatImageHelper {
         applySupportImageTint();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportImageTintMode(PorterDuff.Mode mode) {
+    void setSupportImageTintMode(PorterDuff.Mode mode) {
         if (this.mImageTint == null) {
             this.mImageTint = new TintInfo();
         }

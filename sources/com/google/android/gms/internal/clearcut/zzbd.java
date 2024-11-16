@@ -7,8 +7,7 @@ final class zzbd implements zzbf {
     private zzbd() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbd(zzbc zzbcVar) {
+    /* synthetic */ zzbd(zzbc zzbcVar) {
         this();
     }
 

@@ -84,9 +84,7 @@ public class ThemeEditorView {
     private final int editorWidth = AndroidUtilities.dp(54.0f);
     private final int editorHeight = AndroidUtilities.dp(54.0f);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends FrameLayout {
+    class 1 extends FrameLayout {
         private boolean dragging;
         private float startX;
         private float startY;
@@ -155,7 +153,7 @@ public class ThemeEditorView {
                                 if (baseFragment != null && (themeDescriptions = baseFragment.getThemeDescriptions()) != null) {
                                     ThemeEditorView themeEditorView = ThemeEditorView.this;
                                     ThemeEditorView themeEditorView2 = ThemeEditorView.this;
-                                    themeEditorView.editorAlert = new EditorAlert(themeEditorView2.parentActivity, themeDescriptions);
+                                    themeEditorView.editorAlert = themeEditorView2.new EditorAlert(themeEditorView2.parentActivity, themeDescriptions);
                                     ThemeEditorView.this.editorAlert.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.ThemeEditorView$1$$ExternalSyntheticLambda0
                                         @Override // android.content.DialogInterface.OnDismissListener
                                         public final void onDismiss(DialogInterface dialogInterface) {
@@ -241,7 +239,6 @@ public class ThemeEditorView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class EditorAlert extends BottomSheet {
         private boolean animationInProgress;
         private FrameLayout bottomLayout;
@@ -265,8 +262,7 @@ public class ThemeEditorView {
         private int topBeforeSwitch;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class ColorPicker extends FrameLayout {
+        class ColorPicker extends FrameLayout {
             private float alpha;
             private LinearGradient alphaGradient;
             private boolean alphaPressed;
@@ -822,9 +818,7 @@ public class ThemeEditorView {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class ListAdapter extends RecyclerListView.SelectionAdapter {
+        private class ListAdapter extends RecyclerListView.SelectionAdapter {
             private Context context;
             private ArrayList items = new ArrayList();
 
@@ -903,7 +897,6 @@ public class ThemeEditorView {
             }
         }
 
-        /* loaded from: classes3.dex */
         public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             private Context context;
             private int lastSearchId;
@@ -1129,8 +1122,7 @@ public class ThemeEditorView {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class SearchField extends FrameLayout {
+        class SearchField extends FrameLayout {
             private ImageView clearSearchImageView;
             private EditTextBoldCursor searchEditText;
 
@@ -1779,9 +1771,8 @@ public class ThemeEditorView {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet
-        public boolean canDismissWithSwipe() {
+        protected boolean canDismissWithSwipe() {
             return false;
         }
 

@@ -16,8 +16,7 @@ final class zzgy implements Iterator {
         this.zza = -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzgy(zzgq zzgqVar, zzgt zzgtVar) {
+    /* synthetic */ zzgy(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }
 

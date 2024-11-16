@@ -41,7 +41,6 @@ public class ZoomControlView extends View {
     private int progressStartY;
     private float zoom;
 
-    /* loaded from: classes3.dex */
     public interface ZoomControlViewDelegate {
         void didSetZoom(float f);
     }

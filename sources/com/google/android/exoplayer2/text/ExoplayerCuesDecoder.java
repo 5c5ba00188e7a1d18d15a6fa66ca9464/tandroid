@@ -15,9 +15,7 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
     private final SubtitleInputBuffer inputBuffer = new SubtitleInputBuffer();
     private final Deque availableOutputBuffers = new ArrayDeque();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SingleEventSubtitle implements Subtitle {
+    private static final class SingleEventSubtitle implements Subtitle {
         private final ImmutableList cues;
         private final long timeUs;
 

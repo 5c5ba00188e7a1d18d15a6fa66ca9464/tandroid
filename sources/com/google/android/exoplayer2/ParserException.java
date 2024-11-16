@@ -7,8 +7,7 @@ public class ParserException extends IOException {
     public final boolean contentIsMalformed;
     public final int dataType;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public ParserException(String str, Throwable th, boolean z, int i) {
+    protected ParserException(String str, Throwable th, boolean z, int i) {
         super(str, th);
         this.contentIsMalformed = z;
         this.dataType = i;

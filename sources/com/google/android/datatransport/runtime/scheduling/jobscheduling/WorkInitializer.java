@@ -13,8 +13,7 @@ public class WorkInitializer {
     private final WorkScheduler scheduler;
     private final EventStore store;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WorkInitializer(Executor executor, EventStore eventStore, WorkScheduler workScheduler, SynchronizationGuard synchronizationGuard) {
+    WorkInitializer(Executor executor, EventStore eventStore, WorkScheduler workScheduler, SynchronizationGuard synchronizationGuard) {
         this.executor = executor;
         this.store = eventStore;
         this.scheduler = workScheduler;

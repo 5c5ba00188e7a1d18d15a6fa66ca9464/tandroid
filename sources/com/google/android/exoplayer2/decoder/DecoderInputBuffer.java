@@ -15,7 +15,6 @@ public class DecoderInputBuffer extends Buffer {
     public long timeUs;
     public boolean waitingForKeys;
 
-    /* loaded from: classes.dex */
     public static final class InsufficientCapacityException extends IllegalStateException {
         public final int currentCapacity;
         public final int requiredCapacity;

@@ -104,17 +104,13 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private AtomicReference titleTextLargerCopyView;
     private SimpleTextView titleTextView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends BackupImageView {
+    class 1 extends BackupImageView {
         StoriesUtilities.AvatarStoryParams params;
         final /* synthetic */ boolean val$avatarClickable;
         final /* synthetic */ BaseFragment val$baseFragment;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 extends StoriesUtilities.AvatarStoryParams {
+        class 1 extends StoriesUtilities.AvatarStoryParams {
             1(boolean z) {
                 super(z);
             }
@@ -167,9 +163,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.params = new 1(true);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             long dialogId;
             if (!ChatAvatarContainer.this.allowDrawStories || this.animatedEmojiDrawable != null) {
                 super.onDraw(canvas);
@@ -214,7 +209,6 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* loaded from: classes3.dex */
     private class SimpleTextConnectedView extends SimpleTextView {
         private AtomicReference reference;
 
@@ -872,9 +866,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         canvas.save();
         float scale = this.bounce.getScale(0.02f);
         canvas.scale(scale, scale, getWidth() / 2.0f, getHeight() / 2.0f);
@@ -956,9 +949,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         this.timeItem.setScaleX(0.0f);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (this.parentFragment != null) {
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.didUpdateConnectionState);
@@ -986,9 +978,8 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (this.parentFragment != null) {
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.didUpdateConnectionState);

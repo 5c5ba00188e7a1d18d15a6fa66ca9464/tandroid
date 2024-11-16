@@ -34,7 +34,6 @@ public class RingtoneDataStore {
     String prefName = null;
     public final ArrayList userRingtones = new ArrayList();
 
-    /* loaded from: classes3.dex */
     public class CachedTone {
         public TLRPC.Document document;
         public int localId;

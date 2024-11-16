@@ -9,8 +9,7 @@ final class zzbn extends zzay {
     private final transient Object[] zzb;
     private final transient int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbn(zzax zzaxVar, Object[] objArr, int i, int i2) {
+    zzbn(zzax zzaxVar, Object[] objArr, int i, int i2) {
         this.zza = zzaxVar;
         this.zzb = objArr;
         this.zzc = i2;
@@ -39,9 +38,8 @@ final class zzbn extends zzay {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzaq
-    public final int zza(Object[] objArr, int i) {
+    final int zza(Object[] objArr, int i) {
         return zzf().zza(objArr, 0);
     }
 

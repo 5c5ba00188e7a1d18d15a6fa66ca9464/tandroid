@@ -18,8 +18,7 @@ final class zzgc implements zzgp {
         this.zza = zzfzVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzgc zza(zzhh zzhhVar, zzee zzeeVar, zzfz zzfzVar) {
+    static zzgc zza(zzhh zzhhVar, zzee zzeeVar, zzfz zzfzVar) {
         return new zzgc(zzhhVar, zzeeVar, zzfzVar);
     }
 

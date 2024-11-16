@@ -78,9 +78,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     private StaticLayout textLayout;
     ThemeDrawable themeDrawable;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ThemeDrawable {
+    private class ThemeDrawable {
         private final Paint inBubblePaint;
         private final Paint outBubblePaintSecond;
         Drawable previewDrawable;
@@ -335,8 +333,8 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
     }
 
     private Drawable getPreviewDrawable(EmojiThemes.ThemeItem themeItem) {
-        int i;
         MotionBackgroundDrawable motionBackgroundDrawable;
+        int i;
         Drawable drawable = null;
         drawable = null;
         if (this.chatThemeItem == null) {
@@ -350,7 +348,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         if (themeItem.themeInfo.getAccent(false) != null) {
             if (i3 != 0) {
                 MotionBackgroundDrawable motionBackgroundDrawable2 = new MotionBackgroundDrawable(i2, i3, i4, i5, i6, true);
-                i = motionBackgroundDrawable2.getPatternColor();
+                i = motionBackgroundDrawable.getPatternColor();
                 motionBackgroundDrawable = motionBackgroundDrawable2;
             } else {
                 i = -16777216;
@@ -528,8 +526,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         return LocaleController.getString(R.string.ChatNoTheme);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int noThemeStringTextSize() {
+    protected int noThemeStringTextSize() {
         return 14;
     }
 

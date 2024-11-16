@@ -13,9 +13,8 @@ public final class zzaj extends zzak {
         return new zzaj();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzag
-    public final /* bridge */ /* synthetic */ Collection zza() {
+    final /* bridge */ /* synthetic */ Collection zza() {
         return new ArrayList(3);
     }
 }

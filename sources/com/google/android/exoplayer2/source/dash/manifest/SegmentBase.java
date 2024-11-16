@@ -13,7 +13,6 @@ public abstract class SegmentBase {
     final long presentationTimeOffset;
     final long timescale;
 
-    /* loaded from: classes.dex */
     public static abstract class MultiSegmentBase extends SegmentBase {
         final long availabilityTimeOffsetUs;
         final long duration;
@@ -109,7 +108,6 @@ public abstract class SegmentBase {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SegmentList extends MultiSegmentBase {
         final List mediaSegments;
 
@@ -134,7 +132,6 @@ public abstract class SegmentBase {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SegmentTemplate extends MultiSegmentBase {
         final long endNumber;
         final UrlTemplate initializationTemplate;
@@ -182,7 +179,6 @@ public abstract class SegmentBase {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SegmentTimelineElement {
         final long duration;
         final long startTime;
@@ -208,7 +204,6 @@ public abstract class SegmentBase {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SingleSegmentBase extends SegmentBase {
         final long indexLength;
         final long indexStart;

@@ -11,9 +11,8 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import org.webrtc.MediaStreamTrack;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class StreamVolumeManager {
+final class StreamVolumeManager {
     private final Context applicationContext;
     private final AudioManager audioManager;
     private final Handler eventHandler;
@@ -23,15 +22,14 @@ public final class StreamVolumeManager {
     private int streamType;
     private int volume;
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onStreamTypeChanged(int i);
 
         void onStreamVolumeChanged(int i, boolean z);
     }
 
-    /* loaded from: classes.dex */
-    private final class VolumeChangeReceiver extends BroadcastReceiver {
+    /* JADX INFO: Access modifiers changed from: private */
+    final class VolumeChangeReceiver extends BroadcastReceiver {
         private VolumeChangeReceiver() {
         }
 

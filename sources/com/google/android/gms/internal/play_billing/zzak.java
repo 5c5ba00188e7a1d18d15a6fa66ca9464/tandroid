@@ -6,8 +6,7 @@ import java.io.IOException;
 public abstract class zzak implements zzdf {
     protected int zza = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zza(zzdp zzdpVar);
+    abstract int zza(zzdp zzdpVar);
 
     public final byte[] zzc() {
         try {

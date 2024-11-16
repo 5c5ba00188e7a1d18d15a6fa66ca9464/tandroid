@@ -6,13 +6,11 @@ import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.internal.zzaz;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzg extends zzaz {
+final class zzg extends zzaz {
     final /* synthetic */ GoogleMap.OnMyLocationChangeListener zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzg(GoogleMap googleMap, GoogleMap.OnMyLocationChangeListener onMyLocationChangeListener) {
+    zzg(GoogleMap googleMap, GoogleMap.OnMyLocationChangeListener onMyLocationChangeListener) {
         this.zza = onMyLocationChangeListener;
     }
 

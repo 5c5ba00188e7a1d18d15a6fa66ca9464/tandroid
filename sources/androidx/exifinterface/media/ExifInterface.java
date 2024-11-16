@@ -111,9 +111,7 @@ public class ExifInterface {
     static final int[] IFD_FORMAT_BYTES_PER_FORMAT = {0, 1, 1, 2, 4, 8, 1, 1, 2, 4, 8, 4, 8, 1};
     static final byte[] EXIF_ASCII_PREFIX = {65, 83, 67, 73, 73, 0, 0, 0};
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ByteOrderedDataInputStream extends InputStream implements DataInput {
+    private static class ByteOrderedDataInputStream extends InputStream implements DataInput {
         private ByteOrder mByteOrder;
         final DataInputStream mDataInputStream;
         int mPosition;
@@ -345,9 +343,7 @@ public class ExifInterface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ExifAttribute {
+    private static class ExifAttribute {
         public final byte[] bytes;
         public final long bytesOffset;
         public final int format;
@@ -740,9 +736,7 @@ public class ExifInterface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class ExifTag {
+    static class ExifTag {
         public final String name;
         public final int number;
         public final int primaryFormat;
@@ -778,9 +772,7 @@ public class ExifInterface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Rational {
+    private static class Rational {
         public final long denominator;
         public final long numerator;
 
@@ -807,9 +799,7 @@ public class ExifInterface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class SeekableByteOrderedDataInputStream extends ByteOrderedDataInputStream {
+    private static class SeekableByteOrderedDataInputStream extends ByteOrderedDataInputStream {
         SeekableByteOrderedDataInputStream(InputStream inputStream) {
             super(inputStream);
             if (!inputStream.markSupported()) {
@@ -1128,6 +1118,7 @@ public class ExifInterface {
      */
     /* JADX WARN: Removed duplicated region for block: B:33:0x017b A[LOOP:0: B:9:0x0037->B:33:0x017b, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:34:0x0182 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00b7 A[FALL_THROUGH] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1193,43 +1184,40 @@ public class ExifInterface {
                     i5 = i6;
                 } else if (readByte3 != -2) {
                     switch (readByte3) {
+                        default:
+                            switch (readByte3) {
+                                default:
+                                    switch (readByte3) {
+                                        default:
+                                            switch (readByte3) {
+                                            }
+                                        case -55:
+                                        case -54:
+                                        case -53:
+                                            byteOrderedDataInputStream.skipFully(1);
+                                            this.mAttributes[i2].put(i2 != 4 ? "ImageLength" : "ThumbnailImageLength", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
+                                            this.mAttributes[i2].put(i2 != 4 ? "ImageWidth" : "ThumbnailImageWidth", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
+                                            i4 = readUnsignedShort - 7;
+                                            break;
+                                    }
+                                case -59:
+                                case -58:
+                                case -57:
+                                    break;
+                            }
                         case -64:
                         case -63:
                         case -62:
                         case -61:
                             break;
-                        default:
-                            switch (readByte3) {
-                                case -59:
-                                case -58:
-                                case -57:
-                                    break;
-                                default:
-                                    switch (readByte3) {
-                                        case -55:
-                                        case -54:
-                                        case -53:
-                                            break;
-                                        default:
-                                            switch (readByte3) {
-                                            }
-                                            if (i4 < 0) {
-                                                throw new IOException(str);
-                                            }
-                                            byteOrderedDataInputStream.skipFully(i4);
-                                            i3 = i5 + i4;
-                                            b = -1;
-                                            break;
-                                    }
-                            }
                     }
-                    byteOrderedDataInputStream.skipFully(1);
-                    this.mAttributes[i2].put(i2 != 4 ? "ImageLength" : "ThumbnailImageLength", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
-                    this.mAttributes[i2].put(i2 != 4 ? "ImageWidth" : "ThumbnailImageWidth", ExifAttribute.createULong(byteOrderedDataInputStream.readUnsignedShort(), this.mExifByteOrder));
-                    i4 = readUnsignedShort - 7;
                     str = "Invalid length";
-                    if (i4 < 0) {
+                    if (i4 >= 0) {
+                        throw new IOException(str);
                     }
+                    byteOrderedDataInputStream.skipFully(i4);
+                    i3 = i5 + i4;
+                    b = -1;
                 } else {
                     byte[] bArr4 = new byte[i4];
                     if (byteOrderedDataInputStream.read(bArr4) != i4) {
@@ -1241,7 +1229,7 @@ public class ExifInterface {
                     str = "Invalid length";
                 }
                 i4 = 0;
-                if (i4 < 0) {
+                if (i4 >= 0) {
                 }
             }
         }
@@ -2528,11 +2516,11 @@ public class ExifInterface {
                     Rational[] rationalArr = (Rational[]) exifAttribute.getValue(this.mExifByteOrder);
                     if (rationalArr != null && rationalArr.length == 3) {
                         Rational rational = rationalArr[0];
-                        Integer valueOf = Integer.valueOf((int) (((float) rational.numerator) / ((float) rational.denominator)));
+                        Integer valueOf = Integer.valueOf((int) (rational.numerator / rational.denominator));
                         Rational rational2 = rationalArr[1];
-                        Integer valueOf2 = Integer.valueOf((int) (((float) rational2.numerator) / ((float) rational2.denominator)));
+                        Integer valueOf2 = Integer.valueOf((int) (rational2.numerator / rational2.denominator));
                         Rational rational3 = rationalArr[2];
-                        return String.format("%02d:%02d:%02d", valueOf, valueOf2, Integer.valueOf((int) (((float) rational3.numerator) / ((float) rational3.denominator))));
+                        return String.format("%02d:%02d:%02d", valueOf, valueOf2, Integer.valueOf((int) (rational3.numerator / rational3.denominator)));
                     }
                     str2 = "Invalid GPS Timestamp array. array=" + Arrays.toString(rationalArr);
                 } else {

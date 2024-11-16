@@ -2,12 +2,11 @@ package com.google.android.gms.internal.play_billing;
 
 /* loaded from: classes.dex */
 public final class zzfy extends zzbx implements zzdg {
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Illegal instructions before constructor call */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ zzfy(zzfx zzfxVar) {
+    /* synthetic */ zzfy(zzfx zzfxVar) {
         super(r1);
         zzfz zzfzVar;
         zzfzVar = zzfz.zzb;

@@ -224,7 +224,7 @@ public class SearchStateDrawable extends Drawable {
                 this.wereNotWaitingForProgressToEnd = this.waitingForProgressToEnd;
             }
             if (this.progressStart > 0) {
-                CircularProgressDrawable.getSegments(((float) (System.currentTimeMillis() - this.progressStart)) % 5400.0f, this.progressSegments);
+                CircularProgressDrawable.getSegments((System.currentTimeMillis() - this.progressStart) % 5400.0f, this.progressSegments);
                 float[] fArr = this.progressSegments;
                 float f11 = fArr[0];
                 float f12 = fArr[1];

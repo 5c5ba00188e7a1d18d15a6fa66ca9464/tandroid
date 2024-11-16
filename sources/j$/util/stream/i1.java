@@ -11,13 +11,11 @@ abstract class i1 implements j$.util.Q {
     j$.util.Q d;
     ArrayDeque e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public i1(F0 f0) {
+    i1(F0 f0) {
         this.a = f0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static F0 b(ArrayDeque arrayDeque) {
+    protected static F0 b(ArrayDeque arrayDeque) {
         while (true) {
             F0 f0 = (F0) arrayDeque.pollFirst();
             if (f0 == null) {
@@ -54,8 +52,7 @@ abstract class i1 implements j$.util.Q {
         return j;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ArrayDeque f() {
+    protected final ArrayDeque f() {
         ArrayDeque arrayDeque = new ArrayDeque(8);
         int p = this.a.p();
         while (true) {
@@ -77,8 +74,7 @@ abstract class i1 implements j$.util.Q {
         return j$.util.a.j(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean h() {
+    protected final boolean h() {
         if (this.a == null) {
             return false;
         }

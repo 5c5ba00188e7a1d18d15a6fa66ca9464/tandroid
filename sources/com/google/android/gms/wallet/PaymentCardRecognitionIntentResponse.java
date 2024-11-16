@@ -11,8 +11,7 @@ public class PaymentCardRecognitionIntentResponse extends AbstractSafeParcelable
     public static final Parcelable.Creator<PaymentCardRecognitionIntentResponse> CREATOR = new zzz();
     PendingIntent zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentCardRecognitionIntentResponse(PendingIntent pendingIntent) {
+    PaymentCardRecognitionIntentResponse(PendingIntent pendingIntent) {
         this.zza = pendingIntent;
     }
 

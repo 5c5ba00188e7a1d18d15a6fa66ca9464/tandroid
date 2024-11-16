@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public enum zza {
+enum zza {
     zza(-999),
     zzb(-3),
     zzc(-2),
@@ -34,8 +33,7 @@ public enum zza {
         this.zzr = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zza zza(int i) {
+    static zza zza(int i) {
         zzx zzxVar = zzp;
         Integer valueOf = Integer.valueOf(i);
         return !zzxVar.containsKey(valueOf) ? zza : (zza) zzxVar.get(valueOf);

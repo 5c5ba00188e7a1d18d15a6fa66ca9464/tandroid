@@ -2,6 +2,9 @@ package com.google.android.gms.internal.play_billing;
 
 /* loaded from: classes.dex */
 abstract class zzat implements zzav {
+    zzat() {
+    }
+
     @Override // java.util.Iterator
     public final /* synthetic */ Object next() {
         return Byte.valueOf(zza());

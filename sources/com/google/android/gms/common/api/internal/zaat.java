@@ -11,8 +11,7 @@ import java.util.concurrent.locks.Lock;
 final class zaat implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     final /* synthetic */ zaaw zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zaat(zaaw zaawVar, zaas zaasVar) {
+    /* synthetic */ zaat(zaaw zaawVar, zaas zaasVar) {
         this.zaa = zaawVar;
     }
 

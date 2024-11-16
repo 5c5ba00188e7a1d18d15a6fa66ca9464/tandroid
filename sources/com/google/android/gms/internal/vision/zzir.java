@@ -5,13 +5,11 @@ abstract class zzir {
     private static final zziq zza = new zzip();
     private static final zziq zzb = zzc();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zziq zza() {
+    static zziq zza() {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zziq zzb() {
+    static zziq zzb() {
         zziq zziqVar = zzb;
         if (zziqVar != null) {
             return zziqVar;

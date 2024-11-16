@@ -4,16 +4,13 @@ import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class A extends b implements D {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public A(j$.util.Q q, int i) {
+abstract class A extends b implements D {
+    A(j$.util.Q q, int i) {
         super(q, i, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public A(b bVar, int i) {
+    A(b bVar, int i) {
         super(bVar, i);
     }
 
@@ -191,9 +188,8 @@ public abstract class A extends b implements D {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final T2 q0() {
+    final T2 q0() {
         return T2.DOUBLE_VALUE;
     }
 
@@ -250,9 +246,8 @@ public abstract class A extends b implements D {
         return !t0() ? this : new x(this, S2.r, 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final x0 v0(long j, j$.util.function.I i) {
+    final x0 v0(long j, j$.util.function.I i) {
         return t0.J(j);
     }
 

@@ -279,9 +279,8 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
-    public void onUpdateShowKeyboard(float f) {
+    protected void onUpdateShowKeyboard(float f) {
         float f2 = 1.0f - f;
         this.timerButton.setAlpha(f2);
         this.addPhotoButton.setAlpha(f2);

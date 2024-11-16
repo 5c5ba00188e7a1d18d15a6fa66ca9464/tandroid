@@ -8,9 +8,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzc implements OnCompleteListener, Runnable {
+final class zzc implements OnCompleteListener, Runnable {
     static final Handler zza = new zzh(Looper.getMainLooper());
     static final SparseArray zzb = new SparseArray(2);
     private static final AtomicInteger zzd = new AtomicInteger();

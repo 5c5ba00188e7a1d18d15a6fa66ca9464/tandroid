@@ -41,7 +41,6 @@ public class RevenueSharingAdsInfoBottomSheet extends BottomSheetWithRecyclerLis
     private final LinearLayout customView;
     private final Paint topIconBgPaint;
 
-    /* loaded from: classes4.dex */
     private class FeatureCell extends FrameLayout {
         public FeatureCell(Context context, int i, CharSequence charSequence, CharSequence charSequence2) {
             super(context);

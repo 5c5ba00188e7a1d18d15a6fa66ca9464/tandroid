@@ -12,8 +12,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 
 /* loaded from: classes.dex */
 public final class zzm implements Parcelable.Creator {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(GetServiceRequest getServiceRequest, Parcel parcel, int i) {
+    static void zza(GetServiceRequest getServiceRequest, Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeInt(parcel, 1, getServiceRequest.zzc);
         SafeParcelWriter.writeInt(parcel, 2, getServiceRequest.zzd);

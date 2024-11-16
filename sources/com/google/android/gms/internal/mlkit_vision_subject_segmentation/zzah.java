@@ -11,8 +11,7 @@ abstract class zzah implements Iterator {
     int zzd;
     final /* synthetic */ zzal zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzah(zzal zzalVar, zzag zzagVar) {
+    /* synthetic */ zzah(zzal zzalVar, zzag zzagVar) {
         int i;
         this.zze = zzalVar;
         i = zzalVar.zzf;

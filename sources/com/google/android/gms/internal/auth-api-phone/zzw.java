@@ -17,9 +17,8 @@ public final class zzw extends GmsClient {
         super(context, looper, 126, clientSettings, connectionCallbacks, onConnectionFailedListener);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -37,9 +36,8 @@ public final class zzw extends GmsClient {
         return GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.auth.api.phone.internal.ISmsRetrieverApiService";
     }
 

@@ -8,8 +8,7 @@ public abstract class zza implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zza(IBinder iBinder, String str) {
+    protected zza(IBinder iBinder, String str) {
         this.zza = iBinder;
         this.zzb = str;
     }

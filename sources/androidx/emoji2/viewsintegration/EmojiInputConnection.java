@@ -12,7 +12,6 @@ final class EmojiInputConnection extends InputConnectionWrapper {
     private final EmojiCompatDeleteHelper mEmojiCompatDeleteHelper;
     private final TextView mTextView;
 
-    /* loaded from: classes.dex */
     public static class EmojiCompatDeleteHelper {
         public boolean handleDeleteSurroundingText(InputConnection inputConnection, Editable editable, int i, int i2, boolean z) {
             return EmojiCompat.handleDeleteSurroundingText(inputConnection, editable, i, i2, z);
@@ -25,8 +24,7 @@ final class EmojiInputConnection extends InputConnectionWrapper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiInputConnection(TextView textView, InputConnection inputConnection, EditorInfo editorInfo) {
+    EmojiInputConnection(TextView textView, InputConnection inputConnection, EditorInfo editorInfo) {
         this(textView, inputConnection, editorInfo, new EmojiCompatDeleteHelper());
     }
 

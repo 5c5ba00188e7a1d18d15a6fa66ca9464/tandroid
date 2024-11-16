@@ -22,9 +22,17 @@ public abstract class CollectionsKt__CollectionsKt extends CollectionsKt__Collec
     }
 
     public static List optimizeReadOnlyList(List list) {
+        List listOf;
         Intrinsics.checkNotNullParameter(list, "<this>");
         int size = list.size();
-        return size != 0 ? size != 1 ? list : CollectionsKt.listOf(list.get(0)) : emptyList();
+        if (size == 0) {
+            return emptyList();
+        }
+        if (size != 1) {
+            return list;
+        }
+        listOf = CollectionsKt__CollectionsJVMKt.listOf(list.get(0));
+        return listOf;
     }
 
     public static void throwIndexOverflow() {

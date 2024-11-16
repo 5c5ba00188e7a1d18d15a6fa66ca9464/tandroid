@@ -21,9 +21,7 @@ public class SelectorCountryCell extends BaseCell {
     private final CheckBox2 checkBox;
     private TLRPC.TL_help_country country;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SpaceDrawable extends ReplacementSpan {
+    private static class SpaceDrawable extends ReplacementSpan {
         private final int size;
 
         public SpaceDrawable(int i) {
@@ -101,9 +99,8 @@ public class SelectorCountryCell extends BaseCell {
         setDivider(z);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell
-    public void updateLayouts() {
+    protected void updateLayouts() {
         SimpleTextView simpleTextView = this.titleTextView;
         boolean z = LocaleController.isRTL;
         simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, (z ? 5 : 3) | 16, z ? 20.0f : 52.0f, 0.0f, z ? 52.0f : 20.0f, 0.0f));

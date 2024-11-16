@@ -6,7 +6,6 @@ import android.util.SparseBooleanArray;
 public final class FlagSet {
     private final SparseBooleanArray flags;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private boolean buildCalled;
         private final SparseBooleanArray flags = new SparseBooleanArray();

@@ -10,7 +10,6 @@ public final class LogSourceMetrics {
     private final List log_event_dropped_;
     private final String log_source_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private String log_source_ = "";
         private List log_event_dropped_ = new ArrayList();

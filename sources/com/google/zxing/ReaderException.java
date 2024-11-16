@@ -10,6 +10,9 @@ public abstract class ReaderException extends Exception {
         NO_TRACE = new StackTraceElement[0];
     }
 
+    ReaderException() {
+    }
+
     @Override // java.lang.Throwable
     public final synchronized Throwable fillInStackTrace() {
         return null;

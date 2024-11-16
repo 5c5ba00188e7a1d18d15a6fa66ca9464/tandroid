@@ -82,7 +82,6 @@ public abstract class zac {
         return zai == null ? context.getResources().getString(R$string.common_google_play_services_notification_ticker) : zai;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0007. Please report as an issue. */
     public static String zag(Context context, int i) {
         String str;
         Resources resources = context.getResources();
@@ -105,20 +104,16 @@ public abstract class zac {
                 return zai(context, "common_google_play_services_network_error_title");
             case 8:
                 str = "Internal error occurred. Please see logs for detailed information";
-                Log.e("GoogleApiAvailability", str);
-                return null;
+                break;
             case 9:
                 str = "Google Play services is invalid. Cannot recover.";
-                Log.e("GoogleApiAvailability", str);
-                return null;
+                break;
             case 10:
                 str = "Developer error occurred. Please see logs for detailed information";
-                Log.e("GoogleApiAvailability", str);
-                return null;
+                break;
             case 11:
                 str = "The application is not licensed to the user.";
-                Log.e("GoogleApiAvailability", str);
-                return null;
+                break;
             case 12:
             case 13:
             case 14:
@@ -126,12 +121,10 @@ public abstract class zac {
             case 19:
             default:
                 str = "Unexpected error code " + i;
-                Log.e("GoogleApiAvailability", str);
-                return null;
+                break;
             case 16:
                 str = "One of the API components you attempted to connect to is not available.";
-                Log.e("GoogleApiAvailability", str);
-                return null;
+                break;
             case 17:
                 Log.e("GoogleApiAvailability", "The specified account could not be signed in.");
                 return zai(context, "common_google_play_services_sign_in_failed_title");
@@ -139,6 +132,8 @@ public abstract class zac {
                 Log.e("GoogleApiAvailability", "The current user profile is restricted and could not use authenticated features.");
                 return zai(context, "common_google_play_services_restricted_profile_title");
         }
+        Log.e("GoogleApiAvailability", str);
+        return null;
     }
 
     private static String zah(Context context, String str, String str2) {

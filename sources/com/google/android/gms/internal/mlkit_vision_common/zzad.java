@@ -5,8 +5,7 @@ final class zzad implements zzai {
     private final int zza;
     private final zzah zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzad(int i, zzah zzahVar) {
+    zzad(int i, zzah zzahVar) {
         this.zza = i;
         this.zzb = zzahVar;
     }

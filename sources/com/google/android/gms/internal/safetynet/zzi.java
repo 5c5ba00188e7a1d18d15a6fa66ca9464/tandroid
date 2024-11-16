@@ -9,9 +9,8 @@ final class zzi extends zzr {
     final /* synthetic */ byte[] zza;
     final /* synthetic */ String zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzi(GoogleApiClient googleApiClient, byte[] bArr, String str) {
+    zzi(GoogleApiClient googleApiClient, byte[] bArr, String str) {
         super(googleApiClient);
         this.zza = bArr;
         this.zzb = str;

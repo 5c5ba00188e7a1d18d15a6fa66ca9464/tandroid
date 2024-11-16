@@ -46,7 +46,6 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
     private final HlsPlaylistTracker playlistTracker;
     private final boolean useSessionKeys;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements MediaSource.Factory {
         private boolean allowChunklessPreparation;
         private CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory;

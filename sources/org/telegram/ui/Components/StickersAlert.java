@@ -159,9 +159,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     private HashMap uploadImportStickers;
     private Pattern urlPattern;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
+    class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         1() {
         }
 
@@ -498,9 +496,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 11 extends ShareAlert {
+    class 11 extends ShareAlert {
         11(Context context, ArrayList arrayList, String str, boolean z, String str2, boolean z2, Theme.ResourcesProvider resourcesProvider) {
             super(context, arrayList, str, z, str2, z2, resourcesProvider);
         }
@@ -528,9 +524,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ShareAlert
-        public void onSend(final LongSparseArray longSparseArray, final int i, TLRPC.TL_forumTopic tL_forumTopic) {
+        protected void onSend(final LongSparseArray longSparseArray, final int i, TLRPC.TL_forumTopic tL_forumTopic) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersAlert$11$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -540,9 +535,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends Transition {
+    class 2 extends Transition {
         2() {
         }
 
@@ -586,9 +579,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class AddStickerBtnView extends FrameLayout {
+    private static class AddStickerBtnView extends FrameLayout {
         public AddStickerBtnView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             View view = new View(context);
@@ -607,8 +598,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class GridAdapter extends RecyclerListView.SelectionAdapter {
+    class GridAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private int stickersPerRow;
         private int stickersRowCount;
@@ -804,7 +794,6 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface StickersAlertCustomButtonDelegate {
         int getCustomButtonColorKey();
 
@@ -817,7 +806,6 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         boolean onCustomButtonPressed();
     }
 
-    /* loaded from: classes3.dex */
     public interface StickersAlertDelegate {
         boolean canSchedule();
 
@@ -827,7 +815,6 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         void lambda$onStickerSelected$68(TLRPC.Document document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, boolean z2, int i);
     }
 
-    /* loaded from: classes3.dex */
     public interface StickersAlertInstallDelegate {
         void onStickerSetInstalled();
 
@@ -835,8 +822,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class StickersShaker {
+    static class StickersShaker {
         private final List imageRotations;
         private final List imageTranslationsX;
         private final List imageTranslationsY;
@@ -943,7 +929,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             init();
             final int i = 0;
             while (i < 6) {
-                long nextFloat = Utilities.random.nextFloat() * NotificationCenter.customTypefacesLoaded;
+                long nextFloat = (long) (Utilities.random.nextFloat() * NotificationCenter.customTypefacesLoaded);
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, -2.0f, 0.0f, 2.0f, 0.0f);
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickersAlert$StickersShaker$$ExternalSyntheticLambda3
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -1612,9 +1598,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         recyclerListView.setTag(14);
         RecyclerListView recyclerListView2 = this.gridView;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 5) { // from class: org.telegram.ui.Components.StickersAlert.5
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
-            public boolean isLayoutRTL() {
+            protected boolean isLayoutRTL() {
                 return StickersAlert.this.stickerSetCovereds != null && LocaleController.isRTL;
             }
         };
@@ -3154,9 +3139,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         this.previewSendButtonShadow.setVisibility(0);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -3403,9 +3387,8 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
         Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.StickersAlert.16
             @Override // org.telegram.ui.Components.Bulletin.Delegate

@@ -54,8 +54,8 @@ public class SpeedIconDrawable extends Drawable {
     public static String formatNumber(float f) {
         Math.abs(f - 0.25f);
         float round = Math.round(f * 10.0f) / 10.0f;
-        long j = round;
-        if (round == ((float) j)) {
+        long j = (long) round;
+        if (round == j) {
             return "" + j;
         }
         return "" + round;

@@ -4,8 +4,7 @@ package j$.util.stream;
 abstract class p2 extends X1 {
     protected boolean b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public p2(e2 e2Var) {
+    p2(e2 e2Var) {
         super(e2Var);
     }
 

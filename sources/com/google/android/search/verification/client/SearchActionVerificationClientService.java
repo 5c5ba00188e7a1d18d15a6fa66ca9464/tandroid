@@ -39,9 +39,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
     private final Intent gsaServiceIntent;
     private SearchActionVerificationServiceConnection searchActionVerificationServiceConnection;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class SearchActionVerificationServiceConnection implements ServiceConnection {
+    class SearchActionVerificationServiceConnection implements ServiceConnection {
         private ISearchActionVerificationService iRemoteService;
 
         SearchActionVerificationServiceConnection() {

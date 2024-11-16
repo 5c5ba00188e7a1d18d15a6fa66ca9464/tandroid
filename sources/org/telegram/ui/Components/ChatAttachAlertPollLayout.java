@@ -131,9 +131,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
     private boolean waitingForKeyboardOpen;
     public boolean wasEmojiSearchOpened;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 9 implements EmojiView.EmojiViewDelegate {
+    class 9 implements EmojiView.EmojiViewDelegate {
         9() {
         }
 
@@ -319,7 +317,6 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         }
     }
 
-    /* loaded from: classes3.dex */
     private static class EmptyView extends View {
         public EmptyView(Context context) {
             super(context);
@@ -327,8 +324,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -696,9 +692,8 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
                             return ChatAttachAlertPollLayout.this.answersChecks[adapterPosition - ChatAttachAlertPollLayout.this.answerStartRow];
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Cells.PollEditTextCell
-                        public void onCheckBoxClick(PollEditTextCell pollEditTextCell4, boolean z2) {
+                        protected void onCheckBoxClick(PollEditTextCell pollEditTextCell4, boolean z2) {
                             int adapterPosition;
                             if (z2 && ChatAttachAlertPollLayout.this.quizPoll) {
                                 Arrays.fill(ChatAttachAlertPollLayout.this.answersChecks, false);
@@ -965,12 +960,10 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface PollCreateActivityDelegate {
         void sendPoll(TLRPC.TL_messageMediaPoll tL_messageMediaPoll, HashMap hashMap, boolean z, int i);
     }
 
-    /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         public TouchHelperCallback() {
         }
@@ -1051,9 +1044,8 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         this.parentAlert.sizeNotifierFrameLayout.setDelegate(this);
         this.listAdapter = new ListAdapter(context);
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.ChatAttachAlertPollLayout.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.RecyclerView
-            public void requestChildOnScreen(View view, View view2) {
+            protected void requestChildOnScreen(View view, View view2) {
                 if (view instanceof PollEditTextCell) {
                     super.requestChildOnScreen(view, view2);
                 }
@@ -1067,9 +1059,8 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         };
         this.listView = recyclerListView;
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.ChatAttachAlertPollLayout.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 if (viewHolder.getAdapterPosition() == 0) {
                     ChatAttachAlertPollLayout chatAttachAlertPollLayout = ChatAttachAlertPollLayout.this;
                     chatAttachAlertPollLayout.parentAlert.updateLayout(chatAttachAlertPollLayout, true, 0);
@@ -1104,9 +1095,8 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
                         return super.calculateDyToMakeVisible(view, i2) - (ChatAttachAlertPollLayout.this.topPadding - AndroidUtilities.dp(7.0f));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i2) {
+                    protected int calculateTimeForDeceleration(int i2) {
                         return super.calculateTimeForDeceleration(i2) * 2;
                     }
                 };
@@ -2060,8 +2050,7 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
                     tL_pollAnswer.text = tL_textWithEntities;
                     tL_textWithEntities.text = charSequence2.toString();
                     tL_pollAnswer.text.entities = entities2;
-                    tL_pollAnswer.option = r4;
-                    byte[] bArr = {(byte) (tL_messageMediaPoll.poll.answers.size() + 48)};
+                    tL_pollAnswer.option = new byte[]{(byte) (tL_messageMediaPoll.poll.answers.size() + 48)};
                     tL_messageMediaPoll.poll.answers.add(tL_pollAnswer);
                     if ((this.multipleChoise || this.quizPoll) && this.answersChecks[i5]) {
                         serializedData.writeByte(tL_pollAnswer.option[0]);

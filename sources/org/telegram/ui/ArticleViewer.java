@@ -361,9 +361,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private static final SparseArray detailsTextPaints = new SparseArray();
     private static final SparseArray tableTextPaints = new SparseArray();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 23 extends AnimatorListenerAdapter {
+    class 23 extends AnimatorListenerAdapter {
         23() {
         }
 
@@ -388,8 +386,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockAudioCell extends View implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
+    class BlockAudioCell extends View implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         private int buttonPressed;
         private int buttonState;
@@ -664,7 +661,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, musicAuthor.length(), 18);
                     }
                     CharSequence ellipsize = TextUtils.ellipsize(spannableStringBuilder, Theme.chat_audioTitlePaint, dp8, TextUtils.TruncateAt.END);
-                    DrawingText drawingText = new DrawingText();
+                    DrawingText drawingText = ArticleViewer.this.new DrawingText();
                     this.titleLayout = drawingText;
                     drawingText.textLayout = new StaticLayout(ellipsize, ArticleViewer.audioTimePaint, dp8, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                     this.titleLayout.parentBlock = this.currentBlock;
@@ -680,7 +677,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressDownload(String str, long j, long j2) {
-            this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+            this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
             if (this.buttonState != 3) {
                 updateButtonState(true);
             }
@@ -833,9 +830,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockAuthorDateCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockAuthorDateCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockAuthorDate currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -949,9 +944,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockBlockquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockBlockquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockBlockquote currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -1151,8 +1144,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockChannelCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
+    class BlockChannelCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private Paint backgroundPaint;
         private int buttonWidth;
         private AnimatorSet currentAnimation;
@@ -1336,9 +1328,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockCollageCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockCollageCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
         private int creditOffset;
@@ -1352,16 +1342,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private int textX;
         private int textY;
 
-        /* loaded from: classes4.dex */
         public class GroupedMessages {
             public boolean hasSibling;
             public ArrayList posArray = new ArrayList();
             public HashMap positions = new HashMap();
             private int maxSizeWidth = 1000;
 
-            /* JADX INFO: Access modifiers changed from: private */
-            /* loaded from: classes4.dex */
-            public class MessageGroupedLayoutAttempt {
+            private class MessageGroupedLayoutAttempt {
                 public float[] heights;
                 public int[] lineCounts;
 
@@ -1405,7 +1392,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             /* JADX WARN: Removed duplicated region for block: B:34:0x008f  */
             /* JADX WARN: Removed duplicated region for block: B:35:0x0087  */
             /* JADX WARN: Type inference failed for: r8v1 */
-            /* JADX WARN: Type inference failed for: r8v20, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r8v20, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r8v24 */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -1977,10 +1964,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     View blockPhotoCell;
                     if (i != 0) {
                         BlockCollageCell blockCollageCell = BlockCollageCell.this;
-                        blockPhotoCell = new BlockVideoCell(blockCollageCell.getContext(), BlockCollageCell.this.parentAdapter, 2);
+                        blockPhotoCell = ArticleViewer.this.new BlockVideoCell(blockCollageCell.getContext(), BlockCollageCell.this.parentAdapter, 2);
                     } else {
                         BlockCollageCell blockCollageCell2 = BlockCollageCell.this;
-                        blockPhotoCell = new BlockPhotoCell(blockCollageCell2.getContext(), BlockCollageCell.this.parentAdapter, 2);
+                        blockPhotoCell = ArticleViewer.this.new BlockPhotoCell(blockCollageCell2.getContext(), BlockCollageCell.this.parentAdapter, 2);
                     }
                     return new RecyclerListView.Holder(blockPhotoCell);
                 }
@@ -2111,9 +2098,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class BlockDetailsBottomCell extends View {
+    private static class BlockDetailsBottomCell extends View {
         private RectF rect;
 
         public BlockDetailsBottomCell(Context context) {
@@ -2132,9 +2117,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockDetailsCell extends View implements Drawable.Callback, TextSelectionHelper.ArticleSelectableView {
+    private class BlockDetailsCell extends View implements Drawable.Callback, TextSelectionHelper.ArticleSelectableView {
         private AnimatedArrowDrawable arrow;
         private TLRPC.TL_pageBlockDetails currentBlock;
         private WebpageAdapter parentAdapter;
@@ -2224,9 +2207,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class BlockDividerCell extends View {
+    private static class BlockDividerCell extends View {
         private RectF rect;
 
         public BlockDividerCell(Context context) {
@@ -2247,8 +2228,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockEmbedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
+    class BlockEmbedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
         private int creditOffset;
@@ -2262,9 +2242,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private boolean wasUserInteraction;
         private final TouchyWebView webView;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 2 extends WebChromeClient {
+        class 2 extends WebChromeClient {
             final /* synthetic */ ArticleViewer val$this$0;
 
             2(ArticleViewer articleViewer) {
@@ -2315,9 +2293,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 3 extends WebViewClient {
+        class 3 extends WebViewClient {
             final /* synthetic */ ArticleViewer val$this$0;
 
             3(ArticleViewer articleViewer) {
@@ -2365,8 +2341,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class TelegramWebviewProxy {
+        class TelegramWebviewProxy {
             private TelegramWebviewProxy() {
             }
 
@@ -2393,7 +2368,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        /* loaded from: classes4.dex */
         public class TouchyWebView extends WebView {
             public TouchyWebView(Context context) {
                 super(context);
@@ -2794,9 +2768,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockEmbedPostCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockEmbedPostCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private AvatarDrawable avatarDrawable;
         private ImageReceiver avatarImageView;
         private boolean avatarVisible;
@@ -3003,9 +2975,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockFooterCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockFooterCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockFooter currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -3085,9 +3055,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockHeader currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -3164,9 +3132,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockKickerCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockKickerCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockKicker currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -3237,9 +3203,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
         private RecyclerView.ViewHolder blockLayout;
         private int blockX;
         private int blockY;
@@ -3530,9 +3494,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockMapCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockMapCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
         private int creditOffset;
@@ -3800,9 +3762,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockOrderedListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockOrderedListItemCell extends ViewGroup implements TextSelectionHelper.ArticleSelectableView {
         private RecyclerView.ViewHolder blockLayout;
         private int blockX;
         private int blockY;
@@ -4063,7 +4023,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class BlockParagraphCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockParagraph currentBlock;
         private WebpageAdapter parentAdapter;
@@ -4154,8 +4113,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockPhotoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
+    class BlockPhotoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         boolean autoDownload;
         private int buttonPressed;
@@ -4190,7 +4148,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             this.parentAdapter = webpageAdapter;
             setWillNotDraw(false);
             this.imageView = new ImageReceiver(this);
-            this.channelCell = new BlockChannelCell(context, this.parentAdapter, 1);
+            this.channelCell = ArticleViewer.this.new BlockChannelCell(context, this.parentAdapter, 1);
             RadialProgress2 radialProgress2 = new RadialProgress2(this);
             this.radialProgress = radialProgress2;
             radialProgress2.setProgressColor(-1);
@@ -4554,7 +4512,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressDownload(String str, long j, long j2) {
-            this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+            this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
             if (this.buttonState != 1) {
                 updateButtonState(true);
             }
@@ -4687,8 +4645,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockPreformattedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
+    class BlockPreformattedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockPreformatted currentBlock;
         private WebpageAdapter parentAdapter;
         private HorizontalScrollView scrollView;
@@ -4828,9 +4785,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockPullquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockPullquoteCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockPullquote currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -4926,9 +4881,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockRelatedArticlesCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockRelatedArticlesCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TL_pageBlockRelatedArticlesChild currentBlock;
         private boolean divider;
         private boolean drawImage;
@@ -5074,9 +5027,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockRelatedArticlesHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockRelatedArticlesHeaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockRelatedArticles currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -5141,9 +5092,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockRelatedArticlesShadowCell extends View {
+    private class BlockRelatedArticlesShadowCell extends View {
         private CombinedDrawable shadowDrawable;
 
         public BlockRelatedArticlesShadowCell(Context context) {
@@ -5161,9 +5110,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockSlideshowCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockSlideshowCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
         private DrawingText captionLayout;
         private DrawingText creditLayout;
         private int creditOffset;
@@ -5223,7 +5170,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             ViewPager viewPager2 = this.innerListView;
             PagerAdapter pagerAdapter = new PagerAdapter() { // from class: org.telegram.ui.ArticleViewer.BlockSlideshowCell.3
 
-                /* loaded from: classes4.dex */
                 class ObjectContainer {
                     private TLRPC.PageBlock block;
                     private View view;
@@ -5257,12 +5203,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     TLRPC.PageBlock pageBlock = BlockSlideshowCell.this.currentBlock.items.get(i);
                     if (pageBlock instanceof TLRPC.TL_pageBlockPhoto) {
                         BlockSlideshowCell blockSlideshowCell = BlockSlideshowCell.this;
-                        BlockPhotoCell blockPhotoCell = new BlockPhotoCell(blockSlideshowCell.getContext(), BlockSlideshowCell.this.parentAdapter, 1);
+                        BlockPhotoCell blockPhotoCell = ArticleViewer.this.new BlockPhotoCell(blockSlideshowCell.getContext(), BlockSlideshowCell.this.parentAdapter, 1);
                         blockPhotoCell.setBlock((TLRPC.TL_pageBlockPhoto) pageBlock, false, true, true);
                         blockVideoCell = blockPhotoCell;
                     } else {
                         BlockSlideshowCell blockSlideshowCell2 = BlockSlideshowCell.this;
-                        BlockVideoCell blockVideoCell2 = new BlockVideoCell(blockSlideshowCell2.getContext(), BlockSlideshowCell.this.parentAdapter, 1);
+                        BlockVideoCell blockVideoCell2 = ArticleViewer.this.new BlockVideoCell(blockSlideshowCell2.getContext(), BlockSlideshowCell.this.parentAdapter, 1);
                         TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock;
                         blockVideoCell2.setBlock(tL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tL_pageBlockVideo.video_id), false, true, true);
                         blockVideoCell = blockVideoCell2;
@@ -5430,9 +5376,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockSubheaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockSubheaderCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockSubheader currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -5509,9 +5453,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockSubtitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockSubtitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockSubtitle currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -5588,7 +5530,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class BlockTableCell extends FrameLayout implements TableLayout.TableLayoutDelegate, TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockTable currentBlock;
         private boolean firstLayout;
@@ -5891,9 +5832,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockTitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
+    private class BlockTitleCell extends View implements TextSelectionHelper.ArticleSelectableView {
         private TLRPC.TL_pageBlockTitle currentBlock;
         private WebpageAdapter parentAdapter;
         private DrawingText textLayout;
@@ -5974,9 +5913,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlockVideoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
+    private class BlockVideoCell extends FrameLayout implements DownloadController.FileDownloadProgressListener, TextSelectionHelper.ArticleSelectableView {
         private int TAG;
         private AspectRatioFrameLayout aspectRatioFrameLayout;
         FrameLayout aspectRationContainer;
@@ -6022,7 +5959,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             radialProgress2.setProgressColor(-1);
             this.radialProgress.setColors(1711276032, 2130706432, -1, -2500135);
             this.TAG = DownloadController.getInstance(ArticleViewer.this.currentAccount).generateObserverTag();
-            this.channelCell = new BlockChannelCell(context, this.parentAdapter, 1);
+            this.channelCell = ArticleViewer.this.new BlockChannelCell(context, this.parentAdapter, 1);
             AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context);
             this.aspectRatioFrameLayout = aspectRatioFrameLayout;
             aspectRatioFrameLayout.setResizeMode(0);
@@ -6465,7 +6402,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressDownload(String str, long j, long j2) {
-            this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+            this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
             if (this.buttonState != 1) {
                 updateButtonState(true);
             }
@@ -6637,9 +6574,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class BlockVideoCellState {
+    private static class BlockVideoCellState {
         Bitmap lastFrameBitmap;
         long playFrom;
 
@@ -6692,7 +6627,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class CachedWeb extends BottomSheetTabs.WebTabData {
         public CachedWeb(String str) {
             this.lastUrl = str;
@@ -6742,9 +6676,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class CheckForLongPress implements Runnable {
+    class CheckForLongPress implements Runnable {
         public int currentPressCount;
 
         CheckForLongPress() {
@@ -6804,9 +6736,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public final class CheckForTap implements Runnable {
+    private final class CheckForTap implements Runnable {
         private CheckForTap() {
         }
 
@@ -6814,7 +6744,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public void run() {
             if (ArticleViewer.this.pendingCheckForLongPress == null) {
                 ArticleViewer articleViewer = ArticleViewer.this;
-                articleViewer.pendingCheckForLongPress = new CheckForLongPress();
+                articleViewer.pendingCheckForLongPress = articleViewer.new CheckForLongPress();
             }
             ArticleViewer.this.pendingCheckForLongPress.currentPressCount = ArticleViewer.access$2004(ArticleViewer.this);
             if (ArticleViewer.this.windowView != null) {
@@ -6823,7 +6753,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class DrawingText implements TextSelectionHelper.TextLayoutBlock {
         private boolean isDrawing;
         private View latestParentView;
@@ -6983,7 +6912,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ErrorContainer extends FrameLayout {
         public final ButtonWithCounterView buttonView;
         private final TextView codeView;
@@ -7092,7 +7020,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class FontCell extends FrameLayout {
         private RadioButton radioButton;
         private TextView textView;
@@ -7145,9 +7072,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PageBlocksPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
+    private class PageBlocksPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         private final List pageBlocks;
         private final int[] tempArr = new int[2];
 
@@ -7300,7 +7225,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class PageLayout extends FrameLayout {
         public final WebpageAdapter adapter;
         public boolean backButton;
@@ -7350,7 +7274,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             webpageListView.setTopGlowOffset(AndroidUtilities.dp(56.0f));
             ((DefaultItemAnimator) webpageListView.getItemAnimator()).setDelayAnimations(false);
             Sheet sheet = ArticleViewer.this.sheet;
-            WebpageAdapter webpageAdapter = new WebpageAdapter(context, sheet != null && sheet.halfSize());
+            WebpageAdapter webpageAdapter = ArticleViewer.this.new WebpageAdapter(context, sheet != null && sheet.halfSize());
             this.adapter = webpageAdapter;
             webpageListView.setAdapter(webpageAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
@@ -8177,9 +8101,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class RealPageBlocksAdapter implements PhotoViewer.PageBlocksAdapter {
+    private class RealPageBlocksAdapter implements PhotoViewer.PageBlocksAdapter {
         private final TLRPC.WebPage page;
         private final List pageBlocks;
 
@@ -8338,9 +8260,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ReportCell extends FrameLayout {
+    private class ReportCell extends FrameLayout {
         private boolean hasViews;
         private TextView textView;
         private TextView viewsTextView;
@@ -8388,9 +8308,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class SearchResult {
+    private static class SearchResult {
         private TLRPC.PageBlock block;
         private int index;
         private Object text;
@@ -8399,7 +8317,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class Sheet implements BaseFragment.AttachedSheet, BottomSheetTabsOverlay.Sheet {
         public final AnimationNotificationsLocker animationsLock = new AnimationNotificationsLocker();
         public boolean attachedToActionBar;
@@ -8424,7 +8341,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private boolean wasFullyVisible;
         public final WindowView windowView;
 
-        /* loaded from: classes4.dex */
         public class WindowView extends SizeNotifierFrameLayout implements BaseFragment.AttachedSheetWindow, BottomSheetTabsOverlay.SheetView {
             private final AnimatedFloat attachedActionBar;
             private final Paint backgroundPaint;
@@ -9199,9 +9115,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockDetailsChild extends TLRPC.PageBlock {
+    private static class TL_pageBlockDetailsChild extends TLRPC.PageBlock {
         private TLRPC.PageBlock block;
         private TLRPC.PageBlock parent;
 
@@ -9227,9 +9141,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockEmbedPostCaption extends TLRPC.TL_pageBlockEmbedPost {
+    private static class TL_pageBlockEmbedPostCaption extends TLRPC.TL_pageBlockEmbedPost {
         private TLRPC.TL_pageBlockEmbedPost parent;
 
         private TL_pageBlockEmbedPostCaption() {
@@ -9241,9 +9153,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockListItem extends TLRPC.PageBlock {
+    private static class TL_pageBlockListItem extends TLRPC.PageBlock {
         private TLRPC.PageBlock blockItem;
         private int index;
         private String num;
@@ -9281,9 +9191,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockListParent extends TLRPC.PageBlock {
+    private static class TL_pageBlockListParent extends TLRPC.PageBlock {
         private ArrayList items;
         private int lastFontSize;
         private int lastMaxNumCalcWidth;
@@ -9310,9 +9218,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockOrderedListItem extends TLRPC.PageBlock {
+    private static class TL_pageBlockOrderedListItem extends TLRPC.PageBlock {
         private TLRPC.PageBlock blockItem;
         private int index;
         private String num;
@@ -9350,9 +9256,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockOrderedListParent extends TLRPC.PageBlock {
+    private static class TL_pageBlockOrderedListParent extends TLRPC.PageBlock {
         private ArrayList items;
         private int lastFontSize;
         private int lastMaxNumCalcWidth;
@@ -9379,9 +9283,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockRelatedArticlesChild extends TLRPC.PageBlock {
+    private static class TL_pageBlockRelatedArticlesChild extends TLRPC.PageBlock {
         private int num;
         private TLRPC.TL_pageBlockRelatedArticles parent;
 
@@ -9399,9 +9301,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TL_pageBlockRelatedArticlesShadow extends TLRPC.PageBlock {
+    private static class TL_pageBlockRelatedArticlesShadow extends TLRPC.PageBlock {
         private TLRPC.TL_pageBlockRelatedArticles parent;
 
         private TL_pageBlockRelatedArticlesShadow() {
@@ -9413,9 +9313,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class TextSizeCell extends FrameLayout {
+    private class TextSizeCell extends FrameLayout {
         private int endFontSize;
         private int lastWidth;
         private SeekBarView sizeBar;
@@ -9492,9 +9390,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class WebPageUtils {
+    private static final class WebPageUtils {
         public static TLRPC.Document getDocumentWithId(TLRPC.WebPage webPage, long j) {
             if (webPage != null && webPage.cached_page != null) {
                 TLRPC.Document document = webPage.document;
@@ -9560,8 +9456,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class WebpageAdapter extends RecyclerListView.SelectionAdapter {
+    class WebpageAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC.TL_pageBlockChannel channelBlock;
         private Context context;
         private TLRPC.WebPage currentPage;
@@ -9681,98 +9576,95 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TLRPC.PageBlock pageBlock2 = pageBlock instanceof TLRPC.TL_pageBlockCover ? ((TLRPC.TL_pageBlockCover) pageBlock).cover : pageBlock instanceof TL_pageBlockDetailsChild ? ((TL_pageBlockDetailsChild) pageBlock).block : pageBlock;
             if (i == 100) {
                 ((TextView) viewHolder.itemView).setText("unsupported block " + pageBlock2);
-                return;
             }
             switch (i) {
                 case 0:
                     ((BlockParagraphCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockParagraph) pageBlock2);
-                    return;
+                    break;
                 case 1:
                     ((BlockHeaderCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockHeader) pageBlock2);
-                    return;
+                    break;
                 case 2:
-                    return;
+                    break;
                 case 3:
                     ((BlockEmbedCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockEmbed) pageBlock2);
-                    return;
+                    break;
                 case 4:
                     ((BlockSubtitleCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockSubtitle) pageBlock2);
-                    return;
+                    break;
                 case 5:
                     BlockVideoCell blockVideoCell = (BlockVideoCell) viewHolder.itemView;
                     TLRPC.TL_pageBlockVideo tL_pageBlockVideo = (TLRPC.TL_pageBlockVideo) pageBlock2;
                     blockVideoCell.setBlock(tL_pageBlockVideo, (BlockVideoCellState) ArticleViewer.this.videoStates.get(tL_pageBlockVideo.video_id), z, i2 == 0, i2 == i3 - 1);
                     blockVideoCell.setParentBlock(this.channelBlock, pageBlock);
-                    return;
+                    break;
                 case 6:
                     ((BlockPullquoteCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockPullquote) pageBlock2);
-                    return;
+                    break;
                 case 7:
                     ((BlockBlockquoteCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockBlockquote) pageBlock2);
-                    return;
+                    break;
                 case 8:
                     ((BlockSlideshowCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockSlideshow) pageBlock2);
-                    return;
+                    break;
                 case 9:
                     BlockPhotoCell blockPhotoCell = (BlockPhotoCell) viewHolder.itemView;
                     blockPhotoCell.setBlock((TLRPC.TL_pageBlockPhoto) pageBlock2, z, i2 == 0, i2 == i3 - 1);
                     blockPhotoCell.setParentBlock(pageBlock);
-                    return;
+                    break;
                 case 10:
                     ((BlockAuthorDateCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockAuthorDate) pageBlock2);
-                    return;
+                    break;
                 case 11:
                     ((BlockTitleCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockTitle) pageBlock2);
-                    return;
+                    break;
                 case 12:
                     ((BlockListItemCell) viewHolder.itemView).setBlock((TL_pageBlockListItem) pageBlock2);
-                    return;
+                    break;
                 case 13:
                     ((BlockFooterCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockFooter) pageBlock2);
-                    return;
+                    break;
                 case 14:
                     ((BlockPreformattedCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockPreformatted) pageBlock2);
-                    return;
+                    break;
                 case 15:
                     ((BlockSubheaderCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockSubheader) pageBlock2);
-                    return;
+                    break;
                 case 16:
                     ((BlockEmbedPostCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockEmbedPost) pageBlock2);
-                    return;
+                    break;
                 case 17:
                     ((BlockCollageCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockCollage) pageBlock2);
-                    return;
+                    break;
                 case 18:
                     ((BlockChannelCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockChannel) pageBlock2);
-                    return;
+                    break;
                 case 19:
                     ((BlockAudioCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockAudio) pageBlock2, i2 == 0, i2 == i3 - 1);
-                    return;
+                    break;
                 case 20:
                     ((BlockKickerCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockKicker) pageBlock2);
-                    return;
+                    break;
                 case 21:
                     ((BlockOrderedListItemCell) viewHolder.itemView).setBlock((TL_pageBlockOrderedListItem) pageBlock2);
-                    return;
+                    break;
                 case 22:
                     ((BlockMapCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockMap) pageBlock2, i2 == 0, i2 == i3 - 1);
-                    return;
+                    break;
                 case 23:
                     ((BlockRelatedArticlesCell) viewHolder.itemView).setBlock((TL_pageBlockRelatedArticlesChild) pageBlock2);
-                    return;
+                    break;
                 case 24:
                     ((BlockDetailsCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockDetails) pageBlock2);
-                    return;
+                    break;
                 case 25:
                     ((BlockTableCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockTable) pageBlock2);
-                    return;
+                    break;
                 case 26:
                     ((BlockRelatedArticlesHeaderCell) viewHolder.itemView).setBlock((TLRPC.TL_pageBlockRelatedArticles) pageBlock2);
-                    return;
+                    break;
                 case 27:
-                    return;
-                default:
-                    return;
+                    break;
             }
         }
 
@@ -10377,97 +10269,97 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 90) {
-                view = new ReportCell(this.context, false);
+                view = ArticleViewer.this.new ReportCell(this.context, false);
             } else if (i == 91) {
-                view = new ReportCell(this.context, true);
+                view = ArticleViewer.this.new ReportCell(this.context, true);
             } else if (i != 2147483646) {
                 switch (i) {
                     case 0:
-                        view = new BlockParagraphCell(this.context, this);
+                        view = ArticleViewer.this.new BlockParagraphCell(this.context, this);
                         break;
                     case 1:
-                        view = new BlockHeaderCell(this.context, this);
+                        view = ArticleViewer.this.new BlockHeaderCell(this.context, this);
                         break;
                     case 2:
                         view = new BlockDividerCell(this.context);
                         break;
                     case 3:
-                        view = new BlockEmbedCell(this.context, this);
+                        view = ArticleViewer.this.new BlockEmbedCell(this.context, this);
                         break;
                     case 4:
-                        view = new BlockSubtitleCell(this.context, this);
+                        view = ArticleViewer.this.new BlockSubtitleCell(this.context, this);
                         break;
                     case 5:
-                        view = new BlockVideoCell(this.context, this, 0);
+                        view = ArticleViewer.this.new BlockVideoCell(this.context, this, 0);
                         break;
                     case 6:
-                        view = new BlockPullquoteCell(this.context, this);
+                        view = ArticleViewer.this.new BlockPullquoteCell(this.context, this);
                         break;
                     case 7:
-                        view = new BlockBlockquoteCell(this.context, this);
+                        view = ArticleViewer.this.new BlockBlockquoteCell(this.context, this);
                         break;
                     case 8:
-                        view = new BlockSlideshowCell(this.context, this);
+                        view = ArticleViewer.this.new BlockSlideshowCell(this.context, this);
                         break;
                     case 9:
-                        view = new BlockPhotoCell(this.context, this, 0);
+                        view = ArticleViewer.this.new BlockPhotoCell(this.context, this, 0);
                         break;
                     case 10:
-                        view = new BlockAuthorDateCell(this.context, this);
+                        view = ArticleViewer.this.new BlockAuthorDateCell(this.context, this);
                         break;
                     case 11:
-                        view = new BlockTitleCell(this.context, this);
+                        view = ArticleViewer.this.new BlockTitleCell(this.context, this);
                         break;
                     case 12:
-                        view = new BlockListItemCell(this.context, this);
+                        view = ArticleViewer.this.new BlockListItemCell(this.context, this);
                         break;
                     case 13:
-                        view = new BlockFooterCell(this.context, this);
+                        view = ArticleViewer.this.new BlockFooterCell(this.context, this);
                         break;
                     case 14:
-                        view = new BlockPreformattedCell(this.context, this);
+                        view = ArticleViewer.this.new BlockPreformattedCell(this.context, this);
                         break;
                     case 15:
-                        view = new BlockSubheaderCell(this.context, this);
+                        view = ArticleViewer.this.new BlockSubheaderCell(this.context, this);
                         break;
                     case 16:
-                        view = new BlockEmbedPostCell(this.context, this);
+                        view = ArticleViewer.this.new BlockEmbedPostCell(this.context, this);
                         break;
                     case 17:
-                        view = new BlockCollageCell(this.context, this);
+                        view = ArticleViewer.this.new BlockCollageCell(this.context, this);
                         break;
                     case 18:
-                        view = new BlockChannelCell(this.context, this, 0);
+                        view = ArticleViewer.this.new BlockChannelCell(this.context, this, 0);
                         break;
                     case 19:
-                        view = new BlockAudioCell(this.context, this);
+                        view = ArticleViewer.this.new BlockAudioCell(this.context, this);
                         break;
                     case 20:
-                        view = new BlockKickerCell(this.context, this);
+                        view = ArticleViewer.this.new BlockKickerCell(this.context, this);
                         break;
                     case 21:
-                        view = new BlockOrderedListItemCell(this.context, this);
+                        view = ArticleViewer.this.new BlockOrderedListItemCell(this.context, this);
                         break;
                     case 22:
-                        view = new BlockMapCell(this.context, this, 0);
+                        view = ArticleViewer.this.new BlockMapCell(this.context, this, 0);
                         break;
                     case 23:
-                        view = new BlockRelatedArticlesCell(this.context, this);
+                        view = ArticleViewer.this.new BlockRelatedArticlesCell(this.context, this);
                         break;
                     case 24:
-                        view = new BlockDetailsCell(this.context, this);
+                        view = ArticleViewer.this.new BlockDetailsCell(this.context, this);
                         break;
                     case 25:
-                        view = new BlockTableCell(this.context, this);
+                        view = ArticleViewer.this.new BlockTableCell(this.context, this);
                         break;
                     case 26:
-                        view = new BlockRelatedArticlesHeaderCell(this.context, this);
+                        view = ArticleViewer.this.new BlockRelatedArticlesHeaderCell(this.context, this);
                         break;
                     case 27:
                         view = new BlockDetailsBottomCell(this.context);
                         break;
                     case 28:
-                        view = new BlockRelatedArticlesShadowCell(this.context);
+                        view = ArticleViewer.this.new BlockRelatedArticlesShadowCell(this.context);
                         break;
                     default:
                         TextView textView = new TextView(this.context);
@@ -10511,7 +10403,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes4.dex */
     public class WebpageListView extends RecyclerListView {
         public WebpageListView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -10571,9 +10462,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class WindowView extends FrameLayout {
+    private class WindowView extends FrameLayout {
         private float alpha;
         private int bHeight;
         private int bWidth;
@@ -11553,7 +11442,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     /* JADX WARN: Type inference failed for: r12v3 */
     /* JADX WARN: Type inference failed for: r12v6, types: [android.graphics.Path, org.telegram.ui.Components.LinkPath] */
     /* JADX WARN: Type inference failed for: r1v35 */
-    /* JADX WARN: Type inference failed for: r1v37, types: [android.text.StaticLayout, android.text.Layout] */
+    /* JADX WARN: Type inference failed for: r1v37, types: [android.text.Layout, android.text.StaticLayout] */
     /* JADX WARN: Type inference failed for: r1v45 */
     /* JADX WARN: Type inference failed for: r1v46 */
     /* JADX WARN: Type inference failed for: r8v3 */

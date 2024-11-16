@@ -4,8 +4,7 @@ package com.google.android.gms.common.api.internal;
 final class zabm implements Runnable {
     final /* synthetic */ zabq zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zabm(zabq zabqVar) {
+    zabm(zabq zabqVar) {
         this.zaa = zabqVar;
     }
 

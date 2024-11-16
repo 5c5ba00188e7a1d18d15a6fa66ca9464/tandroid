@@ -77,7 +77,6 @@ public class AnimatedEmojiDrawable extends Drawable {
     private Boolean canOverrideColorCached = null;
     private Boolean isDefaultStatusEmojiCached = null;
 
-    /* loaded from: classes3.dex */
     public static class EmojiDocumentFetcher {
         private final int currentAccount;
         private HashMap emojiDocumentsCache;
@@ -425,12 +424,10 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ReceivedDocument {
         void run(TLRPC.Document document);
     }
 
-    /* loaded from: classes3.dex */
     public static class SwapAnimatedEmojiDrawable extends Drawable implements AnimatedEmojiSpan.InvalidateHolder {
         private int alpha;
         boolean attached;
@@ -820,7 +817,6 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class WrapSizeDrawable extends Drawable {
         private int alpha = NotificationCenter.notificationsCountUpdated;
         private Drawable drawable;
@@ -929,9 +925,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     super.invalidate();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.messenger.ImageReceiver
-                public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+                protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
                     AnimatedEmojiDrawable.this.invalidate();
                     return super.setImageBitmapByKey(drawable, str, i, z, i2);
                 }

@@ -130,9 +130,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
     private TextView titleTextView;
     private boolean waitingForEmail;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+    class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
 
@@ -1254,20 +1252,29 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:6:0x000d. Please report as an issue. */
     public void processNext() {
         BaseFragment baseFragment;
         if (getParentActivity() == null) {
-            return;
         }
         switch (this.currentType) {
             case 0:
             case 1:
                 if (this.editTextFirstRow.length() == 0) {
                     onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
-                    return;
-                }
-                if (!this.editTextFirstRow.getText().toString().equals(this.firstPassword) && this.currentType == 1) {
+                    break;
+                } else if (this.editTextFirstRow.getText().toString().equals(this.firstPassword) || this.currentType != 1) {
+                    TwoStepVerificationSetupActivity twoStepVerificationSetupActivity = new TwoStepVerificationSetupActivity(this.currentAccount, this.currentType != 0 ? 2 : 1, this.currentPassword);
+                    twoStepVerificationSetupActivity.fromRegistration = this.fromRegistration;
+                    twoStepVerificationSetupActivity.firstPassword = this.editTextFirstRow.getText().toString();
+                    twoStepVerificationSetupActivity.setCurrentPasswordParams(this.currentPasswordHash, this.currentSecretId, this.currentSecret, this.emailOnly);
+                    twoStepVerificationSetupActivity.setCurrentEmailCode(this.emailCode);
+                    twoStepVerificationSetupActivity.fragmentsToClose.addAll(this.fragmentsToClose);
+                    twoStepVerificationSetupActivity.fragmentsToClose.add(this);
+                    twoStepVerificationSetupActivity.closeAfterSet = this.closeAfterSet;
+                    twoStepVerificationSetupActivity.setBlockingAlert(this.otherwiseReloginDays);
+                    presentFragment(twoStepVerificationSetupActivity);
+                    break;
+                } else {
                     AndroidUtilities.shakeViewSpring(this.outlineTextFirstRow, 5.0f);
                     try {
                         this.outlineTextFirstRow.performHapticFeedback(3, 2);
@@ -1275,37 +1282,27 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
                     try {
                         Toast.makeText(getParentActivity(), LocaleController.getString(R.string.PasswordDoNotMatch), 0).show();
-                        return;
+                        break;
                     } catch (Exception e) {
                         FileLog.e(e);
                         return;
                     }
                 }
-                TwoStepVerificationSetupActivity twoStepVerificationSetupActivity = new TwoStepVerificationSetupActivity(this.currentAccount, this.currentType != 0 ? 2 : 1, this.currentPassword);
-                twoStepVerificationSetupActivity.fromRegistration = this.fromRegistration;
-                twoStepVerificationSetupActivity.firstPassword = this.editTextFirstRow.getText().toString();
-                twoStepVerificationSetupActivity.setCurrentPasswordParams(this.currentPasswordHash, this.currentSecretId, this.currentSecret, this.emailOnly);
-                twoStepVerificationSetupActivity.setCurrentEmailCode(this.emailCode);
-                twoStepVerificationSetupActivity.fragmentsToClose.addAll(this.fragmentsToClose);
-                twoStepVerificationSetupActivity.fragmentsToClose.add(this);
-                twoStepVerificationSetupActivity.closeAfterSet = this.closeAfterSet;
-                twoStepVerificationSetupActivity.setBlockingAlert(this.otherwiseReloginDays);
-                presentFragment(twoStepVerificationSetupActivity);
-                return;
             case 2:
                 String obj = this.editTextFirstRow.getText().toString();
                 this.hint = obj;
                 if (!obj.equalsIgnoreCase(this.firstPassword)) {
                     onHintDone();
-                    return;
+                    break;
+                } else {
+                    try {
+                        Toast.makeText(getParentActivity(), LocaleController.getString(R.string.PasswordAsHintError), 0).show();
+                    } catch (Exception e2) {
+                        FileLog.e(e2);
+                    }
+                    onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
+                    break;
                 }
-                try {
-                    Toast.makeText(getParentActivity(), LocaleController.getString(R.string.PasswordAsHintError), 0).show();
-                } catch (Exception e2) {
-                    FileLog.e(e2);
-                }
-                onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
-                return;
             case 3:
                 if (!this.emailOnly && this.bottomSkipButton.getAlpha() < 1.0f) {
                     this.bottomSkipButton.animate().cancel();
@@ -1313,13 +1310,14 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 }
                 String obj2 = this.editTextFirstRow.getText().toString();
                 this.email = obj2;
-                if (isValidEmail(obj2)) {
-                    setNewPassword(false);
-                    return;
-                } else {
+                if (!isValidEmail(obj2)) {
                     onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
-                    return;
+                    break;
+                } else {
+                    setNewPassword(false);
+                    break;
                 }
+                break;
             case 4:
                 final String code = this.codeFieldContainer.getCode();
                 TLRPC.TL_auth_checkRecoveryPassword tL_auth_checkRecoveryPassword = new TLRPC.TL_auth_checkRecoveryPassword();
@@ -1330,7 +1328,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         TwoStepVerificationSetupActivity.this.lambda$processNext$31(code, tLObject, tL_error);
                     }
                 }, 10);
-                return;
+                break;
             case 5:
                 TLRPC.TL_account_confirmPasswordEmail tL_account_confirmPasswordEmail = new TLRPC.TL_account_confirmPasswordEmail();
                 tL_account_confirmPasswordEmail.code = this.codeFieldContainer.getCode();
@@ -1341,63 +1339,65 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
                 }, 10);
                 needShowProgress();
-                return;
+                break;
             case 6:
                 TLRPC.account_Password account_password = this.currentPassword;
-                if (account_password == null) {
+                if (account_password != null) {
+                    TwoStepVerificationSetupActivity twoStepVerificationSetupActivity2 = new TwoStepVerificationSetupActivity(this.currentAccount, 0, account_password);
+                    twoStepVerificationSetupActivity2.fromRegistration = this.fromRegistration;
+                    twoStepVerificationSetupActivity2.closeAfterSet = this.closeAfterSet;
+                    twoStepVerificationSetupActivity2.setBlockingAlert(this.otherwiseReloginDays);
+                    baseFragment = twoStepVerificationSetupActivity2;
+                    presentFragment(baseFragment, true);
+                    break;
+                } else {
                     needShowProgress();
                     this.doneAfterPasswordLoad = true;
-                    return;
+                    break;
                 }
-                TwoStepVerificationSetupActivity twoStepVerificationSetupActivity2 = new TwoStepVerificationSetupActivity(this.currentAccount, 0, account_password);
-                twoStepVerificationSetupActivity2.fromRegistration = this.fromRegistration;
-                twoStepVerificationSetupActivity2.closeAfterSet = this.closeAfterSet;
-                twoStepVerificationSetupActivity2.setBlockingAlert(this.otherwiseReloginDays);
-                baseFragment = twoStepVerificationSetupActivity2;
-                presentFragment(baseFragment, true);
-                return;
             case 7:
                 if (!this.closeAfterSet) {
-                    if (this.fromRegistration) {
+                    if (!this.fromRegistration) {
+                        TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
+                        twoStepVerificationActivity.setCurrentPasswordParams(this.currentPassword, this.currentPasswordHash, this.currentSecretId, this.currentSecret);
+                        twoStepVerificationActivity.setBlockingAlert(this.otherwiseReloginDays);
+                        presentFragment(twoStepVerificationActivity, true);
+                        break;
+                    } else {
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("afterSignup", true);
                         baseFragment = new DialogsActivity(bundle);
                         presentFragment(baseFragment, true);
-                        return;
+                        break;
                     }
-                    TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-                    twoStepVerificationActivity.setCurrentPasswordParams(this.currentPassword, this.currentPasswordHash, this.currentSecretId, this.currentSecret);
-                    twoStepVerificationActivity.setBlockingAlert(this.otherwiseReloginDays);
-                    presentFragment(twoStepVerificationActivity, true);
-                    return;
                 }
                 lambda$onBackPressed$321();
-                return;
+                break;
             case 8:
-                if (this.currentPassword == null) {
+                if (this.currentPassword != null) {
+                    String obj3 = this.editTextFirstRow.getText().toString();
+                    if (obj3.length() != 0) {
+                        final byte[] stringBytes = AndroidUtilities.getStringBytes(obj3);
+                        needShowProgress();
+                        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda25
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                TwoStepVerificationSetupActivity.this.lambda$processNext$28(stringBytes);
+                            }
+                        });
+                        break;
+                    } else {
+                        onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
+                        break;
+                    }
+                } else {
                     needShowProgress();
                     this.doneAfterPasswordLoad = true;
-                    return;
+                    break;
                 }
-                String obj3 = this.editTextFirstRow.getText().toString();
-                if (obj3.length() == 0) {
-                    onFieldError(this.outlineTextFirstRow, this.editTextFirstRow, false);
-                    return;
-                }
-                final byte[] stringBytes = AndroidUtilities.getStringBytes(obj3);
-                needShowProgress();
-                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.TwoStepVerificationSetupActivity$$ExternalSyntheticLambda25
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        TwoStepVerificationSetupActivity.this.lambda$processNext$28(stringBytes);
-                    }
-                });
-                return;
             case 9:
                 lambda$onBackPressed$321();
-                return;
-            default:
-                return;
+                break;
         }
     }
 
@@ -1786,9 +1786,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     }
                 };
                 final SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.TwoStepVerificationSetupActivity.5
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    public void onLayout(boolean z, int i7, int i8, int i9, int i10) {
+                    protected void onLayout(boolean z, int i7, int i8, int i9, int i10) {
                         FrameLayout frameLayout2;
                         int measuredWidth;
                         int measuredHeight;
@@ -2621,9 +2620,8 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean hideKeyboardOnShow() {
+    protected boolean hideKeyboardOnShow() {
         int i = this.currentType;
         return i == 7 || i == 9;
     }

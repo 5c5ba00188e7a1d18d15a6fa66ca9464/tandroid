@@ -25,20 +25,17 @@ public class SmoothScroller extends LinearSmoothScroller {
         return super.calculateDyToMakeVisible(view, i) - this.offset;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-    public int calculateTimeForDeceleration(int i) {
+    protected int calculateTimeForDeceleration(int i) {
         return Math.round(Math.min(super.calculateTimeForDeceleration(i), 500) * this.durationScale);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-    public int calculateTimeForScrolling(int i) {
+    protected int calculateTimeForScrolling(int i) {
         return Math.round(Math.min(super.calculateTimeForScrolling(i), 150) * this.durationScale);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onEnd() {
+    protected void onEnd() {
     }
 
     @Override // androidx.recyclerview.widget.LinearSmoothScroller, androidx.recyclerview.widget.RecyclerView.SmoothScroller

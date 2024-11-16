@@ -11,9 +11,8 @@ final class zag extends BasePendingResult {
         this.zae = result;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.api.internal.BasePendingResult
-    public final Result createFailedResult(Status status) {
+    protected final Result createFailedResult(Status status) {
         return this.zae;
     }
 }

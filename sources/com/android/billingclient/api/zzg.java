@@ -11,25 +11,25 @@ import com.google.android.gms.internal.play_billing.zzfb;
 import java.util.List;
 
 /* loaded from: classes.dex */
-public final class zzg extends BroadcastReceiver {
+final class zzg extends BroadcastReceiver {
     final /* synthetic */ zzh zza;
     private final PurchasesUpdatedListener zzb;
     private final zzar zze;
     private boolean zzf;
 
-    public /* synthetic */ zzg(zzh zzhVar, PurchasesUpdatedListener purchasesUpdatedListener, AlternativeBillingListener alternativeBillingListener, zzar zzarVar, zzf zzfVar) {
+    /* synthetic */ zzg(zzh zzhVar, PurchasesUpdatedListener purchasesUpdatedListener, AlternativeBillingListener alternativeBillingListener, zzar zzarVar, zzf zzfVar) {
         this.zza = zzhVar;
         this.zzb = purchasesUpdatedListener;
         this.zze = zzarVar;
     }
 
-    public /* synthetic */ zzg(zzh zzhVar, zzaz zzazVar, zzar zzarVar, zzf zzfVar) {
+    /* synthetic */ zzg(zzh zzhVar, zzaz zzazVar, zzar zzarVar, zzf zzfVar) {
         this.zza = zzhVar;
         this.zzb = null;
         this.zze = zzarVar;
     }
 
-    public static /* bridge */ /* synthetic */ zzaz zza(zzg zzgVar) {
+    static /* bridge */ /* synthetic */ zzaz zza(zzg zzgVar) {
         zzgVar.getClass();
         return null;
     }
@@ -93,17 +93,13 @@ public final class zzg extends BroadcastReceiver {
     }
 
     public final void zzc(Context context, IntentFilter intentFilter) {
-        zzg zzgVar;
-        zzg zzgVar2;
         if (this.zzf) {
             return;
         }
         if (Build.VERSION.SDK_INT >= 33) {
-            zzgVar2 = this.zza.zzb;
-            context.registerReceiver(zzgVar2, intentFilter, 2);
+            context.registerReceiver(this.zza.zzb, intentFilter, 2);
         } else {
-            zzgVar = this.zza.zzb;
-            context.registerReceiver(zzgVar, intentFilter);
+            context.registerReceiver(this.zza.zzb, intentFilter);
         }
         this.zzf = true;
     }

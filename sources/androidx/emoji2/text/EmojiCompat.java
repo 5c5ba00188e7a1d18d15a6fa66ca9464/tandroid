@@ -37,9 +37,7 @@ public class EmojiCompat {
     private static final Object INSTANCE_LOCK = new Object();
     private static final Object CONFIG_LOCK = new Object();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class CompatInternal {
+    private static class CompatInternal {
         final EmojiCompat mEmojiCompat;
 
         CompatInternal(EmojiCompat emojiCompat) {
@@ -53,7 +51,6 @@ public class EmojiCompat {
         abstract void updateEditorInfoAttrs(EditorInfo editorInfo);
     }
 
-    /* loaded from: classes.dex */
     private static final class CompatInternal19 extends CompatInternal {
         private volatile MetadataRepo mMetadataRepo;
         private volatile EmojiProcessor mProcessor;
@@ -107,7 +104,6 @@ public class EmojiCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class Config {
         int[] mEmojiAsDefaultStyleExceptions;
         boolean mEmojiSpanIndicatorEnabled;
@@ -119,14 +115,12 @@ public class EmojiCompat {
         int mMetadataLoadStrategy = 0;
         GlyphChecker mGlyphChecker = new DefaultGlyphChecker();
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public Config(MetadataRepoLoader metadataRepoLoader) {
+        protected Config(MetadataRepoLoader metadataRepoLoader) {
             Preconditions.checkNotNull(metadataRepoLoader, "metadataLoader cannot be null.");
             this.mMetadataLoader = metadataRepoLoader;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public final MetadataRepoLoader getMetadataRepoLoader() {
+        protected final MetadataRepoLoader getMetadataRepoLoader() {
             return this.mMetadataLoader;
         }
 
@@ -136,12 +130,10 @@ public class EmojiCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface GlyphChecker {
         boolean hasGlyph(CharSequence charSequence, int i, int i2, int i3);
     }
 
-    /* loaded from: classes.dex */
     public static abstract class InitCallback {
         public void onFailed(Throwable th) {
         }
@@ -150,9 +142,7 @@ public class EmojiCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ListenerDispatcher implements Runnable {
+    private static class ListenerDispatcher implements Runnable {
         private final List mInitCallbacks;
         private final int mLoadState;
         private final Throwable mThrowable;
@@ -190,26 +180,21 @@ public class EmojiCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface MetadataRepoLoader {
         void load(MetadataRepoLoaderCallback metadataRepoLoaderCallback);
     }
 
-    /* loaded from: classes.dex */
     public static abstract class MetadataRepoLoaderCallback {
         public abstract void onFailed(Throwable th);
 
         public abstract void onLoaded(MetadataRepo metadataRepo);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class SpanFactory {
+    static class SpanFactory {
         SpanFactory() {
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public EmojiSpan createSpan(EmojiMetadata emojiMetadata) {
+        EmojiSpan createSpan(EmojiMetadata emojiMetadata) {
             return new TypefaceEmojiSpan(emojiMetadata);
         }
     }

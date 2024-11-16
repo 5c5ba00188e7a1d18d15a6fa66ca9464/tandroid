@@ -9,8 +9,7 @@ import java.util.Iterator;
 final class A2 extends s2 {
     private ArrayList d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public A2(e2 e2Var, Comparator comparator) {
+    A2(e2 e2Var, Comparator comparator) {
         super(e2Var, comparator);
     }
 

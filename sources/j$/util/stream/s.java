@@ -64,13 +64,13 @@ final class s extends X1 {
         switch (this.b) {
             case 4:
                 this.a.n(-1L);
-                return;
+                break;
             case 5:
                 this.a.n(-1L);
-                return;
+                break;
             default:
                 super.n(j);
-                return;
+                break;
         }
     }
 }

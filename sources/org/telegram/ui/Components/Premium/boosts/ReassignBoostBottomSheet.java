@@ -65,7 +65,6 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     private CountDownTimer timer;
     private TopCell topCell;
 
-    /* loaded from: classes3.dex */
     private static class ArrowView extends FrameLayout {
         public ArrowView(Context context) {
             super(context);
@@ -76,9 +75,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class AvatarHolderView extends FrameLayout {
+    private static class AvatarHolderView extends FrameLayout {
         private final Paint bgPaint;
         private final BoostIconView boostIconView;
         public TLRPC.Chat chat;
@@ -114,9 +111,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class BoostIconView extends View {
+    private static class BoostIconView extends View {
         Drawable boostDrawable;
         Paint paint;
 
@@ -141,8 +136,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TopCell extends LinearLayout {
+    static class TopCell extends LinearLayout {
         private final List addedChats;
         private final ArrowView arrowView;
         private final FrameLayout avatarsContainer;

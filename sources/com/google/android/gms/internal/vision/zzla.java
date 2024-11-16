@@ -1,15 +1,13 @@
 package com.google.android.gms.internal.vision;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzla implements zzki {
+final class zzla implements zzki {
     private final zzkk zza;
     private final String zzb;
     private final Object[] zzc;
     private final int zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzla(zzkk zzkkVar, String str, Object[] objArr) {
+    zzla(zzkk zzkkVar, String str, Object[] objArr) {
         this.zza = zzkkVar;
         this.zzb = str;
         this.zzc = objArr;
@@ -50,13 +48,11 @@ public final class zzla implements zzki {
         return this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzd() {
+    final String zzd() {
         return this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzc;
     }
 }

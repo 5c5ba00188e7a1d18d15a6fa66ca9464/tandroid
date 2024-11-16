@@ -23,7 +23,6 @@ public class MatrixParticlesDrawable {
     Rect drawingRect = new Rect();
     Paint paint = new Paint();
 
-    /* loaded from: classes3.dex */
     private class MatrixTextParticle {
         int index;
         long lastUpdateTime;
@@ -41,7 +40,7 @@ public class MatrixParticlesDrawable {
                 canvas.drawBitmap(matrixParticlesDrawable.bitmaps[this.index], f, f2, matrixParticlesDrawable.paint);
                 return;
             }
-            float clamp = Utilities.clamp(1.0f - (((float) j2) / 150.0f), 1.0f, 0.0f);
+            float clamp = Utilities.clamp(1.0f - (j2 / 150.0f), 1.0f, 0.0f);
             MatrixParticlesDrawable.this.paint.setAlpha((int) ((1.0f - clamp) * f3 * 255.0f));
             MatrixParticlesDrawable matrixParticlesDrawable2 = MatrixParticlesDrawable.this;
             canvas.drawBitmap(matrixParticlesDrawable2.bitmaps[this.index], f, f2, matrixParticlesDrawable2.paint);
@@ -65,7 +64,6 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     private class Particle {
         int len;
         long time;
@@ -88,8 +86,7 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void init() {
+    void init() {
         this.size = AndroidUtilities.dp(16.0f);
         TextPaint textPaint = new TextPaint(65);
         textPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rcondensedbold.ttf"));
@@ -107,8 +104,7 @@ public class MatrixParticlesDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onDraw(Canvas canvas) {
+    void onDraw(Canvas canvas) {
         int i;
         int i2;
         Particle particle;
@@ -131,7 +127,7 @@ public class MatrixParticlesDrawable {
         }
         MatrixTextParticle[][] matrixTextParticleArr = this.matrixTextParticles;
         if (matrixTextParticleArr == null || matrixTextParticleArr.length != width + 1 || matrixTextParticleArr[0].length != height + 1) {
-            this.matrixTextParticles = new MatrixTextParticle[width + 1];
+            this.matrixTextParticles = new MatrixTextParticle[width + 1][];
             for (int i4 = 0; i4 <= width; i4++) {
                 this.matrixTextParticles[i4] = new MatrixTextParticle[height + 1];
                 for (int i5 = 0; i5 <= height; i5++) {

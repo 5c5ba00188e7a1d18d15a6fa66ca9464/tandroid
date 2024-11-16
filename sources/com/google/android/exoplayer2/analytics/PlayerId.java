@@ -9,7 +9,6 @@ public final class PlayerId {
     public static final PlayerId UNSET;
     private final LogSessionIdApi31 logSessionIdApi31;
 
-    /* loaded from: classes.dex */
     private static final class LogSessionIdApi31 {
         public static final LogSessionIdApi31 UNSET;
         public final LogSessionId logSessionId;

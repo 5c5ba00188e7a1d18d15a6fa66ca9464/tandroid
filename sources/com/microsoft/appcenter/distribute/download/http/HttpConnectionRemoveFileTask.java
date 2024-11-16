@@ -7,8 +7,7 @@ import java.io.File;
 class HttpConnectionRemoveFileTask extends AsyncTask {
     private final File mFile;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpConnectionRemoveFileTask(File file) {
+    HttpConnectionRemoveFileTask(File file) {
         this.mFile = file;
     }
 

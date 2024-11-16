@@ -65,8 +65,7 @@ final class PlaylistTimeline extends AbstractConcatenatedTimeline {
         return Util.binarySearchFloor(this.firstWindowInChildIndices, i + 1, false, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public List getChildTimelines() {
+    List getChildTimelines() {
         return Arrays.asList(this.timelines);
     }
 

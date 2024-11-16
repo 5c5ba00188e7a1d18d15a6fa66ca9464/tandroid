@@ -18,7 +18,6 @@ import java.util.Iterator;
 public final class CollectionTypeAdapterFactory implements TypeAdapterFactory {
     private final ConstructorConstructor constructorConstructor;
 
-    /* loaded from: classes.dex */
     private static final class Adapter extends TypeAdapter {
         private final ObjectConstructor constructor;
         private final TypeAdapter elementTypeAdapter;

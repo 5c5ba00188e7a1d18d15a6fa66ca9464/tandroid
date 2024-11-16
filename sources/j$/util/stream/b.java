@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class b implements BaseStream {
+abstract class b implements BaseStream {
     private final b a;
     private final b b;
     protected final int c;
@@ -20,8 +19,7 @@ public abstract class b implements BaseStream {
     b() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b(j$.util.Q q, int i, boolean z) {
+    b(j$.util.Q q, int i, boolean z) {
         this();
         this.b = null;
         this.g = q;
@@ -33,8 +31,7 @@ public abstract class b implements BaseStream {
         this.k = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b(b bVar, int i) {
+    b(b bVar, int i) {
         this();
         if (bVar.h) {
             throw new IllegalStateException("stream has already been operated upon or closed");
@@ -95,8 +92,7 @@ public abstract class b implements BaseStream {
         return q;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final j$.util.Q B0() {
+    final j$.util.Q B0() {
         b bVar = this.a;
         if (this != bVar) {
             throw new IllegalStateException();
@@ -115,15 +111,13 @@ public abstract class b implements BaseStream {
 
     abstract j$.util.Q C0(b bVar, Supplier supplier, boolean z);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final e2 D0(j$.util.Q q, e2 e2Var) {
+    final e2 D0(j$.util.Q q, e2 e2Var) {
         e2Var.getClass();
         i0(q, E0(e2Var));
         return e2Var;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final e2 E0(e2 e2Var) {
+    final e2 E0(e2 e2Var) {
         e2Var.getClass();
         b bVar = this;
         while (bVar.e > 0) {
@@ -134,8 +128,7 @@ public abstract class b implements BaseStream {
         return e2Var;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final j$.util.Q F0(j$.util.Q q) {
+    final j$.util.Q F0(j$.util.Q q) {
         return this.e == 0 ? q : C0(this, new a(q, 9), this.a.k);
     }
 
@@ -151,8 +144,7 @@ public abstract class b implements BaseStream {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void i0(j$.util.Q q, e2 e2Var) {
+    final void i0(j$.util.Q q, e2 e2Var) {
         e2Var.getClass();
         if (S2.SHORT_CIRCUIT.d(this.f)) {
             j0(q, e2Var);
@@ -168,8 +160,7 @@ public abstract class b implements BaseStream {
         return this.a.k;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void j0(j$.util.Q q, e2 e2Var) {
+    final void j0(j$.util.Q q, e2 e2Var) {
         b bVar = this;
         while (bVar.e > 0) {
             bVar = bVar.b;
@@ -179,8 +170,7 @@ public abstract class b implements BaseStream {
         e2Var.m();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final F0 k0(j$.util.Q q, boolean z, j$.util.function.I i) {
+    final F0 k0(j$.util.Q q, boolean z, j$.util.function.I i) {
         if (this.a.k) {
             return n0(this, q, z, i);
         }
@@ -189,8 +179,7 @@ public abstract class b implements BaseStream {
         return v0.b();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object l0(x3 x3Var) {
+    final Object l0(x3 x3Var) {
         if (this.h) {
             throw new IllegalStateException("stream has already been operated upon or closed");
         }
@@ -198,8 +187,7 @@ public abstract class b implements BaseStream {
         return this.a.k ? x3Var.c(this, A0(x3Var.d())) : x3Var.a(this, A0(x3Var.d()));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final F0 m0(j$.util.function.I i) {
+    final F0 m0(j$.util.function.I i) {
         b bVar;
         if (this.h) {
             throw new IllegalStateException("stream has already been operated upon or closed");
@@ -214,8 +202,7 @@ public abstract class b implements BaseStream {
 
     abstract F0 n0(b bVar, j$.util.Q q, boolean z, j$.util.function.I i);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long o0(j$.util.Q q) {
+    final long o0(j$.util.Q q) {
         if (S2.SIZED.d(this.f)) {
             return q.getExactSizeIfKnown();
         }
@@ -241,11 +228,9 @@ public abstract class b implements BaseStream {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract T2 q0();
+    abstract T2 q0();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final T2 r0() {
+    final T2 r0() {
         b bVar = this;
         while (bVar.e > 0) {
             bVar = bVar.b;
@@ -253,8 +238,7 @@ public abstract class b implements BaseStream {
         return bVar.q0();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int s0() {
+    final int s0() {
         return this.f;
     }
 
@@ -282,18 +266,15 @@ public abstract class b implements BaseStream {
         return q;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean t0() {
+    final boolean t0() {
         return S2.ORDERED.d(this.f);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ j$.util.Q u0() {
+    final /* synthetic */ j$.util.Q u0() {
         return A0(0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract x0 v0(long j, j$.util.function.I i);
+    abstract x0 v0(long j, j$.util.function.I i);
 
     F0 w0(j$.util.Q q, j$.util.function.I i, b bVar) {
         throw new UnsupportedOperationException("Parallel evaluation is not supported");
@@ -305,6 +286,5 @@ public abstract class b implements BaseStream {
 
     abstract boolean y0();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract e2 z0(int i, e2 e2Var);
+    abstract e2 z0(int i, e2 e2Var);
 }

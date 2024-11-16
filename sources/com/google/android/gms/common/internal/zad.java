@@ -9,8 +9,7 @@ final class zad extends zag {
     final /* synthetic */ Activity zab;
     final /* synthetic */ int zac;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zad(Intent intent, Activity activity, int i) {
+    zad(Intent intent, Activity activity, int i) {
         this.zaa = intent;
         this.zab = activity;
         this.zac = i;

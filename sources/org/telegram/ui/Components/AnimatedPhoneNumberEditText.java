@@ -33,9 +33,7 @@ public abstract class AnimatedPhoneNumberEditText extends HintEditText {
     private String wasHint;
     private Boolean wasHintVisible;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class HintFadeProperty extends FloatPropertyCompat {
+    private final class HintFadeProperty extends FloatPropertyCompat {
         public HintFadeProperty() {
             super("hint_fade");
         }
@@ -117,9 +115,8 @@ public abstract class AnimatedPhoneNumberEditText extends HintEditText {
         return this.progress;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.HintEditText, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
     }
 
@@ -130,9 +127,8 @@ public abstract class AnimatedPhoneNumberEditText extends HintEditText {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
     }
 

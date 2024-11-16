@@ -37,7 +37,6 @@ import org.telegram.ui.TopicsFragment;
 /* loaded from: classes3.dex */
 public abstract class BackButtonMenu {
 
-    /* loaded from: classes3.dex */
     public static class PulledDialog {
         Class activity;
         TLRPC.Chat chat;
@@ -370,8 +369,8 @@ public abstract class BackButtonMenu {
     /* JADX WARN: Removed duplicated region for block: B:34:0x024b  */
     /* JADX WARN: Removed duplicated region for block: B:37:0x026c A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r0v32, types: [android.graphics.drawable.BitmapDrawable] */
-    /* JADX WARN: Type inference failed for: r15v0, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.view.View] */
-    /* JADX WARN: Type inference failed for: r3v7, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r15v0, types: [android.view.View, org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout] */
+    /* JADX WARN: Type inference failed for: r3v7, types: [android.view.View, android.view.ViewGroup, android.widget.FrameLayout] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

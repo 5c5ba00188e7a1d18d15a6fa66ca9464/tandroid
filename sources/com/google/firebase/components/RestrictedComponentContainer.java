@@ -6,9 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class RestrictedComponentContainer extends AbstractComponentContainer {
+final class RestrictedComponentContainer extends AbstractComponentContainer {
     private final Set allowedDeferredInterfaces;
     private final Set allowedDirectInterfaces;
     private final Set allowedProviderInterfaces;
@@ -17,7 +16,6 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
     private final Set allowedSetProviderInterfaces;
     private final ComponentContainer delegateContainer;
 
-    /* loaded from: classes.dex */
     private static class RestrictedPublisher implements Publisher {
         private final Set allowedPublishedEvents;
         private final Publisher delegate;
@@ -28,8 +26,7 @@ public final class RestrictedComponentContainer extends AbstractComponentContain
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RestrictedComponentContainer(Component component, ComponentContainer componentContainer) {
+    RestrictedComponentContainer(Component component, ComponentContainer componentContainer) {
         HashSet hashSet = new HashSet();
         HashSet hashSet2 = new HashSet();
         HashSet hashSet3 = new HashSet();

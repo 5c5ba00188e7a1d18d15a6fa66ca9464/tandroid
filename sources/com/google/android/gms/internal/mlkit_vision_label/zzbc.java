@@ -4,8 +4,7 @@ package com.google.android.gms.internal.mlkit_vision_label;
 final class zzbc extends zzu {
     private final zzbe zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbc(zzbe zzbeVar, int i) {
+    zzbc(zzbe zzbeVar, int i) {
         super(zzbeVar.size(), i);
         this.zza = zzbeVar;
     }

@@ -3,15 +3,13 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class h3 extends U2 implements j$.util.K {
+final class h3 extends U2 implements j$.util.K {
     h3(b bVar, j$.util.Q q, boolean z) {
         super(bVar, q, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public h3(b bVar, Supplier supplier, boolean z) {
+    h3(b bVar, Supplier supplier, boolean z) {
         super(bVar, supplier, z);
     }
 
@@ -24,8 +22,8 @@ public final class h3 extends U2 implements j$.util.K {
     /* renamed from: d */
     public final void e(j$.util.function.W w) {
         if (this.h != null || this.i) {
-            do {
-            } while (p(w));
+            while (p(w)) {
+            }
             return;
         }
         w.getClass();

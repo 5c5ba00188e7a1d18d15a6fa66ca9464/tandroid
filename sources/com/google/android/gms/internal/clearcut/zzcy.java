@@ -14,19 +14,15 @@ abstract class zzcy {
     private zzcy() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzcy zzbv() {
+    static zzcy zzbv() {
         return zzlt;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzcy zzbw() {
+    static zzcy zzbw() {
         return zzlu;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(Object obj, long j);
+    abstract void zza(Object obj, long j);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(Object obj, Object obj2, long j);
+    abstract void zza(Object obj, Object obj2, long j);
 }

@@ -11,9 +11,7 @@ public class SafeIterableMap implements Iterable {
     private int mSize = 0;
     Entry mStart;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class AscendingIterator extends ListIterator {
+    static class AscendingIterator extends ListIterator {
         AscendingIterator(Entry entry, Entry entry2) {
             super(entry, entry2);
         }
@@ -29,7 +27,6 @@ public class SafeIterableMap implements Iterable {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class DescendingIterator extends ListIterator {
         DescendingIterator(Entry entry, Entry entry2) {
             super(entry, entry2);
@@ -46,9 +43,7 @@ public class SafeIterableMap implements Iterable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Entry implements Map.Entry {
+    static class Entry implements Map.Entry {
         final Object mKey;
         Entry mNext;
         Entry mPrevious;
@@ -97,7 +92,6 @@ public class SafeIterableMap implements Iterable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
     public class IteratorWithAdditions implements Iterator, SupportRemove {
         private boolean mBeforeStart = true;
         private Entry mCurrent;
@@ -139,7 +133,6 @@ public class SafeIterableMap implements Iterable {
         }
     }
 
-    /* loaded from: classes.dex */
     private static abstract class ListIterator implements Iterator, SupportRemove {
         Entry mExpectedEnd;
         Entry mNext;
@@ -190,7 +183,6 @@ public class SafeIterableMap implements Iterable {
         }
     }
 
-    /* loaded from: classes.dex */
     interface SupportRemove {
         void supportRemove(Entry entry);
     }
@@ -262,8 +254,7 @@ public class SafeIterableMap implements Iterable {
         return this.mEnd;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Entry put(Object obj, Object obj2) {
+    protected Entry put(Object obj, Object obj2) {
         Entry entry = new Entry(obj, obj2);
         this.mSize++;
         Entry entry2 = this.mEnd;

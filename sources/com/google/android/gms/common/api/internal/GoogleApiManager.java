@@ -159,15 +159,16 @@ public class GoogleApiManager implements Handler.Callback {
         ApiKey apiKey2;
         ApiKey apiKey3;
         ApiKey apiKey4;
+        ApiKey apiKey5;
         int i = message.what;
         zabq zabqVar = null;
         switch (i) {
             case 1:
                 this.zag = true == ((Boolean) message.obj).booleanValue() ? 10000L : 300000L;
                 this.zat.removeMessages(12);
-                for (ApiKey apiKey5 : this.zap.keySet()) {
+                for (ApiKey apiKey6 : this.zap.keySet()) {
                     Handler handler = this.zat;
-                    handler.sendMessageDelayed(handler.obtainMessage(12, apiKey5), this.zag);
+                    handler.sendMessageDelayed(handler.obtainMessage(12, apiKey6), this.zag);
                 }
                 return true;
             case 2:
@@ -209,9 +210,10 @@ public class GoogleApiManager implements Handler.Callback {
                 if (zabqVar == null) {
                     Log.wtf("GoogleApiManager", "Could not find API instance " + i2 + " while trying to fail enqueued calls.", new Exception());
                 } else if (connectionResult.getErrorCode() == 13) {
-                    zabq.zai(zabqVar, new Status(17, "Error resolution was canceled by the user, original error message: " + this.zal.getErrorString(connectionResult.getErrorCode()) + ": " + connectionResult.getErrorMessage()));
+                    zabqVar.zaD(new Status(17, "Error resolution was canceled by the user, original error message: " + this.zal.getErrorString(connectionResult.getErrorCode()) + ": " + connectionResult.getErrorMessage()));
                 } else {
-                    zabq.zai(zabqVar, zaH(zabq.zag(zabqVar), connectionResult));
+                    apiKey = zabqVar.zad;
+                    zabqVar.zaD(zaH(apiKey, connectionResult));
                 }
                 return true;
             case 6:
@@ -257,21 +259,21 @@ public class GoogleApiManager implements Handler.Callback {
             case 15:
                 zabs zabsVar = (zabs) message.obj;
                 Map map = this.zap;
-                apiKey = zabsVar.zaa;
-                if (map.containsKey(apiKey)) {
+                apiKey2 = zabsVar.zaa;
+                if (map.containsKey(apiKey2)) {
                     Map map2 = this.zap;
-                    apiKey2 = zabsVar.zaa;
-                    zabq.zal((zabq) map2.get(apiKey2), zabsVar);
+                    apiKey3 = zabsVar.zaa;
+                    zabq.zal((zabq) map2.get(apiKey3), zabsVar);
                 }
                 return true;
             case 16:
                 zabs zabsVar2 = (zabs) message.obj;
                 Map map3 = this.zap;
-                apiKey3 = zabsVar2.zaa;
-                if (map3.containsKey(apiKey3)) {
+                apiKey4 = zabsVar2.zaa;
+                if (map3.containsKey(apiKey4)) {
                     Map map4 = this.zap;
-                    apiKey4 = zabsVar2.zaa;
-                    zabq.zam((zabq) map4.get(apiKey4), zabsVar2);
+                    apiKey5 = zabsVar2.zaa;
+                    zabq.zam((zabq) map4.get(apiKey5), zabsVar2);
                 }
                 return true;
             case 17:
@@ -334,8 +336,7 @@ public class GoogleApiManager implements Handler.Callback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zaD(zaae zaaeVar) {
+    final void zaD(zaae zaaeVar) {
         synchronized (zac) {
             try {
                 if (this.zaq == zaaeVar) {
@@ -348,8 +349,7 @@ public class GoogleApiManager implements Handler.Callback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zaF() {
+    final boolean zaF() {
         if (this.zah) {
             return false;
         }
@@ -361,8 +361,7 @@ public class GoogleApiManager implements Handler.Callback {
         return zaa2 == -1 || zaa2 == 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zaG(ConnectionResult connectionResult, int i) {
+    final boolean zaG(ConnectionResult connectionResult, int i) {
         return this.zal.zah(this.zak, connectionResult, i);
     }
 
@@ -370,8 +369,7 @@ public class GoogleApiManager implements Handler.Callback {
         return this.zan.getAndIncrement();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zabq zak(ApiKey apiKey) {
+    final zabq zak(ApiKey apiKey) {
         return (zabq) this.zap.get(apiKey);
     }
 
@@ -406,8 +404,7 @@ public class GoogleApiManager implements Handler.Callback {
         handler.sendMessage(handler.obtainMessage(4, new zach(zagVar, this.zao.get(), googleApi)));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zay(MethodInvocation methodInvocation, int i, long j, int i2) {
+    final void zay(MethodInvocation methodInvocation, int i, long j, int i2) {
         Handler handler = this.zat;
         handler.sendMessage(handler.obtainMessage(18, new zace(methodInvocation, i, j, i2)));
     }

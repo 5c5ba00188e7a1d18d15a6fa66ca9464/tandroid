@@ -77,8 +77,7 @@ public class BitmapsCache {
     };
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CacheGeneratorSharedTools {
+    static class CacheGeneratorSharedTools {
         private Bitmap[] bitmap;
         ImmutableByteArrayOutputStream[] byteArrayOutputStream;
         private int lastSize;
@@ -152,14 +151,12 @@ public class BitmapsCache {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class CacheOptions {
         public int compressQuality = 100;
         public boolean fallback = false;
         public boolean firstFrame;
     }
 
-    /* loaded from: classes3.dex */
     public interface Cacheable {
         int getNextFrame(Bitmap bitmap);
 
@@ -169,8 +166,7 @@ public class BitmapsCache {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class FrameOffset {
+    class FrameOffset {
         int frameOffset;
         int frameSize;
         final int index;
@@ -180,7 +176,6 @@ public class BitmapsCache {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Metadata {
         public int frame;
     }

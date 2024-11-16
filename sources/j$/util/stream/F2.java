@@ -3,9 +3,8 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class F2 implements j$.util.Q {
+final class F2 implements j$.util.Q {
     int a;
     final int b;
     int c;
@@ -13,8 +12,7 @@ public final class F2 implements j$.util.Q {
     Object[] e;
     final /* synthetic */ O2 f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F2(O2 o2, int i, int i2, int i3, int i4) {
+    F2(O2 o2, int i, int i2, int i3, int i4) {
         this.f = o2;
         this.a = i;
         this.b = i2;

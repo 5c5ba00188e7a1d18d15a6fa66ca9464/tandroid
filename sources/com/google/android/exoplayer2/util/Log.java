@@ -10,7 +10,6 @@ public abstract class Log {
     private static final Object lock = new Object();
     private static Logger logger = Logger.DEFAULT;
 
-    /* loaded from: classes.dex */
     public interface Logger {
         public static final Logger DEFAULT = new Logger() { // from class: com.google.android.exoplayer2.util.Log.Logger.1
             @Override // com.google.android.exoplayer2.util.Log.Logger

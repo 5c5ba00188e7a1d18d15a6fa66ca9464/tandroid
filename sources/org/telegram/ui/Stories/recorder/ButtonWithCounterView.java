@@ -231,9 +231,8 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         return this.timerSeconds > 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         boolean z;
         this.rippleView.draw(canvas);
         if (this.flickeringLoading) {
@@ -352,9 +351,8 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         return super.onInterceptTouchEvent(motionEvent);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         if (this.wrapWidth) {
             i = View.MeasureSpec.makeMeasureSpec((int) Math.min(Math.max(getPaddingLeft() + this.text.getCurrentWidth() + getPaddingRight(), this.minWidth), View.MeasureSpec.getSize(i)), 1073741824);
         }

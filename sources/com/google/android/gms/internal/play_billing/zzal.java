@@ -9,8 +9,7 @@ import java.util.RandomAccess;
 abstract class zzal extends AbstractList implements zzcf {
     private boolean zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzal(boolean z) {
+    zzal(boolean z) {
         this.zza = z;
     }
 
@@ -83,8 +82,7 @@ abstract class zzal extends AbstractList implements zzcf {
         return super.retainAll(collection);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zza() {
+    protected final void zza() {
         if (!this.zza) {
             throw new UnsupportedOperationException();
         }

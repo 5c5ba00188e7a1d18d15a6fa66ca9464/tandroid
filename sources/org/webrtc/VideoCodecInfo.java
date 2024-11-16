@@ -47,8 +47,7 @@ public class VideoCodecInfo {
         return this.name.equalsIgnoreCase(videoCodecInfo.name) && this.params.equals(videoCodecInfo.params);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getName() {
+    String getName() {
         return this.name;
     }
 

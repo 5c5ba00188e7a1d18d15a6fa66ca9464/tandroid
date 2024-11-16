@@ -71,7 +71,6 @@ public abstract class SelectorSearchCell extends ScrollView {
     private final Paint topGradientPaint;
     private Runnable updateHeight;
 
-    /* loaded from: classes3.dex */
     public class SpansContainer extends ViewGroup {
         private View addingSpan;
         private ArrayList animAddingSpans;

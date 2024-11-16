@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class -CC {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$compute(java.util.Map map, Object obj, BiFunction biFunction) {
@@ -133,7 +132,6 @@ public interface Map<K, V> {
         }
     }
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class -EL {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object a(java.util.Map map, Object obj, BiFunction biFunction) {

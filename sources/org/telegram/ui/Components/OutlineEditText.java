@@ -12,9 +12,8 @@ public class OutlineEditText extends OutlineTextContainerView {
     public OutlineEditText(Context context) {
         super(context);
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Components.OutlineEditText.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onFocusChanged(boolean z, int i, android.graphics.Rect rect) {
+            protected void onFocusChanged(boolean z, int i, android.graphics.Rect rect) {
                 super.onFocusChanged(z, i, rect);
                 OutlineEditText.this.animateSelection((z || isFocused()) ? 1.0f : 0.0f);
             }

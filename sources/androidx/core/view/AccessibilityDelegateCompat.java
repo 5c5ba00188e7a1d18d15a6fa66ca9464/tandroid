@@ -21,9 +21,7 @@ public class AccessibilityDelegateCompat {
     private final View.AccessibilityDelegate mBridge;
     private final View.AccessibilityDelegate mOriginalDelegate;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class AccessibilityDelegateAdapter extends View.AccessibilityDelegate {
+    static final class AccessibilityDelegateAdapter extends View.AccessibilityDelegate {
         final AccessibilityDelegateCompat mCompat;
 
         AccessibilityDelegateAdapter(AccessibilityDelegateCompat accessibilityDelegateCompat) {
@@ -90,9 +88,7 @@ public class AccessibilityDelegateCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static AccessibilityNodeProvider getAccessibilityNodeProvider(View.AccessibilityDelegate accessibilityDelegate, View view) {
             return accessibilityDelegate.getAccessibilityNodeProvider(view);
         }
@@ -154,8 +150,7 @@ public class AccessibilityDelegateCompat {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public View.AccessibilityDelegate getBridge() {
+    View.AccessibilityDelegate getBridge() {
         return this.mBridge;
     }
 

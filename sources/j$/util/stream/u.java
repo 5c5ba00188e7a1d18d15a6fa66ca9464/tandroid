@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class u extends V1 {
+final class u extends V1 {
     public final /* synthetic */ int m;
     final /* synthetic */ Object n;
 
@@ -22,9 +21,8 @@ public final class u extends V1 {
         this.n = consumer;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final e2 z0(int i, e2 e2Var) {
+    final e2 z0(int i, e2 e2Var) {
         switch (this.m) {
             case 0:
                 return new s(this, e2Var, 1);

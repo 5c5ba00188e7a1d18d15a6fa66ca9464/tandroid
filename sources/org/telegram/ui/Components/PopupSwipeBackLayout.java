@@ -54,12 +54,10 @@ public class PopupSwipeBackLayout extends FrameLayout {
     private float toProgress;
     public float transitionProgress;
 
-    /* loaded from: classes3.dex */
     public interface IntCallback {
         void run(int i);
     }
 
-    /* loaded from: classes3.dex */
     public interface OnSwipeBackProgressListener {
         void onSwipeBackProgress(PopupSwipeBackLayout popupSwipeBackLayout, float f, float f2);
     }
@@ -124,7 +122,7 @@ public class PopupSwipeBackLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void animateToState(final float f, float f2) {
-        ValueAnimator duration = ValueAnimator.ofFloat(this.transitionProgress, f).setDuration(Math.max(0.5f, Math.abs(this.transitionProgress - f) - Math.min(0.2f, f2)) * 300.0f);
+        ValueAnimator duration = ValueAnimator.ofFloat(this.transitionProgress, f).setDuration((long) (Math.max(0.5f, Math.abs(this.transitionProgress - f) - Math.min(0.2f, f2)) * 300.0f));
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
         int i = UserConfig.selectedAccount;
         this.notificationsLocker.lock();

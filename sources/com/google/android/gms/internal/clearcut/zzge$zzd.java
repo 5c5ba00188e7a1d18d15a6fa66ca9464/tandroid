@@ -11,7 +11,6 @@ public final class zzge$zzd extends zzcg implements zzdq {
     private String zztv = "";
     private String zztw = "";
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzcg.zza implements zzdq {
         private zza() {
             super(zzge$zzd.zztx);
@@ -31,10 +30,9 @@ public final class zzge$zzd extends zzcg implements zzdq {
     private zzge$zzd() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzcg$zzb, com.google.android.gms.internal.clearcut.zzdz] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzgf zzgfVar = null;
         switch (zzgf.zzba[i - 1]) {
             case 1:

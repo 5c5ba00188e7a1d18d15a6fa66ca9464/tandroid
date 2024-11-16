@@ -6,8 +6,7 @@ import java.util.concurrent.locks.LockSupport;
 public abstract class EventLoopImplPlatform extends EventLoop {
     protected abstract Thread getThread();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void unpark() {
+    protected final void unpark() {
         Thread thread = getThread();
         if (Thread.currentThread() != thread) {
             AbstractTimeSourceKt.getTimeSource();

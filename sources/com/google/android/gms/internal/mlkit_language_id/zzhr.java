@@ -4,6 +4,9 @@ import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 final class zzhr extends zzho {
+    zzhr() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho
     final int zza(int i, byte[] bArr, int i2, int i3) {
         int zzc;
@@ -64,7 +67,6 @@ final class zzhr extends zzho {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x001d, code lost:
     
         return r10 + r0;
@@ -73,7 +75,7 @@ final class zzhr extends zzho {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         int i3;
         int i4;
         char charAt;

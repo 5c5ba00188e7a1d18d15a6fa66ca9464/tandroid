@@ -28,9 +28,7 @@ public class UserListPoller {
     ArrayList runningRequests = new ArrayList();
     Runnable requestCollectedRunnables = new 1();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 1 implements Runnable {
+    class 1 implements Runnable {
         1() {
         }
 

@@ -31,9 +31,7 @@ public class VoIpSwitchLayout extends FrameLayout {
     private Type type;
     private VoIpButtonView voIpButtonView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static /* synthetic */ class 4 {
+    static /* synthetic */ class 4 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$voip$VoIpSwitchLayout$Type;
 
         static {
@@ -62,7 +60,6 @@ public class VoIpSwitchLayout extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public enum Type {
         MICRO,
         CAMERA,
@@ -71,7 +68,6 @@ public class VoIpSwitchLayout extends FrameLayout {
         SPEAKER
     }
 
-    /* loaded from: classes3.dex */
     public static class VoIpButtonView extends View {
         private ValueAnimator animator;
         private final VoIPBackgroundProvider backgroundProvider;
@@ -93,7 +89,6 @@ public class VoIpSwitchLayout extends FrameLayout {
         private int unselectedRadius;
         private final Paint whiteCirclePaint;
 
-        /* loaded from: classes3.dex */
         public interface OnBtnClickedListener {
             void onClicked(View view);
         }
@@ -397,12 +392,15 @@ public class VoIpSwitchLayout extends FrameLayout {
     }
 
     private void attachNewButton(int i, int i2, boolean z, Type type) {
+        RLottieDrawable rLottieDrawable;
         VoIpButtonView voIpButtonView = new VoIpButtonView(getContext(), this.backgroundProvider);
         if (i == R.raw.camera_flip2) {
-            voIpButtonView.singleIcon = new RLottieDrawable(i, "" + i, i2, i2, true, null);
+            rLottieDrawable = new RLottieDrawable(i, "" + i, i2, i2, true, null);
+            voIpButtonView.singleIcon = rLottieDrawable;
             voIpButtonView.singleIcon.setMasterParent(voIpButtonView);
         } else {
-            voIpButtonView.unSelectedIcon = new RLottieDrawable(i, "" + i, i2, i2, true, null);
+            rLottieDrawable = new RLottieDrawable(i, "" + i, i2, i2, true, null);
+            voIpButtonView.unSelectedIcon = rLottieDrawable;
             voIpButtonView.selectedIcon = new RLottieDrawable(i, "" + i, i2, i2, true, null);
             voIpButtonView.selectedIcon.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
         }

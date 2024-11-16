@@ -5,6 +5,9 @@ class BaseBitrateAdjuster implements BitrateAdjuster {
     protected int targetBitrateBps;
     protected int targetFps;
 
+    BaseBitrateAdjuster() {
+    }
+
     @Override // org.webrtc.BitrateAdjuster
     public int getAdjustedBitrateBps() {
         return this.targetBitrateBps;

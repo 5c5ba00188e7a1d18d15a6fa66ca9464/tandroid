@@ -7,7 +7,6 @@ public final class CancellationSignal {
     private boolean mIsCanceled;
     private OnCancelListener mOnCancelListener;
 
-    /* loaded from: classes.dex */
     static class Api16Impl {
         static void cancel(Object obj) {
             ((android.os.CancellationSignal) obj).cancel();
@@ -18,7 +17,6 @@ public final class CancellationSignal {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnCancelListener {
         void onCancel();
     }

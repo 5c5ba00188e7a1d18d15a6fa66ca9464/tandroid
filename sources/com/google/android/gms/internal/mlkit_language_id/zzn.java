@@ -4,8 +4,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 final class zzn extends zzi {
     private final zzk zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzn(zzk zzkVar, int i) {
+    zzn(zzk zzkVar, int i) {
         super(zzkVar.size(), i);
         this.zza = zzkVar;
     }

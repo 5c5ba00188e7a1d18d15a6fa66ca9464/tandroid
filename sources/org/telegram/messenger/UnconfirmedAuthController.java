@@ -32,7 +32,6 @@ public class UnconfirmedAuthController {
     };
     private boolean debug = false;
 
-    /* loaded from: classes3.dex */
     public class UnconfirmedAuth extends TLObject {
         public int date;
         public String device;

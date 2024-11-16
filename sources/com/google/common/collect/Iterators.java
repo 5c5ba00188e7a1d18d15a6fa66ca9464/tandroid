@@ -10,9 +10,7 @@ import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
 public abstract class Iterators {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public enum EmptyModifiableIterator implements Iterator {
+    private enum EmptyModifiableIterator implements Iterator {
         INSTANCE;
 
         @Override // java.util.Iterator
@@ -45,8 +43,7 @@ public abstract class Iterators {
         return indexOf(it, predicate) != -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void clear(Iterator it) {
+    static void clear(Iterator it) {
         Preconditions.checkNotNull(it);
         while (it.hasNext()) {
             it.next();
@@ -54,46 +51,21 @@ public abstract class Iterators {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0021, code lost:
-    
-        return false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0014, code lost:
-    
-        if (r2.hasNext() == false) goto L19;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x001e, code lost:
-    
-        if (r3.equals(r2.next()) == false) goto L21;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0020, code lost:
-    
-        return true;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:?, code lost:
-    
-        return false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:2:0x0001, code lost:
-    
-        if (r3 == null) goto L4;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:4:0x0007, code lost:
-    
-        if (r2.hasNext() == false) goto L16;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x000d, code lost:
-    
-        if (r2.next() != null) goto L18;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x000f, code lost:
-    
-        return true;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public static boolean contains(Iterator it, Object obj) {
+        if (obj == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        while (it.hasNext()) {
+            if (obj.equals(it.next())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean elementsEqual(Iterator it, Iterator it2) {
@@ -105,8 +77,7 @@ public abstract class Iterators {
         return !it2.hasNext();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Iterator emptyModifiableIterator() {
+    static Iterator emptyModifiableIterator() {
         return EmptyModifiableIterator.INSTANCE;
     }
 
@@ -167,8 +138,7 @@ public abstract class Iterators {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object pollNext(Iterator it) {
+    static Object pollNext(Iterator it) {
         if (!it.hasNext()) {
             return null;
         }

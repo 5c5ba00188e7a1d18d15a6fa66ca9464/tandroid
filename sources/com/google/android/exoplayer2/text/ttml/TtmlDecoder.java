@@ -34,9 +34,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     private static final FrameAndTickRate DEFAULT_FRAME_AND_TICK_RATE = new FrameAndTickRate(30.0f, 1, 1);
     private static final CellResolution DEFAULT_CELL_RESOLUTION = new CellResolution(32, 15);
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CellResolution {
+    private static final class CellResolution {
         final int columns;
         final int rows;
 
@@ -46,9 +44,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class FrameAndTickRate {
+    private static final class FrameAndTickRate {
         final float effectiveFrameRate;
         final int subFrameRate;
         final int tickRate;
@@ -60,9 +56,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TtsExtent {
+    private static final class TtsExtent {
         final int height;
         final int width;
 
@@ -94,47 +88,14 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     private static Layout.Alignment parseAlignment(String str) {
         String lowerCase = Ascii.toLowerCase(str);
         lowerCase.hashCode();
-        char c = 65535;
-        switch (lowerCase.hashCode()) {
-            case -1364013995:
-                if (lowerCase.equals("center")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 100571:
-                if (lowerCase.equals("end")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3317767:
-                if (lowerCase.equals("left")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 108511772:
-                if (lowerCase.equals("right")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 109757538:
-                if (lowerCase.equals("start")) {
-                    c = 4;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (lowerCase) {
+            case "center":
                 return Layout.Alignment.ALIGN_CENTER;
-            case 1:
-            case 3:
+            case "end":
+            case "right":
                 return Layout.Alignment.ALIGN_OPPOSITE;
-            case 2:
-            case 4:
+            case "left":
+            case "start":
                 return Layout.Alignment.ALIGN_NORMAL;
             default:
                 return null;
@@ -170,6 +131,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
 
     private static void parseFontSize(String str, TtmlStyle ttmlStyle) {
         Matcher matcher;
+        String str2;
         String[] split = Util.split(str, "\\s+");
         if (split.length == 1) {
             matcher = FONT_SIZE.matcher(str);
@@ -183,37 +145,16 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         if (!matcher.matches()) {
             throw new SubtitleDecoderException("Invalid expression for fontSize: '" + str + "'.");
         }
-        String str2 = (String) Assertions.checkNotNull(matcher.group(3));
+        str2 = (String) Assertions.checkNotNull(matcher.group(3));
         str2.hashCode();
-        char c = 65535;
-        switch (str2.hashCode()) {
-            case 37:
-                if (str2.equals("%")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 3240:
-                if (str2.equals("em")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3592:
-                if (str2.equals("px")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str2) {
+            case "%":
                 ttmlStyle.setFontSizeUnit(3);
                 break;
-            case 1:
+            case "em":
                 ttmlStyle.setFontSizeUnit(2);
                 break;
-            case 2:
+            case "px":
                 ttmlStyle.setFontSizeUnit(1);
                 break;
             default:
@@ -286,6 +227,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         } while (!XmlPullParserUtil.isEndTag(xmlPullParser, "metadata"));
     }
 
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     private static TtmlNode parseNode(XmlPullParser xmlPullParser, TtmlNode ttmlNode, Map map, FrameAndTickRate frameAndTickRate) {
         long j;
         long j2;
@@ -308,39 +250,47 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         c = 0;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 99841:
                     if (attributeName.equals("dur")) {
                         c = 1;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 100571:
                     if (attributeName.equals("end")) {
                         c = 2;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 93616297:
                     if (attributeName.equals("begin")) {
                         c = 3;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 109780401:
                     if (attributeName.equals("style")) {
                         c = 4;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 1292595405:
                     if (attributeName.equals("backgroundImage")) {
                         c = 5;
                         break;
                     }
+                    c = 65535;
+                    break;
+                default:
+                    c = 65535;
                     break;
             }
-            c = 65535;
             switch (c) {
                 case 0:
                     if (!map.containsKey(attributeValue)) {
@@ -602,11 +552,11 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
         }
     }
 
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Code restructure failed: missing block: B:61:0x01c5, code lost:
     
         if (r3.equals("text") == false) goto L101;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:85:0x025c. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -620,100 +570,116 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             String attributeName = xmlPullParser.getAttributeName(i);
             attributeName.hashCode();
             char c2 = 5;
-            char c3 = 65535;
             switch (attributeName.hashCode()) {
                 case -1550943582:
                     if (attributeName.equals("fontStyle")) {
                         c = 0;
                         break;
                     }
+                    c = 65535;
                     break;
                 case -1224696685:
                     if (attributeName.equals("fontFamily")) {
                         c = 1;
                         break;
                     }
+                    c = 65535;
                     break;
                 case -1065511464:
                     if (attributeName.equals("textAlign")) {
                         c = 2;
                         break;
                     }
+                    c = 65535;
                     break;
                 case -879295043:
                     if (attributeName.equals("textDecoration")) {
                         c = 3;
                         break;
                     }
+                    c = 65535;
                     break;
                 case -734428249:
                     if (attributeName.equals("fontWeight")) {
                         c = 4;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 3355:
                     if (attributeName.equals("id")) {
                         c = 5;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 3511770:
                     if (attributeName.equals("ruby")) {
                         c = 6;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 94842723:
                     if (attributeName.equals("color")) {
                         c = 7;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 109403361:
                     if (attributeName.equals("shear")) {
                         c = '\b';
                         break;
                     }
+                    c = 65535;
                     break;
                 case 110138194:
                     if (attributeName.equals("textCombine")) {
                         c = '\t';
                         break;
                     }
+                    c = 65535;
                     break;
                 case 365601008:
                     if (attributeName.equals("fontSize")) {
                         c = '\n';
                         break;
                     }
+                    c = 65535;
                     break;
                 case 921125321:
                     if (attributeName.equals("textEmphasis")) {
                         c = 11;
                         break;
                     }
+                    c = 65535;
                     break;
                 case 1115953443:
                     if (attributeName.equals("rubyPosition")) {
                         c = '\f';
                         break;
                     }
+                    c = 65535;
                     break;
                 case 1287124693:
                     if (attributeName.equals("backgroundColor")) {
                         c = '\r';
                         break;
                     }
+                    c = 65535;
                     break;
                 case 1754920356:
                     if (attributeName.equals("multiRowAlign")) {
                         c = 14;
                         break;
                     }
+                    c = 65535;
+                    break;
+                default:
+                    c = 65535;
                     break;
             }
-            c = 65535;
             switch (c) {
                 case 0:
                     ttmlStyle = createIfNull(ttmlStyle).setItalic("italic".equalsIgnoreCase(attributeValue));
@@ -727,43 +693,17 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                 case 3:
                     String lowerCase = Ascii.toLowerCase(attributeValue);
                     lowerCase.hashCode();
-                    switch (lowerCase.hashCode()) {
-                        case -1461280213:
-                            if (lowerCase.equals("nounderline")) {
-                                c3 = 0;
-                                break;
-                            }
-                            break;
-                        case -1026963764:
-                            if (lowerCase.equals("underline")) {
-                                c3 = 1;
-                                break;
-                            }
-                            break;
-                        case 913457136:
-                            if (lowerCase.equals("nolinethrough")) {
-                                c3 = 2;
-                                break;
-                            }
-                            break;
-                        case 1679736913:
-                            if (lowerCase.equals("linethrough")) {
-                                c3 = 3;
-                                break;
-                            }
-                            break;
-                    }
-                    switch (c3) {
-                        case 0:
+                    switch (lowerCase) {
+                        case "nounderline":
                             ttmlStyle = createIfNull(ttmlStyle).setUnderline(false);
                             break;
-                        case 1:
+                        case "underline":
                             ttmlStyle = createIfNull(ttmlStyle).setUnderline(true);
                             break;
-                        case 2:
+                        case "nolinethrough":
                             ttmlStyle = createIfNull(ttmlStyle).setLinethrough(false);
                             break;
-                        case 3:
+                        case "linethrough":
                             ttmlStyle = createIfNull(ttmlStyle).setLinethrough(true);
                             continue;
                     }
@@ -786,35 +726,42 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                                 c2 = 0;
                                 break;
                             }
+                            c2 = 65535;
                             break;
                         case -410956671:
                             if (lowerCase2.equals("container")) {
                                 c2 = 1;
                                 break;
                             }
+                            c2 = 65535;
                             break;
                         case -250518009:
                             if (lowerCase2.equals("delimiter")) {
                                 c2 = 2;
                                 break;
                             }
+                            c2 = 65535;
                             break;
                         case -136074796:
                             if (lowerCase2.equals("textContainer")) {
                                 c2 = 3;
                                 break;
                             }
+                            c2 = 65535;
                             break;
                         case 3016401:
                             if (lowerCase2.equals("base")) {
                                 c2 = 4;
                                 break;
                             }
+                            c2 = 65535;
                             break;
                         case 3556653:
                             break;
+                        default:
+                            c2 = 65535;
+                            break;
                     }
-                    c2 = 65535;
                     switch (c2) {
                         case 0:
                         case 4:
@@ -931,7 +878,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             double d3 = parseLong + parseLong2 + parseLong3;
             String group = matcher.group(4);
             double d4 = 0.0d;
-            double parseDouble = d3 + (group != null ? Double.parseDouble(group) : 0.0d) + (matcher.group(5) != null ? ((float) Long.parseLong(r13)) / frameAndTickRate.effectiveFrameRate : 0.0d);
+            double parseDouble = d3 + (group != null ? Double.parseDouble(group) : 0.0d) + (matcher.group(5) != null ? Long.parseLong(r13) / frameAndTickRate.effectiveFrameRate : 0.0d);
             String group2 = matcher.group(6);
             if (group2 != null) {
                 double parseLong4 = Long.parseLong(group2);

@@ -31,9 +31,7 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
     private final HashMap sessions;
     private final Timeline.Window window;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class SessionDescriptor {
+    private final class SessionDescriptor {
         private MediaSource.MediaPeriodId adMediaPeriodId;
         private boolean isActive;
         private boolean isCreated;

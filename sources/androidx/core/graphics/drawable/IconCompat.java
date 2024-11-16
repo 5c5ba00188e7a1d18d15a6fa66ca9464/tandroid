@@ -51,9 +51,7 @@ public class IconCompat extends CustomVersionedParcelable {
     public String mTintModeStr;
     public int mType;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static IconCompat createFromIconInner(Object obj) {
             Preconditions.checkNotNull(obj);
             int type = getType(obj);
@@ -164,7 +162,6 @@ public class IconCompat extends CustomVersionedParcelable {
         
             if (r0 >= 26) goto L14;
          */
-        /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0005. Please report as an issue. */
         /* JADX WARN: Removed duplicated region for block: B:11:0x00ab  */
         /* JADX WARN: Removed duplicated region for block: B:14:0x00b4  */
         /*
@@ -268,9 +265,7 @@ public class IconCompat extends CustomVersionedParcelable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api26Impl {
+    static class Api26Impl {
         static Drawable createAdaptiveIconDrawable(Drawable drawable, Drawable drawable2) {
             return new AdaptiveIconDrawable(drawable, drawable2);
         }
@@ -280,9 +275,7 @@ public class IconCompat extends CustomVersionedParcelable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static int getResId(Object obj) {
             return ((Icon) obj).getResId();
         }
@@ -300,9 +293,7 @@ public class IconCompat extends CustomVersionedParcelable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api30Impl {
+    static class Api30Impl {
         static Icon createWithAdaptiveBitmapContentUri(Uri uri) {
             return Icon.createWithAdaptiveBitmapContentUri(uri);
         }
@@ -699,7 +690,6 @@ public class IconCompat extends CustomVersionedParcelable {
         this.mParcelable = (Parcelable) this.mObj1;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0009. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:12:0x005c  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0051  */
     /*

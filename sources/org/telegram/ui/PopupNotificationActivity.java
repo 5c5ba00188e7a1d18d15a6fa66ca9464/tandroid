@@ -108,7 +108,6 @@ public class PopupNotificationActivity extends Activity implements NotificationC
     private Runnable onAnimationEndRunnable = null;
     private ArrayList popupMessages = new ArrayList();
 
-    /* loaded from: classes4.dex */
     private class FrameLayoutTouch extends FrameLayout {
         public FrameLayoutTouch(Context context) {
             super(context);
@@ -1208,7 +1207,6 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         this.statusDrawables[3] = new PlayingGameDrawable(false, null);
         this.statusDrawables[4] = new RoundStatusDrawable(false);
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(this) { // from class: org.telegram.ui.PopupNotificationActivity.1
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:18:0x0062  */
             /* JADX WARN: Removed duplicated region for block: B:23:0x0087  */
             /* JADX WARN: Removed duplicated region for block: B:29:0x0095  */
@@ -1217,7 +1215,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;

@@ -19,7 +19,6 @@ public final class EGLSurfaceTexture implements SurfaceTexture.OnFrameAvailableL
     private SurfaceTexture texture;
     private final int[] textureIdHolder;
 
-    /* loaded from: classes.dex */
     public interface TextureImageListener {
     }
 

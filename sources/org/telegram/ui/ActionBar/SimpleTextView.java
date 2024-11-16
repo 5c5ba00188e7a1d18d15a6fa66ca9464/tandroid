@@ -107,7 +107,6 @@ public class SimpleTextView extends View implements Drawable.Callback {
     private boolean widthWrapContent;
     private Drawable wrapBackgroundDrawable;
 
-    /* loaded from: classes4.dex */
     public interface PressableDrawable {
         void setPressed(boolean z);
     }
@@ -328,7 +327,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
                     this.currentScrollDelay = (int) (i - j);
                 } else {
                     int dp = this.totalWidth + AndroidUtilities.dp(16.0f);
-                    float dp2 = this.scrollingOffset + ((((float) j) / 1000.0f) * AndroidUtilities.dp(this.scrollingOffset < ((float) AndroidUtilities.dp(100.0f)) ? ((this.scrollingOffset / AndroidUtilities.dp(100.0f)) * 20.0f) + 30.0f : this.scrollingOffset >= ((float) (dp - AndroidUtilities.dp(100.0f))) ? 50.0f - (((this.scrollingOffset - (dp - AndroidUtilities.dp(100.0f))) / AndroidUtilities.dp(100.0f)) * 20.0f) : 50.0f));
+                    float dp2 = this.scrollingOffset + ((j / 1000.0f) * AndroidUtilities.dp(this.scrollingOffset < ((float) AndroidUtilities.dp(100.0f)) ? ((this.scrollingOffset / AndroidUtilities.dp(100.0f)) * 20.0f) + 30.0f : this.scrollingOffset >= ((float) (dp - AndroidUtilities.dp(100.0f))) ? 50.0f - (((this.scrollingOffset - (dp - AndroidUtilities.dp(100.0f))) / AndroidUtilities.dp(100.0f)) * 20.0f) : 50.0f));
                     this.scrollingOffset = dp2;
                     this.lastUpdateTime = elapsedRealtime;
                     if (dp2 > dp) {
@@ -345,8 +344,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
         this.scrollingOffset = simpleTextView.scrollingOffset;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean createLayout(int i) {
+    protected boolean createLayout(int i) {
         int i2;
         StaticLayout staticLayout;
         int dp;
@@ -615,26 +613,23 @@ public class SimpleTextView extends View implements Drawable.Callback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attachedToWindow = true;
         this.emojiStack = AnimatedEmojiSpan.update(0, this, this.emojiStack, this.layout);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attachedToWindow = false;
         AnimatedEmojiSpan.release(this, this.emojiStack);
         this.wasLayout = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         int i;
         float f;
         float measuredHeight;
@@ -932,9 +927,8 @@ public class SimpleTextView extends View implements Drawable.Callback {
         this.wasLayout = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         Drawable drawable;
         Drawable drawable2;
         Drawable drawable3;

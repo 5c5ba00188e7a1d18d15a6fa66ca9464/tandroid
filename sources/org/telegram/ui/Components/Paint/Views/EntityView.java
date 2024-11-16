@@ -81,10 +81,8 @@ public abstract class EntityView extends FrameLayout {
     private final float[] xy;
     private final float[] xy2;
 
-    /* loaded from: classes3.dex */
     public interface EntityViewDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$isEntityDeletable(EntityViewDelegate entityViewDelegate) {
                 return true;
@@ -144,7 +142,6 @@ public abstract class EntityView extends FrameLayout {
         boolean onEntitySelected(EntityView entityView);
     }
 
-    /* loaded from: classes3.dex */
     public class SelectionView extends FrameLayout {
         private int currentHandle;
         protected Paint dotPaint;
@@ -176,8 +173,7 @@ public abstract class EntityView extends FrameLayout {
             this.dotStrokePaint.setShadowLayer(AndroidUtilities.dpf2(0.75f), 0.0f, 0.0f, 1342177280);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public float getShowAlpha() {
+        protected float getShowAlpha() {
             return this.showAlpha.set(this.shown);
         }
 
@@ -831,8 +827,7 @@ public abstract class EntityView extends FrameLayout {
         return this.position;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float getPositionX() {
+    protected float getPositionX() {
         float f = this.position.x;
         if (getParent() == null) {
             return f;
@@ -844,8 +839,7 @@ public abstract class EntityView extends FrameLayout {
         return valueAnimator != null ? AndroidUtilities.lerp(f, dp, ((Float) valueAnimator.getAnimatedValue()).floatValue()) : dp != 0.0f ? dp : f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float getPositionY() {
+    protected float getPositionY() {
         float f = this.position.y;
         if (getParent() == null) {
             return f;
@@ -1222,8 +1216,7 @@ public abstract class EntityView extends FrameLayout {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updatePosition() {
+    protected void updatePosition() {
         setX(getPositionX() - (getMeasuredWidth() / 2.0f));
         setY(getPositionY() - (getMeasuredHeight() / 2.0f));
         updateSelectionView();

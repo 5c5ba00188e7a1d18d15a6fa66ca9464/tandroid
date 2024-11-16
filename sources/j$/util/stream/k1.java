@@ -3,11 +3,9 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class k1 extends j1 implements w0 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public k1(long j) {
+final class k1 extends j1 implements w0 {
+    k1(long j) {
         super(j);
     }
 

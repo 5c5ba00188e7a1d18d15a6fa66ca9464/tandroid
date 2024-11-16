@@ -8,8 +8,7 @@ import java.util.Map;
 final class zzak extends AbstractCollection {
     final /* synthetic */ zzal zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzak(zzal zzalVar) {
+    zzak(zzal zzalVar) {
         this.zza = zzalVar;
     }
 

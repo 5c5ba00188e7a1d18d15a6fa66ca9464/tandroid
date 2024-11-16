@@ -14,7 +14,6 @@ import java.util.Arrays;
 public abstract class MappingTrackSelector extends TrackSelector {
     private MappedTrackInfo currentMappedTrackInfo;
 
-    /* loaded from: classes.dex */
     public static final class MappedTrackInfo {
         private final int rendererCount;
         private final int[][][] rendererFormatSupports;
@@ -146,12 +145,12 @@ public abstract class MappingTrackSelector extends TrackSelector {
     public final TrackSelectorResult selectTracks(RendererCapabilities[] rendererCapabilitiesArr, TrackGroupArray trackGroupArray, MediaSource.MediaPeriodId mediaPeriodId, Timeline timeline) {
         int[] iArr = new int[rendererCapabilitiesArr.length + 1];
         int length = rendererCapabilitiesArr.length + 1;
-        TrackGroup[][] trackGroupArr = new TrackGroup[length];
-        int[][][] iArr2 = new int[rendererCapabilitiesArr.length + 1][];
+        TrackGroup[][] trackGroupArr = new TrackGroup[length][];
+        int[][][] iArr2 = new int[rendererCapabilitiesArr.length + 1][][];
         for (int i = 0; i < length; i++) {
             int i2 = trackGroupArray.length;
             trackGroupArr[i] = new TrackGroup[i2];
-            iArr2[i] = new int[i2];
+            iArr2[i] = new int[i2][];
         }
         int[] mixedMimeTypeAdaptationSupports = getMixedMimeTypeAdaptationSupports(rendererCapabilitiesArr);
         for (int i3 = 0; i3 < trackGroupArray.length; i3++) {

@@ -25,7 +25,6 @@ public class RequestPeerRequirementsCell extends LinearLayout {
     private TLRPC.RequestPeerType requestPeerType;
     private ArrayList requirements;
 
-    /* loaded from: classes4.dex */
     class RequirementCell extends LinearLayout {
         private ImageView imageView;
         private TextView textView;

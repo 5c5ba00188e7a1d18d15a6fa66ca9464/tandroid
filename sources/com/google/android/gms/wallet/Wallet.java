@@ -16,14 +16,12 @@ public abstract class Wallet {
     private static final Api.ClientKey zzd;
     private static final Api.AbstractClientBuilder zze;
 
-    /* loaded from: classes.dex */
     public static final class WalletOptions implements Api.ApiOptions.HasAccountOptions {
         public final int environment;
         public final int theme;
         public final Account zza;
         final boolean zzb;
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private int zza = 3;
             private int zzb = 1;

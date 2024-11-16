@@ -295,9 +295,8 @@ public final class zzha extends zzfu implements Cloneable {
         super.zza(zzfsVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzfu, com.google.android.gms.internal.clearcut.zzfz
-    public final int zzen() {
+    protected final int zzen() {
         int[] iArr;
         int zzen = super.zzen();
         long j = this.zzbjf;

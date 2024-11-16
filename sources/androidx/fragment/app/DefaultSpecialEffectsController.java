@@ -26,7 +26,6 @@ import java.util.Map;
 /* loaded from: classes.dex */
 class DefaultSpecialEffectsController extends SpecialEffectsController {
 
-    /* loaded from: classes.dex */
     static /* synthetic */ class 10 {
         static final /* synthetic */ int[] $SwitchMap$androidx$fragment$app$SpecialEffectsController$Operation$State;
 
@@ -52,9 +51,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class AnimationInfo extends SpecialEffectsInfo {
+    private static class AnimationInfo extends SpecialEffectsInfo {
         private FragmentAnim.AnimationOrAnimator mAnimation;
         private boolean mIsPop;
         private boolean mLoadedAnim;
@@ -76,9 +73,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class SpecialEffectsInfo {
+    private static class SpecialEffectsInfo {
         private final SpecialEffectsController.Operation mOperation;
         private final CancellationSignal mSignal;
 
@@ -107,9 +102,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class TransitionInfo extends SpecialEffectsInfo {
+    private static class TransitionInfo extends SpecialEffectsInfo {
         private final boolean mOverlapAllowed;
         private final Object mSharedElementTransition;
         private final Object mTransition;
@@ -179,8 +172,7 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DefaultSpecialEffectsController(ViewGroup viewGroup) {
+    DefaultSpecialEffectsController(ViewGroup viewGroup) {
         super(viewGroup);
     }
 

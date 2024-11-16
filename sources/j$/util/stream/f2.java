@@ -6,9 +6,8 @@ final class f2 extends a2 {
     long c;
     final /* synthetic */ g2 d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public f2(g2 g2Var, e2 e2Var) {
+    f2(g2 g2Var, e2 e2Var) {
         super(e2Var);
         this.d = g2Var;
         this.b = g2Var.m;

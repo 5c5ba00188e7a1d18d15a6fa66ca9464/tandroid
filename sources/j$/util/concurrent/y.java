@@ -12,8 +12,7 @@ final class y implements H {
     final int c;
     final int d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public y(long j, long j2, int i, int i2) {
+    y(long j, long j2, int i, int i2) {
         this.a = j;
         this.b = j2;
         this.c = i;

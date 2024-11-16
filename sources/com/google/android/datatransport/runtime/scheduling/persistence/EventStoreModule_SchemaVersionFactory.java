@@ -5,7 +5,6 @@ import com.google.android.datatransport.runtime.dagger.internal.Factory;
 /* loaded from: classes.dex */
 public final class EventStoreModule_SchemaVersionFactory implements Factory {
 
-    /* loaded from: classes.dex */
     private static final class InstanceHolder {
         private static final EventStoreModule_SchemaVersionFactory INSTANCE = new EventStoreModule_SchemaVersionFactory();
     }

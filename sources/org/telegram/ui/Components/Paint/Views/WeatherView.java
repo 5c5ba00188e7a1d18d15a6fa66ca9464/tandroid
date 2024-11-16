@@ -24,7 +24,6 @@ public class WeatherView extends EntityView {
     public final LocationMarker marker;
     public Weather.State weather;
 
-    /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;

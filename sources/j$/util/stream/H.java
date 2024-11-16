@@ -2,6 +2,9 @@ package j$.util.stream;
 
 /* loaded from: classes2.dex */
 final class H extends K implements c2 {
+    H() {
+    }
+
     @Override // j$.util.stream.K, j$.util.stream.e2
     public final void accept(int i) {
         r(Integer.valueOf(i));

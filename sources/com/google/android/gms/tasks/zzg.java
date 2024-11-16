@@ -4,8 +4,7 @@ package com.google.android.gms.tasks;
 final class zzg implements Runnable {
     final /* synthetic */ zzh zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzg(zzh zzhVar) {
+    zzg(zzh zzhVar) {
         this.zza = zzhVar;
     }
 

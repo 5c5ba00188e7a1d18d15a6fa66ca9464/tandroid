@@ -18,7 +18,6 @@ public final class ParsingLoadable implements Loader.Loadable {
     private volatile Object result;
     public final int type;
 
-    /* loaded from: classes.dex */
     public interface Parser {
         Object parse(Uri uri, InputStream inputStream);
     }

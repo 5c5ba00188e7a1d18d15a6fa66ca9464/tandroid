@@ -15,9 +15,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class TtmlNode {
+final class TtmlNode {
     private List children;
     public final long endTimeUs;
     public final String imageId;

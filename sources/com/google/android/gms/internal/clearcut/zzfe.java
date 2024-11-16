@@ -6,6 +6,9 @@ import sun.misc.Unsafe;
 
 /* loaded from: classes.dex */
 final class zzfe implements PrivilegedExceptionAction {
+    zzfe() {
+    }
+
     @Override // java.security.PrivilegedExceptionAction
     public final /* synthetic */ Object run() {
         for (Field field : Unsafe.class.getDeclaredFields()) {

@@ -19,7 +19,6 @@ public class WallpaperParallaxEffect implements SensorEventListener {
     private float[] rollBuffer = new float[3];
     private float[] pitchBuffer = new float[3];
 
-    /* loaded from: classes3.dex */
     public interface Callback {
         void onOffsetsChanged(int i, int i2, float f);
     }

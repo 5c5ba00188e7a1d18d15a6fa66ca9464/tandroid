@@ -25,9 +25,7 @@ public class HashtagSearchController {
     private final SearchResult localPostsSearch;
     private final SearchResult myMessagesSearch;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static final class MessageCompositeID {
+    private static final class MessageCompositeID {
         final long dialog_id;
         final int id;
 
@@ -56,7 +54,6 @@ public class HashtagSearchController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SearchResult {
         public int count;
         private final int currentAccount;

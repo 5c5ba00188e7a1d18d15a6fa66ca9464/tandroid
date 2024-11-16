@@ -28,14 +28,11 @@ public abstract class BotKeyboardView extends LinearLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private ScrollView scrollView;
 
-    /* loaded from: classes5.dex */
     public interface BotKeyboardViewDelegate {
         void didPressedButton(TLRPC.KeyboardButton keyboardButton);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Button extends TextView {
+    private class Button extends TextView {
         public Button(Context context, TLRPC.KeyboardButton keyboardButton) {
             super(context);
             setTag(keyboardButton);

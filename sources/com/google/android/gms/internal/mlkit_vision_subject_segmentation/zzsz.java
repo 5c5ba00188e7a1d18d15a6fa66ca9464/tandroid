@@ -6,8 +6,7 @@ final class zzsz extends zztd {
     private final boolean zzb;
     private final int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzsz(String str, boolean z, int i, zzsy zzsyVar) {
+    /* synthetic */ zzsz(String str, boolean z, int i, zzsy zzsyVar) {
         this.zza = str;
         this.zzb = z;
         this.zzc = i;

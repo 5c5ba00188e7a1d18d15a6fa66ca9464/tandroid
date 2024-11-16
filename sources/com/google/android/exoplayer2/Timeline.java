@@ -60,7 +60,6 @@ public abstract class Timeline implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     public static final class Period implements Bundleable {
         private AdPlaybackState adPlaybackState = AdPlaybackState.NONE;
         public long durationUs;
@@ -235,7 +234,6 @@ public abstract class Timeline implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class RemotableTimeline extends Timeline {
         private final ImmutableList periods;
         private final int[] shuffledWindowIndices;
@@ -336,7 +334,6 @@ public abstract class Timeline implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Window implements Bundleable {
         public long defaultPositionUs;
         public long durationUs;
@@ -537,6 +534,9 @@ public abstract class Timeline implements Bundleable {
             }
             return bundle;
         }
+    }
+
+    protected Timeline() {
     }
 
     /* JADX INFO: Access modifiers changed from: private */

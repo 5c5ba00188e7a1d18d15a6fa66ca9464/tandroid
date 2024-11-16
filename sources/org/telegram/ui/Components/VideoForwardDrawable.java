@@ -32,7 +32,6 @@ public class VideoForwardDrawable extends Drawable {
     private Path path1 = new Path();
     private float playScaleFactor = 1.0f;
 
-    /* loaded from: classes3.dex */
     public interface VideoForwardDrawableDelegate {
         void invalidate();
 
@@ -184,7 +183,7 @@ public class VideoForwardDrawable extends Drawable {
         this.lastAnimationTime = currentTimeMillis;
         float f12 = this.animationProgress;
         if (f12 < 1.0f) {
-            float f13 = f12 + (((float) j) / 800.0f);
+            float f13 = f12 + (j / 800.0f);
             this.animationProgress = f13;
             if (this.isOneShootAnimation) {
                 if (f13 >= 1.0f) {

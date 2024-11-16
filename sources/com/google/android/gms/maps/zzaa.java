@@ -3,13 +3,11 @@ package com.google.android.gms.maps;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.internal.zzc;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzaa extends zzc {
+final class zzaa extends zzc {
     private final GoogleMap.CancelableCallback zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaa(GoogleMap.CancelableCallback cancelableCallback) {
+    zzaa(GoogleMap.CancelableCallback cancelableCallback) {
         this.zza = cancelableCallback;
     }
 

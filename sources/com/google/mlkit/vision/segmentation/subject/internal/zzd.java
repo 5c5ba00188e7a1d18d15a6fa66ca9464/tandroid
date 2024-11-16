@@ -18,8 +18,7 @@ import java.util.concurrent.Executor;
 
 /* loaded from: classes.dex */
 public final class zzd extends MobileVisionBase implements SubjectSegmenter {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzd(SubjectSegmenterOptions subjectSegmenterOptions, zzj zzjVar, Executor executor, zztl zztlVar) {
+    zzd(SubjectSegmenterOptions subjectSegmenterOptions, zzj zzjVar, Executor executor, zztl zztlVar) {
         super(zzjVar, executor);
         zzoc zzocVar = new zzoc();
         zzocVar.zze(zznz.zzb);

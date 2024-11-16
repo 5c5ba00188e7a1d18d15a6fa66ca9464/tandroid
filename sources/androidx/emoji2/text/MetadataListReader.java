@@ -8,7 +8,6 @@ import java.nio.ByteOrder;
 /* loaded from: classes.dex */
 abstract class MetadataListReader {
 
-    /* loaded from: classes.dex */
     private static class ByteBufferReader implements OpenTypeReader {
         private final ByteBuffer mByteBuffer;
 
@@ -44,9 +43,7 @@ abstract class MetadataListReader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class OffsetInfo {
+    private static class OffsetInfo {
         private final long mLength;
         private final long mStartOffset;
 
@@ -60,9 +57,7 @@ abstract class MetadataListReader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface OpenTypeReader {
+    private interface OpenTypeReader {
         long getPosition();
 
         int readTag();
@@ -113,8 +108,7 @@ abstract class MetadataListReader {
         throw new IOException("Cannot read metadata.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static MetadataList read(ByteBuffer byteBuffer) {
+    static MetadataList read(ByteBuffer byteBuffer) {
         ByteBuffer duplicate = byteBuffer.duplicate();
         duplicate.position((int) findOffsetInfo(new ByteBufferReader(duplicate)).getStartOffset());
         return MetadataList.getRootAsMetadataList(duplicate);

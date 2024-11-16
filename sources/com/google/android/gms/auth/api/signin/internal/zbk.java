@@ -5,17 +5,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zbk extends zbl {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zbk(GoogleApiClient googleApiClient) {
+final class zbk extends zbl {
+    zbk(GoogleApiClient googleApiClient) {
         super(googleApiClient);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.api.internal.BasePendingResult
-    public final /* bridge */ /* synthetic */ Result createFailedResult(Status status) {
+    protected final /* bridge */ /* synthetic */ Result createFailedResult(Status status) {
         return status;
     }
 

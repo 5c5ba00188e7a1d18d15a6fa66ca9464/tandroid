@@ -39,9 +39,7 @@ public class FilesMigrationService extends Service {
     private int movedFilesCount;
     private int totalFilesCount;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends Thread {
+    class 1 extends Thread {
         1() {
         }
 
@@ -64,7 +62,6 @@ public class FilesMigrationService extends Service {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class FilesMigrationBottomSheet extends BottomSheet {
         BaseFragment fragment;
 
@@ -118,9 +115,8 @@ public class FilesMigrationService extends Service {
             migrateOldFolder();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet
-        public boolean canDismissWithSwipe() {
+        protected boolean canDismissWithSwipe() {
             return false;
         }
 

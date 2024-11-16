@@ -15,9 +15,7 @@ public class Logging {
     private static Severity loggableSeverity;
     private static volatile boolean loggingEnabled;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public static /* synthetic */ class 1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$Logging$Severity;
 
         static {
@@ -38,7 +36,6 @@ public class Logging {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum Severity {
         LS_VERBOSE,
         LS_INFO,
@@ -48,7 +45,6 @@ public class Logging {
     }
 
     @Deprecated
-    /* loaded from: classes5.dex */
     public enum TraceLevel {
         TRACE_NONE(0),
         TRACE_STATEINFO(1),
@@ -83,8 +79,7 @@ public class Logging {
         log(Severity.LS_INFO, str, str2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void deleteInjectedLoggable() {
+    static void deleteInjectedLoggable() {
         loggable = null;
     }
 
@@ -130,8 +125,7 @@ public class Logging {
         return stringWriter.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void injectLoggable(Loggable loggable2, Severity severity) {
+    static void injectLoggable(Loggable loggable2, Severity severity) {
         if (loggable2 != null) {
             loggable = loggable2;
             loggableSeverity = severity;

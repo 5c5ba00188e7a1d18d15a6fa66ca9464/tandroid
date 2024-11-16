@@ -5,13 +5,11 @@ import android.content.ServiceConnection;
 import android.os.IInterface;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class x extends t {
+final class x extends t {
     final /* synthetic */ ae a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public x(ae aeVar) {
+    x(ae aeVar) {
         this.a = aeVar;
     }
 

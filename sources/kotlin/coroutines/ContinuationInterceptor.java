@@ -7,7 +7,6 @@ import kotlin.jvm.internal.Intrinsics;
 public interface ContinuationInterceptor extends CoroutineContext.Element {
     public static final Key Key = Key.$$INSTANCE;
 
-    /* loaded from: classes.dex */
     public static final class DefaultImpls {
         public static CoroutineContext.Element get(ContinuationInterceptor continuationInterceptor, CoroutineContext.Key key) {
             Intrinsics.checkNotNullParameter(key, "key");
@@ -39,7 +38,6 @@ public interface ContinuationInterceptor extends CoroutineContext.Element {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Key implements CoroutineContext.Key {
         static final /* synthetic */ Key $$INSTANCE = new Key();
 

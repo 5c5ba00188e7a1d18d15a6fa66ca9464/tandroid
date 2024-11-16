@@ -468,106 +468,43 @@ public class GroupCreateUserCell extends FrameLayout {
             }
             String str4 = (String) this.currentObject;
             str4.hashCode();
-            char c = 65535;
-            switch (str4.hashCode()) {
-                case -1716307998:
-                    if (str4.equals("archived")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case -1237460524:
-                    if (str4.equals("groups")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case -1197490811:
-                    if (str4.equals("non_contacts")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case -567451565:
-                    if (str4.equals("contacts")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-                case -268161860:
-                    if (str4.equals("new_chats")) {
-                        c = 4;
-                        break;
-                    }
-                    break;
-                case 3029900:
-                    if (str4.equals("bots")) {
-                        c = 5;
-                        break;
-                    }
-                    break;
-                case 3496342:
-                    if (str4.equals("read")) {
-                        c = 6;
-                        break;
-                    }
-                    break;
-                case 104264043:
-                    if (str4.equals("muted")) {
-                        c = 7;
-                        break;
-                    }
-                    break;
-                case 151051367:
-                    if (str4.equals("existing_chats")) {
-                        c = '\b';
-                        break;
-                    }
-                    break;
-                case 1432626128:
-                    if (str4.equals("channels")) {
-                        c = '\t';
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (str4) {
+                case "archived":
                     avatarDrawable = this.avatarDrawable;
                     i4 = 11;
                     avatarDrawable.setAvatarType(i4);
                     break;
-                case 1:
+                case "groups":
                     this.avatarDrawable.setAvatarType(6);
                     break;
-                case 2:
+                case "non_contacts":
                     this.avatarDrawable.setAvatarType(5);
                     break;
-                case 3:
+                case "contacts":
                     this.avatarDrawable.setAvatarType(4);
                     break;
-                case 4:
+                case "new_chats":
                     avatarDrawable = this.avatarDrawable;
                     i4 = 24;
                     avatarDrawable.setAvatarType(i4);
                     break;
-                case 5:
+                case "bots":
                     this.avatarDrawable.setAvatarType(8);
                     break;
-                case 6:
+                case "read":
                     avatarDrawable = this.avatarDrawable;
                     i4 = 10;
                     avatarDrawable.setAvatarType(i4);
                     break;
-                case 7:
+                case "muted":
                     this.avatarDrawable.setAvatarType(9);
                     break;
-                case '\b':
+                case "existing_chats":
                     avatarDrawable = this.avatarDrawable;
                     i4 = 23;
                     avatarDrawable.setAvatarType(i4);
                     break;
-                case '\t':
+                case "channels":
                     this.avatarDrawable.setAvatarType(7);
                     break;
             }

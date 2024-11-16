@@ -8,7 +8,6 @@ import kotlin.jvm.internal.Intrinsics;
 public abstract class CreationExtras {
     private final Map map = new LinkedHashMap();
 
-    /* loaded from: classes.dex */
     public static final class Empty extends CreationExtras {
         public static final Empty INSTANCE = new Empty();
 
@@ -22,7 +21,6 @@ public abstract class CreationExtras {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Key {
     }
 

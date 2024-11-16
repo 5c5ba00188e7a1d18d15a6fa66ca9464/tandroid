@@ -216,26 +216,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private Drawable wallpaperPreviewDrawable;
     private boolean wasLayout;
 
-    /* loaded from: classes4.dex */
-    public class 1 extends ClickableSpan {
-        final /* synthetic */ CharacterStyle val$link;
-
-        1(CharacterStyle characterStyle) {
-            r2 = characterStyle;
-        }
-
-        @Override // android.text.style.ClickableSpan
-        public void onClick(View view) {
-            if (ChatActionCell.this.delegate != null) {
-                ChatActionCell.this.openLink(r2);
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
     public interface ChatActionCellDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$canDrawOutboundsContent(ChatActionCellDelegate chatActionCellDelegate) {
                 return true;
@@ -314,8 +296,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         void needShowEffectOverlay(ChatActionCell chatActionCell, TLRPC.Document document, TLRPC.VideoSize videoSize);
     }
 
-    /* loaded from: classes4.dex */
-    public class TextLayout {
+    class TextLayout {
         public AnimatedEmojiSpan.EmojiGroupedSpans emoji;
         public StaticLayout layout;
         public TextPaint paint;
@@ -352,10 +333,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface ThemeDelegate extends Theme.ResourcesProvider {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
         }
     }
@@ -978,6 +957,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(ImageReceiver imageReceiver, boolean z, boolean z2, boolean z3) {
         RLottieDrawable lottieAnimation;
         ChatActionCellDelegate chatActionCellDelegate;
@@ -1011,6 +991,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouchEvent$1() {
         this.isSpoilerRevealing = false;
         getMessageObject().isSpoilersRevealed = true;
@@ -1021,6 +1002,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouchEvent$2() {
         post(new Runnable() { // from class: org.telegram.ui.Cells.ChatActionCell$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
@@ -1030,10 +1012,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openPremiumGiftChannel$3(TLRPC.TL_messageActionGiftCode tL_messageActionGiftCode) {
         this.delegate.didOpenPremiumGiftChannel(this, tL_messageActionGiftCode.slug, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openPremiumGiftPreview$4(TLRPC.TL_premiumGiftOption tL_premiumGiftOption, String str) {
         this.delegate.didOpenPremiumGift(this, tL_premiumGiftOption, str, false);
     }
@@ -1049,6 +1033,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return f;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void openLink(CharacterStyle characterStyle) {
         if (this.delegate == null || !(characterStyle instanceof URLSpan)) {
             return;
@@ -1208,7 +1193,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
     /* JADX WARN: Code restructure failed: missing block: B:148:0x0400, code lost:
     
-        if (isFloating() != false) goto L365;
+        if (isFloating() != false) goto L158;
      */
     /* JADX WARN: Code restructure failed: missing block: B:149:0x042b, code lost:
     
@@ -1222,7 +1207,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
      */
     /* JADX WARN: Code restructure failed: missing block: B:194:0x0428, code lost:
     
-        if (isFloating() != false) goto L365;
+        if (isFloating() != false) goto L158;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1708,7 +1693,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         boolean z;
         float f;
         float f2;
@@ -2500,21 +2485,15 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
         if (this.accessibilityText == null) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(!TextUtils.isEmpty(this.customText) ? this.customText : messageObject.messageText);
-            for (CharacterStyle characterStyle : (CharacterStyle[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ClickableSpan.class)) {
+            for (final CharacterStyle characterStyle : (CharacterStyle[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ClickableSpan.class)) {
                 int spanStart = spannableStringBuilder.getSpanStart(characterStyle);
                 int spanEnd = spannableStringBuilder.getSpanEnd(characterStyle);
                 spannableStringBuilder.removeSpan(characterStyle);
                 spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Cells.ChatActionCell.1
-                    final /* synthetic */ CharacterStyle val$link;
-
-                    1(CharacterStyle characterStyle2) {
-                        r2 = characterStyle2;
-                    }
-
                     @Override // android.text.style.ClickableSpan
                     public void onClick(View view) {
                         if (ChatActionCell.this.delegate != null) {
-                            ChatActionCell.this.openLink(r2);
+                            ChatActionCell.this.openLink(characterStyle);
                         }
                     }
                 }, spanStart, spanEnd, 33);
@@ -2530,7 +2509,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     @Override // android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         View view = this.rippleView;
         RectF rectF = this.giftButtonRect;
         view.layout((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
@@ -2751,11 +2730,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
     /* JADX WARN: Code restructure failed: missing block: B:129:0x0106, code lost:
     
-        if (r4.contains(r1, r2) == false) goto L286;
+        if (r4.contains(r1, r2) == false) goto L66;
      */
     /* JADX WARN: Code restructure failed: missing block: B:156:0x0185, code lost:
     
-        if (r12.backgroundRect.contains(r1, r2) != false) goto L374;
+        if (r12.backgroundRect.contains(r1, r2) != false) goto L154;
      */
     /* JADX WARN: Removed duplicated region for block: B:101:0x0399  */
     /* JADX WARN: Removed duplicated region for block: B:103:? A[RETURN, SYNTHETIC] */

@@ -10,12 +10,10 @@ import java.util.List;
 /* loaded from: classes.dex */
 public interface ChunkExtractor {
 
-    /* loaded from: classes.dex */
     public interface Factory {
         ChunkExtractor createProgressiveMediaExtractor(int i, Format format, boolean z, List list, TrackOutput trackOutput, PlayerId playerId);
     }
 
-    /* loaded from: classes.dex */
     public interface TrackOutputProvider {
         TrackOutput track(int i, int i2);
     }

@@ -14,7 +14,6 @@ public final class LatLngBounds extends AbstractSafeParcelable implements Reflec
     public final LatLng northeast;
     public final LatLng southwest;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private double zza = Double.POSITIVE_INFINITY;
         private double zzb = Double.NEGATIVE_INFINITY;

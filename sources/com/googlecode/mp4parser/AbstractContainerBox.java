@@ -21,8 +21,7 @@ public abstract class AbstractContainerBox extends BasicContainer implements Box
         writeContainer(writableByteChannel);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public ByteBuffer getHeader() {
+    protected ByteBuffer getHeader() {
         ByteBuffer wrap;
         if (this.largeBox || getSize() >= 4294967296L) {
             byte[] bArr = new byte[16];

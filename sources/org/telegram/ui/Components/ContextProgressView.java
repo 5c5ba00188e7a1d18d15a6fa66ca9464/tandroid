@@ -70,7 +70,7 @@ public class ContextProgressView extends View {
         long currentTimeMillis = System.currentTimeMillis();
         long j = currentTimeMillis - this.lastUpdateTime;
         this.lastUpdateTime = currentTimeMillis;
-        this.radOffset = (int) (this.radOffset + (((float) (j * 360)) / 1000.0f));
+        this.radOffset = (int) (this.radOffset + ((j * 360) / 1000.0f));
         this.cicleRect.set((getMeasuredWidth() / 2) - AndroidUtilities.dp(9.0f), (getMeasuredHeight() / 2) - AndroidUtilities.dp(9.0f), r0 + AndroidUtilities.dp(18.0f), r2 + AndroidUtilities.dp(18.0f));
         canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, AndroidUtilities.dp(9.0f), this.innerPaint);
         canvas.drawArc(this.cicleRect, this.radOffset - 90, 90.0f, false, this.outerPaint);

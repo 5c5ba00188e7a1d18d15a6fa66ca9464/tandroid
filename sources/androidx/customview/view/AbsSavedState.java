@@ -32,14 +32,12 @@ public abstract class AbsSavedState implements Parcelable {
         this.mSuperState = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbsSavedState(Parcel parcel, ClassLoader classLoader) {
+    protected AbsSavedState(Parcel parcel, ClassLoader classLoader) {
         Parcelable readParcelable = parcel.readParcelable(classLoader);
         this.mSuperState = readParcelable == null ? EMPTY_STATE : readParcelable;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbsSavedState(Parcelable parcelable) {
+    protected AbsSavedState(Parcelable parcelable) {
         if (parcelable == null) {
             throw new IllegalArgumentException("superState must not be null");
         }

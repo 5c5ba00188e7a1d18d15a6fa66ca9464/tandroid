@@ -3,16 +3,13 @@ package j$.util.stream;
 import j$.util.function.BiConsumer;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class b0 extends b implements IntStream {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b0(j$.util.Q q, int i) {
+abstract class b0 extends b implements IntStream {
+    b0(j$.util.Q q, int i) {
         super(q, i, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b0(b bVar, int i) {
+    b0(b bVar, int i) {
         super(bVar, i);
     }
 
@@ -214,9 +211,8 @@ public abstract class b0 extends b implements IntStream {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final T2 q0() {
+    final T2 q0() {
         return T2.INT_VALUE;
     }
 
@@ -258,9 +254,8 @@ public abstract class b0 extends b implements IntStream {
         return !t0() ? this : new Y(this, S2.r);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final x0 v0(long j, j$.util.function.I i) {
+    final x0 v0(long j, j$.util.function.I i) {
         return t0.R(j);
     }
 }

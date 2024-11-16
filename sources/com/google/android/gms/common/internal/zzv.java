@@ -6,8 +6,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class zzv extends com.google.android.gms.internal.common.zza implements IAccountAccessor {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzv(IBinder iBinder) {
+    zzv(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.common.internal.IAccountAccessor");
     }
 

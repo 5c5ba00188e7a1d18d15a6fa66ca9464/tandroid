@@ -44,7 +44,6 @@ public class ChatActivityMemberRequestsDelegate {
     private FrameLayout root;
     private final SizeNotifierFrameLayout sizeNotifierFrameLayout;
 
-    /* loaded from: classes3.dex */
     public interface Callback {
         void onEnterOffsetChanged();
     }
@@ -210,9 +209,8 @@ public class ChatActivityMemberRequestsDelegate {
             linearLayout.setOrientation(0);
             this.root.addView(linearLayout, LayoutHelper.createFrame(-1, -1.0f, 48, 0.0f, 0.0f, 36.0f, 0.0f));
             AvatarsImageView avatarsImageView = new AvatarsImageView(this.fragment.getParentActivity(), false) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
-                public void onMeasure(int i, int i2) {
+                protected void onMeasure(int i, int i2) {
                     super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.avatarsDrawable.count == 0 ? 0 : ((r2 - 1) * 20) + 24), 1073741824), i2);
                 }
             };

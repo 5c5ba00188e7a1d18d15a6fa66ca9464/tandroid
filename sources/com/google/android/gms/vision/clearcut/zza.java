@@ -8,8 +8,7 @@ final class zza implements Runnable {
     private final /* synthetic */ zzfi$zzo zzb;
     private final /* synthetic */ DynamiteClearcutLogger zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(DynamiteClearcutLogger dynamiteClearcutLogger, int i, zzfi$zzo zzfi_zzo) {
+    zza(DynamiteClearcutLogger dynamiteClearcutLogger, int i, zzfi$zzo zzfi_zzo) {
         this.zzc = dynamiteClearcutLogger;
         this.zza = i;
         this.zzb = zzfi_zzo;

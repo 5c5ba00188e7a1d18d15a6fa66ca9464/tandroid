@@ -104,9 +104,7 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     float w;
     private final Paint whitePaint;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 3 implements StoryViewer.PlaceProvider {
+    class 3 implements StoryViewer.PlaceProvider {
         3() {
         }
 
@@ -206,8 +204,7 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class StoryCircle {
+    class StoryCircle {
         final RectF borderRect;
         float cachedIndex;
         float cachedRead;

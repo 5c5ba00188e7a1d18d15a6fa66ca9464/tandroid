@@ -6,7 +6,6 @@ import com.google.android.datatransport.cct.internal.AutoValue_NetworkConnection
 /* loaded from: classes.dex */
 public abstract class NetworkConnectionInfo {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract NetworkConnectionInfo build();
 
@@ -15,7 +14,6 @@ public abstract class NetworkConnectionInfo {
         public abstract Builder setNetworkType(NetworkType networkType);
     }
 
-    /* loaded from: classes.dex */
     public enum MobileSubtype {
         UNKNOWN_MOBILE_SUBTYPE(0),
         GPRS(1),
@@ -100,7 +98,6 @@ public abstract class NetworkConnectionInfo {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum NetworkType {
         MOBILE(0),
         WIFI(1),

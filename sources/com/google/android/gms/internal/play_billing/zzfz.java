@@ -17,8 +17,7 @@ public final class zzfz extends zzcb implements zzdg {
     private zzfz() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzA(zzfz zzfzVar, zzff zzffVar) {
+    static /* synthetic */ void zzA(zzfz zzfzVar, zzff zzffVar) {
         zzffVar.getClass();
         zzfzVar.zzf = zzffVar;
         zzfzVar.zze = 3;
@@ -28,29 +27,25 @@ public final class zzfz extends zzcb implements zzdg {
         return (zzfy) zzb.zzg();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzx(zzfz zzfzVar, zzgd zzgdVar) {
+    static /* synthetic */ void zzx(zzfz zzfzVar, zzgd zzgdVar) {
         zzgdVar.getClass();
         zzfzVar.zzf = zzgdVar;
         zzfzVar.zze = 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzy(zzfz zzfzVar, zzfm zzfmVar) {
+    static /* synthetic */ void zzy(zzfz zzfzVar, zzfm zzfmVar) {
         zzfzVar.zzg = zzfmVar;
         zzfzVar.zzd |= 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzz(zzfz zzfzVar, zzfb zzfbVar) {
+    static /* synthetic */ void zzz(zzfz zzfzVar, zzfb zzfbVar) {
         zzfbVar.getClass();
         zzfzVar.zzf = zzfbVar;
         zzfzVar.zze = 2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.play_billing.zzcb
-    public final Object zzu(int i, Object obj, Object obj2) {
+    protected final Object zzu(int i, Object obj, Object obj2) {
         int i2 = i - 1;
         if (i2 == 0) {
             return (byte) 1;

@@ -15,9 +15,7 @@ public abstract class MimeTypes {
     private static final ArrayList customMimeTypes = new ArrayList();
     private static final Pattern MP4A_RFC_6381_CODEC_PATTERN = Pattern.compile("^mp4a\\.([a-zA-Z0-9]{2})(?:\\.([0-9]{1,2}))?$");
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Mp4aObjectType {
+    static final class Mp4aObjectType {
         public final int audioObjectTypeIndication;
         public final int objectTypeIndication;
 
@@ -53,92 +51,13 @@ public abstract class MimeTypes {
         if (str == null) {
             return false;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2123537834:
-                if (str.equals("audio/eac3-joc")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -432837260:
-                if (str.equals("audio/mpeg-L1")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -432837259:
-                if (str.equals("audio/mpeg-L2")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -53558318:
-                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 187078296:
-                if (str.equals("audio/ac3")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 187094639:
-                if (str.equals("audio/raw")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 1504578661:
-                if (str.equals("audio/eac3")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 1504619009:
-                if (str.equals("audio/flac")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 1504831518:
-                if (str.equals("audio/mpeg")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 1903231877:
-                if (str.equals("audio/g711-alaw")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 1903589369:
-                if (str.equals("audio/g711-mlaw")) {
-                    c = '\n';
-                    break;
+        switch (str) {
+            case "audio/mp4a-latm":
+                if (str2 != null && (objectTypeFromMp4aRFC6381CodecString = getObjectTypeFromMp4aRFC6381CodecString(str2)) != null && (encoding = objectTypeFromMp4aRFC6381CodecString.getEncoding()) != 0 && encoding != 16) {
                 }
                 break;
         }
-        switch (c) {
-            case 0:
-            case 1:
-            case 2:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case '\b':
-            case '\t':
-            case '\n':
-                return true;
-            case 3:
-                return (str2 == null || (objectTypeFromMp4aRFC6381CodecString = getObjectTypeFromMp4aRFC6381CodecString(str2)) == null || (encoding = objectTypeFromMp4aRFC6381CodecString.getEncoding()) == 0 || encoding == 16) ? false : true;
-            default:
-                return false;
-        }
+        return false;
     }
 
     public static boolean containsCodecsCorrespondingToMimeType(String str, String str2) {
@@ -190,92 +109,29 @@ public abstract class MimeTypes {
     public static int getEncoding(String str, String str2) {
         Mp4aObjectType objectTypeFromMp4aRFC6381CodecString;
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2123537834:
-                if (str.equals("audio/eac3-joc")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1095064472:
-                if (str.equals("audio/vnd.dts")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -53558318:
-                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 187078296:
-                if (str.equals("audio/ac3")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 187078297:
-                if (str.equals("audio/ac4")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 1504578661:
-                if (str.equals("audio/eac3")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 1504831518:
-                if (str.equals("audio/mpeg")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 1504891608:
-                if (str.equals("audio/opus")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 1505942594:
-                if (str.equals("audio/vnd.dts.hd")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 1556697186:
-                if (str.equals("audio/true-hd")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "audio/eac3-joc":
                 return 18;
-            case 1:
+            case "audio/vnd.dts":
                 return 7;
-            case 2:
+            case "audio/mp4a-latm":
                 if (str2 == null || (objectTypeFromMp4aRFC6381CodecString = getObjectTypeFromMp4aRFC6381CodecString(str2)) == null) {
                     return 0;
                 }
                 return objectTypeFromMp4aRFC6381CodecString.getEncoding();
-            case 3:
+            case "audio/ac3":
                 return 5;
-            case 4:
+            case "audio/ac4":
                 return 17;
-            case 5:
+            case "audio/eac3":
                 return 6;
-            case 6:
+            case "audio/mpeg":
                 return 9;
-            case 7:
+            case "audio/opus":
                 return 20;
-            case '\b':
+            case "audio/vnd.dts.hd":
                 return 8;
-            case '\t':
+            case "audio/true-hd":
                 return 14;
             default:
                 return 0;
@@ -474,33 +330,12 @@ public abstract class MimeTypes {
 
     public static String normalizeMimeType(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1007807498:
-                if (str.equals("audio/x-flac")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -586683234:
-                if (str.equals("audio/x-wav")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 187090231:
-                if (str.equals("audio/mp3")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "audio/x-flac":
                 return "audio/flac";
-            case 1:
+            case "audio/x-wav":
                 return "audio/wav";
-            case 2:
+            case "audio/mp3":
                 return "audio/mpeg";
             default:
                 return str;

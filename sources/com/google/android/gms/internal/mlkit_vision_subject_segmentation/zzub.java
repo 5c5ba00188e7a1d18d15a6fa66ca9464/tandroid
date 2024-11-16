@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zzub extends zza implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzub(IBinder iBinder) {
+    zzub(IBinder iBinder) {
         super(iBinder, "com.google.mlkit.vision.segmentation.subject.aidls.ISubjectSegmenter");
     }
 

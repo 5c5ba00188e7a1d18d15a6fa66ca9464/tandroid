@@ -14,17 +14,17 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class TypefaceCompatBaseImpl {
+class TypefaceCompatBaseImpl {
     private ConcurrentHashMap mFontFamilies = new ConcurrentHashMap();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface StyleExtractor {
+    private interface StyleExtractor {
         int getWeight(Object obj);
 
         boolean isItalic(Object obj);
+    }
+
+    TypefaceCompatBaseImpl() {
     }
 
     private void addFontFamily(Typeface typeface, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry) {
@@ -120,8 +120,7 @@ public class TypefaceCompatBaseImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Typeface createFromInputStream(Context context, InputStream inputStream) {
+    protected Typeface createFromInputStream(Context context, InputStream inputStream) {
         File tempFile = TypefaceCompatUtil.getTempFile(context);
         if (tempFile == null) {
             return null;
@@ -155,8 +154,7 @@ public class TypefaceCompatBaseImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
+    protected FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
         return (FontsContractCompat.FontInfo) findBestFont(fontInfoArr, i, new StyleExtractor() { // from class: androidx.core.graphics.TypefaceCompatBaseImpl.1
             @Override // androidx.core.graphics.TypefaceCompatBaseImpl.StyleExtractor
             public int getWeight(FontsContractCompat.FontInfo fontInfo) {
@@ -170,8 +168,7 @@ public class TypefaceCompatBaseImpl {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FontResourcesParserCompat.FontFamilyFilesResourceEntry getFontFamily(Typeface typeface) {
+    FontResourcesParserCompat.FontFamilyFilesResourceEntry getFontFamily(Typeface typeface) {
         long uniqueKey = getUniqueKey(typeface);
         if (uniqueKey == 0) {
             return null;

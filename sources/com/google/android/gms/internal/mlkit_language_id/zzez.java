@@ -11,8 +11,7 @@ public class zzez extends IOException {
         this.zza = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzey zza() {
+    static zzey zza() {
         return new zzey("Protocol message tag had invalid wire type.");
     }
 }

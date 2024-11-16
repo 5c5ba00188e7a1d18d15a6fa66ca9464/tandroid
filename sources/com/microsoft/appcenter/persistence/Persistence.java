@@ -10,10 +10,8 @@ import java.util.List;
 public abstract class Persistence implements Closeable {
     private LogSerializer mLogSerializer;
 
-    /* loaded from: classes.dex */
     public static class PersistenceException extends Exception {
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public PersistenceException(String str) {
+        PersistenceException(String str) {
             super(str);
         }
 
@@ -30,8 +28,7 @@ public abstract class Persistence implements Closeable {
 
     public abstract void deleteLogs(String str, String str2);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LogSerializer getLogSerializer() {
+    LogSerializer getLogSerializer() {
         LogSerializer logSerializer = this.mLogSerializer;
         if (logSerializer != null) {
             return logSerializer;

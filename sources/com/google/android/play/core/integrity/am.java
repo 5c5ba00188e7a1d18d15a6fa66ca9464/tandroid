@@ -7,6 +7,9 @@ final class am extends IntegrityTokenRequest.Builder {
     private String a;
     private Long b;
 
+    am() {
+    }
+
     @Override // com.google.android.play.core.integrity.IntegrityTokenRequest.Builder
     public final IntegrityTokenRequest build() {
         String str = this.a;

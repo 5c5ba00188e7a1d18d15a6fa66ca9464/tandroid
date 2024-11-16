@@ -11,8 +11,7 @@ abstract class zzq {
     final int zzc;
     final Bundle zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzq(int i, int i2, Bundle bundle) {
+    zzq(int i, int i2, Bundle bundle) {
         this.zza = i;
         this.zzc = i2;
         this.zzd = bundle;
@@ -33,11 +32,9 @@ abstract class zzq {
         return sb.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(Bundle bundle);
+    abstract void zza(Bundle bundle);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(zzp zzpVar) {
+    final void zza(zzp zzpVar) {
         if (Log.isLoggable("MessengerIpcClient", 3)) {
             String valueOf = String.valueOf(this);
             String valueOf2 = String.valueOf(zzpVar);
@@ -51,8 +48,7 @@ abstract class zzq {
         this.zzb.setException(zzpVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(Object obj) {
+    final void zza(Object obj) {
         if (Log.isLoggable("MessengerIpcClient", 3)) {
             String valueOf = String.valueOf(this);
             String valueOf2 = String.valueOf(obj);
@@ -66,6 +62,5 @@ abstract class zzq {
         this.zzb.setResult(obj);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract boolean zza();
+    abstract boolean zza();
 }

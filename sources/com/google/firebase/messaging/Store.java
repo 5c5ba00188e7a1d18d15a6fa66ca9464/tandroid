@@ -11,15 +11,12 @@ import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class Store {
+class Store {
     final Context context;
     final SharedPreferences store;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Token {
+    static class Token {
         private static final long REFRESH_PERIOD_MILLIS = TimeUnit.DAYS.toMillis(7);
         final String appVersion;
         final long timestamp;
@@ -68,8 +65,7 @@ public class Store {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean needsRefresh(String str) {
+        boolean needsRefresh(String str) {
             return System.currentTimeMillis() > this.timestamp + REFRESH_PERIOD_MILLIS || !str.equals(this.appVersion);
         }
     }

@@ -12,6 +12,9 @@ import java.util.List;
 
 /* loaded from: classes.dex */
 final class zbb extends Api.AbstractClientBuilder {
+    zbb() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         return new zbe(context, looper, clientSettings, (GoogleSignInOptions) obj, connectionCallbacks, onConnectionFailedListener);

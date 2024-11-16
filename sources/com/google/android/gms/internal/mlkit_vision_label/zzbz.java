@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbz extends zzbg {
+final class zzbz extends zzbg {
     static final zzbg zza = new zzbz(null, new Object[0], 0);
     final transient Object[] zzb;
     private final transient int zzc;
@@ -12,8 +11,7 @@ public final class zzbz extends zzbg {
         this.zzc = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbz zzg(int i, Object[] objArr, zzbf zzbfVar) {
+    static zzbz zzg(int i, Object[] objArr, zzbf zzbfVar) {
         Object obj = objArr[0];
         obj.getClass();
         Object obj2 = objArr[1];

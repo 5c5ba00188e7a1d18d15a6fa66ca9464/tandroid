@@ -5,6 +5,9 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 final class zzfv implements zzfs {
+    zzfv() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfs
     public final int zza(int i, Object obj, Object obj2) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);

@@ -23,9 +23,7 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
     protected boolean mDataValid;
     protected int mRowIDColumn;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ChangeObserver extends ContentObserver {
+    private class ChangeObserver extends ContentObserver {
         ChangeObserver() {
             super(new Handler());
         }
@@ -41,9 +39,7 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class MyDataSetObserver extends DataSetObserver {
+    private class MyDataSetObserver extends DataSetObserver {
         MyDataSetObserver() {
         }
 

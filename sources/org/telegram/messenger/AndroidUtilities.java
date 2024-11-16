@@ -311,7 +311,7 @@ public class AndroidUtilities {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class LinkSpec {
+    static class LinkSpec {
         int end;
         int start;
         String url;
@@ -1338,13 +1338,7 @@ public class AndroidUtilities {
                     return true;
                 } finally {
                 }
-            } catch (Throwable th) {
-                try {
-                    fileInputStream.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-                throw th;
+            } finally {
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -1786,7 +1780,7 @@ public class AndroidUtilities {
             return String.format("%d B", Long.valueOf(j));
         }
         if (j < 1048576) {
-            float f = ((float) j) / 1024.0f;
+            float f = j / 1024.0f;
             if (z) {
                 int i = (int) f;
                 if ((f - i) * 10.0f == 0.0f) {
@@ -1796,7 +1790,7 @@ public class AndroidUtilities {
             return String.format("%.1f KB", Float.valueOf(f));
         }
         if (j < 1048576000) {
-            float f2 = (((float) j) / 1024.0f) / 1024.0f;
+            float f2 = (j / 1024.0f) / 1024.0f;
             if (z) {
                 int i2 = (int) f2;
                 if ((f2 - i2) * 10.0f == 0.0f) {
@@ -2409,13 +2403,7 @@ public class AndroidUtilities {
                         query.close();
                         return null;
                     }
-                } catch (Throwable th) {
-                    try {
-                        query.close();
-                    } catch (Throwable th2) {
-                        th.addSuppressed(th2);
-                    }
-                    throw th;
+                } finally {
                 }
             }
             if (query != null) {
@@ -2842,36 +2830,6 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0043, code lost:
-    
-        if (r7 > 1.0f) goto L20;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0045, code lost:
-    
-        r8 = r1.inSampleSize * 2;
-        r1.inSampleSize = r8;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x004e, code lost:
-    
-        if (r8 < r7) goto L63;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0050, code lost:
-    
-        r1.inJustDecodeBounds = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x0053, code lost:
-    
-        if (r9 == null) goto L25;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0055, code lost:
-    
-        r7 = android.graphics.BitmapFactory.decodeFile(r9, r1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x005a, code lost:
-    
-        r3.getChannel().position(r11);
-        r7 = android.graphics.BitmapFactory.decodeStream(r3, null, r1);
-     */
     /* JADX WARN: Code restructure failed: missing block: B:32:0x0071, code lost:
     
         if (r3 != null) goto L59;
@@ -2899,6 +2857,7 @@ public class AndroidUtilities {
         FileInputStream fileInputStream;
         int i2;
         Bitmap decodeStream;
+        int i3;
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -2925,20 +2884,33 @@ public class AndroidUtilities {
                     }
                 }
             }
-            int i3 = options.outWidth;
-            if (i3 > 0 && (i2 = options.outHeight) > 0) {
-                if (f > f2 && i3 < i2) {
+            int i4 = options.outWidth;
+            if (i4 > 0 && (i2 = options.outHeight) > 0) {
+                if (f > f2 && i4 < i2) {
                     f2 = f;
                     f = f2;
                 }
-                float min = Math.min(i3 / f, i2 / f2);
+                float min = Math.min(i4 / f, i2 / f2);
                 options.inSampleSize = 1;
+                if (min > 1.0f) {
+                    do {
+                        i3 = options.inSampleSize * 2;
+                        options.inSampleSize = i3;
+                    } while (i3 < min);
+                }
+                options.inJustDecodeBounds = false;
+                if (str != null) {
+                    decodeStream = BitmapFactory.decodeFile(str, options);
+                } else {
+                    fileInputStream.getChannel().position(i);
+                    decodeStream = BitmapFactory.decodeStream(fileInputStream, null, options);
+                }
+                return decodeStream;
             }
         } catch (Throwable th2) {
             th = th2;
             fileInputStream = null;
         }
-        return decodeStream;
         return null;
     }
 
@@ -3023,8 +2995,8 @@ public class AndroidUtilities {
         try {
             randomAccessFile.close();
         } catch (Exception unused5) {
-            return null;
         }
+        return null;
     }
 
     public static String getSystemProperty(String str) {
@@ -3732,7 +3704,7 @@ public class AndroidUtilities {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:21:0x0050 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0078 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0078 A[ADDED_TO_REGION, REMOVE, RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:34:0x0079 A[Catch: Exception -> 0x0036, TryCatch #0 {Exception -> 0x0036, blocks: (B:6:0x0004, B:9:0x000f, B:12:0x0016, B:25:0x0056, B:27:0x005e, B:29:0x0066, B:31:0x0072, B:34:0x0079, B:36:0x0093, B:38:0x009b, B:41:0x00a5, B:44:0x00b6, B:46:0x00c2, B:47:0x00c5, B:49:0x00cb, B:51:0x00d2, B:54:0x00dd, B:56:0x00e3, B:59:0x00f0, B:60:0x00f4, B:62:0x018e, B:63:0x0191, B:66:0x019e, B:71:0x00f9, B:74:0x0104, B:77:0x0110, B:80:0x011b, B:83:0x0126, B:86:0x0130, B:89:0x013a, B:92:0x0145, B:95:0x014f, B:98:0x015a, B:101:0x0165, B:104:0x0170, B:107:0x017a, B:110:0x0185, B:113:0x01a9, B:115:0x01af, B:118:0x002c, B:121:0x0039, B:124:0x0043), top: B:5:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3755,7 +3727,6 @@ public class AndroidUtilities {
             return false;
         }
         int hashCode = scheme.hashCode();
-        char c2 = 65535;
         if (hashCode == 3699) {
             if (scheme.equals("tg")) {
                 c = 2;
@@ -3791,112 +3762,29 @@ public class AndroidUtilities {
                             if (TextUtils.isEmpty(str2)) {
                                 return false;
                             }
-                            switch (str2.hashCode()) {
-                                case -1401304190:
-                                    if (str2.equals("joinchat")) {
-                                        c2 = 0;
-                                        break;
-                                    }
+                            switch (str2) {
+                                case "joinchat":
+                                case "login":
+                                case "addstickers":
+                                case "addemoji":
+                                case "msg":
+                                case "share":
+                                case "confirmphone":
+                                case "setlanguage":
+                                case "addtheme":
+                                case "boost":
+                                case "c":
+                                case "contact":
+                                case "folder":
+                                case "addlist":
                                     break;
-                                case -1268966290:
-                                    if (str2.equals("folder")) {
-                                        c2 = '\f';
-                                        break;
-                                    }
-                                    break;
-                                case -1230486459:
-                                    if (str2.equals("addemoji")) {
-                                        c2 = 3;
-                                        break;
-                                    }
-                                    break;
-                                case -1216792120:
-                                    if (str2.equals("addtheme")) {
-                                        c2 = '\b';
-                                        break;
-                                    }
-                                    break;
-                                case -1147866945:
-                                    if (str2.equals("addlist")) {
-                                        c2 = '\r';
-                                        break;
-                                    }
-                                    break;
-                                case 99:
-                                    if (str2.equals("c")) {
-                                        c2 = '\n';
-                                        break;
-                                    }
-                                    break;
-                                case 108417:
-                                    if (str2.equals("msg")) {
-                                        c2 = 4;
-                                        break;
-                                    }
-                                    break;
-                                case 93922211:
-                                    if (str2.equals("boost")) {
-                                        c2 = '\t';
-                                        break;
-                                    }
-                                    break;
-                                case 103149417:
-                                    if (str2.equals("login")) {
-                                        c2 = 1;
-                                        break;
-                                    }
-                                    break;
-                                case 109400031:
-                                    if (str2.equals("share")) {
-                                        c2 = 5;
-                                        break;
-                                    }
-                                    break;
-                                case 311086522:
-                                    if (str2.equals("setlanguage")) {
-                                        c2 = 7;
-                                        break;
-                                    }
-                                    break;
-                                case 492791415:
-                                    if (str2.equals("addstickers")) {
-                                        c2 = 2;
-                                        break;
-                                    }
-                                    break;
-                                case 951526432:
-                                    if (str2.equals("contact")) {
-                                        c2 = 11;
-                                        break;
-                                    }
-                                    break;
-                                case 2112655022:
-                                    if (str2.equals("confirmphone")) {
-                                        c2 = 6;
-                                        break;
-                                    }
-                                    break;
-                            }
-                            switch (c2) {
-                                case 0:
-                                case 1:
-                                case 2:
-                                case 3:
-                                case 4:
-                                case 5:
-                                case 6:
-                                case 7:
-                                case '\b':
-                                case '\t':
-                                case '\n':
-                                case 11:
-                                case '\f':
-                                case '\r':
-                                    return false;
                                 default:
                                     String str3 = (String) arrayList.get(1);
-                                    return (TextUtils.isEmpty(str3) || str3.matches("^\\d+$")) ? false : true;
+                                    if (!TextUtils.isEmpty(str3) && !str3.matches("^\\d+$")) {
+                                    }
+                                    break;
                             }
+                            return false;
                         }
                         if (arrayList.size() == 1) {
                             return !TextUtils.isEmpty(parse.getQueryParameter("startapp"));
@@ -5916,15 +5804,23 @@ public class AndroidUtilities {
         int navigationBarColor;
         ValueAnimator ofArgb;
         ValueAnimator valueAnimator;
-        if (window == null || Build.VERSION.SDK_INT < 21) {
-            return;
-        }
-        HashMap<Window, ValueAnimator> hashMap = navigationBarColorAnimators;
-        if (hashMap != null && (valueAnimator = hashMap.get(window)) != null) {
-            valueAnimator.cancel();
-            navigationBarColorAnimators.remove(window);
-        }
-        if (z) {
+        if (window != null && Build.VERSION.SDK_INT >= 21) {
+            HashMap<Window, ValueAnimator> hashMap = navigationBarColorAnimators;
+            if (hashMap != null && (valueAnimator = hashMap.get(window)) != null) {
+                valueAnimator.cancel();
+                navigationBarColorAnimators.remove(window);
+            }
+            if (!z) {
+                if (intColorCallback != null) {
+                    intColorCallback.run(i);
+                }
+                try {
+                    window.setNavigationBarColor(i);
+                    return;
+                } catch (Exception unused) {
+                    return;
+                }
+            }
             navigationBarColor = window.getNavigationBarColor();
             ofArgb = ValueAnimator.ofArgb(navigationBarColor, i);
             ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda33
@@ -5948,14 +5844,6 @@ public class AndroidUtilities {
                 navigationBarColorAnimators = new HashMap<>();
             }
             navigationBarColorAnimators.put(window, ofArgb);
-            return;
-        }
-        if (intColorCallback != null) {
-            intColorCallback.run(i);
-        }
-        try {
-            window.setNavigationBarColor(i);
-        } catch (Exception unused) {
         }
     }
 

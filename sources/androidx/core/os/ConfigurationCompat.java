@@ -7,7 +7,6 @@ import android.os.LocaleList;
 /* loaded from: classes.dex */
 public abstract class ConfigurationCompat {
 
-    /* loaded from: classes.dex */
     static class Api24Impl {
         static LocaleList getLocales(Configuration configuration) {
             return configuration.getLocales();

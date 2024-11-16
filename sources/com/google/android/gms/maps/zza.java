@@ -4,13 +4,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.internal.zzat;
 import com.google.android.gms.maps.model.Marker;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zza extends zzat {
+final class zza extends zzat {
     final /* synthetic */ GoogleMap.OnMarkerClickListener zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(GoogleMap googleMap, GoogleMap.OnMarkerClickListener onMarkerClickListener) {
+    zza(GoogleMap googleMap, GoogleMap.OnMarkerClickListener onMarkerClickListener) {
         this.zza = onMarkerClickListener;
     }
 

@@ -127,7 +127,7 @@ public class ConnectionsManager extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class FirebaseTask extends AsyncTask<Void, Void, NativeByteBuffer> {
+    static class FirebaseTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
         private FirebaseRemoteConfig firebaseRemoteConfig;
 
@@ -247,7 +247,7 @@ public class ConnectionsManager extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class GoogleDnsLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
+    static class GoogleDnsLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
         private int responseDate;
 
@@ -425,7 +425,7 @@ public class ConnectionsManager extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class MozillaDnsLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
+    static class MozillaDnsLoadTask extends AsyncTask<Void, Void, NativeByteBuffer> {
         private int currentAccount;
         private int responseDate;
 
@@ -589,9 +589,8 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class RequestCallbacks {
+    private static class RequestCallbacks {
         public Runnable onCancelled;
         public RequestDelegateInternal onComplete;
         public QuickAckDelegate onQuickAck;
@@ -604,9 +603,8 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class ResolveHostByNameTask extends AsyncTask<Void, Void, ResolvedDomain> {
+    private static class ResolveHostByNameTask extends AsyncTask<Void, Void, ResolvedDomain> {
         private ArrayList<Long> addresses = new ArrayList<>();
         private String currentHostName;
 
@@ -657,12 +655,7 @@ public class ConnectionsManager extends BaseController {
                     byteArrayOutputStream.write(bArr, 0, read);
                 }
                 JSONObject jSONObject = new JSONObject(new String(byteArrayOutputStream.toByteArray()));
-                if (jSONObject.has("Answer") && (length = (jSONArray = jSONObject.getJSONArray("Answer")).length()) > 0) {
-                    ArrayList arrayList = new ArrayList(length);
-                    for (int i = 0; i < length; i++) {
-                        arrayList.add(jSONArray.getJSONObject(i).getString("data"));
-                    }
-                    ResolvedDomain resolvedDomain = new ResolvedDomain(arrayList, SystemClock.elapsedRealtime());
+                if (!jSONObject.has("Answer") || (length = (jSONArray = jSONObject.getJSONArray("Answer")).length()) <= 0) {
                     try {
                         inputStream.close();
                     } catch (Throwable th3) {
@@ -672,8 +665,13 @@ public class ConnectionsManager extends BaseController {
                         byteArrayOutputStream.close();
                     } catch (Exception unused) {
                     }
-                    return resolvedDomain;
+                    return null;
                 }
+                ArrayList arrayList = new ArrayList(length);
+                for (int i = 0; i < length; i++) {
+                    arrayList.add(jSONArray.getJSONObject(i).getString("data"));
+                }
+                ResolvedDomain resolvedDomain = new ResolvedDomain(arrayList, SystemClock.elapsedRealtime());
                 try {
                     inputStream.close();
                 } catch (Throwable th4) {
@@ -682,8 +680,8 @@ public class ConnectionsManager extends BaseController {
                 try {
                     byteArrayOutputStream.close();
                 } catch (Exception unused2) {
-                    return null;
                 }
+                return resolvedDomain;
             } catch (Throwable th5) {
                 th = th5;
                 try {
@@ -708,7 +706,6 @@ public class ConnectionsManager extends BaseController {
                         return new ResolvedDomain(arrayList2, SystemClock.elapsedRealtime());
                     } catch (Exception e) {
                         FileLog.e((Throwable) e, false);
-                        return null;
                     }
                 } catch (Throwable th7) {
                     if (inputStream != null) {
@@ -751,9 +748,8 @@ public class ConnectionsManager extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class ResolvedDomain {
+    private static class ResolvedDomain {
         public ArrayList<String> addresses;
         long ttl;
 
@@ -1967,7 +1963,7 @@ public class ConnectionsManager extends BaseController {
         return native_getTimeDifference(this.currentAccount);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(11:1|(1:5)|(2:6|7)|(9:9|(8:11|(2:26|27)|(1:14)(1:25)|15|16|(1:18)(1:22)|19|20)|31|(0)(0)|15|16|(0)(0)|19|20)(1:32)|28|(0)(0)|15|16|(0)(0)|19|20) */
+    /* JADX WARN: Can't wrap try/catch for region: R(12:0|1|(1:5)|(2:6|7)|(9:9|(8:11|(2:26|27)|(1:14)(1:25)|15|16|(1:18)(1:22)|19|20)|31|(0)(0)|15|16|(0)(0)|19|20)(1:32)|28|(0)(0)|15|16|(0)(0)|19|20) */
     /* JADX WARN: Code restructure failed: missing block: B:24:0x0082, code lost:
     
         r1 = "";

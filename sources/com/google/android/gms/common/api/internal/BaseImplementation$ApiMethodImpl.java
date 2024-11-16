@@ -14,8 +14,7 @@ public abstract class BaseImplementation$ApiMethodImpl extends BasePendingResult
     private final Api mApi;
     private final Api.AnyClientKey mClientKey;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public BaseImplementation$ApiMethodImpl(Api api, GoogleApiClient googleApiClient) {
+    protected BaseImplementation$ApiMethodImpl(Api api, GoogleApiClient googleApiClient) {
         super((GoogleApiClient) Preconditions.checkNotNull(googleApiClient, "GoogleApiClient must not be null"));
         Preconditions.checkNotNull(api, "Api must not be null");
         this.mClientKey = api.zab();

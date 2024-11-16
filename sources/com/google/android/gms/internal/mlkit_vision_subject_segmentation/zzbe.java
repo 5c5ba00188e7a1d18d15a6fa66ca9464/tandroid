@@ -7,8 +7,7 @@ import java.util.Map;
 abstract class zzbe extends zzbr {
     final Map zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbe(Map map) {
+    zzbe(Map map) {
         map.getClass();
         this.zzb = map;
     }

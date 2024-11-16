@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 /* loaded from: classes.dex */
 public abstract class PendingResult {
 
-    /* loaded from: classes.dex */
     public interface StatusListener {
         void onComplete(Status status);
     }

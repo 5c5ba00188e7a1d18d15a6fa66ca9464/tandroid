@@ -4,13 +4,11 @@ import android.os.Bundle;
 import com.google.android.gms.common.ConnectionResult;
 import java.util.concurrent.locks.Lock;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zax implements zabz {
+final class zax implements zabz {
     final /* synthetic */ zaaa zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zax(zaaa zaaaVar, zaw zawVar) {
+    /* synthetic */ zax(zaaa zaaaVar, zaw zawVar) {
         this.zaa = zaaaVar;
     }
 

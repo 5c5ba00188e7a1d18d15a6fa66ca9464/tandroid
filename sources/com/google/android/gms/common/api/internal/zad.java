@@ -6,9 +6,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.TaskCompletionSource;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zad extends zac {
+abstract class zad extends zac {
     protected final TaskCompletionSource zaa;
 
     public zad(int i, TaskCompletionSource taskCompletionSource) {

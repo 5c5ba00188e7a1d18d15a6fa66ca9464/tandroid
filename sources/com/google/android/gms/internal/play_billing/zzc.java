@@ -6,8 +6,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class zzc extends zzh implements zze {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(IBinder iBinder) {
+    zzc(IBinder iBinder) {
         super(iBinder, "com.android.vending.billing.IInAppBillingService");
     }
 

@@ -36,8 +36,7 @@ public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibi
         setProgress(Math.min(getMaxValue(), Math.max(getMinValue(), getProgress() + delta)));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float getDelta() {
+    protected float getDelta() {
         return 0.05f;
     }
 

@@ -6,8 +6,7 @@ import java.util.Iterator;
 abstract class zzbt implements Iterator {
     final Iterator zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbt(Iterator it) {
+    zzbt(Iterator it) {
         it.getClass();
         this.zza = it;
     }

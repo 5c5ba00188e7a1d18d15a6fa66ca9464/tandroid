@@ -22,8 +22,7 @@ abstract class ShareTargetXmlParser {
         return attributeValue == null ? xmlResourceParser.getAttributeValue(null, str) : attributeValue;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ArrayList getShareTargets(Context context) {
+    static ArrayList getShareTargets(Context context) {
         if (sShareTargets == null) {
             synchronized (GET_INSTANCE_LOCK) {
                 try {

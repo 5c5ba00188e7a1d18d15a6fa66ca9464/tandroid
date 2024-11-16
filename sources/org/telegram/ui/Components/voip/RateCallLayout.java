@@ -30,12 +30,10 @@ public class RateCallLayout extends FrameLayout {
     private final FrameLayout starsContainer;
     private final StarContainer[] startsViews;
 
-    /* loaded from: classes3.dex */
     public interface OnRateSelected {
         void onRateSelected(int i);
     }
 
-    /* loaded from: classes3.dex */
     public static class RateCallContainer extends FrameLayout {
         private final VoIPBackgroundProvider backgroundProvider;
         private final RectF bgRect;
@@ -74,7 +72,6 @@ public class RateCallLayout extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StarContainer extends FrameLayout {
         private AllStarsProvider allStarsProvider;
         public RLottieImageView defaultStar;
@@ -83,15 +80,11 @@ public class RateCallLayout extends FrameLayout {
         private final Drawable rippleDrawable;
         public RLottieImageView selectedStar;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public interface AllStarsProvider {
+        interface AllStarsProvider {
             StarContainer[] getAllStartsViews();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public interface OnSelectedStar {
+        interface OnSelectedStar {
             void onSelected(float f, float f2, int i);
         }
 

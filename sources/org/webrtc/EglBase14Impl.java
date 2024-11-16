@@ -23,7 +23,6 @@ class EglBase14Impl implements EglBase14 {
     private EGLSurface eglSurface;
     private EGLSurface eglSurfaceBackground;
 
-    /* loaded from: classes5.dex */
     public static class Context implements EglBase14.Context {
         private final EGLContext egl14Context;
 

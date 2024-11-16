@@ -6,9 +6,8 @@ import j$.util.function.Consumer;
 final class K2 extends M2 implements j$.util.K {
     final /* synthetic */ L2 g;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public K2(L2 l2, int i, int i2, int i3, int i4) {
+    K2(L2 l2, int i, int i2, int i3, int i4) {
         super(l2, i, i2, i3, i4);
         this.g = l2;
     }

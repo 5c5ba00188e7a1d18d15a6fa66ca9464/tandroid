@@ -41,9 +41,7 @@ public class FingerprintDialogFragment extends DialogFragment {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    private static class Api21Impl {
         static void startAnimation(Drawable drawable) {
             if (drawable instanceof AnimatedVectorDrawable) {
                 ((AnimatedVectorDrawable) drawable).start();
@@ -51,7 +49,6 @@ public class FingerprintDialogFragment extends DialogFragment {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Api26Impl {
         static int getColorErrorAttr() {
             return R$attr.colorError;
@@ -123,8 +120,7 @@ public class FingerprintDialogFragment extends DialogFragment {
         return color;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static FingerprintDialogFragment newInstance() {
+    static FingerprintDialogFragment newInstance() {
         return new FingerprintDialogFragment();
     }
 

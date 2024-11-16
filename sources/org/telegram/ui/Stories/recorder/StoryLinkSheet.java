@@ -70,7 +70,6 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     private long webpageId;
     private Utilities.Callback whenDone;
 
-    /* loaded from: classes5.dex */
     public static class WebpagePreviewView extends FrameLayout {
         private final ImageView closeView;
         private final ImageView imageView;
@@ -81,7 +80,6 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         private final SpannableString titleLoading;
         private final AnimatedTextView titleView;
 
-        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -324,9 +322,8 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
         this.smoothKeyboardAnimationEnabled = true;
         this.smoothKeyboardByBottom = true;
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 super.onMoveAnimationUpdate(viewHolder);
                 ((BottomSheet) StoryLinkSheet.this).containerView.invalidate();
             }
@@ -577,9 +574,8 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                 StoryLinkSheet.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
         }, this.resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.UniversalAdapter
-            public int getThemedColor(int i) {
+            protected int getThemedColor(int i) {
                 if (i == Theme.key_dialogBackgroundGray) {
                     return -15921907;
                 }

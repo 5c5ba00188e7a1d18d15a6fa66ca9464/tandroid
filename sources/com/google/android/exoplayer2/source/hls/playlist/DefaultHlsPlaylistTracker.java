@@ -52,9 +52,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
     private Uri primaryMediaPlaylistUrl;
     private HlsPlaylistTracker.PrimaryPlaylistListener primaryPlaylistListener;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class FirstPrimaryMediaPlaylistListener implements HlsPlaylistTracker.PlaylistEventListener {
+    private class FirstPrimaryMediaPlaylistListener implements HlsPlaylistTracker.PlaylistEventListener {
         private FirstPrimaryMediaPlaylistListener() {
         }
 
@@ -86,8 +84,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class MediaPlaylistBundle implements Loader.Callback {
+    final class MediaPlaylistBundle implements Loader.Callback {
         private long earliestNextLoadTimeMs;
         private long excludeUntilMs;
         private long lastSnapshotChangeMs;

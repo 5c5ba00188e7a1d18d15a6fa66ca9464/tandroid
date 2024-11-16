@@ -9,15 +9,13 @@ final class z2 extends V1 {
     private final boolean m;
     private final Comparator n;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public z2(b bVar) {
+    z2(b bVar) {
         super(bVar, S2.q | S2.o, 0);
         this.m = true;
         this.n = Comparator$-CC.a();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public z2(b bVar, Comparator comparator) {
+    z2(b bVar, Comparator comparator) {
         super(bVar, S2.q | S2.p, 0);
         this.m = false;
         comparator.getClass();

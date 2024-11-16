@@ -3,9 +3,8 @@ package com.google.android.gms.internal.clearcut;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzea {
+final class zzea {
     private static final zzea zznc = new zzea();
     private final zzeg zznd;
     private final ConcurrentMap zzne = new ConcurrentHashMap();

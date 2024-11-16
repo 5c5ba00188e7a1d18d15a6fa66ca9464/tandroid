@@ -117,7 +117,6 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
     private ActionBarMenuItem speedItem;
     protected final ViewPagerAdapter viewPagerAdapter;
 
-    /* loaded from: classes3.dex */
     public interface ChatPreviewDelegate {
         void finish();
 
@@ -126,14 +125,10 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         void startChatPreview(RecyclerListView recyclerListView, DialogCell dialogCell);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ViewPagerAdapter extends ViewPagerFixed.Adapter {
+    private class ViewPagerAdapter extends ViewPagerFixed.Adapter {
         ArrayList items = new ArrayList();
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class Item {
+        private class Item {
             int filterIndex;
             private final int type;
 
@@ -292,6 +287,19 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
             }
 
             @Override // org.telegram.ui.Adapters.DialogsSearchAdapter
+            protected void openBotApp(TLRPC.User user) {
+                if (user == null) {
+                    return;
+                }
+                BaseFragment baseFragment = SearchViewPager.this.parent;
+                if (baseFragment instanceof DialogsActivity) {
+                    ((DialogsActivity) baseFragment).closeSearching();
+                }
+                MessagesController.getInstance(SearchViewPager.this.currentAccount).openApp(user, 0);
+                putRecentSearch(user.id, user);
+            }
+
+            @Override // org.telegram.ui.Adapters.DialogsSearchAdapter
             protected void openPublicPosts() {
                 SearchViewPager searchViewPager = SearchViewPager.this;
                 HashtagsSearchAdapter hashtagsSearchAdapter = searchViewPager.hashtagSearchAdapter;
@@ -320,9 +328,8 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         }
         this.fragmentView = (SizeNotifierFrameLayout) dialogsActivity.getFragmentView();
         BlurredRecyclerView blurredRecyclerView = new BlurredRecyclerView(context) { // from class: org.telegram.ui.Components.SearchViewPager.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 SearchViewPager searchViewPager = SearchViewPager.this;
                 if (searchViewPager.dialogsSearchAdapter != null && searchViewPager.itemAnimator != null && SearchViewPager.this.searchLayoutManager != null && SearchViewPager.this.dialogsSearchAdapter.showMoreAnimation) {
                     canvas.save();
@@ -430,9 +437,8 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         });
         this.channelsSearchContainer = new FrameLayout(context);
         DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.SearchViewPager.6
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 super.onMoveAnimationUpdate(viewHolder);
                 SearchViewPager.this.invalidate();
             }
@@ -519,9 +525,8 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         });
         this.botsSearchContainer = new FrameLayout(context);
         DefaultItemAnimator defaultItemAnimator4 = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.SearchViewPager.10
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 super.onMoveAnimationUpdate(viewHolder);
                 SearchViewPager.this.invalidate();
             }
@@ -593,9 +598,8 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         });
         this.hashtagSearchContainer = new FrameLayout(context);
         DefaultItemAnimator defaultItemAnimator5 = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.SearchViewPager.14
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 super.onMoveAnimationUpdate(viewHolder);
                 SearchViewPager.this.invalidate();
             }

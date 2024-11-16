@@ -95,7 +95,6 @@ public class AddressBarList extends FrameLayout {
     public final ArrayList suggestions;
     private int textColor;
 
-    /* loaded from: classes5.dex */
     public static class Address2View extends FrameLayout {
         private final Paint dividerPaint;
         public final ImageView iconView;
@@ -103,7 +102,6 @@ public class AddressBarList extends FrameLayout {
         private boolean needDivider;
         public final TextView textView;
 
-        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -201,7 +199,6 @@ public class AddressBarList extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class BookmarkView extends FrameLayout implements Theme.Colorable {
         public final CheckBox2 checkBox;
         private final Paint dividerPaint;
@@ -216,7 +213,6 @@ public class AddressBarList extends FrameLayout {
         public final TextView textView;
         public final TextView timeView;
 
-        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -350,7 +346,7 @@ public class AddressBarList extends FrameLayout {
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(56.0f), 1073741824));
         }
 
-        /* JADX WARN: Can't wrap try/catch for region: R(26:1|(1:3)(1:68)|(1:5)(1:67)|6|(1:(1:(16:63|64|12|(1:(5:44|(1:46)(1:51)|47|(1:49)|50)(1:43))(1:16)|17|(1:19)|20|(1:22)(1:39)|23|24|25|26|27|(1:29)|30|31)(1:62))(1:58))(1:10)|11|12|(1:14)|(1:41)|44|(0)(0)|47|(0)|50|17|(0)|20|(0)(0)|23|24|25|26|27|(0)|30|31) */
+        /* JADX WARN: Can't wrap try/catch for region: R(27:0|1|(1:3)(1:68)|(1:5)(1:67)|6|(1:(1:(16:63|64|12|(1:(5:44|(1:46)(1:51)|47|(1:49)|50)(1:43))(1:16)|17|(1:19)|20|(1:22)(1:39)|23|24|25|26|27|(1:29)|30|31)(1:62))(1:58))(1:10)|11|12|(1:14)|(1:41)|44|(0)(0)|47|(0)|50|17|(0)|20|(0)(0)|23|24|25|26|27|(0)|30|31) */
         /* JADX WARN: Code restructure failed: missing block: B:35:0x019e, code lost:
         
             r0 = move-exception;
@@ -709,7 +705,6 @@ public class AddressBarList extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class BookmarksList implements NotificationCenter.NotificationCenterDelegate {
         private boolean attached;
         private final int currentAccount;
@@ -803,8 +798,7 @@ public class AddressBarList extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class QueryEntry {
+    static class QueryEntry {
         public long lastUsage;
         public final String query;
         public double rank;

@@ -51,7 +51,6 @@ public class MediaActionDrawable extends Drawable {
     private float overrideAlpha = 1.0f;
     private float transitionProgress = 1.0f;
 
-    /* loaded from: classes3.dex */
     public interface MediaActionDrawableDelegate {
         void invalidate();
     }
@@ -928,7 +927,7 @@ public class MediaActionDrawable extends Drawable {
                 this.lastAnimationTime = currentTimeMillis;
                 int i49 = this.currentIcon;
                 if (i49 == 3 || i49 == 14 || ((i49 == 4 && this.nextIcon == 14) || i49 == 10 || i49 == 13)) {
-                    float f83 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
+                    float f83 = this.downloadRadOffset + ((360 * j2) / 2500.0f);
                     this.downloadRadOffset = f83;
                     this.downloadRadOffset = getCircleValue(f83);
                     if (this.nextIcon != 2) {
@@ -936,7 +935,7 @@ public class MediaActionDrawable extends Drawable {
                         float f85 = this.downloadProgressAnimationStart;
                         float f86 = f84 - f85;
                         if (f86 > 0.0f) {
-                            float f87 = this.downloadProgressTime + ((float) j2);
+                            float f87 = this.downloadProgressTime + j2;
                             this.downloadProgressTime = f87;
                             if (f87 >= 200.0f) {
                                 this.animatedDownloadProgress = f84;
@@ -952,7 +951,7 @@ public class MediaActionDrawable extends Drawable {
                 if (this.animatingTransition) {
                     float f88 = this.transitionProgress;
                     if (f88 < 1.0f) {
-                        float f89 = f88 + (((float) j2) / this.transitionAnimationTime);
+                        float f89 = f88 + (j2 / this.transitionAnimationTime);
                         this.transitionProgress = f89;
                         if (f89 >= 1.0f) {
                             this.currentIcon = this.nextIcon;

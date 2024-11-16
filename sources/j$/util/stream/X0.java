@@ -2,9 +2,11 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class X0 extends Y0 {
+final class X0 extends Y0 {
+    X0() {
+    }
+
     @Override // j$.util.stream.F0
     public final /* bridge */ /* synthetic */ void forEach(Consumer consumer) {
     }

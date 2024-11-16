@@ -7,6 +7,9 @@ import com.google.android.exoplayer2.video.VideoListener;
 public abstract class BasePlayer implements Player {
     protected final Timeline.Window window = new Timeline.Window();
 
+    protected BasePlayer() {
+    }
+
     private int getRepeatModeForNavigation() {
         int repeatMode = getRepeatMode();
         if (repeatMode == 1) {

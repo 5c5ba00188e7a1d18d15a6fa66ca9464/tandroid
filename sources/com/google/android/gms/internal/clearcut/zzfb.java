@@ -8,8 +8,7 @@ final class zzfb implements ListIterator {
     private final /* synthetic */ int zzpd;
     private final /* synthetic */ zzfa zzpe;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzfb(zzfa zzfaVar, int i) {
+    zzfb(zzfa zzfaVar, int i) {
         zzcx zzcxVar;
         this.zzpe = zzfaVar;
         this.zzpd = i;

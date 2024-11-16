@@ -29,8 +29,7 @@ public class GlobalLibraryVersionRegistrar {
         return globalLibraryVersionRegistrar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Set getRegisteredVersions() {
+    Set getRegisteredVersions() {
         Set unmodifiableSet;
         synchronized (this.infos) {
             unmodifiableSet = Collections.unmodifiableSet(this.infos);

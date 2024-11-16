@@ -56,14 +56,12 @@ public class MenuBuilder implements SupportMenu {
     private ArrayList mNonActionItems = new ArrayList();
     private boolean mIsActionItemsStale = true;
 
-    /* loaded from: classes.dex */
     public interface Callback {
         boolean onMenuItemSelected(MenuBuilder menuBuilder, MenuItem menuItem);
 
         void onMenuModeChange(MenuBuilder menuBuilder);
     }
 
-    /* loaded from: classes.dex */
     public interface ItemInvoker {
         boolean invokeItem(MenuItemImpl menuItemImpl);
     }
@@ -345,8 +343,7 @@ public class MenuBuilder implements SupportMenu {
         return z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean dispatchMenuItemSelected(MenuBuilder menuBuilder, MenuItem menuItem) {
+    boolean dispatchMenuItemSelected(MenuBuilder menuBuilder, MenuItem menuItem) {
         Callback callback = this.mCallback;
         return callback != null && callback.onMenuItemSelected(menuBuilder, menuItem);
     }
@@ -505,8 +502,7 @@ public class MenuBuilder implements SupportMenu {
         return this.mActionItems;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public String getActionViewStatesKey() {
+    protected String getActionViewStatesKey() {
         return "android:menu:actionviewstates";
     }
 
@@ -540,8 +536,7 @@ public class MenuBuilder implements SupportMenu {
         return this.mNonActionItems;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean getOptionalIconsVisible() {
+    boolean getOptionalIconsVisible() {
         return this.mOptionalIconsVisible;
     }
 
@@ -588,8 +583,7 @@ public class MenuBuilder implements SupportMenu {
         return this.mGroupDividerEnabled;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isQwertyMode() {
+    boolean isQwertyMode() {
         return this.mQwertyMode;
     }
 
@@ -602,14 +596,12 @@ public class MenuBuilder implements SupportMenu {
         return this.mShortcutsVisible;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onItemActionRequestChanged(MenuItemImpl menuItemImpl) {
+    void onItemActionRequestChanged(MenuItemImpl menuItemImpl) {
         this.mIsActionItemsStale = true;
         onItemsChanged(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onItemVisibleChanged(MenuItemImpl menuItemImpl) {
+    void onItemVisibleChanged(MenuItemImpl menuItemImpl) {
         this.mIsVisibleItemsStale = true;
         onItemsChanged(true);
     }
@@ -788,8 +780,7 @@ public class MenuBuilder implements SupportMenu {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setExclusiveItemChecked(MenuItem menuItem) {
+    void setExclusiveItemChecked(MenuItem menuItem) {
         int groupId = menuItem.getGroupId();
         int size = this.mItems.size();
         stopDispatchingItemsChanged();
@@ -845,32 +836,27 @@ public class MenuBuilder implements SupportMenu {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MenuBuilder setHeaderIconInt(int i) {
+    protected MenuBuilder setHeaderIconInt(int i) {
         setHeaderInternal(0, null, i, null, null);
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MenuBuilder setHeaderIconInt(Drawable drawable) {
+    protected MenuBuilder setHeaderIconInt(Drawable drawable) {
         setHeaderInternal(0, null, 0, drawable, null);
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MenuBuilder setHeaderTitleInt(int i) {
+    protected MenuBuilder setHeaderTitleInt(int i) {
         setHeaderInternal(i, null, 0, null, null);
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MenuBuilder setHeaderTitleInt(CharSequence charSequence) {
+    protected MenuBuilder setHeaderTitleInt(CharSequence charSequence) {
         setHeaderInternal(0, charSequence, 0, null, null);
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MenuBuilder setHeaderViewInt(View view) {
+    protected MenuBuilder setHeaderViewInt(View view) {
         setHeaderInternal(0, null, 0, null, view);
         return this;
     }

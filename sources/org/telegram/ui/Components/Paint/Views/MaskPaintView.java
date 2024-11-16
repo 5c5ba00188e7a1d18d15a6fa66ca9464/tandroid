@@ -342,8 +342,7 @@ public abstract class MaskPaintView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onRenderViewAlphaUpdate(ValueAnimator valueAnimator) {
+    protected void onRenderViewAlphaUpdate(ValueAnimator valueAnimator) {
     }
 
     public boolean onTouch(MotionEvent motionEvent) {

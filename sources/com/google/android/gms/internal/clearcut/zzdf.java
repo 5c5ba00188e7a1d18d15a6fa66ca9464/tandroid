@@ -4,8 +4,7 @@ package com.google.android.gms.internal.clearcut;
 final class zzdf implements zzdn {
     private zzdn[] zzma;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdf(zzdn... zzdnVarArr) {
+    zzdf(zzdn... zzdnVarArr) {
         this.zzma = zzdnVarArr;
     }
 

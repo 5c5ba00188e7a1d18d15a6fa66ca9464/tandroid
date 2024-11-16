@@ -90,7 +90,6 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     MessageObject suggestPhotoMessageFinal;
     private long user_id;
 
-    /* loaded from: classes4.dex */
     public interface ContactAddActivityDelegate {
         void didAddToContacts();
     }
@@ -856,18 +855,16 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             this.linearLayout.addView(textCell2, LayoutHelper.createLinear(-1, -2, 0, 0, 0, 0, 0));
             this.oldAvatarView = new BackupImageView(context);
             this.oldPhotoCell = new TextCell(context, this.resourcesProvider) { // from class: org.telegram.ui.ContactAddActivity.6
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z3, int i12, int i13, int i14, int i15) {
+                protected void onLayout(boolean z3, int i12, int i13, int i14, int i15) {
                     super.onLayout(z3, i12, i13, i14, i15);
                     int dp = AndroidUtilities.dp(21.0f);
                     int measuredHeight = (getMeasuredHeight() - ContactAddActivity.this.oldAvatarView.getMeasuredHeight()) / 2;
                     ContactAddActivity.this.oldAvatarView.layout(dp, measuredHeight, ContactAddActivity.this.oldAvatarView.getMeasuredWidth() + dp, ContactAddActivity.this.oldAvatarView.getMeasuredHeight() + measuredHeight);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.View
-                public void onMeasure(int i12, int i13) {
+                protected void onMeasure(int i12, int i13) {
                     super.onMeasure(i12, i13);
                     ContactAddActivity.this.oldAvatarView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(30.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(30.0f), 1073741824));
                     ContactAddActivity.this.oldAvatarView.setRoundRadius(AndroidUtilities.dp(30.0f));

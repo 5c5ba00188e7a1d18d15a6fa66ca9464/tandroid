@@ -20,7 +20,6 @@ public class BetterRatingView extends View {
     private Paint paint;
     private int selectedRating;
 
-    /* loaded from: classes3.dex */
     public interface OnRatingChangeListener {
         void onRatingChanged(int i);
     }

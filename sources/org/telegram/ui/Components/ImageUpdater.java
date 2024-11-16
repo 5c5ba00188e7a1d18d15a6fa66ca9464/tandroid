@@ -86,228 +86,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private boolean uploadAfterSelect = true;
     private ImageReceiver imageReceiver = new ImageReceiver(null);
 
-    /* loaded from: classes3.dex */
-    public class 1 implements PhotoPickerActivity.PhotoPickerActivityDelegate {
-        private boolean sendPressed;
-        final /* synthetic */ ArrayList val$order;
-        final /* synthetic */ HashMap val$photos;
-
-        1(HashMap hashMap, ArrayList arrayList) {
-            r2 = hashMap;
-            r3 = arrayList;
-        }
-
-        @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
-        public void actionButtonPressed(boolean z, boolean z2, int i) {
-            if (r2.isEmpty() || ImageUpdater.this.delegate == null || this.sendPressed || z) {
-                return;
-            }
-            this.sendPressed = true;
-            ArrayList arrayList = new ArrayList();
-            for (int i2 = 0; i2 < r3.size(); i2++) {
-                Object obj = r2.get(r3.get(i2));
-                SendMessagesHelper.SendingMediaInfo sendingMediaInfo = new SendMessagesHelper.SendingMediaInfo();
-                arrayList.add(sendingMediaInfo);
-                if (obj instanceof MediaController.SearchImage) {
-                    MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                    String str = searchImage.imagePath;
-                    if (str != null) {
-                        sendingMediaInfo.path = str;
-                    } else {
-                        sendingMediaInfo.searchImage = searchImage;
-                    }
-                    sendingMediaInfo.videoEditedInfo = searchImage.editedInfo;
-                    sendingMediaInfo.thumbPath = searchImage.thumbPath;
-                    CharSequence charSequence = searchImage.caption;
-                    sendingMediaInfo.caption = charSequence != null ? charSequence.toString() : null;
-                    sendingMediaInfo.entities = searchImage.entities;
-                    sendingMediaInfo.masks = searchImage.stickers;
-                    sendingMediaInfo.ttl = searchImage.ttl;
-                }
-            }
-            ImageUpdater.this.didSelectPhotos(arrayList);
-        }
-
-        @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
-        public boolean canFinishFragment() {
-            return ImageUpdater.this.delegate.canFinishFragment();
-        }
-
-        @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
-        public void onCaptionChanged(CharSequence charSequence) {
-        }
-
-        @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
-        public /* synthetic */ void onOpenInPressed() {
-            PhotoPickerActivity.PhotoPickerActivityDelegate.-CC.$default$onOpenInPressed(this);
-        }
-
-        @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
-        public void selectedPhotosChanged() {
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 2 implements ChatAttachAlert.ChatAttachViewDelegate {
-        2() {
-        }
-
-        private void processSelectedAttach(int i) {
-            if (i == 0) {
-                ImageUpdater.this.openCamera();
-            }
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public void didPressedButton(int i, boolean z, boolean z2, int i2, long j, boolean z3, boolean z4) {
-            BaseFragment baseFragment = ImageUpdater.this.parentFragment;
-            if (baseFragment == null || baseFragment.getParentActivity() == null || ImageUpdater.this.chatAttachAlert == null) {
-                return;
-            }
-            if (i != 8 && i != 7) {
-                ImageUpdater.this.chatAttachAlert.dismissWithButtonClick(i);
-                processSelectedAttach(i);
-                return;
-            }
-            HashMap<Object, Object> selectedPhotos = ImageUpdater.this.chatAttachAlert.getPhotoLayout().getSelectedPhotos();
-            ArrayList<Object> selectedPhotosOrder = ImageUpdater.this.chatAttachAlert.getPhotoLayout().getSelectedPhotosOrder();
-            ArrayList arrayList = new ArrayList();
-            for (int i3 = 0; i3 < selectedPhotosOrder.size(); i3++) {
-                Object obj = selectedPhotos.get(selectedPhotosOrder.get(i3));
-                SendMessagesHelper.SendingMediaInfo sendingMediaInfo = new SendMessagesHelper.SendingMediaInfo();
-                arrayList.add(sendingMediaInfo);
-                if (obj instanceof MediaController.PhotoEntry) {
-                    MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
-                    String str = photoEntry.imagePath;
-                    if (str == null) {
-                        str = photoEntry.path;
-                    }
-                    sendingMediaInfo.path = str;
-                    sendingMediaInfo.thumbPath = photoEntry.thumbPath;
-                    sendingMediaInfo.videoEditedInfo = photoEntry.editedInfo;
-                    sendingMediaInfo.isVideo = photoEntry.isVideo;
-                    CharSequence charSequence = photoEntry.caption;
-                    sendingMediaInfo.caption = charSequence != null ? charSequence.toString() : null;
-                    sendingMediaInfo.entities = photoEntry.entities;
-                    sendingMediaInfo.masks = photoEntry.stickers;
-                    sendingMediaInfo.ttl = photoEntry.ttl;
-                    sendingMediaInfo.emojiMarkup = photoEntry.emojiMarkup;
-                } else if (obj instanceof MediaController.SearchImage) {
-                    MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
-                    String str2 = searchImage.imagePath;
-                    if (str2 != null) {
-                        sendingMediaInfo.path = str2;
-                    } else {
-                        sendingMediaInfo.searchImage = searchImage;
-                    }
-                    sendingMediaInfo.thumbPath = searchImage.thumbPath;
-                    sendingMediaInfo.videoEditedInfo = searchImage.editedInfo;
-                    CharSequence charSequence2 = searchImage.caption;
-                    sendingMediaInfo.caption = charSequence2 != null ? charSequence2.toString() : null;
-                    sendingMediaInfo.entities = searchImage.entities;
-                    sendingMediaInfo.masks = searchImage.stickers;
-                    sendingMediaInfo.ttl = searchImage.ttl;
-                    TLRPC.BotInlineResult botInlineResult = searchImage.inlineResult;
-                    if (botInlineResult != null && searchImage.type == 1) {
-                        sendingMediaInfo.inlineResult = botInlineResult;
-                        sendingMediaInfo.params = searchImage.params;
-                    }
-                    searchImage.date = (int) (System.currentTimeMillis() / 1000);
-                }
-            }
-            ImageUpdater.this.didSelectPhotos(arrayList);
-            if (i != 8) {
-                ImageUpdater.this.chatAttachAlert.dismiss(true);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public void didSelectBot(TLRPC.User user) {
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public void doOnIdle(Runnable runnable) {
-            runnable.run();
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public boolean needEnterComment() {
-            return false;
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public void onCameraOpened() {
-            AndroidUtilities.hideKeyboard(ImageUpdater.this.parentFragment.getFragmentView().findFocus());
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public /* synthetic */ void onWallpaperSelected(Object obj) {
-            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$onWallpaperSelected(this, obj);
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public void openAvatarsSearch() {
-            ImageUpdater.this.openSearch();
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public /* synthetic */ boolean selectItemOnClicking() {
-            return ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$selectItemOnClicking(this);
-        }
-
-        @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-        public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2) {
-            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i, j, z2);
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 3 implements PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate {
-        3() {
-        }
-
-        @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
-        public void didSelectPhotos(ArrayList arrayList, boolean z, int i) {
-            ImageUpdater.this.didSelectPhotos(arrayList);
-        }
-
-        @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
-        public void startPhotoSelectActivity() {
-            try {
-                Intent intent = new Intent("android.intent.action.GET_CONTENT");
-                intent.setType("image/*");
-                ImageUpdater.this.parentFragment.startActivityForResult(intent, 14);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 4 extends PhotoViewer.EmptyPhotoViewerProvider {
-        final /* synthetic */ ArrayList val$arrayList;
-
-        4(ArrayList arrayList) {
-            r2 = arrayList;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public boolean allowCaption() {
-            return false;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public boolean canScrollAway() {
-            return false;
-        }
-
-        @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public void sendButtonPressed(int i, VideoEditedInfo videoEditedInfo, boolean z, int i2, boolean z2) {
-            ImageUpdater.this.processEntry((MediaController.PhotoEntry) r2.get(0));
-        }
-    }
-
-    /* loaded from: classes3.dex */
     public static class AvatarFor {
         public TLRPC.User fromObject;
         public boolean isVideo;
@@ -322,10 +100,8 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ImageUpdaterDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$canFinishFragment(ImageUpdaterDelegate imageUpdaterDelegate) {
                 return true;
@@ -388,9 +164,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             this.chatAttachAlert = chatAttachAlert;
             chatAttachAlert.setAvatarPicker(this.canSelectVideo ? 2 : 1, this.searchAvailable);
             this.chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.2
-                2() {
-                }
-
                 private void processSelectedAttach(int i) {
                     if (i == 0) {
                         ImageUpdater.this.openCamera();
@@ -515,6 +288,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         selectedTextView.setText(formatString);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void didSelectPhotos(ArrayList arrayList) {
         MessageObject messageObject;
         File file;
@@ -585,6 +359,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         processBitmap(bitmap, messageObject);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openMenu$0(ArrayList arrayList, Runnable runnable, DialogInterface dialogInterface, int i) {
         int intValue = ((Integer) arrayList.get(i)).intValue();
         if (intValue == 0) {
@@ -607,6 +382,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$startCrop$1(String str, Uri uri) {
         try {
             LaunchActivity launchActivity = (LaunchActivity) this.parentFragment.getParentActivity();
@@ -811,7 +587,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 if (this.delegate == null || !str2.equals(str3)) {
                     return;
                 }
-                float min = Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue()));
+                float min = Math.min(1.0f, ((Long) objArr[1]).longValue() / ((Long) objArr[2]).longValue());
                 ImageUpdaterDelegate imageUpdaterDelegate2 = this.delegate;
                 this.currentImageProgress = min;
                 imageUpdaterDelegate2.onUploadProgressChanged(min);
@@ -1038,7 +814,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
     /* JADX WARN: Code restructure failed: missing block: B:11:0x0021, code lost:
     
-        if (r2 != 0) goto L39;
+        if (r2 != 0) goto L12;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1071,9 +847,6 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         PhotoAlbumPickerActivity photoAlbumPickerActivity = new PhotoAlbumPickerActivity(this.canSelectVideo ? PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR_VIDEO : PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR, false, false, null);
         photoAlbumPickerActivity.setAllowSearchImages(this.searchAvailable);
         photoAlbumPickerActivity.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.3
-            3() {
-            }
-
             @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
             public void didSelectPhotos(ArrayList arrayList, boolean z, int i2) {
                 ImageUpdater.this.didSelectPhotos(arrayList);
@@ -1154,19 +927,13 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     }
 
     public void openPhotoForEdit(String str, String str2, Pair pair, boolean z) {
-        ArrayList arrayList = new ArrayList();
+        final ArrayList arrayList = new ArrayList();
         MediaController.PhotoEntry orientation = new MediaController.PhotoEntry(0, 0, 0L, str, ((Integer) pair.first).intValue(), false, 0, 0, 0L).setOrientation(pair);
         orientation.isVideo = z;
         orientation.thumbPath = str2;
         arrayList.add(orientation);
         PhotoViewer.getInstance().setParentActivity(this.parentFragment);
         PhotoViewer.getInstance().openPhotoForSelect(arrayList, 0, 1, false, new PhotoViewer.EmptyPhotoViewerProvider() { // from class: org.telegram.ui.Components.ImageUpdater.4
-            final /* synthetic */ ArrayList val$arrayList;
-
-            4(ArrayList arrayList2) {
-                r2 = arrayList2;
-            }
-
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public boolean allowCaption() {
                 return false;
@@ -1178,8 +945,8 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public void sendButtonPressed(int i, VideoEditedInfo videoEditedInfo, boolean z2, int i2, boolean z22) {
-                ImageUpdater.this.processEntry((MediaController.PhotoEntry) r2.get(0));
+            public void sendButtonPressed(int i, VideoEditedInfo videoEditedInfo, boolean z2, int i2, boolean z3) {
+                ImageUpdater.this.processEntry((MediaController.PhotoEntry) arrayList.get(0));
             }
         }, null);
     }
@@ -1188,28 +955,21 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         if (this.parentFragment == null) {
             return;
         }
-        HashMap hashMap = new HashMap();
-        ArrayList arrayList = new ArrayList();
+        final HashMap hashMap = new HashMap();
+        final ArrayList arrayList = new ArrayList();
         PhotoPickerActivity photoPickerActivity = new PhotoPickerActivity(0, null, hashMap, arrayList, 1, false, null, this.forceDarkTheme);
         photoPickerActivity.setDelegate(new PhotoPickerActivity.PhotoPickerActivityDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.1
             private boolean sendPressed;
-            final /* synthetic */ ArrayList val$order;
-            final /* synthetic */ HashMap val$photos;
-
-            1(HashMap hashMap2, ArrayList arrayList2) {
-                r2 = hashMap2;
-                r3 = arrayList2;
-            }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
             public void actionButtonPressed(boolean z, boolean z2, int i) {
-                if (r2.isEmpty() || ImageUpdater.this.delegate == null || this.sendPressed || z) {
+                if (hashMap.isEmpty() || ImageUpdater.this.delegate == null || this.sendPressed || z) {
                     return;
                 }
                 this.sendPressed = true;
                 ArrayList arrayList2 = new ArrayList();
-                for (int i2 = 0; i2 < r3.size(); i2++) {
-                    Object obj = r2.get(r3.get(i2));
+                for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                    Object obj = hashMap.get(arrayList.get(i2));
                     SendMessagesHelper.SendingMediaInfo sendingMediaInfo = new SendMessagesHelper.SendingMediaInfo();
                     arrayList2.add(sendingMediaInfo);
                     if (obj instanceof MediaController.SearchImage) {

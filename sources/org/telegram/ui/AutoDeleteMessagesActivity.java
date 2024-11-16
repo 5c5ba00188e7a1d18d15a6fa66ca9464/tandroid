@@ -45,9 +45,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
     ArrayList arrayList = new ArrayList();
     public int startFromTtl = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements Runnable {
+    class 2 implements Runnable {
         2() {
         }
 
@@ -98,9 +96,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 implements AlertsCreator.ScheduleDatePickerDelegate {
+    class 3 implements AlertsCreator.ScheduleDatePickerDelegate {
         3() {
         }
 
@@ -120,9 +116,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class RadioCellInternal extends RadioCell {
+    private class RadioCellInternal extends RadioCell {
         boolean custom;
         int time;
 

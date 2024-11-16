@@ -78,9 +78,7 @@ public class ReactionsEffectOverlay {
     private SelectAnimatedEmojiDialog.ImageViewEmoji holderView2 = null;
     ArrayList avatars = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends FrameLayout {
+    class 1 extends FrameLayout {
         final /* synthetic */ int val$animationType;
         final /* synthetic */ ChatMessageCell val$cell;
         final /* synthetic */ ChatActivity val$chatActivity;
@@ -387,7 +385,7 @@ public class ReactionsEffectOverlay {
                                 AvatarParticle avatarParticle = (AvatarParticle) ReactionsEffectOverlay.this.avatars.get(i2);
                                 float f22 = avatarParticle.progress;
                                 if (lottieAnimation != null && lottieAnimation.isRunning()) {
-                                    float duration = (float) ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation().getDuration();
+                                    float duration = ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation().getDuration();
                                 }
                                 float f23 = avatarParticle.outProgress;
                                 if (f23 != 1.0f) {
@@ -610,7 +608,6 @@ public class ReactionsEffectOverlay {
         }
     }
 
-    /* loaded from: classes3.dex */
     private class AnimationView extends BackupImageView {
         AnimatedEmojiDrawable animatedEmojiDrawable;
         boolean attached;
@@ -622,9 +619,8 @@ public class ReactionsEffectOverlay {
             getImageReceiver().setFileLoadingPriority(3);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-        public void onAttachedToWindow() {
+        protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             this.attached = true;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
@@ -637,9 +633,8 @@ public class ReactionsEffectOverlay {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             this.attached = false;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
@@ -652,9 +647,8 @@ public class ReactionsEffectOverlay {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
                 animatedEmojiDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
@@ -699,7 +693,6 @@ public class ReactionsEffectOverlay {
         }
     }
 
-    /* loaded from: classes3.dex */
     private class AvatarParticle {
         float currentRotation;
         float fromX;
@@ -733,7 +726,7 @@ public class ReactionsEffectOverlay {
     /* JADX WARN: Type inference failed for: r15v15 */
     /* JADX WARN: Type inference failed for: r15v16 */
     /* JADX WARN: Type inference failed for: r15v4 */
-    /* JADX WARN: Type inference failed for: r15v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r15v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     /* JADX WARN: Type inference failed for: r1v36, types: [org.telegram.messenger.ImageReceiver] */

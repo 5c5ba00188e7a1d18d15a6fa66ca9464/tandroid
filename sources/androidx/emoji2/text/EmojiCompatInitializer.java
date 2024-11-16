@@ -17,18 +17,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 /* loaded from: classes.dex */
 public class EmojiCompatInitializer implements Initializer {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class BackgroundDefaultConfig extends EmojiCompat.Config {
+    static class BackgroundDefaultConfig extends EmojiCompat.Config {
         protected BackgroundDefaultConfig(Context context) {
             super(new BackgroundDefaultLoader(context));
             setMetadataLoadStrategy(1);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class BackgroundDefaultLoader implements EmojiCompat.MetadataRepoLoader {
+    static class BackgroundDefaultLoader implements EmojiCompat.MetadataRepoLoader {
         private final Context mContext;
 
         BackgroundDefaultLoader(Context context) {
@@ -81,9 +77,7 @@ public class EmojiCompatInitializer implements Initializer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class LoadEmojiCompatRunnable implements Runnable {
+    static class LoadEmojiCompatRunnable implements Runnable {
         LoadEmojiCompatRunnable() {
         }
 

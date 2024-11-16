@@ -16,7 +16,6 @@ public abstract class Lifecycling {
     private static Map sCallbackCache = new HashMap();
     private static Map sClassToAdapters = new HashMap();
 
-    /* loaded from: classes.dex */
     class 1 implements LifecycleEventObserver {
         final /* synthetic */ LifecycleEventObserver val$observer;
 
@@ -82,8 +81,7 @@ public abstract class Lifecycling {
         return cls != null && LifecycleObserver.class.isAssignableFrom(cls);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static LifecycleEventObserver lifecycleEventObserver(Object obj) {
+    static LifecycleEventObserver lifecycleEventObserver(Object obj) {
         boolean z = obj instanceof LifecycleEventObserver;
         boolean z2 = obj instanceof FullLifecycleObserver;
         if (z && z2) {

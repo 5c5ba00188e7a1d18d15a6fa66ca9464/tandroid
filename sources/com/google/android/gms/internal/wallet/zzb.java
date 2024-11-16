@@ -7,8 +7,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public abstract class zzb extends Binder implements IInterface {
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzb(String str) {
+    protected zzb(String str) {
         attachInterface(this, "com.google.android.gms.wallet.internal.IWalletServiceCallbacks");
     }
 

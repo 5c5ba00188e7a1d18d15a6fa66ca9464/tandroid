@@ -43,9 +43,7 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
     private TLRPC.InputPeer selectAfterDismiss;
     private TLRPC.Peer selectedPeer;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends RecyclerListView.SelectionAdapter {
+    class 2 extends RecyclerListView.SelectionAdapter {
         2() {
         }
 
@@ -136,7 +134,6 @@ public class CreateGroupCallBottomSheet extends BottomSheetWithRecyclerListView 
         }
     }
 
-    /* loaded from: classes3.dex */
     private static class TopCell extends LinearLayout {
         public TopCell(Context context, boolean z) {
             super(context);

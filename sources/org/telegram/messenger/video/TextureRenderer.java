@@ -666,9 +666,9 @@ public class TextureRenderer {
                 }
                 long j5 = j / 1000000;
                 if (j5 < j2) {
-                    f15 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(1.0f - (((float) (j2 - j5)) / 400.0f), 1.0f, 0.0f));
+                    f15 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(1.0f - ((j2 - j5) / 400.0f), 1.0f, 0.0f));
                 } else if (j5 > j3) {
-                    f15 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(1.0f - (((float) (j5 - j3)) / 400.0f), 1.0f, 0.0f));
+                    f15 = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(Utilities.clamp(1.0f - ((j5 - j3) / 400.0f), 1.0f, 0.0f));
                 }
                 if (f15 > 0.0f) {
                     long clamp = this.isPhoto ? Utilities.clamp(j5, mediaEntity.roundDuration, 0L) : Utilities.clamp((j5 - mediaEntity.roundOffset) + mediaEntity.roundLeft, mediaEntity.roundDuration, 0L);

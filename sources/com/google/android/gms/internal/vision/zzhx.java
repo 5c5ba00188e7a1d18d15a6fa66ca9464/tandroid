@@ -7,8 +7,7 @@ final class zzhx implements zzhz {
     private zzhx() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzhx(zzhs zzhsVar) {
+    /* synthetic */ zzhx(zzhs zzhsVar) {
         this();
     }
 

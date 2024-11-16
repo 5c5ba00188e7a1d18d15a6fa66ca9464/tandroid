@@ -37,7 +37,6 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     private ArrayList items = new ArrayList(11);
     private ArrayList accountNumbers = new ArrayList();
 
-    /* loaded from: classes4.dex */
     public static class Item {
         TLRPC.TL_attachMenuBot bot;
         public boolean error;

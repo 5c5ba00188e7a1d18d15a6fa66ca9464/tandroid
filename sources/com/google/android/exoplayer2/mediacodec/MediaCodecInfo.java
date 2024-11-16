@@ -28,9 +28,7 @@ public final class MediaCodecInfo {
     public final boolean tunneling;
     public final boolean vendor;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api29 {
+    private static final class Api29 {
         public static int areResolutionAndFrameRateCovered(MediaCodecInfo.VideoCapabilities videoCapabilities, int i, int i2, double d) {
             List supportedPerformancePoints;
             boolean covers;

@@ -120,13 +120,10 @@ public class ViewPager extends ViewGroup {
     private static final ViewPositionComparator sPositionComparator = new ViewPositionComparator();
 
     @Retention(RetentionPolicy.RUNTIME)
-    /* loaded from: classes.dex */
     public @interface DecorView {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class ItemInfo {
+    static class ItemInfo {
         Object object;
         float offset;
         int position;
@@ -137,7 +134,6 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends ViewGroup.LayoutParams {
         int childIndex;
         public int gravity;
@@ -160,9 +156,7 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class MyAccessibilityDelegate extends AccessibilityDelegateCompat {
+    class MyAccessibilityDelegate extends AccessibilityDelegateCompat {
         MyAccessibilityDelegate() {
         }
 
@@ -223,7 +217,6 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnPageChangeListener {
         void onPageScrollStateChanged(int i);
 
@@ -232,14 +225,11 @@ public class ViewPager extends ViewGroup {
         void onPageSelected(int i);
     }
 
-    /* loaded from: classes.dex */
     public interface PageTransformer {
         void transformPage(View view, float f);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class PagerObserver extends DataSetObserver {
+    private class PagerObserver extends DataSetObserver {
         PagerObserver() {
         }
 
@@ -254,7 +244,6 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator() { // from class: androidx.viewpager.widget.ViewPager.SavedState.1
             @Override // android.os.Parcelable.Creator
@@ -300,9 +289,7 @@ public class ViewPager extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class ViewPositionComparator implements Comparator {
+    static class ViewPositionComparator implements Comparator {
         ViewPositionComparator() {
         }
 
@@ -1495,14 +1482,13 @@ public class ViewPager extends ViewGroup {
         return this.mIsBeingDragged;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0072  */
     /* JADX WARN: Removed duplicated region for block: B:28:0x0094  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         boolean z2;
         ItemInfo infoForChild;
         int max;
@@ -1607,7 +1593,6 @@ public class ViewPager extends ViewGroup {
         this.mFirstLayout = z2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:26:0x0081  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x008d  */
     /* JADX WARN: Removed duplicated region for block: B:34:0x00a1  */
@@ -1618,7 +1603,7 @@ public class ViewPager extends ViewGroup {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         LayoutParams layoutParams;
         LayoutParams layoutParams2;
         int i3;

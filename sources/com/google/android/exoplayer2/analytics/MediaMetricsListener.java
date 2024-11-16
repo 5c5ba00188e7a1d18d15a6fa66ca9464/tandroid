@@ -91,9 +91,7 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
     private int currentPlaybackState = 0;
     private int currentNetworkType = 0;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ErrorInfo {
+    private static final class ErrorInfo {
         public final int errorCode;
         public final int subErrorCode;
 
@@ -103,9 +101,7 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class PendingFormatUpdate {
+    private static final class PendingFormatUpdate {
         public final Format format;
         public final int selectionReason;
         public final String sessionId;

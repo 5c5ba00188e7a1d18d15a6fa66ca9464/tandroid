@@ -97,7 +97,6 @@ public class LanguageIdentificationJni extends ModelResource {
             this.zzc.zza(new zzcv.zza(elapsedRealtime2) { // from class: com.google.mlkit.nl.languageid.internal.zza
                 private final long zza;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.zza = elapsedRealtime2;
                 }
@@ -130,7 +129,6 @@ public class LanguageIdentificationJni extends ModelResource {
             private final AtomicReference zzb;
             private final Executor zzc;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = atomicReference;

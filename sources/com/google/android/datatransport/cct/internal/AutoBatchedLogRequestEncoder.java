@@ -10,7 +10,6 @@ import com.google.firebase.encoders.config.EncoderConfig;
 public final class AutoBatchedLogRequestEncoder implements Configurator {
     public static final Configurator CONFIG = new AutoBatchedLogRequestEncoder();
 
-    /* loaded from: classes.dex */
     private static final class AndroidClientInfoEncoder implements ObjectEncoder {
         static final AndroidClientInfoEncoder INSTANCE = new AndroidClientInfoEncoder();
         private static final FieldDescriptor SDKVERSION_DESCRIPTOR = FieldDescriptor.of("sdkVersion");
@@ -46,7 +45,6 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class BatchedLogRequestEncoder implements ObjectEncoder {
         static final BatchedLogRequestEncoder INSTANCE = new BatchedLogRequestEncoder();
         private static final FieldDescriptor LOGREQUEST_DESCRIPTOR = FieldDescriptor.of("logRequest");
@@ -60,7 +58,6 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class ClientInfoEncoder implements ObjectEncoder {
         static final ClientInfoEncoder INSTANCE = new ClientInfoEncoder();
         private static final FieldDescriptor CLIENTTYPE_DESCRIPTOR = FieldDescriptor.of("clientType");
@@ -76,7 +73,6 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class LogEventEncoder implements ObjectEncoder {
         static final LogEventEncoder INSTANCE = new LogEventEncoder();
         private static final FieldDescriptor EVENTTIMEMS_DESCRIPTOR = FieldDescriptor.of("eventTimeMs");
@@ -102,7 +98,6 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class LogRequestEncoder implements ObjectEncoder {
         static final LogRequestEncoder INSTANCE = new LogRequestEncoder();
         private static final FieldDescriptor REQUESTTIMEMS_DESCRIPTOR = FieldDescriptor.of("requestTimeMs");
@@ -128,7 +123,6 @@ public final class AutoBatchedLogRequestEncoder implements Configurator {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class NetworkConnectionInfoEncoder implements ObjectEncoder {
         static final NetworkConnectionInfoEncoder INSTANCE = new NetworkConnectionInfoEncoder();
         private static final FieldDescriptor NETWORKTYPE_DESCRIPTOR = FieldDescriptor.of("networkType");

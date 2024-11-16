@@ -11,8 +11,7 @@ final class zae implements View.OnClickListener {
     final /* synthetic */ Context zaa;
     final /* synthetic */ Intent zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zae(Context context, Intent intent) {
+    zae(Context context, Intent intent) {
         this.zaa = context;
         this.zab = intent;
     }

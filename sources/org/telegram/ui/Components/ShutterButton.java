@@ -31,7 +31,6 @@ public class ShutterButton extends View {
     private long totalTime;
     private Paint whitePaint;
 
-    /* loaded from: classes3.dex */
     public interface ShutterButtonDelegate {
         boolean onTranslationChanged(float f, float f2);
 
@@ -42,7 +41,6 @@ public class ShutterButton extends View {
         void shutterReleased();
     }
 
-    /* loaded from: classes3.dex */
     public enum State {
         DEFAULT,
         RECORDING
@@ -124,7 +122,7 @@ public class ShutterButton extends View {
                 if (j > 120) {
                     this.totalTime = 120L;
                 }
-                this.redProgress = this.interpolator.getInterpolation(((float) this.totalTime) / 120.0f);
+                this.redProgress = this.interpolator.getInterpolation(this.totalTime / 120.0f);
                 invalidate();
             }
             dp = AndroidUtilities.dp(26.5f) * scaleX;

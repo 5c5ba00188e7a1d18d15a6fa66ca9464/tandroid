@@ -10,7 +10,6 @@ import java.util.RandomAccess;
 /* loaded from: classes.dex */
 public abstract class Longs {
 
-    /* loaded from: classes.dex */
     private static class LongArrayAsList extends AbstractList implements RandomAccess, Serializable {
     }
 

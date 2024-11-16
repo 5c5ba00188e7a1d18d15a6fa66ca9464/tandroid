@@ -15,8 +15,7 @@ public enum TextStyle {
         this.a = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int a() {
+    final int a() {
         return this.a;
     }
 }

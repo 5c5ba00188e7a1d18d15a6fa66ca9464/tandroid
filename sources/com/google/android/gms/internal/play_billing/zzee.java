@@ -2,8 +2,7 @@ package com.google.android.gms.internal.play_billing;
 
 /* loaded from: classes.dex */
 abstract class zzee {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(zzba zzbaVar) {
+    static String zza(zzba zzbaVar) {
         String str;
         StringBuilder sb = new StringBuilder(zzbaVar.zzd());
         for (int i = 0; i < zzbaVar.zzd(); i++) {

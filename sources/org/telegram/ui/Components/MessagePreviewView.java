@@ -82,9 +82,7 @@ public abstract class MessagePreviewView extends FrameLayout {
     TabsView tabsView;
     ViewPagerFixed viewPager;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ActionBar extends FrameLayout {
+    private class ActionBar extends FrameLayout {
         private Theme.ResourcesProvider resourcesProvider;
         private final AnimatedTextView.AnimatedTextDrawable subtitle;
         private final AnimatedTextView.AnimatedTextDrawable title;
@@ -146,8 +144,7 @@ public abstract class MessagePreviewView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Page extends FrameLayout {
+    class Page extends FrameLayout {
         ActionBar actionBar;
         Adapter adapter;
         private int buttonsHeight;
@@ -185,9 +182,7 @@ public abstract class MessagePreviewView extends FrameLayout {
         ToggleButton videoChangeSizeBtn;
         float yOffset;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 10 extends GridLayoutManagerFixed {
+        class 10 extends GridLayoutManagerFixed {
             final /* synthetic */ MessagePreviewView val$this$0;
 
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -250,9 +245,7 @@ public abstract class MessagePreviewView extends FrameLayout {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 7 extends ChatListItemAnimator {
+        class 7 extends ChatListItemAnimator {
             Runnable finishRunnable;
             int scrollAnimationIndex;
             final /* synthetic */ MessagePreviewView val$this$0;
@@ -345,9 +338,7 @@ public abstract class MessagePreviewView extends FrameLayout {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class Adapter extends RecyclerView.Adapter {
+        private class Adapter extends RecyclerView.Adapter {
             private Adapter() {
             }
 
@@ -801,9 +792,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                         Page.this.chatListView.invalidate();
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, android.view.View
-                    public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                    protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                         super.onLayout(z, i3, i4, i5, i6);
                         Page.this.updateLinkHighlight(this);
                     }
@@ -1283,9 +1273,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                     return super.dispatchTouchEvent(motionEvent);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-                public Drawable getNewDrawable() {
+                protected Drawable getNewDrawable() {
                     Drawable wallpaperDrawable = MessagePreviewView.this.resourcesProvider.getWallpaperDrawable();
                     return wallpaperDrawable != null ? wallpaperDrawable : super.getNewDrawable();
                 }
@@ -1304,7 +1293,7 @@ public abstract class MessagePreviewView extends FrameLayout {
                 this.chatPreviewContainer.setClipToOutline(true);
                 this.chatPreviewContainer.setElevation(AndroidUtilities.dp(4.0f));
             }
-            ActionBar actionBar = new ActionBar(context, MessagePreviewView.this.resourcesProvider);
+            ActionBar actionBar = MessagePreviewView.this.new ActionBar(context, MessagePreviewView.this.resourcesProvider);
             this.actionBar = actionBar;
             actionBar.setBackgroundColor(MessagePreviewView.this.getThemedColor(Theme.key_actionBarDefault));
             TextSelectionHelper.ChatListTextSelectionHelper chatListTextSelectionHelper = new TextSelectionHelper.ChatListTextSelectionHelper() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.4
@@ -1402,7 +1391,7 @@ public abstract class MessagePreviewView extends FrameLayout {
             });
             RecyclerListView recyclerListView = new RecyclerListView(context, MessagePreviewView.this.resourcesProvider) { // from class: org.telegram.ui.Components.MessagePreviewView.Page.6
                 /* JADX WARN: Type inference failed for: r3v0 */
-                /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+                /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
                 /* JADX WARN: Type inference failed for: r3v9 */
                 private void drawChatBackgroundElements(Canvas canvas) {
                     boolean z;
@@ -1541,9 +1530,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     for (int i3 = 0; i3 < getChildCount(); i3++) {
                         View childAt = getChildAt(i3);
                         if (childAt instanceof ChatMessageCell) {
@@ -1587,9 +1575,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                     return drawChild;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+                protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                     if (Page.this.firstLayout) {
                         if (Page.this.currentTab != 0) {
                             scrollToPosition(0);
@@ -2838,9 +2825,7 @@ public abstract class MessagePreviewView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class RLottieToggleDrawable extends Drawable {
+    private static class RLottieToggleDrawable extends Drawable {
         private RLottieDrawable currentState;
         private boolean detached;
         private boolean isState1;
@@ -2925,16 +2910,13 @@ public abstract class MessagePreviewView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ResourcesDelegate extends Theme.ResourcesProvider {
         Drawable getWallpaperDrawable();
 
         boolean isWallpaperMotion();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TabsView extends View {
+    private static class TabsView extends View {
         private final Paint bgPaint;
         private int color;
         private float marginBetween;
@@ -2946,9 +2928,7 @@ public abstract class MessagePreviewView extends FrameLayout {
         private float tabInnerPadding;
         public final ArrayList tabs;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public static class Tab {
+        private static class Tab {
             final RectF bounds = new RectF();
             final RectF clickBounds = new RectF();
             final int id;
@@ -3082,7 +3062,6 @@ public abstract class MessagePreviewView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ToggleButton extends View {
         private boolean first;
         RLottieToggleDrawable iconDrawable;
@@ -3237,7 +3216,7 @@ public abstract class MessagePreviewView extends FrameLayout {
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i5) {
-                return new Page(context, i5);
+                return MessagePreviewView.this.new Page(context, i5);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
@@ -3375,8 +3354,7 @@ public abstract class MessagePreviewView extends FrameLayout {
 
     protected abstract void onQuoteSelectedPart();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void removeForward() {
+    protected void removeForward() {
     }
 
     protected abstract void removeLink();

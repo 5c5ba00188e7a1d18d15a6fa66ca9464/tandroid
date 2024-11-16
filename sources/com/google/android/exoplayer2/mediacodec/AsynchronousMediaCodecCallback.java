@@ -8,9 +8,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
+final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
     private final HandlerThread callbackThread;
     private MediaFormat currentFormat;
     private Handler handler;
@@ -25,8 +24,7 @@ public final class AsynchronousMediaCodecCallback extends MediaCodec.Callback {
     private final ArrayDeque bufferInfos = new ArrayDeque();
     private final ArrayDeque formats = new ArrayDeque();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AsynchronousMediaCodecCallback(HandlerThread handlerThread) {
+    AsynchronousMediaCodecCallback(HandlerThread handlerThread) {
         this.callbackThread = handlerThread;
     }
 

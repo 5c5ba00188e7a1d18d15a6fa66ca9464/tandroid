@@ -24,15 +24,12 @@ public class FileVideoCapturer implements VideoCapturer {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public interface VideoReader {
+    private interface VideoReader {
         void close();
 
         VideoFrame getNextFrame();
     }
 
-    /* loaded from: classes5.dex */
     private static class VideoReaderY4M implements VideoReader {
         private static final int FRAME_DELIMETER_LENGTH = 6;
         private static final String TAG = "VideoReaderY4M";

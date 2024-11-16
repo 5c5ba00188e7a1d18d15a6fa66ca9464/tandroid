@@ -8,8 +8,7 @@ import com.google.android.gms.location.LocationCallback;
 final class zzcu implements ListenerHolder.Notifier {
     final /* synthetic */ LocationAvailability zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcu(zzcw zzcwVar, LocationAvailability locationAvailability) {
+    zzcu(zzcw zzcwVar, LocationAvailability locationAvailability) {
         this.zza = locationAvailability;
     }
 

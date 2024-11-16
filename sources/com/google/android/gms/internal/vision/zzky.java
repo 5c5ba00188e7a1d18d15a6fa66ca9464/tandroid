@@ -3,9 +3,8 @@ package com.google.android.gms.internal.vision;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzky {
+final class zzky {
     private static final zzky zza = new zzky();
     private final ConcurrentMap zzc = new ConcurrentHashMap();
     private final zzlf zzb = new zzkb();

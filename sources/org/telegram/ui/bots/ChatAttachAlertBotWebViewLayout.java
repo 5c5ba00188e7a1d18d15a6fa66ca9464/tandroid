@@ -94,7 +94,6 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
     private BotWebViewContainer webViewContainer;
     private ValueAnimator webViewScrollAnimator;
 
-    /* loaded from: classes5.dex */
     public static class WebProgressView extends View {
         private final SimpleFloatPropertyCompat LOAD_PROGRESS_PROPERTY;
         private Paint bluePaint;
@@ -168,7 +167,6 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class WebViewSwipeContainer extends FrameLayout {
         public static final SimpleFloatPropertyCompat SWIPE_OFFSET_Y = new SimpleFloatPropertyCompat("swipeOffsetY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.bots.ChatAttachAlertBotWebViewLayout$WebViewSwipeContainer$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
@@ -210,7 +208,6 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
         public float topActionBarOffsetY;
         private BotWebViewContainer.MyWebView webView;
 
-        /* loaded from: classes5.dex */
         public interface Delegate {
             void onDismiss(boolean z);
         }

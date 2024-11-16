@@ -50,9 +50,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     private final TextView titleTextView;
     private final TextViewWithLoading yesButton;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TextViewWithLoading extends TextView {
+    private static class TextViewWithLoading extends TextView {
         private boolean loading;
         private final AnimatedFloat loadingT;
         private CircularProgressDrawable progressDrawable;

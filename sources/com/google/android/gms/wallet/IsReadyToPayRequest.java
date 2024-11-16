@@ -17,7 +17,6 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     boolean zze;
     String zzf;
 
-    /* loaded from: classes.dex */
     public final class Builder {
         /* synthetic */ Builder(zzp zzpVar) {
         }
@@ -30,8 +29,7 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     IsReadyToPayRequest() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public IsReadyToPayRequest(ArrayList arrayList, String str, String str2, ArrayList arrayList2, boolean z, String str3) {
+    IsReadyToPayRequest(ArrayList arrayList, String str, String str2, ArrayList arrayList2, boolean z, String str3) {
         this.zza = arrayList;
         this.zzb = str;
         this.zzc = str2;
@@ -47,7 +45,7 @@ public final class IsReadyToPayRequest extends AbstractSafeParcelable {
     }
 
     public static Builder newBuilder() {
-        return new Builder(null);
+        return new IsReadyToPayRequest().new Builder(null);
     }
 
     @Override // android.os.Parcelable

@@ -28,13 +28,12 @@ final class W implements Q {
             return;
         }
         this.b = i2;
-        if (i >= i2) {
-            return;
+        if (i < i2) {
+            do {
+                consumer.r(objArr[i]);
+                i++;
+            } while (i < i2);
         }
-        do {
-            consumer.r(objArr[i]);
-            i++;
-        } while (i < i2);
     }
 
     @Override // j$.util.Q

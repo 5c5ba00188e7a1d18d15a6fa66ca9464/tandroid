@@ -8,13 +8,11 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public interface LoadErrorHandlingPolicy {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onLoadTaskConcluded(LoadErrorHandlingPolicy loadErrorHandlingPolicy, long j) {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class FallbackOptions {
         public final int numberOfExcludedLocations;
         public final int numberOfExcludedTracks;
@@ -40,7 +38,6 @@ public interface LoadErrorHandlingPolicy {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class FallbackSelection {
         public final long exclusionDurationMs;
         public final int type;
@@ -52,7 +49,6 @@ public interface LoadErrorHandlingPolicy {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class LoadErrorInfo {
         public final int errorCount;
         public final IOException exception;

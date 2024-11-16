@@ -14,17 +14,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzah extends DeferredLifecycleHelper {
+final class zzah extends DeferredLifecycleHelper {
     protected OnDelegateCreatedListener zza;
     private final ViewGroup zzb;
     private final Context zzc;
     private final GoogleMapOptions zzd;
     private final List zze = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzah(ViewGroup viewGroup, Context context, GoogleMapOptions googleMapOptions) {
+    zzah(ViewGroup viewGroup, Context context, GoogleMapOptions googleMapOptions) {
         this.zzb = viewGroup;
         this.zzc = context;
         this.zzd = googleMapOptions;

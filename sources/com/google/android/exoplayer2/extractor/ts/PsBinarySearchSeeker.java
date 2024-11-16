@@ -6,11 +6,9 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class PsBinarySearchSeeker extends BinarySearchSeeker {
+final class PsBinarySearchSeeker extends BinarySearchSeeker {
 
-    /* loaded from: classes.dex */
     private static final class PsScrSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final ParsableByteArray packetBuffer;
         private final TimestampAdjuster scrTimestampAdjuster;

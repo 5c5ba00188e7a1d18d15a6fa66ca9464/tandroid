@@ -1,9 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.UserManager;
@@ -26,42 +24,26 @@ public abstract class zzae {
     private volatile SharedPreferences zzdx;
 
     private zzae(zzao zzaoVar, String str, Object obj) {
-        String str2;
-        String str3;
-        String str4;
-        String str5;
-        Uri uri;
-        Uri uri2;
         this.zzdv = null;
         this.zzdw = null;
         this.zzdx = null;
-        str2 = zzaoVar.zzef;
-        if (str2 == null) {
-            uri2 = zzaoVar.zzeg;
-            if (uri2 == null) {
-                throw new IllegalArgumentException("Must pass a valid SharedPreferences file name or ContentProvider URI");
-            }
+        if (zzaoVar.zzef == null && zzaoVar.zzeg == null) {
+            throw new IllegalArgumentException("Must pass a valid SharedPreferences file name or ContentProvider URI");
         }
-        str3 = zzaoVar.zzef;
-        if (str3 != null) {
-            uri = zzaoVar.zzeg;
-            if (uri != null) {
-                throw new IllegalArgumentException("Must pass one of SharedPreferences file name or ContentProvider URI");
-            }
+        if (zzaoVar.zzef != null && zzaoVar.zzeg != null) {
+            throw new IllegalArgumentException("Must pass one of SharedPreferences file name or ContentProvider URI");
         }
         this.zzdr = zzaoVar;
-        str4 = zzaoVar.zzeh;
-        String valueOf = String.valueOf(str4);
+        String valueOf = String.valueOf(zzaoVar.zzeh);
         String valueOf2 = String.valueOf(str);
         this.zzdt = valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf);
-        str5 = zzaoVar.zzei;
-        String valueOf3 = String.valueOf(str5);
+        String valueOf3 = String.valueOf(zzaoVar.zzei);
         String valueOf4 = String.valueOf(str);
         this.zzds = valueOf4.length() != 0 ? valueOf3.concat(valueOf4) : new String(valueOf3);
         this.zzdu = obj;
     }
 
-    public /* synthetic */ zzae(zzao zzaoVar, String str, Object obj, zzai zzaiVar) {
+    /* synthetic */ zzae(zzao zzaoVar, String str, Object obj, zzai zzaiVar) {
         this(zzaoVar, str, obj);
     }
 
@@ -98,14 +80,17 @@ public abstract class zzae {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static zzae zza(zzao zzaoVar, String str, Object obj, zzan zzanVar) {
         return new zzal(zzaoVar, str, obj, zzanVar);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static zzae zza(zzao zzaoVar, String str, String str2) {
         return new zzak(zzaoVar, str, str2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static zzae zza(zzao zzaoVar, String str, boolean z) {
         return new zzaj(zzaoVar, str, Boolean.valueOf(z));
     }
@@ -123,14 +108,13 @@ public abstract class zzae {
         }
     }
 
-    public static boolean zza(String str, boolean z) {
-        boolean z2 = false;
+    static boolean zza(final String str, boolean z) {
+        final boolean z2 = false;
         if (zzn()) {
             return ((Boolean) zza(new zzam(str, z2) { // from class: com.google.android.gms.internal.clearcut.zzah
                 private final String zzea;
                 private final boolean zzeb = false;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.zzea = str;
                 }
@@ -152,86 +136,69 @@ public abstract class zzae {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private final Object zzl() {
-        Uri uri;
-        String str;
         boolean z;
-        String str2;
         boolean isDeviceProtectedStorage;
         Object systemService;
         boolean isUserUnlocked;
-        Uri uri2;
         if (zza("gms:phenotype:phenotype_flag:debug_bypass_phenotype", false)) {
             String valueOf = String.valueOf(this.zzds);
             Log.w("PhenotypeFlag", valueOf.length() != 0 ? "Bypass reading Phenotype values for flag: ".concat(valueOf) : new String("Bypass reading Phenotype values for flag: "));
-        } else {
-            uri = this.zzdr.zzeg;
-            if (uri != null) {
-                if (this.zzdw == null) {
-                    ContentResolver contentResolver = zzh.getContentResolver();
-                    uri2 = this.zzdr.zzeg;
-                    this.zzdw = zzab.zza(contentResolver, uri2);
-                }
-                String str3 = (String) zza(new zzam(this, this.zzdw) { // from class: com.google.android.gms.internal.clearcut.zzaf
-                    private final zzae zzdy;
-                    private final zzab zzdz;
+        } else if (this.zzdr.zzeg != null) {
+            if (this.zzdw == null) {
+                this.zzdw = zzab.zza(zzh.getContentResolver(), this.zzdr.zzeg);
+            }
+            final zzab zzabVar = this.zzdw;
+            String str = (String) zza(new zzam(this, zzabVar) { // from class: com.google.android.gms.internal.clearcut.zzaf
+                private final zzae zzdy;
+                private final zzab zzdz;
 
-                    /* JADX INFO: Access modifiers changed from: package-private */
-                    {
-                        this.zzdy = this;
-                        this.zzdz = r2;
-                    }
-
-                    @Override // com.google.android.gms.internal.clearcut.zzam
-                    public final Object zzp() {
-                        return (String) this.zzdz.zzg().get(this.zzdy.zzds);
-                    }
-                });
-                if (str3 != null) {
-                    return zzb(str3);
+                {
+                    this.zzdy = this;
+                    this.zzdz = zzabVar;
                 }
-            } else {
-                str = this.zzdr.zzef;
-                if (str != null) {
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        isDeviceProtectedStorage = zzh.isDeviceProtectedStorage();
-                        if (!isDeviceProtectedStorage) {
-                            if (zzdq == null || !zzdq.booleanValue()) {
-                                systemService = zzh.getSystemService((Class<Object>) UserManager.class);
-                                isUserUnlocked = ((UserManager) systemService).isUserUnlocked();
-                                zzdq = Boolean.valueOf(isUserUnlocked);
-                            }
-                            z = zzdq.booleanValue();
-                            if (z) {
-                                return null;
-                            }
-                            if (this.zzdx == null) {
-                                Context context = zzh;
-                                str2 = this.zzdr.zzef;
-                                this.zzdx = context.getSharedPreferences(str2, 0);
-                            }
-                            SharedPreferences sharedPreferences = this.zzdx;
-                            if (sharedPreferences.contains(this.zzds)) {
-                                return zza(sharedPreferences);
-                            }
-                        }
+
+                @Override // com.google.android.gms.internal.clearcut.zzam
+                public final Object zzp() {
+                    return (String) this.zzdz.zzg().get(this.zzdy.zzds);
+                }
+            });
+            if (str != null) {
+                return zzb(str);
+            }
+        } else if (this.zzdr.zzef != null) {
+            if (Build.VERSION.SDK_INT >= 24) {
+                isDeviceProtectedStorage = zzh.isDeviceProtectedStorage();
+                if (!isDeviceProtectedStorage) {
+                    if (zzdq == null || !zzdq.booleanValue()) {
+                        systemService = zzh.getSystemService((Class<Object>) UserManager.class);
+                        isUserUnlocked = ((UserManager) systemService).isUserUnlocked();
+                        zzdq = Boolean.valueOf(isUserUnlocked);
                     }
-                    z = true;
+                    z = zzdq.booleanValue();
                     if (z) {
+                        return null;
+                    }
+                    if (this.zzdx == null) {
+                        this.zzdx = zzh.getSharedPreferences(this.zzdr.zzef, 0);
+                    }
+                    SharedPreferences sharedPreferences = this.zzdx;
+                    if (sharedPreferences.contains(this.zzds)) {
+                        return zza(sharedPreferences);
                     }
                 }
+            }
+            z = true;
+            if (z) {
             }
         }
         return null;
     }
 
     private final Object zzm() {
-        boolean z;
         String str;
-        z = this.zzdr.zzej;
-        if (z || !zzn() || (str = (String) zza(new zzam(this) { // from class: com.google.android.gms.internal.clearcut.zzag
+        if (this.zzdr.zzej || !zzn() || (str = (String) zza(new zzam(this) { // from class: com.google.android.gms.internal.clearcut.zzag
             private final zzae zzdy;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zzdy = this;
             }
@@ -258,12 +225,10 @@ public abstract class zzae {
     }
 
     public final Object get() {
-        boolean z;
         if (zzh == null) {
             throw new IllegalStateException("Must call PhenotypeFlag.init() first");
         }
-        z = this.zzdr.zzek;
-        if (z) {
+        if (this.zzdr.zzek) {
             Object zzm = zzm();
             if (zzm != null) {
                 return zzm;
@@ -287,9 +252,9 @@ public abstract class zzae {
 
     protected abstract Object zza(SharedPreferences sharedPreferences);
 
-    public abstract Object zzb(String str);
+    protected abstract Object zzb(String str);
 
-    public final /* synthetic */ String zzo() {
+    final /* synthetic */ String zzo() {
         return zzy.zza(zzh.getContentResolver(), this.zzdt, (String) null);
     }
 }

@@ -19,16 +19,14 @@ public class ReorderingBulletinLayout extends Bulletin.SimpleLayout {
         imageView.setImageDrawable(reorderingHintDrawable);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Bulletin.Layout
-    public void onEnterTransitionEnd() {
+    protected void onEnterTransitionEnd() {
         super.onEnterTransitionEnd();
         this.hintDrawable.startAnimation();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Bulletin.Layout
-    public void onExitTransitionEnd() {
+    protected void onExitTransitionEnd() {
         super.onExitTransitionEnd();
         this.hintDrawable.resetAnimation();
     }

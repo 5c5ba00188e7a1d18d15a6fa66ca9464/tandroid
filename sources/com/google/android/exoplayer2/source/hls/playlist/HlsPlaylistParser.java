@@ -101,13 +101,10 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
     private static final Pattern REGEX_IMPORT = Pattern.compile("IMPORT=\"(.+?)\"");
     private static final Pattern REGEX_VARIABLE_REFERENCE = Pattern.compile("\\{\\$([a-zA-Z0-9\\-_]+)\\}");
 
-    /* loaded from: classes.dex */
     public static final class DeltaUpdateException extends IOException {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class LineIterator {
+    private static class LineIterator {
         private final Queue extraLines;
         private String next;
         private final BufferedReader reader;
@@ -743,7 +740,7 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
         return new HlsMediaPlaylist(i10, str, arrayList12, j6, z4, j7, z5, i4, j8, i5, j9, j10, z3, z6, j7 != 0, drmInitData2, arrayList3, arrayList11, serverControl2, hashMap3);
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:94:0x035e. Please report as an issue. */
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Removed duplicated region for block: B:35:0x0150  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x0174  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x01f7  */
@@ -827,27 +824,33 @@ public final class HlsPlaylistParser implements ParsingLoadable.Parser {
                                 c = 0;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -333210994:
                             if (parseStringAttr3.equals("CLOSED-CAPTIONS")) {
                                 c = 1;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 62628790:
                             if (parseStringAttr3.equals("AUDIO")) {
                                 c = 2;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 81665115:
                             if (parseStringAttr3.equals("VIDEO")) {
                                 c = 3;
                                 break;
                             }
+                            c = 65535;
+                            break;
+                        default:
+                            c = 65535;
                             break;
                     }
-                    c = 65535;
                     switch (c) {
                         case 0:
                             arrayList = arrayList14;

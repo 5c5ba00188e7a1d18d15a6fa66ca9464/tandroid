@@ -33,9 +33,7 @@ public abstract class ShortcutManagerCompat {
     private static volatile List sShortcutInfoChangeListeners;
     private static volatile ShortcutInfoCompatSaver sShortcutInfoCompatSaver;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api25Impl {
+    private static class Api25Impl {
         static String getShortcutInfoWithLowestRank(List list) {
             Iterator it = list.iterator();
             int i = -1;

@@ -130,220 +130,7 @@ public abstract class PreviewView extends FrameLayout {
     private Drawable wallpaperDrawable;
     private AnimatedFloat wallpaperDrawableCrossfade;
 
-    /* loaded from: classes5.dex */
-    public class 1 implements VideoPlayer.VideoPlayerDelegate {
-        1() {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onError(VideoPlayer videoPlayer, Exception exc) {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onRenderedFirstFrame() {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onStateChanged(boolean z, int i) {
-            AndroidUtilities.cancelRunOnUIThread(PreviewView.this.updateAudioProgressRunnable);
-            if (PreviewView.this.audioPlayer == null || !PreviewView.this.audioPlayer.isPlaying()) {
-                return;
-            }
-            AndroidUtilities.runOnUIThread(PreviewView.this.updateAudioProgressRunnable);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
-            return false;
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            PreviewView.this.invalidateTextureViewHolder();
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onVideoSizeChanged(int i, int i2, int i3, float f) {
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 2 implements TimelineView.TimelineDelegate {
-        2() {
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onAudioLeftChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.audioLeft = f;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.updateAudioPlayer(true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onAudioOffsetChange(long j) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.audioOffset = j;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.updateAudioPlayer(true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onAudioRemove() {
-            PreviewView.this.setupAudio((MessageObject) null, true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onAudioRightChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.audioRight = f;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.updateAudioPlayer(true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onAudioVolumeChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.audioVolume = f;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.checkVolumes();
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onProgressChange(long j, boolean z) {
-            VideoPlayer videoPlayer;
-            boolean z2;
-            if (!z) {
-                PreviewView.this.seekTo(j);
-                return;
-            }
-            if (PreviewView.this.videoPlayer != null) {
-                videoPlayer = PreviewView.this.videoPlayer;
-                z2 = true;
-            } else {
-                if (PreviewView.this.audioPlayer == null) {
-                    return;
-                }
-                videoPlayer = PreviewView.this.audioPlayer;
-                z2 = false;
-            }
-            videoPlayer.seekTo(j, z2);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onProgressDragChange(boolean z) {
-            PreviewView.this.updatePauseReason(-4, z);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onRoundLeftChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.roundLeft = f;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.updateRoundPlayer(true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onRoundOffsetChange(long j) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.roundOffset = j;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.updateRoundPlayer(true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onRoundRemove() {
-            PreviewView.this.setupRound(null, null, true);
-            PreviewView.this.onRoundRemove();
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onRoundRightChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.roundRight = f;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.updateRoundPlayer(true);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onRoundSelectChange(boolean z) {
-            PreviewView.this.onRoundSelectChange(z);
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onRoundVolumeChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.roundVolume = f;
-            PreviewView.this.entry.editedMedia = true;
-            PreviewView.this.checkVolumes();
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onVideoLeftChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.left = f;
-            PreviewView.this.entry.editedMedia = true;
-            if (PreviewView.this.videoPlayer == null || PreviewView.this.videoPlayer.getDuration() == -9223372036854775807L) {
-                return;
-            }
-            PreviewView.this.seekTo(f * ((float) r0.videoPlayer.getDuration()));
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onVideoRightChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.right = f;
-            PreviewView.this.entry.editedMedia = true;
-        }
-
-        @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-        public void onVideoVolumeChange(float f) {
-            if (PreviewView.this.entry == null) {
-                return;
-            }
-            PreviewView.this.entry.videoVolume = f;
-            PreviewView.this.checkVolumes();
-        }
-    }
-
-    /* loaded from: classes5.dex */
-    public class 3 implements VideoPlayer.VideoPlayerDelegate {
+    class 3 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ StoryEntry val$entry;
         final /* synthetic */ Runnable[] val$whenReadyFinal;
 
@@ -352,6 +139,7 @@ public abstract class PreviewView extends FrameLayout {
             this.val$whenReadyFinal = runnableArr;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onRenderedFirstFrame$0(StoryEntry storyEntry) {
             if (PreviewView.this.bitmap != null) {
                 PreviewView.this.bitmap.recycle();
@@ -466,66 +254,6 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
-    public class 4 implements VideoPlayer.VideoPlayerDelegate {
-        4() {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onError(VideoPlayer videoPlayer, Exception exc) {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onRenderedFirstFrame() {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public /* synthetic */ void onRenderedFirstFrame(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.-CC.$default$onRenderedFirstFrame(this, eventTime);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public /* synthetic */ void onSeekFinished(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekFinished(this, eventTime);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public /* synthetic */ void onSeekStarted(AnalyticsListener.EventTime eventTime) {
-            VideoPlayer.VideoPlayerDelegate.-CC.$default$onSeekStarted(this, eventTime);
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onStateChanged(boolean z, int i) {
-            if (PreviewView.this.roundPlayer == null) {
-                return;
-            }
-            if (PreviewView.this.roundPlayer == null || !PreviewView.this.roundPlayer.isPlaying()) {
-                AndroidUtilities.cancelRunOnUIThread(PreviewView.this.updateRoundProgressRunnable);
-            } else {
-                AndroidUtilities.runOnUIThread(PreviewView.this.updateRoundProgressRunnable);
-            }
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
-            return false;
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-        }
-
-        @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
-        public void onVideoSizeChanged(int i, int i2, int i3, float f) {
-            PreviewView.this.roundPlayerWidth = i;
-            PreviewView.this.roundPlayerHeight = i2;
-            if (PreviewView.this.roundView != null) {
-                PreviewView.this.roundView.resizeTextureView(i, i2);
-            }
-        }
-    }
-
-    /* loaded from: classes5.dex */
     public static class TextureViewHolder {
         public boolean active;
         private TextureView textureView;
@@ -815,6 +543,7 @@ public abstract class PreviewView extends FrameLayout {
         return motionBackgroundDrawable;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getBackgroundDrawableFromTheme$11(EmojiThemes emojiThemes, boolean z, boolean z2, MotionBackgroundDrawable motionBackgroundDrawable, int i, Pair pair) {
         if (pair == null) {
             return;
@@ -829,6 +558,7 @@ public abstract class PreviewView extends FrameLayout {
         motionBackgroundDrawable.setPatternAlpha(1.0f);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getCoverBitmap$2(int i, int i2, int i3, Bitmap[] bitmapArr, final Utilities.Callback callback) {
         final Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(createBitmap);
@@ -859,11 +589,13 @@ public abstract class PreviewView extends FrameLayout {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         seekTo(this.finalSeekPosition);
         this.slowerSeekScheduled = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10() {
         VideoPlayer videoPlayer = this.roundPlayer;
         if (videoPlayer == null || this.videoPlayer != null || this.timelineView == null) {
@@ -872,14 +604,13 @@ public abstract class PreviewView extends FrameLayout {
         long currentPosition = videoPlayer.getCurrentPosition();
         StoryEntry storyEntry = this.entry;
         if (storyEntry != null) {
-            float f = (float) currentPosition;
+            float f = currentPosition;
             float f2 = storyEntry.roundLeft;
-            float f3 = (float) storyEntry.roundDuration;
+            float f3 = storyEntry.roundDuration;
             if ((f < f2 * f3 || f > storyEntry.roundRight * f3) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                 this.seekedLastTime = System.currentTimeMillis();
                 VideoPlayer videoPlayer2 = this.roundPlayer;
-                StoryEntry storyEntry2 = this.entry;
-                long j = storyEntry2.roundLeft * ((float) storyEntry2.roundDuration);
+                long j = (long) (this.entry.roundLeft * r1.roundDuration);
                 videoPlayer2.seekTo(j);
                 updateAudioPlayer(true);
                 currentPosition = j;
@@ -888,10 +619,11 @@ public abstract class PreviewView extends FrameLayout {
         this.timelineView.setProgress(currentPosition);
         if (this.roundPlayer.isPlaying()) {
             AndroidUtilities.cancelRunOnUIThread(this.updateRoundProgressRunnable);
-            AndroidUtilities.runOnUIThread(this.updateRoundProgressRunnable, 1000.0f / AndroidUtilities.screenRefreshRate);
+            AndroidUtilities.runOnUIThread(this.updateRoundProgressRunnable, (long) (1000.0f / AndroidUtilities.screenRefreshRate));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8() {
         VideoPlayer videoPlayer = this.videoPlayer;
         if (videoPlayer == null || this.timelineView == null) {
@@ -899,13 +631,13 @@ public abstract class PreviewView extends FrameLayout {
         }
         long currentPosition = videoPlayer.getCurrentPosition();
         if (getDuration() > 1) {
-            float duration = ((float) currentPosition) / ((float) getDuration());
+            float duration = currentPosition / getDuration();
             if (!this.timelineView.isDragging()) {
                 StoryEntry storyEntry = this.entry;
                 if ((duration < storyEntry.left || duration > storyEntry.right) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                     this.seekedLastTime = System.currentTimeMillis();
                     VideoPlayer videoPlayer2 = this.videoPlayer;
-                    long duration2 = this.entry.left * ((float) getDuration());
+                    long duration2 = (long) (this.entry.left * getDuration());
                     videoPlayer2.seekTo(duration2);
                     updateAudioPlayer(true);
                     updateRoundPlayer(true);
@@ -918,11 +650,12 @@ public abstract class PreviewView extends FrameLayout {
         this.timelineView.setProgress(this.videoPlayer.getCurrentPosition());
         if (this.videoPlayer.isPlaying()) {
             AndroidUtilities.cancelRunOnUIThread(this.updateProgressRunnable);
-            AndroidUtilities.runOnUIThread(this.updateProgressRunnable, 1000.0f / AndroidUtilities.screenRefreshRate);
+            AndroidUtilities.runOnUIThread(this.updateProgressRunnable, (long) (1000.0f / AndroidUtilities.screenRefreshRate));
         }
         this.lastPos = currentPosition;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$9() {
         VideoPlayer videoPlayer = this.audioPlayer;
         if (videoPlayer == null || this.videoPlayer != null || this.roundPlayer != null || this.timelineView == null) {
@@ -931,14 +664,13 @@ public abstract class PreviewView extends FrameLayout {
         long currentPosition = videoPlayer.getCurrentPosition();
         StoryEntry storyEntry = this.entry;
         if (storyEntry != null) {
-            float f = (float) currentPosition;
+            float f = currentPosition;
             float f2 = storyEntry.audioLeft;
-            float f3 = (float) storyEntry.audioDuration;
+            float f3 = storyEntry.audioDuration;
             if ((f < f2 * f3 || f > storyEntry.audioRight * f3) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                 this.seekedLastTime = System.currentTimeMillis();
                 VideoPlayer videoPlayer2 = this.audioPlayer;
-                StoryEntry storyEntry2 = this.entry;
-                long j = storyEntry2.audioLeft * ((float) storyEntry2.audioDuration);
+                long j = (long) (this.entry.audioLeft * r1.audioDuration);
                 videoPlayer2.seekTo(j);
                 currentPosition = j;
             }
@@ -946,10 +678,11 @@ public abstract class PreviewView extends FrameLayout {
         this.timelineView.setProgress(currentPosition);
         if (this.audioPlayer.isPlaying()) {
             AndroidUtilities.cancelRunOnUIThread(this.updateAudioProgressRunnable);
-            AndroidUtilities.runOnUIThread(this.updateAudioProgressRunnable, 1000.0f / AndroidUtilities.screenRefreshRate);
+            AndroidUtilities.runOnUIThread(this.updateAudioProgressRunnable, (long) (1000.0f / AndroidUtilities.screenRefreshRate));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupGradient$4(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         int i2 = iArr[0];
@@ -970,6 +703,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupGradient$5(int i, int[] iArr) {
         StoryEntry storyEntry = this.entry;
         int i2 = iArr[0];
@@ -990,6 +724,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ Bitmap lambda$setupImage$3(StoryEntry storyEntry, long j, String str, BitmapFactory.Options options) {
         if (!storyEntry.isVideo) {
             return BitmapFactory.decodeFile(str, options);
@@ -1006,6 +741,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupVideoPlayer$6() {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
@@ -1015,6 +751,7 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setupVideoPlayer$7(StoryEntry.HDRInfo hDRInfo) {
         VideoEditTextureView videoEditTextureView = this.textureView;
         if (videoEditTextureView != null) {
@@ -1022,10 +759,12 @@ public abstract class PreviewView extends FrameLayout {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void seekTo(long j) {
         seekTo(j, false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setupGradient() {
         Utilities.Callback callback;
         final int measuredHeight = getMeasuredHeight() > 0 ? getMeasuredHeight() : AndroidUtilities.displaySize.y;
@@ -1313,9 +1052,10 @@ public abstract class PreviewView extends FrameLayout {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Code restructure failed: missing block: B:33:0x0094, code lost:
     
-        if (r3 <= (r0 + r5)) goto L85;
+        if (r3 <= (r0 + r5)) goto L34;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1334,7 +1074,7 @@ public abstract class PreviewView extends FrameLayout {
             if (!z || this.audioPlayer.getDuration() == -9223372036854775807L) {
                 return;
             }
-            float duration = ((float) currentPosition) / ((float) this.audioPlayer.getDuration());
+            float duration = currentPosition / this.audioPlayer.getDuration();
             StoryEntry storyEntry = this.entry;
             if ((duration < storyEntry.audioLeft || duration > storyEntry.audioRight) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                 this.seekedLastTime = System.currentTimeMillis();
@@ -1348,14 +1088,15 @@ public abstract class PreviewView extends FrameLayout {
         }
         long currentPosition2 = videoPlayer2.getCurrentPosition();
         StoryEntry storyEntry2 = this.entry;
-        long j = (storyEntry2.audioRight - storyEntry2.audioLeft) * ((float) storyEntry2.audioDuration);
+        long j = (long) ((storyEntry2.audioRight - storyEntry2.audioLeft) * storyEntry2.audioDuration);
         if (videoPlayer2.isPlaying()) {
             long j2 = this.entry.audioOffset;
             if (currentPosition2 >= j2) {
             }
         }
         z2 = false;
-        long j3 = (currentPosition2 - this.entry.audioOffset) + (r0.audioLeft * ((float) r0.audioDuration));
+        StoryEntry storyEntry3 = this.entry;
+        long j3 = (currentPosition2 - storyEntry3.audioOffset) + ((long) (storyEntry3.audioLeft * storyEntry3.audioDuration));
         if (this.audioPlayer.isPlaying() != z2) {
             this.audioPlayer.setPlayWhenReady(z2);
         } else if (!z || Math.abs(this.audioPlayer.getCurrentPosition() - j3) <= 120) {
@@ -1364,6 +1105,7 @@ public abstract class PreviewView extends FrameLayout {
         this.audioPlayer.seekTo(j3);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRoundPlayer(boolean z) {
         VideoPlayer videoPlayer = this.roundPlayer;
         if (videoPlayer == null || this.entry == null) {
@@ -1382,7 +1124,7 @@ public abstract class PreviewView extends FrameLayout {
             if (!z || this.roundPlayer.getDuration() == -9223372036854775807L) {
                 return;
             }
-            float duration = ((float) currentPosition) / ((float) this.roundPlayer.getDuration());
+            float duration = currentPosition / this.roundPlayer.getDuration();
             StoryEntry storyEntry = this.entry;
             if ((duration < storyEntry.roundLeft || duration > storyEntry.roundRight) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                 this.seekedLastTime = System.currentTimeMillis();
@@ -1393,13 +1135,14 @@ public abstract class PreviewView extends FrameLayout {
         }
         long currentPosition2 = videoPlayer2.getCurrentPosition();
         StoryEntry storyEntry2 = this.entry;
-        long j = (storyEntry2.roundRight - storyEntry2.roundLeft) * ((float) storyEntry2.roundDuration);
+        long j = (long) ((storyEntry2.roundRight - storyEntry2.roundLeft) * storyEntry2.roundDuration);
         long j2 = storyEntry2.roundOffset;
         boolean z3 = currentPosition2 >= j2 && currentPosition2 <= j2 + j;
         if (this.videoPlayer.isPlaying() && z3) {
             z2 = true;
         }
-        long j3 = (currentPosition2 - this.entry.roundOffset) + (r5.roundLeft * ((float) r5.roundDuration));
+        StoryEntry storyEntry3 = this.entry;
+        long j3 = (currentPosition2 - storyEntry3.roundOffset) + ((long) (storyEntry3.roundLeft * storyEntry3.roundDuration));
         RoundView roundView2 = this.roundView;
         if (roundView2 != null) {
             roundView2.setShown(z3, true);
@@ -1810,9 +1553,6 @@ public abstract class PreviewView extends FrameLayout {
         this.timelineView = timelineView;
         if (timelineView != null) {
             timelineView.setDelegate(new TimelineView.TimelineDelegate() { // from class: org.telegram.ui.Stories.recorder.PreviewView.2
-                2() {
-                }
-
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
                 public void onAudioLeftChange(float f) {
                     if (PreviewView.this.entry == null) {
@@ -1945,7 +1685,7 @@ public abstract class PreviewView extends FrameLayout {
                     if (PreviewView.this.videoPlayer == null || PreviewView.this.videoPlayer.getDuration() == -9223372036854775807L) {
                         return;
                     }
-                    PreviewView.this.seekTo(f * ((float) r0.videoPlayer.getDuration()));
+                    PreviewView.this.seekTo((long) (f * r0.videoPlayer.getDuration()));
                 }
 
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
@@ -2016,13 +1756,13 @@ public abstract class PreviewView extends FrameLayout {
                 StoryEntry storyEntry2 = this.entry;
                 storyEntry2.audioOffset = 0L;
                 if (storyEntry2.isVideo) {
-                    storyEntry2.audioOffset = storyEntry2.left * ((float) getDuration());
+                    storyEntry2.audioOffset = (long) (storyEntry2.left * getDuration());
                 }
                 StoryEntry storyEntry3 = this.entry;
                 storyEntry3.audioLeft = 0.0f;
                 long min = Math.min(storyEntry3.isVideo ? getDuration() : storyEntry3.audioDuration, 120000L);
                 StoryEntry storyEntry4 = this.entry;
-                storyEntry4.audioRight = storyEntry4.audioDuration != 0 ? Math.min(1.0f, ((float) Math.min(min, 59000L)) / ((float) this.entry.audioDuration)) : 1.0f;
+                storyEntry4.audioRight = storyEntry4.audioDuration != 0 ? Math.min(1.0f, Math.min(min, 59000L) / this.entry.audioDuration) : 1.0f;
             }
         }
         setupAudio(this.entry, z);
@@ -2047,9 +1787,6 @@ public abstract class PreviewView extends FrameLayout {
             this.audioPlayer = videoPlayer2;
             videoPlayer2.allowMultipleInstances = true;
             videoPlayer2.setDelegate(new VideoPlayer.VideoPlayerDelegate() { // from class: org.telegram.ui.Stories.recorder.PreviewView.1
-                1() {
-                }
-
                 @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
                 public void onError(VideoPlayer videoPlayer3, Exception exc) {
                 }
@@ -2099,7 +1836,7 @@ public abstract class PreviewView extends FrameLayout {
             this.audioPlayer.preparePlayer(Uri.fromFile(new File(storyEntry.audioPath)), "other");
             checkVolumes();
             if (this.videoPlayer != null && getDuration() > 0) {
-                long duration = storyEntry.left * ((float) getDuration());
+                long duration = (long) (storyEntry.left * getDuration());
                 this.videoPlayer.seekTo(duration);
                 this.timelineView.setProgress(duration);
             }
@@ -2133,9 +1870,6 @@ public abstract class PreviewView extends FrameLayout {
         this.roundPlayer = videoPlayer3;
         videoPlayer3.allowMultipleInstances = true;
         videoPlayer3.setDelegate(new VideoPlayer.VideoPlayerDelegate() { // from class: org.telegram.ui.Stories.recorder.PreviewView.4
-            4() {
-            }
-
             @Override // org.telegram.ui.Components.VideoPlayer.VideoPlayerDelegate
             public void onError(VideoPlayer videoPlayer4, Exception exc) {
             }
@@ -2269,7 +2003,7 @@ public abstract class PreviewView extends FrameLayout {
         this.videoPlayer.setPlayWhenReady(this.pauseLinks.isEmpty());
         this.videoPlayer.setLooping(true);
         if (storyEntry.isEditSaved) {
-            j = (storyEntry.left * ((float) storyEntry.duration)) + ((float) j);
+            j = (long) ((storyEntry.left * storyEntry.duration) + j);
         }
         if (j > 0) {
             this.videoPlayer.seekTo(j);

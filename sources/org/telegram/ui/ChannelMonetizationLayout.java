@@ -149,7 +149,6 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     private final ChannelTransactionsView transactionsLayout;
     private Bulletin withdrawalBulletin;
 
-    /* loaded from: classes4.dex */
     public class ChannelTransactionsView extends LinearLayout {
         private final PageAdapter adapter;
         private final int currentAccount;
@@ -163,7 +162,6 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         private final Runnable updateParentList;
         private final ViewPagerFixed viewPager;
 
-        /* loaded from: classes4.dex */
         public class Page extends FrameLayout {
             private final long bot_id;
             private final int currentAccount;
@@ -263,8 +261,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class PageAdapter extends ViewPagerFixed.Adapter {
+        class PageAdapter extends ViewPagerFixed.Adapter {
             private final int classGuid;
             private final Context context;
             private final int currentAccount;
@@ -292,7 +289,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(final int i) {
-                return new Page(this.context, this.dialogId, i, this.currentAccount, this.classGuid, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$ChannelTransactionsView$PageAdapter$$ExternalSyntheticLambda0
+                return ChannelTransactionsView.this.new Page(this.context, this.dialogId, i, this.currentAccount, this.classGuid, new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$ChannelTransactionsView$PageAdapter$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChannelMonetizationLayout.ChannelTransactionsView.PageAdapter.this.lambda$createView$0(i);
@@ -549,9 +546,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class FeatureCell extends FrameLayout {
+    private static class FeatureCell extends FrameLayout {
         public FeatureCell(Context context, int i, CharSequence charSequence, CharSequence charSequence2, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             ImageView imageView = new ImageView(context);
@@ -582,7 +577,6 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ProceedOverview {
         public long amount;
         public long amount2;
@@ -612,7 +606,6 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ProceedOverviewCell extends LinearLayout {
         private final LinearLayout[] amountContainer;
         private final TextView[] amountView;
@@ -710,7 +703,6 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class TransactionCell extends FrameLayout {
         private final TextView dateView;
         private final DecimalFormat formatter;
@@ -980,9 +972,8 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         this.starsBalanceEditTextContainer.setText(LocaleController.getString(R.string.BotStarsWithdrawPlaceholder));
         this.starsBalanceEditTextContainer.setLeftPadding(AndroidUtilities.dp(36.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ChannelMonetizationLayout.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
-            public void onDetachedFromWindow() {
+            protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 AndroidUtilities.hideKeyboard(this);
             }
@@ -2234,17 +2225,15 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         bottomSheet.show();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         instance = this;
         super.onAttachedToWindow();
         checkLearnSheet();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         instance = null;
         super.onDetachedFromWindow();
         ActionBar actionBar = this.actionBar;

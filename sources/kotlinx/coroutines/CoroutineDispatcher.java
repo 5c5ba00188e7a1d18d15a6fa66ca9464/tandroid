@@ -13,7 +13,6 @@ import kotlinx.coroutines.internal.LimitedDispatcherKt;
 public abstract class CoroutineDispatcher extends AbstractCoroutineContextElement implements ContinuationInterceptor {
     public static final Key Key = new Key(null);
 
-    /* loaded from: classes.dex */
     public static final class Key extends AbstractCoroutineContextKey {
         private Key() {
             super(ContinuationInterceptor.Key, new Function1() { // from class: kotlinx.coroutines.CoroutineDispatcher.Key.1

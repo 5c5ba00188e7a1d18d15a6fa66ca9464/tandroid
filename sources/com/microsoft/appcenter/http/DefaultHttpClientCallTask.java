@@ -17,9 +17,8 @@ import java.util.zip.GZIPOutputStream;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DefaultHttpClientCallTask extends AsyncTask {
+class DefaultHttpClientCallTask extends AsyncTask {
     private final HttpClient.CallTemplate mCallTemplate;
     private final boolean mCompressionEnabled;
     private final Map mHeaders;
@@ -31,16 +30,13 @@ public class DefaultHttpClientCallTask extends AsyncTask {
     private static final Pattern TOKEN_REGEX_JSON = Pattern.compile("token\":\"[^\"]+\"");
     private static final Pattern REDIRECT_URI_REGEX_JSON = Pattern.compile("redirect_uri\":\"[^\"]+\"");
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Tracker {
+    interface Tracker {
         void onFinish(DefaultHttpClientCallTask defaultHttpClientCallTask);
 
         void onStart(DefaultHttpClientCallTask defaultHttpClientCallTask);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DefaultHttpClientCallTask(String str, String str2, Map map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback, Tracker tracker, boolean z) {
+    DefaultHttpClientCallTask(String str, String str2, Map map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback, Tracker tracker, boolean z) {
         this.mUrl = str;
         this.mMethod = str2;
         this.mHeaders = map;

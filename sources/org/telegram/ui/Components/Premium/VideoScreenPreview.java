@@ -153,9 +153,8 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 canvas.restore();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // com.google.android.exoplayer2.ui.AspectRatioFrameLayout, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i4, int i5) {
+            protected void onMeasure(int i4, int i5) {
                 super.onMeasure(i4, i5);
                 this.clipPath.reset();
                 VideoScreenPreview videoScreenPreview = VideoScreenPreview.this;
@@ -439,9 +438,8 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                     if (drawable != null) {
                         drawable.onDraw(canvas);
                     } else if (this.speedLinesDrawable != null) {
-                        VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayerBase;
-                        if (videoPlayerHolderBase != null) {
-                            float clamp = Utilities.clamp(((float) videoPlayerHolderBase.getCurrentPosition()) / ((float) this.videoPlayerBase.getDuration()), 1.0f, 0.0f);
+                        if (this.videoPlayerBase != null) {
+                            float clamp = Utilities.clamp(r0.getCurrentPosition() / this.videoPlayerBase.getDuration(), 1.0f, 0.0f);
                             float[] fArr = speedScaleVideoTimestamps;
                             float length = 1.0f / (fArr.length - 1);
                             int i = (int) (clamp / length);

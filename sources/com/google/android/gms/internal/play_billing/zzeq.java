@@ -188,28 +188,23 @@ abstract class zzeq {
         zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.notificationsCountUpdated << i) ^ (-1))));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static double zza(Object obj, long j) {
+    static double zza(Object obj, long j) {
         return zzf.zza(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static float zzb(Object obj, long j) {
+    static float zzb(Object obj, long j) {
         return zzf.zzb(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(Object obj, long j) {
+    static int zzc(Object obj, long j) {
         return zzf.zza.getInt(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long zzd(Object obj, long j) {
+    static long zzd(Object obj, long j) {
         return zzf.zza.getLong(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zze(Class cls) {
+    static Object zze(Class cls) {
         try {
             return zzc.allocateInstance(cls);
         } catch (InstantiationException e) {
@@ -217,13 +212,11 @@ abstract class zzeq {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzf(Object obj, long j) {
+    static Object zzf(Object obj, long j) {
         return zzf.zza.getObject(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Unsafe zzg() {
+    static Unsafe zzg() {
         try {
             return (Unsafe) AccessController.doPrivileged(new zzem());
         } catch (Throwable unused) {
@@ -235,48 +228,39 @@ abstract class zzeq {
         Logger.getLogger(zzeq.class.getName()).logp(Level.WARNING, "com.google.protobuf.UnsafeUtil", "logMissingMethod", "platform method missing - proto runtime falling back to safer methods: ".concat(th.toString()));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzm(Object obj, long j, boolean z) {
+    static void zzm(Object obj, long j, boolean z) {
         zzf.zzc(obj, j, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzn(byte[] bArr, long j, byte b) {
+    static void zzn(byte[] bArr, long j, byte b) {
         zzf.zzd(bArr, zza + j, b);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzo(Object obj, long j, double d) {
+    static void zzo(Object obj, long j, double d) {
         zzf.zze(obj, j, d);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzp(Object obj, long j, float f) {
+    static void zzp(Object obj, long j, float f) {
         zzf.zzf(obj, j, f);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzq(Object obj, long j, int i) {
+    static void zzq(Object obj, long j, int i) {
         zzf.zza.putInt(obj, j, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzr(Object obj, long j, long j2) {
+    static void zzr(Object obj, long j, long j2) {
         zzf.zza.putLong(obj, j, j2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzs(Object obj, long j, Object obj2) {
+    static void zzs(Object obj, long j, Object obj2) {
         zzf.zza.putObject(obj, j, obj2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ boolean zzt(Object obj, long j) {
+    static /* bridge */ /* synthetic */ boolean zzt(Object obj, long j) {
         return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3))) & NotificationCenter.notificationsCountUpdated)) != 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ boolean zzu(Object obj, long j) {
+    static /* bridge */ /* synthetic */ boolean zzu(Object obj, long j) {
         return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) ((j & 3) << 3))) & NotificationCenter.notificationsCountUpdated)) != 0;
     }
 
@@ -301,18 +285,15 @@ abstract class zzeq {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzw(Object obj, long j) {
+    static boolean zzw(Object obj, long j) {
         return zzf.zzg(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzx() {
+    static boolean zzx() {
         return zzh;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzy() {
+    static boolean zzy() {
         return zzg;
     }
 

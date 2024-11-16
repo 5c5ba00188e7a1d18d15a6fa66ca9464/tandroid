@@ -28,7 +28,6 @@ public class AccessibilityNodeInfoCompat {
     public int mParentVirtualDescendantId = -1;
     private int mVirtualDescendantId = -1;
 
-    /* loaded from: classes.dex */
     public static class AccessibilityActionCompat {
         public static final AccessibilityActionCompat ACTION_CONTEXT_CLICK;
         public static final AccessibilityActionCompat ACTION_DRAG_CANCEL;
@@ -244,22 +243,22 @@ public class AccessibilityNodeInfoCompat {
             } else {
                 accessibilityAction18 = null;
             }
-            ACTION_DRAG_START = new AccessibilityActionCompat(accessibilityAction18, R.id.ALT, null, null, null);
+            ACTION_DRAG_START = new AccessibilityActionCompat(accessibilityAction18, R.id.accessibilityActionDragStart, null, null, null);
             if (i >= 32) {
                 accessibilityAction22 = AccessibilityNodeInfo.AccessibilityAction.ACTION_DRAG_DROP;
                 accessibilityAction19 = accessibilityAction22;
             } else {
                 accessibilityAction19 = null;
             }
-            ACTION_DRAG_DROP = new AccessibilityActionCompat(accessibilityAction19, R.id.CTRL, null, null, null);
+            ACTION_DRAG_DROP = new AccessibilityActionCompat(accessibilityAction19, R.id.accessibilityActionDragDrop, null, null, null);
             if (i >= 32) {
                 accessibilityAction21 = AccessibilityNodeInfo.AccessibilityAction.ACTION_DRAG_CANCEL;
                 accessibilityAction20 = accessibilityAction21;
             } else {
                 accessibilityAction20 = null;
             }
-            ACTION_DRAG_CANCEL = new AccessibilityActionCompat(accessibilityAction20, R.id.FUNCTION, null, null, null);
-            ACTION_SHOW_TEXT_SUGGESTIONS = new AccessibilityActionCompat(i >= 33 ? AccessibilityNodeInfo.AccessibilityAction.ACTION_SHOW_TEXT_SUGGESTIONS : null, R.id.KEYCODE_0, null, null, null);
+            ACTION_DRAG_CANCEL = new AccessibilityActionCompat(accessibilityAction20, R.id.accessibilityActionDragCancel, null, null, null);
+            ACTION_SHOW_TEXT_SUGGESTIONS = new AccessibilityActionCompat(i >= 33 ? AccessibilityNodeInfo.AccessibilityAction.ACTION_SHOW_TEXT_SUGGESTIONS : null, R.id.accessibilityActionShowTextSuggestions, null, null, null);
         }
 
         public AccessibilityActionCompat(int i, CharSequence charSequence) {
@@ -334,15 +333,12 @@ public class AccessibilityNodeInfoCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api19Impl {
+    private static class Api19Impl {
         public static Bundle getExtras(AccessibilityNodeInfo accessibilityNodeInfo) {
             return accessibilityNodeInfo.getExtras();
         }
     }
 
-    /* loaded from: classes.dex */
     public static class CollectionInfoCompat {
         final Object mInfo;
 
@@ -360,7 +356,6 @@ public class AccessibilityNodeInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class CollectionItemInfoCompat {
         final Object mInfo;
 
@@ -402,7 +397,6 @@ public class AccessibilityNodeInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class RangeInfoCompat {
         final Object mInfo;
 
@@ -529,11 +523,11 @@ public class AccessibilityNodeInfoCompat {
                                 switch (i) {
                                     case R.id.accessibilityActionImeEnter:
                                         return "ACTION_IME_ENTER";
-                                    case R.id.ALT:
+                                    case R.id.accessibilityActionDragStart:
                                         return "ACTION_DRAG_START";
-                                    case R.id.CTRL:
+                                    case R.id.accessibilityActionDragDrop:
                                         return "ACTION_DRAG_DROP";
-                                    case R.id.FUNCTION:
+                                    case R.id.accessibilityActionDragCancel:
                                         return "ACTION_DRAG_CANCEL";
                                     default:
                                         return "ACTION_UNKNOWN";

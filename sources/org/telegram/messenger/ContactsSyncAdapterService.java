@@ -15,9 +15,7 @@ import android.os.IBinder;
 public class ContactsSyncAdapterService extends Service {
     private static SyncAdapterImpl sSyncAdapter;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SyncAdapterImpl extends AbstractThreadedSyncAdapter {
+    private static class SyncAdapterImpl extends AbstractThreadedSyncAdapter {
         private Context mContext;
 
         public SyncAdapterImpl(Context context) {

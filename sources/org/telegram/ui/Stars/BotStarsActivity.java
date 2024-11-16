@@ -133,8 +133,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
     private int stats_dc = -1;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class NestedFrameLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
+    class NestedFrameLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
         private NestedScrollingParentHelper nestedScrollingParentHelper;
 
         public NestedFrameLayout(Context context) {
@@ -1099,9 +1098,8 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         outlineTextContainerView.setText(LocaleController.getString(R.string.BotStarsWithdrawPlaceholder));
         this.balanceEditTextContainer.setLeftPadding(AndroidUtilities.dp(36.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Stars.BotStarsActivity.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
-            public void onDetachedFromWindow() {
+            protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 AndroidUtilities.hideKeyboard(this);
             }

@@ -26,7 +26,6 @@ public class Barcode extends AbstractSafeParcelable {
     public int valueFormat;
     public WiFi wifi;
 
-    /* loaded from: classes.dex */
     public static class Address extends AbstractSafeParcelable {
         public static final Parcelable.Creator<Address> CREATOR = new zza();
         public String[] addressLines;
@@ -46,7 +45,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class CalendarDateTime extends AbstractSafeParcelable {
         public static final Parcelable.Creator<CalendarDateTime> CREATOR = new zzd();
         public int day;
@@ -84,7 +82,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class CalendarEvent extends AbstractSafeParcelable {
         public static final Parcelable.Creator<CalendarEvent> CREATOR = new zzf();
         public String description;
@@ -119,7 +116,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class ContactInfo extends AbstractSafeParcelable {
         public static final Parcelable.Creator<ContactInfo> CREATOR = new zze();
         public Address[] addresses;
@@ -154,7 +150,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DriverLicense extends AbstractSafeParcelable {
         public static final Parcelable.Creator<DriverLicense> CREATOR = new zzh();
         public String addressCity;
@@ -210,7 +205,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Email extends AbstractSafeParcelable {
         public static final Parcelable.Creator<Email> CREATOR = new zzg();
         public String address;
@@ -236,7 +230,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class GeoPoint extends AbstractSafeParcelable {
         public static final Parcelable.Creator<GeoPoint> CREATOR = new zzj();
         public double lat;
@@ -256,7 +249,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class PersonName extends AbstractSafeParcelable {
         public static final Parcelable.Creator<PersonName> CREATOR = new zzi();
         public String first;
@@ -291,7 +283,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Phone extends AbstractSafeParcelable {
         public static final Parcelable.Creator<Phone> CREATOR = new zzl();
         public String number;
@@ -311,7 +302,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Sms extends AbstractSafeParcelable {
         public static final Parcelable.Creator<Sms> CREATOR = new zzk();
         public String message;
@@ -331,7 +321,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class UrlBookmark extends AbstractSafeParcelable {
         public static final Parcelable.Creator<UrlBookmark> CREATOR = new zzn();
         public String title;
@@ -351,7 +340,6 @@ public class Barcode extends AbstractSafeParcelable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class WiFi extends AbstractSafeParcelable {
         public static final Parcelable.Creator<WiFi> CREATOR = new zzm();
         public int encryptionType;

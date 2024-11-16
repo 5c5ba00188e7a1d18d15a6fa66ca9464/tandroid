@@ -232,9 +232,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     };
     float pinchScale = 1.0f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 12 implements RendererCommon.RendererEvents {
+    class 12 implements RendererCommon.RendererEvents {
         12() {
         }
 
@@ -258,9 +256,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 13 implements RendererCommon.RendererEvents {
+    class 13 implements RendererCommon.RendererEvents {
         13() {
         }
 
@@ -284,9 +280,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 14 extends AnimatorListenerAdapter {
+    class 14 extends AnimatorListenerAdapter {
         14() {
         }
 
@@ -317,9 +311,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 implements AcceptDeclineView.Listener {
+    class 8 implements AcceptDeclineView.Listener {
         8() {
         }
 
@@ -2086,7 +2078,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     /* JADX WARN: Removed duplicated region for block: B:316:0x052d  */
     /* JADX WARN: Removed duplicated region for block: B:73:0x052a  */
     /* JADX WARN: Type inference failed for: r9v21 */
-    /* JADX WARN: Type inference failed for: r9v23, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v23, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v39 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

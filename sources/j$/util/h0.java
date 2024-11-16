@@ -12,8 +12,7 @@ abstract class h0 {
         }
     })).booleanValue();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void a(Class cls, String str) {
+    static void a(Class cls, String str) {
         throw new UnsupportedOperationException(cls + " tripwire tripped but logging not supported: " + str);
     }
 }

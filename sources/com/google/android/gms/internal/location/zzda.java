@@ -51,9 +51,8 @@ public final class zzda extends GmsClient {
         return feature2 != null && feature2.getVersion() >= feature.getVersion();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -71,9 +70,8 @@ public final class zzda extends GmsClient {
         return 11717000;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.location.internal.IGoogleLocationManagerService";
     }
 

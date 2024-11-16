@@ -1,28 +1,24 @@
 package j$.util.concurrent;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class q extends k {
+final class q extends k {
     q e;
     q f;
     q g;
     q h;
     boolean i;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public q(int i, Object obj, Object obj2, q qVar, q qVar2) {
+    q(int i, Object obj, Object obj2, q qVar, q qVar2) {
         super(i, obj, obj2, qVar);
         this.e = qVar2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.concurrent.k
-    public final k a(Object obj, int i) {
+    final k a(Object obj, int i) {
         return b(i, obj, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final q b(int i, Object obj, Class cls) {
+    final q b(int i, Object obj, Class cls) {
         if (obj == null) {
             return null;
         }

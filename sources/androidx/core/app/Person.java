@@ -14,7 +14,6 @@ public class Person {
     CharSequence mName;
     String mUri;
 
-    /* loaded from: classes.dex */
     static class Api22Impl {
         static Person fromPersistableBundle(PersistableBundle persistableBundle) {
             return new Builder().setName(persistableBundle.getString("name")).setUri(persistableBundle.getString("uri")).setKey(persistableBundle.getString("key")).setBot(persistableBundle.getBoolean("isBot")).setImportant(persistableBundle.getBoolean("isImportant")).build();
@@ -32,7 +31,6 @@ public class Person {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api28Impl {
         static Person fromAndroidPerson(android.app.Person person) {
             return new Builder().setName(person.getName()).setIcon(person.getIcon() != null ? IconCompat.createFromIcon(person.getIcon()) : null).setUri(person.getUri()).setKey(person.getKey()).setBot(person.isBot()).setImportant(person.isImportant()).build();
@@ -43,7 +41,6 @@ public class Person {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Builder {
         IconCompat mIcon;
         boolean mIsBot;

@@ -6,13 +6,11 @@ import android.os.Message;
 import android.util.Log;
 import java.util.HashMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzq implements Handler.Callback {
+final class zzq implements Handler.Callback {
     final /* synthetic */ zzr zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzq(zzr zzrVar, zzp zzpVar) {
+    /* synthetic */ zzq(zzr zzrVar, zzp zzpVar) {
         this.zza = zzrVar;
     }
 

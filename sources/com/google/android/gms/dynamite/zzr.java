@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zzr extends com.google.android.gms.internal.common.zza implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzr(IBinder iBinder) {
+    zzr(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.dynamite.IDynamiteLoaderV2");
     }
 

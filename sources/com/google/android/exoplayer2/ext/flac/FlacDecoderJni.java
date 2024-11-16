@@ -9,9 +9,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class FlacDecoderJni {
+final class FlacDecoderJni {
     private static final int TEMP_BUFFER_SIZE = 8192;
     private ByteBuffer byteBufferData;
     private boolean endOfExtractorInput;
@@ -19,7 +18,6 @@ public final class FlacDecoderJni {
     private final long nativeDecoderContext;
     private byte[] tempBuffer;
 
-    /* loaded from: classes.dex */
     public static final class FlacFrameDecodeException extends Exception {
         public final int errorCode;
 

@@ -2,9 +2,8 @@ package com.google.android.gms.tasks;
 
 import java.util.concurrent.ExecutionException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzaf implements zzae {
+final class zzaf implements zzae {
     private final Object zza = new Object();
     private final int zzb;
     private final zzw zzc;

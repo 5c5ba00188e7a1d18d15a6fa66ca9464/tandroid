@@ -89,9 +89,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     private RadialProgressView progressView;
     private int wasCountryHintIndex;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends TextView {
+    class 1 extends TextView {
         final NotificationCenter.NotificationCenterDelegate delegate;
 
         1(Context context) {
@@ -122,9 +120,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements CountrySelectActivity.CountrySelectActivityDelegate {
+    class 2 implements CountrySelectActivity.CountrySelectActivityDelegate {
         2() {
         }
 
@@ -535,9 +531,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         this.plusTextView.setFocusable(false);
         linearLayout2.addView(this.plusTextView, LayoutHelper.createLinear(-2, -2));
         AnimatedPhoneNumberEditText animatedPhoneNumberEditText2 = new AnimatedPhoneNumberEditText(context) { // from class: org.telegram.ui.NewContactBottomSheet.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onFocusChanged(boolean z, int i3, Rect rect) {
+            protected void onFocusChanged(boolean z, int i3, Rect rect) {
                 super.onFocusChanged(z, i3, rect);
                 NewContactBottomSheet.this.phoneOutlineView.animateSelection((z || NewContactBottomSheet.this.phoneField.isFocused()) ? 1.0f : 0.0f);
             }
@@ -705,9 +700,8 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         createLinear.width = Math.max(2, AndroidUtilities.dp(0.5f));
         linearLayout2.addView(this.codeDividerView, createLinear);
         AnimatedPhoneNumberEditText animatedPhoneNumberEditText3 = new AnimatedPhoneNumberEditText(context) { // from class: org.telegram.ui.NewContactBottomSheet.5
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onFocusChanged(boolean z, int i4, Rect rect) {
+            protected void onFocusChanged(boolean z, int i4, Rect rect) {
                 super.onFocusChanged(z, i4, rect);
                 NewContactBottomSheet.this.phoneOutlineView.animateSelection((z || NewContactBottomSheet.this.codeField.isFocused()) ? 1.0f : 0.0f);
             }

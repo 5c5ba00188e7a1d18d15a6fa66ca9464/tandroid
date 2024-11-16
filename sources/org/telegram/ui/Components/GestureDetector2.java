@@ -40,7 +40,6 @@ public class GestureDetector2 {
     private static final int TAP_TIMEOUT = ViewConfiguration.getTapTimeout();
     public static final int DOUBLE_TAP_TIMEOUT = ViewConfiguration.getDoubleTapTimeout();
 
-    /* loaded from: classes3.dex */
     private class GestureHandler extends Handler {
         GestureHandler() {
         }
@@ -73,7 +72,6 @@ public class GestureDetector2 {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface OnDoubleTapListener {
         boolean canDoubleTap(MotionEvent motionEvent);
 
@@ -84,7 +82,6 @@ public class GestureDetector2 {
         boolean onSingleTapConfirmed(MotionEvent motionEvent);
     }
 
-    /* loaded from: classes3.dex */
     public interface OnGestureListener {
         boolean onDown(MotionEvent motionEvent);
 
@@ -416,7 +413,7 @@ public class GestureDetector2 {
                         z2 = hasMessages2;
                         long longPressTimeout = ViewConfiguration.getLongPressTimeout();
                         Handler handler2 = this.mHandler;
-                        handler2.sendMessageDelayed(handler2.obtainMessage(2, 0, 0), ((float) longPressTimeout) * 2.0f);
+                        handler2.sendMessageDelayed(handler2.obtainMessage(2, 0, 0), (long) (longPressTimeout * 2.0f));
                     } else {
                         i = classification;
                         z2 = hasMessages2;

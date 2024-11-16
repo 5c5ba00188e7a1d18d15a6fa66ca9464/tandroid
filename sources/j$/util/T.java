@@ -3,15 +3,13 @@ package j$.util;
 import j$.util.function.Consumer;
 import java.util.NoSuchElementException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class T implements v, j$.util.function.F, j {
+final class T implements v, j$.util.function.F, j {
     boolean a = false;
     int b;
     final /* synthetic */ H c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public T(H h) {
+    T(H h) {
         this.c = h;
     }
 

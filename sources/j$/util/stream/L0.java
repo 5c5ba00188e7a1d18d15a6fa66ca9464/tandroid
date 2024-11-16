@@ -16,25 +16,22 @@ class L0 extends e {
         this.j = l0.j;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public L0(b bVar, j$.util.Q q, LongFunction longFunction, j$.util.function.f fVar) {
+    L0(b bVar, j$.util.Q q, LongFunction longFunction, j$.util.function.f fVar) {
         super(bVar, q);
         this.h = bVar;
         this.i = longFunction;
         this.j = fVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final Object a() {
+    protected final Object a() {
         x0 x0Var = (x0) this.i.apply(this.h.o0(this.b));
         this.h.D0(this.b, x0Var);
         return x0Var.b();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final e d(j$.util.Q q) {
+    protected final e d(j$.util.Q q) {
         return new L0(this, q);
     }
 

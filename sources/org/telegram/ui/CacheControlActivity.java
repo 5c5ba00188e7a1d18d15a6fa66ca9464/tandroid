@@ -171,9 +171,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private ArrayList itemInners = new ArrayList();
     private float actionBarShadowAlpha = 1.0f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class CacheChartHeader extends FrameLayout {
+    class CacheChartHeader extends FrameLayout {
         View bottomImage;
         boolean firstSet;
         Paint loadingBackgroundPaint;
@@ -441,7 +439,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ClearCacheButton extends FrameLayout {
         FrameLayout button;
         TextView rtlTextView;
@@ -542,8 +539,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ClearCacheButtonInternal extends ClearCacheButton {
+    class ClearCacheButtonInternal extends ClearCacheButton {
         public ClearCacheButtonInternal(Context context) {
             super(context);
             ((ViewGroup.MarginLayoutParams) this.button.getLayoutParams()).topMargin = AndroidUtilities.dp(5.0f);
@@ -565,7 +561,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             bottomSheet.fixNavigationBar();
             bottomSheet.setCanDismissWithSwipe(false);
             bottomSheet.setCancelable(false);
-            final ClearingCacheView clearingCacheView = new ClearingCacheView(getContext());
+            final ClearingCacheView clearingCacheView = CacheControlActivity.this.new ClearingCacheView(getContext());
             bottomSheet.setCustomView(clearingCacheView);
             final boolean[] zArr = {false};
             final float[] fArr = {0.0f};
@@ -681,17 +677,14 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ClearingCacheView extends FrameLayout {
+    class ClearingCacheView extends FrameLayout {
         RLottieImageView imageView;
         AnimatedTextView percentsTextView;
         ProgressView progressView;
         TextView subtitle;
         TextView title;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class ProgressView extends View {
+        class ProgressView extends View {
             Paint in;
             Paint out;
             float progress;
@@ -775,7 +768,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class DialogFileEntities {
         public long dialogId;
         public final SparseArray entitiesByType = new SparseArray();
@@ -856,14 +848,12 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class FileEntities {
         public int count;
         public ArrayList files = new ArrayList();
         public long totalSize;
     }
 
-    /* loaded from: classes4.dex */
     public static class ItemInner extends AdapterWithDiffUtils.Item {
         int colorKey;
         DialogFileEntities entities;
@@ -958,11 +948,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends AdapterWithDiffUtils {
+    class ListAdapter extends AdapterWithDiffUtils {
         private Context mContext;
 
-        /* loaded from: classes4.dex */
         class 1 extends CacheChart {
             1(Context context) {
                 super(context);
@@ -1107,20 +1095,20 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 switch (itemViewType) {
                     case 9:
                         CacheControlActivity.this.updateChart();
-                        return;
+                        break;
                     case 10:
-                        if (CacheControlActivity.this.cacheChartHeader == null || CacheControlActivity.this.calculating) {
-                            return;
+                        if (CacheControlActivity.this.cacheChartHeader != null && !CacheControlActivity.this.calculating) {
+                            CacheChartHeader cacheChartHeader = CacheControlActivity.this.cacheChartHeader;
+                            r3 = CacheControlActivity.this.totalSize > 0;
+                            float f = 0.0f;
+                            float f2 = CacheControlActivity.this.totalDeviceSize <= 0 ? 0.0f : CacheControlActivity.this.totalSize / CacheControlActivity.this.totalDeviceSize;
+                            if (CacheControlActivity.this.totalDeviceFreeSize > 0 && CacheControlActivity.this.totalDeviceSize > 0) {
+                                f = (CacheControlActivity.this.totalDeviceSize - CacheControlActivity.this.totalDeviceFreeSize) / CacheControlActivity.this.totalDeviceSize;
+                            }
+                            cacheChartHeader.setData(r3, f2, f);
+                            break;
                         }
-                        CacheChartHeader cacheChartHeader = CacheControlActivity.this.cacheChartHeader;
-                        r3 = CacheControlActivity.this.totalSize > 0;
-                        float f = 0.0f;
-                        float f2 = CacheControlActivity.this.totalDeviceSize <= 0 ? 0.0f : ((float) CacheControlActivity.this.totalSize) / ((float) CacheControlActivity.this.totalDeviceSize);
-                        if (CacheControlActivity.this.totalDeviceFreeSize > 0 && CacheControlActivity.this.totalDeviceSize > 0) {
-                            f = ((float) (CacheControlActivity.this.totalDeviceSize - CacheControlActivity.this.totalDeviceFreeSize)) / ((float) CacheControlActivity.this.totalDeviceSize);
-                        }
-                        cacheChartHeader.setData(r3, f2, f);
-                        return;
+                        break;
                     case 11:
                         final CheckBoxCell checkBoxCell = (CheckBoxCell) viewHolder.itemView;
                         boolean isOtherSelected = itemInner.index < 0 ? CacheControlActivity.this.isOtherSelected() : CacheControlActivity.this.selected[itemInner.index];
@@ -1152,10 +1140,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                             checkBoxCell.setOnSectionsClickListener(null, null);
                         }
                         checkBoxCell.setPad(itemInner.pad ? 1 : 0);
-                        return;
-                    default:
-                        return;
+                        break;
                 }
+                return;
             }
             TextCell textCell = (TextCell) viewHolder.itemView;
             CacheByChatsController cacheByChatsController = CacheControlActivity.this.getMessagesController().getCacheByChatsController();
@@ -1248,15 +1235,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         break;
                     case 8:
                         View view3 = CacheControlActivity.this.cachedMediaLayout = new CachedMediaLayout(this.mContext, CacheControlActivity.this) { // from class: org.telegram.ui.CacheControlActivity.ListAdapter.2
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.CachedMediaLayout, android.widget.FrameLayout, android.view.View
-                            public void onMeasure(int i4, int i5) {
+                            protected void onMeasure(int i4, int i5) {
                                 super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i5) - (ActionBar.getCurrentActionBarHeight() / 2), 1073741824));
                             }
 
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.CachedMediaLayout
-                            public void showActionMode(boolean z) {
+                            protected void showActionMode(boolean z) {
                                 if (!z) {
                                     ((BaseFragment) CacheControlActivity.this).actionBar.hideActionMode();
                                 } else {
@@ -1319,7 +1304,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         view2 = CacheControlActivity.this.cacheChart = new 1(this.mContext);
                         break;
                     case 10:
-                        view2 = CacheControlActivity.this.cacheChartHeader = new CacheChartHeader(this.mContext);
+                        view2 = CacheControlActivity.this.cacheChartHeader = CacheControlActivity.this.new CacheChartHeader(this.mContext);
                         break;
                     case 11:
                         view = new CheckBoxCell(this.mContext, 4, 21, CacheControlActivity.this.getResourceProvider());
@@ -1335,7 +1320,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         view = flickerLoadingView;
                         break;
                     case 13:
-                        view2 = CacheControlActivity.this.clearCacheButton = new ClearCacheButtonInternal(this.mContext);
+                        view2 = CacheControlActivity.this.clearCacheButton = CacheControlActivity.this.new ClearCacheButtonInternal(this.mContext);
                         break;
                     case 14:
                         slideChooseView = new SlideChooseView(this.mContext);
@@ -1396,7 +1381,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private boolean canDisable;
         protected CheckBox2 checkBox;
@@ -2488,10 +2472,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         boolean z2 = j > 0;
         long j2 = this.totalDeviceSize;
         float f = 0.0f;
-        float f2 = j2 <= 0 ? 0.0f : ((float) j) / ((float) j2);
-        long j3 = this.totalDeviceFreeSize;
-        if (j3 > 0 && j2 > 0) {
-            f = ((float) (j2 - j3)) / ((float) j2);
+        float f2 = j2 <= 0 ? 0.0f : j / j2;
+        if (this.totalDeviceFreeSize > 0 && j2 > 0) {
+            f = (j2 - r5) / j2;
         }
         cacheChartHeader.setData(z2, f2, f);
     }
@@ -3114,7 +3097,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 if (i >= fArr.length) {
                     break;
                 }
-                fArr[i] = (float) size(i);
+                fArr[i] = size(i);
                 i++;
             }
             if (this.percents == null) {
@@ -3284,14 +3267,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         updateDatabaseItemSize();
         this.listAdapter = new ListAdapter(context);
         NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.CacheControlActivity.2
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:12:? A[RETURN, SYNTHETIC] */
             /* JADX WARN: Removed duplicated region for block: B:9:0x004b  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 boolean z = !isPinnedToTop();
                 if (z || CacheControlActivity.this.actionBarShadowAlpha == 0.0f) {
@@ -3318,15 +3300,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         this.fragmentView = nestedSizeNotifierLayout;
         nestedSizeNotifierLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CacheControlActivity.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean allowSelectChildAtPosition(View view) {
+            protected boolean allowSelectChildAtPosition(View view) {
                 return view != CacheControlActivity.this.cacheChart;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (CacheControlActivity.this.sectionsStartRow >= 0 && CacheControlActivity.this.sectionsEndRow >= 0) {
                     drawSectionBackgroundExclusive(canvas, CacheControlActivity.this.sectionsStartRow - 1, CacheControlActivity.this.sectionsEndRow, Theme.getColor(Theme.key_windowBackgroundWhite));
                 }
@@ -3344,9 +3324,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         nestedSizeNotifierLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.CacheControlActivity.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 CacheControlActivity.this.listView.invalidate();
             }
         };

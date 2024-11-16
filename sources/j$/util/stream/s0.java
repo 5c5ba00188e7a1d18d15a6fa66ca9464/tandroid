@@ -6,8 +6,7 @@ import java.util.concurrent.atomic.AtomicReference;
 final class s0 extends c {
     private final r0 j;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public s0(r0 r0Var, b bVar, j$.util.Q q) {
+    s0(r0 r0Var, b bVar, j$.util.Q q) {
         super(bVar, q);
         this.j = r0Var;
     }
@@ -17,9 +16,8 @@ final class s0 extends c {
         this.j = s0Var.j;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final Object a() {
+    protected final Object a() {
         boolean z;
         b bVar = this.a;
         p0 p0Var = (p0) this.j.b.get();
@@ -35,9 +33,8 @@ final class s0 extends c {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final e d(j$.util.Q q) {
+    protected final e d(j$.util.Q q) {
         return new s0(this, q);
     }
 

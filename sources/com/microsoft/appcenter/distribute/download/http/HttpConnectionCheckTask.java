@@ -7,8 +7,7 @@ import java.io.File;
 class HttpConnectionCheckTask extends AsyncTask {
     private final HttpConnectionReleaseDownloader mDownloader;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpConnectionCheckTask(HttpConnectionReleaseDownloader httpConnectionReleaseDownloader) {
+    HttpConnectionCheckTask(HttpConnectionReleaseDownloader httpConnectionReleaseDownloader) {
         this.mDownloader = httpConnectionReleaseDownloader;
     }
 

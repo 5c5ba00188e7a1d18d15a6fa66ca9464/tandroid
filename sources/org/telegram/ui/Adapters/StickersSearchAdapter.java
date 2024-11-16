@@ -70,9 +70,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     private SparseArray positionsToSets = new SparseArray();
     private Runnable searchRunnable = new 1();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 implements Runnable {
+    class 1 implements Runnable {
         1() {
         }
 
@@ -324,7 +322,6 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Delegate {
         String[] getLastSearchKeyboardLanguage();
 
@@ -614,7 +611,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r7v21, types: [org.telegram.tgnet.TLRPC$messages_StickerSet, org.telegram.tgnet.TLRPC$TL_messages_stickerSet] */
+    /* JADX WARN: Type inference failed for: r7v21, types: [org.telegram.tgnet.TLRPC$TL_messages_stickerSet, org.telegram.tgnet.TLRPC$messages_StickerSet] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public void notifyDataSetChanged() {
         int i;
@@ -771,7 +768,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r7v10, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r7v10, types: [android.view.View, android.view.ViewGroup, android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r7v8, types: [android.view.View] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

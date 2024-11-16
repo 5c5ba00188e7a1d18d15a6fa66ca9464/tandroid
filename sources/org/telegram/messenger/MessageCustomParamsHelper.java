@@ -8,9 +8,7 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class MessageCustomParamsHelper {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Params_v1 extends TLObject {
+    private static class Params_v1 extends TLObject {
         private static final int VERSION = 1;
         int flags;
         final TLRPC.Message message;

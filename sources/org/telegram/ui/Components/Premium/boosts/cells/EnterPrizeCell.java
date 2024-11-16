@@ -24,7 +24,6 @@ public class EnterPrizeCell extends LinearLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private final TextView textView;
 
-    /* loaded from: classes3.dex */
     public interface AfterTextChangedListener {
         void afterTextChanged(String str);
     }

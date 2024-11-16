@@ -75,9 +75,7 @@ public class TopicCreateFragment extends BaseFragment {
     TLRPC.TL_forumTopic topicForEdit;
     long topicId;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+    class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
 
@@ -266,9 +264,7 @@ public class TopicCreateFragment extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 extends FrameLayout {
+    class 4 extends FrameLayout {
         ValueAnimator backAnimator;
         boolean pressed;
         float pressedProgress;
@@ -541,9 +537,8 @@ public class TopicCreateFragment extends BaseFragment {
                     TopicCreateFragment.this.selectEmoji(l, z);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.SelectAnimatedEmojiDialog, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z, int i5, int i6, int i7, int i8) {
+                protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
                     super.onLayout(z, i5, i6, i7, i8);
                     if (this.firstLayout) {
                         this.firstLayout = false;

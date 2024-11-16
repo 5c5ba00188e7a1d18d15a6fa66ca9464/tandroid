@@ -30,8 +30,7 @@ public class EventProperties {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Map getProperties() {
+    Map getProperties() {
         return this.mProperties;
     }
 

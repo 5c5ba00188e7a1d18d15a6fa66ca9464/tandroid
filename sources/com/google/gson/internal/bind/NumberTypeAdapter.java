@@ -16,9 +16,7 @@ public final class NumberTypeAdapter extends TypeAdapter {
     private static final TypeAdapterFactory LAZILY_PARSED_NUMBER_FACTORY = newFactory(ToNumberPolicy.LAZILY_PARSED_NUMBER);
     private final ToNumberStrategy toNumberStrategy;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$com$google$gson$stream$JsonToken;
 
         static {

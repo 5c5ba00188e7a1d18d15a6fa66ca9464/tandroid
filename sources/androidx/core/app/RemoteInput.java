@@ -22,9 +22,7 @@ public final class RemoteInput {
     private final CharSequence mLabel;
     private final String mResultKey;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static ClipData getClipData(Intent intent) {
             return intent.getClipData();
         }
@@ -34,9 +32,7 @@ public final class RemoteInput {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api20Impl {
+    static class Api20Impl {
         static void addResultsToIntent(Object obj, Intent intent, Bundle bundle) {
             android.app.RemoteInput.addResultsToIntent((android.app.RemoteInput[]) obj, intent, bundle);
         }
@@ -61,9 +57,7 @@ public final class RemoteInput {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api26Impl {
+    static class Api26Impl {
         static void addDataResultToIntent(RemoteInput remoteInput, Intent intent, Map<String, Uri> map) {
             android.app.RemoteInput.addDataResultToIntent(RemoteInput.fromCompat(remoteInput), intent, map);
         }
@@ -81,9 +75,7 @@ public final class RemoteInput {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    static class Api29Impl {
         static int getEditChoicesBeforeSending(Object obj) {
             return ((android.app.RemoteInput) obj).getEditChoicesBeforeSending();
         }
@@ -93,7 +85,6 @@ public final class RemoteInput {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private CharSequence[] mChoices;
         private CharSequence mLabel;
@@ -120,8 +111,7 @@ public final class RemoteInput {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RemoteInput(String str, CharSequence charSequence, CharSequence[] charSequenceArr, boolean z, int i, Bundle bundle, Set set) {
+    RemoteInput(String str, CharSequence charSequence, CharSequence[] charSequenceArr, boolean z, int i, Bundle bundle, Set set) {
         this.mResultKey = str;
         this.mLabel = charSequence;
         this.mChoices = charSequenceArr;
@@ -138,8 +128,7 @@ public final class RemoteInput {
         return Api20Impl.fromCompat(remoteInput);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static android.app.RemoteInput[] fromCompat(RemoteInput[] remoteInputArr) {
+    static android.app.RemoteInput[] fromCompat(RemoteInput[] remoteInputArr) {
         if (remoteInputArr == null) {
             return null;
         }

@@ -6,7 +6,6 @@ import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class EventStoreModule_StoreConfigFactory implements Factory {
 
-    /* loaded from: classes.dex */
     private static final class InstanceHolder {
         private static final EventStoreModule_StoreConfigFactory INSTANCE = new EventStoreModule_StoreConfigFactory();
     }

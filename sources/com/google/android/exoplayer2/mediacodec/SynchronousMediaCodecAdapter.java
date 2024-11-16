@@ -19,7 +19,6 @@ public final class SynchronousMediaCodecAdapter implements MediaCodecAdapter {
     private ByteBuffer[] inputByteBuffers;
     private ByteBuffer[] outputByteBuffers;
 
-    /* loaded from: classes.dex */
     public static class Factory implements MediaCodecAdapter.Factory {
         /* JADX WARN: Multi-variable type inference failed */
         /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter$1] */

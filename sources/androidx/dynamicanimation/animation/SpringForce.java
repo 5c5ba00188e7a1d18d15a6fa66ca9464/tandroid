@@ -83,15 +83,13 @@ public final class SpringForce {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setValueThreshold(double d) {
+    void setValueThreshold(double d) {
         double abs = Math.abs(d);
         this.mValueThreshold = abs;
         this.mVelocityThreshold = abs * 62.5d;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DynamicAnimation.MassState updateValues(double d, double d2, long j) {
+    DynamicAnimation.MassState updateValues(double d, double d2, long j) {
         double cos;
         double d3;
         init();

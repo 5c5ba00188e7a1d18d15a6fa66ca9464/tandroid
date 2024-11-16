@@ -9,7 +9,6 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
     private final int lastFetchStatus;
     private final long lastSuccessfulFetchTimeInMillis;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private FirebaseRemoteConfigSettings builderConfigSettings;
         private int builderLastFetchStatus;
@@ -22,14 +21,12 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
             return new FirebaseRemoteConfigInfoImpl(this.builderLastSuccessfulFetchTimeInMillis, this.builderLastFetchStatus, this.builderConfigSettings);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Builder withConfigSettings(FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
+        Builder withConfigSettings(FirebaseRemoteConfigSettings firebaseRemoteConfigSettings) {
             this.builderConfigSettings = firebaseRemoteConfigSettings;
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Builder withLastFetchStatus(int i) {
+        Builder withLastFetchStatus(int i) {
             this.builderLastFetchStatus = i;
             return this;
         }
@@ -46,8 +43,7 @@ public class FirebaseRemoteConfigInfoImpl implements FirebaseRemoteConfigInfo {
         this.configSettings = firebaseRemoteConfigSettings;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Builder newBuilder() {
+    static Builder newBuilder() {
         return new Builder();
     }
 

@@ -9,15 +9,13 @@ import com.google.gson.stream.JsonWriter;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class TypeAdapterRuntimeTypeWrapper extends TypeAdapter {
+final class TypeAdapterRuntimeTypeWrapper extends TypeAdapter {
     private final Gson context;
     private final TypeAdapter delegate;
     private final Type type;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TypeAdapterRuntimeTypeWrapper(Gson gson, TypeAdapter typeAdapter, Type type) {
+    TypeAdapterRuntimeTypeWrapper(Gson gson, TypeAdapter typeAdapter, Type type) {
         this.context = gson;
         this.delegate = typeAdapter;
         this.type = type;

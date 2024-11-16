@@ -12,7 +12,6 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public interface HttpDataSource extends DataSource {
 
-    /* loaded from: classes.dex */
     public static abstract class BaseFactory implements DataSource.Factory {
         private final RequestProperties defaultRequestProperties = new RequestProperties();
 
@@ -24,14 +23,12 @@ public interface HttpDataSource extends DataSource {
         protected abstract HttpDataSource createDataSourceInternal(RequestProperties requestProperties);
     }
 
-    /* loaded from: classes.dex */
     public static final class CleartextNotPermittedException extends HttpDataSourceException {
         public CleartextNotPermittedException(IOException iOException, DataSpec dataSpec) {
             super("Cleartext HTTP traffic not permitted. See https://exoplayer.dev/issues/cleartext-not-permitted", iOException, dataSpec, 2007, 1);
         }
     }
 
-    /* loaded from: classes.dex */
     public static class HttpDataSourceException extends DataSourceException {
         public final DataSpec dataSpec;
         public final int type;
@@ -74,7 +71,6 @@ public interface HttpDataSource extends DataSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class InvalidContentTypeException extends HttpDataSourceException {
         public final String contentType;
 
@@ -84,7 +80,6 @@ public interface HttpDataSource extends DataSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class InvalidResponseCodeException extends HttpDataSourceException {
         public final Map headerFields;
         public final byte[] responseBody;
@@ -100,7 +95,6 @@ public interface HttpDataSource extends DataSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class RequestProperties {
         private final Map requestProperties = new HashMap();
         private Map requestPropertiesSnapshot;

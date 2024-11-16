@@ -5,6 +5,9 @@ import com.google.android.gms.dynamite.DynamiteModule;
 
 /* loaded from: classes.dex */
 final class zze implements DynamiteModule.VersionPolicy.IVersions {
+    zze() {
+    }
+
     @Override // com.google.android.gms.dynamite.DynamiteModule.VersionPolicy.IVersions
     public final int zza(Context context, String str) {
         return DynamiteModule.getLocalVersion(context, str);

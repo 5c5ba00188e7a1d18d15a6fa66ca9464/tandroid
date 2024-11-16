@@ -130,7 +130,6 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     private TextView themeHintTextView;
     private final TextView titleView;
 
-    /* loaded from: classes3.dex */
     class 11 implements ChatAttachAlert.ChatAttachViewDelegate {
         long start;
         final /* synthetic */ TL_stories.TL_premium_boostsStatus val$cachedBoostsStatus;
@@ -222,7 +221,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public /* synthetic */ void doOnIdle(Runnable runnable) {
-            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
+            runnable.run();
         }
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -279,9 +278,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 12 implements ChatAttachAlert.ChatAttachViewDelegate {
+    class 12 implements ChatAttachAlert.ChatAttachViewDelegate {
         long start;
 
         12() {
@@ -345,7 +342,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
         public /* synthetic */ void doOnIdle(Runnable runnable) {
-            ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
+            runnable.run();
         }
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -394,9 +391,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 6 implements ResultCallback {
+    class 6 implements ResultCallback {
         6() {
         }
 
@@ -429,7 +424,6 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Adapter extends RecyclerListView.SelectionAdapter {
         private final int currentAccount;
         private final int currentViewType;
@@ -692,7 +686,6 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ChatThemeItem {
         public float animationProgress = 1.0f;
         public final EmojiThemes chatTheme;
@@ -798,9 +791,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         });
         this.rootLayout.addView(rLottieImageView, LayoutHelper.createFrame(44, 44.0f, 8388661, 0.0f, -2.0f, 7.0f, 0.0f));
         this.scroller = new LinearSmoothScroller(getContext()) { // from class: org.telegram.ui.Components.ChatThemeBottomSheet.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearSmoothScroller
-            public int calculateTimeForScrolling(int i5) {
+            protected int calculateTimeForScrolling(int i5) {
                 return super.calculateTimeForScrolling(i5) * 6;
             }
         };
@@ -1791,9 +1783,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         HintView hintView;
         String formatString;
         super.onCreate(bundle);

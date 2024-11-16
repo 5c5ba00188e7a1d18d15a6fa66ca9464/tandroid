@@ -85,9 +85,7 @@ public abstract class UsersAlertBase extends BottomSheet {
     protected Drawable shadowDrawable;
     private TextView titleView;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
-    public class ContainerView extends FrameLayout {
+    protected class ContainerView extends FrameLayout {
         private boolean ignoreLayout;
         float snapToTopOffset;
         private Boolean statusBarOpen;
@@ -118,9 +116,8 @@ public abstract class UsersAlertBase extends BottomSheet {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             canvas.save();
             canvas.clipRect(0, getPaddingTop(), getMeasuredWidth(), getMeasuredHeight());
             super.dispatchDraw(canvas);
@@ -294,9 +291,7 @@ public abstract class UsersAlertBase extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
-    public class SearchField extends FrameLayout {
+    protected class SearchField extends FrameLayout {
         private final ImageView clearSearchImageView;
         private final CloseProgressDrawable2 progressDrawable;
         private final View searchBackground;
@@ -599,9 +594,8 @@ public abstract class UsersAlertBase extends BottomSheet {
         this.shadowAnimation.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -627,12 +621,10 @@ public abstract class UsersAlertBase extends BottomSheet {
 
     protected abstract void onSearchViewTouched(MotionEvent motionEvent, EditTextBoldCursor editTextBoldCursor);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void search(String str) {
+    protected void search(String str) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setColorProgress(float f) {
+    protected void setColorProgress(float f) {
         this.colorProgress = f;
         this.backgroundColor = AndroidUtilities.getOffsetColor(Theme.getColor(this.keyInviteMembersBackground, this.resourcesProvider), Theme.getColor(this.keyListViewBackground, this.resourcesProvider), f, 1.0f);
         this.shadowDrawable.setColorFilter(new PorterDuffColorFilter(this.backgroundColor, PorterDuff.Mode.MULTIPLY));
@@ -677,8 +669,7 @@ public abstract class UsersAlertBase extends BottomSheet {
         this.titleView.setText(charSequence);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setTranslationY(int i) {
+    protected void setTranslationY(int i) {
         this.listView.setTopGlowOffset(i);
         float f = i;
         this.frameLayout.setTranslationY(f);
@@ -686,8 +677,7 @@ public abstract class UsersAlertBase extends BottomSheet {
         this.containerView.invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void showItemsAnimated(final int i) {
+    protected void showItemsAnimated(final int i) {
         if (isShowing()) {
             this.listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.UsersAlertBase.5
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
@@ -720,8 +710,7 @@ public abstract class UsersAlertBase extends BottomSheet {
     protected void updateColorKeys() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateLayout() {
+    protected void updateLayout() {
         if (this.listView.getChildCount() <= 0) {
             return;
         }

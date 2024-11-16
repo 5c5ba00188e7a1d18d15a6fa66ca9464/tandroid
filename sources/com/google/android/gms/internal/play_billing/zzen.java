@@ -4,8 +4,7 @@ import sun.misc.Unsafe;
 
 /* loaded from: classes.dex */
 final class zzen extends zzep {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzen(Unsafe unsafe) {
+    zzen(Unsafe unsafe) {
         super(unsafe);
     }
 

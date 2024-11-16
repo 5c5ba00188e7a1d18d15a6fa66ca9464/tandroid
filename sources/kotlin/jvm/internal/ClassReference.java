@@ -49,7 +49,6 @@ public final class ClassReference implements KClass, ClassBasedDeclarationContai
     private static final Map simpleNames;
     private final Class jClass;
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }

@@ -6,7 +6,6 @@ import android.content.Context;
 /* loaded from: classes.dex */
 public abstract class BillingClient {
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private volatile zzbe zzb;
         private final Context zzc;

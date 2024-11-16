@@ -28,7 +28,6 @@ public abstract class PaintColorsListView extends RecyclerListView {
     private Paint paint;
     private int selectedColorIndex;
 
-    /* loaded from: classes3.dex */
     private final class ColorView extends View {
         private int mColor;
         private float selectProgress;
@@ -106,7 +105,7 @@ public abstract class PaintColorsListView extends RecyclerListView {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                return new RecyclerListView.Holder(new ColorView(context));
+                return new RecyclerListView.Holder(PaintColorsListView.this.new ColorView(context));
             }
         });
         setOverScrollMode(2);

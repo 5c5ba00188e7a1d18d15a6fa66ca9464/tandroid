@@ -2,9 +2,8 @@ package com.google.android.gms.tasks;
 
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzl implements zzq {
+final class zzl implements zzq {
     private final Executor zza;
     private final Object zzb = new Object();
     private OnFailureListener zzc;

@@ -35,7 +35,6 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
     final LifecycleRegistry mFragmentLifecycleRegistry = new LifecycleRegistry(this);
     boolean mStopped = true;
 
-    /* loaded from: classes.dex */
     class HostCallbacks extends FragmentHostCallback implements ViewModelStoreOwner, OnBackPressedDispatcherOwner, ActivityResultRegistryOwner, FragmentOnAttachListener {
         public HostCallbacks() {
             super(FragmentActivity.this);
@@ -183,13 +182,12 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
     }
 
     void markFragmentsCreated() {
-        do {
-        } while (markState(getSupportFragmentManager(), Lifecycle.State.CREATED));
+        while (markState(getSupportFragmentManager(), Lifecycle.State.CREATED)) {
+        }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentActivity, android.app.Activity
-    public void onActivityResult(int i, int i2, Intent intent) {
+    protected void onActivityResult(int i, int i2, Intent intent) {
         this.mFragments.noteStateNotSaved();
         super.onActivityResult(i, i2, intent);
     }
@@ -204,9 +202,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         this.mFragments.dispatchConfigurationChanged(configuration);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
         this.mFragments.dispatchCreate();
@@ -229,9 +226,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         return dispatchFragmentsOnCreateView == null ? super.onCreateView(str, context, attributeSet) : dispatchFragmentsOnCreateView;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         this.mFragments.dispatchDestroy();
         this.mFragmentLifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
@@ -262,9 +258,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         this.mFragments.dispatchMultiWindowModeChanged(z);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentActivity, android.app.Activity
-    public void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent) {
         this.mFragments.noteStateNotSaved();
         super.onNewIntent(intent);
     }
@@ -277,9 +272,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         super.onPanelClosed(i, menu);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         this.mResumed = false;
         this.mFragments.dispatchPause();
@@ -312,9 +306,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         super.onRequestPermissionsResult(i, strArr, iArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onResume() {
+    protected void onResume() {
         this.mFragments.noteStateNotSaved();
         super.onResume();
         this.mResumed = true;
@@ -326,9 +319,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         this.mFragments.dispatchResume();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onStart() {
+    protected void onStart() {
         this.mFragments.noteStateNotSaved();
         super.onStart();
         this.mStopped = false;
@@ -346,9 +338,8 @@ public abstract class FragmentActivity extends ComponentActivity implements Acti
         this.mFragments.noteStateNotSaved();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
         this.mStopped = true;
         markFragmentsCreated();

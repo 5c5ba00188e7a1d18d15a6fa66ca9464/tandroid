@@ -34,9 +34,7 @@ public class AppCompatTextView extends TextView implements TintableBackgroundVie
     private final AppCompatTextClassifierHelper mTextClassifierHelper;
     private final AppCompatTextHelper mTextHelper;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface SuperCaller {
+    private interface SuperCaller {
         int getAutoSizeMaxTextSize();
 
         int getAutoSizeMinTextSize();
@@ -62,9 +60,7 @@ public class AppCompatTextView extends TextView implements TintableBackgroundVie
         void setTextClassifier(TextClassifier textClassifier);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class SuperCallerApi26 implements SuperCaller {
+    class SuperCallerApi26 implements SuperCaller {
         SuperCallerApi26() {
         }
 
@@ -127,9 +123,7 @@ public class AppCompatTextView extends TextView implements TintableBackgroundVie
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class SuperCallerApi28 extends SuperCallerApi26 {
+    class SuperCallerApi28 extends SuperCallerApi26 {
         SuperCallerApi28() {
             super();
         }
@@ -345,9 +339,8 @@ public class AppCompatTextView extends TextView implements TintableBackgroundVie
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         consumeTextFutureAndSetBlocking();
         super.onMeasure(i, i2);
     }

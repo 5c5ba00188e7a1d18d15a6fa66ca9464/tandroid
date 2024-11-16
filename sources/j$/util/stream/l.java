@@ -24,17 +24,17 @@ public final /* synthetic */ class l implements Function, j$.util.function.i0, B
                 double[] dArr = (double[]) obj;
                 Collectors.a(dArr, d);
                 dArr[2] = dArr[2] + d;
-                return;
+                break;
             case 2:
             default:
                 ((j$.util.h) obj).accept(d);
-                return;
+                break;
             case 3:
                 double[] dArr2 = (double[]) obj;
                 dArr2[2] = dArr2[2] + 1.0d;
                 Collectors.a(dArr2, d);
                 dArr2[3] = dArr2[3] + d;
-                return;
+                break;
         }
     }
 
@@ -47,7 +47,7 @@ public final /* synthetic */ class l implements Function, j$.util.function.i0, B
                 Collectors.a(dArr, dArr2[0]);
                 Collectors.a(dArr, dArr2[1]);
                 dArr[2] = dArr[2] + dArr2[2];
-                return;
+                break;
             case 4:
                 double[] dArr3 = (double[]) obj;
                 double[] dArr4 = (double[]) obj2;
@@ -55,19 +55,19 @@ public final /* synthetic */ class l implements Function, j$.util.function.i0, B
                 Collectors.a(dArr3, dArr4[1]);
                 dArr3[2] = dArr3[2] + dArr4[2];
                 dArr3[3] = dArr3[3] + dArr4[3];
-                return;
+                break;
             case 14:
                 ((Collection) obj).add(obj2);
-                return;
+                break;
             case 18:
                 ((LinkedHashSet) obj).add(obj2);
-                return;
+                break;
             case 19:
                 ((LinkedHashSet) obj).addAll((LinkedHashSet) obj2);
-                return;
+                break;
             default:
                 ((j$.util.h) obj).a((j$.util.h) obj2);
-                return;
+                break;
         }
     }
 
@@ -75,18 +75,17 @@ public final /* synthetic */ class l implements Function, j$.util.function.i0, B
     public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
         switch (this.a) {
             case 2:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
             case 4:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
             case 14:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
             case 18:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
             case 19:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            default:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+                break;
         }
+        return BiConsumer.-CC.$default$andThen(this, biConsumer);
     }
 
     @Override // j$.util.function.Function

@@ -13,8 +13,7 @@ abstract class HttpClientCallDecorator implements Runnable, ServiceCall, Service
     final ServiceCallback mServiceCallback;
     private final String mUrl;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpClientCallDecorator(HttpClient httpClient, String str, String str2, Map map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback) {
+    HttpClientCallDecorator(HttpClient httpClient, String str, String str2, Map map, HttpClient.CallTemplate callTemplate, ServiceCallback serviceCallback) {
         this.mDecoratedApi = httpClient;
         this.mUrl = str;
         this.mMethod = str2;

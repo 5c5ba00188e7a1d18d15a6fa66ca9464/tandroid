@@ -54,14 +54,12 @@ public class ShortcutInfoCompat {
     int mRank;
     UserHandle mUser;
 
-    /* loaded from: classes.dex */
     private static class Api33Impl {
         static void setExcludedFromSurfaces(ShortcutInfo.Builder builder, int i) {
             builder.setExcludedFromSurfaces(i);
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private Map mCapabilityBindingParams;
         private Set mCapabilityBindings;
@@ -337,8 +335,7 @@ public class ShortcutInfoCompat {
         return this.mExtras;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static List fromShortcuts(Context context, List list) {
+    static List fromShortcuts(Context context, List list) {
         ArrayList arrayList = new ArrayList(list.size());
         Iterator it = list.iterator();
         while (it.hasNext()) {
@@ -404,8 +401,7 @@ public class ShortcutInfoCompat {
         return personArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Intent addToIntent(Intent intent) {
+    Intent addToIntent(Intent intent) {
         intent.putExtra("android.intent.extra.shortcut.INTENT", this.mIntents[r0.length - 1]).putExtra("android.intent.extra.shortcut.NAME", this.mLabel.toString());
         if (this.mIcon != null) {
             Drawable drawable = null;

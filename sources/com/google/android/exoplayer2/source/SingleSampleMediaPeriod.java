@@ -23,9 +23,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callback {
+final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callback {
     private final DataSource.Factory dataSourceFactory;
     private final DataSpec dataSpec;
     private final long durationUs;
@@ -41,7 +40,6 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
     private final ArrayList sampleStreams = new ArrayList();
     final Loader loader = new Loader("SingleSampleMediaPeriod");
 
-    /* loaded from: classes.dex */
     private final class SampleStreamImpl implements SampleStream {
         private boolean notifiedDownstreamFormat;
         private int streamState;
@@ -124,9 +122,7 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class SourceLoadable implements Loader.Loadable {
+    static final class SourceLoadable implements Loader.Loadable {
         private final StatsDataSource dataSource;
         public final DataSpec dataSpec;
         public final long loadTaskId = LoadEventInfo.getNewId();

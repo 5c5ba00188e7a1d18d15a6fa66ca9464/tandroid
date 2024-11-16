@@ -372,7 +372,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     private boolean wasDrawnOnline;
     protected float xOffset;
 
-    /* loaded from: classes4.dex */
     public static class BounceInterpolator implements Interpolator {
         @Override // android.animation.TimeInterpolator
         public float getInterpolation(float f) {
@@ -384,7 +383,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class CustomDialog {
         public int date;
         public int id;
@@ -399,7 +397,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         public boolean verified;
     }
 
-    /* loaded from: classes4.dex */
     public interface DialogCellDelegate {
         boolean canClickButtonInside();
 
@@ -414,9 +411,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         void showChatPreview(DialogCell dialogCell);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class DialogUpdateHelper {
+    private class DialogUpdateHelper {
         public long lastDrawnDialogId;
         public boolean lastDrawnDialogIsFolder;
         public int lastDrawnDraftHash;
@@ -670,7 +665,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class FixedWidthSpan extends ReplacementSpan {
         private int width;
 
@@ -699,8 +693,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ForumFormattedNames {
+    static class ForumFormattedNames {
         CharSequence formattedNames;
         boolean isLoadingState;
         int lastMessageId;
@@ -809,7 +802,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class SharedResources {
     }
 
@@ -5735,7 +5727,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Type inference failed for: r3v18, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r3v19, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r3v24, types: [android.text.SpannableStringBuilder] */
-    /* JADX WARN: Type inference failed for: r3v4, types: [android.text.SpannableStringBuilder, java.lang.CharSequence, android.text.Spannable] */
+    /* JADX WARN: Type inference failed for: r3v4, types: [android.text.Spannable, android.text.SpannableStringBuilder, java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r3v46, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r3v47 */
     /*
@@ -5988,9 +5980,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         return !LocaleController.isRTL ? f >= 0.0f && f < ((float) AndroidUtilities.dp(60.0f)) : f >= ((float) (getMeasuredWidth() - AndroidUtilities.dp(60.0f))) && f < ((float) getMeasuredWidth());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.avatarImage.onAttachedToWindow();
         int i = 0;
@@ -6013,9 +6004,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.isSliding = false;
         this.drawRevealBackground = false;
@@ -6056,7 +6046,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         this.canvasButton = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:208:0x0bce, code lost:
     
         if (r3.lastKnownTypingType >= 0) goto L390;
@@ -6146,13 +6135,13 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:813:0x0c6c  */
     /* JADX WARN: Removed duplicated region for block: B:868:0x1544  */
     /* JADX WARN: Type inference failed for: r10v1 */
-    /* JADX WARN: Type inference failed for: r10v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v58 */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         int color;
         int color2;
         int i;

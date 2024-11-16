@@ -135,9 +135,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     private UiCallback uiCallback;
     private boolean useFromUserAsAvatar;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 6 extends RecyclerView.OnScrollListener {
+    class 6 extends RecyclerView.OnScrollListener {
         6() {
         }
 
@@ -193,12 +191,10 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Delegate {
         void updateFiltersView(boolean z, ArrayList arrayList, ArrayList arrayList2, boolean z2);
     }
 
-    /* loaded from: classes4.dex */
     public static class MessageHashId {
         public long dialogId;
         public int messageId;
@@ -229,9 +225,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class OnlyUserFiltersAdapter extends RecyclerListView.SelectionAdapter {
+    class OnlyUserFiltersAdapter extends RecyclerListView.SelectionAdapter {
         OnlyUserFiltersAdapter() {
         }
 
@@ -304,9 +298,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SharedDocumentsAdapter extends RecyclerListView.SectionsAdapter {
+    private class SharedDocumentsAdapter extends RecyclerListView.SectionsAdapter {
         private int currentType;
         private Context mContext;
 
@@ -511,14 +503,11 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
+    class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
         private final SharedLinkCell.SharedLinkCellDelegate sharedLinkCellDelegate = new 1();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements SharedLinkCell.SharedLinkCellDelegate {
+        class 1 implements SharedLinkCell.SharedLinkCellDelegate {
             1() {
             }
 
@@ -702,9 +691,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SharedPhotoVideoAdapter extends RecyclerListView.SelectionAdapter {
+    private class SharedPhotoVideoAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public SharedPhotoVideoAdapter(Context context) {
@@ -819,7 +806,6 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface UiCallback {
         boolean actionModeShowing();
 
@@ -967,9 +953,8 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.parentActivity = parentActivity;
         setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         BlurredRecyclerView blurredRecyclerView = new BlurredRecyclerView(parentActivity) { // from class: org.telegram.ui.FilteredSearchView.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (getAdapter() == FilteredSearchView.this.sharedPhotoVideoAdapter) {
                     for (int i = 0; i < getChildCount(); i++) {
                         if (getChildViewHolder(getChildAt(i)).getItemViewType() == 1) {

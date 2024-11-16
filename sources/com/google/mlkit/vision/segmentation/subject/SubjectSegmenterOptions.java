@@ -14,7 +14,6 @@ public class SubjectSegmenterOptions {
     private final boolean zze;
     private final Executor zzf;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private boolean zza = false;
         private boolean zzb = false;
@@ -40,12 +39,10 @@ public class SubjectSegmenterOptions {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SubjectResultOptions {
         private boolean zza;
         private boolean zzb;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private boolean zza = false;
             private boolean zzb = false;

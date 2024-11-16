@@ -17,7 +17,6 @@ final class IcyDataSource implements DataSource {
     private final byte[] metadataLengthByteHolder;
     private final DataSource upstream;
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onIcyMetadata(ParsableByteArray parsableByteArray);
     }

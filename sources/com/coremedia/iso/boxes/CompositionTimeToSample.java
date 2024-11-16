@@ -18,7 +18,6 @@ public class CompositionTimeToSample extends AbstractFullBox {
     private static final /* synthetic */ JoinPoint.StaticPart ajc$tjp_1 = null;
     List entries;
 
-    /* loaded from: classes.dex */
     public static class Entry {
         int count;
         int offset;

@@ -15,8 +15,7 @@ public final class zzb extends AbstractSafeParcelable {
     private final byte[] zze;
     private final boolean zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzb(int i, boolean z, String str, String str2, byte[] bArr, boolean z2) {
+    zzb(int i, boolean z, String str, String str2, byte[] bArr, boolean z2) {
         this.zza = i;
         this.zzb = z;
         this.zzc = str;

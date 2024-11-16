@@ -29,9 +29,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
     private int mAlpha = NotificationCenter.notificationsCountUpdated;
     private int mCurIndex = -1;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    private static class Api21Impl {
         public static boolean canApplyTheme(Drawable.ConstantState constantState) {
             return constantState.canApplyTheme();
         }
@@ -45,9 +43,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class BlockInvalidateCallback implements Drawable.Callback {
+    static class BlockInvalidateCallback implements Drawable.Callback {
         private Drawable.Callback mCallback;
 
         BlockInvalidateCallback() {
@@ -85,9 +81,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class DrawableContainerState extends Drawable.ConstantState {
+    static abstract class DrawableContainerState extends Drawable.ConstantState {
         boolean mAutoMirrored;
         boolean mCanConstantState;
         int mChangingConfigurations;
@@ -124,8 +118,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         PorterDuff.Mode mTintMode;
         boolean mVariablePadding;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public DrawableContainerState(DrawableContainerState drawableContainerState, DrawableContainerCompat drawableContainerCompat, Resources resources) {
+        DrawableContainerState(DrawableContainerState drawableContainerState, DrawableContainerCompat drawableContainerCompat, Resources resources) {
             this.mVariablePadding = false;
             this.mConstantSize = false;
             this.mDither = true;
@@ -319,8 +312,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public final int getCapacity() {
+        final int getCapacity() {
             return this.mDrawables.length;
         }
 
@@ -674,8 +666,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         return this.mCurrDrawable;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getCurrentIndex() {
+    int getCurrentIndex() {
         return this.mCurIndex;
     }
 
@@ -872,13 +863,12 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         getCallback().scheduleDrawable(this, runnable, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:30:0x006b  */
     /* JADX WARN: Removed duplicated region for block: B:32:0x0073  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean selectDrawable(int i) {
+    boolean selectDrawable(int i) {
         Runnable runnable;
         if (i == this.mCurIndex) {
             return false;
@@ -989,8 +979,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setConstantState(DrawableContainerState drawableContainerState) {
+    void setConstantState(DrawableContainerState drawableContainerState) {
         this.mDrawableContainerState = drawableContainerState;
         int i = this.mCurIndex;
         if (i >= 0) {
@@ -1084,8 +1073,7 @@ public abstract class DrawableContainerCompat extends Drawable implements Drawab
         getCallback().unscheduleDrawable(this, runnable);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void updateDensity(Resources resources) {
+    final void updateDensity(Resources resources) {
         this.mDrawableContainerState.updateDensity(resources);
     }
 }

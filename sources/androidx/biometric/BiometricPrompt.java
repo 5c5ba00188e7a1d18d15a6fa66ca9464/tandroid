@@ -20,7 +20,6 @@ import javax.crypto.Mac;
 public class BiometricPrompt {
     private FragmentManager mClientFragmentManager;
 
-    /* loaded from: classes.dex */
     public static abstract class AuthenticationCallback {
         public void onAuthenticationError(int i, CharSequence charSequence) {
         }
@@ -32,13 +31,11 @@ public class BiometricPrompt {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class AuthenticationResult {
         private final int mAuthenticationType;
         private final CryptoObject mCryptoObject;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public AuthenticationResult(CryptoObject cryptoObject, int i) {
+        AuthenticationResult(CryptoObject cryptoObject, int i) {
             this.mCryptoObject = cryptoObject;
             this.mAuthenticationType = i;
         }
@@ -52,7 +49,6 @@ public class BiometricPrompt {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class CryptoObject {
         private final Cipher mCipher;
         private final IdentityCredential mIdentityCredential;
@@ -104,7 +100,6 @@ public class BiometricPrompt {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class PromptInfo {
         private final int mAllowedAuthenticators;
         private final CharSequence mDescription;
@@ -114,7 +109,6 @@ public class BiometricPrompt {
         private final CharSequence mSubtitle;
         private final CharSequence mTitle;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private CharSequence mTitle = null;
             private CharSequence mSubtitle = null;
@@ -203,7 +197,6 @@ public class BiometricPrompt {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class ResetCallbackObserver implements LifecycleObserver {
         private final WeakReference mViewModelRef;
 

@@ -9,13 +9,11 @@ import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
 public interface AudioSink {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$setOutputStreamOffsetUs(AudioSink audioSink, long j) {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class ConfigurationException extends Exception {
         public final Format format;
 
@@ -30,7 +28,6 @@ public interface AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class InitializationException extends Exception {
         public final int audioTrackState;
         public final Format format;
@@ -60,10 +57,8 @@ public interface AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Listener {
 
-        /* loaded from: classes.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onOffloadBufferEmptying(Listener listener) {
             }
@@ -87,7 +82,6 @@ public interface AudioSink {
         void onUnderrun(int i, long j, long j2);
     }
 
-    /* loaded from: classes.dex */
     public static final class UnexpectedDiscontinuityException extends Exception {
         public final long actualPresentationTimeUs;
         public final long expectedPresentationTimeUs;
@@ -99,7 +93,6 @@ public interface AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class WriteException extends Exception {
         public final int errorCode;
         public final Format format;

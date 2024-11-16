@@ -8,7 +8,6 @@ public final class LogEventDropped {
     private final long events_dropped_count_;
     private final Reason reason_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private long events_dropped_count_ = 0;
         private Reason reason_ = Reason.REASON_UNKNOWN;
@@ -31,7 +30,6 @@ public final class LogEventDropped {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum Reason implements ProtoEnum {
         REASON_UNKNOWN(0),
         MESSAGE_TOO_OLD(1),

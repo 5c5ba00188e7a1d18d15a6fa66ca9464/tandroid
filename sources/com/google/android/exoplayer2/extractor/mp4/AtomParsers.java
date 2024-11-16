@@ -36,14 +36,11 @@ import java.util.List;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class AtomParsers {
+abstract class AtomParsers {
     private static final byte[] opusMagic = Util.getUtf8Bytes("OpusHead");
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ChunkIterator {
+    private static final class ChunkIterator {
         private final ParsableByteArray chunkOffsets;
         private final boolean chunkOffsetsAreLongs;
         public int index;
@@ -84,9 +81,7 @@ public abstract class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class EsdsData {
+    private static final class EsdsData {
         private final long bitrate;
         private final byte[] initializationData;
         private final String mimeType;
@@ -100,9 +95,7 @@ public abstract class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface SampleSizeBox {
+    private interface SampleSizeBox {
         int getFixedSampleSize();
 
         int getSampleCount();
@@ -110,9 +103,7 @@ public abstract class AtomParsers {
         int readNextSampleSize();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class StsdData {
+    private static final class StsdData {
         public Format format;
         public int nalUnitLengthFieldLength;
         public int requiredSampleTransformation = 0;
@@ -123,9 +114,7 @@ public abstract class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class StszSampleSizeBox implements SampleSizeBox {
+    static final class StszSampleSizeBox implements SampleSizeBox {
         private final ParsableByteArray data;
         private final int fixedSampleSize;
         private final int sampleCount;
@@ -163,9 +152,7 @@ public abstract class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Stz2SampleSizeBox implements SampleSizeBox {
+    static final class Stz2SampleSizeBox implements SampleSizeBox {
         private int currentByte;
         private final ParsableByteArray data;
         private final int fieldSize;
@@ -210,9 +197,7 @@ public abstract class AtomParsers {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TkhdData {
+    private static final class TkhdData {
         private final long duration;
         private final int id;
         private final int rotationDegrees;

@@ -6,7 +6,6 @@ import com.google.android.datatransport.runtime.dagger.internal.Preconditions;
 /* loaded from: classes.dex */
 public final class TimeModule_UptimeClockFactory implements Factory {
 
-    /* loaded from: classes.dex */
     private static final class InstanceHolder {
         private static final TimeModule_UptimeClockFactory INSTANCE = new TimeModule_UptimeClockFactory();
     }

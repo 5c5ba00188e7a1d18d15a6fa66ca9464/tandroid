@@ -4,8 +4,7 @@ package com.google.android.gms.internal.play_billing;
 public abstract class zzbe {
     public static final /* synthetic */ int $r8$clinit = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbe(zzbd zzbdVar) {
+    /* synthetic */ zzbe(zzbd zzbdVar) {
     }
 
     public static int zzb(int i) {

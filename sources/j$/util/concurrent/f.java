@@ -1,19 +1,16 @@
 package j$.util.concurrent;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class f extends k {
+final class f extends k {
     final k[] e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public f(k[] kVarArr) {
+    f(k[] kVarArr) {
         super(-1, null, null, null);
         this.e = kVarArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.concurrent.k
-    public final k a(Object obj, int i) {
+    final k a(Object obj, int i) {
         int length;
         k l;
         Object obj2;

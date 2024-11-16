@@ -48,9 +48,7 @@ public class WebMetadataCache {
     private boolean loading;
     private boolean saving;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static final class MetadataFile extends TLObject {
+    private static final class MetadataFile extends TLObject {
         public final ArrayList array;
 
         private MetadataFile() {
@@ -80,8 +78,7 @@ public class WebMetadataCache {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class SitenameProxy {
+    static class SitenameProxy {
         private final Utilities.Callback whenReceived;
 
         public SitenameProxy(Utilities.Callback callback) {
@@ -114,7 +111,6 @@ public class WebMetadataCache {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class WebMetadata extends TLObject {
         public int actionBarColor;
         public int backgroundColor;

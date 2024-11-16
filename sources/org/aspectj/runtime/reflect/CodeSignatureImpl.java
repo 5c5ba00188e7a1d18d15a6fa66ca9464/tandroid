@@ -8,8 +8,7 @@ abstract class CodeSignatureImpl extends MemberSignatureImpl implements Signatur
     String[] parameterNames;
     Class[] parameterTypes;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CodeSignatureImpl(int i, String str, Class cls, Class[] clsArr, String[] strArr, Class[] clsArr2) {
+    CodeSignatureImpl(int i, String str, Class cls, Class[] clsArr, String[] strArr, Class[] clsArr2) {
         super(i, str, cls);
         this.parameterTypes = clsArr;
         this.parameterNames = strArr;

@@ -31,7 +31,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class NotificationCompat {
 
-    /* loaded from: classes.dex */
     public static class Action {
         public PendingIntent actionIntent;
         public int icon;
@@ -46,7 +45,6 @@ public abstract class NotificationCompat {
         boolean mShowsUserInterface;
         public CharSequence title;
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private boolean mAllowGeneratedReplies;
             private boolean mAuthenticationRequired;
@@ -208,9 +206,7 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api20Impl {
+    static class Api20Impl {
         static boolean getAllowFreeFormInput(android.app.RemoteInput remoteInput) {
             return remoteInput.getAllowFreeFormInput();
         }
@@ -248,33 +244,25 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static Icon getIcon(Notification.Action action) {
             return action.getIcon();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static boolean getAllowGeneratedReplies(Notification.Action action) {
             return action.getAllowGeneratedReplies();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static int getSemanticAction(Notification.Action action) {
             return action.getSemanticAction();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    static class Api29Impl {
         static boolean getAllowSystemGeneratedContextualActions(Notification notification) {
             return notification.getAllowSystemGeneratedContextualActions();
         }
@@ -296,15 +284,12 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api31Impl {
+    static class Api31Impl {
         static boolean isAuthenticationRequired(Notification.Action action) {
             return action.isAuthenticationRequired();
         }
     }
 
-    /* loaded from: classes.dex */
     public static class BigPictureStyle extends Style {
         private IconCompat mBigLargeIcon;
         private boolean mBigLargeIconSet;
@@ -312,7 +297,6 @@ public abstract class NotificationCompat {
         private IconCompat mPictureIcon;
         private boolean mShowBigPictureWhenCollapsed;
 
-        /* loaded from: classes.dex */
         private static class Api16Impl {
             static Notification.BigPictureStyle bigPicture(Notification.BigPictureStyle bigPictureStyle, Bitmap bitmap) {
                 return bigPictureStyle.bigPicture(bitmap);
@@ -335,14 +319,12 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* loaded from: classes.dex */
         private static class Api23Impl {
             static void setBigLargeIcon(Notification.BigPictureStyle bigPictureStyle, Icon icon) {
                 bigPictureStyle.bigLargeIcon(icon);
             }
         }
 
-        /* loaded from: classes.dex */
         private static class Api31Impl {
             static void setBigPicture(Notification.BigPictureStyle bigPictureStyle, Icon icon) {
                 bigPictureStyle.bigPicture(icon);
@@ -406,11 +388,9 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class BigTextStyle extends Style {
         private CharSequence mBigText;
 
-        /* loaded from: classes.dex */
         static class Api16Impl {
             static Notification.BigTextStyle bigText(Notification.BigTextStyle bigTextStyle, CharSequence charSequence) {
                 return bigTextStyle.bigText(charSequence);
@@ -456,7 +436,6 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class BubbleMetadata {
         private PendingIntent mDeleteIntent;
         private int mDesiredHeight;
@@ -466,9 +445,7 @@ public abstract class NotificationCompat {
         private PendingIntent mPendingIntent;
         private String mShortcutId;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static class Api29Impl {
+        private static class Api29Impl {
             static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
                 if (bubbleMetadata == null || bubbleMetadata.getIntent() == null) {
                     return null;
@@ -484,9 +461,7 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static class Api30Impl {
+        private static class Api30Impl {
             static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
                 if (bubbleMetadata == null) {
                     return null;
@@ -503,7 +478,6 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private PendingIntent mDeleteIntent;
             private int mDesiredHeight;
@@ -626,7 +600,6 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Builder {
         public ArrayList mActions;
         boolean mAllowSystemGeneratedContextualActions;
@@ -678,7 +651,6 @@ public abstract class NotificationCompat {
         boolean mUseChronometer;
         int mVisibility;
 
-        /* loaded from: classes.dex */
         static class Api21Impl {
             static AudioAttributes build(AudioAttributes.Builder builder) {
                 return builder.build();
@@ -1009,16 +981,13 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Extender {
         Builder extend(Builder builder);
     }
 
-    /* loaded from: classes.dex */
     public static class InboxStyle extends Style {
         private ArrayList mTexts = new ArrayList();
 
-        /* loaded from: classes.dex */
         static class Api16Impl {
             static Notification.InboxStyle addLine(Notification.InboxStyle inboxStyle, CharSequence charSequence) {
                 return inboxStyle.addLine(charSequence);
@@ -1073,7 +1042,6 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class MessagingStyle extends Style {
         private CharSequence mConversationTitle;
         private Boolean mIsGroupConversation;
@@ -1081,7 +1049,6 @@ public abstract class NotificationCompat {
         private final List mMessages = new ArrayList();
         private final List mHistoricMessages = new ArrayList();
 
-        /* loaded from: classes.dex */
         static class Api16Impl {
             static Notification.BigTextStyle bigText(Notification.BigTextStyle bigTextStyle, CharSequence charSequence) {
                 return bigTextStyle.bigText(charSequence);
@@ -1100,7 +1067,6 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* loaded from: classes.dex */
         static class Api24Impl {
             static Notification.MessagingStyle addMessage(Notification.MessagingStyle messagingStyle, Notification.MessagingStyle.Message message) {
                 return messagingStyle.addMessage(message);
@@ -1115,14 +1081,12 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* loaded from: classes.dex */
         static class Api26Impl {
             static Notification.MessagingStyle addHistoricMessage(Notification.MessagingStyle messagingStyle, Notification.MessagingStyle.Message message) {
                 return messagingStyle.addHistoricMessage(message);
             }
         }
 
-        /* loaded from: classes.dex */
         static class Api28Impl {
             static Notification.MessagingStyle createMessagingStyle(android.app.Person person) {
                 return new Notification.MessagingStyle(person);
@@ -1133,7 +1097,6 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* loaded from: classes.dex */
         public static final class Message {
             private String mDataMimeType;
             private Uri mDataUri;
@@ -1142,9 +1105,7 @@ public abstract class NotificationCompat {
             private final CharSequence mText;
             private final long mTimestamp;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes.dex */
-            public static class Api24Impl {
+            static class Api24Impl {
                 static Notification.MessagingStyle.Message createMessage(CharSequence charSequence, long j, CharSequence charSequence2) {
                     return new Notification.MessagingStyle.Message(charSequence, j, charSequence2);
                 }
@@ -1154,9 +1115,7 @@ public abstract class NotificationCompat {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes.dex */
-            public static class Api28Impl {
+            static class Api28Impl {
                 static Notification.MessagingStyle.Message createMessage(CharSequence charSequence, long j, android.app.Person person) {
                     return new Notification.MessagingStyle.Message(charSequence, j, person);
                 }
@@ -1444,7 +1403,6 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class Style {
         CharSequence mBigContentTitle;
         protected Builder mBuilder;
@@ -1491,7 +1449,6 @@ public abstract class NotificationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class WearableExtender implements Extender {
         private Bitmap mBackground;
         private String mBridgeTag;
@@ -1508,9 +1465,7 @@ public abstract class NotificationCompat {
         private int mCustomSizePreset = 0;
         private int mGravity = 80;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public static class Api20Impl {
+        static class Api20Impl {
             static Notification.Action.Builder addExtras(Notification.Action.Builder builder, Bundle bundle) {
                 return builder.addExtras(bundle);
             }
@@ -1532,25 +1487,19 @@ public abstract class NotificationCompat {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public static class Api23Impl {
+        static class Api23Impl {
             static Notification.Action.Builder createBuilder(Icon icon, CharSequence charSequence, PendingIntent pendingIntent) {
                 return new Notification.Action.Builder(icon, charSequence, pendingIntent);
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public static class Api24Impl {
+        static class Api24Impl {
             static Notification.Action.Builder setAllowGeneratedReplies(Notification.Action.Builder builder, boolean z) {
                 return builder.setAllowGeneratedReplies(z);
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public static class Api31Impl {
+        static class Api31Impl {
             static Notification.Action.Builder setAuthenticationRequired(Notification.Action.Builder builder, boolean z) {
                 return builder.setAuthenticationRequired(z);
             }

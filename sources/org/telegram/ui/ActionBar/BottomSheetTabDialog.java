@@ -28,7 +28,6 @@ public class BottomSheetTabDialog extends Dialog {
     public final BottomSheetTabsOverlay.SheetView sheetView;
     public final WindowView windowView;
 
-    /* loaded from: classes4.dex */
     public static class WindowView extends FrameLayout implements BottomSheetTabsOverlay.SheetView {
         public final BottomSheetTabsOverlay.SheetView sheetView;
 

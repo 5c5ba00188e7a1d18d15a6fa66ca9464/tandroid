@@ -5,9 +5,8 @@ import android.content.SharedPreferences;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class TopicsStore {
+final class TopicsStore {
     private static WeakReference topicsStoreWeakReference;
     private final SharedPreferences sharedPreferences;
     private final Executor syncExecutor;
@@ -40,13 +39,11 @@ public final class TopicsStore {
         this.topicOperationsQueue = SharedPreferencesQueue.createInstance(this.sharedPreferences, "topic_operation_queue", ",", this.syncExecutor);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized TopicOperation getNextTopicOperation() {
+    synchronized TopicOperation getNextTopicOperation() {
         return TopicOperation.from(this.topicOperationsQueue.peek());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized boolean removeTopicOperation(TopicOperation topicOperation) {
+    synchronized boolean removeTopicOperation(TopicOperation topicOperation) {
         return this.topicOperationsQueue.remove(topicOperation.serialize());
     }
 }

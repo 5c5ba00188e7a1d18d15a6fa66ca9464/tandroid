@@ -58,7 +58,6 @@ public class BookmarksFragment extends UniversalFragment {
     public HashSet selected = new HashSet();
     private final HashSet addedUrls = new HashSet();
 
-    /* loaded from: classes5.dex */
     class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -95,9 +94,7 @@ public class BookmarksFragment extends UniversalFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
+    class 2 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         private Runnable applySearch = new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$2$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
@@ -329,8 +326,8 @@ public class BookmarksFragment extends UniversalFragment {
                 jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r1v10 org.telegram.ui.web.AddressBarList$BookmarksList, still in use, count: 2, list:
                   (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) from 0x0023: IF  (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) != (null org.telegram.ui.web.AddressBarList$BookmarksList)  -> B:6:0x001b A[HIDDEN]
                   (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) from 0x001b: PHI (r1v11 org.telegram.ui.web.AddressBarList$BookmarksList) = (r1v10 org.telegram.ui.web.AddressBarList$BookmarksList) binds: [B:8:0x0023] A[DONT_GENERATE, DONT_INLINE]
-                	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-                	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+                	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+                	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
                 	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
                 	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
                 	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)

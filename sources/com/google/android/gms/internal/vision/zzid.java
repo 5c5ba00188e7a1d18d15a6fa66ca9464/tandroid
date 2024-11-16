@@ -2,13 +2,11 @@ package com.google.android.gms.internal.vision;
 
 import java.nio.charset.Charset;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class zzid extends zzia {
+class zzid extends zzia {
     protected final byte[] zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzid(byte[] bArr) {
+    zzid(byte[] bArr) {
         bArr.getClass();
         this.zzb = bArr;
     }
@@ -62,9 +60,8 @@ public class zzid extends zzia {
         return new String(this.zzb, zze(), zza(), charset);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzht
-    public final void zza(zzhq zzhqVar) {
+    final void zza(zzhq zzhqVar) {
         zzhqVar.zza(this.zzb, zze(), zza());
     }
 
@@ -106,9 +103,8 @@ public class zzid extends zzia {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzht
-    public byte zzb(int i) {
+    byte zzb(int i) {
         return this.zzb[i];
     }
 

@@ -2,13 +2,11 @@ package j$.time;
 
 import java.io.Serializable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class a extends b implements Serializable {
+final class a extends b implements Serializable {
     private final ZoneId a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public a(ZoneId zoneId) {
+    a(ZoneId zoneId) {
         this.a = zoneId;
     }
 

@@ -18,7 +18,6 @@ public final class ViewStubCompat extends View {
     private LayoutInflater mInflater;
     private int mLayoutResource;
 
-    /* loaded from: classes.dex */
     public interface OnInflateListener {
     }
 

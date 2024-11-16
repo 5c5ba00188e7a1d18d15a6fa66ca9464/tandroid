@@ -25,8 +25,7 @@ public final class zzd extends AbstractSafeParcelable {
         Process.myPid();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzd(int i, int i2, String str, String str2, String str3, int i3, List list, zzd zzdVar) {
+    zzd(int i, int i2, String str, String str2, String str3, int i3, List list, zzd zzdVar) {
         this.zza = i;
         this.zzb = i2;
         this.zzc = str;

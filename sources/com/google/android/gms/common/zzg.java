@@ -2,8 +2,7 @@ package com.google.android.gms.common;
 
 /* loaded from: classes.dex */
 final class zzg extends zzl {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzg(byte[] bArr) {
+    zzg(byte[] bArr) {
         super(bArr);
     }
 

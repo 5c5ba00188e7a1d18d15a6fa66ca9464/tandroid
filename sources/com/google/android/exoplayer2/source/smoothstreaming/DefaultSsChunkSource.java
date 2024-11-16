@@ -39,7 +39,6 @@ public class DefaultSsChunkSource implements SsChunkSource {
     private final int streamElementIndex;
     private ExoTrackSelection trackSelection;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements SsChunkSource.Factory {
         private final DataSource.Factory dataSourceFactory;
 
@@ -57,7 +56,6 @@ public class DefaultSsChunkSource implements SsChunkSource {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class StreamElementIterator extends BaseMediaChunkIterator {
         private final SsManifest.StreamElement streamElement;
         private final int trackIndex;

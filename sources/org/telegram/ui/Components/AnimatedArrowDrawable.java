@@ -51,7 +51,7 @@ public class AnimatedArrowDrawable extends Drawable {
             this.lastUpdateTime = elapsedRealtime;
             float f = this.animProgress;
             float f2 = this.animateToProgress;
-            float f3 = ((float) j) / 180.0f;
+            float f3 = j / 180.0f;
             if (f < f2) {
                 float f4 = f + f3;
                 this.animProgress = f4;

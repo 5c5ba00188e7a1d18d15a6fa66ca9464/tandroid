@@ -14,9 +14,7 @@ import androidx.core.view.OnReceiveContentListener;
 /* loaded from: classes.dex */
 public final class TextViewOnReceiveContentListener implements OnReceiveContentListener {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api16Impl {
+    private static final class Api16Impl {
         static CharSequence coerce(Context context, ClipData.Item item, int i) {
             if ((i & 1) == 0) {
                 return item.coerceToStyledText(context);

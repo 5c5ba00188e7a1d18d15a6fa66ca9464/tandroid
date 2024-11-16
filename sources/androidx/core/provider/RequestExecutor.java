@@ -16,12 +16,10 @@ import java.util.concurrent.TimeoutException;
 /* loaded from: classes.dex */
 abstract class RequestExecutor {
 
-    /* loaded from: classes.dex */
     private static class DefaultThreadFactory implements ThreadFactory {
         private int mPriority;
         private String mThreadName;
 
-        /* loaded from: classes.dex */
         private static class ProcessPriorityThread extends Thread {
             private final int mPriority;
 
@@ -48,7 +46,6 @@ abstract class RequestExecutor {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class ReplyRunnable implements Runnable {
         private Callable mCallable;
         private Consumer mConsumer;
@@ -78,20 +75,17 @@ abstract class RequestExecutor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ThreadPoolExecutor createDefaultExecutor(String str, int i, int i2) {
+    static ThreadPoolExecutor createDefaultExecutor(String str, int i, int i2) {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, 1, i2, TimeUnit.MILLISECONDS, new LinkedBlockingDeque(), new DefaultThreadFactory(str, i));
         threadPoolExecutor.allowCoreThreadTimeOut(true);
         return threadPoolExecutor;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void execute(Executor executor, Callable callable, Consumer consumer) {
+    static void execute(Executor executor, Callable callable, Consumer consumer) {
         executor.execute(new ReplyRunnable(CalleeHandler.create(), callable, consumer));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object submit(ExecutorService executorService, Callable callable, int i) {
+    static Object submit(ExecutorService executorService, Callable callable, int i) {
         try {
             return executorService.submit(callable).get(i, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {

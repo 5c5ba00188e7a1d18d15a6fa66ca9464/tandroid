@@ -19,13 +19,12 @@ class CrossProcessLock {
         this.lock = fileLock;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0044 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:21:0x003d A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static CrossProcessLock acquire(Context context, String str) {
+    static CrossProcessLock acquire(Context context, String str) {
         FileChannel fileChannel;
         FileLock fileLock;
         try {
@@ -78,8 +77,7 @@ class CrossProcessLock {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void releaseAndClose() {
+    void releaseAndClose() {
         try {
             this.lock.release();
             this.channel.close();

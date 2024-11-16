@@ -7,7 +7,6 @@ import androidx.core.R$id;
 /* loaded from: classes.dex */
 public abstract class ViewGroupCompat {
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static int getNestedScrollAxes(ViewGroup viewGroup) {
             return viewGroup.getNestedScrollAxes();

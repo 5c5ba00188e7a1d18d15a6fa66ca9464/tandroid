@@ -33,9 +33,7 @@ public class ChecksHintView extends FrameLayout {
     private TextView[] textView;
     private float translationY;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends AnimatorListenerAdapter {
+    class 1 extends AnimatorListenerAdapter {
         1() {
         }
 

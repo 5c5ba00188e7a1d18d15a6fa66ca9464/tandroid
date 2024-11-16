@@ -32,7 +32,6 @@ public class TermsOfServiceView extends FrameLayout {
     private TextView textView;
     private TextView titleTextView;
 
-    /* loaded from: classes3.dex */
     public interface TermsOfServiceViewDelegate {
         void onAcceptTerms(int i);
     }

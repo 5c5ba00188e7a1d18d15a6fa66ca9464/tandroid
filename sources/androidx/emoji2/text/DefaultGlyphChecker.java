@@ -5,14 +5,12 @@ import android.text.TextPaint;
 import androidx.core.graphics.PaintCompat;
 import androidx.emoji2.text.EmojiCompat;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
+class DefaultGlyphChecker implements EmojiCompat.GlyphChecker {
     private static final ThreadLocal sStringBuilder = new ThreadLocal();
     private final TextPaint mTextPaint;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DefaultGlyphChecker() {
+    DefaultGlyphChecker() {
         TextPaint textPaint = new TextPaint();
         this.mTextPaint = textPaint;
         textPaint.setTextSize(10.0f);

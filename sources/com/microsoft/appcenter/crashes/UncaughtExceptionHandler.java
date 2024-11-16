@@ -8,8 +8,10 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private boolean mIgnoreDefaultExceptionHandler = false;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void register() {
+    UncaughtExceptionHandler() {
+    }
+
+    void register() {
         this.mDefaultUncaughtExceptionHandler = !this.mIgnoreDefaultExceptionHandler ? Thread.getDefaultUncaughtExceptionHandler() : null;
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -25,8 +27,7 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void unregister() {
+    void unregister() {
         Thread.setDefaultUncaughtExceptionHandler(this.mDefaultUncaughtExceptionHandler);
     }
 }

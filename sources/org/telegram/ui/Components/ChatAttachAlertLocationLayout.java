@@ -147,12 +147,10 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
     private boolean userLocationMoved;
     private float yOffset;
 
-    /* loaded from: classes3.dex */
     public interface LocationActivityDelegate {
         void didSelectLocation(TLRPC.MessageMedia messageMedia, int i, boolean z, int i2);
     }
 
-    /* loaded from: classes3.dex */
     public class MapOverlayView extends FrameLayout {
         private HashMap views;
 
@@ -285,9 +283,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SearchButton extends TextView {
+    private static class SearchButton extends TextView {
         private float additionanTranslationY;
         private float currentTranslationY;
 
@@ -316,7 +312,6 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class VenueLocation {
         public IMapsProvider.IMarker marker;
         public int num;
@@ -684,9 +679,8 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 this.emptySubtitleTextView.setPadding(AndroidUtilities.dp(40.0f), 0, AndroidUtilities.dp(40.0f), 0);
                 this.emptyView.addView(this.emptySubtitleTextView, LayoutHelper.createLinear(-2, -2, 17, 0, 6, 0, 0));
                 RecyclerListView recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout.6
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                    public void onLayout(boolean z2, int i8, int i9, int i10, int i11) {
+                    protected void onLayout(boolean z2, int i8, int i9, int i10, int i11) {
                         super.onLayout(z2, i8, i9, i10, i11);
                         ChatAttachAlertLocationLayout.this.updateClipView();
                     }
@@ -724,9 +718,8 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                                 return super.calculateDyToMakeVisible(view2, i10) - (ChatAttachAlertLocationLayout.this.listView.getPaddingTop() - (ChatAttachAlertLocationLayout.this.mapHeight - ChatAttachAlertLocationLayout.this.overScrollHeight));
                             }
 
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                            public int calculateTimeForDeceleration(int i10) {
+                            protected int calculateTimeForDeceleration(int i10) {
                                 return super.calculateTimeForDeceleration(i10) * 4;
                             }
                         };
@@ -1082,9 +1075,8 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         this.emptySubtitleTextView.setPadding(AndroidUtilities.dp(40.0f), 0, AndroidUtilities.dp(40.0f), 0);
         this.emptyView.addView(this.emptySubtitleTextView, LayoutHelper.createLinear(-2, -2, 17, 0, 6, 0, 0));
         RecyclerListView recyclerListView5 = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.ChatAttachAlertLocationLayout.6
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z2, int i82, int i9, int i10, int i11) {
+            protected void onLayout(boolean z2, int i82, int i9, int i10, int i11) {
                 super.onLayout(z2, i82, i9, i10, i11);
                 ChatAttachAlertLocationLayout.this.updateClipView();
             }
@@ -1122,9 +1114,8 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                         return super.calculateDyToMakeVisible(view22, i10) - (ChatAttachAlertLocationLayout.this.listView.getPaddingTop() - (ChatAttachAlertLocationLayout.this.mapHeight - ChatAttachAlertLocationLayout.this.overScrollHeight));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i10) {
+                    protected int calculateTimeForDeceleration(int i10) {
                         return super.calculateTimeForDeceleration(i10) * 4;
                     }
                 };

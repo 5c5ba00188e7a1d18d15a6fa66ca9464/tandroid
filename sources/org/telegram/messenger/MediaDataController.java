@@ -261,9 +261,7 @@ public class MediaDataController extends BaseController {
     private static volatile MediaDataController[] Instance = new MediaDataController[4];
     private static final Object[] lockObjects = new Object[4];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements Runnable {
+    class 1 implements Runnable {
         final /* synthetic */ int val$classGuid;
         final /* synthetic */ int val$count;
         final /* synthetic */ int val$fromCache;
@@ -674,9 +672,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements Runnable {
+    class 2 implements Runnable {
         final /* synthetic */ ArrayList val$previewItems;
 
         2(ArrayList arrayList) {
@@ -706,9 +702,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 implements Runnable {
+    class 3 implements Runnable {
         final /* synthetic */ int val$currentAccount;
         final /* synthetic */ ArrayList val$previewItems;
 
@@ -739,7 +733,6 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class DraftVoice {
         public long id;
         public boolean once;
@@ -819,7 +812,6 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class KeywordResult {
         public String emoji;
         public String keyword;
@@ -833,7 +825,6 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface KeywordResultCallback {
         void run(ArrayList<KeywordResult> arrayList, String str);
     }
@@ -5503,7 +5494,7 @@ public class MediaDataController extends BaseController {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:36:0x0101 A[Catch: Exception -> 0x003a, TryCatch #0 {Exception -> 0x003a, blocks: (B:3:0x000f, B:5:0x0029, B:8:0x0036, B:13:0x003e, B:17:0x0068, B:21:0x0176, B:29:0x015f, B:31:0x009a, B:34:0x00fb, B:36:0x0101, B:39:0x0107, B:41:0x0137, B:42:0x013c, B:44:0x0144, B:46:0x0153, B:51:0x0159, B:53:0x00cc, B:58:0x0187, B:60:0x0192, B:61:0x0199, B:63:0x019f, B:64:0x01b1, B:66:0x01c1, B:68:0x01cb, B:70:0x01d1, B:72:0x0219, B:73:0x02c5, B:75:0x02ca, B:79:0x0234, B:81:0x0279, B:83:0x0287, B:85:0x02c1, B:88:0x02d2, B:91:0x02dd), top: B:2:0x000f }] */
     /* JADX WARN: Type inference failed for: r14v19 */
-    /* JADX WARN: Type inference failed for: r14v20, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v20, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v22 */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:41:0x0156 -> B:28:0x0157). Please report as a decompilation issue!!! */
     /*
@@ -11563,8 +11554,8 @@ public class MediaDataController extends BaseController {
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r1v29 long, still in use, count: 2, list:
           (r1v29 long) from 0x0214: PHI (r1v30 long) = (r1v29 long), (r1v35 long), (r1v36 long) binds: [B:194:0x0210, B:160:0x0213, B:159:0x0207] A[DONT_GENERATE, DONT_INLINE]
           (r1v29 long) from 0x020e: CMP_L (r1v29 long), (0 long) A[WRAPPED]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
@@ -12177,8 +12168,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void processLoadedRecentDocuments(final int i, final ArrayList<TLRPC.Document> arrayList, final boolean z, final int i2, final boolean z2) {
+    protected void processLoadedRecentDocuments(final int i, final ArrayList<TLRPC.Document> arrayList, final boolean z, final int i2, final boolean z2) {
         if (arrayList != null) {
             getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.MediaDataController$$ExternalSyntheticLambda90
                 @Override // java.lang.Runnable
@@ -12716,14 +12706,15 @@ public class MediaDataController extends BaseController {
     }
 
     public void saveDraft(final long j, final long j2, TLRPC.DraftMessage draftMessage, TLRPC.Message message, boolean z) {
-        SharedPreferences.Editor remove;
         StringBuilder sb;
-        TLRPC.Message message2;
+        SharedPreferences.Editor remove;
         StringBuilder sb2;
+        TLRPC.Message message2;
+        StringBuilder sb3;
         TLRPC.InputReplyTo inputReplyTo;
         TLRPC.Chat chat;
-        StringBuilder sb3;
         StringBuilder sb4;
+        StringBuilder sb5;
         if (getMessagesController().isForum(j) && j2 == 0 && TextUtils.isEmpty(draftMessage.message)) {
             TLRPC.InputReplyTo inputReplyTo2 = draftMessage.reply_to;
             if (inputReplyTo2 instanceof TLRPC.TL_inputReplyToMessage) {
@@ -12749,19 +12740,27 @@ public class MediaDataController extends BaseController {
             }
             SharedPreferences.Editor edit2 = this.draftPreferences.edit();
             if (j2 == 0) {
-                remove = edit2.remove("" + j);
                 sb = new StringBuilder();
-                sb.append("r_");
+                sb.append("");
                 sb.append(j);
+                remove = edit2.remove(sb.toString());
+                sb2 = new StringBuilder();
+                sb2.append("r_");
+                sb2.append(j);
             } else {
-                remove = edit2.remove("t_" + j + "_" + j2);
                 sb = new StringBuilder();
-                sb.append("rt_");
+                sb.append("t_");
                 sb.append(j);
                 sb.append("_");
                 sb.append(j2);
+                remove = edit2.remove(sb.toString());
+                sb2 = new StringBuilder();
+                sb2.append("rt_");
+                sb2.append(j);
+                sb2.append("_");
+                sb2.append(j2);
             }
-            remove.remove(sb.toString()).commit();
+            remove.remove(sb2.toString()).commit();
             messagesController.removeDraftDialogIfNeed(j);
         } else {
             LongSparseArray longSparseArray3 = (LongSparseArray) this.drafts.get(j);
@@ -12777,24 +12776,24 @@ public class MediaDataController extends BaseController {
                 SerializedData serializedData = new SerializedData(draftMessage.getObjectSize());
                 draftMessage.serializeToStream(serializedData);
                 if (j2 == 0) {
-                    sb4 = new StringBuilder();
-                    sb4.append("");
-                    sb4.append(j);
+                    sb5 = new StringBuilder();
+                    sb5.append("");
+                    sb5.append(j);
                 } else {
-                    sb4 = new StringBuilder();
-                    sb4.append("t_");
-                    sb4.append(j);
-                    sb4.append("_");
-                    sb4.append(j2);
+                    sb5 = new StringBuilder();
+                    sb5.append("t_");
+                    sb5.append(j);
+                    sb5.append("_");
+                    sb5.append(j2);
                 }
-                edit.putString(sb4.toString(), Utilities.bytesToHex(serializedData.toByteArray()));
+                edit.putString(sb5.toString(), Utilities.bytesToHex(serializedData.toByteArray()));
                 serializedData.cleanup();
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
         LongSparseArray longSparseArray4 = (LongSparseArray) this.draftMessages.get(j);
-        TLRPC.Chat chat2 = null;
+        TLRPC.User user = null;
         if (message != null || draftMessage == null || draftMessage.reply_to == null) {
             if (draftMessage != null && draftMessage.reply_to == null) {
                 message2 = null;
@@ -12814,6 +12813,26 @@ public class MediaDataController extends BaseController {
                 }
             }
             if (j2 == 0) {
+                sb4 = new StringBuilder();
+                sb4.append("r_");
+                sb4.append(j);
+            } else {
+                sb4 = new StringBuilder();
+                sb4.append("rt_");
+                sb4.append(j);
+                sb4.append("_");
+                sb4.append(j2);
+            }
+            edit.remove(sb4.toString());
+        } else {
+            if (longSparseArray4 == null) {
+                longSparseArray4 = new LongSparseArray();
+                this.draftMessages.put(j, longSparseArray4);
+            }
+            longSparseArray4.put(j2, message2);
+            SerializedData serializedData2 = new SerializedData(message2.getObjectSize());
+            message2.serializeToStream(serializedData2);
+            if (j2 == 0) {
                 sb3 = new StringBuilder();
                 sb3.append("r_");
                 sb3.append(j);
@@ -12824,27 +12843,7 @@ public class MediaDataController extends BaseController {
                 sb3.append("_");
                 sb3.append(j2);
             }
-            edit.remove(sb3.toString());
-        } else {
-            if (longSparseArray4 == null) {
-                longSparseArray4 = new LongSparseArray();
-                this.draftMessages.put(j, longSparseArray4);
-            }
-            longSparseArray4.put(j2, message2);
-            SerializedData serializedData2 = new SerializedData(message2.getObjectSize());
-            message2.serializeToStream(serializedData2);
-            if (j2 == 0) {
-                sb2 = new StringBuilder();
-                sb2.append("r_");
-                sb2.append(j);
-            } else {
-                sb2 = new StringBuilder();
-                sb2.append("rt_");
-                sb2.append(j);
-                sb2.append("_");
-                sb2.append(j2);
-            }
-            edit.putString(sb2.toString(), Utilities.bytesToHex(serializedData2.toByteArray()));
+            edit.putString(sb3.toString(), Utilities.bytesToHex(serializedData2.toByteArray()));
             serializedData2.cleanup();
         }
         edit.commit();
@@ -12853,12 +12852,12 @@ public class MediaDataController extends BaseController {
                 if (draftMessage != null && (inputReplyTo = draftMessage.reply_to) != null && inputReplyTo.reply_to_msg_id != 0 && (message2 == null || ((message2.reply_to instanceof TLRPC.TL_messageReplyHeader) && message2.replyMessage == null))) {
                     long peerDialogId = (inputReplyTo.flags & 2) != 0 ? DialogObject.getPeerDialogId(inputReplyTo.reply_to_peer_id) : j;
                     if (DialogObject.isUserDialog(peerDialogId)) {
-                        chat2 = getMessagesController().getUser(Long.valueOf(peerDialogId));
-                        chat = chat2;
+                        user = getMessagesController().getUser(Long.valueOf(peerDialogId));
+                        chat = null;
                     } else {
                         chat = getMessagesController().getChat(Long.valueOf(-peerDialogId));
                     }
-                    if (chat2 != null || chat != null) {
+                    if (user != null || chat != null) {
                         long j3 = ChatObject.isChannel(chat) ? chat.id : 0L;
                         final int i = draftMessage.reply_to.reply_to_msg_id;
                         final long j4 = peerDialogId;

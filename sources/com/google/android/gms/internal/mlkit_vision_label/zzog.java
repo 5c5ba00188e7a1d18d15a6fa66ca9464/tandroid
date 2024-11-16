@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zzog extends zza implements zzoi {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzog(IBinder iBinder) {
+    zzog(IBinder iBinder) {
         super(iBinder, "com.google.mlkit.vision.label.aidls.IImageLabelerCreator");
     }
 

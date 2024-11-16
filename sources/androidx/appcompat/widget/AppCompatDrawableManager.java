@@ -89,7 +89,7 @@ public final class AppCompatDrawableManager {
                     }
 
                     private ColorStateList createSwitchThumbColorStateList(Context context) {
-                        int[][] iArr = new int[3];
+                        int[][] iArr = new int[3][];
                         int[] iArr2 = new int[3];
                         int i = R$attr.colorSwitchThumbNormal;
                         ColorStateList themeAttrColorStateList = ThemeUtils.getThemeAttrColorStateList(context, i);
@@ -310,8 +310,7 @@ public final class AppCompatDrawableManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
+    static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
         ResourceManagerInternal.tintDrawable(drawable, tintInfo, iArr);
     }
 
@@ -319,13 +318,11 @@ public final class AppCompatDrawableManager {
         return this.mResourceManager.getDrawable(context, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Drawable getDrawable(Context context, int i, boolean z) {
+    synchronized Drawable getDrawable(Context context, int i, boolean z) {
         return this.mResourceManager.getDrawable(context, i, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized ColorStateList getTintList(Context context, int i) {
+    synchronized ColorStateList getTintList(Context context, int i) {
         return this.mResourceManager.getTintList(context, i);
     }
 }

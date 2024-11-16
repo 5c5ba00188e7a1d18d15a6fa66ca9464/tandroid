@@ -158,12 +158,10 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
     private static final int DP_2 = AndroidUtilities.dp(2.0f);
     private static final int DP_1 = AndroidUtilities.dp(1.0f);
 
-    /* loaded from: classes4.dex */
     public interface DateSelectionListener {
         void onDateSelected(long j);
     }
 
-    /* loaded from: classes4.dex */
     public static class SharedUiComponents {
         private Canvas canvas;
         private boolean invalidate;
@@ -559,8 +557,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         this.selectionA = 0.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ValueAnimator createAnimator(float f, float f2, ValueAnimator.AnimatorUpdateListener animatorUpdateListener) {
+    ValueAnimator createAnimator(float f, float f2, ValueAnimator.AnimatorUpdateListener animatorUpdateListener) {
         ValueAnimator ofFloat = ValueAnimator.ofFloat(f, f2);
         ofFloat.setDuration(400L);
         ofFloat.setInterpolator(INTERPOLATOR);
@@ -578,8 +575,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
 
     public abstract LineViewData createLineViewData(ChartData.Line line);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void drawBottomLine(Canvas canvas) {
+    protected void drawBottomLine(Canvas canvas) {
         if (this.chartData == null) {
             return;
         }
@@ -602,8 +598,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         canvas.drawText("0", HORIZONTAL_PADDING, r1 - textSize, this.signaturePaint);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void drawBottomSignature(Canvas canvas) {
+    void drawBottomSignature(Canvas canvas) {
         float f;
         if (this.chartData == null) {
             return;
@@ -643,7 +638,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                     if (i9 < jArr.length - 1) {
                         long j = jArr[i9];
                         long j2 = jArr[0];
-                        float f4 = ((((float) (j - j2)) / ((float) (jArr[jArr.length - 1] - j2))) * this.chartFullWidth) - f3;
+                        float f4 = (((j - j2) / (jArr[jArr.length - 1] - j2)) * this.chartFullWidth) - f3;
                         float f5 = f4 - BOTTOM_SIGNATURE_OFFSET;
                         if (f5 > 0.0f) {
                             float f6 = this.chartWidth;
@@ -671,22 +666,20 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
 
     protected abstract void drawChart(Canvas canvas);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:11:0x0081 A[LOOP:0: B:10:0x007f->B:11:0x0081, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0031  */
     /* JADX WARN: Removed duplicated region for block: B:8:0x002b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
+    protected void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
         float f;
         int i;
         int i2;
-        long[] jArr = chartHorizontalLinesData.values;
-        int length = jArr.length;
+        int length = chartHorizontalLinesData.values.length;
         float f2 = 1.0f;
         if (length > 2) {
-            float f3 = ((float) (jArr[1] - jArr[0])) / (this.currentMaxHeight - this.currentMinHeight);
+            float f3 = (r0[1] - r0[0]) / (this.currentMaxHeight - this.currentMinHeight);
             if (f3 < 0.1d) {
                 f = f3 / 0.1f;
                 i = this.transitionMode;
@@ -701,7 +694,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                 int measuredHeight = (getMeasuredHeight() - this.chartBottom) - SIGNATURE_TEXT_HEIGHT;
                 for (i2 = !this.useMinHeight ? 1 : 0; i2 < length; i2++) {
                     float measuredHeight2 = getMeasuredHeight() - this.chartBottom;
-                    float f4 = (float) chartHorizontalLinesData.values[i2];
+                    float f4 = chartHorizontalLinesData.values[i2];
                     float f5 = this.currentMinHeight;
                     canvas.drawRect(this.chartStart, (int) (measuredHeight2 - (measuredHeight * ((f4 - f5) / (this.currentMaxHeight - f5)))), this.chartEnd, r4 + 1, this.linePaint);
                 }
@@ -719,7 +712,6 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:11:0x006d  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x01ed  */
     /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
@@ -727,7 +719,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void drawPicker(Canvas canvas) {
+    void drawPicker(Canvas canvas) {
         float f;
         int i;
         int i2;
@@ -913,8 +905,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
 
     protected abstract void drawPickerChart(Canvas canvas);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void drawSelection(Canvas canvas) {
+    protected void drawSelection(Canvas canvas) {
         ChartData chartData;
         int i = this.selectedIndex;
         if (i < 0 || !this.legendShowing || (chartData = this.chartData) == null) {
@@ -947,7 +938,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
             }
             LineViewData lineViewData = (LineViewData) this.lines.get(i4);
             if (lineViewData.enabled || lineViewData.alpha != 0.0f) {
-                float f7 = (float) lineViewData.line.y[this.selectedIndex];
+                float f7 = lineViewData.line.y[this.selectedIndex];
                 float f8 = this.currentMinHeight;
                 float measuredHeight = (getMeasuredHeight() - this.chartBottom) - (((f7 - f8) / (this.currentMaxHeight - f8)) * ((getMeasuredHeight() - this.chartBottom) - SIGNATURE_TEXT_HEIGHT));
                 lineViewData.selectionPaint.setAlpha((int) (lineViewData.alpha * 255.0f * this.selectionA));
@@ -959,22 +950,20 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:11:0x008a  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0031  */
     /* JADX WARN: Removed duplicated region for block: B:8:0x002b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
+    protected void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
         float f;
         int i;
         int i2;
-        long[] jArr = chartHorizontalLinesData.values;
-        int length = jArr.length;
+        int length = chartHorizontalLinesData.values.length;
         float f2 = 1.0f;
         if (length > 2) {
-            float f3 = ((float) (jArr[1] - jArr[0])) / (this.currentMaxHeight - this.currentMinHeight);
+            float f3 = (r0[1] - r0[0]) / (this.currentMaxHeight - this.currentMinHeight);
             if (f3 < 0.1d) {
                 f = f3 / 0.1f;
                 i = this.transitionMode;
@@ -992,7 +981,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                 int textSize = (int) (i3 - this.signaturePaint.getTextSize());
                 for (i2 = 1 ^ (this.useMinHeight ? 1 : 0); i2 < length; i2++) {
                     float measuredHeight2 = getMeasuredHeight() - this.chartBottom;
-                    float f4 = (float) chartHorizontalLinesData.values[i2];
+                    float f4 = chartHorizontalLinesData.values[i2];
                     float f5 = this.currentMinHeight;
                     int i5 = (int) (measuredHeight2 - (i4 * ((f4 - f5) / (this.currentMaxHeight - f5))));
                     float f6 = HORIZONTAL_PADDING;
@@ -1082,8 +1071,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         return this.chartData.x[this.startXIndex];
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void init() {
+    protected void init() {
         this.linePaint.setStrokeWidth(1.0f);
         this.selectedLinePaint.setStrokeWidth(SELECTED_LINE_WIDTH);
         TextPaint textPaint = this.signaturePaint;
@@ -1108,20 +1096,19 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         updateColors();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void initPickerMaxHeight() {
+    protected void initPickerMaxHeight() {
         Iterator it = this.lines.iterator();
         while (it.hasNext()) {
             LineViewData lineViewData = (LineViewData) it.next();
             boolean z = lineViewData.enabled;
             if (z) {
-                float f = (float) lineViewData.line.maxValue;
+                float f = lineViewData.line.maxValue;
                 if (f > this.pickerMaxHeight) {
                     this.pickerMaxHeight = f;
                 }
             }
             if (z) {
-                float f2 = (float) lineViewData.line.minValue;
+                float f2 = lineViewData.line.minValue;
                 if (f2 < this.pickerMinHeight) {
                     this.pickerMinHeight = f2;
                 }
@@ -1221,9 +1208,8 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         if (this.superDraw) {
             super.onDraw(canvas);
             return;
@@ -1260,9 +1246,8 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         if (this.landscape) {
             setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.displaySize.y - AndroidUtilities.dp(56.0f));
@@ -1425,8 +1410,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         super.requestLayout();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void runSmoothHaptic() {
+    protected void runSmoothHaptic() {
         VibrationEffect createWaveform;
         if (Build.VERSION.SDK_INT >= 26) {
             Vibrator vibrator = (Vibrator) getContext().getSystemService("vibrator");
@@ -1612,7 +1596,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
     }
 
     protected void setMaxMinValue(long j, long j2, boolean z, boolean z2, boolean z3) {
-        if ((Math.abs(((float) ChartHorizontalLinesData.lookupHeight(j)) - this.animateToMaxHeight) < this.thresholdMaxHeight || j == 0) && ((float) j) == this.animateToMinHeight) {
+        if ((Math.abs(ChartHorizontalLinesData.lookupHeight(j) - this.animateToMaxHeight) < this.thresholdMaxHeight || j == 0) && j == this.animateToMinHeight) {
             return;
         }
         final ChartHorizontalLinesData createHorizontalLinesData = createHorizontalLinesData(j, j2, this.chartData.yTickFormatter);
@@ -1621,7 +1605,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         long j4 = jArr[0];
         if (!z3) {
             float f = this.currentMaxHeight - this.currentMinHeight;
-            float f2 = (float) (j3 - j4);
+            float f2 = j3 - j4;
             float f3 = f / f2;
             if (f3 > 1.0f) {
                 f3 = f2 / f;
@@ -1629,7 +1613,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
             double d = f3;
             float f4 = d > 0.7d ? 0.1f : d < 0.1d ? 0.03f : 0.045f;
             boolean z4 = ((float) j3) != this.animateToMaxHeight;
-            if (this.useMinHeight && ((float) j4) != this.animateToMinHeight) {
+            if (this.useMinHeight && j4 != this.animateToMinHeight) {
                 z4 = true;
             }
             if (z4) {
@@ -1645,9 +1629,9 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                 this.minMaxUpdateStep = f4;
             }
         }
-        float f5 = (float) j3;
+        float f5 = j3;
         this.animateToMaxHeight = f5;
-        float f6 = (float) j4;
+        float f6 = j4;
         this.animateToMinHeight = f6;
         measureHeightThreshold();
         long currentTimeMillis = System.currentTimeMillis();
@@ -1707,8 +1691,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void tick() {
+    protected void tick() {
         float f = this.minMaxUpdateStep;
         if (f == 0.0f) {
             return;
@@ -1775,8 +1758,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         this.invalidatePickerChart = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateIndexes() {
+    protected void updateIndexes() {
         ChartData chartData = this.chartData;
         if (chartData == null) {
             return;
@@ -1818,8 +1800,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         chartPickerDelegate.pickerEnd = fArr[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updatePickerMinMaxHeight() {
+    protected void updatePickerMinMaxHeight() {
         if (ANIMATE_PICKER_SIZES) {
             Iterator it = this.lines.iterator();
             long j = Long.MAX_VALUE;
@@ -1840,10 +1821,10 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                     }
                 }
             }
-            if ((j == 2147483647L || ((float) j) == this.animatedToPickerMinHeight) && (j2 <= 0 || ((float) j2) == this.animatedToPickerMaxHeight)) {
+            if ((j == 2147483647L || j == this.animatedToPickerMinHeight) && (j2 <= 0 || j2 == this.animatedToPickerMaxHeight)) {
                 return;
             }
-            this.animatedToPickerMaxHeight = (float) j2;
+            this.animatedToPickerMaxHeight = j2;
             Animator animator = this.pickerAnimator;
             if (animator != null) {
                 animator.cancel();

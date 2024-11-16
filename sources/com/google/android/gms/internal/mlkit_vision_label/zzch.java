@@ -5,8 +5,7 @@ final class zzch implements zzcm {
     private final int zza;
     private final zzcl zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzch(int i, zzcl zzclVar) {
+    zzch(int i, zzcl zzclVar) {
         this.zza = i;
         this.zzb = zzclVar;
     }

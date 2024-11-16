@@ -9,7 +9,6 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class TL_stars {
 
-    /* loaded from: classes3.dex */
     public static class StarGift extends TLObject {
         public int availability_remains;
         public int availability_total;
@@ -36,7 +35,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StarGifts extends TLObject {
         public static StarGifts TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
             StarGifts tL_starGiftsNotModified = i != -1877571094 ? i != -1551326360 ? null : new TL_starGiftsNotModified() : new TL_starGifts();
@@ -50,7 +48,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StarsSubscription extends TLObject {
         public boolean can_refulfill;
         public boolean canceled;
@@ -77,7 +74,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StarsTransaction extends TLObject {
         public byte[] bot_payload;
         public int date;
@@ -144,7 +140,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StarsTransactionPeer extends TLObject {
         public TLRPC.Peer peer;
 
@@ -189,7 +184,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_changeStarsSubscription extends TLObject {
         public static final int constructor = -948500360;
         public Boolean canceled;
@@ -216,7 +210,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_fulfillStarsSubscription extends TLObject {
         public static final int constructor = -866391117;
         public TLRPC.InputPeer peer;
@@ -235,7 +228,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_getStarsSubscriptions extends TLObject {
         public static final int constructor = 52761285;
         public int flags;
@@ -259,7 +251,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_getStarsGiftOptions extends TLObject {
         public static final int constructor = -741774392;
         public int flags;
@@ -289,7 +280,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_getStarsGiveawayOptions extends TLObject {
         public static final int constructor = -1122042562;
 
@@ -313,7 +303,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_getStarsStatus extends TLObject {
         public static final int constructor = 273665959;
         public TLRPC.InputPeer peer;
@@ -330,7 +319,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_getStarsTopupOptions extends TLObject {
         public static final int constructor = -1072773165;
 
@@ -354,7 +342,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_getStarsTransactions extends TLObject {
         public static final int constructor = 1731904249;
         public int flags;
@@ -381,7 +368,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_sendStarsForm extends TLObject {
         public static final int constructor = 2040056084;
         public long form_id;
@@ -400,7 +386,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_payments_starsStatus extends TLObject {
         public static final int constructor = -1141231252;
         public long balance;
@@ -547,7 +532,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starGift extends StarGift {
         public static final int constructor = 1237678029;
 
@@ -597,7 +581,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starGift_layer190 extends TL_starGift {
         public static final int constructor = -1365150482;
 
@@ -634,7 +617,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starGifts extends StarGifts {
         public static final int constructor = -1877571094;
         public ArrayList<StarGift> gifts = new ArrayList<>();
@@ -673,7 +655,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starGiftsNotModified extends StarGifts {
         public static final int constructor = -1551326360;
 
@@ -687,7 +668,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsGiftOption extends TLObject {
         public static final int constructor = 1577421297;
         public long amount;
@@ -739,7 +719,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsGiveawayOption extends TLObject {
         public static final int constructor = -1798404822;
         public long amount;
@@ -820,7 +799,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsGiveawayWinnersOption extends TLObject {
         public static final int constructor = 1411605001;
         public int flags;
@@ -860,7 +838,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsSubscription extends StarsSubscription {
         public static final int constructor = 779004698;
 
@@ -918,7 +895,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsSubscriptionPricing extends TLObject {
         public static final int constructor = 88173912;
         public long amount;
@@ -950,7 +926,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsSubscription_layer193 extends StarsSubscription {
         public static final int constructor = 1401868056;
 
@@ -990,7 +965,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsSubscription_old extends TL_starsSubscription {
         public static final int constructor = -797707802;
 
@@ -1024,7 +998,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTopupOption extends TLObject {
         public static final int constructor = 198776256;
         public long amount;
@@ -1076,7 +1049,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction extends StarsTransaction {
         public static final int constructor = 903148150;
 
@@ -1208,7 +1180,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeer extends StarsTransactionPeer {
         public static final int constructor = -670195363;
 
@@ -1224,7 +1195,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerAPI extends StarsTransactionPeer {
         public static final int constructor = -110658899;
 
@@ -1238,7 +1208,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerAds extends StarsTransactionPeer {
         public static final int constructor = 1617438738;
 
@@ -1252,7 +1221,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerAppStore extends StarsTransactionPeer {
         public static final int constructor = -1269320843;
 
@@ -1266,7 +1234,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerFragment extends StarsTransactionPeer {
         public static final int constructor = -382740222;
 
@@ -1280,7 +1247,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerPlayMarket extends StarsTransactionPeer {
         public static final int constructor = 2069236235;
 
@@ -1294,7 +1260,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerPremiumBot extends StarsTransactionPeer {
         public static final int constructor = 621656824;
 
@@ -1308,7 +1273,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransactionPeerUnsupported extends StarsTransactionPeer {
         public static final int constructor = -1779253276;
 
@@ -1322,7 +1286,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction_layer181 extends StarsTransaction {
         public static final int constructor = -865044046;
 
@@ -1367,7 +1330,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction_layer182 extends TL_starsTransaction {
         public static final int constructor = -1442789224;
 
@@ -1426,7 +1388,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction_layer185 extends TL_starsTransaction {
         public static final int constructor = 766853519;
 
@@ -1525,7 +1486,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction_layer186 extends TL_starsTransaction {
         public static final int constructor = 1127934763;
 
@@ -1636,7 +1596,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction_layer188 extends TL_starsTransaction {
         public static final int constructor = -294313259;
 
@@ -1753,7 +1712,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_starsTransaction_layer191 extends TL_starsTransaction {
         public static final int constructor = 178185410;
 
@@ -1876,7 +1834,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_userStarGift extends UserStarGift {
         public static final int constructor = -291202450;
 
@@ -1927,7 +1884,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_userStarGifts extends TLObject {
         public static final int constructor = 1801827607;
         public int count;
@@ -2007,7 +1963,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class UserStarGift extends TLObject {
         public long convert_stars;
         public int date;
@@ -2031,7 +1986,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class convertStarGift extends TLObject {
         public static final int constructor = 69328935;
         public int msg_id;
@@ -2050,7 +2004,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getStarGifts extends TLObject {
         public static final int constructor = -1000983152;
         public int hash;
@@ -2067,7 +2020,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getUserStarGifts extends TLObject {
         public static final int constructor = 1584580577;
         public int limit;
@@ -2088,7 +2040,6 @@ public class TL_stars {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class saveStarGift extends TLObject {
         public static final int constructor = -2018709362;
         public int flags;

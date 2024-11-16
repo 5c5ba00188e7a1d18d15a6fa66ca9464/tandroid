@@ -86,9 +86,7 @@ public class NumberPicker extends LinearLayout {
     private int textOffset;
     private int thisGravity;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class ChangeCurrentByOneFromLongPressCommand implements Runnable {
+    class ChangeCurrentByOneFromLongPressCommand implements Runnable {
         private boolean mIncrement;
 
         ChangeCurrentByOneFromLongPressCommand() {
@@ -107,24 +105,19 @@ public class NumberPicker extends LinearLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Formatter {
         String format(int i);
     }
 
-    /* loaded from: classes3.dex */
     public interface OnScrollListener {
         void onScrollStateChange(NumberPicker numberPicker, int i);
     }
 
-    /* loaded from: classes3.dex */
     public interface OnValueChangeListener {
         void onValueChange(NumberPicker numberPicker, int i, int i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class PressedStateHelper implements Runnable {
+    class PressedStateHelper implements Runnable {
         private final int MODE_PRESS = 1;
         private final int MODE_TAPPED = 2;
         private int mManagedButton;
@@ -235,14 +228,14 @@ public class NumberPicker extends LinearLayout {
         this(context, 18, resourcesProvider);
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
     static /* synthetic */ boolean access$280(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mIncrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mIncrementVirtualButtonPressed = r2;
         return r2;
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [byte, boolean] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [boolean, byte] */
     static /* synthetic */ boolean access$480(NumberPicker numberPicker, int i) {
         ?? r2 = (byte) (i ^ (numberPicker.mDecrementVirtualButtonPressed ? 1 : 0));
         numberPicker.mDecrementVirtualButtonPressed = r2;
@@ -628,8 +621,7 @@ public class NumberPicker extends LinearLayout {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void changeValueByOne(boolean z) {
+    protected void changeValueByOne(boolean z) {
         this.mInputText.setVisibility(4);
         if (!moveToFinalScrollerPosition(this.mFlingScroller)) {
             moveToFinalScrollerPosition(this.mAdjustScroller);
@@ -799,9 +791,8 @@ public class NumberPicker extends LinearLayout {
         removeAllCallbacks();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.LinearLayout, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         float width;
         float measuredHeight;
         boolean z;

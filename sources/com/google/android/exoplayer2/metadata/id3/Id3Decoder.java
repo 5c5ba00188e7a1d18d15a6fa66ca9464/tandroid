@@ -29,14 +29,11 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
     };
     private final FramePredicate framePredicate;
 
-    /* loaded from: classes.dex */
     public interface FramePredicate {
         boolean evaluate(int i, int i2, int i3, int i4, int i5);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Id3Header {
+    private static final class Id3Header {
         private final int framesSize;
         private final boolean isUnsynchronized;
         private final int majorVersion;

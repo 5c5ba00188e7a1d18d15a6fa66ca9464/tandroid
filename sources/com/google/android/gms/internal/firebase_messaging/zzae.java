@@ -10,8 +10,7 @@ public final class zzae {
     private final Map zzb;
     private final ObjectEncoder zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzae(Map map, Map map2, ObjectEncoder objectEncoder) {
+    zzae(Map map, Map map2, ObjectEncoder objectEncoder) {
         this.zza = map;
         this.zzb = map2;
         this.zzc = objectEncoder;

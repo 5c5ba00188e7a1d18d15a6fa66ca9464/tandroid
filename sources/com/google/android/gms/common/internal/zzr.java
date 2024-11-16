@@ -9,9 +9,8 @@ import com.google.android.gms.internal.common.zzi;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzr extends GmsClientSupervisor {
+final class zzr extends GmsClientSupervisor {
     private final HashMap zzb = new HashMap();
     private final Context zzc;
     private volatile Handler zzd;
@@ -20,8 +19,7 @@ public final class zzr extends GmsClientSupervisor {
     private final long zzg;
     private final long zzh;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzr(Context context, Looper looper) {
+    zzr(Context context, Looper looper) {
         zzq zzqVar = new zzq(this, null);
         this.zze = zzqVar;
         this.zzc = context.getApplicationContext();
@@ -53,9 +51,8 @@ public final class zzr extends GmsClientSupervisor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.GmsClientSupervisor
-    public final boolean zzc(zzn zznVar, ServiceConnection serviceConnection, String str, Executor executor) {
+    protected final boolean zzc(zzn zznVar, ServiceConnection serviceConnection, String str, Executor executor) {
         boolean zzj;
         Preconditions.checkNotNull(serviceConnection, "ServiceConnection must not be null");
         synchronized (this.zzb) {

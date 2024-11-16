@@ -166,7 +166,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     private ClippingTextViewSwitcher titleTextView;
     private boolean wasLight;
 
-    /* loaded from: classes3.dex */
     class 13 extends RLottieImageView {
         private final Runnable backSeek;
         long lastTime;
@@ -219,7 +218,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     r5.lastTime = currentTimeMillis;
                     long j2 = currentTimeMillis - r5.lastUpdateTime;
                     int i = r5.pressedCount;
-                    float f3 = ((f2 * r0) - ((float) (j * (i == 1 ? 3L : i == 2 ? 6L : 12L)))) / ((float) duration);
+                    float f3 = ((long) ((f2 * r0) - (j * (i == 1 ? 3L : i == 2 ? 6L : 12L)))) / duration;
                     if (f3 < 0.0f) {
                         f3 = 0.0f;
                     }
@@ -316,7 +315,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes3.dex */
     class 14 extends RLottieImageView {
         boolean pressed;
         private final Runnable pressedRunnable;
@@ -434,9 +432,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 9 extends ClippingTextViewSwitcher {
+    class 9 extends ClippingTextViewSwitcher {
         final /* synthetic */ Context val$context;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -484,7 +480,6 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class ClippingTextViewSwitcher extends FrameLayout {
         private int activeIndex;
         private AnimatorSet animatorSet;
@@ -670,8 +665,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static abstract class CoverContainer extends FrameLayout {
+    static abstract class CoverContainer extends FrameLayout {
         private int activeIndex;
         private AnimatorSet animatorSet;
         private final BackupImageView[] imageViews;
@@ -807,8 +801,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList searchResult = new ArrayList();
         private Runnable searchRunnable;
@@ -1045,7 +1038,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 audioPlayerAlert.lastRewindingTime = currentTimeMillis;
                 long j2 = currentTimeMillis - audioPlayerAlert.lastUpdateRewindingPlayerTime;
                 int i2 = audioPlayerAlert.rewindingForwardPressedCount;
-                float f2 = ((f * r0) + ((float) (((i2 == 1 ? 3L : i2 == 2 ? 6L : 12L) * j) - j))) / ((float) duration);
+                float f2 = ((long) ((f * r0) + (((i2 == 1 ? 3L : i2 == 2 ? 6L : 12L) * j) - j))) / duration;
                 if (f2 < 0.0f) {
                     f2 = 0.0f;
                 }
@@ -1722,9 +1715,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 return f2 < AudioPlayerAlert.this.playerLayout.getY() - ((float) AudioPlayerAlert.this.listView.getTop());
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i10, int i11, int i12, int i13) {
+            protected void onLayout(boolean z, int i10, int i11, int i12, int i13) {
                 super.onLayout(z, i10, i11, i12, i13);
                 if (AudioPlayerAlert.this.searchOpenPosition != -1 && !AudioPlayerAlert.this.actionBar.isSearchFieldVisible()) {
                     this.ignoreLayout = true;
@@ -2760,9 +2752,8 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         preloadNeighboringThumbs();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -3060,7 +3051,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
-        this.progressView.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        this.progressView.setProgress(Math.min(1.0f, j / j2), true);
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener

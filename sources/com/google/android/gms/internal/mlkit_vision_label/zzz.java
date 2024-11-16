@@ -10,8 +10,7 @@ final class zzz implements Iterator {
     final /* synthetic */ Iterator zzb;
     final /* synthetic */ zzaa zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzz(zzaa zzaaVar, Iterator it) {
+    zzz(zzaa zzaaVar, Iterator it) {
         this.zzc = zzaaVar;
         this.zzb = it;
     }

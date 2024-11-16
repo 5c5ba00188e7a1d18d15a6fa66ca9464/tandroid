@@ -77,9 +77,8 @@ public final class CameraMotionRenderer extends BaseRenderer {
         resetListener();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+    protected void onStreamChanged(Format[] formatArr, long j, long j2) {
         this.offsetUs = j2;
     }
 

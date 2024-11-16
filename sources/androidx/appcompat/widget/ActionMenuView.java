@@ -35,16 +35,13 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
     private ActionMenuPresenter mPresenter;
     private boolean mReserveOverflow;
 
-    /* loaded from: classes.dex */
     public interface ActionMenuChildView {
         boolean needsDividerAfter();
 
         boolean needsDividerBefore();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ActionMenuPresenterCallback implements MenuPresenter.Callback {
+    private static class ActionMenuPresenterCallback implements MenuPresenter.Callback {
         ActionMenuPresenterCallback() {
         }
 
@@ -58,7 +55,6 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         }
     }
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends LinearLayoutCompat.LayoutParams {
         public int cellsUsed;
         public boolean expandable;
@@ -86,9 +82,7 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class MenuBuilderCallback implements MenuBuilder.Callback {
+    private class MenuBuilderCallback implements MenuBuilder.Callback {
         MenuBuilderCallback() {
         }
 
@@ -107,7 +101,6 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnMenuItemClickListener {
         boolean onMenuItemClick(MenuItem menuItem);
     }
@@ -126,8 +119,7 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         this.mPopupTheme = 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int measureChildForCells(View view, int i, int i2, int i3, int i4) {
+    static int measureChildForCells(View view, int i, int i2, int i3, int i4) {
         int i5;
         LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3) - i4, View.MeasureSpec.getMode(i3));
@@ -167,7 +159,7 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
 
     /* JADX WARN: Type inference failed for: r14v12 */
     /* JADX WARN: Type inference failed for: r14v8 */
-    /* JADX WARN: Type inference failed for: r14v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v9, types: [boolean, int] */
     private void onMeasureExactFormat(int i, int i2) {
         int i3;
         int i4;
@@ -368,9 +360,8 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         setMeasuredDimension(i4, i3 != 1073741824 ? i5 : i20);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
-    public boolean checkLayoutParams(ViewGroup.LayoutParams layoutParams) {
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams layoutParams) {
         return layoutParams instanceof LayoutParams;
     }
 
@@ -513,9 +504,8 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         dismissPopupMenus();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         int width;
         int i5;
         if (!this.mFormatItems) {
@@ -600,9 +590,8 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         MenuBuilder menuBuilder;
         boolean z = this.mFormatItems;
         boolean z2 = View.MeasureSpec.getMode(i) == 1073741824;

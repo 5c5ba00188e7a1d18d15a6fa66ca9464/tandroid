@@ -30,8 +30,7 @@ public class AbtExperimentInfo {
         this.timeToLiveInMillis = j2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static AbtExperimentInfo fromMap(Map map) {
+    static AbtExperimentInfo fromMap(Map map) {
         validateExperimentInfoMap(map);
         try {
             return new AbtExperimentInfo((String) map.get("experimentId"), (String) map.get("variantId"), map.containsKey("triggerEvent") ? (String) map.get("triggerEvent") : "", protoTimestampStringParser.parse((String) map.get("experimentStartTime")), Long.parseLong((String) map.get("triggerTimeoutMillis")), Long.parseLong((String) map.get("timeToLiveMillis")));
@@ -54,8 +53,7 @@ public class AbtExperimentInfo {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getExperimentId() {
+    String getExperimentId() {
         return this.experimentId;
     }
 
@@ -63,8 +61,7 @@ public class AbtExperimentInfo {
         return this.experimentStartTime.getTime();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AnalyticsConnector.ConditionalUserProperty toConditionalUserProperty(String str) {
+    AnalyticsConnector.ConditionalUserProperty toConditionalUserProperty(String str) {
         AnalyticsConnector.ConditionalUserProperty conditionalUserProperty = new AnalyticsConnector.ConditionalUserProperty();
         conditionalUserProperty.origin = str;
         conditionalUserProperty.creationTimestamp = getStartTimeInMillisSinceEpoch();

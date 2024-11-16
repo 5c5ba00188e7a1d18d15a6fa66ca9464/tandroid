@@ -202,51 +202,8 @@ public abstract class FileTypes {
                 break;
         }
         switch (c) {
-            case 0:
-            case '\f':
-            case 20:
-                return 0;
-            case 1:
-                return 10;
-            case 2:
-                return 11;
-            case 3:
-            case '\t':
-            case '\n':
-            case 24:
-            case 25:
-                return 6;
-            case 4:
-            case 14:
-            case 19:
-                return 3;
-            case 5:
-                return 14;
-            case 6:
-            case 15:
-            case 18:
-                return 8;
-            case 7:
-                return 16;
-            case '\b':
-                return 13;
-            case 11:
-                return 5;
-            case '\r':
-                return 1;
-            case 16:
-                return 9;
-            case 17:
-                return 12;
-            case 21:
-                return 4;
-            case 22:
-                return 15;
-            case 23:
-                return 7;
-            default:
-                return -1;
         }
+        return -1;
     }
 
     public static int inferFileTypeFromResponseHeaders(Map map) {

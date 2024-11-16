@@ -20,7 +20,6 @@ public abstract class LiveData {
     private SafeIterableMap mObservers = new SafeIterableMap();
     int mActiveCount = 0;
 
-    /* loaded from: classes.dex */
     private class AlwaysActiveObserver extends ObserverWrapper {
         AlwaysActiveObserver(Observer observer) {
             super(observer);
@@ -32,7 +31,6 @@ public abstract class LiveData {
         }
     }
 
-    /* loaded from: classes.dex */
     class LifecycleBoundObserver extends ObserverWrapper implements LifecycleEventObserver {
         final LifecycleOwner mOwner;
 
@@ -69,9 +67,7 @@ public abstract class LiveData {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public abstract class ObserverWrapper {
+    private abstract class ObserverWrapper {
         boolean mActive;
         int mLastVersion = -1;
         final Observer mObserver;
@@ -242,8 +238,7 @@ public abstract class LiveData {
     protected void onInactive() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void postValue(Object obj) {
+    protected void postValue(Object obj) {
         boolean z;
         synchronized (this.mDataLock) {
             z = this.mPendingData == NOT_SET;
@@ -264,8 +259,7 @@ public abstract class LiveData {
         observerWrapper.activeStateChanged(false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setValue(Object obj) {
+    protected void setValue(Object obj) {
         assertMainThread("setValue");
         this.mVersion++;
         this.mData = obj;

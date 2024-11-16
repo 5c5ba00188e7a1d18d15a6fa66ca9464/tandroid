@@ -49,7 +49,6 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
     private final List readOnlyMediaChunks;
     private ReleaseCallback releaseCallback;
 
-    /* loaded from: classes.dex */
     public final class EmbeddedSampleStream implements SampleStream {
         private final int index;
         private boolean notifiedDownstreamFormat;
@@ -113,7 +112,6 @@ public class ChunkSampleStream implements SampleStream, SequenceableLoader, Load
         }
     }
 
-    /* loaded from: classes.dex */
     public interface ReleaseCallback {
         void onSampleStreamReleased(ChunkSampleStream chunkSampleStream);
     }

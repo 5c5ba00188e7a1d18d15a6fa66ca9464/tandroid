@@ -14,8 +14,7 @@ public class PhoneRule {
     public int otherFlag;
     public int prefixLen;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String format(String str, String str2, String str3) {
+    String format(String str, String str2, String str3) {
         StringBuilder sb = new StringBuilder(20);
         boolean z = false;
         int i = 0;

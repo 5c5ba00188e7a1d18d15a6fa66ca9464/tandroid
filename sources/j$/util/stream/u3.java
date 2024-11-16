@@ -9,16 +9,14 @@ abstract class u3 {
     private final long c;
     private final AtomicLong d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public u3(j$.util.Q q, long j, long j2) {
+    u3(j$.util.Q q, long j, long j2) {
         this.a = q;
         this.b = j2 < 0;
         this.c = j2 >= 0 ? j2 : 0L;
         this.d = new AtomicLong(j2 >= 0 ? j + j2 : j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public u3(j$.util.Q q, u3 u3Var) {
+    u3(j$.util.Q q, u3 u3Var) {
         this.a = q;
         this.b = u3Var.b;
         this.d = u3Var.d;
@@ -33,8 +31,7 @@ abstract class u3 {
         return this.a.estimateSize();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final long t(long j) {
+    protected final long t(long j) {
         AtomicLong atomicLong;
         long j2;
         boolean z;
@@ -88,8 +85,7 @@ abstract class u3 {
 
     protected abstract j$.util.Q u(j$.util.Q q);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final t3 v() {
+    protected final t3 v() {
         return this.d.get() > 0 ? t3.MAYBE_MORE : this.b ? t3.UNLIMITED : t3.NO_MORE;
     }
 }

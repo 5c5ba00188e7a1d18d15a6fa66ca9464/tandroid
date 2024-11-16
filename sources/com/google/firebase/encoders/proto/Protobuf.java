@@ -3,7 +3,6 @@ package com.google.firebase.encoders.proto;
 /* loaded from: classes.dex */
 public @interface Protobuf {
 
-    /* loaded from: classes.dex */
     public enum IntEncoding {
         DEFAULT,
         SIGNED,

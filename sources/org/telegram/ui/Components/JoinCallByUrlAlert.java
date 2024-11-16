@@ -19,7 +19,6 @@ import org.telegram.ui.ActionBar.Theme;
 public abstract class JoinCallByUrlAlert extends BottomSheet {
     private boolean joinAfterDismiss;
 
-    /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private TextView textView;

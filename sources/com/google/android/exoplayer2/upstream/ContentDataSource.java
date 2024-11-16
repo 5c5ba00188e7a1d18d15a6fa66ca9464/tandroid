@@ -20,7 +20,6 @@ public final class ContentDataSource extends BaseDataSource {
     private final ContentResolver resolver;
     private Uri uri;
 
-    /* loaded from: classes.dex */
     public static class ContentDataSourceException extends DataSourceException {
         public ContentDataSourceException(IOException iOException, int i) {
             super(iOException, i);

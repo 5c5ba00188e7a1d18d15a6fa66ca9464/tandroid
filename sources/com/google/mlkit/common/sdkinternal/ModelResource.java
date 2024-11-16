@@ -77,8 +77,7 @@ public abstract class ModelResource {
         return taskCompletionSource.getTask();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zza(CancellationToken cancellationToken, CancellationTokenSource cancellationTokenSource, Callable callable, TaskCompletionSource taskCompletionSource) {
+    final /* synthetic */ void zza(CancellationToken cancellationToken, CancellationTokenSource cancellationTokenSource, Callable callable, TaskCompletionSource taskCompletionSource) {
         try {
             if (cancellationToken.isCancellationRequested()) {
                 cancellationTokenSource.cancel();
@@ -111,8 +110,7 @@ public abstract class ModelResource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzb(TaskCompletionSource taskCompletionSource) {
+    final /* synthetic */ void zzb(TaskCompletionSource taskCompletionSource) {
         int decrementAndGet = this.zza.decrementAndGet();
         Preconditions.checkState(decrementAndGet >= 0);
         if (decrementAndGet == 0) {

@@ -2,11 +2,9 @@ package com.google.android.gms.internal.vision;
 
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzhl {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzjl zzjlVar, zzhn zzhnVar) {
+abstract class zzhl {
+    static int zza(int i, byte[] bArr, int i2, int i3, zzjl zzjlVar, zzhn zzhnVar) {
         zzjd zzjdVar = (zzjd) zzjlVar;
         int zza = zza(bArr, i2, zzhnVar);
         while (true) {
@@ -23,8 +21,7 @@ public abstract class zzhl {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3, zzlx zzlxVar, zzhn zzhnVar) {
+    static int zza(int i, byte[] bArr, int i2, int i3, zzlx zzlxVar, zzhn zzhnVar) {
         if ((i >>> 3) == 0) {
             throw zzjk.zzd();
         }
@@ -82,8 +79,7 @@ public abstract class zzhl {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, zzhn zzhnVar) {
+    static int zza(int i, byte[] bArr, int i2, zzhn zzhnVar) {
         int i3;
         int i4 = i & NotificationCenter.dialogTranslate;
         int i5 = i2 + 1;
@@ -126,8 +122,7 @@ public abstract class zzhl {
         return i5;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(zzlc zzlcVar, int i, byte[] bArr, int i2, int i3, zzjl zzjlVar, zzhn zzhnVar) {
+    static int zza(zzlc zzlcVar, int i, byte[] bArr, int i2, int i3, zzjl zzjlVar, zzhn zzhnVar) {
         int zza = zza(zzlcVar, bArr, i2, i3, zzhnVar);
         while (true) {
             zzjlVar.add(zzhnVar.zzc);
@@ -143,8 +138,7 @@ public abstract class zzhl {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(zzlc zzlcVar, byte[] bArr, int i, int i2, int i3, zzhn zzhnVar) {
+    static int zza(zzlc zzlcVar, byte[] bArr, int i, int i2, int i3, zzhn zzhnVar) {
         zzko zzkoVar = (zzko) zzlcVar;
         Object zza = zzkoVar.zza();
         int zza2 = zzkoVar.zza(zza, bArr, i, i2, i3, zzhnVar);
@@ -153,8 +147,7 @@ public abstract class zzhl {
         return zza2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(zzlc zzlcVar, byte[] bArr, int i, int i2, zzhn zzhnVar) {
+    static int zza(zzlc zzlcVar, byte[] bArr, int i, int i2, zzhn zzhnVar) {
         int i3 = i + 1;
         int i4 = bArr[i];
         if (i4 < 0) {
@@ -173,13 +166,11 @@ public abstract class zzhl {
         return i6;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(byte[] bArr, int i) {
+    static int zza(byte[] bArr, int i) {
         return ((bArr[i + 3] & 255) << 24) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(byte[] bArr, int i, zzhn zzhnVar) {
+    static int zza(byte[] bArr, int i, zzhn zzhnVar) {
         int i2 = i + 1;
         byte b = bArr[i];
         if (b < 0) {
@@ -189,8 +180,7 @@ public abstract class zzhl {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(byte[] bArr, int i, zzjl zzjlVar, zzhn zzhnVar) {
+    static int zza(byte[] bArr, int i, zzjl zzjlVar, zzhn zzhnVar) {
         zzjd zzjdVar = (zzjd) zzjlVar;
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza + zza;
@@ -204,8 +194,7 @@ public abstract class zzhl {
         throw zzjk.zza();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(byte[] bArr, int i, zzhn zzhnVar) {
+    static int zzb(byte[] bArr, int i, zzhn zzhnVar) {
         int i2 = i + 1;
         long j = bArr[i];
         if (j >= 0) {
@@ -227,18 +216,15 @@ public abstract class zzhl {
         return i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long zzb(byte[] bArr, int i) {
+    static long zzb(byte[] bArr, int i) {
         return ((bArr[i + 7] & 255) << 56) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40) | ((bArr[i + 6] & 255) << 48);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static double zzc(byte[] bArr, int i) {
+    static double zzc(byte[] bArr, int i) {
         return Double.longBitsToDouble(zzb(bArr, i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(byte[] bArr, int i, zzhn zzhnVar) {
+    static int zzc(byte[] bArr, int i, zzhn zzhnVar) {
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza;
         if (i2 < 0) {
@@ -252,13 +238,11 @@ public abstract class zzhl {
         return zza + i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static float zzd(byte[] bArr, int i) {
+    static float zzd(byte[] bArr, int i) {
         return Float.intBitsToFloat(zza(bArr, i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzd(byte[] bArr, int i, zzhn zzhnVar) {
+    static int zzd(byte[] bArr, int i, zzhn zzhnVar) {
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza;
         if (i2 < 0) {
@@ -272,8 +256,7 @@ public abstract class zzhl {
         return zza + i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zze(byte[] bArr, int i, zzhn zzhnVar) {
+    static int zze(byte[] bArr, int i, zzhn zzhnVar) {
         int zza = zza(bArr, i, zzhnVar);
         int i2 = zzhnVar.zza;
         if (i2 < 0) {

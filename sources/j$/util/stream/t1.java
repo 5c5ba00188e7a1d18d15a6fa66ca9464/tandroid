@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import java.util.concurrent.CountedCompleter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class t1 extends CountedCompleter {
+class t1 extends CountedCompleter {
     protected final F0 a;
     protected final int b;
     public final /* synthetic */ int c;
@@ -41,10 +40,10 @@ public class t1 extends CountedCompleter {
         switch (this.c) {
             case 0:
                 ((E0) this.a).d(this.d, this.b);
-                return;
+                break;
             default:
                 this.a.i((Object[]) this.d, this.b);
-                return;
+                break;
         }
     }
 

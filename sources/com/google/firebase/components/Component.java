@@ -14,7 +14,6 @@ public final class Component {
     private final Set publishedEvents;
     private final int type;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final Set dependencies;
         private ComponentFactory factory;

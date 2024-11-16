@@ -1,8 +1,7 @@
 package j$.time.format;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class j implements g {
+final class j implements g {
     static final long[] f = {0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000L};
     final j$.time.temporal.l a;
     final int b;
@@ -10,8 +9,7 @@ public final class j implements g {
     private final y d;
     final int e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public j(j$.time.temporal.l lVar, int i, int i2, y yVar) {
+    j(j$.time.temporal.l lVar, int i, int i2, y yVar) {
         this.a = lVar;
         this.b = i;
         this.c = i2;
@@ -25,11 +23,6 @@ public final class j implements g {
         this.c = i2;
         this.d = yVar;
         this.e = i3;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ y b(j jVar) {
-        return jVar.d;
     }
 
     @Override // j$.time.format.g
@@ -70,16 +63,14 @@ public final class j implements g {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final j c() {
+    final j c() {
         if (this.e == -1) {
             return this;
         }
         return new j(this.a, this.b, this.c, this.d, -1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final j d(int i) {
+    final j d(int i) {
         return new j(this.a, this.b, this.c, this.d, this.e + i);
     }
 

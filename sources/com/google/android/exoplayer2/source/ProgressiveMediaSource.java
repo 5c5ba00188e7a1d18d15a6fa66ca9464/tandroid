@@ -36,7 +36,6 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
     private boolean timelineIsSeekable;
     private TransferListener transferListener;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements MediaSource.Factory {
         private int continueLoadingCheckIntervalBytes;
         private String customCacheKey;

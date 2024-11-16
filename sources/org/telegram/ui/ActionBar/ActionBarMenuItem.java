@@ -127,12 +127,10 @@ public class ActionBarMenuItem extends FrameLayout {
     private int xOffset;
     private int yOffset;
 
-    /* loaded from: classes4.dex */
     public interface ActionBarMenuItemDelegate {
         void onItemClick(int i);
     }
 
-    /* loaded from: classes4.dex */
     public static class ActionBarMenuItemSearchListener {
         public boolean canClearCaption() {
             return true;
@@ -183,14 +181,12 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface ActionBarSubMenuItemDelegate {
         void onHideSubMenu();
 
         void onShowSubMenu();
     }
 
-    /* loaded from: classes4.dex */
     public static class Item {
         public boolean dismiss;
         public int icon;
@@ -211,10 +207,6 @@ public class ActionBarMenuItem extends FrameLayout {
             this.viewType = i;
         }
 
-        static /* synthetic */ Item access$2900() {
-            return asColoredGap();
-        }
-
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Code restructure failed: missing block: B:20:0x0073, code lost:
         
@@ -232,9 +224,9 @@ public class ActionBarMenuItem extends FrameLayout {
         /* JADX WARN: Multi-variable type inference failed */
         /* JADX WARN: Type inference failed for: r0v10 */
         /* JADX WARN: Type inference failed for: r0v11 */
-        /* JADX WARN: Type inference failed for: r0v2, types: [org.telegram.ui.ActionBar.ActionBarMenuSubItem, android.view.View] */
+        /* JADX WARN: Type inference failed for: r0v2, types: [android.view.View, org.telegram.ui.ActionBar.ActionBarMenuSubItem] */
         /* JADX WARN: Type inference failed for: r0v5, types: [org.telegram.ui.ActionBar.ActionBarMenuSubItem] */
-        /* JADX WARN: Type inference failed for: r0v6, types: [org.telegram.ui.ActionBar.ActionBarMenuSubItem, android.view.View] */
+        /* JADX WARN: Type inference failed for: r0v6, types: [android.view.View, org.telegram.ui.ActionBar.ActionBarMenuSubItem] */
         /* JADX WARN: Type inference failed for: r3v11, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout] */
         /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout] */
         /*
@@ -330,7 +322,8 @@ public class ActionBarMenuItem extends FrameLayout {
             return this.view;
         }
 
-        private static Item asColoredGap() {
+        /* JADX INFO: Access modifiers changed from: private */
+        public static Item asColoredGap() {
             return new Item(1);
         }
 
@@ -443,9 +436,7 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ReactionFilterView extends SearchFilterView {
+    private static class ReactionFilterView extends SearchFilterView {
         private boolean attached;
         private ReactionsLayoutInBubble.ReactionButton reactionButton;
 
@@ -525,8 +516,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class SearchFilterView extends FrameLayout {
+    static class SearchFilterView extends FrameLayout {
         BackupImageView avatarImageView;
         ImageView closeIconView;
         FiltersView.MediaFilterData data;
@@ -1051,16 +1041,14 @@ public class ActionBarMenuItem extends FrameLayout {
                     return true;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public void onMeasure(int i4, int i5) {
+                protected void onMeasure(int i4, int i5) {
                     super.onMeasure(i4, i5);
                     setMeasuredDimension(Math.max(View.MeasureSpec.getSize(i4), getMeasuredWidth()) + AndroidUtilities.dp(3.0f), getMeasuredHeight());
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-                public void onSelectionChanged(int i4, int i5) {
+                protected void onSelectionChanged(int i4, int i5) {
                     super.onSelectionChanged(i4, i5);
                 }
 
@@ -2121,7 +2109,7 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     public Item lazilyAddColoredGap() {
-        return putLazyItem(Item.access$2900());
+        return putLazyItem(Item.asColoredGap());
     }
 
     public Item lazilyAddSubItem(int i, int i2, Drawable drawable, CharSequence charSequence, boolean z, boolean z2) {

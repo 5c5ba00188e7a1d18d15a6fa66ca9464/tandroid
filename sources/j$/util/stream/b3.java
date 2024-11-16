@@ -11,8 +11,7 @@ final class b3 implements j$.util.Q, Consumer {
     private final ConcurrentHashMap b;
     private Object c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b3(j$.util.Q q) {
+    b3(j$.util.Q q) {
         this(q, new ConcurrentHashMap());
     }
 
@@ -47,8 +46,7 @@ final class b3 implements j$.util.Q, Consumer {
         return this.a.estimateSize();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void f(Consumer consumer, Object obj) {
+    final void f(Consumer consumer, Object obj) {
         if (this.b.putIfAbsent(obj != null ? obj : d, Boolean.TRUE) == null) {
             consumer.r(obj);
         }

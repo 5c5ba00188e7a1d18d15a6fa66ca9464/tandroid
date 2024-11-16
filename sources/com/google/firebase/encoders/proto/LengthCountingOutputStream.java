@@ -6,8 +6,10 @@ import java.io.OutputStream;
 final class LengthCountingOutputStream extends OutputStream {
     private long length = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getLength() {
+    LengthCountingOutputStream() {
+    }
+
+    long getLength() {
         return this.length;
     }
 

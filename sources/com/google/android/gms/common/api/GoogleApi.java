@@ -43,13 +43,11 @@ public abstract class GoogleApi {
     private final GoogleApiClient zai;
     private final StatusExceptionMapper zaj;
 
-    /* loaded from: classes.dex */
     public static class Settings {
         public static final Settings DEFAULT_SETTINGS = new Builder().build();
         public final StatusExceptionMapper zaa;
         public final Looper zab;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private StatusExceptionMapper zaa;
             private Looper zab;

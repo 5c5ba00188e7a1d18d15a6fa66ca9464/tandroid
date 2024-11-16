@@ -105,12 +105,10 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     private float touchSlop;
     float y;
 
-    /* loaded from: classes3.dex */
     public interface InviteMembersBottomSheetDelegate {
         void didSelectDialogs(ArrayList arrayList);
     }
 
-    /* loaded from: classes3.dex */
     private class ItemAnimator extends DefaultItemAnimator {
         public ItemAnimator() {
             this.translationInterpolator = CubicBezierInterpolator.DEFAULT;
@@ -121,9 +119,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private ListAdapter() {
         }
 
@@ -209,9 +205,8 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                     view = manageChatTextCell;
                 } else {
                     StickerEmptyView stickerEmptyView = new StickerEmptyView(context, null, i3) { // from class: org.telegram.ui.Components.InviteMembersBottomSheet.ListAdapter.2
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.StickerEmptyView, android.view.ViewGroup, android.view.View
-                        public void onAttachedToWindow() {
+                        protected void onAttachedToWindow() {
                             super.onAttachedToWindow();
                             this.stickerView.getImageReceiver().startAnimation();
                         }
@@ -242,8 +237,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int currentItemsCount;
         private final SearchAdapterHelper searchAdapterHelper;
         private ArrayList searchResult = new ArrayList();
@@ -628,8 +622,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SpansContainer extends ViewGroup {
+    class SpansContainer extends ViewGroup {
         boolean addAnimation;
         private int animationIndex;
         private boolean animationStarted;

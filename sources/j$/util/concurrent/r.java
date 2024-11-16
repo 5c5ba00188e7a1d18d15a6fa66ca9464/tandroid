@@ -15,11 +15,9 @@ import java.util.Spliterator;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class r extends b implements j$.util.b {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public r(ConcurrentHashMap concurrentHashMap) {
+final class r extends b implements j$.util.b {
+    r(ConcurrentHashMap concurrentHashMap) {
         super(concurrentHashMap);
     }
 

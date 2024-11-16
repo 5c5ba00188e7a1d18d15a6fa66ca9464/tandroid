@@ -14,6 +14,9 @@ final class OggPacket {
     private final ParsableByteArray packetArray = new ParsableByteArray(new byte[65025], 0);
     private int currentSegmentIndex = -1;
 
+    OggPacket() {
+    }
+
     private int calculatePacketSize(int i) {
         int i2;
         int i3 = 0;

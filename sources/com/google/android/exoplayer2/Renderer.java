@@ -8,13 +8,11 @@ import com.google.android.exoplayer2.util.MediaClock;
 /* loaded from: classes.dex */
 public interface Renderer extends PlayerMessage.Target {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$setPlaybackSpeed(Renderer renderer, float f, float f2) {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface WakeupListener {
         void onSleep();
 

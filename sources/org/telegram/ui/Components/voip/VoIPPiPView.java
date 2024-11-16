@@ -117,17 +117,14 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
     };
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class FloatingView extends FrameLayout {
+    class FloatingView extends FrameLayout {
         float bottomPadding;
         float leftPadding;
         float rightPadding;
         float topPadding;
         float touchSlop;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 3 extends AnimatorListenerAdapter {
+        class 3 extends AnimatorListenerAdapter {
             final /* synthetic */ boolean val$expanded;
 
             3(boolean z) {

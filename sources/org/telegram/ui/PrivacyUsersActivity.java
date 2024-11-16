@@ -63,8 +63,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     private boolean blockedUsersActivity = true;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {

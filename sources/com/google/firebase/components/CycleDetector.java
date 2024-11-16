@@ -7,13 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class CycleDetector {
+abstract class CycleDetector {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ComponentNode {
+    private static class ComponentNode {
         private final Component component;
         private final Set dependencies = new HashSet();
         private final Set dependents = new HashSet();
@@ -51,9 +48,7 @@ public abstract class CycleDetector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Dep {
+    private static class Dep {
         private final Class anInterface;
         private final boolean set;
 
@@ -75,8 +70,7 @@ public abstract class CycleDetector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void detect(List list) {
+    static void detect(List list) {
         Set<ComponentNode> graph = toGraph(list);
         Set roots = getRoots(graph);
         int i = 0;

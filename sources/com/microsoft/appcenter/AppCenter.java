@@ -482,8 +482,7 @@ public class AppCenter {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isInstanceEnabled() {
+    boolean isInstanceEnabled() {
         return SharedPreferencesManager.getBoolean("enabled", true);
     }
 }

@@ -9,6 +9,9 @@ final class ChannelMappingAudioProcessor extends BaseAudioProcessor {
     private int[] outputChannels;
     private int[] pendingOutputChannels;
 
+    ChannelMappingAudioProcessor() {
+    }
+
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
     public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) {
         int[] iArr = this.pendingOutputChannels;

@@ -5,6 +5,9 @@ import java.util.Set;
 
 /* loaded from: classes.dex */
 abstract class AbstractComponentContainer implements ComponentContainer {
+    AbstractComponentContainer() {
+    }
+
     @Override // com.google.firebase.components.ComponentContainer
     public Object get(Class cls) {
         Provider provider = getProvider(cls);

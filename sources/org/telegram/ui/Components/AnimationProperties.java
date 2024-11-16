@@ -71,7 +71,6 @@ public abstract class AnimationProperties {
         }
     };
 
-    /* loaded from: classes3.dex */
     public static abstract class FloatProperty extends Property {
         public FloatProperty(String str) {
             super(Float.class, str);
@@ -85,7 +84,6 @@ public abstract class AnimationProperties {
         public abstract void setValue(Object obj, float f);
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class IntProperty extends Property {
         public IntProperty(String str) {
             super(Integer.class, str);

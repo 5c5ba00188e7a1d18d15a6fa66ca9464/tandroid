@@ -10,8 +10,7 @@ public class TintInfo {
     public ColorStateList mTintList;
     public PorterDuff.Mode mTintMode;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void clear() {
+    void clear() {
         this.mTintList = null;
         this.mHasTintList = false;
         this.mTintMode = null;

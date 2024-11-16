@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_common;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzz extends zzr {
+final class zzz extends zzr {
     static final zzr zza = new zzz(null, new Object[0], 0);
     final transient Object[] zzb;
     private final transient int zzc;
@@ -12,8 +11,7 @@ public final class zzz extends zzr {
         this.zzc = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzz zzg(int i, Object[] objArr, zzq zzqVar) {
+    static zzz zzg(int i, Object[] objArr, zzq zzqVar) {
         Object obj = objArr[0];
         obj.getClass();
         Object obj2 = objArr[1];

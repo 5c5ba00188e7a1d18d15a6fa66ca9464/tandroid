@@ -15,20 +15,17 @@ public final /* synthetic */ class c0 implements j$.util.function.W {
         switch (this.a) {
             case 0:
                 this.b.accept(j);
-                return;
+                break;
             default:
                 ((e0) this.b).a.accept(j);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.W
     public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.d(this, w);
-            default:
-                return j$.com.android.tools.r8.a.d(this, w);
         }
+        return j$.com.android.tools.r8.a.d(this, w);
     }
 }

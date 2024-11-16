@@ -2,9 +2,8 @@ package com.android.billingclient.api;
 
 import com.android.billingclient.api.BillingResult;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzat {
+abstract class zzat {
     static final BillingResult zzA;
     static final BillingResult zzB;
     static final BillingResult zzC;
@@ -153,8 +152,7 @@ public abstract class zzat {
         zzC = newBuilder29.build();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static BillingResult zza(int i, String str) {
+    static BillingResult zza(int i, String str) {
         BillingResult.Builder newBuilder = BillingResult.newBuilder();
         newBuilder.setResponseCode(i);
         newBuilder.setDebugMessage(str);

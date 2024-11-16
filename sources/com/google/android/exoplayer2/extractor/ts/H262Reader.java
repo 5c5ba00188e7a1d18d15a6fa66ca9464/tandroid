@@ -33,9 +33,7 @@ public final class H262Reader implements ElementaryStreamReader {
     private final ParsableByteArray userDataParsable;
     private final UserDataReader userDataReader;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CsdBuffer {
+    private static final class CsdBuffer {
         private static final byte[] START_CODE = {0, 0, 1};
         public byte[] data;
         private boolean isFilling;
@@ -88,8 +86,7 @@ public final class H262Reader implements ElementaryStreamReader {
         this(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public H262Reader(UserDataReader userDataReader) {
+    H262Reader(UserDataReader userDataReader) {
         ParsableByteArray parsableByteArray;
         this.userDataReader = userDataReader;
         this.prefixFlags = new boolean[4];

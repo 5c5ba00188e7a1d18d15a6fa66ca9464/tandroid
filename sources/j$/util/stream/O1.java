@@ -4,6 +4,9 @@ package j$.util.stream;
 abstract class O1 {
     Object a;
 
+    O1() {
+    }
+
     public final Object get() {
         return this.a;
     }

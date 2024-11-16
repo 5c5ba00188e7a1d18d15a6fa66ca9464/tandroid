@@ -10,7 +10,6 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public interface ProgressiveMediaExtractor {
 
-    /* loaded from: classes.dex */
     public interface Factory {
         ProgressiveMediaExtractor createProgressiveMediaExtractor(PlayerId playerId);
     }

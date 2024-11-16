@@ -15,7 +15,6 @@ public final class zzy$zzak extends zzeo implements zzgb {
     private long zzi;
     private zzeu zzj = zzeo.zzk();
 
-    /* loaded from: classes.dex */
     public enum zza implements zzet {
         zza(0),
         zzb(1),
@@ -53,7 +52,6 @@ public final class zzy$zzak extends zzeo implements zzgb {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class zzb extends zzeo.zzb implements zzgb {
         private zzb() {
             super(zzy$zzak.zzk);
@@ -73,10 +71,9 @@ public final class zzy$zzak extends zzeo implements zzgb {
     private zzy$zzak() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r4v19, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r4v19, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzx zzxVar = null;
         switch (zzx.zza[i - 1]) {
             case 1:

@@ -333,7 +333,6 @@ public class MessageObject {
     public ArrayList<TLRPC.MessageEntity> webPageDescriptionEntities;
     public CharSequence youtubeDescription;
 
-    /* loaded from: classes3.dex */
     public static class GroupedMessagePosition {
         public float aspectRatio;
         public boolean edge;
@@ -365,7 +364,6 @@ public class MessageObject {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class GroupedMessages {
         public boolean captionAbove;
         public MessageObject captionMessage;
@@ -381,9 +379,7 @@ public class MessageObject {
         private int maxSizeWidth = 800;
         public final TransitionParams transitionParams = new TransitionParams();
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public static class MessageGroupedLayoutAttempt {
+        private static class MessageGroupedLayoutAttempt {
             public float[] heights;
             public int[] lineCounts;
 
@@ -403,7 +399,6 @@ public class MessageObject {
             }
         }
 
-        /* loaded from: classes3.dex */
         public static class TransitionParams {
             public boolean backgroundChangeBounds;
             public int bottom;
@@ -1117,7 +1112,6 @@ public class MessageObject {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SendAnimationData {
         public float currentScale;
         public float currentX;
@@ -1132,7 +1126,6 @@ public class MessageObject {
         public float y;
     }
 
-    /* loaded from: classes3.dex */
     public static class TextLayoutBlock {
         public static final int FLAG_NOT_RTL = 2;
         public static final int FLAG_RTL = 1;
@@ -1178,423 +1171,78 @@ public class MessageObject {
             }
             String replaceAll = str.toLowerCase().replaceAll("\\W|lang$", "");
             replaceAll.hashCode();
-            char c = 65535;
-            switch (replaceAll.hashCode()) {
-                case -1886433663:
-                    if (replaceAll.equals("actionscript")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case -1408289185:
-                    if (replaceAll.equals("aspnet")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case -1351281305:
-                    if (replaceAll.equals("csharp")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case -1326485984:
-                    if (replaceAll.equals("docker")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-                case -1317317732:
-                    if (replaceAll.equals("dockerfile")) {
-                        c = 4;
-                        break;
-                    }
-                    break;
-                case -1125574399:
-                    if (replaceAll.equals("kotlin")) {
-                        c = 5;
-                        break;
-                    }
-                    break;
-                case -995396628:
-                    if (replaceAll.equals("pascal")) {
-                        c = 6;
-                        break;
-                    }
-                    break;
-                case -973197092:
-                    if (replaceAll.equals("python")) {
-                        c = 7;
-                        break;
-                    }
-                    break;
-                case -746790872:
-                    if (replaceAll.equals("arduino")) {
-                        c = '\b';
-                        break;
-                    }
-                    break;
-                case -522285947:
-                    if (replaceAll.equals("typescript")) {
-                        c = '\t';
-                        break;
-                    }
-                    break;
-                case 99:
-                    if (replaceAll.equals("c")) {
-                        c = '\n';
-                        break;
-                    }
-                    break;
-                case 114:
-                    if (replaceAll.equals("r")) {
-                        c = 11;
-                        break;
-                    }
-                    break;
-                case 3184:
-                    if (replaceAll.equals("cs")) {
-                        c = '\f';
-                        break;
-                    }
-                    break;
-                case 3304:
-                    if (replaceAll.equals("go")) {
-                        c = '\r';
-                        break;
-                    }
-                    break;
-                case 3401:
-                    if (replaceAll.equals("js")) {
-                        c = 14;
-                        break;
-                    }
-                    break;
-                case 3479:
-                    if (replaceAll.equals("md")) {
-                        c = 15;
-                        break;
-                    }
-                    break;
-                case 3593:
-                    if (replaceAll.equals("py")) {
-                        c = 16;
-                        break;
-                    }
-                    break;
-                case 3632:
-                    if (replaceAll.equals("rb")) {
-                        c = 17;
-                        break;
-                    }
-                    break;
-                case 3704:
-                    if (replaceAll.equals("tl")) {
-                        c = 18;
-                        break;
-                    }
-                    break;
-                case 3711:
-                    if (replaceAll.equals("ts")) {
-                        c = 19;
-                        break;
-                    }
-                    break;
-                case 96891:
-                    if (replaceAll.equals("asm")) {
-                        c = 20;
-                        break;
-                    }
-                    break;
-                case 98723:
-                    if (replaceAll.equals("cpp")) {
-                        c = 21;
-                        break;
-                    }
-                    break;
-                case 98819:
-                    if (replaceAll.equals("css")) {
-                        c = 22;
-                        break;
-                    }
-                    break;
-                case 98822:
-                    if (replaceAll.equals("csv")) {
-                        c = 23;
-                        break;
-                    }
-                    break;
-                case 104420:
-                    if (replaceAll.equals("ini")) {
-                        c = 24;
-                        break;
-                    }
-                    break;
-                case 105551:
-                    if (replaceAll.equals("jsx")) {
-                        c = 25;
-                        break;
-                    }
-                    break;
-                case 107512:
-                    if (replaceAll.equals("lua")) {
-                        c = 26;
-                        break;
-                    }
-                    break;
-                case 110968:
-                    if (replaceAll.equals("php")) {
-                        c = 27;
-                        break;
-                    }
-                    break;
-                case 114922:
-                    if (replaceAll.equals("tlb")) {
-                        c = 28;
-                        break;
-                    }
-                    break;
-                case 115161:
-                    if (replaceAll.equals("tsx")) {
-                        c = 29;
-                        break;
-                    }
-                    break;
-                case 118807:
-                    if (replaceAll.equals("xml")) {
-                        c = 30;
-                        break;
-                    }
-                    break;
-                case 119768:
-                    if (replaceAll.equals("yml")) {
-                        c = 31;
-                        break;
-                    }
-                    break;
-                case 3075967:
-                    if (replaceAll.equals("dart")) {
-                        c = ' ';
-                        break;
-                    }
-                    break;
-                case 3142865:
-                    if (replaceAll.equals("fift")) {
-                        c = '!';
-                        break;
-                    }
-                    break;
-                case 3154628:
-                    if (replaceAll.equals("func")) {
-                        c = '\"';
-                        break;
-                    }
-                    break;
-                case 3175934:
-                    if (replaceAll.equals("glsl")) {
-                        c = '#';
-                        break;
-                    }
-                    break;
-                case 3205725:
-                    if (replaceAll.equals("hlsl")) {
-                        c = '$';
-                        break;
-                    }
-                    break;
-                case 3213227:
-                    if (replaceAll.equals("html")) {
-                        c = '%';
-                        break;
-                    }
-                    break;
-                case 3213448:
-                    if (replaceAll.equals("http")) {
-                        c = '&';
-                        break;
-                    }
-                    break;
-                case 3254818:
-                    if (replaceAll.equals("java")) {
-                        c = '\'';
-                        break;
-                    }
-                    break;
-                case 3271912:
-                    if (replaceAll.equals("json")) {
-                        c = '(';
-                        break;
-                    }
-                    break;
-                case 3318169:
-                    if (replaceAll.equals("less")) {
-                        c = ')';
-                        break;
-                    }
-                    break;
-                case 3373901:
-                    if (replaceAll.equals("nasm")) {
-                        c = '*';
-                        break;
-                    }
-                    break;
-                case 3404364:
-                    if (replaceAll.equals("objc")) {
-                        c = '+';
-                        break;
-                    }
-                    break;
-                case 3511770:
-                    if (replaceAll.equals("ruby")) {
-                        c = ',';
-                        break;
-                    }
-                    break;
-                case 3512292:
-                    if (replaceAll.equals("rust")) {
-                        c = '-';
-                        break;
-                    }
-                    break;
-                case 3524784:
-                    if (replaceAll.equals("scss")) {
-                        c = '.';
-                        break;
-                    }
-                    break;
-                case 3561037:
-                    if (replaceAll.equals("tl-b")) {
-                        c = '/';
-                        break;
-                    }
-                    break;
-                case 3642020:
-                    if (replaceAll.equals("wasm")) {
-                        c = '0';
-                        break;
-                    }
-                    break;
-                case 3701415:
-                    if (replaceAll.equals("yaml")) {
-                        c = '1';
-                        break;
-                    }
-                    break;
-                case 94833107:
-                    if (replaceAll.equals("cobol")) {
-                        c = '2';
-                        break;
-                    }
-                    break;
-                case 101429325:
-                    if (replaceAll.equals("json5")) {
-                        c = '3';
-                        break;
-                    }
-                    break;
-                case 109854227:
-                    if (replaceAll.equals("swift")) {
-                        c = '4';
-                        break;
-                    }
-                    break;
-                case 188995949:
-                    if (replaceAll.equals("javascript")) {
-                        c = '5';
-                        break;
-                    }
-                    break;
-                case 213985633:
-                    if (replaceAll.equals("autohotkey")) {
-                        c = '6';
-                        break;
-                    }
-                    break;
-                case 246938863:
-                    if (replaceAll.equals("markdown")) {
-                        c = '7';
-                        break;
-                    }
-                    break;
-                case 1067478602:
-                    if (replaceAll.equals("objectivec")) {
-                        c = '8';
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (replaceAll) {
+                case "actionscript":
                     return "ActionScript";
-                case 1:
+                case "aspnet":
                     return "ASP.NET";
-                case 2:
-                case '\f':
+                case "csharp":
+                case "cs":
                     return "C#";
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case '\b':
-                case '\n':
-                case '\r':
-                case 26:
-                case ' ':
-                case '!':
-                case '\'':
-                case '-':
-                case '4':
+                case "docker":
+                case "dockerfile":
+                case "kotlin":
+                case "pascal":
+                case "arduino":
+                case "c":
+                case "go":
+                case "lua":
+                case "dart":
+                case "fift":
+                case "java":
+                case "rust":
+                case "swift":
                     return capitalizeFirst(str);
-                case 7:
-                case 16:
+                case "python":
+                case "py":
                     return "Python";
-                case '\t':
-                case 19:
+                case "typescript":
+                case "ts":
                     return "TypeScript";
-                case 11:
-                case 18:
-                case 20:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 27:
-                case 29:
-                case 30:
-                case 31:
-                case '#':
-                case '$':
-                case '%':
-                case '&':
-                case '(':
-                case ')':
-                case '*':
-                case '.':
-                case '0':
-                case '1':
-                case '2':
-                case '3':
+                case "r":
+                case "tl":
+                case "asm":
+                case "css":
+                case "csv":
+                case "ini":
+                case "jsx":
+                case "php":
+                case "tsx":
+                case "xml":
+                case "yml":
+                case "glsl":
+                case "hlsl":
+                case "html":
+                case "http":
+                case "json":
+                case "less":
+                case "nasm":
+                case "scss":
+                case "wasm":
+                case "yaml":
+                case "cobol":
+                case "json5":
                     return str.toUpperCase();
-                case 14:
-                case '5':
+                case "js":
+                case "javascript":
                     return "JavaScript";
-                case 15:
-                case '7':
+                case "md":
+                case "markdown":
                     return "Markdown";
-                case 17:
-                case ',':
+                case "rb":
+                case "ruby":
                     return "Ruby";
-                case 21:
+                case "cpp":
                     return "C++";
-                case 28:
-                case '/':
+                case "tlb":
+                case "tl-b":
                     return "TL-B";
-                case '\"':
+                case "func":
                     return "FunC";
-                case '+':
-                case '8':
+                case "objc":
+                case "objectivec":
                     return "Objective-C";
-                case '6':
+                case "autohotkey":
                     return "AutoHotKey";
                 default:
                     return str;
@@ -1708,7 +1356,6 @@ public class MessageObject {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TextLayoutBlocks {
         public boolean hasCode;
         public boolean hasCodeAtBottom;
@@ -2263,7 +1910,6 @@ public class MessageObject {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TextRange {
         public boolean code;
         public boolean collapse;
@@ -2287,7 +1933,6 @@ public class MessageObject {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class VCardData {
         private String company;
         private ArrayList<String> emails = new ArrayList<>();
@@ -2583,7 +2228,7 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:703:0x0b29  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x19c6  */
     /* JADX WARN: Type inference failed for: r12v25 */
-    /* JADX WARN: Type inference failed for: r12v26, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v26, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v31 */
     /* JADX WARN: Type inference failed for: r12v32 */
     /* JADX WARN: Type inference failed for: r14v11 */
@@ -7001,8 +6646,9 @@ public class MessageObject {
                 case 99582:
                 case 104987:
                 case 3213227:
-                    return false;
+                    break;
             }
+            return false;
         }
         if (z && (i > 1280 || i2 > 1280)) {
             z = false;

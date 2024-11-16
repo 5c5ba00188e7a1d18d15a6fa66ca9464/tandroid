@@ -158,9 +158,8 @@ public class TextCheckCell extends FrameLayout {
         this.attached = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         float dp;
         float measuredHeight;
         int measuredWidth;

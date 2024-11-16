@@ -149,9 +149,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     boolean wasDraw;
     private boolean willBeNotified;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 7 extends RLottieImageView {
+    class 7 extends RLottieImageView {
         private final Runnable pressRunnable;
         boolean pressed;
         boolean scheduled;
@@ -260,7 +258,6 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface FragmentContextViewDelegate {
         void onAnimation(boolean z, boolean z2);
     }
@@ -339,9 +336,8 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         BlurredFrameLayout blurredFrameLayout = new BlurredFrameLayout(context, this.fragment.getFragmentView() instanceof SizeNotifierFrameLayout ? (SizeNotifierFrameLayout) this.fragment.getFragmentView() : null) { // from class: org.telegram.ui.Components.FragmentContextView.3
             private final RectF notifyButtonRect = new RectF();
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 float f;
                 super.dispatchDraw(canvas);
                 if (FragmentContextView.this.currentStyle == 4 && FragmentContextView.this.notifyButtonEnabled) {
@@ -356,7 +352,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
                         f = 0.0f;
                     } else {
                         long currentTimeMillis = (groupCall.call.schedule_date * 1000) - FragmentContextView.this.fragment.getConnectionsManager().getCurrentTimeMillis();
-                        f = currentTimeMillis >= 0 ? currentTimeMillis < 5000 ? 1.0f - (((float) currentTimeMillis) / 5000.0f) : 0.0f : 1.0f;
+                        f = currentTimeMillis >= 0 ? currentTimeMillis < 5000 ? 1.0f - (currentTimeMillis / 5000.0f) : 0.0f : 1.0f;
                         if (currentTimeMillis < 6000) {
                             invalidate();
                         }

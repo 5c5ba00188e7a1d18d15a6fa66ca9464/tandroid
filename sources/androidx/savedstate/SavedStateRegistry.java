@@ -21,12 +21,10 @@ public final class SavedStateRegistry {
     private Recreator.SavedStateProvider recreatorProvider;
     private Bundle restoredState;
 
-    /* loaded from: classes.dex */
     public interface AutoRecreated {
         void onRecreated(SavedStateRegistryOwner savedStateRegistryOwner);
     }
 
-    /* loaded from: classes.dex */
     private static final class Companion {
         private Companion() {
         }
@@ -36,7 +34,6 @@ public final class SavedStateRegistry {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface SavedStateProvider {
         Bundle saveState();
     }

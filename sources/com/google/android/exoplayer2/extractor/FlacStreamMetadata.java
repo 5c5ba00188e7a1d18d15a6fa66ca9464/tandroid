@@ -26,7 +26,6 @@ public final class FlacStreamMetadata {
     public final SeekTable seekTable;
     public final long totalSamples;
 
-    /* loaded from: classes.dex */
     public static class SeekTable {
         public final long[] pointOffsets;
         public final long[] pointSampleNumbers;

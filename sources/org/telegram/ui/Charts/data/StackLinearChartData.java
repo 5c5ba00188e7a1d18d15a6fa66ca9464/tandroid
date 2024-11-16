@@ -101,9 +101,8 @@ public class StackLinearChartData extends ChartData {
         measure();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.data.ChartData
-    public void measure() {
+    protected void measure() {
         super.measure();
         this.simplifiedSize = 0;
         int length = this.xPercentage.length;

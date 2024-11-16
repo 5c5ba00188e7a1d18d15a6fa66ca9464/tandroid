@@ -21,7 +21,6 @@ public final class SavedStateHandlesProvider implements SavedStateRegistry.Saved
         Intrinsics.checkNotNullParameter(viewModelStoreOwner, "viewModelStoreOwner");
         this.savedStateRegistry = savedStateRegistry;
         lazy = LazyKt__LazyJVMKt.lazy(new Function0() { // from class: androidx.lifecycle.SavedStateHandlesProvider$viewModel$2
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 super(0);
             }

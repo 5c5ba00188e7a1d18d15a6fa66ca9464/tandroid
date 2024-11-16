@@ -7,8 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 /* loaded from: classes.dex */
 public final class zbs extends com.google.android.gms.internal.auth-api.zba implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zbs(IBinder iBinder) {
+    zbs(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.auth.api.signin.internal.ISignInService");
     }
 

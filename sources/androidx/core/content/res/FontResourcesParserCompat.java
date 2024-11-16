@@ -17,19 +17,15 @@ import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
 public abstract class FontResourcesParserCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static int getType(TypedArray typedArray, int i) {
             return typedArray.getType(i);
         }
     }
 
-    /* loaded from: classes.dex */
     public interface FamilyResourceEntry {
     }
 
-    /* loaded from: classes.dex */
     public static final class FontFamilyFilesResourceEntry implements FamilyResourceEntry {
         private final FontFileResourceEntry[] mEntries;
 
@@ -42,7 +38,6 @@ public abstract class FontResourcesParserCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class FontFileResourceEntry {
         private final String mFileName;
         private final boolean mItalic;
@@ -85,7 +80,6 @@ public abstract class FontResourcesParserCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class ProviderResourceEntry implements FamilyResourceEntry {
         private final FontRequest mRequest;
         private final int mStrategy;

@@ -20,8 +20,7 @@ abstract class WakeLockHolder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void completeWakefulIntent(Intent intent) {
+    static void completeWakefulIntent(Intent intent) {
         synchronized (syncObject) {
             try {
                 if (wakeLock != null && isWakefulIntent(intent)) {
@@ -42,8 +41,7 @@ abstract class WakeLockHolder {
         intent.putExtra("com.google.firebase.iid.WakeLockHolder.wakefulintent", z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ComponentName startWakefulService(Context context, Intent intent) {
+    static ComponentName startWakefulService(Context context, Intent intent) {
         synchronized (syncObject) {
             try {
                 checkAndInitWakeLock(context);

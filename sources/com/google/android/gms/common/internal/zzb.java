@@ -8,9 +8,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.internal.BaseGmsClient;
 import com.google.android.gms.internal.common.zzi;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzb extends zzi {
+final class zzb extends zzi {
     final /* synthetic */ BaseGmsClient zza;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */

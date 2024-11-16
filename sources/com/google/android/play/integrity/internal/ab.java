@@ -4,8 +4,7 @@ package com.google.android.play.integrity.internal;
 final class ab extends t {
     final /* synthetic */ ad a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ab(ad adVar) {
+    ab(ad adVar) {
         this.a = adVar;
     }
 

@@ -18,8 +18,7 @@ import java.util.List;
 
 /* loaded from: classes.dex */
 public class FirebaseMessagingRegistrar implements ComponentRegistrar {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ FirebaseMessaging lambda$getComponents$0$FirebaseMessagingRegistrar(ComponentContainer componentContainer) {
+    static final /* synthetic */ FirebaseMessaging lambda$getComponents$0$FirebaseMessagingRegistrar(ComponentContainer componentContainer) {
         FirebaseApp firebaseApp = (FirebaseApp) componentContainer.get(FirebaseApp.class);
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(componentContainer.get(FirebaseInstanceIdInternal.class));
         return new FirebaseMessaging(firebaseApp, null, componentContainer.getProvider(UserAgentPublisher.class), componentContainer.getProvider(HeartBeatInfo.class), (FirebaseInstallationsApi) componentContainer.get(FirebaseInstallationsApi.class), (TransportFactory) componentContainer.get(TransportFactory.class), (Subscriber) componentContainer.get(Subscriber.class));

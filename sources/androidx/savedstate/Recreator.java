@@ -18,7 +18,6 @@ public final class Recreator implements LifecycleEventObserver {
     public static final Companion Companion = new Companion(null);
     private final SavedStateRegistryOwner owner;
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }
@@ -28,7 +27,6 @@ public final class Recreator implements LifecycleEventObserver {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SavedStateProvider implements SavedStateRegistry.SavedStateProvider {
         private final Set classes;
 

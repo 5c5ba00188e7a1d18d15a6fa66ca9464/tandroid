@@ -3,14 +3,12 @@ package com.google.android.gms.common.api.internal;
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.internal.Objects;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zabs {
+final class zabs {
     private final ApiKey zaa;
     private final Feature zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zabs(ApiKey apiKey, Feature feature, zabr zabrVar) {
+    /* synthetic */ zabs(ApiKey apiKey, Feature feature, zabr zabrVar) {
         this.zaa = apiKey;
         this.zab = feature;
     }

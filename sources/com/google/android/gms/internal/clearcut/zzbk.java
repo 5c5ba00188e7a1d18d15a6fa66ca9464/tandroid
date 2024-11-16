@@ -18,8 +18,7 @@ public abstract class zzbk {
         return (-(j & 1)) ^ (j >>> 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbk zza(byte[] bArr, int i, int i2, boolean z) {
+    static zzbk zza(byte[] bArr, int i, int i2, boolean z) {
         zzbm zzbmVar = new zzbm(bArr, 0, i2, false);
         try {
             zzbmVar.zzl(i2);

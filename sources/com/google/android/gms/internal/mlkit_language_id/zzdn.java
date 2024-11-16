@@ -20,6 +20,9 @@ public abstract class zzdn implements Serializable, Iterable {
         zzd = new zzdp();
     }
 
+    zzdn() {
+    }
+
     public static zzdn zza(String str) {
         return new zzdx(str.getBytes(zzeq.zza));
     }
@@ -29,8 +32,7 @@ public abstract class zzdn implements Serializable, Iterable {
         return b & 255;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, int i2, int i3) {
+    static int zzb(int i, int i2, int i3) {
         int i4 = i2 - i;
         if ((i | i2 | i4 | (i3 - i2)) >= 0) {
             return i4;
@@ -92,11 +94,9 @@ public abstract class zzdn implements Serializable, Iterable {
 
     protected abstract String zza(Charset charset);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(zzdk zzdkVar);
+    abstract void zza(zzdk zzdkVar);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract byte zzb(int i);
+    abstract byte zzb(int i);
 
     public final String zzb() {
         return zza() == 0 ? "" : zza(zzeq.zza);
@@ -104,8 +104,7 @@ public abstract class zzdn implements Serializable, Iterable {
 
     public abstract boolean zzc();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final int zzd() {
+    protected final int zzd() {
         return this.zzc;
     }
 }

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 /* loaded from: classes.dex */
 public abstract class ImageViewCompat {
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static ColorStateList getImageTintList(ImageView imageView) {
             return imageView.getImageTintList();

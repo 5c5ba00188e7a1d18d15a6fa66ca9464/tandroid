@@ -125,7 +125,7 @@ public class SeekSpeedDrawable extends Drawable {
         }
         float f3 = this.animatedSpeed.set(Math.abs(this.lastSpeed));
         long currentTimeMillis = System.currentTimeMillis();
-        float min = Math.min(0.016f, ((float) (currentTimeMillis - this.lastFrameTime)) / 1000.0f);
+        float min = Math.min(0.016f, (currentTimeMillis - this.lastFrameTime) / 1000.0f);
         this.lastFrameTime = currentTimeMillis;
         this.t += min * Math.min(f3, 4.0f) * 1.5f;
         this.invalidate.run();

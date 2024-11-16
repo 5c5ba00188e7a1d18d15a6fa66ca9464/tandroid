@@ -81,25 +81,21 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
         return calculateDtToFit(layoutManager.getDecoratedTop(view) - ((ViewGroup.MarginLayoutParams) layoutParams).topMargin, layoutManager.getDecoratedBottom(view) + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin, layoutManager.getPaddingTop(), layoutManager.getHeight() - layoutManager.getPaddingBottom(), i);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
         return 25.0f / displayMetrics.densityDpi;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int calculateTimeForDeceleration(int i) {
+    protected int calculateTimeForDeceleration(int i) {
         double calculateTimeForScrolling = calculateTimeForScrolling(i);
         Double.isNaN(calculateTimeForScrolling);
         return (int) Math.ceil(calculateTimeForScrolling / 0.3356d);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int calculateTimeForScrolling(int i) {
+    protected int calculateTimeForScrolling(int i) {
         return (int) Math.ceil(Math.abs(i) * getSpeedPerPixel());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getHorizontalSnapPreference() {
+    protected int getHorizontalSnapPreference() {
         PointF pointF = this.mTargetVector;
         if (pointF != null) {
             float f = pointF.x;
@@ -110,8 +106,7 @@ public class LinearSmoothScroller extends RecyclerView.SmoothScroller {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getVerticalSnapPreference() {
+    protected int getVerticalSnapPreference() {
         PointF pointF = this.mTargetVector;
         if (pointF != null) {
             float f = pointF.y;

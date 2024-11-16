@@ -106,7 +106,7 @@ public class StickerCell extends FrameLayout {
             if (this.scaled) {
                 float f = this.scale;
                 if (f != 0.8f) {
-                    float f2 = f - (((float) j2) / 400.0f);
+                    float f2 = f - (j2 / 400.0f);
                     this.scale = f2;
                     if (f2 < 0.8f) {
                         this.scale = 0.8f;
@@ -117,7 +117,7 @@ public class StickerCell extends FrameLayout {
                     invalidate();
                 }
             }
-            float f3 = this.scale + (((float) j2) / 400.0f);
+            float f3 = this.scale + (j2 / 400.0f);
             this.scale = f3;
             if (f3 > 1.0f) {
                 this.scale = 1.0f;

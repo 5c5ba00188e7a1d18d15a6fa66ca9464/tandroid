@@ -6,8 +6,7 @@ import java.util.concurrent.locks.Lock;
 final class zav implements Runnable {
     final /* synthetic */ zaaa zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zav(zaaa zaaaVar) {
+    zav(zaaa zaaaVar) {
         this.zaa = zaaaVar;
     }
 

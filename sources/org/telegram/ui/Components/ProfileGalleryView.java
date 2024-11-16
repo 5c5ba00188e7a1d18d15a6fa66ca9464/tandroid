@@ -90,8 +90,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
     private ArrayList videoLocations;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class AvatarImageView extends BackupImageView {
+    class AvatarImageView extends BackupImageView {
         private long firstDrawTime;
         public boolean isVideo;
         private final Paint placeholderPaint;
@@ -123,9 +122,8 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             PinchToZoomHelper pinchToZoomHelper = ProfileGalleryView.this.pinchToZoomHelper;
             if (pinchToZoomHelper == null || !pinchToZoomHelper.isInOverlayMode()) {
                 if (this.radialProgress != null) {
@@ -144,7 +142,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                             long j3 = currentTimeMillis - this.firstDrawTime;
                             long j4 = this.isVideo ? 250L : 750L;
                             if (j3 <= 250 + j4 && j3 > j4) {
-                                this.radialProgress.setOverrideAlpha(CubicBezierInterpolator.DEFAULT.getInterpolation(((float) (j3 - j4)) / 250.0f));
+                                this.radialProgress.setOverrideAlpha(CubicBezierInterpolator.DEFAULT.getInterpolation((j3 - j4) / 250.0f));
                             }
                         }
                         if (ProfileGalleryView.this.invalidateWithParent) {
@@ -162,7 +160,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                         this.radialProgressHideAnimator = ofFloat;
                         ofFloat.setStartDelay(j);
-                        this.radialProgressHideAnimator.setDuration(this.radialProgressHideAnimatorStartValue * 250.0f);
+                        this.radialProgressHideAnimator.setDuration((long) (this.radialProgressHideAnimatorStartValue * 250.0f));
                         this.radialProgressHideAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
                         this.radialProgressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ProfileGalleryView$AvatarImageView$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -219,7 +217,6 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Callback {
         void onDown(boolean z);
 
@@ -230,9 +227,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         void onVideoSet();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Item {
+    private static class Item {
         private AvatarImageView imageView;
         boolean isActiveVideo;
         private View textureViewStubView;
@@ -241,15 +236,12 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TextureStubView extends View {
+    private class TextureStubView extends View {
         public TextureStubView(Context context) {
             super(context);
         }
     }
 
-    /* loaded from: classes3.dex */
     public class ViewPagerAdapter extends CircularViewPager.Adapter {
         private final Context context;
         private final ActionBar parentActionBar;
@@ -343,7 +335,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             if (ProfileGalleryView.this.hasActiveVideo && realPosition == 0) {
                 item.isActiveVideo = true;
                 if (item.textureViewStubView == null) {
-                    item.textureViewStubView = new TextureStubView(this.context);
+                    item.textureViewStubView = ProfileGalleryView.this.new TextureStubView(this.context);
                 }
                 if (item.textureViewStubView.getParent() == null) {
                     viewGroup.addView(item.textureViewStubView);
@@ -355,7 +347,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 viewGroup.removeView(item.textureViewStubView);
             }
             if (item.imageView == null) {
-                item.imageView = new AvatarImageView(this.context, i, this.placeholderPaint);
+                item.imageView = ProfileGalleryView.this.new AvatarImageView(this.context, i, this.placeholderPaint);
                 this.imageViews.set(i, item.imageView);
             }
             if (item.imageView.getParent() == null) {
@@ -816,7 +808,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 if (str4 != null && TextUtils.equals(str3, str4)) {
                     RadialProgress2 radialProgress22 = (RadialProgress2) this.radialProgresses.get(r5);
                     if (radialProgress22 != null) {
-                        radialProgress22.setProgress(Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue())), true);
+                        radialProgress22.setProgress(Math.min(1.0f, ((Long) objArr[1]).longValue() / ((Long) objArr[2]).longValue()), true);
                     }
                     invalidate();
                 }

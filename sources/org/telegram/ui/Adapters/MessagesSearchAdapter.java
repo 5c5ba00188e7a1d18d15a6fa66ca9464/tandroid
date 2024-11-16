@@ -62,7 +62,6 @@ public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter imp
         }
     };
 
-    /* loaded from: classes4.dex */
     public static class StoriesView extends FrameLayout {
         private final ImageView arrowView;
         private final AvatarsDrawable avatarsDrawable;
@@ -72,7 +71,6 @@ public class MessagesSearchAdapter extends RecyclerListView.SelectionAdapter imp
         private float transitValue;
         private ValueAnimator transitionAnimator;
 
-        /* loaded from: classes4.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());

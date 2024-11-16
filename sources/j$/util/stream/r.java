@@ -17,13 +17,8 @@ public final /* synthetic */ class r implements j$.util.function.f {
     @Override // j$.util.function.BiFunction
     public final /* synthetic */ BiFunction andThen(Function function) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.a(this, function);
-            case 1:
-                return j$.com.android.tools.r8.a.a(this, function);
-            default:
-                return j$.com.android.tools.r8.a.a(this, function);
         }
+        return j$.com.android.tools.r8.a.a(this, function);
     }
 
     @Override // j$.util.function.BiFunction
@@ -31,13 +26,14 @@ public final /* synthetic */ class r implements j$.util.function.f {
         switch (this.a) {
             case 0:
                 this.b.accept(obj, obj2);
-                return obj;
+                break;
             case 1:
                 this.b.accept(obj, obj2);
-                return obj;
+                break;
             default:
                 this.b.accept(obj, obj2);
-                return obj;
+                break;
         }
+        return obj;
     }
 }

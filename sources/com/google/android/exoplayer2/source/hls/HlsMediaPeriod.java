@@ -61,9 +61,8 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
     private final TimestampAdjusterProvider timestampAdjusterProvider = new TimestampAdjusterProvider();
     private HlsSampleStreamWrapper[] sampleStreamWrappers = new HlsSampleStreamWrapper[0];
     private HlsSampleStreamWrapper[] enabledSampleStreamWrappers = new HlsSampleStreamWrapper[0];
-    private int[][] manifestUrlIndicesPerWrapper = new int[0];
+    private int[][] manifestUrlIndicesPerWrapper = new int[0][];
 
-    /* loaded from: classes.dex */
     private class SampleStreamWrapperCallback implements HlsSampleStreamWrapper.Callback {
         private SampleStreamWrapperCallback() {
         }
@@ -298,7 +297,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
             i = 1;
         }
         this.sampleStreamWrappers = (HlsSampleStreamWrapper[]) arrayList.toArray(new HlsSampleStreamWrapper[0]);
-        this.manifestUrlIndicesPerWrapper = (int[][]) arrayList2.toArray(new int[0]);
+        this.manifestUrlIndicesPerWrapper = (int[][]) arrayList2.toArray(new int[0][]);
         this.pendingPrepareCount = this.sampleStreamWrappers.length;
         for (int i4 = 0; i4 < this.audioVideoSampleStreamWrapperCount; i4++) {
             this.sampleStreamWrappers[i4].setIsTimestampMaster(true);

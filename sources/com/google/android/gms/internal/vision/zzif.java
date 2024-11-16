@@ -18,8 +18,7 @@ public abstract class zzif {
         return (-(j & 1)) ^ (j >>> 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzif zza(byte[] bArr, int i, int i2, boolean z) {
+    static zzif zza(byte[] bArr, int i, int i2, boolean z) {
         zzih zzihVar = new zzih(bArr, i2);
         try {
             zzihVar.zzc(i2);

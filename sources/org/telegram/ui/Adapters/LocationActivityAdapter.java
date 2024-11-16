@@ -456,14 +456,14 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                     ((ViewGroup.MarginLayoutParams) layoutParams).height = this.overScrollHeight;
                 }
                 viewHolder.itemView.setLayoutParams(layoutParams);
-                return;
+                break;
             case 1:
                 this.sendLocationCell = (SendLocationCell) viewHolder.itemView;
                 updateCell();
-                return;
+                break;
             case 2:
                 ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString(this.currentMessageObject != null ? R.string.LiveLocations : R.string.NearbyVenue));
-                return;
+                break;
             case 3:
                 LocationCell locationCell = (LocationCell) viewHolder.itemView;
                 int i4 = this.locationType;
@@ -485,7 +485,7 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                     if (i2 >= 0 && i2 < this.locations.size()) {
                         tL_messageMediaVenue2 = (TLRPC.TL_messageMediaVenue) this.locations.get(i2);
                         locationCell.setLocation(tL_messageMediaVenue2, r3, true);
-                        return;
+                        break;
                     } else {
                         int size = i2 - this.locations.size();
                         if (size >= 0 && size < this.places.size()) {
@@ -495,15 +495,10 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 }
                 r3 = i2;
                 locationCell.setLocation(tL_messageMediaVenue2, r3, true);
-                return;
+                break;
             case 4:
                 ((LocationLoadingCell) viewHolder.itemView).setLoading(this.searching);
-                return;
-            case 5:
-            case 9:
-            case 10:
-            default:
-                return;
+                break;
             case 6:
                 SendLocationCell sendLocationCell = (SendLocationCell) viewHolder.itemView;
                 sendLocationCell.setHasLocation(this.gpsLocation != null);
@@ -513,63 +508,68 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 }
                 sendLocationCell.useDivider = r4;
                 sendLocationCell.invalidate();
-                return;
+                break;
             case 7:
                 ((SendLocationCell) viewHolder.itemView).setHasLocation(this.gpsLocation != null);
-                return;
+                break;
             case 8:
                 SharingLiveLocationCell sharingLiveLocationCell = (SharingLiveLocationCell) viewHolder.itemView;
-                if (this.locationType == 6) {
+                if (this.locationType != 6) {
+                    TLRPC.TL_channelLocation tL_channelLocation = this.chatLocation;
+                    if (tL_channelLocation == null) {
+                        MessageObject messageObject = this.currentMessageObject;
+                        if (messageObject != null && i == 1) {
+                            sharingLiveLocationCell.setDialog(messageObject, this.gpsLocation, this.myLocationDenied);
+                            break;
+                        } else {
+                            int i7 = i - (messageObject != null ? 5 : 2);
+                            LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
+                            if (sharingLocationInfo != null && sharingLocationInfo.period != Integer.MAX_VALUE) {
+                                i7--;
+                            }
+                            if (i7 >= 0 && i7 < this.currentLiveLocations.size()) {
+                                sharingLiveLocationCell.setDialog((LocationActivity.LiveLocation) this.currentLiveLocations.get(i7), this.gpsLocation);
+                                break;
+                            }
+                        }
+                    } else {
+                        sharingLiveLocationCell.setDialog(this.dialogId, tL_channelLocation);
+                        break;
+                    }
+                } else {
                     sharingLiveLocationCell.setDialog(this.currentMessageObject, this.gpsLocation, this.myLocationDenied);
-                    return;
+                    break;
                 }
-                TLRPC.TL_channelLocation tL_channelLocation = this.chatLocation;
-                if (tL_channelLocation != null) {
-                    sharingLiveLocationCell.setDialog(this.dialogId, tL_channelLocation);
-                    return;
-                }
-                MessageObject messageObject = this.currentMessageObject;
-                if (messageObject != null && i == 1) {
-                    sharingLiveLocationCell.setDialog(messageObject, this.gpsLocation, this.myLocationDenied);
-                    return;
-                }
-                int i7 = i - (messageObject != null ? 5 : 2);
-                LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
-                if (sharingLocationInfo != null && sharingLocationInfo.period != Integer.MAX_VALUE) {
-                    i7--;
-                }
-                if (i7 < 0 || i7 >= this.currentLiveLocations.size()) {
-                    return;
-                }
-                sharingLiveLocationCell.setDialog((LocationActivity.LiveLocation) this.currentLiveLocations.get(i7), this.gpsLocation);
-                return;
+                break;
             case 11:
                 viewHolder.itemView.setBackgroundColor(Theme.getColor(this.myLocationDenied ? Theme.key_dialogBackgroundGray : Theme.key_dialogBackground, this.resourcesProvider));
-                return;
+                break;
             case 12:
                 LocationCell locationCell2 = (LocationCell) viewHolder.itemView;
-                if (this.askingForMyLocation) {
+                if (!this.askingForMyLocation) {
+                    if (i == 1) {
+                        tL_messageMediaVenue = this.city;
+                        z2 = this.street != null;
+                        z = this.animated;
+                        str = null;
+                        i3 = 2;
+                    } else {
+                        tL_messageMediaVenue = this.street;
+                        z = this.animated;
+                        i3 = 2;
+                        z2 = false;
+                        str = null;
+                    }
+                    locationCell2.setLocation(tL_messageMediaVenue, str, i3, z2, z);
+                    break;
+                } else {
                     if (i == 1 && this.street != null) {
                         r4 = true;
                     }
                     locationCell2.setLocation(null, 2, r4);
-                    return;
+                    break;
                 }
-                if (i == 1) {
-                    tL_messageMediaVenue = this.city;
-                    z2 = this.street != null;
-                    z = this.animated;
-                    str = null;
-                    i3 = 2;
-                } else {
-                    tL_messageMediaVenue = this.street;
-                    z = this.animated;
-                    i3 = 2;
-                    z2 = false;
-                    str = null;
-                }
-                locationCell2.setLocation(tL_messageMediaVenue, str, i3, z2, z);
-                return;
+                break;
         }
     }
 

@@ -5,7 +5,6 @@ import android.widget.ListView;
 /* loaded from: classes.dex */
 public abstract class ListViewCompat {
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static boolean canScrollList(ListView listView, int i) {
             return listView.canScrollList(i);

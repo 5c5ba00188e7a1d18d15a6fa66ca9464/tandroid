@@ -8,19 +8,16 @@ import com.google.android.gms.internal.icing.zzaa;
 import com.google.android.gms.internal.icing.zzae;
 import com.google.android.gms.tasks.TaskCompletionSource;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzs extends TaskApiCall implements BaseImplementation$ResultHolder {
+abstract class zzs extends TaskApiCall implements BaseImplementation$ResultHolder {
     protected TaskCompletionSource zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzs() {
+    zzs() {
         super(null, false, 9004);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.api.internal.TaskApiCall
-    public final /* bridge */ /* synthetic */ void doExecute(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource) {
+    protected final /* bridge */ /* synthetic */ void doExecute(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource) {
         this.zzb = taskCompletionSource;
         zza((zzaa) ((zzae) anyClient).getService());
     }

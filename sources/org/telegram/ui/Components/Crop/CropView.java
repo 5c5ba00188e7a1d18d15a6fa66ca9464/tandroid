@@ -64,9 +64,7 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
     float[] values;
     private VideoEditTextureView videoEditTextureView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CropRectangle {
+    private static class CropRectangle {
         float[] coords = new float[8];
 
         CropRectangle() {
@@ -98,7 +96,6 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         }
     }
 
-    /* loaded from: classes3.dex */
     public class CropState {
         public float baseRotation;
         public float height;
@@ -257,7 +254,6 @@ public class CropView extends FrameLayout implements CropAreaView.AreaViewListen
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface CropViewListener {
         void onAspectLock(boolean z);
 

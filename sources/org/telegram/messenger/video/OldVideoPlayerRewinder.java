@@ -53,10 +53,8 @@ public class OldVideoPlayerRewinder {
                 OldVideoPlayerRewinder oldVideoPlayerRewinder5 = OldVideoPlayerRewinder.this;
                 oldVideoPlayerRewinder5.seekTo(oldVideoPlayerRewinder5.rewindBackSeekPlayerPosition);
             }
-            long j4 = OldVideoPlayerRewinder.this.rewindBackSeekPlayerPosition - OldVideoPlayerRewinder.this.startRewindFrom;
-            float duration2 = ((float) OldVideoPlayerRewinder.this.rewindBackSeekPlayerPosition) / ((float) OldVideoPlayerRewinder.this.getDuration());
             OldVideoPlayerRewinder oldVideoPlayerRewinder6 = OldVideoPlayerRewinder.this;
-            oldVideoPlayerRewinder6.updateRewindProgressUi(j4, duration2, oldVideoPlayerRewinder6.rewindByBackSeek);
+            oldVideoPlayerRewinder6.updateRewindProgressUi(OldVideoPlayerRewinder.this.rewindBackSeekPlayerPosition - OldVideoPlayerRewinder.this.startRewindFrom, OldVideoPlayerRewinder.this.rewindBackSeekPlayerPosition / OldVideoPlayerRewinder.this.getDuration(), oldVideoPlayerRewinder6.rewindByBackSeek);
             if (OldVideoPlayerRewinder.this.rewindBackSeekPlayerPosition == 0 || OldVideoPlayerRewinder.this.rewindBackSeekPlayerPosition >= duration) {
                 OldVideoPlayerRewinder oldVideoPlayerRewinder7 = OldVideoPlayerRewinder.this;
                 if (oldVideoPlayerRewinder7.rewindByBackSeek) {
@@ -252,7 +250,7 @@ public class OldVideoPlayerRewinder {
     }
 
     public float getVideoProgress() {
-        return ((float) this.rewindBackSeekPlayerPosition) / ((float) getDuration());
+        return this.rewindBackSeekPlayerPosition / getDuration();
     }
 
     protected void onRewindCanceled() {

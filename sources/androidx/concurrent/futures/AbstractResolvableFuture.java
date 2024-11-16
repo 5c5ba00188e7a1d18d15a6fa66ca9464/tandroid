@@ -25,9 +25,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
     static final boolean GENERATE_CANCELLATION_CAUSES = Boolean.parseBoolean(System.getProperty("guava.concurrent.generate_cancellation_cause", "false"));
     private static final Logger log = Logger.getLogger(AbstractResolvableFuture.class.getName());
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static abstract class AtomicHelper {
+    private static abstract class AtomicHelper {
         private AtomicHelper() {
         }
 
@@ -42,9 +40,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         abstract void putThread(Waiter waiter, Thread thread);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Cancellation {
+    private static final class Cancellation {
         static final Cancellation CAUSELESS_CANCELLED;
         static final Cancellation CAUSELESS_INTERRUPTED;
         final Throwable cause;
@@ -66,9 +62,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Failure {
+    private static final class Failure {
         static final Failure FALLBACK_INSTANCE = new Failure(new Throwable("Failure occurred while trying to finish a future.") { // from class: androidx.concurrent.futures.AbstractResolvableFuture.Failure.1
             @Override // java.lang.Throwable
             public synchronized Throwable fillInStackTrace() {
@@ -82,9 +76,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Listener {
+    private static final class Listener {
         static final Listener TOMBSTONE = new Listener(null, null);
         final Executor executor;
         Listener next;
@@ -96,7 +88,6 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class SafeAtomicHelper extends AtomicHelper {
         final AtomicReferenceFieldUpdater listenersUpdater;
         final AtomicReferenceFieldUpdater valueUpdater;
@@ -139,12 +130,9 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SetFuture implements Runnable {
+    private static final class SetFuture implements Runnable {
     }
 
-    /* loaded from: classes.dex */
     private static final class SynchronizedHelper extends AtomicHelper {
         SynchronizedHelper() {
             super();
@@ -206,9 +194,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Waiter {
+    private static final class Waiter {
         static final Waiter TOMBSTONE = new Waiter(false);
         volatile Waiter next;
         volatile Thread thread;
@@ -247,6 +233,9 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
             log.log(Level.SEVERE, "SafeAtomicHelper is broken!", th);
         }
         NULL = new Object();
+    }
+
+    protected AbstractResolvableFuture() {
     }
 
     private void addDoneString(StringBuilder sb) {
@@ -565,8 +554,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         return "remaining delay=[" + ((ScheduledFuture) this).getDelay(TimeUnit.MILLISECONDS) + " ms]";
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean set(Object obj) {
+    protected boolean set(Object obj) {
         if (obj == null) {
             obj = NULL;
         }
@@ -577,8 +565,7 @@ public abstract class AbstractResolvableFuture implements ListenableFuture {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean setException(Throwable th) {
+    protected boolean setException(Throwable th) {
         if (!ATOMIC_HELPER.casValue(this, null, new Failure((Throwable) checkNotNull(th)))) {
             return false;
         }

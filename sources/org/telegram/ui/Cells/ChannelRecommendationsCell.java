@@ -82,8 +82,7 @@ public class ChannelRecommendationsCell {
     private boolean loading = true;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ChannelBlock {
+    static class ChannelBlock {
         public final AvatarDrawable[] avatarDrawable;
         public final ImageReceiver[] avatarImageReceiver;
         public final ButtonBounce bounce;
@@ -120,17 +119,17 @@ public class ChannelRecommendationsCell {
                     chatMessageCell.invalidateOutbounds();
                 }
             };
-            this.avatarImageReceiver = r2;
+            ImageReceiver[] imageReceiverArr = {r3};
+            this.avatarImageReceiver = imageReceiverArr;
             ImageReceiver imageReceiver = new ImageReceiver(chatMessageCell);
-            ImageReceiver[] imageReceiverArr = {imageReceiver};
             imageReceiver.setParentView(chatMessageCell);
             imageReceiverArr[0].setRoundRadius(avatarSize());
             if (chatMessageCell.isCellAttachedToWindow()) {
                 attach();
             }
-            this.avatarDrawable = r3;
+            AvatarDrawable[] avatarDrawableArr = {r5};
+            this.avatarDrawable = avatarDrawableArr;
             AvatarDrawable avatarDrawable = new AvatarDrawable();
-            AvatarDrawable[] avatarDrawableArr = {avatarDrawable};
             avatarDrawable.setInfo(i, chat);
             imageReceiverArr[0].setForUserOrChat(chat, avatarDrawableArr[0]);
             textPaint.setTextSize(AndroidUtilities.dp(11.0f));

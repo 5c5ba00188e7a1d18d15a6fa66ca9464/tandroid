@@ -373,7 +373,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     };
 
-    /* loaded from: classes4.dex */
     class 18 extends FrameLayout {
         AnimatorSet currentButtonsAnimation;
         int currentLightColor;
@@ -673,7 +672,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             GroupCallActivity.this.bigWaveDrawable.maxRadius = AndroidUtilities.dp(65.0f) + (AndroidUtilities.dp(20.0f) * BlobDrawable.FORM_BIG_MAX);
             if (GroupCallActivity.this.animateToAmplitude != GroupCallActivity.this.amplitude) {
                 GroupCallActivity groupCallActivity = GroupCallActivity.this;
-                GroupCallActivity.access$11216(groupCallActivity, groupCallActivity.animateAmplitudeDiff * ((float) j2));
+                GroupCallActivity.access$11216(groupCallActivity, groupCallActivity.animateAmplitudeDiff * j2);
                 if (GroupCallActivity.this.animateAmplitudeDiff <= 0.0f ? GroupCallActivity.this.amplitude < GroupCallActivity.this.animateToAmplitude : GroupCallActivity.this.amplitude > GroupCallActivity.this.animateToAmplitude) {
                     GroupCallActivity groupCallActivity2 = GroupCallActivity.this;
                     groupCallActivity2.amplitude = groupCallActivity2.animateToAmplitude;
@@ -688,9 +687,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     if (z) {
                         if (GroupCallActivity.this.switchProgress != 1.0f) {
                             if (GroupCallActivity.this.prevState == null || GroupCallActivity.this.prevState.currentState != 3) {
-                                GroupCallActivity.access$13716(GroupCallActivity.this, ((float) j2) / 180.0f);
+                                GroupCallActivity.access$13716(GroupCallActivity.this, j2 / 180.0f);
                             } else {
-                                GroupCallActivity.access$13716(GroupCallActivity.this, ((float) j2) / 100.0f);
+                                GroupCallActivity.access$13716(GroupCallActivity.this, j2 / 100.0f);
                             }
                             if (GroupCallActivity.this.switchProgress >= 1.0f) {
                                 GroupCallActivity.this.switchProgress = 1.0f;
@@ -735,7 +734,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             if (GroupCallActivity.this.currentState.currentState != 3) {
                                 z3 = true;
                                 if (GroupCallActivity.this.prevState == null && GroupCallActivity.this.currentState != null && GroupCallActivity.this.currentState.currentState == 3) {
-                                    GroupCallActivity.access$14324(GroupCallActivity.this, ((float) j2) / 180.0f);
+                                    GroupCallActivity.access$14324(GroupCallActivity.this, j2 / 180.0f);
                                     if (GroupCallActivity.this.showWavesProgress < 0.0f) {
                                         f3 = 0.0f;
                                         GroupCallActivity.this.showWavesProgress = f3;
@@ -743,29 +742,29 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                     if (!z3) {
                                     }
                                     if (!z3) {
-                                        GroupCallActivity.access$14424(GroupCallActivity.this, ((float) j2) / 350.0f);
+                                        GroupCallActivity.access$14424(GroupCallActivity.this, j2 / 350.0f);
                                         if (GroupCallActivity.this.showLightingProgress < 0.0f) {
                                         }
                                     }
                                 } else {
                                     if (!z2 && GroupCallActivity.this.showWavesProgress != 1.0f) {
-                                        GroupCallActivity.access$14316(GroupCallActivity.this, ((float) j2) / 350.0f);
+                                        GroupCallActivity.access$14316(GroupCallActivity.this, j2 / 350.0f);
                                         if (GroupCallActivity.this.showWavesProgress > 1.0f) {
                                             GroupCallActivity.this.showWavesProgress = 1.0f;
                                         }
                                     } else if (!z2) {
                                         f3 = 0.0f;
                                         if (GroupCallActivity.this.showWavesProgress != 0.0f) {
-                                            GroupCallActivity.access$14324(GroupCallActivity.this, ((float) j2) / 350.0f);
+                                            GroupCallActivity.access$14324(GroupCallActivity.this, j2 / 350.0f);
                                         }
                                     }
                                     if (!z3 && GroupCallActivity.this.showLightingProgress != 1.0f) {
-                                        GroupCallActivity.access$14416(GroupCallActivity.this, ((float) j2) / 350.0f);
+                                        GroupCallActivity.access$14416(GroupCallActivity.this, j2 / 350.0f);
                                         if (GroupCallActivity.this.showLightingProgress > 1.0f) {
                                             GroupCallActivity.this.showLightingProgress = 1.0f;
                                         }
                                     } else if (!z3 && GroupCallActivity.this.showLightingProgress != 0.0f) {
-                                        GroupCallActivity.access$14424(GroupCallActivity.this, ((float) j2) / 350.0f);
+                                        GroupCallActivity.access$14424(GroupCallActivity.this, j2 / 350.0f);
                                         if (GroupCallActivity.this.showLightingProgress < 0.0f) {
                                             GroupCallActivity.this.showLightingProgress = 0.0f;
                                         }
@@ -1129,9 +1128,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements Runnable {
+    class 2 implements Runnable {
         2() {
         }
 
@@ -1180,9 +1177,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 20 implements View.OnClickListener {
+    class 20 implements View.OnClickListener {
         Runnable finishRunnable = new Runnable() { // from class: org.telegram.ui.GroupCallActivity.20.1
             @Override // java.lang.Runnable
             public void run() {
@@ -1367,9 +1362,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 21 extends AudioPlayerAlert.ClippingTextViewSwitcher {
+    class 21 extends AudioPlayerAlert.ClippingTextViewSwitcher {
         final /* synthetic */ Context val$context;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -1407,9 +1400,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 29 extends GroupCallRenderersContainer {
+    class 29 extends GroupCallRenderersContainer {
         ValueAnimator uiVisibilityAnimator;
 
         29(Context context, RecyclerView recyclerView, RecyclerView recyclerView2, ArrayList arrayList, ChatObject.Call call, GroupCallActivity groupCallActivity) {
@@ -1561,14 +1552,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 7 extends ActionBar.ActionBarMenuOnItemClick {
+    class 7 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends GroupCallRecordAlert {
+        class 1 extends GroupCallRecordAlert {
             1(Context context, TLRPC.Chat chat, boolean z) {
                 super(context, chat, z);
             }
@@ -2095,8 +2082,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class AvatarUpdaterDelegate implements ImageUpdater.ImageUpdaterDelegate {
+    class AvatarUpdaterDelegate implements ImageUpdater.ImageUpdaterDelegate {
         private TLRPC.FileLocation avatar;
         private TLRPC.FileLocation avatarBig;
         private final long peerId;
@@ -2297,8 +2283,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class GroupCallItemAnimator extends DefaultItemAnimator {
+    class GroupCallItemAnimator extends DefaultItemAnimator {
         HashSet addingHolders;
         public float animationProgress;
         public ValueAnimator animator;
@@ -2399,7 +2384,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LightningView extends View {
         private int[] currentColors;
         private final Paint paint;
@@ -2463,9 +2447,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private int addMemberRow;
         private boolean hasSelfUser;
         private int invitedEndRow;
@@ -2895,9 +2877,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class RecordCallDrawable extends Drawable {
+    private static class RecordCallDrawable extends Drawable {
         private long lastUpdateTime;
         private View parentView;
         private boolean recording;
@@ -2929,14 +2909,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 this.lastUpdateTime = elapsedRealtime;
                 int i = this.state;
                 if (i == 0) {
-                    float f = this.alpha + (((float) j) / 2000.0f);
+                    float f = this.alpha + (j / 2000.0f);
                     this.alpha = f;
                     if (f >= 1.0f) {
                         this.alpha = 1.0f;
                         this.state = 1;
                     }
                 } else if (i == 1) {
-                    float f2 = this.alpha - (((float) j) / 2000.0f);
+                    float f2 = this.alpha - (j / 2000.0f);
                     this.alpha = f2;
                     if (f2 < 0.5f) {
                         this.alpha = 0.5f;
@@ -2981,9 +2961,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class SmallRecordCallDrawable extends Drawable {
+    private static class SmallRecordCallDrawable extends Drawable {
         private long lastUpdateTime;
         private View parentView;
         private int state;
@@ -3016,14 +2994,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             this.lastUpdateTime = elapsedRealtime;
             int i = this.state;
             if (i == 0) {
-                float f = this.alpha + (((float) j) / 2000.0f);
+                float f = this.alpha + (j / 2000.0f);
                 this.alpha = f;
                 if (f >= 1.0f) {
                     this.alpha = 1.0f;
                     this.state = 1;
                 }
             } else if (i == 1) {
-                float f2 = this.alpha - (((float) j) / 2000.0f);
+                float f2 = this.alpha - (j / 2000.0f);
                 this.alpha = f2;
                 if (f2 < 0.5f) {
                     this.alpha = 0.5f;
@@ -3057,9 +3035,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class UpdateCallback implements ListUpdateCallback {
+    private static class UpdateCallback implements ListUpdateCallback {
         final RecyclerView.Adapter adapter;
 
         private UpdateCallback(RecyclerView.Adapter adapter) {
@@ -3087,9 +3063,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class VolumeSlider extends FrameLayout {
+    private class VolumeSlider extends FrameLayout {
         private boolean captured;
         private float colorChangeProgress;
         private int currentColor;
@@ -3241,7 +3215,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             this.lastUpdateTime = elapsedRealtime;
             float f2 = this.colorChangeProgress;
             if (f2 < 1.0f) {
-                float f3 = f2 + (((float) j) / 200.0f);
+                float f3 = f2 + (j / 200.0f);
                 this.colorChangeProgress = f3;
                 if (f3 > 1.0f) {
                     this.colorChangeProgress = 1.0f;
@@ -3300,7 +3274,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     float[] fArr3 = this.volumeAlphas;
                     float f9 = fArr3[i8];
                     if (f9 < 1.0f) {
-                        float f10 = f9 + (((float) j) / 180.0f);
+                        float f10 = f9 + (j / 180.0f);
                         fArr3[i8] = f10;
                         if (f10 > 1.0f) {
                             fArr3[i8] = 1.0f;
@@ -3320,7 +3294,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     float[] fArr4 = this.volumeAlphas;
                     float f11 = fArr4[i8];
                     if (f11 > 0.0f) {
-                        float f12 = f11 - (((float) j) / 180.0f);
+                        float f12 = f11 - (j / 180.0f);
                         fArr4[i8] = f12;
                         if (f12 < 0.0f) {
                             fArr4[i8] = 0.0f;
@@ -3431,7 +3405,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public class WatchersView extends LinearLayout {
         private float lastWidth;
         private final AnimatedTextView watchersCountTextView;
@@ -3467,7 +3440,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class WeavingState {
         public int currentState;
         private float duration;
@@ -3513,7 +3485,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 this.startY = this.targetY;
                 setTarget();
             }
-            float f3 = (float) j;
+            float f3 = j;
             float f4 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f3) + (f3 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * f);
             this.time = f4;
             float f5 = this.duration;
@@ -3762,9 +3734,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         recordStatusDrawable.setColor(Theme.getColor(i5));
         recordStatusDrawable.start();
         ActionBar actionBar = new ActionBar(context) { // from class: org.telegram.ui.GroupCallActivity.6
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.ActionBar, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (getAdditionalSubtitleTextView().getVisibility() == 0) {
                     canvas.save();
@@ -4730,9 +4701,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         this.targetX = ((Utilities.random.nextInt(100) - 50) * 0.2f) / 50.0f;
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.ActionBar.SimpleTextView
-                    public boolean createLayout(int i11) {
+                    protected boolean createLayout(int i11) {
                         boolean createLayout = super.createLayout(i11);
                         int textWidth = getTextWidth();
                         if (textWidth != this.lastTextWidth) {
@@ -4750,7 +4720,6 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         return createLayout;
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     /* JADX WARN: Removed duplicated region for block: B:14:0x0065  */
                     /* JADX WARN: Removed duplicated region for block: B:21:0x00ba  */
                     /* JADX WARN: Removed duplicated region for block: B:25:0x008c  */
@@ -4758,7 +4727,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     /*
                         Code decompiled incorrectly, please refer to instructions dump.
                     */
-                    public void onDraw(Canvas canvas) {
+                    protected void onDraw(Canvas canvas) {
                         float f;
                         long j2;
                         float f2;
@@ -4771,7 +4740,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                 f = 1.0f;
                                 if (currentTimeMillis >= 0) {
                                     if (currentTimeMillis < 5000) {
-                                        f = 1.0f - (((float) currentTimeMillis) / 5000.0f);
+                                        f = 1.0f - (currentTimeMillis / 5000.0f);
                                     }
                                 }
                                 this.matrix.reset();
@@ -4792,7 +4761,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                     this.startX = this.targetX;
                                     setTarget();
                                 }
-                                float f5 = (float) j2;
+                                float f5 = j2;
                                 f3 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f5) + (f5 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * GroupCallActivity.this.amplitude);
                                 this.time = f3;
                                 f4 = this.duration;
@@ -4823,7 +4792,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             }
                             this.startX = this.targetX;
                             setTarget();
-                            float f52 = (float) j2;
+                            float f52 = j2;
                             f3 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f52) + (f52 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * GroupCallActivity.this.amplitude);
                             this.time = f3;
                             f4 = this.duration;
@@ -4861,14 +4830,13 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.GroupCallActivity.10
                 private final LongSparseIntArray visiblePeerTmp = new LongSparseIntArray();
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 /* JADX WARN: Removed duplicated region for block: B:29:0x00ae  */
                 /* JADX WARN: Removed duplicated region for block: B:35:0x00d4  */
                 @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     float f;
                     int i11;
                     int i12;
@@ -4948,9 +4916,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     return super.drawChild(canvas, view, j2);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z2, int i11, int i12, int i13, int i14) {
+                protected void onLayout(boolean z2, int i11, int i12, int i13, int i14) {
                     super.onLayout(z2, i11, i12, i13, i14);
                     GroupCallActivity.this.itemAnimator.updateBackgroundBeforeAnimation();
                 }
@@ -5129,9 +5096,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             defaultItemAnimator.setAddDuration(350L);
             defaultItemAnimator.setMoveDuration(350L);
             this.tabletVideoGridView.setItemAnimator(new DefaultItemAnimator() { // from class: org.telegram.ui.GroupCallActivity.16
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                     GroupCallActivity.this.listView.invalidate();
                     GroupCallActivity.this.renderersContainer.invalidate();
                     ((BottomSheet) GroupCallActivity.this).containerView.invalidate();
@@ -5539,9 +5505,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 }
             };
             DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.GroupCallActivity.26
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                     GroupCallActivity.this.listView.invalidate();
                     GroupCallActivity.this.renderersContainer.invalidate();
                     ((BottomSheet) GroupCallActivity.this).containerView.invalidate();
@@ -6842,14 +6807,13 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         RecyclerListView recyclerListView6 = new RecyclerListView(context) { // from class: org.telegram.ui.GroupCallActivity.10
             private final LongSparseIntArray visiblePeerTmp = new LongSparseIntArray();
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:29:0x00ae  */
             /* JADX WARN: Removed duplicated region for block: B:35:0x00d4  */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 float f;
                 int i112;
                 int i122;
@@ -6929,9 +6893,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 return super.drawChild(canvas, view5, j2);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z2, int i112, int i122, int i132, int i142) {
+            protected void onLayout(boolean z2, int i112, int i122, int i132, int i142) {
                 super.onLayout(z2, i112, i122, i132, i142);
                 GroupCallActivity.this.itemAnimator.updateBackgroundBeforeAnimation();
             }
@@ -7107,9 +7070,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         defaultItemAnimator3.setAddDuration(350L);
         defaultItemAnimator3.setMoveDuration(350L);
         this.tabletVideoGridView.setItemAnimator(new DefaultItemAnimator() { // from class: org.telegram.ui.GroupCallActivity.16
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 GroupCallActivity.this.listView.invalidate();
                 GroupCallActivity.this.renderersContainer.invalidate();
                 ((BottomSheet) GroupCallActivity.this).containerView.invalidate();
@@ -7494,9 +7456,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
         };
         DefaultItemAnimator defaultItemAnimator22 = new DefaultItemAnimator() { // from class: org.telegram.ui.GroupCallActivity.26
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 GroupCallActivity.this.listView.invalidate();
                 GroupCallActivity.this.renderersContainer.invalidate();
                 ((BottomSheet) GroupCallActivity.this).containerView.invalidate();
@@ -12153,9 +12114,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -12896,16 +12856,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.parentActivity.addOnUserLeaveHintListener(this.onUserLeaveHintListener);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean onCustomOpenAnimation() {
+    protected boolean onCustomOpenAnimation() {
         groupCallUiVisible = true;
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallVisibilityChanged, new Object[0]);
         GroupCallPip.updateVisibility(getContext());

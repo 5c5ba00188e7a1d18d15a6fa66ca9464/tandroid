@@ -1,6 +1,6 @@
 package kotlin.text;
 
-import kotlin.collections.ArraysKt;
+import kotlin.collections.ArraysKt___ArraysKt;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.RangesKt___RangesKt;
 
@@ -29,10 +29,12 @@ public abstract class StringsKt__StringsKt extends StringsKt__StringsJVMKt {
 
     public static final int lastIndexOfAny(CharSequence charSequence, char[] chars, int i, boolean z) {
         int coerceAtMost;
+        char single;
         Intrinsics.checkNotNullParameter(charSequence, "<this>");
         Intrinsics.checkNotNullParameter(chars, "chars");
         if (!z && chars.length == 1 && (charSequence instanceof String)) {
-            return ((String) charSequence).lastIndexOf(ArraysKt.single(chars), i);
+            single = ArraysKt___ArraysKt.single(chars);
+            return ((String) charSequence).lastIndexOf(single, i);
         }
         for (coerceAtMost = RangesKt___RangesKt.coerceAtMost(i, getLastIndex(charSequence)); -1 < coerceAtMost; coerceAtMost--) {
             char charAt = charSequence.charAt(coerceAtMost);

@@ -77,9 +77,7 @@ public class CryptoUtils {
     private final Map mCryptoHandlers;
     private final KeyStore mKeyStore;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class CryptoHandlerEntry {
+    static class CryptoHandlerEntry {
         int mAliasIndex;
         final CryptoHandler mCryptoHandler;
 
@@ -89,7 +87,6 @@ public class CryptoUtils {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DecryptedData {
         final String mDecryptedData;
         final String mNewEncryptedData;
@@ -108,9 +105,7 @@ public class CryptoUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface ICipher {
+    interface ICipher {
         byte[] doFinal(byte[] bArr);
 
         byte[] doFinal(byte[] bArr, int i, int i2);
@@ -124,15 +119,12 @@ public class CryptoUtils {
         void init(int i, Key key, AlgorithmParameterSpec algorithmParameterSpec);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface ICryptoFactory {
+    interface ICryptoFactory {
         ICipher getCipher(String str, String str2);
 
         IKeyGenerator getKeyGenerator(String str, String str2);
     }
 
-    /* loaded from: classes.dex */
     interface IKeyGenerator {
         void generateKey();
 

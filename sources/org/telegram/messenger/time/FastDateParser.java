@@ -76,9 +76,7 @@ public class FastDateParser implements DateParser, Serializable {
     private static final Strategy SECOND_STRATEGY = new NumberStrategy(13);
     private static final Strategy MILLISECOND_STRATEGY = new NumberStrategy(14);
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CopyQuotedStrategy extends Strategy {
+    private static class CopyQuotedStrategy extends Strategy {
         private final String formatField;
 
         CopyQuotedStrategy(String str) {
@@ -102,7 +100,6 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* loaded from: classes3.dex */
     private static class NumberStrategy extends Strategy {
         private final int field;
 
@@ -140,9 +137,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static abstract class Strategy {
+    private static abstract class Strategy {
         private Strategy() {
         }
 
@@ -156,9 +151,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TextStrategy extends Strategy {
+    private static class TextStrategy extends Strategy {
         private final int field;
         private final Map<String, Integer> keyValues;
 
@@ -198,9 +191,7 @@ public class FastDateParser implements DateParser, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TimeZoneStrategy extends Strategy {
+    private static class TimeZoneStrategy extends Strategy {
         private static final int ID = 0;
         private static final int LONG_DST = 3;
         private static final int LONG_STD = 1;
@@ -268,8 +259,7 @@ public class FastDateParser implements DateParser, Serializable {
         this(str, timeZone, locale, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public FastDateParser(String str, TimeZone timeZone, Locale locale, Date date) {
+    protected FastDateParser(String str, TimeZone timeZone, Locale locale, Date date) {
         int i;
         this.pattern = str;
         this.timeZone = timeZone;
@@ -388,8 +378,6 @@ public class FastDateParser implements DateParser, Serializable {
         return strategy;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:5:0x000e. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:6:0x0011. Please report as an issue. */
     private Strategy getStrategy(String str, Calendar calendar) {
         int i;
         char charAt = str.charAt(0);

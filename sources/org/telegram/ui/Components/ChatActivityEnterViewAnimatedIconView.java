@@ -14,9 +14,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     private State currentState;
     private Map stateMap;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ChatActivityEnterViewAnimatedIconView$State;
 
         static {
@@ -33,7 +31,6 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public enum State {
         VOICE,
         VIDEO,
@@ -43,7 +40,6 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
         GIF
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Enum visitor error
     jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'VOICE_TO_VIDEO' uses external variables
     	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
@@ -57,8 +53,7 @@ public class ChatActivityEnterViewAnimatedIconView extends RLottieImageView {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes3.dex */
-    public static final class TransitState {
+    private static final class TransitState {
         private static final /* synthetic */ TransitState[] $VALUES;
         public static final TransitState GIF_TO_KEYBOARD;
         public static final TransitState GIF_TO_SMILE;

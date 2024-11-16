@@ -81,7 +81,7 @@ public class AnimatedColor {
             this.transitionStart = elapsedRealtime;
         }
         if (this.transition) {
-            float clamp = MathUtils.clamp(((float) ((elapsedRealtime - this.transitionStart) - this.transitionDelay)) / ((float) this.transitionDuration), 0.0f, 1.0f);
+            float clamp = MathUtils.clamp(((elapsedRealtime - this.transitionStart) - this.transitionDelay) / this.transitionDuration, 0.0f, 1.0f);
             if (elapsedRealtime - this.transitionStart >= this.transitionDelay) {
                 TimeInterpolator timeInterpolator = this.transitionInterpolator;
                 this.value = timeInterpolator == null ? ColorUtils.blendARGB(this.startValue, this.targetValue, clamp) : ColorUtils.blendARGB(this.startValue, this.targetValue, timeInterpolator.getInterpolation(clamp));

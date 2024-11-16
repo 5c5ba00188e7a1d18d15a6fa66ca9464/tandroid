@@ -26,9 +26,7 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public abstract class TypefaceCompatUtil {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api19Impl {
+    static class Api19Impl {
         static ParcelFileDescriptor openFileDescriptor(ContentResolver contentResolver, Uri uri, String str, CancellationSignal cancellationSignal) {
             return contentResolver.openFileDescriptor(uri, str, cancellationSignal);
         }
@@ -151,13 +149,7 @@ public abstract class TypefaceCompatUtil {
                     return map;
                 } finally {
                 }
-            } catch (Throwable th) {
-                try {
-                    openFileDescriptor.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-                throw th;
+            } finally {
             }
         } catch (IOException unused) {
             return null;

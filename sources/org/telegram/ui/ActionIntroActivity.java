@@ -62,7 +62,6 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     private TextView subtitleTextView;
     private TextView titleTextView;
 
-    /* loaded from: classes4.dex */
     public interface ActionIntroQRLoginDelegate {
         void didFindQRCode(String str);
     }

@@ -71,7 +71,6 @@ public class GroupMedia {
     private Path clipPath2 = new Path();
     private RectF clipRect = new RectF();
 
-    /* loaded from: classes4.dex */
     public static class GroupedMessages {
         public boolean hasSibling;
         float height;
@@ -85,9 +84,7 @@ public class GroupMedia {
         public float maxSizeHeight = 814.0f;
         public final TransitionParams transitionParams = new TransitionParams();
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public static class MessageGroupedLayoutAttempt {
+        private static class MessageGroupedLayoutAttempt {
             public float[] heights;
             public int[] lineCounts;
 
@@ -107,7 +104,6 @@ public class GroupMedia {
             }
         }
 
-        /* loaded from: classes4.dex */
         public static class TransitionParams {
             public float captionEnterProgress = 1.0f;
         }
@@ -670,7 +666,6 @@ public class GroupMedia {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class MediaHolder implements DownloadController.FileDownloadProgressListener {
         private final int TAG;
         public boolean album;
@@ -785,7 +780,7 @@ public class GroupMedia {
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressDownload(String str, long j, long j2) {
-            float min = j2 == 0 ? 0.0f : Math.min(1.0f, ((float) j) / ((float) j2));
+            float min = j2 == 0 ? 0.0f : Math.min(1.0f, j / j2);
             RadialProgress2 radialProgress2 = this.radialProgress;
             this.media.downloadProgress = min;
             radialProgress2.setProgress(min, true);
@@ -795,7 +790,7 @@ public class GroupMedia {
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressUpload(String str, long j, long j2, boolean z) {
-            float min = j2 == 0 ? 0.0f : Math.min(1.0f, ((float) j) / ((float) j2));
+            float min = j2 == 0 ? 0.0f : Math.min(1.0f, j / j2);
             RadialProgress2 radialProgress2 = this.radialProgress;
             this.media.uploadProgress = min;
             radialProgress2.setProgress(min, true);
@@ -1075,7 +1070,7 @@ public class GroupMedia {
             imageReceiver.setImageCoords(i3 + i4, i5 + i6, mediaHolder.r - i4, mediaHolder.b - i6);
             mediaHolder.imageReceiver.draw(canvas);
             if (mediaHolder.imageReceiver.getAnimation() != null) {
-                mediaHolder.setTime(Math.round(((float) mediaHolder.imageReceiver.getAnimation().currentTime) / 1000.0f));
+                mediaHolder.setTime(Math.round(mediaHolder.imageReceiver.getAnimation().currentTime / 1000.0f));
             }
             if (f > 0.0f) {
                 f3 = Math.min(this.x + mediaHolder.l, f3);

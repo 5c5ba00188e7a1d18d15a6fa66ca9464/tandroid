@@ -59,8 +59,7 @@ public final class MenuItemImpl implements SupportMenuItem {
     private int mFlags = 16;
     private boolean mIsActionViewExpanded = false;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MenuItemImpl(MenuBuilder menuBuilder, int i, int i2, int i3, int i4, CharSequence charSequence, int i5) {
+    MenuItemImpl(MenuBuilder menuBuilder, int i, int i2, int i3, int i4, CharSequence charSequence, int i5) {
         this.mMenu = menuBuilder;
         this.mId = i2;
         this.mGroup = i;
@@ -220,13 +219,11 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this.mOrdering;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public char getShortcut() {
+    char getShortcut() {
         return this.mMenu.isQwertyMode() ? this.mShortcutAlphabeticChar : this.mShortcutNumericChar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getShortcutLabel() {
+    String getShortcutLabel() {
         int i;
         char shortcut = getShortcut();
         if (shortcut == 0) {
@@ -280,8 +277,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         return charSequence != null ? charSequence : this.mTitle;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CharSequence getTitleForItemView(MenuView.ItemView itemView) {
+    CharSequence getTitleForItemView(MenuView.ItemView itemView) {
         return (itemView == null || !itemView.prefersCondensedTitle()) ? getTitle() : getTitleCondensed();
     }
 
@@ -445,8 +441,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setCheckedInt(boolean z) {
+    void setCheckedInt(boolean z) {
         int i = this.mFlags;
         int i2 = (z ? 2 : 0) | (i & (-3));
         this.mFlags = i2;
@@ -519,8 +514,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         this.mFlags = z ? this.mFlags | 32 : this.mFlags & (-33);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setMenuInfo(ContextMenu.ContextMenuInfo contextMenuInfo) {
+    void setMenuInfo(ContextMenu.ContextMenuInfo contextMenuInfo) {
         this.mMenuInfo = contextMenuInfo;
     }
 
@@ -656,8 +650,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean setVisibleInt(boolean z) {
+    boolean setVisibleInt(boolean z) {
         int i = this.mFlags;
         int i2 = (z ? 0 : 8) | (i & (-9));
         this.mFlags = i2;
@@ -668,8 +661,7 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this.mMenu.getOptionalIconsVisible();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean shouldShowShortcut() {
+    boolean shouldShowShortcut() {
         return this.mMenu.isShortcutsVisible() && getShortcut() != 0;
     }
 

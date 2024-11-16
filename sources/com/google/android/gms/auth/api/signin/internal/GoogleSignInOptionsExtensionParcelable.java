@@ -13,8 +13,7 @@ public class GoogleSignInOptionsExtensionParcelable extends AbstractSafeParcelab
     private int zab;
     private Bundle zac;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GoogleSignInOptionsExtensionParcelable(int i, int i2, Bundle bundle) {
+    GoogleSignInOptionsExtensionParcelable(int i, int i2, Bundle bundle) {
         this.zaa = i;
         this.zab = i2;
         this.zac = bundle;

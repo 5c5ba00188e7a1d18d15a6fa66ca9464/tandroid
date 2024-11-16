@@ -108,9 +108,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     public ArrayList unusedBitmaps;
     private final ArrayList views;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class BackgroundView extends View {
+    private class BackgroundView extends View {
         public BackgroundView(Context context) {
             super(context);
         }
@@ -307,8 +305,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class BlurBackgroundTask implements Runnable {
+    class BlurBackgroundTask implements Runnable {
         BlurBitmap finalBitmap;
         int radius;
 
@@ -420,9 +417,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class BlurBitmap {
+    private static class BlurBitmap {
         Bitmap bottomBitmap;
         Canvas bottomCanvas;
         float bottomOffset;
@@ -448,12 +443,10 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface IViewWithInvalidateCallback {
         void listenInvalidate(Runnable runnable);
     }
 
-    /* loaded from: classes3.dex */
     public static class SimplerCanvas extends Canvas {
         public SimplerCanvas(Bitmap bitmap) {
             super(bitmap);
@@ -506,7 +499,6 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface SizeNotifierFrameLayoutDelegate {
         void onSizeChanged(int i, boolean z);
     }
@@ -725,9 +717,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         boolean[] zArr = this.blurNodeInvalidatedThisFrame;
         zArr[0] = false;
         zArr[1] = false;
@@ -870,8 +861,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         canvas.restore();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
+    protected void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
     }
 
     public Drawable getBackgroundImage() {
@@ -882,8 +872,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r2v4 int, still in use, count: 2, list:
           (r2v4 int) from 0x0019: IF  (r2v4 int) != (0 int)  -> B:8:0x002b A[HIDDEN]
           (r2v4 int) from 0x002b: PHI (r2v2 int) = (r2v0 int), (r2v1 int), (r2v0 int), (r2v3 int), (r2v4 int), (r2v5 int) binds: [B:18:0x0027, B:13:0x0029, B:15:0x001e, B:16:0x0021, B:12:0x0019, B:7:0x0013] A[DONT_GENERATE, DONT_INLINE]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
@@ -989,13 +979,11 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return 0.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Drawable getNewDrawable() {
+    protected Drawable getNewDrawable() {
         return Theme.getCachedWallpaperNonBlocking();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean getNewDrawableMotion() {
+    protected boolean getNewDrawableMotion() {
         return Theme.isWallpaperMotion();
     }
 
@@ -1041,8 +1029,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean isStatusBarVisible() {
+    protected boolean isStatusBarVisible() {
         return true;
     }
 
@@ -1078,9 +1065,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
         if (this.needBlur && !this.blurIsRunning) {
@@ -1097,9 +1083,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attached = false;
         this.blurPaintTop.setShader(null);
@@ -1132,9 +1117,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         notifyHeightChanged();
     }

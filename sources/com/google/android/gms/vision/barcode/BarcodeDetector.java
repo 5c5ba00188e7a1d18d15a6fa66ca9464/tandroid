@@ -14,7 +14,6 @@ import java.nio.ByteBuffer;
 public final class BarcodeDetector extends Detector {
     private final com.google.android.gms.internal.vision.zzm zza;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private Context zza;
         private com.google.android.gms.internal.vision.zzk zzb = new com.google.android.gms.internal.vision.zzk();

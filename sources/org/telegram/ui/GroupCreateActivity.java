@@ -132,7 +132,6 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     private boolean toSelectMiniapps;
     private boolean toSelectPremium;
 
-    /* loaded from: classes4.dex */
     public static class Comparator implements java.util.Comparator {
         /* JADX INFO: Access modifiers changed from: private */
         public static String getName(TLObject tLObject) {
@@ -149,10 +148,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface ContactsAddActivityDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$needAddBot(ContactsAddActivityDelegate contactsAddActivityDelegate, TLRPC.User user) {
             }
@@ -163,12 +160,10 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         void needAddBot(TLRPC.User user);
     }
 
-    /* loaded from: classes4.dex */
     public interface GroupCreateActivityDelegate {
         void didSelectUsers(boolean z, boolean z2, ArrayList arrayList);
     }
 
-    /* loaded from: classes4.dex */
     public class GroupCreateAdapter extends RecyclerListView.FastScrollAdapter {
         private Context context;
         private int currentItemsCount;
@@ -747,9 +742,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     graySectionCell = new TextCell(this.context);
                 } else {
                     StickerEmptyView stickerEmptyView = new StickerEmptyView(this.context, null, i2) { // from class: org.telegram.ui.GroupCreateActivity.GroupCreateAdapter.1
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.StickerEmptyView, android.view.ViewGroup, android.view.View
-                        public void onAttachedToWindow() {
+                        protected void onAttachedToWindow() {
                             super.onAttachedToWindow();
                             this.stickerView.getImageReceiver().startAnimation();
                         }
@@ -808,7 +802,6 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
     private static class Letter extends TLRPC.TL_contact {
         public final String letter;
 
@@ -817,9 +810,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SpansContainer extends ViewGroup {
+    private class SpansContainer extends ViewGroup {
         private View addingSpan;
         private int animationIndex;
         private boolean animationStarted;

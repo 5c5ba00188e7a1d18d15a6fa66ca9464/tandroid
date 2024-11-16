@@ -10,7 +10,6 @@ import java.util.Set;
 /* loaded from: classes.dex */
 public abstract class Multimaps {
 
-    /* loaded from: classes.dex */
     private static class CustomListMultimap extends AbstractListMultimap {
         transient Supplier factory;
 
@@ -36,8 +35,10 @@ public abstract class Multimaps {
         }
     }
 
-    /* loaded from: classes.dex */
     static abstract class Entries extends AbstractCollection {
+        Entries() {
+        }
+
         @Override // java.util.AbstractCollection, java.util.Collection
         public void clear() {
             multimap().clear();
@@ -69,8 +70,7 @@ public abstract class Multimaps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean equalsImpl(Multimap multimap, Object obj) {
+    static boolean equalsImpl(Multimap multimap, Object obj) {
         if (obj == multimap) {
             return true;
         }

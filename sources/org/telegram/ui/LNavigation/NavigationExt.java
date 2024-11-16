@@ -8,7 +8,6 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 /* loaded from: classes3.dex */
 public abstract class NavigationExt {
 
-    /* loaded from: classes3.dex */
     public interface FragmentConsumer {
         boolean consume(BaseFragment baseFragment);
     }

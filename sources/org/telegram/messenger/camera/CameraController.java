@@ -57,9 +57,7 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     private ArrayList<Runnable> onFinishCameraInitRunnables = new ArrayList<>();
     protected ThreadPoolExecutor threadPool = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue());
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class CompareSizesByArea implements Comparator<Size> {
+    static class CompareSizesByArea implements Comparator<Size> {
         CompareSizesByArea() {
         }
 
@@ -69,10 +67,8 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ErrorCallback {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onError(ErrorCallback errorCallback, int i, Camera camera, CameraSessionWrapper cameraSessionWrapper) {
             }
@@ -81,14 +77,12 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         void onError(int i, Camera camera, CameraSessionWrapper cameraSessionWrapper);
     }
 
-    /* loaded from: classes3.dex */
     public interface ICameraView {
         boolean startRecording(File file, Runnable runnable);
 
         void stopRecording();
     }
 
-    /* loaded from: classes3.dex */
     public interface VideoTakeCallback {
         void onFinishVideoRecording(String str, long j);
     }
@@ -216,16 +210,9 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             try {
                 fileOutputStream.close();
             } catch (Throwable unused2) {
-                bitmap = createVideoThumbnail;
-                file = file2;
-                SharedConfig.saveConfig();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraController$$ExternalSyntheticLambda8
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        CameraController.this.lambda$finishRecordingVideo$15(file, bitmap, j2);
-                    }
-                });
             }
+            bitmap = createVideoThumbnail;
+            file = file2;
         } else {
             file = null;
             bitmap = null;

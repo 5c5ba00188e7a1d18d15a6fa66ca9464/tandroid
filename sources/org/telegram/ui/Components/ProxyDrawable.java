@@ -56,7 +56,7 @@ public class ProxyDrawable extends Drawable {
             }
             paint.setColor(Theme.getColor(i));
             this.outerPaint.setAlpha((int) ((1.0f - this.connectedAnimationProgress) * 255.0f));
-            this.radOffset = (int) (this.radOffset + (((float) (360 * j)) / 1000.0f));
+            this.radOffset = (int) (this.radOffset + ((360 * j) / 1000.0f));
             int width = getBounds().width();
             int height = getBounds().height();
             int dp = AndroidUtilities.dp(4.0f);
@@ -73,7 +73,7 @@ public class ProxyDrawable extends Drawable {
         if (z) {
             float f = this.connectedAnimationProgress;
             if (f != 1.0f) {
-                float f2 = f + (((float) j) / 300.0f);
+                float f2 = f + (j / 300.0f);
                 this.connectedAnimationProgress = f2;
                 if (f2 > 1.0f) {
                     this.connectedAnimationProgress = 1.0f;
@@ -86,7 +86,7 @@ public class ProxyDrawable extends Drawable {
         }
         float f3 = this.connectedAnimationProgress;
         if (f3 != 0.0f) {
-            float f4 = f3 - (((float) j) / 300.0f);
+            float f4 = f3 - (j / 300.0f);
             this.connectedAnimationProgress = f4;
             if (f4 < 0.0f) {
                 this.connectedAnimationProgress = 0.0f;

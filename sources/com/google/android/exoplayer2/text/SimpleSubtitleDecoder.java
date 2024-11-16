@@ -8,8 +8,7 @@ import java.nio.ByteBuffer;
 public abstract class SimpleSubtitleDecoder extends SimpleDecoder implements SubtitleDecoder {
     private final String name;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public SimpleSubtitleDecoder(String str) {
+    protected SimpleSubtitleDecoder(String str) {
         super(new SubtitleInputBuffer[2], new SubtitleOutputBuffer[2]);
         this.name = str;
         setInitialInputBufferSize(1024);

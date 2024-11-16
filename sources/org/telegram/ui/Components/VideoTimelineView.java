@@ -57,7 +57,6 @@ public class VideoTimelineView extends View {
     boolean useClip;
     private long videoLength;
 
-    /* loaded from: classes3.dex */
     public static class TimeHintView extends View {
         private float cx;
         private long lastTime;
@@ -161,7 +160,6 @@ public class VideoTimelineView extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface VideoTimelineViewDelegate {
         void didStartDragging();
 
@@ -479,7 +477,7 @@ public class VideoTimelineView extends View {
                 }
                 this.pressedLeft = true;
                 this.pressDx = (int) (x - dp);
-                this.timeHintView.setTime((int) ((((float) this.videoLength) / 1000.0f) * this.progressLeft));
+                this.timeHintView.setTime((int) ((this.videoLength / 1000.0f) * this.progressLeft));
                 this.timeHintView.setCx(dp + getLeft() + AndroidUtilities.dp(4.0f));
                 this.timeHintView.show(true);
                 invalidate();
@@ -492,7 +490,7 @@ public class VideoTimelineView extends View {
                 }
                 this.pressedRight = true;
                 this.pressDx = (int) (x - dp2);
-                this.timeHintView.setTime((int) ((((float) this.videoLength) / 1000.0f) * this.progressRight));
+                this.timeHintView.setTime((int) ((this.videoLength / 1000.0f) * this.progressRight));
                 this.timeHintView.setCx((dp2 + getLeft()) - AndroidUtilities.dp(4.0f));
                 this.timeHintView.show(true);
                 invalidate();
@@ -546,7 +544,7 @@ public class VideoTimelineView extends View {
                     }
                 }
                 this.timeHintView.setCx((((f * this.progressLeft) + AndroidUtilities.dpf2(12.0f)) + getLeft()) - AndroidUtilities.dp(4.0f));
-                this.timeHintView.setTime((int) ((((float) this.videoLength) / 1000.0f) * this.progressLeft));
+                this.timeHintView.setTime((int) ((this.videoLength / 1000.0f) * this.progressLeft));
                 this.timeHintView.show(true);
                 VideoTimelineViewDelegate videoTimelineViewDelegate5 = this.delegate;
                 if (videoTimelineViewDelegate5 != null) {
@@ -579,7 +577,7 @@ public class VideoTimelineView extends View {
                 }
                 this.timeHintView.setCx((f * this.progressRight) + AndroidUtilities.dpf2(12.0f) + getLeft() + AndroidUtilities.dp(4.0f));
                 this.timeHintView.show(true);
-                this.timeHintView.setTime((int) ((((float) this.videoLength) / 1000.0f) * this.progressRight));
+                this.timeHintView.setTime((int) ((this.videoLength / 1000.0f) * this.progressRight));
                 VideoTimelineViewDelegate videoTimelineViewDelegate6 = this.delegate;
                 if (videoTimelineViewDelegate6 != null) {
                     videoTimelineViewDelegate6.onRightProgressChanged(this.progressRight);

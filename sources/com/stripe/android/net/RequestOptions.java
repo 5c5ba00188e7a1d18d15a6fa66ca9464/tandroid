@@ -6,7 +6,6 @@ public class RequestOptions {
     private final String mIdempotencyKey;
     private final String mPublishableApiKey;
 
-    /* loaded from: classes.dex */
     public static final class RequestOptionsBuilder {
         private String apiVersion;
         private String idempotencyKey;

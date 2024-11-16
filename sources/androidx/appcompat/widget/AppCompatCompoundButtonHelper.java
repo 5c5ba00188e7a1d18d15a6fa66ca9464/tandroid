@@ -22,8 +22,7 @@ class AppCompatCompoundButtonHelper {
     private boolean mSkipNextApply;
     private final CompoundButton mView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatCompoundButtonHelper(CompoundButton compoundButton) {
+    AppCompatCompoundButtonHelper(CompoundButton compoundButton) {
         this.mView = compoundButton;
     }
 
@@ -46,28 +45,24 @@ class AppCompatCompoundButtonHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getCompoundPaddingLeft(int i) {
+    int getCompoundPaddingLeft(int i) {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getSupportButtonTintList() {
+    ColorStateList getSupportButtonTintList() {
         return this.mButtonTintList;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getSupportButtonTintMode() {
+    PorterDuff.Mode getSupportButtonTintMode() {
         return this.mButtonTintMode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:11:0x005e A[Catch: all -> 0x0039, TryCatch #1 {all -> 0x0039, blocks: (B:3:0x001d, B:5:0x0025, B:8:0x002b, B:9:0x0056, B:11:0x005e, B:12:0x0067, B:14:0x006f, B:21:0x003b, B:23:0x0043, B:25:0x0049), top: B:2:0x001d }] */
     /* JADX WARN: Removed duplicated region for block: B:14:0x006f A[Catch: all -> 0x0039, TRY_LEAVE, TryCatch #1 {all -> 0x0039, blocks: (B:3:0x001d, B:5:0x0025, B:8:0x002b, B:9:0x0056, B:11:0x005e, B:12:0x0067, B:14:0x006f, B:21:0x003b, B:23:0x0043, B:25:0x0049), top: B:2:0x001d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadFromAttributes(AttributeSet attributeSet, int i) {
+    void loadFromAttributes(AttributeSet attributeSet, int i) {
         int resourceId;
         int i2;
         int i3;
@@ -110,8 +105,7 @@ class AppCompatCompoundButtonHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onSetButtonDrawable() {
+    void onSetButtonDrawable() {
         if (this.mSkipNextApply) {
             this.mSkipNextApply = false;
         } else {
@@ -120,15 +114,13 @@ class AppCompatCompoundButtonHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportButtonTintList(ColorStateList colorStateList) {
+    void setSupportButtonTintList(ColorStateList colorStateList) {
         this.mButtonTintList = colorStateList;
         this.mHasButtonTint = true;
         applyButtonTint();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportButtonTintMode(PorterDuff.Mode mode) {
+    void setSupportButtonTintMode(PorterDuff.Mode mode) {
         this.mButtonTintMode = mode;
         this.mHasButtonTintMode = true;
         applyButtonTint();

@@ -9,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.R$styleable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
+class FragmentLayoutInflaterFactory implements LayoutInflater.Factory2 {
     final FragmentManager mFragmentManager;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentLayoutInflaterFactory(FragmentManager fragmentManager) {
+    FragmentLayoutInflaterFactory(FragmentManager fragmentManager) {
         this.mFragmentManager = fragmentManager;
     }
 

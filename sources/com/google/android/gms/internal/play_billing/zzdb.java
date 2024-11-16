@@ -15,13 +15,11 @@ abstract class zzdb {
         zzb = new zzda();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzda zza() {
+    static zzda zza() {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzda zzb() {
+    static zzda zzb() {
         return zzb;
     }
 }

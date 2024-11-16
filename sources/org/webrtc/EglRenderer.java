@@ -56,9 +56,7 @@ public class EglRenderer implements VideoSink {
     private int rotation;
     private boolean usePresentationTimeStamp;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class EglSurfaceCreation implements Runnable {
+    private class EglSurfaceCreation implements Runnable {
         private final boolean background;
         private Object surface;
 
@@ -115,19 +113,15 @@ public class EglRenderer implements VideoSink {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface ErrorCallback {
         void onGlOutOfMemory();
     }
 
-    /* loaded from: classes5.dex */
     public interface FrameListener {
         void onFrame(Bitmap bitmap);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class FrameListenerAndParams {
+    private static class FrameListenerAndParams {
         public final boolean applyFpsReduction;
         public final RendererCommon.GlDrawer drawer;
         public final FrameListener listener;
@@ -141,9 +135,7 @@ public class EglRenderer implements VideoSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class HandlerWithExceptionCallback extends Handler {
+    private static class HandlerWithExceptionCallback extends Handler {
         private final Runnable exceptionCallback;
 
         public HandlerWithExceptionCallback(Looper looper, Runnable runnable) {
@@ -730,7 +722,7 @@ public class EglRenderer implements VideoSink {
                 if (f <= 0.0f) {
                     this.minRenderPeriodNs = Long.MAX_VALUE;
                 } else {
-                    this.minRenderPeriodNs = ((float) TimeUnit.SECONDS.toNanos(1L)) / f;
+                    this.minRenderPeriodNs = (long) (TimeUnit.SECONDS.toNanos(1L) / f);
                 }
                 if (this.minRenderPeriodNs != j) {
                     this.nextFrameTimeNs = System.nanoTime();

@@ -7,8 +7,7 @@ public final class zzrv {
     private final Integer zzc;
     private final Integer zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzrv(zzrt zzrtVar, zzru zzruVar) {
+    /* synthetic */ zzrv(zzrt zzrtVar, zzru zzruVar) {
         Integer num;
         Integer num2;
         Integer num3;

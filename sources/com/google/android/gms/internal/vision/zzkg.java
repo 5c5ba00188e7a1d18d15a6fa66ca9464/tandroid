@@ -6,6 +6,9 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 final class zzkg implements zzkh {
+    zzkg() {
+    }
+
     @Override // com.google.android.gms.internal.vision.zzkh
     public final int zza(int i, Object obj, Object obj2) {
         zzke zzkeVar = (zzke) obj;

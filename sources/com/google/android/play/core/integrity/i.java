@@ -5,6 +5,9 @@ import com.google.android.gms.common.api.ApiException;
 
 /* loaded from: classes.dex */
 public final class i implements k {
+    i() {
+    }
+
     @Override // com.google.android.play.core.integrity.k
     public final ApiException a(Bundle bundle) {
         int i = bundle.getInt("error");

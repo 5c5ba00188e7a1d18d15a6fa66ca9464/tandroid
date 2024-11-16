@@ -34,7 +34,7 @@ public class ChoosingStickerStatusDrawable extends StatusDrawable {
         if (j > 16) {
             j = 16;
         }
-        float f = this.progress + (((float) j) / 500.0f);
+        float f = this.progress + (j / 500.0f);
         this.progress = f;
         if (f >= 2.0f) {
             this.progress = 0.0f;

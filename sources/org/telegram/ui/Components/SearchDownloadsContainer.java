@@ -72,9 +72,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
     String searchQuery;
     FilteredSearchView.UiCallback uiCallback;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Cell extends FrameLayout {
+    private class Cell extends FrameLayout {
         SharedDocumentCell sharedDocumentCell;
 
         public Cell(Context context) {
@@ -93,8 +91,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class DownloadsAdapter extends RecyclerListView.SelectionAdapter {
+    class DownloadsAdapter extends RecyclerListView.SelectionAdapter {
         private DownloadsAdapter() {
         }
 
@@ -235,7 +232,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View graySectionCell = i == 0 ? new GraySectionCell(viewGroup.getContext()) : i == 1 ? new Cell(viewGroup.getContext()) : new SharedAudioCell(viewGroup.getContext()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.DownloadsAdapter.1
+            View graySectionCell = i == 0 ? new GraySectionCell(viewGroup.getContext()) : i == 1 ? SearchDownloadsContainer.this.new Cell(viewGroup.getContext()) : new SharedAudioCell(viewGroup.getContext()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.DownloadsAdapter.1
                 @Override // org.telegram.ui.Cells.SharedAudioCell
                 public boolean needPlayMessage(MessageObject messageObject) {
                     return MediaController.getInstance().playMessage(messageObject);
@@ -246,7 +243,6 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         public TouchHelperCallback() {
         }
@@ -326,9 +322,8 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         this.parentActivity = baseFragment.getParentActivity();
         this.currentAccount = i;
         this.recyclerListView = new BlurredRecyclerView(getContext()) { // from class: org.telegram.ui.Components.SearchDownloadsContainer.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 super.onLayout(z, i2, i3, i4, i5);
                 SearchDownloadsContainer.this.checkItemsFloodWait();
             }

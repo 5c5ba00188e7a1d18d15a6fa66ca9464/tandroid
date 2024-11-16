@@ -8,8 +8,7 @@ final class zzej implements ListIterator {
     final /* synthetic */ int zzb;
     final /* synthetic */ zzel zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzej(zzel zzelVar, int i) {
+    zzej(zzel zzelVar, int i) {
         zzcn zzcnVar;
         this.zzc = zzelVar;
         this.zzb = i;

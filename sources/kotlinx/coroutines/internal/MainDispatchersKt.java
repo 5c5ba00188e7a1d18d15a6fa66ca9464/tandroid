@@ -14,8 +14,7 @@ public abstract class MainDispatchersKt {
         throw new KotlinNothingValueException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ MissingMainCoroutineDispatcher createMissingDispatcher$default(Throwable th, String str, int i, Object obj) {
+    static /* synthetic */ MissingMainCoroutineDispatcher createMissingDispatcher$default(Throwable th, String str, int i, Object obj) {
         if ((i & 1) != 0) {
             th = null;
         }

@@ -163,9 +163,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     private boolean isReversed = false;
     private int lastItemCount = -1;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 implements Runnable {
+    class 4 implements Runnable {
         final /* synthetic */ MessagesController val$messagesController;
         final /* synthetic */ MessagesStorage val$messagesStorage;
         final /* synthetic */ String val$query;
@@ -243,9 +241,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 7 implements Runnable {
+    class 7 implements Runnable {
         final /* synthetic */ TLRPC.Chat val$chat;
         final /* synthetic */ MessagesController val$messagesController;
         final /* synthetic */ LongSparseArray val$newMap;
@@ -343,7 +339,6 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class HashtagHint extends LinearLayout {
         private final AvatarDrawable avatarDrawable;
         private final BackupImageView imageView;
@@ -410,7 +405,6 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface MentionsAdapterDelegate {
         void needChangePanelVisibility(boolean z);
 
@@ -421,9 +415,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
         void onItemCountUpdate(int i, int i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class StickerResult {
+    private static class StickerResult {
         public Object parent;
         public TLRPC.Document sticker;
 
@@ -1776,7 +1768,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     /* JADX WARN: Type inference failed for: r15v36, types: [boolean] */
     /* JADX WARN: Type inference failed for: r15v38 */
     /* JADX WARN: Type inference failed for: r15v45 */
-    /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.Adapters.MentionsAdapter, androidx.recyclerview.widget.RecyclerView$Adapter] */
+    /* JADX WARN: Type inference failed for: r29v0, types: [androidx.recyclerview.widget.RecyclerView$Adapter, org.telegram.ui.Adapters.MentionsAdapter] */
     /* JADX WARN: Type inference failed for: r2v31, types: [org.telegram.ui.Adapters.MentionsAdapter$HashtagHint] */
     /* JADX WARN: Type inference failed for: r3v21 */
     /* JADX WARN: Type inference failed for: r3v22, types: [androidx.collection.LongSparseArray, java.util.ArrayList] */
@@ -1785,9 +1777,9 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     /* JADX WARN: Type inference failed for: r5v16 */
     /* JADX WARN: Type inference failed for: r5v29 */
     /* JADX WARN: Type inference failed for: r5v31 */
-    /* JADX WARN: Type inference failed for: r5v36, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v36, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v94 */
-    /* JADX WARN: Type inference failed for: r6v34, types: [org.telegram.tgnet.TLRPC$User, java.lang.Object] */
+    /* JADX WARN: Type inference failed for: r6v34, types: [java.lang.Object, org.telegram.tgnet.TLRPC$User] */
     /* renamed from: searchUsernameOrHashtag, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

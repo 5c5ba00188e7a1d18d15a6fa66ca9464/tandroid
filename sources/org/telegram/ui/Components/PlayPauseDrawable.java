@@ -67,7 +67,7 @@ public class PlayPauseDrawable extends Drawable {
         if (z) {
             float f = this.progress;
             if (f < 1.0f) {
-                float f2 = f + (((float) j) / this.duration);
+                float f2 = f + (j / this.duration);
                 this.progress = f2;
                 if (f2 >= 1.0f) {
                     this.progress = 1.0f;
@@ -97,7 +97,7 @@ public class PlayPauseDrawable extends Drawable {
         if (!z) {
             float f4 = this.progress;
             if (f4 > 0.0f) {
-                float f5 = f4 - (((float) j) / this.duration);
+                float f5 = f4 - (j / this.duration);
                 this.progress = f5;
                 if (f5 <= 0.0f) {
                     this.progress = 0.0f;

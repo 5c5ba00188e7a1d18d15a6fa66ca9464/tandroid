@@ -49,9 +49,7 @@ public final class Cea608Decoder extends CeaDecoder {
     private CueBuilder currentCueBuilder = new CueBuilder(0, 4);
     private int currentChannel = 0;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CueBuilder {
+    private static final class CueBuilder {
         private int captionMode;
         private int captionRowCount;
         private int indent;
@@ -61,9 +59,7 @@ public final class Cea608Decoder extends CeaDecoder {
         private final List rolledUpCaptions = new ArrayList();
         private final StringBuilder captionStringBuilder = new StringBuilder();
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static class CueStyle {
+        private static class CueStyle {
             public int start;
             public final int style;
             public final boolean underline;
@@ -342,48 +338,44 @@ public final class Cea608Decoder extends CeaDecoder {
             case 37:
                 setCaptionMode(1);
                 setCaptionRowCount(2);
-                return;
+                break;
             case 38:
                 setCaptionMode(1);
                 setCaptionRowCount(3);
-                return;
+                break;
             case 39:
                 setCaptionMode(1);
                 setCaptionRowCount(4);
-                return;
+                break;
             default:
                 int i = this.captionMode;
-                if (i == 0) {
-                    return;
-                }
-                if (b == 33) {
-                    this.currentCueBuilder.backspace();
-                    return;
-                }
-                switch (b) {
-                    case 44:
-                        this.cues = Collections.emptyList();
-                        int i2 = this.captionMode;
-                        if (i2 != 1 && i2 != 3) {
-                            return;
+                if (i != 0) {
+                    if (b == 33) {
+                        this.currentCueBuilder.backspace();
+                        break;
+                    } else {
+                        switch (b) {
+                            case 44:
+                                this.cues = Collections.emptyList();
+                                int i2 = this.captionMode;
+                                if (i2 != 1 && i2 != 3) {
+                                }
+                                break;
+                            case 45:
+                                if (i == 1 && !this.currentCueBuilder.isEmpty()) {
+                                    this.currentCueBuilder.rollUp();
+                                    break;
+                                }
+                                break;
+                            case 47:
+                                this.cues = getDisplayCues();
+                                break;
                         }
+                        resetCueBuilders();
                         break;
-                    case 45:
-                        if (i != 1 || this.currentCueBuilder.isEmpty()) {
-                            return;
-                        }
-                        this.currentCueBuilder.rollUp();
-                        return;
-                    case 46:
-                        break;
-                    case 47:
-                        this.cues = getDisplayCues();
-                        break;
-                    default:
-                        return;
+                    }
                 }
-                resetCueBuilders();
-                return;
+                break;
         }
     }
 
@@ -464,7 +456,6 @@ public final class Cea608Decoder extends CeaDecoder {
         return 1 <= b && b <= 15;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:9:0x0015. Please report as an issue. */
     private void maybeUpdateIsInCaptionService(byte b, byte b2) {
         boolean z;
         if (!isXdsControlCode(b)) {
@@ -473,21 +464,17 @@ public final class Cea608Decoder extends CeaDecoder {
                     switch (b2) {
                         default:
                             switch (b2) {
-                                case 41:
-                                    break;
-                                case 42:
-                                case 43:
-                                    break;
-                                default:
-                                    return;
                             }
                             this.isInCaptionService = z;
+                            break;
                         case 37:
                         case 38:
                         case 39:
                             z = true;
                             this.isInCaptionService = z;
+                            break;
                     }
+                    return;
                 }
                 z = true;
                 this.isInCaptionService = z;

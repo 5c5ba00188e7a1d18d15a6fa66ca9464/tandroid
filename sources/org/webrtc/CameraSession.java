@@ -6,11 +6,9 @@ import android.view.WindowManager;
 import org.telegram.messenger.NotificationCenter;
 import org.webrtc.VideoFrame;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes5.dex */
-public interface CameraSession {
+interface CameraSession {
 
-    /* loaded from: classes5.dex */
     public abstract /* synthetic */ class -CC {
         public static VideoFrame.TextureBuffer createTextureBufferWithModifiedTransformMatrix(TextureBufferImpl textureBufferImpl, boolean z, int i) {
             Matrix matrix = new Matrix();
@@ -38,14 +36,12 @@ public interface CameraSession {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface CreateSessionCallback {
         void onDone(CameraSession cameraSession);
 
         void onFailure(FailureType failureType, String str);
     }
 
-    /* loaded from: classes5.dex */
     public interface Events {
         void onCameraClosed(CameraSession cameraSession);
 
@@ -58,7 +54,6 @@ public interface CameraSession {
         void onFrameCaptured(CameraSession cameraSession, VideoFrame videoFrame);
     }
 
-    /* loaded from: classes5.dex */
     public enum FailureType {
         ERROR,
         DISCONNECTED

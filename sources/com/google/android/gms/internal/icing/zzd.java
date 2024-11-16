@@ -9,6 +9,9 @@ import com.google.android.gms.common.internal.ClientSettings;
 
 /* loaded from: classes.dex */
 final class zzd extends Api.AbstractClientBuilder {
+    zzd() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* bridge */ /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         return new zzae(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener);

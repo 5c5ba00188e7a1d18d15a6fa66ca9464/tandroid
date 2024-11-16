@@ -112,7 +112,6 @@ public class StoryCaptionView extends NestedScrollView {
     private float velocitySign;
     private float velocityY;
 
-    /* loaded from: classes5.dex */
     public static class Reply {
         private int currentAccount;
         public boolean isRepostMessage;
@@ -356,7 +355,6 @@ public class StoryCaptionView extends NestedScrollView {
         }
     }
 
-    /* loaded from: classes5.dex */
     public class StoryCaptionTextView extends View implements TextSelectionHelper.SimpleSelectabeleView {
         public boolean allowClickSpoilers;
         private final PorterDuffColorFilter emojiColorFilter;
@@ -379,7 +377,6 @@ public class StoryCaptionView extends NestedScrollView {
         private final Paint xRefGradinetPaint;
         private final Paint xRefPaint;
 
-        /* loaded from: classes5.dex */
         public class LineInfo {
             float collapsedX;
             float collapsedY;
@@ -392,7 +389,6 @@ public class StoryCaptionView extends NestedScrollView {
             }
         }
 
-        /* loaded from: classes5.dex */
         public class TextState {
             private final SpoilersClickDetector clickDetector;
             StaticLayout firstLayout;
@@ -788,7 +784,7 @@ public class StoryCaptionView extends NestedScrollView {
                             } else {
                                 StoryCaptionTextView storyCaptionTextView7 = StoryCaptionTextView.this;
                                 StaticLayout makeTextLayout2 = storyCaptionTextView7.makeTextLayout(storyCaptionTextView7.textPaint, subSequence, i);
-                                LineInfo lineInfo2 = new LineInfo();
+                                LineInfo lineInfo2 = StoryCaptionTextView.this.new LineInfo();
                                 this.nextLinesLayouts[i4 - 3] = lineInfo2;
                                 lineInfo2.staticLayout = makeTextLayout2;
                                 lineInfo2.finalX = this.fullLayout.getLineLeft(i4);
@@ -1635,9 +1631,8 @@ public class StoryCaptionView extends NestedScrollView {
     public void onLinkLongPress(URLSpan uRLSpan, View view, Runnable runnable) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         updateTopMargin(View.MeasureSpec.getSize(i), View.MeasureSpec.getSize(i2));
         super.onMeasure(i, i2);
     }

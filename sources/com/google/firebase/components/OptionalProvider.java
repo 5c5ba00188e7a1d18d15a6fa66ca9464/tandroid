@@ -3,9 +3,8 @@ package com.google.firebase.components;
 import com.google.firebase.inject.Deferred$DeferredHandler;
 import com.google.firebase.inject.Provider;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class OptionalProvider implements Provider {
+class OptionalProvider implements Provider {
     private volatile Provider delegate;
     private Deferred$DeferredHandler handler;
     private static final Deferred$DeferredHandler NOOP_HANDLER = new Deferred$DeferredHandler() { // from class: com.google.firebase.components.OptionalProvider$$ExternalSyntheticLambda0
@@ -28,8 +27,7 @@ public class OptionalProvider implements Provider {
         this.delegate = provider;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static OptionalProvider empty() {
+    static OptionalProvider empty() {
         return new OptionalProvider(NOOP_HANDLER, EMPTY_PROVIDER);
     }
 
@@ -47,8 +45,7 @@ public class OptionalProvider implements Provider {
         return this.delegate.get();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void set(Provider provider) {
+    void set(Provider provider) {
         Deferred$DeferredHandler deferred$DeferredHandler;
         if (this.delegate != EMPTY_PROVIDER) {
             throw new IllegalStateException("provide() can be called only once.");

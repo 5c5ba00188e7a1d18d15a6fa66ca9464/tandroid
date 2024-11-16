@@ -31,7 +31,6 @@ public class FilePathDatabase {
     private final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
     private final FileMeta metaTmp = new FileMeta();
 
-    /* loaded from: classes3.dex */
     public static class FileMeta {
         public long dialogId;
         public int messageId;
@@ -39,7 +38,6 @@ public class FilePathDatabase {
         public int messageType;
     }
 
-    /* loaded from: classes3.dex */
     public static class PathData {
         public final int dc;
         public final long id;

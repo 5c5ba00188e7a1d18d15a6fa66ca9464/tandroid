@@ -9,7 +9,6 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 /* loaded from: classes.dex */
 public interface SsChunkSource extends ChunkSource {
 
-    /* loaded from: classes.dex */
     public interface Factory {
         SsChunkSource createChunkSource(LoaderErrorThrower loaderErrorThrower, SsManifest ssManifest, int i, ExoTrackSelection exoTrackSelection, TransferListener transferListener);
     }

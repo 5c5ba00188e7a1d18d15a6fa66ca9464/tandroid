@@ -8,20 +8,17 @@ import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.common.api.internal.BaseImplementation$ApiMethodImpl;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzh extends BaseImplementation$ApiMethodImpl {
+final class zzh extends BaseImplementation$ApiMethodImpl {
     private final com.google.android.gms.clearcut.zze zzao;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzh(com.google.android.gms.clearcut.zze zzeVar, GoogleApiClient googleApiClient) {
+    zzh(com.google.android.gms.clearcut.zze zzeVar, GoogleApiClient googleApiClient) {
         super(ClearcutLogger.API, googleApiClient);
         this.zzao = zzeVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.api.internal.BasePendingResult
-    public final /* synthetic */ Result createFailedResult(Status status) {
+    protected final /* synthetic */ Result createFailedResult(Status status) {
         return status;
     }
 

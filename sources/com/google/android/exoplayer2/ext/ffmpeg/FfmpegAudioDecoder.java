@@ -10,12 +10,10 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.util.List;
-import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class FfmpegAudioDecoder extends SimpleDecoder {
+final class FfmpegAudioDecoder extends SimpleDecoder {
     private static final int AUDIO_DECODER_ERROR_INVALID_DATA = -1;
     private static final int AUDIO_DECODER_ERROR_OTHER = -2;
     private static final int OUTPUT_BUFFER_SIZE_16BIT = 65536;
@@ -74,40 +72,13 @@ public final class FfmpegAudioDecoder extends SimpleDecoder {
 
     private static byte[] getExtraData(String str, List<byte[]> list) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1003765268:
-                if (str.equals("audio/vorbis")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -53558318:
-                if (str.equals(MediaController.AUDIO_MIME_TYPE)) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 1504470054:
-                if (str.equals("audio/alac")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1504891608:
-                if (str.equals("audio/opus")) {
-                    c = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "audio/vorbis":
                 return getVorbisExtraData(list);
-            case 1:
-            case 3:
+            case "audio/mp4a-latm":
+            case "audio/opus":
                 return list.get(0);
-            case 2:
+            case "audio/alac":
                 return getAlacExtraData(list);
             default:
                 return null;

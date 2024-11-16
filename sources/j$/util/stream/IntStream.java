@@ -21,7 +21,6 @@ import java.util.stream.DoubleStream;
 /* loaded from: classes2.dex */
 public interface IntStream extends BaseStream<Integer, IntStream> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class VivifiedWrapper implements IntStream {
         public final /* synthetic */ java.util.stream.IntStream a;
 
@@ -267,7 +266,6 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
         }
     }
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class Wrapper implements java.util.stream.IntStream {
         private /* synthetic */ Wrapper() {
         }
@@ -276,7 +274,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             if (intStream == null) {
                 return null;
             }
-            return intStream instanceof VivifiedWrapper ? ((VivifiedWrapper) intStream).a : new Wrapper();
+            return intStream instanceof VivifiedWrapper ? ((VivifiedWrapper) intStream).a : intStream.new Wrapper();
         }
 
         @Override // java.util.stream.IntStream
@@ -426,13 +424,13 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             return IntStream.this.b0(j$.util.function.J.a(intPredicate));
         }
 
-        /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
+        /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.BaseStream, java.util.stream.IntStream] */
         @Override // java.util.stream.BaseStream
         public final /* synthetic */ java.util.stream.IntStream onClose(Runnable runnable) {
             return g.i0(IntStream.this.onClose(runnable));
         }
 
-        /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
+        /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.IntStream] */
         @Override // java.util.stream.IntStream, java.util.stream.BaseStream
         public final /* synthetic */ java.util.stream.IntStream parallel() {
             return g.i0(IntStream.this.parallel());
@@ -458,7 +456,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             return j$.util.a.y(IntStream.this.W(j$.util.function.z.a(intBinaryOperator)));
         }
 
-        /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
+        /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.IntStream] */
         @Override // java.util.stream.IntStream, java.util.stream.BaseStream
         public final /* synthetic */ java.util.stream.IntStream sequential() {
             return g.i0(IntStream.this.sequential());
@@ -505,7 +503,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             return IntStream.this.toArray();
         }
 
-        /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.IntStream, java.util.stream.BaseStream] */
+        /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.IntStream] */
         @Override // java.util.stream.BaseStream
         public final /* synthetic */ java.util.stream.IntStream unordered() {
             return g.i0(IntStream.this.unordered());

@@ -13,7 +13,6 @@ class VolumeLogger {
     private final AudioManager audioManager;
     private Timer timer;
 
-    /* loaded from: classes5.dex */
     private class LogVolumeTask extends TimerTask {
         private final int maxRingVolume;
         private final int maxVoiceCallVolume;

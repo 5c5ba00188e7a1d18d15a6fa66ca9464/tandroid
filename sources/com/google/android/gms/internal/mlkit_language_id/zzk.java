@@ -10,6 +10,9 @@ import java.util.RandomAccess;
 public abstract class zzk extends zzl implements List, RandomAccess {
     private static final zzr zza = new zzn(zzp.zza, 0);
 
+    zzk() {
+    }
+
     public static zzk zza(Object obj, Object obj2, Object obj3, Object obj4, Object obj5, Object obj6) {
         Object[] objArr = {obj, obj2, obj3, obj4, obj5, obj6};
         for (int i = 0; i < 6; i++) {

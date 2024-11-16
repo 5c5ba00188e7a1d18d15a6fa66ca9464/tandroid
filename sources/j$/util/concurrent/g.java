@@ -4,9 +4,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class g extends a implements Iterator, Enumeration {
+final class g extends a implements Iterator, Enumeration {
     public final /* synthetic */ int k;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -41,10 +40,7 @@ public final class g extends a implements Iterator, Enumeration {
     @Override // java.util.Enumeration
     public final Object nextElement() {
         switch (this.k) {
-            case 0:
-                return next();
-            default:
-                return next();
         }
+        return next();
     }
 }

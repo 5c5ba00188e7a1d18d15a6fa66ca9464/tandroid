@@ -10,7 +10,6 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 public abstract class PendingResultUtil {
     private static final zas zaa = new zao();
 
-    /* loaded from: classes.dex */
     public interface ResultConverter {
         Object convert(Result result);
     }

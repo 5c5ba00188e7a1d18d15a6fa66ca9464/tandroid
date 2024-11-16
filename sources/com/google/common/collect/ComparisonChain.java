@@ -45,7 +45,6 @@ public abstract class ComparisonChain {
     private static final ComparisonChain LESS = new InactiveComparisonChain(-1);
     private static final ComparisonChain GREATER = new InactiveComparisonChain(1);
 
-    /* loaded from: classes.dex */
     private static final class InactiveComparisonChain extends ComparisonChain {
         final int result;
 

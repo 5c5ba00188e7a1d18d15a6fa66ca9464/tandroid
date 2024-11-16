@@ -80,14 +80,13 @@ public class PhonebookShareAlert extends BottomSheet {
     private int vcardEndRow;
     private int vcardStartRow;
 
-    /* loaded from: classes3.dex */
     private class ListAdapter {
         private ListAdapter() {
         }
 
         public View createView(Context context, int i) {
             int itemViewType = getItemViewType(i);
-            View textCheckBoxCell = itemViewType != 0 ? new TextCheckBoxCell(context) : new UserCell(context);
+            View textCheckBoxCell = itemViewType != 0 ? PhonebookShareAlert.this.new TextCheckBoxCell(context) : PhonebookShareAlert.this.new UserCell(context);
             onBindViewHolder(textCheckBoxCell, i, itemViewType);
             return textCheckBoxCell;
         }
@@ -133,7 +132,6 @@ public class PhonebookShareAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class TextCheckBoxCell extends FrameLayout {
         private Switch checkBox;
         private ImageView imageView;
@@ -270,7 +268,6 @@ public class PhonebookShareAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class UserCell extends LinearLayout {
         public UserCell(Context context) {
             super(context);
@@ -522,9 +519,8 @@ public class PhonebookShareAlert extends BottomSheet {
                 NestedScrollView nestedScrollView = new NestedScrollView(parentActivity) { // from class: org.telegram.ui.Components.PhonebookShareAlert.2
                     private View focusingView;
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.core.widget.NestedScrollView
-                    public int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect rect) {
+                    protected int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect rect) {
                         if (this.focusingView == null || PhonebookShareAlert.this.linearLayout.getTop() != getPaddingTop()) {
                             return 0;
                         }
@@ -751,9 +747,8 @@ public class PhonebookShareAlert extends BottomSheet {
         NestedScrollView nestedScrollView2 = new NestedScrollView(parentActivity2) { // from class: org.telegram.ui.Components.PhonebookShareAlert.2
             private View focusingView;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView
-            public int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect rect) {
+            protected int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect rect) {
                 if (this.focusingView == null || PhonebookShareAlert.this.linearLayout.getTop() != getPaddingTop()) {
                     return 0;
                 }
@@ -1512,15 +1507,13 @@ public class PhonebookShareAlert extends BottomSheet {
         this.vcardEndRow = -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
         Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.PhonebookShareAlert.6
             @Override // org.telegram.ui.Components.Bulletin.Delegate

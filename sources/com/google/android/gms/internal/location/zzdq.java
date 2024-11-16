@@ -4,8 +4,7 @@ package com.google.android.gms.internal.location;
 final class zzdq extends zzdo {
     private final zzds zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdq(zzds zzdsVar, int i) {
+    zzdq(zzds zzdsVar, int i) {
         super(zzdsVar.size(), i);
         this.zza = zzdsVar;
     }

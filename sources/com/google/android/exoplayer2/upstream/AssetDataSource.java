@@ -17,7 +17,6 @@ public final class AssetDataSource extends BaseDataSource {
     private boolean opened;
     private Uri uri;
 
-    /* loaded from: classes.dex */
     public static final class AssetDataSourceException extends DataSourceException {
         public AssetDataSourceException(Throwable th, int i) {
             super(th, i);

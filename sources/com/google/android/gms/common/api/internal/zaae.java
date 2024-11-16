@@ -54,8 +54,7 @@ public final class zaae extends zap {
         this.zae.zaD(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final ArraySet zaa() {
+    final ArraySet zaa() {
         return this.zad;
     }
 

@@ -31,9 +31,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
     private View viewToFindFocus;
     private View[] views;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static final class NumberButtonView extends View {
+    private static final class NumberButtonView extends View {
         private String mNumber;
         private String mSymbols;
         private TextPaint numberTextPaint;
@@ -49,7 +47,7 @@ public class CustomPhoneKeyboardView extends ViewGroup {
             this.mSymbols = str2;
             this.numberTextPaint.setTextSize(AndroidUtilities.dp(24.0f));
             this.symbolsTextPaint.setTextSize(AndroidUtilities.dp(14.0f));
-            setBackground(CustomPhoneKeyboardView.access$500());
+            setBackground(CustomPhoneKeyboardView.getButtonDrawable());
             updateColors();
         }
 
@@ -170,11 +168,8 @@ public class CustomPhoneKeyboardView extends ViewGroup {
         addView(imageView2);
     }
 
-    static /* synthetic */ Drawable access$500() {
-        return getButtonDrawable();
-    }
-
-    private static Drawable getButtonDrawable() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static Drawable getButtonDrawable() {
         int dp = AndroidUtilities.dp(6.0f);
         int i = Theme.key_listSelector;
         return Theme.createSimpleSelectorRoundRectDrawable(dp, Theme.getColor(i), ColorUtils.setAlphaComponent(Theme.getColor(i), 60));

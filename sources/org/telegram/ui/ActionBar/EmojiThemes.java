@@ -37,7 +37,6 @@ public class EmojiThemes {
     int currentIndex = 0;
     public ArrayList items = new ArrayList();
 
-    /* loaded from: classes4.dex */
     public static class ThemeItem {
         public int accentId = -1;
         public SparseIntArray currentPreviewColors;

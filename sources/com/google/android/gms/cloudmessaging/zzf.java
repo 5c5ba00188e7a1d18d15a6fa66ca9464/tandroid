@@ -21,9 +21,8 @@ import java.util.Queue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzf implements ServiceConnection {
+final class zzf implements ServiceConnection {
     int zza;
     final Messenger zzb;
     zzo zzc;
@@ -37,7 +36,6 @@ public final class zzf implements ServiceConnection {
         this.zzb = new Messenger(new com.google.android.gms.internal.cloudmessaging.zze(Looper.getMainLooper(), new Handler.Callback(this) { // from class: com.google.android.gms.cloudmessaging.zzi
             private final zzf zza;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
             }
@@ -62,7 +60,6 @@ public final class zzf implements ServiceConnection {
             private final zzf zza;
             private final IBinder zzb;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = iBinder;
@@ -99,7 +96,6 @@ public final class zzf implements ServiceConnection {
         scheduledExecutorService.execute(new Runnable(this) { // from class: com.google.android.gms.cloudmessaging.zzm
             private final zzf zza;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
             }
@@ -111,14 +107,12 @@ public final class zzf implements ServiceConnection {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza() {
+    final void zza() {
         ScheduledExecutorService scheduledExecutorService;
         scheduledExecutorService = this.zzf.zzc;
         scheduledExecutorService.execute(new Runnable(this) { // from class: com.google.android.gms.cloudmessaging.zzj
             private final zzf zza;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
             }
@@ -146,7 +140,6 @@ public final class zzf implements ServiceConnection {
                                 private final zzf zza;
                                 private final zzq zzb;
 
-                                /* JADX INFO: Access modifiers changed from: package-private */
                                 {
                                     this.zza = zzfVar;
                                     this.zzb = zzqVar;
@@ -189,8 +182,7 @@ public final class zzf implements ServiceConnection {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final synchronized void zza(int i) {
+    final synchronized void zza(int i) {
         zzq zzqVar = (zzq) this.zze.get(i);
         if (zzqVar != null) {
             StringBuilder sb = new StringBuilder(31);
@@ -203,8 +195,7 @@ public final class zzf implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final synchronized void zza(int i, String str) {
+    final synchronized void zza(int i, String str) {
         Context context;
         try {
             if (Log.isLoggable("MessengerIpcClient", 3)) {
@@ -252,8 +243,7 @@ public final class zzf implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zza(Message message) {
+    final boolean zza(Message message) {
         int i = message.arg1;
         if (Log.isLoggable("MessengerIpcClient", 3)) {
             StringBuilder sb = new StringBuilder(41);
@@ -286,8 +276,7 @@ public final class zzf implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final synchronized boolean zza(zzq zzqVar) {
+    final synchronized boolean zza(zzq zzqVar) {
         Context context;
         ScheduledExecutorService scheduledExecutorService;
         int i = this.zza;
@@ -307,7 +296,6 @@ public final class zzf implements ServiceConnection {
                 scheduledExecutorService.schedule(new Runnable(this) { // from class: com.google.android.gms.cloudmessaging.zzh
                     private final zzf zza;
 
-                    /* JADX INFO: Access modifiers changed from: package-private */
                     {
                         this.zza = this;
                     }
@@ -341,8 +329,7 @@ public final class zzf implements ServiceConnection {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final synchronized void zzb() {
+    final synchronized void zzb() {
         Context context;
         try {
             if (this.zza == 2 && this.zzd.isEmpty() && this.zze.size() == 0) {
@@ -359,8 +346,7 @@ public final class zzf implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final synchronized void zzc() {
+    final synchronized void zzc() {
         if (this.zza == 1) {
             zza(1, "Timed out while binding");
         }

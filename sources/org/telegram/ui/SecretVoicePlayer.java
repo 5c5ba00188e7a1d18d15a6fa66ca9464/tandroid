@@ -122,9 +122,7 @@ public class SecretVoicePlayer extends Dialog {
     private float ty;
     private FrameLayout windowView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 6 implements VideoPlayer.VideoPlayerDelegate {
+    class 6 implements VideoPlayer.VideoPlayerDelegate {
         6() {
         }
 
@@ -383,18 +381,17 @@ public class SecretVoicePlayer extends Dialog {
                 }
             }
         });
-        this.open2Animator.setDuration(((float) j) * 1.5f);
+        this.open2Animator.setDuration((long) (j * 1.5f));
         this.open2Animator.setInterpolator(cubicBezierInterpolator);
         this.open2Animator.start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void checkTime() {
-        VideoPlayer videoPlayer = this.player;
-        if (videoPlayer == null) {
+        if (this.player == null) {
             return;
         }
-        this.progress = ((float) videoPlayer.getCurrentPosition()) / ((float) this.player.getDuration());
+        this.progress = r0.getCurrentPosition() / this.player.getDuration();
         ChatMessageCell chatMessageCell = this.myCell;
         if (chatMessageCell != null) {
             chatMessageCell.overrideDuration((this.player.getDuration() - this.player.getCurrentPosition()) / 1000);
@@ -844,9 +841,8 @@ public class SecretVoicePlayer extends Dialog {
                     super.drawBlurredPhotoParticles(canvas);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.ChatMessageCell
-                public void drawRadialProgress(Canvas canvas) {
+                protected void drawRadialProgress(Canvas canvas) {
                     super.drawRadialProgress(canvas);
                 }
 
@@ -878,9 +874,8 @@ public class SecretVoicePlayer extends Dialog {
                     return getWidth();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     if (SecretVoicePlayer.this.isRound) {
                         if (!this.setRect) {
                             this.fromRect.set(getPhotoImage().getImageX(), getPhotoImage().getImageY(), getPhotoImage().getImageX2(), getPhotoImage().getImageY2());

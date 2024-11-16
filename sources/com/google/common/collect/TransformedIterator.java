@@ -7,8 +7,7 @@ import java.util.Iterator;
 abstract class TransformedIterator implements Iterator {
     final Iterator backingIterator;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TransformedIterator(Iterator it) {
+    TransformedIterator(Iterator it) {
         this.backingIterator = (Iterator) Preconditions.checkNotNull(it);
     }
 

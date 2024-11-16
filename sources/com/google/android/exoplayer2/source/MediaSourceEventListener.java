@@ -13,16 +13,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public interface MediaSourceEventListener {
 
-    /* loaded from: classes.dex */
     public static class EventDispatcher {
         private final CopyOnWriteArrayList listenerAndHandlers;
         public final MediaSource.MediaPeriodId mediaPeriodId;
         private final long mediaTimeOffsetMs;
         public final int windowIndex;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static final class ListenerAndHandler {
+        private static final class ListenerAndHandler {
             public Handler handler;
             public MediaSourceEventListener listener;
 

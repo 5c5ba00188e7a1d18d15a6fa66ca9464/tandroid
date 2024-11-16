@@ -13,8 +13,7 @@ abstract class q1 extends CountedCompleter implements e2 {
     protected int f;
     protected int g;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public q1(int i, j$.util.Q q, b bVar) {
+    q1(int i, j$.util.Q q, b bVar) {
         this.a = q;
         this.b = bVar;
         this.c = e.f(q.estimateSize());
@@ -22,8 +21,7 @@ abstract class q1 extends CountedCompleter implements e2 {
         this.e = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public q1(q1 q1Var, j$.util.Q q, long j, long j2, int i) {
+    q1(q1 q1Var, j$.util.Q q, long j, long j2, int i) {
         super(q1Var);
         this.a = q;
         this.b = q1Var.b;

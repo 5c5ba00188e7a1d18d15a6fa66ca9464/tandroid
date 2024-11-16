@@ -9,8 +9,7 @@ final class zzab implements ThreadFactory {
     private final ThreadFactory zza = Executors.defaultThreadFactory();
     private final AtomicInteger zzb = new AtomicInteger(1);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzab(BillingClientImpl billingClientImpl) {
+    zzab(BillingClientImpl billingClientImpl) {
     }
 
     @Override // java.util.concurrent.ThreadFactory

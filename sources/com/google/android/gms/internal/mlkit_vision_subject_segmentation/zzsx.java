@@ -7,6 +7,9 @@ final class zzsx extends zztc {
     private int zzc;
     private byte zzd;
 
+    zzsx() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zztc
     public final zztc zza(boolean z) {
         this.zzb = true;

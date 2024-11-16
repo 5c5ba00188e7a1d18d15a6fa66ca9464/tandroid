@@ -11,8 +11,7 @@ abstract class zzaq implements Iterator {
     int zzd;
     final /* synthetic */ zzau zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzaq(zzau zzauVar, zzam zzamVar) {
+    /* synthetic */ zzaq(zzau zzauVar, zzam zzamVar) {
         int i;
         this.zze = zzauVar;
         i = zzauVar.zzf;

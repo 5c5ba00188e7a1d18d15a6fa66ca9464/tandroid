@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 class ActionBarBackgroundDrawable extends Drawable {
     final ActionBarContainer mContainer;
 
-    /* loaded from: classes.dex */
     private static class Api21Impl {
         public static void getOutline(Drawable drawable, Outline outline) {
             drawable.getOutline(outline);

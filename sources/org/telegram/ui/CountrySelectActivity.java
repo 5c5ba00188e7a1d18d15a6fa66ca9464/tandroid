@@ -67,9 +67,7 @@ public class CountrySelectActivity extends BaseFragment {
     private boolean searchWas;
     private boolean searching;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 implements View.OnAttachStateChangeListener {
+    class 4 implements View.OnAttachStateChangeListener {
         private NotificationCenter.NotificationCenterDelegate listener;
         final /* synthetic */ TextSettingsCell val$view;
 
@@ -101,7 +99,6 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class Country {
         public String code;
         public String defaultName;
@@ -124,7 +121,6 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class CountryAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
         private HashMap countries = new HashMap();
@@ -288,7 +284,6 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class CountrySearchAdapter extends RecyclerListView.SelectionAdapter {
         private List countryList = new ArrayList();
         private Map countrySearchMap = new HashMap();
@@ -443,7 +438,6 @@ public class CountrySelectActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface CountrySelectActivityDelegate {
         void didSelectCountry(Country country);
     }

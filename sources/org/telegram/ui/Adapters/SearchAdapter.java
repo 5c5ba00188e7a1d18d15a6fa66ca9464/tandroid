@@ -59,9 +59,7 @@ public abstract class SearchAdapter extends RecyclerListView.SelectionAdapter {
     private ArrayList searchResultNames = new ArrayList();
     private ArrayList unregistredContacts = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ContactEntry {
+    private static class ContactEntry {
         ContactsController.Contact contact;
         String q1;
         String q2;

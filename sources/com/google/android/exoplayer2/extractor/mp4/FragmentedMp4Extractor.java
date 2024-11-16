@@ -92,9 +92,7 @@ public class FragmentedMp4Extractor implements Extractor {
     private static final byte[] PIFF_SAMPLE_ENCRYPTION_BOX_EXTENDED_TYPE = {-94, 57, 79, 82, 90, -101, 79, 20, -94, 68, 108, 66, 124, 100, -115, -12};
     private static final Format EMSG_FORMAT = new Format.Builder().setSampleMimeType("application/x-emsg").build();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MetadataSampleInfo {
+    private static final class MetadataSampleInfo {
         public final boolean sampleTimeIsRelative;
         public final long sampleTimeUs;
         public final int size;
@@ -106,9 +104,7 @@ public class FragmentedMp4Extractor implements Extractor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TrackBundle {
+    private static final class TrackBundle {
         public int currentSampleInTrackRun;
         public int currentSampleIndex;
         public int currentTrackRunIndex;
@@ -1323,8 +1319,7 @@ public class FragmentedMp4Extractor implements Extractor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Track modifyTrack(Track track) {
+    protected Track modifyTrack(Track track) {
         return track;
     }
 

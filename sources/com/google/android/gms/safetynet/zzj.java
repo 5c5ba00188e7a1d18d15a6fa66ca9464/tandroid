@@ -9,8 +9,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 
 /* loaded from: classes.dex */
 public final class zzj implements Parcelable.Creator {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(SafeBrowsingData safeBrowsingData, Parcel parcel, int i) {
+    static void zza(SafeBrowsingData safeBrowsingData, Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeString(parcel, 2, safeBrowsingData.getMetadata(), false);
         SafeParcelWriter.writeParcelable(parcel, 3, safeBrowsingData.getListsDataHolder(), i, false);

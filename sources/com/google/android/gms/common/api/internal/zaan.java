@@ -7,9 +7,8 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 final class zaan extends zabg {
     final /* synthetic */ BaseGmsClient.ConnectionProgressReportCallbacks zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zaan(zaao zaaoVar, zabf zabfVar, BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks) {
+    zaan(zaao zaaoVar, zabf zabfVar, BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks) {
         super(zabfVar);
         this.zaa = connectionProgressReportCallbacks;
     }

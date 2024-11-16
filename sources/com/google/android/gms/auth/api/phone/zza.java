@@ -10,6 +10,9 @@ import com.google.android.gms.internal.auth-api-phone.zzw;
 
 /* loaded from: classes.dex */
 final class zza extends Api.AbstractClientBuilder {
+    zza() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* bridge */ /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         return new zzw(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener);

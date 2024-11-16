@@ -37,9 +37,7 @@ class AppCompatTextHelper {
     private int mStyle = 0;
     private int mFontWeight = -1;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api17Impl {
+    static class Api17Impl {
         static Drawable[] getCompoundDrawablesRelative(TextView textView) {
             return textView.getCompoundDrawablesRelative();
         }
@@ -53,14 +51,12 @@ class AppCompatTextHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static Locale forLanguageTag(String str) {
             return Locale.forLanguageTag(str);
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api24Impl {
         static LocaleList forLanguageTags(String str) {
             return LocaleList.forLanguageTags(str);
@@ -71,7 +67,6 @@ class AppCompatTextHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api26Impl {
         static int getAutoSizeStepGranularity(TextView textView) {
             return textView.getAutoSizeStepGranularity();
@@ -90,16 +85,13 @@ class AppCompatTextHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static Typeface create(Typeface typeface, int i, boolean z) {
             return Typeface.create(typeface, i, z);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatTextHelper(TextView textView) {
+    AppCompatTextHelper(TextView textView) {
         this.mView = textView;
         this.mAutoSizeTextHelper = new AppCompatTextViewAutoSizeHelper(textView);
     }
@@ -269,8 +261,7 @@ class AppCompatTextHelper {
         this.mFontTypeface = create;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void applyCompoundDrawablesTints() {
+    void applyCompoundDrawablesTints() {
         if (this.mDrawableLeftTint != null || this.mDrawableTopTint != null || this.mDrawableRightTint != null || this.mDrawableBottomTint != null) {
             Drawable[] compoundDrawables = this.mView.getCompoundDrawables();
             applyCompoundDrawableTint(compoundDrawables[0], this.mDrawableLeftTint);
@@ -286,38 +277,31 @@ class AppCompatTextHelper {
         applyCompoundDrawableTint(compoundDrawablesRelative[2], this.mDrawableEndTint);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void autoSizeText() {
+    void autoSizeText() {
         this.mAutoSizeTextHelper.autoSizeText();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeMaxTextSize() {
+    int getAutoSizeMaxTextSize() {
         return this.mAutoSizeTextHelper.getAutoSizeMaxTextSize();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeMinTextSize() {
+    int getAutoSizeMinTextSize() {
         return this.mAutoSizeTextHelper.getAutoSizeMinTextSize();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeStepGranularity() {
+    int getAutoSizeStepGranularity() {
         return this.mAutoSizeTextHelper.getAutoSizeStepGranularity();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int[] getAutoSizeTextAvailableSizes() {
+    int[] getAutoSizeTextAvailableSizes() {
         return this.mAutoSizeTextHelper.getAutoSizeTextAvailableSizes();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeTextType() {
+    int getAutoSizeTextType() {
         return this.mAutoSizeTextHelper.getAutoSizeTextType();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getCompoundDrawableTintList() {
+    ColorStateList getCompoundDrawableTintList() {
         TintInfo tintInfo = this.mDrawableTint;
         if (tintInfo != null) {
             return tintInfo.mTintList;
@@ -325,8 +309,7 @@ class AppCompatTextHelper {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getCompoundDrawableTintMode() {
+    PorterDuff.Mode getCompoundDrawableTintMode() {
         TintInfo tintInfo = this.mDrawableTint;
         if (tintInfo != null) {
             return tintInfo.mTintMode;
@@ -334,12 +317,10 @@ class AppCompatTextHelper {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isAutoSizeEnabled() {
+    boolean isAutoSizeEnabled() {
         return this.mAutoSizeTextHelper.isAutoSizeEnabled();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:102:0x0216  */
     /* JADX WARN: Removed duplicated region for block: B:106:0x0227  */
     /* JADX WARN: Removed duplicated region for block: B:112:0x0264  */
@@ -380,7 +361,7 @@ class AppCompatTextHelper {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadFromAttributes(AttributeSet attributeSet, int i) {
+    void loadFromAttributes(AttributeSet attributeSet, int i) {
         String str;
         String str2;
         ColorStateList colorStateList;
@@ -835,21 +816,18 @@ class AppCompatTextHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    void onLayout(boolean z, int i, int i2, int i3, int i4) {
         if (ViewUtils.SDK_LEVEL_SUPPORTS_AUTOSIZE) {
             return;
         }
         autoSizeText();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onSetCompoundDrawables() {
+    void onSetCompoundDrawables() {
         applyCompoundDrawablesTints();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onSetTextAppearance(Context context, int i) {
+    void onSetTextAppearance(Context context, int i) {
         String string;
         ColorStateList colorStateList;
         ColorStateList colorStateList2;
@@ -892,36 +870,30 @@ class AppCompatTextHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void populateSurroundingTextIfNeeded(TextView textView, InputConnection inputConnection, EditorInfo editorInfo) {
+    void populateSurroundingTextIfNeeded(TextView textView, InputConnection inputConnection, EditorInfo editorInfo) {
         if (Build.VERSION.SDK_INT >= 30 || inputConnection == null) {
             return;
         }
         EditorInfoCompat.setInitialSurroundingText(editorInfo, textView.getText());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAllCaps(boolean z) {
+    void setAllCaps(boolean z) {
         this.mView.setAllCaps(z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAutoSizeTextTypeUniformWithConfiguration(int i, int i2, int i3, int i4) {
+    void setAutoSizeTextTypeUniformWithConfiguration(int i, int i2, int i3, int i4) {
         this.mAutoSizeTextHelper.setAutoSizeTextTypeUniformWithConfiguration(i, i2, i3, i4);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAutoSizeTextTypeUniformWithPresetSizes(int[] iArr, int i) {
+    void setAutoSizeTextTypeUniformWithPresetSizes(int[] iArr, int i) {
         this.mAutoSizeTextHelper.setAutoSizeTextTypeUniformWithPresetSizes(iArr, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAutoSizeTextTypeWithDefaults(int i) {
+    void setAutoSizeTextTypeWithDefaults(int i) {
         this.mAutoSizeTextHelper.setAutoSizeTextTypeWithDefaults(i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setCompoundDrawableTintList(ColorStateList colorStateList) {
+    void setCompoundDrawableTintList(ColorStateList colorStateList) {
         if (this.mDrawableTint == null) {
             this.mDrawableTint = new TintInfo();
         }
@@ -931,8 +903,7 @@ class AppCompatTextHelper {
         setCompoundTints();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setCompoundDrawableTintMode(PorterDuff.Mode mode) {
+    void setCompoundDrawableTintMode(PorterDuff.Mode mode) {
         if (this.mDrawableTint == null) {
             this.mDrawableTint = new TintInfo();
         }
@@ -942,8 +913,7 @@ class AppCompatTextHelper {
         setCompoundTints();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setTextSize(int i, float f) {
+    void setTextSize(int i, float f) {
         if (ViewUtils.SDK_LEVEL_SUPPORTS_AUTOSIZE || isAutoSizeEnabled()) {
             return;
         }

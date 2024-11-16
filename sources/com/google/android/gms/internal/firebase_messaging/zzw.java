@@ -6,6 +6,9 @@ import java.io.OutputStream;
 final class zzw extends OutputStream {
     private long zza = 0;
 
+    zzw() {
+    }
+
     @Override // java.io.OutputStream
     public final void write(int i) {
         this.zza++;
@@ -26,8 +29,7 @@ final class zzw extends OutputStream {
         this.zza += i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long zza() {
+    final long zza() {
         return this.zza;
     }
 }

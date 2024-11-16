@@ -72,9 +72,7 @@ public final class Gson {
     private final ThreadLocal threadLocalAdapterResults = new ThreadLocal();
     private final ConcurrentMap typeTokenCache = new ConcurrentHashMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class FutureTypeAdapter extends SerializationDelegatingTypeAdapter {
+    static class FutureTypeAdapter extends SerializationDelegatingTypeAdapter {
         private TypeAdapter delegate = null;
 
         FutureTypeAdapter() {
@@ -111,8 +109,7 @@ public final class Gson {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Gson(Excluder excluder, FieldNamingStrategy fieldNamingStrategy, Map map, boolean z, boolean z2, boolean z3, boolean z4, FormattingStyle formattingStyle, Strictness strictness, boolean z5, boolean z6, LongSerializationPolicy longSerializationPolicy, String str, int i, int i2, List list, List list2, List list3, ToNumberStrategy toNumberStrategy, ToNumberStrategy toNumberStrategy2, List list4) {
+    Gson(Excluder excluder, FieldNamingStrategy fieldNamingStrategy, Map map, boolean z, boolean z2, boolean z3, boolean z4, FormattingStyle formattingStyle, Strictness strictness, boolean z5, boolean z6, LongSerializationPolicy longSerializationPolicy, String str, int i, int i2, List list, List list2, List list3, ToNumberStrategy toNumberStrategy, ToNumberStrategy toNumberStrategy2, List list4) {
         this.excluder = excluder;
         this.fieldNamingStrategy = fieldNamingStrategy;
         this.instanceCreators = map;

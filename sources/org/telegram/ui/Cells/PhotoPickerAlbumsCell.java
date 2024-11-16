@@ -25,7 +25,6 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
     private Paint backgroundPaint;
     private PhotoPickerAlbumsCellDelegate delegate;
 
-    /* loaded from: classes4.dex */
     private class AlbumView extends FrameLayout {
         private TextView countTextView;
         private BackupImageView imageView;
@@ -85,7 +84,6 @@ public class PhotoPickerAlbumsCell extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface PhotoPickerAlbumsCellDelegate {
         void didSelectAlbum(MediaController.AlbumEntry albumEntry);
     }

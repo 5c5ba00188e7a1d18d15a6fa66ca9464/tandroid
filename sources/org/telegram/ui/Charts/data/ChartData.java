@@ -30,7 +30,6 @@ public class ChartData {
     public int yTickFormatter;
     public int yTooltipFormatter;
 
-    /* loaded from: classes4.dex */
     public class Line {
         public int colorKey;
         public String id;
@@ -46,8 +45,7 @@ public class ChartData {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public ChartData() {
+    protected ChartData() {
         this.lines = new ArrayList();
         this.maxValue = 0L;
         this.minValue = Long.MAX_VALUE;
@@ -225,8 +223,8 @@ public class ChartData {
         return str.contains("XTR") ? 2 : 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void measure() {
+    protected void measure() {
+        SimpleDateFormat simpleDateFormat;
         long[] jArr = this.x;
         int length = jArr.length;
         if (length == 0) {
@@ -240,7 +238,7 @@ public class ChartData {
             fArr[0] = 1.0f;
         } else {
             for (int i = 0; i < length; i++) {
-                this.xPercentage[i] = ((float) (this.x[i] - j)) / ((float) (j2 - j));
+                this.xPercentage[i] = (this.x[i] - j) / (j2 - j);
             }
         }
         for (int i2 = 0; i2 < this.lines.size(); i2++) {
@@ -254,14 +252,18 @@ public class ChartData {
         }
         long j3 = this.timeStep;
         this.daysLookup = new String[((int) ((j2 - j) / j3)) + 10];
-        SimpleDateFormat simpleDateFormat = j3 == 1 ? null : j3 < 86400000 ? new SimpleDateFormat("HH:mm") : new SimpleDateFormat("MMM d");
+        if (j3 == 1) {
+            simpleDateFormat = null;
+        } else {
+            simpleDateFormat = j3 < 86400000 ? new SimpleDateFormat("HH:mm") : new SimpleDateFormat("MMM d");
+        }
         int i3 = 0;
         while (true) {
             String[] strArr = this.daysLookup;
             if (i3 >= strArr.length) {
-                float f = (float) this.timeStep;
+                float f = this.timeStep;
                 long[] jArr2 = this.x;
-                this.oneDayPercentage = f / ((float) (jArr2[jArr2.length - 1] - jArr2[0]));
+                this.oneDayPercentage = f / (jArr2[jArr2.length - 1] - jArr2[0]);
                 return;
             } else {
                 if (this.timeStep == 1) {

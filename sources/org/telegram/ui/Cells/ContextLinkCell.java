@@ -100,9 +100,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
     private StaticLayout titleLayout;
     private int titleY;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 implements Runnable {
+    class 1 implements Runnable {
         final /* synthetic */ boolean val$ifSame;
         final /* synthetic */ int val$localId;
 
@@ -220,7 +218,6 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface ContextLinkCellDelegate {
         void didPressedImage(ContextLinkCell contextLinkCell);
     }
@@ -1393,7 +1390,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
-        this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
         int i = this.documentAttachType;
         if (i == 3 || i == 5) {
             if (this.buttonState == 4) {

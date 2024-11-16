@@ -13,7 +13,6 @@ public abstract class MpegAudioUtil {
     private static final int[] BITRATE_V1_L3 = {32000, OneUIUtilities.ONE_UI_4_0, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 320000};
     private static final int[] BITRATE_V2 = {8000, 16000, 24000, 32000, OneUIUtilities.ONE_UI_4_0, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 144000, 160000};
 
-    /* loaded from: classes.dex */
     public static final class Header {
         public int bitrate;
         public int channels;

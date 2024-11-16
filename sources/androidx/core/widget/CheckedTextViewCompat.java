@@ -9,14 +9,12 @@ import android.widget.CheckedTextView;
 /* loaded from: classes.dex */
 public abstract class CheckedTextViewCompat {
 
-    /* loaded from: classes.dex */
     private static class Api16Impl {
         static Drawable getCheckMarkDrawable(CheckedTextView checkedTextView) {
             return checkedTextView.getCheckMarkDrawable();
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Api21Impl {
         static void setCheckMarkTintList(CheckedTextView checkedTextView, ColorStateList colorStateList) {
             checkedTextView.setCheckMarkTintList(colorStateList);

@@ -23,9 +23,8 @@ public final class zap extends GmsClient {
         this.zaa = telemetryLoggingOptions;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -48,9 +47,8 @@ public final class zap extends GmsClient {
         return 203400000;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.common.internal.service.IClientTelemetryService";
     }
 

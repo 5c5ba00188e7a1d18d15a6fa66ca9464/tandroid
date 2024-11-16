@@ -88,7 +88,7 @@ public abstract class CodecSpecificDataUtil {
             arrayList.add(Integer.valueOf(i));
             i = findNalStartCode(bArr, i + NAL_START_CODE.length);
         } while (i != -1);
-        byte[][] bArr2 = new byte[arrayList.size()];
+        byte[][] bArr2 = new byte[arrayList.size()][];
         int i2 = 0;
         while (i2 < arrayList.size()) {
             int intValue = ((Integer) arrayList.get(i2)).intValue();

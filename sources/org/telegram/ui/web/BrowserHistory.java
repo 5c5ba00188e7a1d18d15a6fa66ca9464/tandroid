@@ -22,7 +22,6 @@ public abstract class BrowserHistory {
     public static boolean historyLoaded;
     public static boolean historyLoading;
 
-    /* loaded from: classes5.dex */
     public static class Entry extends TLObject {
         public long id;
         public WebMetadataCache.WebMetadata meta;

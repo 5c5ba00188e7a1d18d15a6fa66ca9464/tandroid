@@ -31,9 +31,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class SsManifestParser implements ParsingLoadable.Parser {
     private final XmlPullParserFactory xmlParserFactory;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static abstract class ElementParser {
+    private static abstract class ElementParser {
         private final String baseUri;
         private final List normalizedAttributes = new LinkedList();
         private final ElementParser parent;
@@ -201,16 +199,13 @@ public class SsManifestParser implements ParsingLoadable.Parser {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class MissingFieldException extends ParserException {
         public MissingFieldException(String str) {
             super("Missing required field: " + str, null, true, 4);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ProtectionParser extends ElementParser {
+    private static class ProtectionParser extends ElementParser {
         private boolean inProtectionHeader;
         private byte[] initData;
         private UUID uuid;
@@ -281,9 +276,7 @@ public class SsManifestParser implements ParsingLoadable.Parser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class QualityLevelParser extends ElementParser {
+    private static class QualityLevelParser extends ElementParser {
         private Format format;
 
         public QualityLevelParser(ElementParser elementParser, String str) {
@@ -378,9 +371,7 @@ public class SsManifestParser implements ParsingLoadable.Parser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class SmoothStreamingMediaParser extends ElementParser {
+    private static class SmoothStreamingMediaParser extends ElementParser {
         private long duration;
         private long dvrWindowLength;
         private boolean isLive;
@@ -443,9 +434,7 @@ public class SsManifestParser implements ParsingLoadable.Parser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class StreamIndexParser extends ElementParser {
+    private static class StreamIndexParser extends ElementParser {
         private final String baseUri;
         private int displayHeight;
         private int displayWidth;

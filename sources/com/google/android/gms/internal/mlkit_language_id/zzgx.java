@@ -5,6 +5,9 @@ import java.util.NoSuchElementException;
 
 /* loaded from: classes.dex */
 final class zzgx implements Iterator {
+    zzgx() {
+    }
+
     @Override // java.util.Iterator
     public final boolean hasNext() {
         return false;

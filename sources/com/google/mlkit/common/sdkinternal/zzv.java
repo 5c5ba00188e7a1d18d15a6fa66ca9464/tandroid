@@ -7,8 +7,7 @@ final class zzv {
     final Executor zza;
     final Runnable zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzv(Executor executor, Runnable runnable, zzu zzuVar) {
+    /* synthetic */ zzv(Executor executor, Runnable runnable, zzu zzuVar) {
         this.zza = executor;
         this.zzb = runnable;
     }

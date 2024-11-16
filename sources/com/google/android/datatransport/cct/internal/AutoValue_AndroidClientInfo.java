@@ -17,9 +17,7 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
     private final String product;
     private final Integer sdkVersion;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Builder extends AndroidClientInfo.Builder {
+    static final class Builder extends AndroidClientInfo.Builder {
         private String applicationBuild;
         private String country;
         private String device;
@@ -32,6 +30,9 @@ final class AutoValue_AndroidClientInfo extends AndroidClientInfo {
         private String osBuild;
         private String product;
         private Integer sdkVersion;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.cct.internal.AndroidClientInfo.Builder
         public AndroidClientInfo build() {

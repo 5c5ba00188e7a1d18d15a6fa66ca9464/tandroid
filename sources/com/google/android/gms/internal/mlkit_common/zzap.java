@@ -2,15 +2,13 @@ package com.google.android.gms.internal.mlkit_common;
 
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzap extends zzaq {
+final class zzap extends zzaq {
     final transient int zza;
     final transient int zzb;
     final /* synthetic */ zzaq zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzap(zzaq zzaqVar, int i, int i2) {
+    zzap(zzaq zzaqVar, int i, int i2) {
         this.zzc = zzaqVar;
         this.zza = i;
         this.zzb = i2;
@@ -37,15 +35,13 @@ public final class zzap extends zzaq {
         return this.zzc.zzc() + this.zza + this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzam
-    public final int zzc() {
+    final int zzc() {
         return this.zzc.zzc() + this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzam
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzc.zze();
     }
 

@@ -16,9 +16,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CompactHashMap extends AbstractMap implements Serializable {
+class CompactHashMap extends AbstractMap implements Serializable {
     private static final Object NOT_FOUND = new Object();
     transient int[] entries;
     private transient Set entrySetView;
@@ -30,9 +29,7 @@ public class CompactHashMap extends AbstractMap implements Serializable {
     transient Object[] values;
     private transient Collection valuesView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class EntrySetView extends AbstractSet {
+    class EntrySetView extends AbstractSet {
         EntrySetView() {
         }
 
@@ -90,7 +87,6 @@ public class CompactHashMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* loaded from: classes.dex */
     private abstract class Itr implements Iterator {
         int currentIndex;
         int expectedMetadata;
@@ -144,9 +140,7 @@ public class CompactHashMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class KeySetView extends AbstractSet {
+    class KeySetView extends AbstractSet {
         KeySetView() {
         }
 
@@ -177,9 +171,7 @@ public class CompactHashMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public final class MapEntry extends AbstractMapEntry {
+    final class MapEntry extends AbstractMapEntry {
         private final Object key;
         private int lastKnownIndex;
 
@@ -229,9 +221,7 @@ public class CompactHashMap extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class ValuesView extends AbstractCollection {
+    class ValuesView extends AbstractCollection {
         ValuesView() {
         }
 
@@ -519,7 +509,7 @@ public class CompactHashMap extends AbstractMap implements Serializable {
             /* JADX INFO: Access modifiers changed from: package-private */
             @Override // com.google.common.collect.CompactHashMap.Itr
             public Map.Entry getOutput(int i) {
-                return new MapEntry(i);
+                return CompactHashMap.this.new MapEntry(i);
             }
         };
     }

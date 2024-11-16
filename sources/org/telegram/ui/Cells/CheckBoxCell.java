@@ -57,7 +57,6 @@ public class CheckBoxCell extends FrameLayout {
     private View textView;
     private final TextView valueTextView;
 
-    /* loaded from: classes4.dex */
     public class CollapseButton extends LinearLayout {
         private final View collapsedArrow;
         private ImageView iconView;
@@ -206,9 +205,8 @@ public class CheckBoxCell extends FrameLayout {
         boolean z2 = true;
         if (z) {
             AnimatedTextView animatedTextView = new AnimatedTextView(context) { // from class: org.telegram.ui.Cells.CheckBoxCell.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
                     CheckBoxCell.this.updateCollapseArrowTranslation();
                 }
@@ -251,9 +249,8 @@ public class CheckBoxCell extends FrameLayout {
             view2 = this.animatedTextView;
         } else {
             LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Cells.CheckBoxCell.2
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
                     CheckBoxCell.this.updateCollapseArrowTranslation();
                 }

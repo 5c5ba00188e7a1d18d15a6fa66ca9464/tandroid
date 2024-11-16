@@ -74,8 +74,7 @@ public class MobileVisionBase<DetectionResultT> implements Closeable, LifecycleO
         }, this.zze.getToken());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Object zza(InputImage inputImage) {
+    final /* synthetic */ Object zza(InputImage inputImage) {
         zzlx zze = zzlx.zze("detectorTaskWithResource#run");
         zze.zzb();
         try {

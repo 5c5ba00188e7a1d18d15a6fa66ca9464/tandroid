@@ -785,106 +785,49 @@ public class JsonReader implements Closeable {
         } while (c != '\r');
     }
 
-    /*  JADX ERROR: JadxRuntimeException in pass: RegionMakerVisitor
-        jadx.core.utils.exceptions.JadxRuntimeException: Failed to find switch 'out' block (already processed)
-        	at jadx.core.dex.visitors.regions.RegionMaker.calcSwitchOut(RegionMaker.java:923)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processSwitch(RegionMaker.java:797)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:157)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:735)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:735)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:735)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:740)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:740)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:735)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processIf(RegionMaker.java:735)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:152)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeEndlessLoop(RegionMaker.java:411)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processLoop(RegionMaker.java:201)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:135)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMaker.processLoop(RegionMaker.java:242)
-        	at jadx.core.dex.visitors.regions.RegionMaker.traverse(RegionMaker.java:135)
-        	at jadx.core.dex.visitors.regions.RegionMaker.makeRegion(RegionMaker.java:91)
-        	at jadx.core.dex.visitors.regions.RegionMakerVisitor.visit(RegionMakerVisitor.java:52)
-        */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0048, code lost:
+    
+        checkLenient();
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void skipUnquotedValue() {
-        /*
-            r4 = this;
-        L0:
-            r0 = 0
-        L1:
-            int r1 = r4.pos
-            int r2 = r1 + r0
-            int r3 = r4.limit
-            if (r2 >= r3) goto L51
-            char[] r2 = r4.buffer
-            int r1 = r1 + r0
-            char r1 = r2[r1]
-            r2 = 9
-            if (r1 == r2) goto L4b
-            r2 = 10
-            if (r1 == r2) goto L4b
-            r2 = 12
-            if (r1 == r2) goto L4b
-            r2 = 13
-            if (r1 == r2) goto L4b
-            r2 = 32
-            if (r1 == r2) goto L4b
-            r2 = 35
-            if (r1 == r2) goto L48
-            r2 = 44
-            if (r1 == r2) goto L4b
-            r2 = 47
-            if (r1 == r2) goto L48
-            r2 = 61
-            if (r1 == r2) goto L48
-            r2 = 123(0x7b, float:1.72E-43)
-            if (r1 == r2) goto L4b
-            r2 = 125(0x7d, float:1.75E-43)
-            if (r1 == r2) goto L4b
-            r2 = 58
-            if (r1 == r2) goto L4b
-            r2 = 59
-            if (r1 == r2) goto L48
-            switch(r1) {
-                case 91: goto L4b;
-                case 92: goto L48;
-                case 93: goto L4b;
-                default: goto L45;
+        do {
+            int i = 0;
+            while (true) {
+                int i2 = this.pos;
+                if (i2 + i < this.limit) {
+                    char c = this.buffer[i2 + i];
+                    if (c != '\t' && c != '\n' && c != '\f' && c != '\r' && c != ' ') {
+                        if (c != '#') {
+                            if (c != ',') {
+                                if (c != '/' && c != '=') {
+                                    if (c != '{' && c != '}' && c != ':') {
+                                        if (c != ';') {
+                                            switch (c) {
+                                                case '[':
+                                                case ']':
+                                                    break;
+                                                case '\\':
+                                                    break;
+                                                default:
+                                                    i++;
+                                            }
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    this.pos = i2 + i;
+                }
             }
-        L45:
-            int r0 = r0 + 1
-            goto L1
-        L48:
-            r4.checkLenient()
-        L4b:
-            int r1 = r4.pos
-            int r1 = r1 + r0
-            r4.pos = r1
-            return
-        L51:
-            int r1 = r1 + r0
-            r4.pos = r1
-            r0 = 1
-            boolean r0 = r4.fillBuffer(r0)
-            if (r0 != 0) goto L0
-            return
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.google.gson.stream.JsonReader.skipUnquotedValue():void");
+            this.pos += i;
+            return;
+        } while (fillBuffer(1));
     }
 
     private MalformedJsonException syntaxError(String str) {
@@ -1404,7 +1347,6 @@ public class JsonReader implements Closeable {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:6:0x0011. Please report as an issue. */
     public void skipValue() {
         int i = 0;
         do {
@@ -1482,8 +1424,9 @@ public class JsonReader implements Closeable {
                     this.peeked = 0;
                     break;
                 case 17:
-                    return;
+                    break;
             }
+            return;
         } while (i > 0);
         int[] iArr = this.pathIndices;
         int i3 = this.stackSize - 1;

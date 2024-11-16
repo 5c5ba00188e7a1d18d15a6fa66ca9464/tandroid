@@ -59,9 +59,7 @@ public class SampleQueue implements TrackOutput {
     private boolean upstreamFormatRequired = true;
     private boolean upstreamKeyframeRequired = true;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class SampleExtrasHolder {
+    static final class SampleExtrasHolder {
         public TrackOutput.CryptoData cryptoData;
         public long offset;
         public int size;
@@ -71,8 +69,7 @@ public class SampleQueue implements TrackOutput {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SharedSampleMetadata {
+    static final class SharedSampleMetadata {
         public final DrmSessionManager.DrmSessionReference drmSessionReference;
         public final Format format;
 
@@ -82,13 +79,11 @@ public class SampleQueue implements TrackOutput {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface UpstreamFormatChangedListener {
         void onUpstreamFormatChanged(Format format);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public SampleQueue(Allocator allocator, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher) {
+    protected SampleQueue(Allocator allocator, DrmSessionManager drmSessionManager, DrmSessionEventListener.EventDispatcher eventDispatcher) {
         this.drmSessionManager = drmSessionManager;
         this.drmEventDispatcher = eventDispatcher;
         this.sampleDataQueue = new SampleDataQueue(allocator);
@@ -456,8 +451,7 @@ public class SampleQueue implements TrackOutput {
         upstreamFormatChangedListener.onUpstreamFormatChanged(adjustedUpstreamFormat);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Format getAdjustedUpstreamFormat(Format format) {
+    protected Format getAdjustedUpstreamFormat(Format format) {
         return (this.sampleOffsetUs == 0 || format.subsampleOffsetUs == Long.MAX_VALUE) ? format : format.buildUpon().setSubsampleOffsetUs(format.subsampleOffsetUs + this.sampleOffsetUs).build();
     }
 
@@ -504,8 +498,7 @@ public class SampleQueue implements TrackOutput {
         return this.absoluteFirstIndex + this.length;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void invalidateUpstreamFormatAdjustment() {
+    protected final void invalidateUpstreamFormatAdjustment() {
         this.upstreamFormatAdjustmentRequired = true;
     }
 

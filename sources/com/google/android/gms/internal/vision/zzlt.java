@@ -1,12 +1,10 @@
 package com.google.android.gms.internal.vision;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzlt implements zzls {
+final class zzlt implements zzls {
     private final /* synthetic */ zzht zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzlt(zzht zzhtVar) {
+    zzlt(zzht zzhtVar) {
         this.zza = zzhtVar;
     }
 

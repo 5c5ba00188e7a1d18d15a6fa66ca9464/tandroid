@@ -4,14 +4,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzq extends zzbe {
+final class zzq extends zzbe {
     final /* synthetic */ zzw zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzq(zzw zzwVar, Map map) {
+    zzq(zzw zzwVar, Map map) {
         super(map);
         this.zza = zzwVar;
     }

@@ -16,8 +16,7 @@ public class SimpleExoPlayer extends BasePlayer implements ExoPlayer {
     private final ConditionVariable constructorFinished;
     private final ExoPlayerImpl player;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SimpleExoPlayer(ExoPlayer.Builder builder) {
+    SimpleExoPlayer(ExoPlayer.Builder builder) {
         ConditionVariable conditionVariable = new ConditionVariable();
         this.constructorFinished = conditionVariable;
         try {

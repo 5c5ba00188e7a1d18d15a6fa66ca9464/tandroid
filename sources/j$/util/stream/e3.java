@@ -41,10 +41,10 @@ public final /* synthetic */ class e3 implements c2 {
         switch (this.a) {
             case 0:
                 ((J2) this.b).accept(i);
-                return;
+                break;
             default:
                 this.b.accept(i);
-                return;
+                break;
         }
     }
 
@@ -66,31 +66,25 @@ public final /* synthetic */ class e3 implements c2 {
         switch (this.a) {
             case 0:
                 o((Integer) obj);
-                return;
+                break;
             default:
                 o((Integer) obj);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.Consumer
     public final /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
         }
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.F
     public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.c(this, f);
-            default:
-                return j$.com.android.tools.r8.a.c(this, f);
         }
+        return j$.com.android.tools.r8.a.c(this, f);
     }
 
     @Override // j$.util.stream.e2
@@ -108,20 +102,17 @@ public final /* synthetic */ class e3 implements c2 {
         switch (this.a) {
             case 0:
                 t0.g(this, num);
-                return;
+                break;
             default:
                 t0.g(this, num);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.stream.e2
     public final /* synthetic */ boolean q() {
         switch (this.a) {
-            case 0:
-                return false;
-            default:
-                return false;
         }
+        return false;
     }
 }

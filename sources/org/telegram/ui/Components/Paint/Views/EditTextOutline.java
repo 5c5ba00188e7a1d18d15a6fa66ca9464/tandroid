@@ -55,9 +55,8 @@ public class EditTextOutline extends EditTextBoldCursor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         boolean z;
         int i = 0;
         if (this.mCache != null && this.mStrokeColor != 0) {
@@ -221,9 +220,8 @@ public class EditTextOutline extends EditTextBoldCursor {
         super.onDraw(canvas);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
         Bitmap bitmap;
         super.onSizeChanged(i, i2, i3, i4);
         if (i <= 0 || i2 <= 0) {
@@ -240,9 +238,8 @@ public class EditTextOutline extends EditTextBoldCursor {
         this.mCache = bitmap;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         this.mUpdateCachedBitmap = true;
         this.isFrameDirty = true;

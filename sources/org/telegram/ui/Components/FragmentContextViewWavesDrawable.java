@@ -42,7 +42,6 @@ public class FragmentContextViewWavesDrawable {
     Path path = new Path();
     private final Paint selectedPaint = new Paint(1);
 
-    /* loaded from: classes3.dex */
     public static class WeavingState {
         int color1;
         int color2;
@@ -193,7 +192,7 @@ public class FragmentContextViewWavesDrawable {
                 nextInt = (nextInt2 / 100.0f) + 0.7f;
                 this.targetY = nextInt;
             }
-            float f3 = (float) j;
+            float f3 = j;
             float f4 = this.time + ((BlobDrawable.GRADIENT_SPEED_MIN + 0.5f) * f3) + (f3 * BlobDrawable.GRADIENT_SPEED_MAX * 2.0f * f);
             this.time = f4;
             float f5 = this.duration;
@@ -294,7 +293,7 @@ public class FragmentContextViewWavesDrawable {
                     float f10 = this.amplitude;
                     if (f9 != f10) {
                         float f11 = this.animateAmplitudeDiff;
-                        float f12 = f10 + (((float) j2) * f11);
+                        float f12 = f10 + (j2 * f11);
                         this.amplitude = f12;
                         if (f11 <= 0.0f ? f12 < f9 : f12 > f9) {
                             this.amplitude = f9;
@@ -305,7 +304,7 @@ public class FragmentContextViewWavesDrawable {
                     float f14 = this.amplitude2;
                     if (f13 != f14) {
                         float f15 = this.animateAmplitudeDiff2;
-                        float f16 = f14 + (((float) j2) * f15);
+                        float f16 = f14 + (j2 * f15);
                         this.amplitude2 = f16;
                         if (f15 <= 0.0f ? f16 < f13 : f16 > f13) {
                             this.amplitude2 = f13;
@@ -313,7 +312,7 @@ public class FragmentContextViewWavesDrawable {
                         fragmentContextView.invalidate();
                     }
                     if (this.previousState != null) {
-                        float f17 = this.progressToState + (((float) j2) / 250.0f);
+                        float f17 = this.progressToState + (j2 / 250.0f);
                         this.progressToState = f17;
                         if (f17 > 1.0f) {
                             this.progressToState = 1.0f;

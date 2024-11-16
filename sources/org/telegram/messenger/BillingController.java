@@ -114,13 +114,16 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$consumeGiftPurchase$5(BillingResult billingResult, String str) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$launchBillingFlow$0(Activity activity, AccountInstance accountInstance, TLRPC.InputStorePaymentPurpose inputStorePaymentPurpose, List list, BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams) {
         launchBillingFlow(activity, accountInstance, inputStorePaymentPurpose, list, subscriptionUpdateParams, true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$launchBillingFlow$1(List list, String str, AtomicInteger atomicInteger, Runnable runnable, BillingResult billingResult, String str2) {
         if (billingResult.getResponseCode() == 0) {
             list.add(str);
@@ -130,6 +133,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC.InputStorePaymentPurpose inputStorePaymentPurpose, final List list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, BillingResult billingResult, List list2) {
         if (billingResult.getResponseCode() == 0) {
             final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda1
@@ -170,6 +174,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPurchasesUpdated$4(AlertDialog alertDialog, Purchase purchase, AccountInstance accountInstance, BillingResult billingResult, TLRPC.TL_payments_assignPlayMarketTransaction tL_payments_assignPlayMarketTransaction, TLObject tLObject, TLRPC.TL_error tL_error) {
         Objects.requireNonNull(alertDialog);
         AndroidUtilities.runOnUIThread(new BillingController$$ExternalSyntheticLambda10(alertDialog));
@@ -198,6 +203,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         BillingUtilities.cleanupPurchase(purchase);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onQueriedPremiumProductDetails$7() {
         try {
             queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda3(this));
@@ -206,6 +212,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onQueriedPremiumProductDetails(BillingResult billingResult, List<ProductDetails> list) {
         FileLog.d("Billing: Query product details finished " + billingResult + ", " + list);
         if (billingResult.getResponseCode() != 0) {
@@ -462,7 +469,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         this.onCanceled = runnable;
     }
 
-    /* renamed from: startConnection */
+    /* renamed from: startConnection, reason: merged with bridge method [inline-methods] */
     public void lambda$onBillingServiceDisconnected$6() {
         if (isReady()) {
             return;

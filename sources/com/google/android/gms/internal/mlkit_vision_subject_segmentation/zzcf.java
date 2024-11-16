@@ -43,16 +43,14 @@ final class zzcf implements ObjectEncoderContext {
         };
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcf(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
+    zzcf(OutputStream outputStream, Map map, Map map2, ObjectEncoder objectEncoder) {
         this.zze = outputStream;
         this.zzf = map;
         this.zzg = map2;
         this.zzh = objectEncoder;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) {
+    static /* synthetic */ void zzg(Map.Entry entry, ObjectEncoderContext objectEncoderContext) {
         objectEncoderContext.add(zzb, entry.getKey());
         objectEncoderContext.add(zzc, entry.getValue());
     }
@@ -186,8 +184,7 @@ final class zzcf implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final ObjectEncoderContext zzc(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
+    final ObjectEncoderContext zzc(FieldDescriptor fieldDescriptor, Object obj, boolean z) {
         if (obj == null) {
             return this;
         }
@@ -264,8 +261,7 @@ final class zzcf implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzcf zzd(FieldDescriptor fieldDescriptor, int i, boolean z) {
+    final zzcf zzd(FieldDescriptor fieldDescriptor, int i, boolean z) {
         if (z && i == 0) {
             return this;
         }
@@ -305,8 +301,7 @@ final class zzcf implements ObjectEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzcf zzf(Object obj) {
+    final zzcf zzf(Object obj) {
         if (obj == null) {
             return this;
         }

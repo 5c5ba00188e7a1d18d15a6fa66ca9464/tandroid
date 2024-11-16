@@ -199,7 +199,7 @@ public class PopupAudioView extends BaseCell implements SeekBar.SeekBarDelegate,
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
-        this.progressView.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)));
+        this.progressView.setProgress(Math.min(1.0f, j / j2));
         if (this.buttonState != 3) {
             updateButtonState();
         }

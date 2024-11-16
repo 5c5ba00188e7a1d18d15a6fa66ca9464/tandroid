@@ -1,16 +1,14 @@
 package com.google.android.gms.internal.vision;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzmd {
+abstract class zzmd {
     private static final zzme zza;
 
     static {
         zza = (zzma.zza() && zzma.zzb() && !zzhi.zza()) ? new zzmj() : new zzmh();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(CharSequence charSequence) {
+    static int zza(CharSequence charSequence) {
         int length = charSequence.length();
         int i = 0;
         int i2 = 0;
@@ -55,8 +53,7 @@ public abstract class zzmd {
         throw new IllegalArgumentException(sb.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         return zza.zza(charSequence, bArr, i, i2);
     }
 
@@ -92,8 +89,7 @@ public abstract class zzmd {
         return (i ^ (i2 << 8)) ^ (i3 << 16);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zzb(byte[] bArr, int i, int i2) {
+    static String zzb(byte[] bArr, int i, int i2) {
         return zza.zzb(bArr, i, i2);
     }
 

@@ -10,8 +10,7 @@ final class BitMatrixParser {
     private FormatInformation parsedFormatInfo;
     private Version parsedVersion;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public BitMatrixParser(BitMatrix bitMatrix) {
+    BitMatrixParser(BitMatrix bitMatrix) {
         int height = bitMatrix.getHeight();
         if (height < 21 || (height & 3) != 1) {
             throw FormatException.getFormatInstance();
@@ -23,8 +22,7 @@ final class BitMatrixParser {
         return this.mirror ? this.bitMatrix.get(i2, i) : this.bitMatrix.get(i, i2) ? (i3 << 1) | 1 : i3 << 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void mirror() {
+    void mirror() {
         int i = 0;
         while (i < this.bitMatrix.getWidth()) {
             int i2 = i + 1;
@@ -38,8 +36,7 @@ final class BitMatrixParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public byte[] readCodewords() {
+    byte[] readCodewords() {
         FormatInformation readFormatInformation = readFormatInformation();
         Version readVersion = readVersion();
         DataMask dataMask = DataMask.values()[readFormatInformation.getDataMask()];
@@ -85,8 +82,7 @@ final class BitMatrixParser {
         throw FormatException.getFormatInstance();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FormatInformation readFormatInformation() {
+    FormatInformation readFormatInformation() {
         FormatInformation formatInformation = this.parsedFormatInfo;
         if (formatInformation != null) {
             return formatInformation;
@@ -116,8 +112,7 @@ final class BitMatrixParser {
         throw FormatException.getFormatInstance();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Version readVersion() {
+    Version readVersion() {
         Version version = this.parsedVersion;
         if (version != null) {
             return version;
@@ -153,16 +148,14 @@ final class BitMatrixParser {
         return decodeVersionInformation2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void remask() {
+    void remask() {
         if (this.parsedFormatInfo == null) {
             return;
         }
         DataMask.values()[this.parsedFormatInfo.getDataMask()].unmaskBitMatrix(this.bitMatrix, this.bitMatrix.getHeight());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setMirror(boolean z) {
+    void setMirror(boolean z) {
         this.parsedVersion = null;
         this.parsedFormatInfo = null;
         this.mirror = z;

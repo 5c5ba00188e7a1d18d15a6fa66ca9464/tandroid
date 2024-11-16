@@ -19,8 +19,7 @@ public abstract class AbstractFullBox extends AbstractBox implements Box {
         ajc$preClinit();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractFullBox(String str) {
+    protected AbstractFullBox(String str) {
         super(str);
     }
 
@@ -44,8 +43,7 @@ public abstract class AbstractFullBox extends AbstractBox implements Box {
         return this.version;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final long parseVersionAndFlags(ByteBuffer byteBuffer) {
+    protected final long parseVersionAndFlags(ByteBuffer byteBuffer) {
         this.version = IsoTypeReader.readUInt8(byteBuffer);
         this.flags = IsoTypeReader.readUInt24(byteBuffer);
         return 4L;
@@ -61,8 +59,7 @@ public abstract class AbstractFullBox extends AbstractBox implements Box {
         this.version = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void writeVersionAndFlags(ByteBuffer byteBuffer) {
+    protected final void writeVersionAndFlags(ByteBuffer byteBuffer) {
         IsoTypeWriter.writeUInt8(byteBuffer, this.version);
         IsoTypeWriter.writeUInt24(byteBuffer, this.flags);
     }

@@ -7,8 +7,7 @@ abstract class zzgu {
     private static final Iterator zza = new zzgx();
     private static final Iterable zzb = new zzgw();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Iterable zza() {
+    static Iterable zza() {
         return zzb;
     }
 }

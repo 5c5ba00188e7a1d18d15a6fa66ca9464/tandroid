@@ -15,8 +15,7 @@ public abstract class CustomTabsClient {
     private final ICustomTabsService mService;
     private final ComponentName mServiceComponentName;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CustomTabsClient(ICustomTabsService iCustomTabsService, ComponentName componentName) {
+    CustomTabsClient(ICustomTabsService iCustomTabsService, ComponentName componentName) {
         this.mService = iCustomTabsService;
         this.mServiceComponentName = componentName;
     }

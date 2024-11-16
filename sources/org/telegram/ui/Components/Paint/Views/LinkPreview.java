@@ -94,7 +94,6 @@ public class LinkPreview extends View {
     private WebPagePreview webpage;
     private final AnimatedFloat width;
 
-    /* loaded from: classes3.dex */
     public static class WebPagePreview extends TLObject {
         public boolean captionAbove = true;
         public int flags;

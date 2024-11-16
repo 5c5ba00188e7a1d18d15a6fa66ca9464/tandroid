@@ -15,13 +15,11 @@ abstract class zzdl {
         zzb = new zzdk();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdk zza() {
+    static zzdk zza() {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdk zzb() {
+    static zzdk zzb() {
         return zzb;
     }
 }

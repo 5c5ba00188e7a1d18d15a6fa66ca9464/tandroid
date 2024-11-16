@@ -4,14 +4,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class zzv extends zzt implements List {
+class zzv extends zzt implements List {
     final /* synthetic */ zzw zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzv(zzw zzwVar, Object obj, List list, zzt zztVar) {
+    zzv(zzw zzwVar, Object obj, List list, zzt zztVar) {
         super(zzwVar, obj, list, zztVar);
         this.zzf = zzwVar;
     }

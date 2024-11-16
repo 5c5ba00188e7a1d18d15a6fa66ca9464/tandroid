@@ -8,8 +8,7 @@ class SourceLocationImpl implements SourceLocation {
     int line;
     Class withinType;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SourceLocationImpl(Class cls, String str, int i) {
+    SourceLocationImpl(Class cls, String str, int i) {
         this.withinType = cls;
         this.fileName = str;
         this.line = i;

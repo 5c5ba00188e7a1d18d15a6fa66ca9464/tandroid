@@ -18,8 +18,7 @@ public abstract class zzeq {
         zze = zzdz.zza(bArr, 0, bArr.length, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, byte[] bArr, int i2, int i3) {
+    static int zza(int i, byte[] bArr, int i2, int i3) {
         for (int i4 = i2; i4 < i2 + i3; i4++) {
             i = (i * 31) + bArr[i4];
         }
@@ -34,27 +33,23 @@ public abstract class zzeq {
         return z ? 1231 : 1237;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Object obj) {
+    static Object zza(Object obj) {
         obj.getClass();
         return obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Object obj, Object obj2) {
+    static Object zza(Object obj, Object obj2) {
         return ((zzfz) obj).zzm().zza((zzfz) obj2).zzf();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Object obj, String str) {
+    static Object zza(Object obj, String str) {
         if (obj != null) {
             return obj;
         }
         throw new NullPointerException(str);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza(zzfz zzfzVar) {
+    static boolean zza(zzfz zzfzVar) {
         return false;
     }
 

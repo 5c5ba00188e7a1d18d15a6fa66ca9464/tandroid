@@ -8,8 +8,7 @@ import com.google.android.gms.location.LocationResult;
 final class zzcw extends com.google.android.gms.location.zzq {
     private final zzcs zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcw(zzcs zzcsVar) {
+    zzcw(zzcs zzcsVar) {
         this.zza = zzcsVar;
     }
 
@@ -28,14 +27,12 @@ final class zzcw extends com.google.android.gms.location.zzq {
         this.zza.zza().notifyListener(new zzcv(this));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzcw zzg(ListenerHolder listenerHolder) {
+    final zzcw zzg(ListenerHolder listenerHolder) {
         this.zza.zzc(listenerHolder);
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzh() {
+    final void zzh() {
         this.zza.zza().clear();
     }
 }

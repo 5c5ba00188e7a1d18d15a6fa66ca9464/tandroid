@@ -5,7 +5,6 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public interface ResultCallback<T> {
 
-    /* loaded from: classes3.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onError(ResultCallback resultCallback, Throwable th) {
         }

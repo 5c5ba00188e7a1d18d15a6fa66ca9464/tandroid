@@ -8,8 +8,7 @@ final class z1 implements N1, b2 {
     private double b;
     final /* synthetic */ j$.util.function.j c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public z1(j$.util.function.j jVar) {
+    z1(j$.util.function.j jVar) {
         this.c = jVar;
     }
 

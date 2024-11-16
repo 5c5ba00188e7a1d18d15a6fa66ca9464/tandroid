@@ -51,7 +51,6 @@ public abstract class ProfileChannelCell extends FrameLayout {
     private boolean set;
     private final AnimatedTextView subscribersView;
 
-    /* loaded from: classes4.dex */
     public static class ChannelMessageFetcher {
         private ArrayList callbacks = new ArrayList();
         public long channel_id;

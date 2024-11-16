@@ -31,8 +31,7 @@ class RefCountDelegate implements RefCounted {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean safeRetain() {
+    boolean safeRetain() {
         int i;
         do {
             i = this.refCount.get();

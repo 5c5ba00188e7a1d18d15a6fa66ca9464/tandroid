@@ -72,7 +72,6 @@ public class AcceptDeclineView extends View {
     float startY;
     float touchSlop;
 
-    /* loaded from: classes3.dex */
     public static abstract class AcceptDeclineAccessibilityNodeProvider extends AccessibilityNodeProvider {
         private final AccessibilityManager accessibilityManager;
         private final View hostView;
@@ -175,7 +174,6 @@ public class AcceptDeclineView extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Listener {
         void onAccept();
 

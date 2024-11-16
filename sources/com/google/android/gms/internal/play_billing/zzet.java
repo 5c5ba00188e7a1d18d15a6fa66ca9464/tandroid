@@ -2,6 +2,9 @@ package com.google.android.gms.internal.play_billing;
 
 /* loaded from: classes.dex */
 final class zzet extends zzes {
+    zzet() {
+    }
+
     @Override // com.google.android.gms.internal.play_billing.zzes
     final int zza(int i, byte[] bArr, int i2, int i3) {
         while (i2 < i3 && bArr[i2] >= 0) {

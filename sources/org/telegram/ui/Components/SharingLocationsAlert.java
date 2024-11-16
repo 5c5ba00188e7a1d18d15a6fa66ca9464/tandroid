@@ -35,7 +35,6 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
     private Drawable shadowDrawable;
     private TextView textView;
 
-    /* loaded from: classes3.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
@@ -97,7 +96,6 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface SharingLocationsAlertDelegate {
         void didSelectLocation(LocationController.SharingLocationInfo sharingLocationInfo);
     }
@@ -302,9 +300,8 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

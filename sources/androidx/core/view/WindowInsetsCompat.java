@@ -19,9 +19,7 @@ public class WindowInsetsCompat {
     public static final WindowInsetsCompat CONSUMED;
     private final Impl mImpl;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21ReflectionHolder {
+    static class Api21ReflectionHolder {
         private static Field sContentInsets;
         private static boolean sReflectionSucceeded;
         private static Field sStableInsets;
@@ -67,7 +65,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private final BuilderImpl mImpl;
 
@@ -96,9 +93,7 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class BuilderImpl {
+    private static class BuilderImpl {
         private final WindowInsetsCompat mInsets;
         Insets[] mInsetsTypeMask;
 
@@ -158,7 +153,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class BuilderImpl20 extends BuilderImpl {
         private static Constructor sConstructor = null;
         private static boolean sConstructorFetched = false;
@@ -240,7 +234,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class BuilderImpl29 extends BuilderImpl {
         final WindowInsets.Builder mPlatBuilder;
 
@@ -290,7 +283,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class BuilderImpl30 extends BuilderImpl29 {
         BuilderImpl30() {
         }
@@ -300,9 +292,7 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Impl {
+    private static class Impl {
         static final WindowInsetsCompat CONSUMED = new Builder().build().consumeDisplayCutout().consumeStableInsets().consumeSystemWindowInsets();
         final WindowInsetsCompat mHost;
 
@@ -396,9 +386,7 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Impl20 extends Impl {
+    private static class Impl20 extends Impl {
         private static Class sAttachInfoClass = null;
         private static Field sAttachInfoField = null;
         private static Method sGetViewRootImplMethod = null;
@@ -605,7 +593,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Impl21 extends Impl20 {
         private Insets mStableInsets;
 
@@ -663,7 +650,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Impl28 extends Impl21 {
         Impl28(WindowInsetsCompat windowInsetsCompat, WindowInsets windowInsets) {
             super(windowInsetsCompat, windowInsets);
@@ -707,7 +693,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Impl29 extends Impl28 {
         private Insets mMandatorySystemGestureInsets;
         private Insets mSystemGestureInsets;
@@ -769,7 +754,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Impl30 extends Impl29 {
         static final WindowInsetsCompat CONSUMED;
 
@@ -799,7 +783,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Type {
         public static int displayCutout() {
             return 128;
@@ -853,7 +836,6 @@ public class WindowInsetsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class TypeImpl30 {
         static int toPlatformType(int i) {
             int statusBars;
@@ -953,8 +935,7 @@ public class WindowInsetsCompat {
         return this.mImpl.consumeSystemWindowInsets();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void copyRootViewBounds(View view) {
+    void copyRootViewBounds(View view) {
         this.mImpl.copyRootViewBounds(view);
     }
 
@@ -1040,8 +1021,7 @@ public class WindowInsetsCompat {
         this.mImpl.setRootViewData(insets);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setRootWindowInsets(WindowInsetsCompat windowInsetsCompat) {
+    void setRootWindowInsets(WindowInsetsCompat windowInsetsCompat) {
         this.mImpl.setRootWindowInsets(windowInsetsCompat);
     }
 

@@ -27,9 +27,7 @@ public class MenuPopupHelper {
     private final int mPopupStyleRes;
     private MenuPresenter.Callback mPresenterCallback;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api17Impl {
+    static class Api17Impl {
         static void getRealSize(Display display, Point point) {
             display.getRealSize(point);
         }
@@ -102,8 +100,7 @@ public class MenuPopupHelper {
         return menuPopup != null && menuPopup.isShowing();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onDismiss() {
+    protected void onDismiss() {
         this.mPopup = null;
         PopupWindow.OnDismissListener onDismissListener = this.mOnDismissListener;
         if (onDismissListener != null) {

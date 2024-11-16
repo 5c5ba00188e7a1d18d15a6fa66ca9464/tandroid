@@ -5,8 +5,7 @@ import android.os.IInterface;
 
 /* loaded from: classes.dex */
 public final class zbt extends zba implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zbt(IBinder iBinder) {
+    zbt(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.auth.api.credentials.internal.ICredentialsService");
     }
 }

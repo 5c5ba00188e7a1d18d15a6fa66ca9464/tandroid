@@ -27,9 +27,7 @@ public class SlotsDrawable extends RLottieDrawable {
     private int[] secondFrameNums;
     private long[] secondNativePtrs;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public enum ReelValue {
+    enum ReelValue {
         bar,
         berries,
         lemon,

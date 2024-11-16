@@ -20,8 +20,7 @@ final class aj {
     private final at d;
     private final k e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public aj(Context context, com.google.android.play.integrity.internal.s sVar, at atVar, k kVar) {
+    aj(Context context, com.google.android.play.integrity.internal.s sVar, at atVar, k kVar) {
         this.c = context.getPackageName();
         this.b = sVar;
         this.d = atVar;
@@ -39,8 +38,7 @@ final class aj {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ Bundle a(aj ajVar, byte[] bArr, Long l, Parcelable parcelable) {
+    static /* bridge */ /* synthetic */ Bundle a(aj ajVar, byte[] bArr, Long l, Parcelable parcelable) {
         Bundle bundle = new Bundle();
         bundle.putString("package.name", ajVar.c);
         bundle.putByteArray("nonce", bArr);

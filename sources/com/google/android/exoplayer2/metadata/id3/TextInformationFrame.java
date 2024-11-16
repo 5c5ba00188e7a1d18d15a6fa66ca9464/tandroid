@@ -82,6 +82,7 @@ public final class TextInformationFrame extends Id3Frame {
         return ((hashCode + (str != null ? str.hashCode() : 0)) * 31) + this.values.hashCode();
     }
 
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame, com.google.android.exoplayer2.metadata.Metadata.Entry
     public void populateMediaMetadata(MediaMetadata.Builder builder) {
         String str = this.id;
@@ -226,77 +227,71 @@ public final class TextInformationFrame extends Id3Frame {
                 case 0:
                 case '\n':
                     builder.setAlbumTitle((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case 1:
                 case 11:
                     builder.setComposer((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case 2:
                 case '\f':
                     String str2 = (String) this.values.get(0);
                     builder.setRecordingMonth(Integer.valueOf(Integer.parseInt(str2.substring(2, 4)))).setRecordingDay(Integer.valueOf(Integer.parseInt(str2.substring(0, 2))));
-                    return;
+                    break;
                 case 3:
                 case 17:
                     builder.setArtist((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case 4:
                 case 18:
                     builder.setAlbumArtist((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case 5:
                 case 19:
                     builder.setConductor((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case 6:
                 case 20:
                     String[] split = Util.split((String) this.values.get(0), "/");
                     builder.setTrackNumber(Integer.valueOf(Integer.parseInt(split[0]))).setTotalTrackCount(split.length > 1 ? Integer.valueOf(Integer.parseInt(split[1])) : null);
-                    return;
+                    break;
                 case 7:
                 case 16:
                     builder.setTitle((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case '\b':
                 case 15:
                     builder.setWriter((CharSequence) this.values.get(0));
-                    return;
+                    break;
                 case '\t':
                 case 21:
                     builder.setRecordingYear(Integer.valueOf(Integer.parseInt((String) this.values.get(0))));
-                    return;
+                    break;
                 case '\r':
                     List parseId3v2point4TimestampFrameForDate = parseId3v2point4TimestampFrameForDate((String) this.values.get(0));
                     int size = parseId3v2point4TimestampFrameForDate.size();
                     if (size != 1) {
                         if (size != 2) {
-                            if (size != 3) {
-                                return;
-                            } else {
+                            if (size == 3) {
                                 builder.setRecordingDay((Integer) parseId3v2point4TimestampFrameForDate.get(2));
                             }
                         }
                         builder.setRecordingMonth((Integer) parseId3v2point4TimestampFrameForDate.get(1));
                     }
                     builder.setRecordingYear((Integer) parseId3v2point4TimestampFrameForDate.get(0));
-                    return;
+                    break;
                 case 14:
                     List parseId3v2point4TimestampFrameForDate2 = parseId3v2point4TimestampFrameForDate((String) this.values.get(0));
                     int size2 = parseId3v2point4TimestampFrameForDate2.size();
                     if (size2 != 1) {
                         if (size2 != 2) {
-                            if (size2 != 3) {
-                                return;
-                            } else {
+                            if (size2 == 3) {
                                 builder.setReleaseDay((Integer) parseId3v2point4TimestampFrameForDate2.get(2));
                             }
                         }
                         builder.setReleaseMonth((Integer) parseId3v2point4TimestampFrameForDate2.get(1));
                     }
                     builder.setReleaseYear((Integer) parseId3v2point4TimestampFrameForDate2.get(0));
-                    return;
-                default:
-                    return;
+                    break;
             }
         } catch (NumberFormatException | StringIndexOutOfBoundsException unused) {
         }

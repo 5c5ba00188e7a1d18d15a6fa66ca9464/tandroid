@@ -30,16 +30,14 @@ public abstract class zzcg {
         return z ? 1231 : 1237;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, byte[] bArr, int i2, int i3) {
+    static int zzb(int i, byte[] bArr, int i2, int i3) {
         for (int i4 = 0; i4 < i3; i4++) {
             i = (i * 31) + bArr[i4];
         }
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzc(Object obj, String str) {
+    static Object zzc(Object obj, String str) {
         if (obj != null) {
             return obj;
         }

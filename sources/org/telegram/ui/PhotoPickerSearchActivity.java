@@ -65,9 +65,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
     private Paint backgroundPaint = new Paint();
     private ViewPage[] viewPages = new ViewPage[2];
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ViewPage extends FrameLayout {
+    private static class ViewPage extends FrameLayout {
         private ActionBar actionBar;
         private FrameLayout fragmentView;
         private RecyclerListView listView;
@@ -339,9 +337,8 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 return PhotoPickerSearchActivity.this.tabsAnimationInProgress;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 float measuredHeight = ((BaseFragment) PhotoPickerSearchActivity.this).actionBar.getMeasuredHeight() + ((int) ((BaseFragment) PhotoPickerSearchActivity.this).actionBar.getTranslationY());
                 canvas.drawLine(0.0f, measuredHeight, getWidth(), measuredHeight, Theme.dividerPaint);
@@ -363,7 +360,6 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                 return checkTabsAnimationInProgress() || PhotoPickerSearchActivity.this.scrollSlidingTextTabStrip.isAnimatingIndicator() || onTouchEvent(motionEvent);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:22:0x0078  */
             /* JADX WARN: Removed duplicated region for block: B:29:0x00a6  */
             /* JADX WARN: Removed duplicated region for block: B:38:0x0094  */
@@ -371,7 +367,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+            protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
                 int i8;
                 int i9;
                 int i10;

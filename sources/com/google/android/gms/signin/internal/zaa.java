@@ -15,8 +15,7 @@ public final class zaa extends AbstractSafeParcelable implements Result {
     private int zab;
     private Intent zac;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaa(int i, int i2, Intent intent) {
+    zaa(int i, int i2, Intent intent) {
         this.zaa = i;
         this.zab = i2;
         this.zac = intent;

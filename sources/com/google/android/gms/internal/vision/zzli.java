@@ -12,8 +12,7 @@ final class zzli extends zzlo {
         this.zza = zzlhVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzli(zzlh zzlhVar, zzlg zzlgVar) {
+    /* synthetic */ zzli(zzlh zzlhVar, zzlg zzlgVar) {
         this(zzlhVar);
     }
 

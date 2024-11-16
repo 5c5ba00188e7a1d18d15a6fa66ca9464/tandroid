@@ -27,8 +27,7 @@ class TooltipPopup {
     private final int[] mTmpAppPos;
     private final Rect mTmpDisplayFrame;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TooltipPopup(Context context) {
+    TooltipPopup(Context context) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         this.mLayoutParams = layoutParams;
         this.mTmpDisplayFrame = new Rect();
@@ -116,8 +115,7 @@ class TooltipPopup {
         return rootView;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void hide() {
+    void hide() {
         if (isShowing()) {
             ((WindowManager) this.mContext.getSystemService("window")).removeView(this.mContentView);
         }
@@ -127,8 +125,7 @@ class TooltipPopup {
         return this.mContentView.getParent() != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void show(View view, int i, int i2, boolean z, CharSequence charSequence) {
+    void show(View view, int i, int i2, boolean z, CharSequence charSequence) {
         if (isShowing()) {
             hide();
         }

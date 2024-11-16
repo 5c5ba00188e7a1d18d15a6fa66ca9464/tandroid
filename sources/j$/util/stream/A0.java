@@ -22,10 +22,7 @@ public final /* synthetic */ class A0 implements j$.util.function.F {
     @Override // j$.util.function.F
     public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.c(this, f);
-            default:
-                return j$.com.android.tools.r8.a.c(this, f);
         }
+        return j$.com.android.tools.r8.a.c(this, f);
     }
 }

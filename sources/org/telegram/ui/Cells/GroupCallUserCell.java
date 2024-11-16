@@ -92,7 +92,6 @@ public class GroupCallUserCell extends FrameLayout {
     private boolean updateVoiceRunnableScheduled;
     private Drawable verifiedDrawable;
 
-    /* loaded from: classes4.dex */
     public static class AvatarWavesDrawable {
         float amplitude;
         float animateAmplitudeDiff;
@@ -257,9 +256,7 @@ public class GroupCallUserCell extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class VerifiedDrawable extends Drawable {
+    private static class VerifiedDrawable extends Drawable {
         private Drawable[] drawables;
 
         public VerifiedDrawable(Context context) {
@@ -410,9 +407,8 @@ public class GroupCallUserCell extends FrameLayout {
                 paint2.setColor(1426063360);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RadialProgressView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 if (GroupCallUserCell.this.avatarImageView.getImageReceiver().hasNotThumb() && GroupCallUserCell.this.avatarImageView.getAlpha() > 0.0f) {
                     this.paint.setAlpha((int) (GroupCallUserCell.this.avatarImageView.getImageReceiver().getCurrentAlpha() * 85.0f * GroupCallUserCell.this.avatarImageView.getAlpha()));
                     canvas.drawCircle(getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f, getMeasuredWidth() / 2.0f, this.paint);
@@ -1169,9 +1165,8 @@ public class GroupCallUserCell extends FrameLayout {
         accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString((!tL_groupCallParticipant.muted || tL_groupCallParticipant.can_self_unmute) ? R.string.VoipMute : R.string.VoipUnmute)));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58.0f), 1073741824));
     }
 

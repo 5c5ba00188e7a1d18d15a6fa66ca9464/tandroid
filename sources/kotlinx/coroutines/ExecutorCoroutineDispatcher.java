@@ -10,7 +10,6 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 public abstract class ExecutorCoroutineDispatcher extends CoroutineDispatcher implements Closeable {
     public static final Key Key = new Key(null);
 
-    /* loaded from: classes.dex */
     public static final class Key extends AbstractCoroutineContextKey {
         private Key() {
             super(CoroutineDispatcher.Key, new Function1() { // from class: kotlinx.coroutines.ExecutorCoroutineDispatcher.Key.1

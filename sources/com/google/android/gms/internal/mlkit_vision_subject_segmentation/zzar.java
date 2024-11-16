@@ -7,8 +7,7 @@ final class zzar extends zzx implements Serializable {
     final Object zza;
     final Object zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzar(Object obj, Object obj2) {
+    zzar(Object obj, Object obj2) {
         this.zza = obj;
         this.zzb = obj2;
     }

@@ -15,7 +15,6 @@ public class zza implements Parcelable {
     private Messenger zza;
     private IMessengerCompat zzb;
 
-    /* loaded from: classes.dex */
     public static final class zza extends ClassLoader {
         @Override // java.lang.ClassLoader
         protected final Class loadClass(String str, boolean z) {

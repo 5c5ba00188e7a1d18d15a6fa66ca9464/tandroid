@@ -17,9 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class TopicsSubscriber {
+class TopicsSubscriber {
     private static final long MAX_DELAY_SEC = TimeUnit.HOURS.toSeconds(8);
     private final Context context;
     private final FirebaseInstallationsApi firebaseInstallationsApi;
@@ -70,8 +69,7 @@ public class TopicsSubscriber {
         awaitTask(this.rpc.unsubscribeFromTopic((String) awaitTask(this.firebaseInstallationsApi.getId()), this.firebaseMessaging.blockingGetToken(), str));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Task createInstance(final FirebaseMessaging firebaseMessaging, final FirebaseInstallationsApi firebaseInstallationsApi, final Metadata metadata, final GmsRpc gmsRpc, final Context context, final ScheduledExecutorService scheduledExecutorService) {
+    static Task createInstance(final FirebaseMessaging firebaseMessaging, final FirebaseInstallationsApi firebaseInstallationsApi, final Metadata metadata, final GmsRpc gmsRpc, final Context context, final ScheduledExecutorService scheduledExecutorService) {
         return Tasks.call(scheduledExecutorService, new Callable(context, scheduledExecutorService, firebaseMessaging, firebaseInstallationsApi, metadata, gmsRpc) { // from class: com.google.firebase.messaging.TopicsSubscriber$$Lambda$0
             private final Context arg$1;
             private final ScheduledExecutorService arg$2;
@@ -80,7 +78,6 @@ public class TopicsSubscriber {
             private final Metadata arg$5;
             private final GmsRpc arg$6;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = context;
                 this.arg$2 = scheduledExecutorService;
@@ -104,8 +101,7 @@ public class TopicsSubscriber {
         return Build.VERSION.SDK_INT == 23 && Log.isLoggable("FirebaseMessaging", 3);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ TopicsSubscriber lambda$createInstance$0$TopicsSubscriber(Context context, ScheduledExecutorService scheduledExecutorService, FirebaseMessaging firebaseMessaging, FirebaseInstallationsApi firebaseInstallationsApi, Metadata metadata, GmsRpc gmsRpc) {
+    static final /* synthetic */ TopicsSubscriber lambda$createInstance$0$TopicsSubscriber(Context context, ScheduledExecutorService scheduledExecutorService, FirebaseMessaging firebaseMessaging, FirebaseInstallationsApi firebaseInstallationsApi, Metadata metadata, GmsRpc gmsRpc) {
         return new TopicsSubscriber(firebaseMessaging, firebaseInstallationsApi, metadata, TopicsStore.getInstance(context, scheduledExecutorService), gmsRpc, context, scheduledExecutorService);
     }
 
@@ -270,24 +266,20 @@ public class TopicsSubscriber {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void scheduleSyncTaskWithDelaySeconds(Runnable runnable, long j) {
+    void scheduleSyncTaskWithDelaySeconds(Runnable runnable, long j) {
         this.syncExecutor.schedule(runnable, j, TimeUnit.SECONDS);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void setSyncScheduledOrRunning(boolean z) {
+    synchronized void setSyncScheduledOrRunning(boolean z) {
         this.syncScheduledOrRunning = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void startTopicsSyncIfNecessary() {
+    void startTopicsSyncIfNecessary() {
         if (hasPendingOperation()) {
             startSync();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:14:0x000d, code lost:
     
         if (isDebugLogEnabled() == false) goto L10;
@@ -303,7 +295,7 @@ public class TopicsSubscriber {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean syncTopics() {
+    boolean syncTopics() {
         while (true) {
             synchronized (this) {
                 try {
@@ -323,8 +315,7 @@ public class TopicsSubscriber {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void syncWithDelaySecondsInternal(long j) {
+    void syncWithDelaySecondsInternal(long j) {
         scheduleSyncTaskWithDelaySeconds(new TopicsSyncTask(this, this.context, this.metadata, Math.min(Math.max(30L, j + j), MAX_DELAY_SEC)), j);
         setSyncScheduledOrRunning(true);
     }

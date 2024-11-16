@@ -1,8 +1,10 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class Y0 implements F0 {
+abstract class Y0 implements F0 {
+    Y0() {
+    }
+
     @Override // j$.util.stream.F0
     public F0 a(int i) {
         throw new IndexOutOfBoundsException();

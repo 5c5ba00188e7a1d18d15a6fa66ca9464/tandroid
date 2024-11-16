@@ -60,7 +60,6 @@ public final class SsMediaSource extends BaseMediaSource implements Loader.Callb
     private TransferListener mediaTransferListener;
     private final boolean sideloadedManifest;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements MediaSource.Factory {
         private final SsChunkSource.Factory chunkSourceFactory;
         private CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory;

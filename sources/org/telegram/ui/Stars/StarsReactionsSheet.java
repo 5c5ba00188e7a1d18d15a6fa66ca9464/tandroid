@@ -103,7 +103,6 @@ public class StarsReactionsSheet extends BottomSheet {
     private final FrameLayout topLayout;
     private final TopSendersView topSendersView;
 
-    /* loaded from: classes4.dex */
     public static class Particles {
         public final Bitmap b;
         private int bPaintColor;
@@ -117,7 +116,6 @@ public class StarsReactionsSheet extends BottomSheet {
         private float speed = 1.0f;
         private boolean firstDraw = true;
 
-        /* loaded from: classes4.dex */
         public class Particle {
             public float a;
             public float la;
@@ -187,9 +185,10 @@ public class StarsReactionsSheet extends BottomSheet {
 
         public void gen(Particle particle, long j, boolean z) {
             particle.start = j;
-            particle.lifetime = AndroidUtilities.lerp(500, 2500, Utilities.fastRandom.nextFloat());
+            long lerp = AndroidUtilities.lerp(500, 2500, Utilities.fastRandom.nextFloat());
+            particle.lifetime = lerp;
             if (z) {
-                particle.start -= ((float) r4) * Utilities.clamp01(Utilities.fastRandom.nextFloat());
+                particle.start -= (long) (lerp * Utilities.clamp01(Utilities.fastRandom.nextFloat()));
             }
             RectF rectF = this.bounds;
             particle.x = AndroidUtilities.lerp(rectF.left, rectF.right, Utilities.fastRandom.nextFloat());
@@ -214,11 +213,11 @@ public class StarsReactionsSheet extends BottomSheet {
 
         public void process() {
             long currentTimeMillis = System.currentTimeMillis();
-            float min = (((float) Math.min(this.lastTime - currentTimeMillis, 16L)) / 1000.0f) * this.speed;
+            float min = (Math.min(this.lastTime - currentTimeMillis, 16L) / 1000.0f) * this.speed;
             for (int i = 0; i < Math.min(this.visibleCount, this.particles.size()); i++) {
                 Particle particle = (Particle) this.particles.get(i);
                 long j = particle.lifetime;
-                float f = j <= 0 ? 2.0f : ((float) (currentTimeMillis - particle.start)) / ((float) j);
+                float f = j <= 0 ? 2.0f : (currentTimeMillis - particle.start) / j;
                 if (f > 1.0f) {
                     gen(particle, currentTimeMillis, this.firstDraw);
                     f = 0.0f;
@@ -253,7 +252,6 @@ public class StarsReactionsSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class SenderData {
         public boolean anonymous;
         public long did;
@@ -268,7 +266,6 @@ public class StarsReactionsSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class StarsSlider extends View {
         public float aprogress;
         private final RectF arc;
@@ -577,7 +574,7 @@ public class StarsReactionsSheet extends BottomSheet {
                         this.lastX = motionEvent.getX();
                     }
                 } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                    if (!this.tracking && motionEvent.getPointerId(0) == this.pointerId && MathUtils.distance(this.lastX, this.lastY, motionEvent.getX(), motionEvent.getY()) < AndroidUtilities.touchSlop && ((float) (System.currentTimeMillis() - this.pressTime)) <= ViewConfiguration.getTapTimeout() * 1.5f) {
+                    if (!this.tracking && motionEvent.getPointerId(0) == this.pointerId && MathUtils.distance(this.lastX, this.lastY, motionEvent.getX(), motionEvent.getY()) < AndroidUtilities.touchSlop && System.currentTimeMillis() - this.pressTime <= ViewConfiguration.getTapTimeout() * 1.5f) {
                         float x2 = motionEvent.getX();
                         RectF rectF = this.sliderInnerRect;
                         float clamp01 = Utilities.clamp01((x2 - rectF.left) / rectF.width());
@@ -682,7 +679,6 @@ public class StarsReactionsSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class TopSendersView extends View {
         public final AnimatedFloat animatedCount;
         public final Paint backgroundPaint;
@@ -693,7 +689,6 @@ public class StarsReactionsSheet extends BottomSheet {
         public final ArrayList senders;
         public final Paint starsBackgroundPaint;
 
-        /* loaded from: classes4.dex */
         public class Sender {
             public final AnimatedFloat animatedAnonymous;
             public final AnimatedFloat animatedPosition;
@@ -1547,9 +1542,8 @@ public class StarsReactionsSheet extends BottomSheet {
         return (int) (senderData2.stars - senderData.stars);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         if (this.slider.tracking) {
             return false;
         }

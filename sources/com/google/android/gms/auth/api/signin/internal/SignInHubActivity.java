@@ -53,7 +53,7 @@ public class SignInHubActivity extends FragmentActivity {
     }
 
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, android.app.Activity
-    public final void onActivityResult(int i, int i2, Intent intent) {
+    protected final void onActivityResult(int i, int i2, Intent intent) {
         if (this.zbb) {
             return;
         }
@@ -90,7 +90,7 @@ public class SignInHubActivity extends FragmentActivity {
     }
 
     @Override // androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
-    public final void onCreate(Bundle bundle) {
+    protected final void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -143,7 +143,7 @@ public class SignInHubActivity extends FragmentActivity {
     }
 
     @Override // androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity
-    public final void onSaveInstanceState(Bundle bundle) {
+    protected final void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putBoolean("signingInGoogleApiClients", this.zbd);
         if (this.zbd) {

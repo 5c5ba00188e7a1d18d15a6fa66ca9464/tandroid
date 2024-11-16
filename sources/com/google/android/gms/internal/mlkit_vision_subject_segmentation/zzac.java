@@ -4,9 +4,8 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 final class zzac extends zzah {
     final /* synthetic */ zzal zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzac(zzal zzalVar) {
+    zzac(zzal zzalVar) {
         super(zzalVar, null);
         this.zza = zzalVar;
     }

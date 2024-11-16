@@ -76,8 +76,7 @@ public final class AppInitializer {
         return sInstance;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void discoverAndInitialize() {
+    void discoverAndInitialize() {
         try {
             try {
                 Trace.beginSection("Startup");

@@ -8,12 +8,10 @@ import android.os.Parcel;
 /* loaded from: classes.dex */
 interface IMessengerCompat extends IInterface {
 
-    /* loaded from: classes.dex */
     public static class Proxy implements IMessengerCompat {
         private final IBinder zza;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Proxy(IBinder iBinder) {
+        Proxy(IBinder iBinder) {
             this.zza = iBinder;
         }
 

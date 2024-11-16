@@ -57,7 +57,6 @@ public class CheckBoxBase {
     private float backgroundAlpha = 1.0f;
     private int checkColorKey = Theme.key_checkboxCheck;
 
-    /* loaded from: classes3.dex */
     public interface ProgressDelegate {
         void setProgress(float f);
     }

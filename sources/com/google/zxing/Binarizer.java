@@ -6,8 +6,7 @@ import com.google.zxing.common.BitMatrix;
 public abstract class Binarizer {
     private final LuminanceSource source;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Binarizer(LuminanceSource luminanceSource) {
+    protected Binarizer(LuminanceSource luminanceSource) {
         this.source = luminanceSource;
     }
 

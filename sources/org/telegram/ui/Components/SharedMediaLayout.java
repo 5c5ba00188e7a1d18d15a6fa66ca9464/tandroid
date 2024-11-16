@@ -292,9 +292,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 11 extends BotPreviewsEditContainer {
+    class 11 extends BotPreviewsEditContainer {
         11(Context context, BaseFragment baseFragment, long j) {
             super(context, baseFragment, j);
         }
@@ -441,9 +439,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
+    class 4 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         4() {
         }
 
@@ -584,9 +580,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 41 implements ViewTreeObserver.OnPreDrawListener {
+    class 41 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ SparseBooleanArray val$addedMesages;
         final /* synthetic */ RecyclerListView val$finalListView;
         final /* synthetic */ View val$finalProgressView;
@@ -676,9 +670,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 44 implements SharedLinkCell.SharedLinkCellDelegate {
+    class 44 implements SharedLinkCell.SharedLinkCellDelegate {
         44() {
         }
 
@@ -727,9 +719,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 5 implements View.OnClickListener {
+    class 5 implements View.OnClickListener {
         final /* synthetic */ Context val$context;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
 
@@ -928,9 +918,8 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
             }
             final DividerCell dividerCell = new DividerCell(this.val$context);
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.val$context, this.val$resourcesProvider) { // from class: org.telegram.ui.Components.SharedMediaLayout.5.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View
-                public void onMeasure(int i2, int i3) {
+                protected void onMeasure(int i2, int i3) {
                     if (dividerCell.getParent() != null) {
                         dividerCell.setVisibility(8);
                         super.onMeasure(i2, i3);
@@ -1115,8 +1104,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ChannelRecommendationsAdapter extends RecyclerListView.SelectionAdapter {
+    class ChannelRecommendationsAdapter extends RecyclerListView.SelectionAdapter {
         private final ArrayList chats = new ArrayList();
         private final Context mContext;
         private int more;
@@ -1285,9 +1273,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ChatUsersAdapter extends RecyclerListView.SelectionAdapter {
+    private class ChatUsersAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC.ChatFull chatInfo;
         private Context mContext;
         private ArrayList sortedUsers;
@@ -1386,8 +1372,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CommonGroupsAdapter extends RecyclerListView.SelectionAdapter {
+    class CommonGroupsAdapter extends RecyclerListView.SelectionAdapter {
         private ArrayList chats = new ArrayList();
         private boolean endReached;
         private boolean firstLoaded;
@@ -1516,7 +1501,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Delegate {
         boolean canSearchMembers();
 
@@ -1533,9 +1517,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         void updateSelectedMediaTabText();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class EmptyStubView extends LinearLayout {
+    private static class EmptyStubView extends LinearLayout {
         final ImageView emptyImageView;
         final TextView emptyTextView;
         boolean ignoreRequestLayout;
@@ -1578,9 +1560,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class GifAdapter extends RecyclerListView.SelectionAdapter {
+    private class GifAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public GifAdapter(Context context) {
@@ -1662,8 +1642,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class GroupUsersSearchAdapter extends RecyclerListView.SelectionAdapter {
+    class GroupUsersSearchAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC.Chat currentChat;
         private Context mContext;
         private SearchAdapterHelper searchAdapterHelper;
@@ -2027,7 +2006,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class InternalListView extends BlurredRecyclerView implements StoriesListPlaceProvider.ClippedView {
         public int hintPaddingBottom;
         public int hintPaddingTop;
@@ -2044,8 +2022,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class MediaPage extends FrameLayout {
+    static class MediaPage extends FrameLayout {
         private ClippingImageView animatingImageView;
         private GridLayoutManager animationSupportingLayoutManager;
         private InternalListView animationSupportingListView;
@@ -2106,7 +2083,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public class MediaSearchAdapter extends RecyclerListView.SelectionAdapter {
         private int currentType;
         private int lastReqId;
@@ -2535,8 +2511,8 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
-    private static class MoreRecommendationsCell extends FrameLayout {
+    /* JADX INFO: Access modifiers changed from: private */
+    static class MoreRecommendationsCell extends FrameLayout {
         private final ButtonWithCounterView button;
         public final ProfileSearchCell channelCell;
         private final int currentAccount;
@@ -2614,7 +2590,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Period {
         int date;
         public String formatedDate;
@@ -2631,8 +2606,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SavedDialogsAdapter extends RecyclerListView.SelectionAdapter {
+    class SavedDialogsAdapter extends RecyclerListView.SelectionAdapter {
         public RecyclerListView attachedToRecyclerView;
         private final SavedMessagesController controller;
         private final Context mContext;
@@ -2892,8 +2866,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SavedMessagesSearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SavedMessagesSearchAdapter extends RecyclerListView.SelectionAdapter {
         private final int currentAccount;
         private String lastQuery;
         private ReactionsLayoutInBubble.VisibleReaction lastReaction;
@@ -3191,7 +3164,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public class ScrollSlidingTextTabStripInner extends ScrollSlidingTextTabStrip {
         public int backgroundColor;
         protected Paint backgroundPaint;
@@ -3222,9 +3194,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SharedDocumentsAdapter extends RecyclerListView.FastScrollAdapter {
+    private class SharedDocumentsAdapter extends RecyclerListView.FastScrollAdapter {
         private int currentType;
         private boolean inFastScrollMode;
         private Context mContext;
@@ -3436,9 +3406,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
+    private class SharedLinksAdapter extends RecyclerListView.SectionsAdapter {
         private Context mContext;
 
         public SharedLinksAdapter(Context context) {
@@ -3579,7 +3547,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SharedMediaData {
         private int endLoadingStubs;
         public boolean fastScrollDataLoaded;
@@ -3738,7 +3705,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SharedMediaListView extends InternalListView {
         private final ArrayList animationSupportingSortedCells;
         private int animationSupportingSortedCellsOffset;
@@ -3764,7 +3730,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         public void checkHighlightCell(SharedPhotoVideoCell2 sharedPhotoVideoCell2) {
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Removed duplicated region for block: B:120:0x035e  */
         /* JADX WARN: Removed duplicated region for block: B:127:0x0390 A[SYNTHETIC] */
         /* JADX WARN: Removed duplicated region for block: B:210:0x06e1  */
@@ -3773,7 +3738,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             Float f;
             float f2;
             int i;
@@ -4123,7 +4088,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SharedMediaPreloader implements NotificationCenter.NotificationCenterDelegate {
         private boolean checkedHasSavedMessages;
         private long dialogId;
@@ -4689,14 +4653,11 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface SharedMediaPreloaderDelegate {
         void mediaCountUpdated();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SharedPhotoVideoAdapter extends RecyclerListView.FastScrollAdapter {
+    private class SharedPhotoVideoAdapter extends RecyclerListView.FastScrollAdapter {
         protected boolean inFastScrollMode;
         protected Context mContext;
         SharedPhotoVideoCell2.SharedResources sharedResources;
@@ -4916,7 +4877,6 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* loaded from: classes3.dex */
     public class StoriesAdapter extends SharedPhotoVideoAdapter {
         public boolean applyingReorder;
         private int id;
@@ -6006,9 +5966,8 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                     final ExtendedGridLayoutManager extendedGridLayoutManager = mediaPage2.layoutManager = new ExtendedGridLayoutManager(context, 100) { // from class: org.telegram.ui.Components.SharedMediaLayout.14
                         private Size size = new Size();
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // androidx.recyclerview.widget.LinearLayoutManager
-                        public void calculateExtraLayoutSpace(RecyclerView.State state, int[] iArr2) {
+                        protected void calculateExtraLayoutSpace(RecyclerView.State state, int[] iArr2) {
                             super.calculateExtraLayoutSpace(state, iArr2);
                             if (mediaPage2.selectedType == 0 || mediaPage2.selectedType == 8 || mediaPage2.selectedType == 9) {
                                 iArr2[1] = Math.max(iArr2[1], SharedPhotoVideoCell.getItemSize(1) * 2);
@@ -6017,9 +5976,8 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                             }
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
-                        public int getFlowItemCount() {
+                        protected int getFlowItemCount() {
                             if (mediaPage2.listView.getAdapter() != SharedMediaLayout.this.gifAdapter) {
                                 return 0;
                             }
@@ -6278,9 +6236,8 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                             return this == mediaPage2.listView;
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                        public void onLayout(boolean z2, int i19, int i20, int i21, int i22) {
+                        protected void onLayout(boolean z2, int i19, int i20, int i21, int i22) {
                             super.onLayout(z2, i19, i20, i21, i22);
                             SharedMediaLayout sharedMediaLayout = SharedMediaLayout.this;
                             MediaPage mediaPage3 = mediaPage2;
@@ -6551,9 +6508,8 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                             return 1;
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.FlickerLoadingView, android.view.View
-                        public void onDraw(Canvas canvas) {
+                        protected void onDraw(Canvas canvas) {
                             SharedMediaLayout.this.backgroundPaint.setColor(SharedMediaLayout.this.getThemedColor(Theme.key_windowBackgroundWhite));
                             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), SharedMediaLayout.this.backgroundPaint);
                             super.onDraw(canvas);
@@ -11982,8 +11938,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onActionModeSelectedUpdate(SparseArray sparseArray) {
+    protected void onActionModeSelectedUpdate(SparseArray sparseArray) {
     }
 
     @Override // org.telegram.ui.Cells.DialogCell.DialogCellDelegate
@@ -12111,8 +12066,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     protected void onSearchStateChanged(boolean z) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onSelectedTabChanged() {
+    protected void onSelectedTabChanged() {
         boolean z = isStoriesView() || isArchivedOnlyStoriesView();
         if (this.archivedStoriesAdapter.poller != null) {
             this.archivedStoriesAdapter.poller.start(z && getClosestTab() == 9);
@@ -12127,8 +12081,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTabProgress(float f) {
+    protected void onTabProgress(float f) {
     }
 
     protected void onTabScroll(boolean z) {
@@ -12434,8 +12387,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void showActionMode(final boolean z) {
+    protected void showActionMode(final boolean z) {
         if (this.isActionModeShowed == z) {
             return;
         }

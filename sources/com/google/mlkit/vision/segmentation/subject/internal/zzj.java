@@ -61,8 +61,7 @@ public final class zzj extends MLTask {
     private boolean zzh;
     private zzub zzi;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzj(MlKitContext mlKitContext, SubjectSegmenterOptions subjectSegmenterOptions, zztl zztlVar, zztn zztnVar) {
+    zzj(MlKitContext mlKitContext, SubjectSegmenterOptions subjectSegmenterOptions, zztl zztlVar, zztn zztnVar) {
         Preconditions.checkNotNull(mlKitContext, "MlKitContext can not be null");
         Preconditions.checkNotNull(subjectSegmenterOptions, "SubjectSegmenterOptions can not be null");
         this.zzc = mlKitContext.getApplicationContext();
@@ -167,8 +166,7 @@ public final class zzj extends MLTask {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ zzta zzc(long j, zzoa zzoaVar, boolean z, InputImage inputImage, zzuh zzuhVar) {
+    final /* synthetic */ zzta zzc(long j, zzoa zzoaVar, boolean z, InputImage inputImage, zzuh zzuhVar) {
         zzra zzraVar = new zzra();
         zznn zznnVar = new zznn();
         zznnVar.zza(Long.valueOf(j));
@@ -204,8 +202,7 @@ public final class zzj extends MLTask {
         return zzto.zzf(zzocVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ zzta zzd(zzoa zzoaVar, long j) {
+    final /* synthetic */ zzta zzd(zzoa zzoaVar, long j) {
         zzoc zzocVar = new zzoc();
         zzocVar.zze(zznz.zzb);
         zzrd zzrdVar = new zzrd();

@@ -14,6 +14,9 @@ public abstract class zzx implements Map, Serializable, j$.util.Map {
     private transient zzy zzb;
     private transient zzr zzc;
 
+    zzx() {
+    }
+
     @Override // java.util.Map
     public final void clear() {
         throw new UnsupportedOperationException();

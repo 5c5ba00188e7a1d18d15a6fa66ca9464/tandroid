@@ -4,14 +4,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zabh extends com.google.android.gms.internal.base.zau {
+final class zabh extends com.google.android.gms.internal.base.zau {
     final /* synthetic */ zabi zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zabh(zabi zabiVar, Looper looper) {
+    zabh(zabi zabiVar, Looper looper) {
         super(looper);
         this.zaa = zabiVar;
     }

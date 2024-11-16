@@ -3,15 +3,13 @@ package com.google.android.datatransport.runtime.scheduling.persistence;
 import com.google.android.datatransport.runtime.EventInternal;
 import com.google.android.datatransport.runtime.TransportContext;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AutoValue_PersistedEvent extends PersistedEvent {
+final class AutoValue_PersistedEvent extends PersistedEvent {
     private final EventInternal event;
     private final long id;
     private final TransportContext transportContext;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_PersistedEvent(long j, TransportContext transportContext, EventInternal eventInternal) {
+    AutoValue_PersistedEvent(long j, TransportContext transportContext, EventInternal eventInternal) {
         this.id = j;
         if (transportContext == null) {
             throw new NullPointerException("Null transportContext");

@@ -1,5 +1,6 @@
 package com.google.android.gms.auth.api.signin.internal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
@@ -9,8 +10,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 final class zbw implements LoaderManager.LoaderCallbacks {
     final /* synthetic */ SignInHubActivity zba;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zbw(SignInHubActivity signInHubActivity, zbv zbvVar) {
+    /* synthetic */ zbw(SignInHubActivity signInHubActivity, zbv zbvVar) {
         this.zba = signInHubActivity;
     }
 
@@ -21,8 +21,12 @@ final class zbw implements LoaderManager.LoaderCallbacks {
 
     @Override // androidx.loader.app.LoaderManager.LoaderCallbacks
     public final /* bridge */ /* synthetic */ void onLoadFinished(Loader loader, Object obj) {
+        int i;
+        Intent intent;
         SignInHubActivity signInHubActivity = this.zba;
-        signInHubActivity.setResult(SignInHubActivity.zba(signInHubActivity), SignInHubActivity.zbb(signInHubActivity));
+        i = signInHubActivity.zbe;
+        intent = signInHubActivity.zbf;
+        signInHubActivity.setResult(i, intent);
         this.zba.finish();
     }
 

@@ -19,7 +19,6 @@ public class PhotoEditorSeekBar extends View {
     private int thumbDX;
     private int thumbSize;
 
-    /* loaded from: classes3.dex */
     public interface PhotoEditorSeekBarDelegate {
         void onProgressChanged(int i, int i2);
     }

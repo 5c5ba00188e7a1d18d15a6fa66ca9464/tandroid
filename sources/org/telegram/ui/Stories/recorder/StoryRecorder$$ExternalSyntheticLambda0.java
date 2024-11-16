@@ -10,6 +10,6 @@ public final /* synthetic */ class StoryRecorder$$ExternalSyntheticLambda0 imple
 
     @Override // java.lang.Runnable
     public final void run() {
-        StoryRecorder.$r8$lambda$pn_nN4vNitDa-zwxNqSU4oEeY4M(this.f$0);
+        this.f$0.createCameraView();
     }
 }

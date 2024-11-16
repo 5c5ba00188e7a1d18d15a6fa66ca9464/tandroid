@@ -45,7 +45,6 @@ public class ReactedHeaderView extends FrameLayout {
     private TextView titleView;
     private List users;
 
-    /* loaded from: classes3.dex */
     public static class UserSeen {
         public int date;
         long dialogId;

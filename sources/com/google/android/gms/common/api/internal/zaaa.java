@@ -22,9 +22,8 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.Lock;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaaa implements zaca {
+final class zaaa implements zaca {
     private final Context zaa;
     private final zabe zab;
     private final Looper zac;
@@ -144,15 +143,13 @@ public final class zaaa implements zaca {
         return new zaaa(context, zabeVar, lock, looper, googleApiAvailabilityLight, arrayMap, arrayMap2, clientSettings, abstractClientBuilder, client, arrayList2, arrayList3, arrayMap3, arrayMap4);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zan(zaaa zaaaVar, int i, boolean z) {
+    static /* bridge */ /* synthetic */ void zan(zaaa zaaaVar, int i, boolean z) {
         zaaaVar.zab.zac(i, z);
         zaaaVar.zak = null;
         zaaaVar.zaj = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zao(zaaa zaaaVar, Bundle bundle) {
+    static /* bridge */ /* synthetic */ void zao(zaaa zaaaVar, Bundle bundle) {
         Bundle bundle2 = zaaaVar.zai;
         if (bundle2 == null) {
             zaaaVar.zai = bundle;
@@ -161,8 +158,7 @@ public final class zaaa implements zaca {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zap(zaaa zaaaVar) {
+    static /* bridge */ /* synthetic */ void zap(zaaa zaaaVar) {
         ConnectionResult connectionResult;
         if (!zaE(zaaaVar.zaj)) {
             if (zaaaVar.zaj != null && zaE(zaaaVar.zak)) {

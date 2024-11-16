@@ -19,8 +19,7 @@ public class TransportRuntime implements TransportInternal {
     private final Uploader uploader;
     private final Clock uptimeClock;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TransportRuntime(Clock clock, Clock clock2, Scheduler scheduler, Uploader uploader, WorkInitializer workInitializer) {
+    TransportRuntime(Clock clock, Clock clock2, Scheduler scheduler, Uploader uploader, WorkInitializer workInitializer) {
         this.eventClock = clock;
         this.uptimeClock = clock2;
         this.scheduler = scheduler;

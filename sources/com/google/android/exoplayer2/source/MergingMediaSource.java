@@ -32,9 +32,7 @@ public final class MergingMediaSource extends CompositeMediaSource {
     private long[][] periodTimeOffsetsUs;
     private final Timeline[] timelines;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ClippedTimeline extends ForwardingTimeline {
+    private static final class ClippedTimeline extends ForwardingTimeline {
         private final long[] periodDurationsUs;
         private final long[] windowDurationsUs;
 
@@ -91,7 +89,6 @@ public final class MergingMediaSource extends CompositeMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class IllegalMergeException extends IOException {
         public final int reason;
 
@@ -108,7 +105,7 @@ public final class MergingMediaSource extends CompositeMediaSource {
         this.pendingTimelineSources = new ArrayList(Arrays.asList(mediaSourceArr));
         this.periodCount = -1;
         this.timelines = new Timeline[mediaSourceArr.length];
-        this.periodTimeOffsetsUs = new long[0];
+        this.periodTimeOffsetsUs = new long[0][];
         this.clippedDurationsUs = new HashMap();
         this.clippedMediaPeriods = MultimapBuilder.hashKeys().arrayListValues().build();
     }
@@ -241,9 +238,8 @@ public final class MergingMediaSource extends CompositeMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource, com.google.android.exoplayer2.source.BaseMediaSource
-    public void prepareSourceInternal(TransferListener transferListener) {
+    protected void prepareSourceInternal(TransferListener transferListener) {
         super.prepareSourceInternal(transferListener);
         for (int i = 0; i < this.mediaSources.length; i++) {
             prepareChildSource(Integer.valueOf(i), this.mediaSources[i]);
@@ -279,9 +275,8 @@ public final class MergingMediaSource extends CompositeMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource, com.google.android.exoplayer2.source.BaseMediaSource
-    public void releaseSourceInternal() {
+    protected void releaseSourceInternal() {
         super.releaseSourceInternal();
         Arrays.fill(this.timelines, (Object) null);
         this.periodCount = -1;

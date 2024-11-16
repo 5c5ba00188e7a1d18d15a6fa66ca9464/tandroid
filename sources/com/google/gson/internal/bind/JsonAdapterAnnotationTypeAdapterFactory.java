@@ -18,7 +18,6 @@ public final class JsonAdapterAnnotationTypeAdapterFactory implements TypeAdapte
     private final ConcurrentMap adapterFactoryMap = new ConcurrentHashMap();
     private final ConstructorConstructor constructorConstructor;
 
-    /* loaded from: classes.dex */
     private static class DummyTypeAdapterFactory implements TypeAdapterFactory {
         private DummyTypeAdapterFactory() {
         }
@@ -60,8 +59,7 @@ public final class JsonAdapterAnnotationTypeAdapterFactory implements TypeAdapte
         return getTypeAdapter(this.constructorConstructor, gson, typeToken, annotation, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TypeAdapter getTypeAdapter(ConstructorConstructor constructorConstructor, Gson gson, TypeToken typeToken, JsonAdapter jsonAdapter, boolean z) {
+    TypeAdapter getTypeAdapter(ConstructorConstructor constructorConstructor, Gson gson, TypeToken typeToken, JsonAdapter jsonAdapter, boolean z) {
         TypeAdapter treeTypeAdapter;
         Object createAdapter = createAdapter(constructorConstructor, jsonAdapter.value());
         boolean nullSafe = jsonAdapter.nullSafe();

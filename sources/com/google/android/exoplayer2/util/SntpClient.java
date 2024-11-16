@@ -17,14 +17,12 @@ public abstract class SntpClient {
     private static final Object loaderLock = new Object();
     private static final Object valueLock = new Object();
 
-    /* loaded from: classes.dex */
     public interface InitializationCallback {
         void onInitializationFailed(IOException iOException);
 
         void onInitialized();
     }
 
-    /* loaded from: classes.dex */
     private static final class NtpTimeCallback implements Loader.Callback {
         private final InitializationCallback callback;
 
@@ -57,7 +55,6 @@ public abstract class SntpClient {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class NtpTimeLoadable implements Loader.Loadable {
         private NtpTimeLoadable() {
         }
@@ -73,18 +70,14 @@ public abstract class SntpClient {
                     if (SntpClient.isInitialized) {
                         return;
                     }
-                    long access$400 = SntpClient.access$400();
+                    long loadNtpTimeOffsetMs = SntpClient.loadNtpTimeOffsetMs();
                     synchronized (SntpClient.valueLock) {
-                        long unused = SntpClient.elapsedRealtimeOffsetMs = access$400;
+                        long unused = SntpClient.elapsedRealtimeOffsetMs = loadNtpTimeOffsetMs;
                         boolean unused2 = SntpClient.isInitialized = true;
                     }
                 }
             }
         }
-    }
-
-    static /* synthetic */ long access$400() {
-        return loadNtpTimeOffsetMs();
     }
 
     private static void checkValidServerReply(byte b, byte b2, int i, long j) {
@@ -144,7 +137,8 @@ public abstract class SntpClient {
         return z;
     }
 
-    private static long loadNtpTimeOffsetMs() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static long loadNtpTimeOffsetMs() {
         InetAddress byName = InetAddress.getByName(getNtpHost());
         DatagramSocket datagramSocket = new DatagramSocket();
         try {

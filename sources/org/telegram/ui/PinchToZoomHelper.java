@@ -92,25 +92,8 @@ public class PinchToZoomHelper {
     private float progressToFullView;
     private float[] spoilerRadii;
 
-    /* loaded from: classes4.dex */
-    public class 1 extends AnimatorListenerAdapter {
-        1() {
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            PinchToZoomHelper pinchToZoomHelper = PinchToZoomHelper.this;
-            if (pinchToZoomHelper.finishTransition != null) {
-                pinchToZoomHelper.finishTransition = null;
-                pinchToZoomHelper.clear();
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
     public interface Callback {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static TextureView $default$getCurrentTextureView(Callback callback) {
                 return null;
@@ -127,95 +110,17 @@ public class PinchToZoomHelper {
         void onZoomStarted(MessageObject messageObject);
     }
 
-    /* loaded from: classes4.dex */
     public interface ClipBoundsListener {
         void getClipTopBottom(float[] fArr);
     }
 
-    /* loaded from: classes4.dex */
-    public class ZoomOverlayView extends FrameLayout {
+    private class ZoomOverlayView extends FrameLayout {
         private Paint aspectPaint;
         private Path aspectPath;
         private AspectRatioFrameLayout aspectRatioFrameLayout;
         private BackupImageView backupImageView;
         private FrameLayout videoPlayerContainer;
         private TextureView videoTextureView;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends ViewOutlineProvider {
-            final /* synthetic */ PinchToZoomHelper val$this$0;
-
-            1(PinchToZoomHelper pinchToZoomHelper) {
-                r2 = pinchToZoomHelper;
-            }
-
-            @Override // android.view.ViewOutlineProvider
-            public void getOutline(View view, Outline outline) {
-                ImageReceiver imageReceiver = (ImageReceiver) view.getTag(R.id.parent_tag);
-                if (imageReceiver == null) {
-                    int i = AndroidUtilities.roundMessageSize;
-                    outline.setOval(0, 0, i, i);
-                    return;
-                }
-                int[] roundRadius = imageReceiver.getRoundRadius(true);
-                int i2 = 0;
-                for (int i3 = 0; i3 < 4; i3++) {
-                    i2 = Math.max(i2, roundRadius[i3]);
-                }
-                outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), i2);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 2 extends FrameLayout {
-            RectF rect = new RectF();
-            final /* synthetic */ PinchToZoomHelper val$this$0;
-
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            2(Context context, PinchToZoomHelper pinchToZoomHelper) {
-                super(context);
-                r3 = pinchToZoomHelper;
-                this.rect = new RectF();
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
-                super.dispatchDraw(canvas);
-                if (getTag() == null) {
-                    canvas.drawPath(ZoomOverlayView.this.aspectPath, ZoomOverlayView.this.aspectPaint);
-                }
-            }
-
-            @Override // android.view.View
-            protected void onSizeChanged(int i, int i2, int i3, int i4) {
-                super.onSizeChanged(i, i2, i3, i4);
-                ZoomOverlayView.this.aspectPath.reset();
-                ImageReceiver imageReceiver = (ImageReceiver) getTag(R.id.parent_tag);
-                if (imageReceiver != null) {
-                    int[] roundRadius = imageReceiver.getRoundRadius(true);
-                    int i5 = 0;
-                    for (int i6 = 0; i6 < 4; i6++) {
-                        i5 = Math.max(i5, roundRadius[i6]);
-                    }
-                    this.rect.set(0.0f, 0.0f, i, i2);
-                    ZoomOverlayView.this.aspectPath.addRoundRect(this.rect, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), Path.Direction.CW);
-                } else {
-                    float f = i / 2;
-                    ZoomOverlayView.this.aspectPath.addCircle(f, i2 / 2, f, Path.Direction.CW);
-                }
-                ZoomOverlayView.this.aspectPath.toggleInverseFillType();
-            }
-
-            @Override // android.view.View
-            public void setVisibility(int i) {
-                super.setVisibility(i);
-                if (i == 0) {
-                    setLayerType(2, null);
-                }
-            }
-        }
 
         public ZoomOverlayView(Context context) {
             super(context);
@@ -225,12 +130,6 @@ public class PinchToZoomHelper {
                 FrameLayout frameLayout = new FrameLayout(context);
                 this.videoPlayerContainer = frameLayout;
                 frameLayout.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.PinchToZoomHelper.ZoomOverlayView.1
-                    final /* synthetic */ PinchToZoomHelper val$this$0;
-
-                    1(PinchToZoomHelper pinchToZoomHelper) {
-                        r2 = pinchToZoomHelper;
-                    }
-
                     @Override // android.view.ViewOutlineProvider
                     public void getOutline(View view, Outline outline) {
                         ImageReceiver imageReceiver = (ImageReceiver) view.getTag(R.id.parent_tag);
@@ -251,14 +150,6 @@ public class PinchToZoomHelper {
             } else {
                 this.videoPlayerContainer = new FrameLayout(context) { // from class: org.telegram.ui.PinchToZoomHelper.ZoomOverlayView.2
                     RectF rect = new RectF();
-                    final /* synthetic */ PinchToZoomHelper val$this$0;
-
-                    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-                    2(Context context2, PinchToZoomHelper pinchToZoomHelper) {
-                        super(context2);
-                        r3 = pinchToZoomHelper;
-                        this.rect = new RectF();
-                    }
 
                     @Override // android.view.ViewGroup, android.view.View
                     protected void dispatchDraw(Canvas canvas) {
@@ -302,15 +193,15 @@ public class PinchToZoomHelper {
                 paint.setColor(-16777216);
                 this.aspectPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             }
-            BackupImageView backupImageView = new BackupImageView(context2);
+            BackupImageView backupImageView = new BackupImageView(context);
             this.backupImageView = backupImageView;
             this.videoPlayerContainer.addView(backupImageView);
             this.videoPlayerContainer.setWillNotDraw(false);
-            AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context2);
+            AspectRatioFrameLayout aspectRatioFrameLayout = new AspectRatioFrameLayout(context);
             this.aspectRatioFrameLayout = aspectRatioFrameLayout;
             aspectRatioFrameLayout.setBackgroundColor(0);
             this.videoPlayerContainer.addView(this.aspectRatioFrameLayout, LayoutHelper.createFrame(-1, -1, 17));
-            TextureView textureView = new TextureView(context2);
+            TextureView textureView = new TextureView(context);
             this.videoTextureView = textureView;
             textureView.setOpaque(false);
             this.aspectRatioFrameLayout.addView(this.videoTextureView, LayoutHelper.createFrame(-1, -1.0f));
@@ -614,6 +505,7 @@ public class PinchToZoomHelper {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$finishZoom$0(ValueAnimator valueAnimator) {
         this.finishProgress = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         invalidateViews();
@@ -630,6 +522,7 @@ public class PinchToZoomHelper {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean updateViewsLocation() {
         float f = 0.0f;
         float f2 = 0.0f;
@@ -815,9 +708,6 @@ public class PinchToZoomHelper {
                 }
             });
             this.finishTransition.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PinchToZoomHelper.1
-                1() {
-                }
-
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     PinchToZoomHelper pinchToZoomHelper = PinchToZoomHelper.this;
@@ -849,7 +739,7 @@ public class PinchToZoomHelper {
         return zoomOverlayView.videoTextureView.getBitmap(i, i2);
     }
 
-    public void invalidateViews() {
+    protected void invalidateViews() {
         View view;
         if (this.isSimple && (view = this.child) != null) {
             view.invalidate();
@@ -1027,7 +917,7 @@ public class PinchToZoomHelper {
         this.enterProgress = 0.0f;
     }
 
-    public boolean zoomEnabled(View view, ImageReceiver imageReceiver) {
+    protected boolean zoomEnabled(View view, ImageReceiver imageReceiver) {
         if (this.isSimple) {
             return true;
         }

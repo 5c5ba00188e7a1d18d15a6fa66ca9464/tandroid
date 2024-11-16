@@ -46,9 +46,8 @@ public abstract class BotCommandsMenuContainer extends FrameLayout implements Ne
         this.nestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         this.shadowDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.bots.BotCommandsMenuContainer.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (BotCommandsMenuContainer.this.listView.getLayoutManager() == null || BotCommandsMenuContainer.this.listView.getAdapter() == null || BotCommandsMenuContainer.this.listView.getAdapter().getItemCount() == 0) {
                     super.dispatchDraw(canvas);
                     return;
@@ -165,8 +164,7 @@ public abstract class BotCommandsMenuContainer extends FrameLayout implements Ne
         return this.nestedScrollingParentHelper.getNestedScrollAxes();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onDismiss() {
+    protected void onDismiss() {
     }
 
     @Override // android.widget.FrameLayout, android.view.View

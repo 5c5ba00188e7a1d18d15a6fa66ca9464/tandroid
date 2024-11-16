@@ -6,8 +6,7 @@ import java.util.AbstractMap;
 final class zzbv extends zzbe {
     final /* synthetic */ zzbw zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbv(zzbw zzbwVar) {
+    zzbv(zzbw zzbwVar) {
         this.zza = zzbwVar;
     }
 

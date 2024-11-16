@@ -4,6 +4,9 @@ import java.util.Iterator;
 
 /* loaded from: classes.dex */
 final class zzgw implements Iterable {
+    zzgw() {
+    }
+
     @Override // java.lang.Iterable
     public final Iterator iterator() {
         Iterator it;

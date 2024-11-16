@@ -69,16 +69,16 @@ public final /* synthetic */ class a implements Supplier, LongFunction, Consumer
         switch (this.a) {
             case 2:
                 ((e2) this.b).r((e2) obj);
-                return;
+                break;
             case 6:
                 ((O2) this.b).r(obj);
-                return;
+                break;
             case 8:
                 ((Consumer) this.b).r(obj);
-                return;
+                break;
             default:
                 ((List) this.b).add(obj);
-                return;
+                break;
         }
     }
 
@@ -86,14 +86,13 @@ public final /* synthetic */ class a implements Supplier, LongFunction, Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
             case 2:
-                return Consumer.-CC.$default$andThen(this, consumer);
+                break;
             case 6:
-                return Consumer.-CC.$default$andThen(this, consumer);
+                break;
             case 8:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
+                break;
         }
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.LongFunction
@@ -141,10 +140,7 @@ public final /* synthetic */ class a implements Supplier, LongFunction, Consumer
     @Override // j$.util.stream.e2
     public /* synthetic */ boolean q() {
         switch (this.a) {
-            case 6:
-                return false;
-            default:
-                return false;
         }
+        return false;
     }
 }

@@ -141,9 +141,7 @@ public abstract class CaptionContainerView extends FrameLayout {
     private Runnable updateShowKeyboard;
     boolean waitingForScrollYChange;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 2 implements TextWatcher {
+    class 2 implements TextWatcher {
         private int lastLength;
         private boolean lastOverLimit;
 
@@ -217,7 +215,6 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class BounceableImageView extends ImageView {
         private final ButtonBounce bounce;
         private final float scale;
@@ -248,7 +245,6 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class PeriodDrawable extends Drawable {
         private final Path activePath;
         public final AnimatedTextView.AnimatedTextDrawable activeTextDrawable;
@@ -491,9 +487,8 @@ public abstract class CaptionContainerView extends FrameLayout {
                 return true;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEmoji
-            public void createEmojiView() {
+            protected void createEmojiView() {
                 super.createEmojiView();
                 EmojiView emojiView = getEmojiView();
                 if (emojiView != null) {
@@ -1137,8 +1132,7 @@ public abstract class CaptionContainerView extends FrameLayout {
 
     protected abstract void beforeUpdateShownKeyboard(boolean z);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract boolean captionLimitToast();
+    protected abstract boolean captionLimitToast();
 
     public void clear() {
         this.ignoreTextChange = true;
@@ -1333,8 +1327,7 @@ public abstract class CaptionContainerView extends FrameLayout {
     protected void drawBlur(BlurringShader.StoryBlurDrawer storyBlurDrawer, Canvas canvas, RectF rectF, float f, boolean z, float f2, float f3, boolean z2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void drawBlurBitmap(Bitmap bitmap, float f) {
+    protected void drawBlurBitmap(Bitmap bitmap, float f) {
         Utilities.stackBlurBitmap(bitmap, (int) f);
     }
 
@@ -1468,9 +1461,8 @@ public abstract class CaptionContainerView extends FrameLayout {
         return getCodePointCount() > getCaptionLimit();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (customBlur()) {
             Bitmap bitmap = this.hintTextBitmap;
@@ -1510,9 +1502,8 @@ public abstract class CaptionContainerView extends FrameLayout {
     protected void onCaptionLimitUpdate(boolean z) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Bitmap bitmap = this.blurBitmap;
         if (bitmap != null) {
@@ -1612,8 +1603,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         this.applyButtonDrawable.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(16.0f), Theme.getColor(Theme.key_chat_editMediaButton, resourcesProvider)));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateEditTextLeft() {
+    protected void updateEditTextLeft() {
         this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
     }
 

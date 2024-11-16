@@ -15,6 +15,9 @@ import javax.security.auth.x500.X500Principal;
 
 /* loaded from: classes.dex */
 class CryptoRsaHandler implements CryptoHandler {
+    CryptoRsaHandler() {
+    }
+
     private CryptoUtils.ICipher getCipher(CryptoUtils.ICryptoFactory iCryptoFactory, int i) {
         return iCryptoFactory.getCipher("RSA/ECB/PKCS1Padding", i >= 23 ? "AndroidKeyStoreBCWorkaround" : "AndroidOpenSSL");
     }

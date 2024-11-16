@@ -31,11 +31,8 @@ public final class h extends b implements Set, j$.util.b {
     @Override // j$.util.b
     public final /* synthetic */ boolean a(Predicate predicate) {
         switch (this.b) {
-            case 0:
-                return j$.util.a.l(this, predicate);
-            default:
-                return j$.util.a.l(this, predicate);
         }
+        return j$.util.a.l(this, predicate);
     }
 
     @Override // java.util.Collection, java.util.Set
@@ -87,10 +84,15 @@ public final class h extends b implements Set, j$.util.b {
         Set set2;
         switch (this.b) {
             case 0:
-                return (obj instanceof Set) && ((set = (Set) obj) == this || (containsAll(set) && set.containsAll(this)));
+                if (!(obj instanceof Set) || ((set = (Set) obj) != this && (!containsAll(set) || !set.containsAll(this)))) {
+                }
+                break;
             default:
-                return (obj instanceof Set) && ((set2 = (Set) obj) == this || (containsAll(set2) && set2.containsAll(this)));
+                if (!(obj instanceof Set) || ((set2 = (Set) obj) != this && (!containsAll(set2) || !set2.containsAll(this)))) {
+                }
+                break;
         }
+        return false;
     }
 
     @Override // j$.util.b
@@ -99,33 +101,33 @@ public final class h extends b implements Set, j$.util.b {
             case 0:
                 consumer.getClass();
                 k[] kVarArr = this.a.a;
-                if (kVarArr == null) {
-                    return;
-                }
-                o oVar = new o(kVarArr, kVarArr.length, 0, kVarArr.length);
-                while (true) {
-                    k b = oVar.b();
-                    if (b == null) {
-                        return;
-                    } else {
-                        consumer.r(b.b);
+                if (kVarArr != null) {
+                    o oVar = new o(kVarArr, kVarArr.length, 0, kVarArr.length);
+                    while (true) {
+                        k b = oVar.b();
+                        if (b == null) {
+                            break;
+                        } else {
+                            consumer.r(b.b);
+                        }
                     }
                 }
+                break;
             default:
                 consumer.getClass();
                 k[] kVarArr2 = this.a.a;
-                if (kVarArr2 == null) {
-                    return;
-                }
-                o oVar2 = new o(kVarArr2, kVarArr2.length, 0, kVarArr2.length);
-                while (true) {
-                    k b2 = oVar2.b();
-                    if (b2 == null) {
-                        return;
-                    } else {
-                        consumer.r(new j(b2.b, b2.c, this.a));
+                if (kVarArr2 != null) {
+                    o oVar2 = new o(kVarArr2, kVarArr2.length, 0, kVarArr2.length);
+                    while (true) {
+                        k b2 = oVar2.b();
+                        if (b2 == null) {
+                            break;
+                        } else {
+                            consumer.r(new j(b2.b, b2.c, this.a));
+                        }
                     }
                 }
+                break;
         }
     }
 
@@ -134,10 +136,10 @@ public final class h extends b implements Set, j$.util.b {
         switch (this.b) {
             case 0:
                 forEach(j$.util.function.g.a(consumer));
-                return;
+                break;
             default:
                 forEach(j$.util.function.g.a(consumer));
-                return;
+                break;
         }
     }
 
@@ -186,11 +188,8 @@ public final class h extends b implements Set, j$.util.b {
     @Override // java.util.Collection
     public final Stream parallelStream() {
         switch (this.b) {
-            case 0:
-                return P2.i0(t0.e0(Collection$-EL.b(this), true));
-            default:
-                return P2.i0(t0.e0(Collection$-EL.b(this), true));
         }
+        return P2.i0(t0.e0(Collection$-EL.b(this), true));
     }
 
     @Override // java.util.Collection, java.util.Set
@@ -200,10 +199,15 @@ public final class h extends b implements Set, j$.util.b {
         Object value;
         switch (this.b) {
             case 0:
-                return this.a.remove(obj) != null;
+                if (this.a.remove(obj) != null) {
+                }
+                break;
             default:
-                return (obj instanceof Map.Entry) && (key = (entry = (Map.Entry) obj).getKey()) != null && (value = entry.getValue()) != null && this.a.remove(key, value);
+                if (!(obj instanceof Map.Entry) || (key = (entry = (Map.Entry) obj).getKey()) == null || (value = entry.getValue()) == null || !this.a.remove(key, value)) {
+                }
+                break;
         }
+        return false;
     }
 
     @Override // java.util.Collection
@@ -211,11 +215,8 @@ public final class h extends b implements Set, j$.util.b {
         int i = this.b;
         Predicate a = r0.a(predicate);
         switch (i) {
-            case 0:
-                return j$.util.a.l(this, a);
-            default:
-                return j$.util.a.l(this, a);
         }
+        return j$.util.a.l(this, a);
     }
 
     @Override // java.util.Collection, java.lang.Iterable, java.util.Set, j$.util.b
@@ -239,31 +240,22 @@ public final class h extends b implements Set, j$.util.b {
     @Override // java.util.Collection, java.lang.Iterable, java.util.Set
     public final /* synthetic */ Spliterator spliterator() {
         switch (this.b) {
-            case 0:
-                return P.a(spliterator());
-            default:
-                return P.a(spliterator());
         }
+        return P.a(spliterator());
     }
 
     @Override // java.util.Collection, j$.util.b
     public final /* synthetic */ j$.util.stream.Stream stream() {
         switch (this.b) {
-            case 0:
-                return j$.util.a.m(this);
-            default:
-                return j$.util.a.m(this);
         }
+        return j$.util.a.m(this);
     }
 
     @Override // java.util.Collection
     public final /* synthetic */ Stream stream() {
         switch (this.b) {
-            case 0:
-                return P2.i0(j$.util.a.m(this));
-            default:
-                return P2.i0(j$.util.a.m(this));
         }
+        return P2.i0(j$.util.a.m(this));
     }
 
     @Override // java.util.Collection
@@ -271,10 +263,7 @@ public final class h extends b implements Set, j$.util.b {
         int i = this.b;
         I a = G.a(intFunction);
         switch (i) {
-            case 0:
-                return toArray((Object[]) a.apply(0));
-            default:
-                return toArray((Object[]) a.apply(0));
         }
+        return toArray((Object[]) a.apply(0));
     }
 }

@@ -181,8 +181,7 @@ public final class zaaw implements zabf {
         return i != 0 ? "STEP_GETTING_REMOTE_SERVICE" : "STEP_SERVICE_BINDINGS_AND_SIGN_IN";
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ Set zao(zaaw zaawVar) {
+    static /* bridge */ /* synthetic */ Set zao(zaaw zaawVar) {
         ClientSettings clientSettings = zaawVar.zar;
         if (clientSettings == null) {
             return Collections.emptySet();
@@ -198,8 +197,7 @@ public final class zaaw implements zabf {
         return hashSet;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zar(zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
+    static /* bridge */ /* synthetic */ void zar(zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
         if (zaawVar.zaG(0)) {
             ConnectionResult zaa = zakVar.zaa();
             if (!zaa.isSuccess()) {

@@ -103,7 +103,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
         }
     };
 
-    /* loaded from: classes.dex */
     public class ActionModeImpl extends ActionMode implements MenuBuilder.Callback {
         private final Context mActionModeContext;
         private ActionMode.Callback mCallback;

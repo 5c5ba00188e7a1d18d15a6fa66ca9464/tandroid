@@ -2,9 +2,8 @@ package com.google.android.gms.internal.clearcut;
 
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbm extends zzbk {
+final class zzbm extends zzbk {
     private final byte[] buffer;
     private int limit;
     private int pos;

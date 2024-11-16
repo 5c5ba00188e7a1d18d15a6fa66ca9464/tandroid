@@ -17,7 +17,6 @@ import java.util.List;
 public abstract class WindowCallbackWrapper implements Window.Callback {
     final Window.Callback mWrapped;
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean onSearchRequested(Window.Callback callback, SearchEvent searchEvent) {
             return callback.onSearchRequested(searchEvent);
@@ -28,14 +27,12 @@ public abstract class WindowCallbackWrapper implements Window.Callback {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api24Impl {
         static void onProvideKeyboardShortcuts(Window.Callback callback, List<KeyboardShortcutGroup> list, Menu menu, int i) {
             callback.onProvideKeyboardShortcuts(list, menu, i);
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api26Impl {
         static void onPointerCaptureChanged(Window.Callback callback, boolean z) {
             callback.onPointerCaptureChanged(z);

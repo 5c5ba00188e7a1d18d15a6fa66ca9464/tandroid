@@ -20,7 +20,6 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public interface INavigationLayout {
 
-    /* loaded from: classes4.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$dismissDialogs(INavigationLayout iNavigationLayout) {
             List fragmentStack = iNavigationLayout.getFragmentStack();
@@ -98,50 +97,23 @@ public interface INavigationLayout {
             return new ActionBarLayout(context, z);
         }
 
-        public static INavigationLayout newLayout(Context context, boolean z, Supplier supplier) {
+        public static INavigationLayout newLayout(Context context, boolean z, final Supplier supplier) {
             return new ActionBarLayout(context, z) { // from class: org.telegram.ui.ActionBar.INavigationLayout.1
-                final /* synthetic */ Supplier val$supplier;
-
-                /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-                1(Context context2, boolean z2, Supplier supplier2) {
-                    super(context2, z2);
-                    r3 = supplier2;
-                }
-
                 @Override // org.telegram.ui.ActionBar.ActionBarLayout, org.telegram.ui.ActionBar.INavigationLayout
                 public BottomSheet getBottomSheet() {
-                    return (BottomSheet) r3.get();
+                    return (BottomSheet) supplier.get();
                 }
             };
         }
     }
 
-    /* loaded from: classes4.dex */
-    public class 1 extends ActionBarLayout {
-        final /* synthetic */ Supplier val$supplier;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        1(Context context2, boolean z2, Supplier supplier2) {
-            super(context2, z2);
-            r3 = supplier2;
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBarLayout, org.telegram.ui.ActionBar.INavigationLayout
-        public BottomSheet getBottomSheet() {
-            return (BottomSheet) r3.get();
-        }
-    }
-
-    /* loaded from: classes4.dex */
     public enum BackButtonState {
         BACK,
         MENU
     }
 
-    /* loaded from: classes4.dex */
     public interface INavigationLayoutDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$needAddFragmentToStack(INavigationLayoutDelegate iNavigationLayoutDelegate, BaseFragment baseFragment, INavigationLayout iNavigationLayout) {
                 return true;
@@ -182,7 +154,6 @@ public interface INavigationLayout {
         void onThemeProgress(float f);
     }
 
-    /* loaded from: classes4.dex */
     public static class NavigationParams {
         public boolean checkPresentFromDelegate = true;
         public BaseFragment fragment;
@@ -221,7 +192,6 @@ public interface INavigationLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class StartColorsProvider implements Theme.ResourcesProvider {
         SparseIntArray colors = new SparseIntArray();
         int[] keysToSave = {Theme.key_chat_outBubble, Theme.key_chat_outBubbleGradient1, Theme.key_chat_outBubbleGradient2, Theme.key_chat_outBubbleGradient3, Theme.key_chat_outBubbleGradientAnimated, Theme.key_chat_outBubbleShadow};
@@ -293,7 +263,6 @@ public interface INavigationLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ThemeAnimationSettings {
         public final int accentId;
         public Runnable afterAnimationRunnable;
@@ -309,7 +278,6 @@ public interface INavigationLayout {
         public boolean applyTrulyTheme = true;
         public long duration = 200;
 
-        /* loaded from: classes4.dex */
         public interface onAnimationProgress {
             void setProgress(float f);
         }

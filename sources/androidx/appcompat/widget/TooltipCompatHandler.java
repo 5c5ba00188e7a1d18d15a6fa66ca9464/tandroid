@@ -9,9 +9,8 @@ import android.view.accessibility.AccessibilityManager;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewConfigurationCompat;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHoverListener, View.OnAttachStateChangeListener {
+class TooltipCompatHandler implements View.OnLongClickListener, View.OnHoverListener, View.OnAttachStateChangeListener {
     private static TooltipCompatHandler sActiveHandler;
     private static TooltipCompatHandler sPendingHandler;
     private final View mAnchor;
@@ -102,8 +101,7 @@ public class TooltipCompatHandler implements View.OnLongClickListener, View.OnHo
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void hide() {
+    void hide() {
         if (sActiveHandler == this) {
             sActiveHandler = null;
             TooltipPopup tooltipPopup = this.mPopup;

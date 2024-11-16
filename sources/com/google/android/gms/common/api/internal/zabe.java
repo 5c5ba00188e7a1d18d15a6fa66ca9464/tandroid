@@ -105,8 +105,7 @@ public final class zabe extends GoogleApiClient implements zabz {
         return i != 1 ? i != 2 ? i != 3 ? "UNKNOWN" : "SIGN_IN_MODE_NONE" : "SIGN_IN_MODE_OPTIONAL" : "SIGN_IN_MODE_REQUIRED";
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zai(zabe zabeVar) {
+    static /* bridge */ /* synthetic */ void zai(zabe zabeVar) {
         zabeVar.zaj.lock();
         try {
             if (zabeVar.zap) {
@@ -117,8 +116,7 @@ public final class zabe extends GoogleApiClient implements zabz {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zaj(zabe zabeVar) {
+    static /* bridge */ /* synthetic */ void zaj(zabe zabeVar) {
         zabeVar.zaj.lock();
         try {
             if (zabeVar.zak()) {
@@ -374,15 +372,13 @@ public final class zabe extends GoogleApiClient implements zabz {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zaf() {
+    final String zaf() {
         StringWriter stringWriter = new StringWriter();
         dump("", null, new PrintWriter(stringWriter), null);
         return stringWriter.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zak() {
+    final boolean zak() {
         if (!this.zap) {
             return false;
         }

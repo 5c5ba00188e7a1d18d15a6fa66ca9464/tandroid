@@ -38,7 +38,6 @@ public class CacheModel {
     public HashSet selectedFiles = new HashSet();
     public HashSet selectedDialogs = new HashSet();
 
-    /* loaded from: classes4.dex */
     public static class FileInfo {
         public long dialogId;
         public final File file;
@@ -49,7 +48,6 @@ public class CacheModel {
         public long size;
         public int type;
 
-        /* loaded from: classes4.dex */
         public static class FileMetadata {
             public String author;
             public boolean loading;

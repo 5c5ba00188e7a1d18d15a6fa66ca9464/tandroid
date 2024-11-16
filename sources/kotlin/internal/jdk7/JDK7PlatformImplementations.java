@@ -6,9 +6,7 @@ import kotlin.jvm.internal.Intrinsics;
 /* loaded from: classes.dex */
 public class JDK7PlatformImplementations extends PlatformImplementations {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ReflectSdkVersion {
+    private static final class ReflectSdkVersion {
         public static final ReflectSdkVersion INSTANCE = new ReflectSdkVersion();
         public static final Integer sdkVersion;
 

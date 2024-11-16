@@ -5,8 +5,7 @@ final class zzdw {
     private zzdw() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzdw(zzdm zzdmVar) {
+    /* synthetic */ zzdw(zzdm zzdmVar) {
         this();
     }
 }

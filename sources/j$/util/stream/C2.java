@@ -7,8 +7,7 @@ final class C2 extends q2 {
     private int[] c;
     private int d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public C2(e2 e2Var) {
+    C2(e2 e2Var) {
         super(e2Var);
     }
 

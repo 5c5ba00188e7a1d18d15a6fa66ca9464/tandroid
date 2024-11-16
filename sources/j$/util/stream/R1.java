@@ -98,13 +98,13 @@ final class R1 extends a2 {
         switch (this.b) {
             case 0:
                 this.a.n(-1L);
-                return;
+                break;
             case 1:
                 this.a.n(-1L);
-                return;
+                break;
             default:
                 this.a.n(-1L);
-                return;
+                break;
         }
     }
 }

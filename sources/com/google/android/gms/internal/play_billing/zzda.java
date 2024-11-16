@@ -6,6 +6,9 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 final class zzda {
+    zzda() {
+    }
+
     public static final int zza(int i, Object obj, Object obj2) {
         zzcz zzczVar = (zzcz) obj;
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj2);

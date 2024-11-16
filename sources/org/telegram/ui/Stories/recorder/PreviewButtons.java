@@ -51,8 +51,7 @@ public class PreviewButtons extends FrameLayout {
     private String shareText;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class ButtonView extends ImageView {
+    class ButtonView extends ImageView {
         public final int id;
 
         public ButtonView(Context context, final int i, int i2) {
@@ -91,8 +90,7 @@ public class PreviewButtons extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class ShareButtonView extends View {
+    class ShareButtonView extends View {
         private boolean arrow;
         ValueAnimator backAnimator;
         private final Paint buttonPaint;

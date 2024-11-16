@@ -10,8 +10,7 @@ final class zzcl extends IStatusCallback.Stub {
     final /* synthetic */ Object zza;
     final /* synthetic */ TaskCompletionSource zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcl(zzda zzdaVar, Object obj, TaskCompletionSource taskCompletionSource) {
+    zzcl(zzda zzdaVar, Object obj, TaskCompletionSource taskCompletionSource) {
         this.zza = obj;
         this.zzb = taskCompletionSource;
     }

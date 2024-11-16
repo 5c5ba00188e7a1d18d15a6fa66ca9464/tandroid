@@ -47,9 +47,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
     private static final Pattern CEA_708_ACCESSIBILITY_PATTERN = Pattern.compile("([1-9]|[1-5][0-9]|6[0-3])=.*");
     private static final int[] MPEG_CHANNEL_CONFIGURATION_MAPPING = {-1, 1, 2, 3, 4, 5, 6, 8, 2, 3, 4, 7, 8, 24, 8, 12, 10, 12, 14, 12, 14};
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public static final class RepresentationInfo {
+    protected static final class RepresentationInfo {
         public final ImmutableList baseUrls;
         public final ArrayList drmSchemeDatas;
         public final String drmSchemeType;
@@ -295,17 +293,8 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                 break;
         }
         switch (c) {
-            case 0:
-                return 1;
-            case 1:
-                return 2;
-            case 2:
-                return 6;
-            case 3:
-                return 8;
-            default:
-                return -1;
         }
+        return -1;
     }
 
     protected static int parseDtsChannelConfiguration(XmlPullParser xmlPullParser) {
@@ -856,7 +845,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         if ("INF".equals(attributeValue)) {
             return Long.MAX_VALUE;
         }
-        return Float.parseFloat(attributeValue) * 1000000.0f;
+        return (long) (Float.parseFloat(attributeValue) * 1000000.0f);
     }
 
     protected List parseBaseUrl(XmlPullParser xmlPullParser, List list, boolean z) {
@@ -930,56 +919,29 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         if (attributeValue != null) {
             String lowerCase = Ascii.toLowerCase(attributeValue);
             lowerCase.hashCode();
-            char c = 65535;
-            switch (lowerCase.hashCode()) {
-                case -1980789791:
-                    if (lowerCase.equals("urn:uuid:e2719d58-a985-b3c9-781a-b030af78d30e")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case 489446379:
-                    if (lowerCase.equals("urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 755418770:
-                    if (lowerCase.equals("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case 1812765994:
-                    if (lowerCase.equals("urn:mpeg:dash:mp4protection:2011")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (lowerCase) {
+                case "urn:uuid:e2719d58-a985-b3c9-781a-b030af78d30e":
                     r3 = C.CLEARKEY_UUID;
                     str = null;
                     str2 = null;
                     str3 = str2;
                     r4 = str2;
                     break;
-                case 1:
+                case "urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95":
                     r3 = C.PLAYREADY_UUID;
                     str = null;
                     str2 = null;
                     str3 = str2;
                     r4 = str2;
                     break;
-                case 2:
+                case "urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed":
                     r3 = C.WIDEVINE_UUID;
                     str = null;
                     str2 = null;
                     str3 = str2;
                     r4 = str2;
                     break;
-                case 3:
+                case "urn:mpeg:dash:mp4protection:2011":
                     str = xmlPullParser.getAttributeValue(null, "value");
                     String attributeValueIgnorePrefix = XmlPullParserUtil.getAttributeValueIgnorePrefix(xmlPullParser, "default_KID");
                     if (!TextUtils.isEmpty(attributeValueIgnorePrefix) && !"00000000-0000-0000-0000-000000000000".equals(attributeValueIgnorePrefix)) {
@@ -1672,115 +1634,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         if (str == null) {
             return 0;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2060497896:
-                if (str.equals("subtitle")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1724546052:
-                if (str.equals("description")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1580883024:
-                if (str.equals("enhanced-audio-intelligibility")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -1574842690:
-                if (str.equals("forced_subtitle")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -1408024454:
-                if (str.equals("alternate")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -1396432756:
-                if (str.equals("forced-subtitle")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 99825:
-                if (str.equals("dub")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 3343801:
-                if (str.equals("main")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 3530173:
-                if (str.equals("sign")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 552573414:
-                if (str.equals("caption")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 899152809:
-                if (str.equals("commentary")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 1629013393:
-                if (str.equals("emergency")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 1855372047:
-                if (str.equals("supplementary")) {
-                    c = '\f';
-                    break;
-                }
-                break;
+        switch (str) {
         }
-        switch (c) {
-            case 0:
-            case 3:
-            case 5:
-                return 128;
-            case 1:
-                return 512;
-            case 2:
-                return 2048;
-            case 4:
-                return 2;
-            case 6:
-                return 16;
-            case 7:
-                return 1;
-            case '\b':
-                return 256;
-            case '\t':
-                return 64;
-            case '\n':
-                return 8;
-            case 11:
-                return 32;
-            case '\f':
-                return 4;
-            default:
-                return 0;
-        }
+        return 0;
     }
 
     protected int parseRoleFlagsFromProperties(List list) {
@@ -1995,7 +1851,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             Descriptor descriptor = (Descriptor) list.get(i);
             if ((Ascii.equalsIgnoreCase("http://dashif.org/thumbnail_tile", descriptor.schemeIdUri) || Ascii.equalsIgnoreCase("http://dashif.org/guidelines/thumbnail_tile", descriptor.schemeIdUri)) && (str = descriptor.value) != null) {
                 String[] split = Util.split(str, "x");
-                if (split.length == 2) {
+                if (split.length != 2) {
+                    continue;
+                } else {
                     try {
                         return Pair.create(Integer.valueOf(Integer.parseInt(split[0])), Integer.valueOf(Integer.parseInt(split[1])));
                     } catch (NumberFormatException unused) {
@@ -2011,53 +1869,9 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         if (str == null) {
             return 0;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 49:
-                if (str.equals("1")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 50:
-                if (str.equals("2")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 51:
-                if (str.equals("3")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 52:
-                if (str.equals("4")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 54:
-                if (str.equals("6")) {
-                    c = 4;
-                    break;
-                }
-                break;
+        switch (str) {
         }
-        switch (c) {
-            case 0:
-                return 512;
-            case 1:
-                return 2048;
-            case 2:
-                return 4;
-            case 3:
-                return 8;
-            case 4:
-                return 1;
-            default:
-                return 0;
-        }
+        return 0;
     }
 
     protected UrlTemplate parseUrlTemplate(XmlPullParser xmlPullParser, String str, UrlTemplate urlTemplate) {

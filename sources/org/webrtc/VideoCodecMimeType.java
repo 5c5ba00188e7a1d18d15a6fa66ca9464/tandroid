@@ -16,8 +16,7 @@ enum VideoCodecMimeType {
         this.mimeType = str;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String mimeType() {
+    String mimeType() {
         return this.mimeType;
     }
 }

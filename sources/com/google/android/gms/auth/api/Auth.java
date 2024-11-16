@@ -22,14 +22,12 @@ public abstract class Auth {
     private static final Api.AbstractClientBuilder zbc;
     private static final Api.AbstractClientBuilder zbd;
 
-    /* loaded from: classes.dex */
     public static class AuthCredentialsOptions implements Api.ApiOptions {
         public static final AuthCredentialsOptions zba = new AuthCredentialsOptions(new Builder());
         private final String zbb = null;
         private final boolean zbc;
         private final String zbd;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             protected Boolean zba;
             protected String zbb;

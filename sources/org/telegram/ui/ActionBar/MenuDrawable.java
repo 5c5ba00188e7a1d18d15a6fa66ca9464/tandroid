@@ -123,7 +123,7 @@ public class MenuDrawable extends Drawable {
         }
         float f11 = this.typeAnimationProgress;
         if (f11 < 1.0f) {
-            float f12 = f11 + (((float) j2) / 200.0f);
+            float f12 = f11 + (j2 / 200.0f);
             this.typeAnimationProgress = f12;
             if (f12 > 1.0f) {
                 this.typeAnimationProgress = 1.0f;
@@ -264,14 +264,14 @@ public class MenuDrawable extends Drawable {
                         float max = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
                         this.rect.set(dp8 - AndroidUtilities.dp(3.0f), f17 - AndroidUtilities.dp(3.0f), dp8 + AndroidUtilities.dp(3.0f), f17 + AndroidUtilities.dp(3.0f));
                         canvas.drawArc(this.rect, this.downloadRadOffset, max, false, this.backPaint);
-                        float f20 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
+                        float f20 = this.downloadRadOffset + ((360 * j2) / 2500.0f);
                         this.downloadRadOffset = f20;
                         this.downloadRadOffset = MediaActionDrawable.getCircleValue(f20);
                         float f21 = this.downloadProgress;
                         float f22 = this.downloadProgressAnimationStart;
                         f8 = f21 - f22;
                         if (f8 > 0.0f) {
-                            float f23 = this.downloadProgressTime + ((float) j2);
+                            float f23 = this.downloadProgressTime + j2;
                             this.downloadProgressTime = f23;
                             if (f23 >= 200.0f) {
                                 this.animatedDownloadProgress = f21;
@@ -336,7 +336,7 @@ public class MenuDrawable extends Drawable {
             float max2 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
             this.rect.set(dp82 - AndroidUtilities.dp(3.0f), f172 - AndroidUtilities.dp(3.0f), dp82 + AndroidUtilities.dp(3.0f), f172 + AndroidUtilities.dp(3.0f));
             canvas.drawArc(this.rect, this.downloadRadOffset, max2, false, this.backPaint);
-            float f202 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
+            float f202 = this.downloadRadOffset + ((360 * j2) / 2500.0f);
             this.downloadRadOffset = f202;
             this.downloadRadOffset = MediaActionDrawable.getCircleValue(f202);
             float f212 = this.downloadProgress;
@@ -378,7 +378,7 @@ public class MenuDrawable extends Drawable {
         float max22 = Math.max(4.0f, this.animatedDownloadProgress * 360.0f);
         this.rect.set(dp822 - AndroidUtilities.dp(3.0f), f1722 - AndroidUtilities.dp(3.0f), dp822 + AndroidUtilities.dp(3.0f), f1722 + AndroidUtilities.dp(3.0f));
         canvas.drawArc(this.rect, this.downloadRadOffset, max22, false, this.backPaint);
-        float f2022 = this.downloadRadOffset + (((float) (360 * j2)) / 2500.0f);
+        float f2022 = this.downloadRadOffset + ((360 * j2) / 2500.0f);
         this.downloadRadOffset = f2022;
         this.downloadRadOffset = MediaActionDrawable.getCircleValue(f2022);
         float f2122 = this.downloadProgress;

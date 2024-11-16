@@ -8,12 +8,12 @@ jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v0 com.
   (r5v1 com.google.zxing.qrcode.decoder.ErrorCorrectionLevel)
   (r4v1 com.google.zxing.qrcode.decoder.ErrorCorrectionLevel)
  A[WRAPPED] elemType: com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
-	at jadx.core.utils.InsnRemover.lambda$unbindInsns$1(InsnRemover.java:88)
+	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
+	at jadx.core.utils.InsnRemover.lambda$unbindInsns$1(InsnRemover.java:99)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-	at jadx.core.utils.InsnRemover.unbindInsns(InsnRemover.java:87)
-	at jadx.core.utils.InsnRemover.removeAllAndUnbind(InsnRemover.java:238)
+	at jadx.core.utils.InsnRemover.unbindInsns(InsnRemover.java:98)
+	at jadx.core.utils.InsnRemover.removeAllAndUnbind(InsnRemover.java:252)
 	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:180)
 	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
  */

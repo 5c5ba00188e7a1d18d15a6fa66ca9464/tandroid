@@ -4,8 +4,7 @@ package com.google.android.gms.internal.play_billing;
 final class zzs extends zzo {
     private final zzu zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzs(zzu zzuVar, int i) {
+    zzs(zzu zzuVar, int i) {
         super(zzuVar.size(), i);
         this.zza = zzuVar;
     }

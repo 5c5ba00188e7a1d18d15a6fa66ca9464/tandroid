@@ -21,6 +21,9 @@ final class OggPageHeader {
     public final int[] laces = new int[NotificationCenter.notificationsCountUpdated];
     private final ParsableByteArray scratch = new ParsableByteArray(NotificationCenter.notificationsCountUpdated);
 
+    OggPageHeader() {
+    }
+
     public boolean populate(ExtractorInput extractorInput, boolean z) {
         reset();
         this.scratch.reset(27);

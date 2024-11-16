@@ -19,8 +19,10 @@ public abstract class zzba implements Iterable, Serializable {
         zza = new zzas();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzj(int i, int i2, int i3) {
+    zzba() {
+    }
+
+    static int zzj(int i, int i2, int i3) {
         int i4 = i2 - i;
         if ((i | i2 | i4 | (i3 - i2)) >= 0) {
             return i4;
@@ -67,8 +69,7 @@ public abstract class zzba implements Iterable, Serializable {
 
     public abstract byte zza(int i);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract byte zzb(int i);
+    abstract byte zzb(int i);
 
     public abstract int zzd();
 
@@ -78,13 +79,11 @@ public abstract class zzba implements Iterable, Serializable {
 
     protected abstract String zzg(Charset charset);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzh(zzaq zzaqVar);
+    abstract void zzh(zzaq zzaqVar);
 
     public abstract boolean zzi();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final int zzk() {
+    protected final int zzk() {
         return this.zzc;
     }
 

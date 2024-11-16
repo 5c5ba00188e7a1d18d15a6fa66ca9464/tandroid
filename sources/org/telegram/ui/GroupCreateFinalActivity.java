@@ -114,15 +114,12 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     private int ttlPeriod;
     private double videoTimestamp;
 
-    /* loaded from: classes4.dex */
     public class GroupCreateAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         ArrayList items = new ArrayList();
         private int usersStartRow;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class InnerItem extends AdapterWithDiffUtils.Item {
+        private class InnerItem extends AdapterWithDiffUtils.Item {
             String string;
 
             public InnerItem(int i) {
@@ -191,28 +188,26 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             switch (viewHolder.getItemViewType()) {
                 case 1:
                     ((HeaderCell) viewHolder.itemView).setText((GroupCreateFinalActivity.this.currentGroupCreateAddress == null || i != 1) ? LocaleController.formatPluralString("Members", GroupCreateFinalActivity.this.selectedContacts.size(), new Object[0]) : LocaleController.getString(R.string.AttachLocation));
-                    return;
+                    break;
                 case 2:
                     GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
                     groupCreateUserCell.setObject(GroupCreateFinalActivity.this.getMessagesController().getUser((Long) GroupCreateFinalActivity.this.selectedContacts.get(i - this.usersStartRow)), null, null);
                     groupCreateUserCell.setDrawDivider(i != this.items.size() - 1);
-                    return;
+                    break;
                 case 3:
                     ((TextSettingsCell) viewHolder.itemView).setText(GroupCreateFinalActivity.this.currentGroupCreateAddress, false);
-                    return;
+                    break;
                 case 4:
                     ((TextCell) viewHolder.itemView).setTextAndValueAndIcon(LocaleController.getString(R.string.AutoDeleteMessages), GroupCreateFinalActivity.this.ttlPeriod == 0 ? LocaleController.getString(R.string.PasswordOff) : LocaleController.formatTTLString(GroupCreateFinalActivity.this.ttlPeriod), ((BaseFragment) GroupCreateFinalActivity.this).fragmentBeginToShow, R.drawable.msg_autodelete, false);
-                    return;
+                    break;
                 case 5:
                     ((TextInfoPrivacyCell) viewHolder.itemView).setText(((InnerItem) this.items.get(i)).string);
-                    return;
+                    break;
                 case 6:
                     TextCell textCell = (TextCell) viewHolder.itemView;
                     textCell.setTextAndCheckAndIcon(LocaleController.getString(R.string.ChannelTopics), true, R.drawable.msg_topics, false);
                     textCell.getCheckBox().setAlpha(0.75f);
-                    return;
-                default:
-                    return;
+                    break;
             }
         }
 
@@ -263,7 +258,6 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface GroupCreateFinalActivityDelegate {
         void didFailChatCreation();
 
@@ -631,7 +625,6 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.GroupCreateFinalActivity.2
             private boolean ignoreLayout;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
             /* JADX WARN: Removed duplicated region for block: B:29:0x009d  */
             /* JADX WARN: Removed duplicated region for block: B:33:0x00af  */
@@ -641,7 +634,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 int i5;
                 int i6;
                 int i7;
@@ -1122,9 +1115,8 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         return arrayList;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public boolean hideKeyboardOnShow() {
+    protected boolean hideKeyboardOnShow() {
         return false;
     }
 

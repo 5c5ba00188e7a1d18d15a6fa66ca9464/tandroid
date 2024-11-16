@@ -11,10 +11,12 @@ public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCrea
     private final float zzb;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         private float zza = -1.0f;
         private Executor zzb;
+
+        protected Builder() {
+        }
 
         public Builder setConfidenceThreshold(float f) {
             boolean z = false;
@@ -27,8 +29,7 @@ public abstract class ImageLabelerOptionsBase implements MultiFlavorDetectorCrea
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public ImageLabelerOptionsBase(Builder builder) {
+    protected ImageLabelerOptionsBase(Builder builder) {
         this.zzb = builder.zza;
         this.zza = builder.zzb;
     }

@@ -27,7 +27,6 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
     private long targetLiveOffsetOverrideUs;
     private final long targetLiveOffsetRebufferDeltaUs;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private float fallbackMinPlaybackSpeed = 0.97f;
         private float fallbackMaxPlaybackSpeed = 1.03f;
@@ -67,11 +66,11 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
     private void adjustTargetLiveOffsetUs(long j) {
         long j2 = this.smoothedMinPossibleLiveOffsetUs + (this.smoothedMinPossibleLiveOffsetDeviationUs * 3);
         if (this.currentTargetLiveOffsetUs > j2) {
-            float msToUs = (float) Util.msToUs(this.minUpdateIntervalMs);
-            this.currentTargetLiveOffsetUs = Longs.max(j2, this.idealTargetLiveOffsetUs, this.currentTargetLiveOffsetUs - (((this.adjustedPlaybackSpeed - 1.0f) * msToUs) + ((this.maxPlaybackSpeed - 1.0f) * msToUs)));
+            float msToUs = Util.msToUs(this.minUpdateIntervalMs);
+            this.currentTargetLiveOffsetUs = Longs.max(j2, this.idealTargetLiveOffsetUs, this.currentTargetLiveOffsetUs - (((long) ((this.adjustedPlaybackSpeed - 1.0f) * msToUs)) + ((long) ((this.maxPlaybackSpeed - 1.0f) * msToUs))));
             return;
         }
-        long constrainValue = Util.constrainValue(j - (Math.max(0.0f, this.adjustedPlaybackSpeed - 1.0f) / this.proportionalControlFactor), this.currentTargetLiveOffsetUs, j2);
+        long constrainValue = Util.constrainValue(j - ((long) (Math.max(0.0f, this.adjustedPlaybackSpeed - 1.0f) / this.proportionalControlFactor)), this.currentTargetLiveOffsetUs, j2);
         this.currentTargetLiveOffsetUs = constrainValue;
         long j3 = this.maxTargetLiveOffsetUs;
         if (j3 == -9223372036854775807L || constrainValue <= j3) {
@@ -109,7 +108,7 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
     }
 
     private static long smooth(long j, long j2, float f) {
-        return (((float) j) * f) + ((1.0f - f) * ((float) j2));
+        return (long) ((j * f) + ((1.0f - f) * j2));
     }
 
     private void updateSmoothedMinPossibleLiveOffsetUs(long j, long j2) {
@@ -142,7 +141,7 @@ public final class DefaultLivePlaybackSpeedControl implements LivePlaybackSpeedC
         if (Math.abs(j3) < this.maxLiveOffsetErrorUsForUnitSpeed) {
             this.adjustedPlaybackSpeed = 1.0f;
         } else {
-            this.adjustedPlaybackSpeed = Util.constrainValue((this.proportionalControlFactor * ((float) j3)) + 1.0f, this.minPlaybackSpeed, this.maxPlaybackSpeed);
+            this.adjustedPlaybackSpeed = Util.constrainValue((this.proportionalControlFactor * j3) + 1.0f, this.minPlaybackSpeed, this.maxPlaybackSpeed);
         }
         return this.adjustedPlaybackSpeed;
     }

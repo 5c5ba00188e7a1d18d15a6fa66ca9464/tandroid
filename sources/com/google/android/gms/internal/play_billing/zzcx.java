@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzcx implements zzdq {
+final class zzcx implements zzdq {
     private static final zzdd zza = new zzcv();
     private final zzdd zzb;
 

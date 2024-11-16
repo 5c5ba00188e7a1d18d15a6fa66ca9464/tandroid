@@ -40,41 +40,14 @@ public class BusinessRecipientsHelper {
 
     private int getFlag(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1197490811:
-                if (str.equals("non_contacts")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -567451565:
-                if (str.equals("contacts")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -268161860:
-                if (str.equals("new_chats")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 151051367:
-                if (str.equals("existing_chats")) {
-                    c = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "non_contacts":
                 return 8;
-            case 1:
+            case "contacts":
                 return 4;
-            case 2:
+            case "new_chats":
                 return 2;
-            case 3:
+            case "existing_chats":
                 return 1;
             default:
                 return 0;

@@ -24,7 +24,6 @@ public abstract class ActivityResultRegistry {
     final Map mParsedPendingResults = new HashMap();
     final Bundle mPendingResults = new Bundle();
 
-    /* loaded from: classes.dex */
     class 1 implements LifecycleEventObserver {
         final /* synthetic */ ActivityResultRegistry this$0;
         final /* synthetic */ ActivityResultCallback val$callback;
@@ -59,9 +58,7 @@ public abstract class ActivityResultRegistry {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class CallbackAndContract {
+    private static class CallbackAndContract {
         final ActivityResultCallback mCallback;
         final ActivityResultContract mContract;
 

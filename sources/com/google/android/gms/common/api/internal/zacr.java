@@ -5,8 +5,7 @@ final class zacr implements Runnable {
     final /* synthetic */ com.google.android.gms.signin.internal.zak zaa;
     final /* synthetic */ zact zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zacr(zact zactVar, com.google.android.gms.signin.internal.zak zakVar) {
+    zacr(zact zactVar, com.google.android.gms.signin.internal.zak zakVar) {
         this.zab = zactVar;
         this.zaa = zakVar;
     }

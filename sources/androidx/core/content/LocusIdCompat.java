@@ -9,7 +9,6 @@ public final class LocusIdCompat {
     private final String mId;
     private final LocusId mWrapped;
 
-    /* loaded from: classes.dex */
     private static class Api29Impl {
         static LocusId create(String str) {
             return new LocusId(str);

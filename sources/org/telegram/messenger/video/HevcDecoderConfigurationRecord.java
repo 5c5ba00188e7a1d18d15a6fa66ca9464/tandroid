@@ -44,7 +44,6 @@ public class HevcDecoderConfigurationRecord {
     int reserved5 = 31;
     List<Array> arrays = new ArrayList();
 
-    /* loaded from: classes3.dex */
     public static class Array {
         public boolean array_completeness;
         public List<byte[]> nalUnits;
@@ -89,7 +88,6 @@ public class HevcDecoderConfigurationRecord {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class H265NalUnitHeader {
         public int forbiddenZeroFlag;
         public int nalUnitType;

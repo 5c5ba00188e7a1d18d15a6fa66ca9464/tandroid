@@ -151,8 +151,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return j$.com.android.tools.r8.a.h(j, kVarArr, (i2 << q) + p, kVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Class c(Object obj) {
+    static Class c(Object obj) {
         Type[] actualTypeArguments;
         if (!(obj instanceof Comparable)) {
             return null;
@@ -341,8 +340,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return (i2 ^ (i2 >>> 16)) & ConnectionsManager.DEFAULT_DATACENTER_ID;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final k l(k[] kVarArr, int i2) {
+    static final k l(k[] kVarArr, int i2) {
         return (k) j.getObjectVolatile(kVarArr, (i2 << q) + p);
     }
 
@@ -1322,7 +1320,6 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         forEach(BiConsumer.VivifiedWrapper.convert(biConsumer));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:34:0x0055, code lost:
     
         r7 = r6.c;
@@ -1338,7 +1335,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final Object g(Object obj, Object obj2, boolean z) {
+    final Object g(Object obj, Object obj2, boolean z) {
         Object obj3;
         Object obj4;
         if (obj == null) {
@@ -1463,8 +1460,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return v == null ? obj2 : v;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object h(Object obj, Object obj2, Object obj3) {
+    final Object h(Object obj, Object obj2, Object obj3) {
         int length;
         int i2;
         k l2;
@@ -1571,8 +1567,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
         return k() <= 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long k() {
+    final long k() {
         c[] cVarArr = this.c;
         long j2 = this.baseCount;
         if (cVarArr != null) {

@@ -10,7 +10,6 @@ public abstract class ActionMode {
     private Object mTag;
     private boolean mTitleOptionalHint;
 
-    /* loaded from: classes.dex */
     public interface Callback {
         boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem);
 

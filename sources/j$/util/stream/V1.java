@@ -1,8 +1,7 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class V1 extends W1 {
+abstract class V1 extends W1 {
     public final /* synthetic */ int l;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */

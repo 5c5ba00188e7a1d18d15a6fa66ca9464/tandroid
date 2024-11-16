@@ -9,7 +9,6 @@ import com.google.firebase.components.Dependency;
 /* loaded from: classes.dex */
 public abstract class LibraryVersionComponent {
 
-    /* loaded from: classes.dex */
     public interface VersionExtractor {
         String extract(Object obj);
     }

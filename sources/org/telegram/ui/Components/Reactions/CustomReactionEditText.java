@@ -108,9 +108,8 @@ public abstract class CustomReactionEditText extends EditTextCaption {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor
-    public void extendActionMode(ActionMode actionMode, Menu menu) {
+    protected void extendActionMode(ActionMode actionMode, Menu menu) {
         menu.clear();
         int i = R.id.menu_delete;
         menu.add(i, i, 0, LocaleController.getString(R.string.Delete));
@@ -140,9 +139,8 @@ public abstract class CustomReactionEditText extends EditTextCaption {
         return Theme.getColor(i, this.resourcesProvider);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-    public void onSelectionChanged(int i, int i2) {
+    protected void onSelectionChanged(int i, int i2) {
         super.onSelectionChanged(i, i2);
         if (!hasSelection() || ((AddReactionsSpan[]) getText().getSpans(i, i2, AddReactionsSpan.class)).length == 0) {
             return;

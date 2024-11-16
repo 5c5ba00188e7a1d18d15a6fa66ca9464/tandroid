@@ -8,8 +8,7 @@ final class I1 implements N1, c2 {
     private int b;
     final /* synthetic */ j$.util.function.B c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public I1(j$.util.function.B b) {
+    I1(j$.util.function.B b) {
         this.c = b;
     }
 

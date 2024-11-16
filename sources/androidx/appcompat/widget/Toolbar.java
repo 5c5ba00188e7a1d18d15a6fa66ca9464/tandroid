@@ -93,9 +93,7 @@ public class Toolbar extends ViewGroup {
     private TextView mTitleTextView;
     private ToolbarWidgetWrapper mWrapper;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api33Impl {
+    static class Api33Impl {
         static OnBackInvokedDispatcher findOnBackInvokedDispatcher(View view) {
             return view.findOnBackInvokedDispatcher();
         }
@@ -114,9 +112,7 @@ public class Toolbar extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ExpandedActionViewMenuPresenter implements MenuPresenter {
+    private class ExpandedActionViewMenuPresenter implements MenuPresenter {
         MenuItemImpl mCurrentExpandedItem;
         MenuBuilder mMenu;
 
@@ -223,7 +219,6 @@ public class Toolbar extends ViewGroup {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends ActionBar.LayoutParams {
         int mViewType;
 
@@ -268,11 +263,9 @@ public class Toolbar extends ViewGroup {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnMenuItemClickListener {
     }
 
-    /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator() { // from class: androidx.appcompat.widget.Toolbar.SavedState.1
             @Override // android.os.Parcelable.Creator

@@ -32,8 +32,7 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
         this(i, (String) null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Status(int i, int i2, String str, PendingIntent pendingIntent, ConnectionResult connectionResult) {
+    Status(int i, int i2, String str, PendingIntent pendingIntent, ConnectionResult connectionResult) {
         this.zzb = i;
         this.zzc = i2;
         this.zzd = str;

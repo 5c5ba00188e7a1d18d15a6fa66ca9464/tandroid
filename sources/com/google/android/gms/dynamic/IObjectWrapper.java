@@ -6,7 +6,6 @@ import android.os.IInterface;
 /* loaded from: classes.dex */
 public interface IObjectWrapper extends IInterface {
 
-    /* loaded from: classes.dex */
     public static abstract class Stub extends com.google.android.gms.internal.common.zzb implements IObjectWrapper {
         public Stub() {
             super("com.google.android.gms.dynamic.IObjectWrapper");

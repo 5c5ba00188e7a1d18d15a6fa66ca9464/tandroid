@@ -97,17 +97,13 @@ public final class DefaultAudioSink implements AudioSink {
     private long writtenEncodedFrames;
     private long writtenPcmBytes;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api23 {
+    private static final class Api23 {
         public static void setPreferredDeviceOnAudioTrack(AudioTrack audioTrack, AudioDeviceInfoApi23 audioDeviceInfoApi23) {
             audioTrack.setPreferredDevice(audioDeviceInfoApi23 == null ? null : audioDeviceInfoApi23.audioDeviceInfo);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api31 {
+    private static final class Api31 {
         public static void setLogSessionIdOnAudioTrack(AudioTrack audioTrack, PlayerId playerId) {
             LogSessionId logSessionId;
             boolean equals;
@@ -121,9 +117,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class AudioDeviceInfoApi23 {
+    private static final class AudioDeviceInfoApi23 {
         public final AudioDeviceInfo audioDeviceInfo;
 
         public AudioDeviceInfoApi23(AudioDeviceInfo audioDeviceInfo) {
@@ -131,14 +125,12 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface AudioTrackBufferSizeProvider {
         public static final AudioTrackBufferSizeProvider DEFAULT = new DefaultAudioTrackBufferSizeProvider.Builder().build();
 
         int getBufferSizeInBytes(int i, int i2, int i3, int i4, int i5, int i6, double d);
     }
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         ExoPlayer.AudioOffloadListener audioOffloadListener;
         private AudioProcessorChain audioProcessorChain;
@@ -188,9 +180,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Configuration {
+    private static final class Configuration {
         public final AudioProcessor[] availableAudioProcessors;
         public final int bufferSize;
         public final Format inputFormat;
@@ -304,7 +294,6 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DefaultAudioProcessorChain implements AudioProcessorChain {
         private final AudioProcessor[] audioProcessors;
         private final SilenceSkippingAudioProcessor silenceSkippingAudioProcessor;
@@ -353,16 +342,13 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class InvalidAudioTrackTimestampException extends RuntimeException {
         private InvalidAudioTrackTimestampException(String str) {
             super(str);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaPositionParameters {
+    private static final class MediaPositionParameters {
         public final long audioTrackPositionUs;
         public final long mediaTimeUs;
         public final PlaybackParameters playbackParameters;
@@ -376,9 +362,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class PendingExceptionHolder {
+    private static final class PendingExceptionHolder {
         private Exception pendingException;
         private long throwDeadlineMs;
         private final long throwDelayMs;
@@ -409,7 +393,6 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* loaded from: classes.dex */
     private final class PositionTrackerListener implements AudioTrackPositionTracker.Listener {
         private PositionTrackerListener() {
         }
@@ -452,9 +435,7 @@ public final class DefaultAudioSink implements AudioSink {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class StreamEventCallbackV29 {
+    private final class StreamEventCallbackV29 {
         private final AudioTrack.StreamEventCallback callback;
         private final Handler handler = new Handler(Looper.myLooper());
 

@@ -72,7 +72,7 @@ public class PhoneFormat {
         return sb.toString();
     }
 
-    /* JADX WARN: Type inference failed for: r2v10, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v10, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v12 */
     /* JADX WARN: Type inference failed for: r2v9 */
     public CallingCodeInfo callingCodeInfo(String str) {

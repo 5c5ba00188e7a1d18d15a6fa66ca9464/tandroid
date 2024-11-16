@@ -7,8 +7,7 @@ import com.googlecode.mp4parser.AbstractContainerBox;
 public abstract class AbstractSampleEntry extends AbstractContainerBox implements Box {
     protected int dataReferenceIndex;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractSampleEntry(String str) {
+    protected AbstractSampleEntry(String str) {
         super(str);
         this.dataReferenceIndex = 1;
     }

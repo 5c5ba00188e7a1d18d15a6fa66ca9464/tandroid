@@ -10,7 +10,6 @@ public class Cleaner {
     private final ReferenceQueue zza = new ReferenceQueue();
     private final Set zzb = Collections.synchronizedSet(new HashSet());
 
-    /* loaded from: classes.dex */
     public interface Cleanable {
         void clean();
     }

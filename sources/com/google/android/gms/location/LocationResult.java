@@ -18,8 +18,7 @@ public final class LocationResult extends AbstractSafeParcelable implements Refl
     static final List zza = Collections.emptyList();
     public static final Parcelable.Creator<LocationResult> CREATOR = new zzy();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocationResult(List list) {
+    LocationResult(List list) {
         this.zzb = list;
     }
 

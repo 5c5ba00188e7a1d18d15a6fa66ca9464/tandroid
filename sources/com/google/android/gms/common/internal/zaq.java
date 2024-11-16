@@ -8,8 +8,7 @@ import com.google.android.gms.common.internal.PendingResultUtil;
 final class zaq implements PendingResultUtil.ResultConverter {
     final /* synthetic */ Response zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaq(Response response) {
+    zaq(Response response) {
         this.zaa = response;
     }
 

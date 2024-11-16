@@ -7,17 +7,14 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class RegularImmutableMap extends ImmutableMap {
+final class RegularImmutableMap extends ImmutableMap {
     static final ImmutableMap EMPTY = new RegularImmutableMap(null, new Object[0], 0);
     final transient Object[] alternatingKeysAndValues;
     private final transient Object hashTable;
     private final transient int size;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class EntrySet extends ImmutableSet {
+    static class EntrySet extends ImmutableSet {
         private final transient Object[] alternatingKeysAndValues;
         private final transient int keyOffset;
         private final transient ImmutableMap map;
@@ -72,9 +69,8 @@ public final class RegularImmutableMap extends ImmutableMap {
             };
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.common.collect.ImmutableCollection
-        public boolean isPartialView() {
+        boolean isPartialView() {
             return true;
         }
 
@@ -89,7 +85,6 @@ public final class RegularImmutableMap extends ImmutableMap {
         }
     }
 
-    /* loaded from: classes.dex */
     static final class KeySet extends ImmutableSet {
         private final transient ImmutableList list;
         private final transient ImmutableMap map;
@@ -114,9 +109,8 @@ public final class RegularImmutableMap extends ImmutableMap {
             return asList().copyIntoArray(objArr, i);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.common.collect.ImmutableCollection
-        public boolean isPartialView() {
+        boolean isPartialView() {
             return true;
         }
 
@@ -131,7 +125,6 @@ public final class RegularImmutableMap extends ImmutableMap {
         }
     }
 
-    /* loaded from: classes.dex */
     static final class KeysOrValuesAsList extends ImmutableList {
         private final transient Object[] alternatingKeysAndValues;
         private final transient int offset;
@@ -151,9 +144,8 @@ public final class RegularImmutableMap extends ImmutableMap {
             return obj;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.common.collect.ImmutableCollection
-        public boolean isPartialView() {
+        boolean isPartialView() {
             return true;
         }
 
@@ -169,8 +161,7 @@ public final class RegularImmutableMap extends ImmutableMap {
         this.size = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static RegularImmutableMap create(int i, Object[] objArr, ImmutableMap.Builder builder) {
+    static RegularImmutableMap create(int i, Object[] objArr, ImmutableMap.Builder builder) {
         if (i == 0) {
             return (RegularImmutableMap) EMPTY;
         }

@@ -18,9 +18,7 @@ public final class FileDataSource extends BaseDataSource {
     private boolean opened;
     private Uri uri;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api21 {
+    private static final class Api21 {
         /* JADX INFO: Access modifiers changed from: private */
         public static boolean isPermissionError(Throwable th) {
             int i;
@@ -36,7 +34,6 @@ public final class FileDataSource extends BaseDataSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class FileDataSourceException extends DataSourceException {
         public FileDataSourceException(String str, Throwable th, int i) {
             super(str, th, i);

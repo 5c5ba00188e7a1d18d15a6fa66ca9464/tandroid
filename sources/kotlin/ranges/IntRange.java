@@ -7,7 +7,6 @@ public final class IntRange extends IntProgression {
     public static final Companion Companion = new Companion(null);
     private static final IntRange EMPTY = new IntRange(1, 0);
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }

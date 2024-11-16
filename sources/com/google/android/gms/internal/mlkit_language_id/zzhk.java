@@ -7,8 +7,7 @@ final class zzhk implements Iterator {
     private Iterator zza;
     private final /* synthetic */ zzhi zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzhk(zzhi zzhiVar) {
+    zzhk(zzhi zzhiVar) {
         zzfg zzfgVar;
         this.zzb = zzhiVar;
         zzfgVar = zzhiVar.zza;

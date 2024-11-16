@@ -86,9 +86,7 @@ public class SpoilerEffect extends Drawable {
     public static final float[] ALPHAS = {0.3f, 0.6f, 1.0f};
     private static Path tempPath = new Path();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Particle {
+    private static class Particle {
         private int alpha;
         private float currentTime;
         private float lifeTime;
@@ -780,7 +778,7 @@ public class SpoilerEffect extends Drawable {
             valueAnimator.cancel();
         }
         final int alpha = this.reverseAnimator ? NotificationCenter.notificationsCountUpdated : this.particlePaints[ALPHAS.length - 1].getAlpha();
-        ValueAnimator duration = ValueAnimator.ofFloat(this.rippleProgress, z ? 0.0f : 1.0f).setDuration(MathUtils.clamp(this.rippleMaxRadius * 0.3f, 250.0f, 550.0f));
+        ValueAnimator duration = ValueAnimator.ofFloat(this.rippleProgress, z ? 0.0f : 1.0f).setDuration((long) MathUtils.clamp(this.rippleMaxRadius * 0.3f, 250.0f, 550.0f));
         this.rippleAnimator = duration;
         duration.setInterpolator(this.rippleInterpolator);
         this.rippleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect$$ExternalSyntheticLambda1

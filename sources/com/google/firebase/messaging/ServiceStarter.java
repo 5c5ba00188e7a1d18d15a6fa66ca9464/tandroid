@@ -54,8 +54,7 @@ public class ServiceStarter {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static synchronized ServiceStarter getInstance() {
+    static synchronized ServiceStarter getInstance() {
         ServiceStarter serviceStarter;
         synchronized (ServiceStarter.class) {
             try {
@@ -109,13 +108,11 @@ public class ServiceStarter {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Intent getMessagingEvent() {
+    Intent getMessagingEvent() {
         return (Intent) this.messagingEvents.poll();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasAccessNetworkStatePermission(Context context) {
+    boolean hasAccessNetworkStatePermission(Context context) {
         if (this.hasAccessNetworkStatePermission == null) {
             this.hasAccessNetworkStatePermission = Boolean.valueOf(context.checkCallingOrSelfPermission("android.permission.ACCESS_NETWORK_STATE") == 0);
         }
@@ -125,8 +122,7 @@ public class ServiceStarter {
         return this.hasAccessNetworkStatePermission.booleanValue();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasWakeLockPermission(Context context) {
+    boolean hasWakeLockPermission(Context context) {
         if (this.hasWakeLockPermission == null) {
             this.hasWakeLockPermission = Boolean.valueOf(context.checkCallingOrSelfPermission("android.permission.WAKE_LOCK") == 0);
         }

@@ -14,9 +14,8 @@ import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.common.base.Supplier;
 import java.nio.ByteBuffer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {
+final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {
     private final AsynchronousMediaCodecCallback asynchronousMediaCodecCallback;
     private final AsynchronousMediaCodecBufferEnqueuer bufferEnqueuer;
     private final MediaCodec codec;
@@ -24,7 +23,6 @@ public final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {
     private int state;
     private final boolean synchronizeCodecInteractionsWithQueueing;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements MediaCodecAdapter.Factory {
         private final Supplier callbackThreadSupplier;
         private final Supplier queueingThreadSupplier;

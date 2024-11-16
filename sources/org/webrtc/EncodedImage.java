@@ -15,7 +15,6 @@ public class EncodedImage implements RefCounted {
     private final RefCountDelegate refCountDelegate;
     public final int rotation;
 
-    /* loaded from: classes5.dex */
     public static class Builder {
         private ByteBuffer buffer;
         private long captureTimeNs;
@@ -76,7 +75,6 @@ public class EncodedImage implements RefCounted {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum FrameType {
         EmptyFrame(0),
         VideoFrameKey(3),

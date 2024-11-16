@@ -20,8 +20,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public String getEnabledPreferenceKey() {
+    protected String getEnabledPreferenceKey() {
         return "enabled_" + getServiceName();
     }
 
@@ -29,8 +28,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
 
     protected abstract String getLoggerTag();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getTriggerCount() {
+    protected int getTriggerCount() {
         return 50;
     }
 
@@ -38,8 +36,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return 3000L;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getTriggerMaxParallelRequests() {
+    protected int getTriggerMaxParallelRequests() {
         return 3;
     }
 
@@ -53,8 +50,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return SharedPreferencesManager.getBoolean(getEnabledPreferenceKey(), true);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized AppCenterFuture isInstanceEnabledAsync() {
+    protected synchronized AppCenterFuture isInstanceEnabledAsync() {
         final DefaultAppCenterFuture defaultAppCenterFuture;
         defaultAppCenterFuture = new DefaultAppCenterFuture();
         postAsyncGetter(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.1
@@ -131,13 +127,11 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         this.mHandler = appCenterHandler;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized void post(Runnable runnable) {
+    protected synchronized void post(Runnable runnable) {
         post(runnable, null, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
+    protected synchronized boolean post(final Runnable runnable, Runnable runnable2, final Runnable runnable3) {
         AppCenterHandler appCenterHandler = this.mHandler;
         if (appCenterHandler != null) {
             appCenterHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.4
@@ -162,8 +156,7 @@ public abstract class AbstractAppCenterService implements AppCenterService {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public synchronized void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture defaultAppCenterFuture, final Object obj) {
+    protected synchronized void postAsyncGetter(final Runnable runnable, final DefaultAppCenterFuture defaultAppCenterFuture, final Object obj) {
         Runnable runnable2 = new Runnable() { // from class: com.microsoft.appcenter.AbstractAppCenterService.5
             @Override // java.lang.Runnable
             public void run() {

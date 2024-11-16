@@ -36,9 +36,7 @@ public class AnimatedEmojiEffect {
     int animationIndex = -1;
     long startTime = System.currentTimeMillis();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Particle {
+    private class Particle {
         long duration;
         float fromSize;
         float fromX;
@@ -71,7 +69,7 @@ public class AnimatedEmojiEffect {
         */
         public void draw(Canvas canvas) {
             float f;
-            float min = this.progress + (Math.min(40.0f, 1000.0f / AndroidUtilities.screenRefreshRate) / ((float) this.duration));
+            float min = this.progress + (Math.min(40.0f, 1000.0f / AndroidUtilities.screenRefreshRate) / this.duration);
             this.progress = min;
             float clamp = Utilities.clamp(min, 1.0f, 0.0f);
             this.progress = clamp;
@@ -165,7 +163,7 @@ public class AnimatedEmojiEffect {
                 j = 1800;
             }
             this.duration = j;
-            this.duration = ((float) this.duration) / 1.75f;
+            this.duration = (long) (this.duration / 1.75f);
             this.mirror = Utilities.fastRandom.nextBoolean();
             this.randomRotation = ((Utilities.fastRandom.nextInt() % 100) / 100.0f) * 20.0f;
         }

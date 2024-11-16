@@ -17,8 +17,7 @@ final class zzgs implements Iterator {
         this.zza = list.size();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzgs(zzgq zzgqVar, zzgt zzgtVar) {
+    /* synthetic */ zzgs(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }
 

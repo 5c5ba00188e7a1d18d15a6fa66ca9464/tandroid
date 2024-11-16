@@ -27,7 +27,6 @@ public class PhotoFilterCurvesControl extends View {
     private Path path;
     private TextPaint textPaint;
 
-    /* loaded from: classes3.dex */
     public interface PhotoFilterCurvesControlDelegate {
         void valueChanged();
     }

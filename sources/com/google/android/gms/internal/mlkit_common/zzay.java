@@ -9,8 +9,7 @@ final class zzay extends zzau {
     private final transient Object[] zzb;
     private final transient int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzay(zzat zzatVar, Object[] objArr, int i, int i2) {
+    zzay(zzat zzatVar, Object[] objArr, int i, int i2) {
         this.zza = zzatVar;
         this.zzb = objArr;
         this.zzc = i2;
@@ -39,9 +38,8 @@ final class zzay extends zzau {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzam
-    public final int zza(Object[] objArr, int i) {
+    final int zza(Object[] objArr, int i) {
         return zzf().zza(objArr, 0);
     }
 

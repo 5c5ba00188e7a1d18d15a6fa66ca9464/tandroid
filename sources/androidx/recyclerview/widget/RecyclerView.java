@@ -145,7 +145,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
     private static final int[] NESTED_SCROLLING_ATTRS = {R.attr.nestedScrollingEnabled};
     private static final int[] CLIP_TO_PADDING_ATTR = {R.attr.clipToPadding};
 
-    /* loaded from: classes.dex */
     public static abstract class Adapter {
         private final AdapterDataObservable mObservable = new AdapterDataObservable();
         private boolean mHasStableIds = false;
@@ -281,9 +280,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class AdapterDataObservable extends Observable {
+    static class AdapterDataObservable extends Observable {
         AdapterDataObservable() {
         }
 
@@ -326,7 +323,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class AdapterDataObserver {
         public void onChanged() {
         }
@@ -348,19 +344,16 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public interface ChildDrawingOrderCallback {
         int onGetChildDrawingOrder(int i, int i2);
     }
 
-    /* loaded from: classes.dex */
     public static class EdgeEffectFactory {
         protected EdgeEffect createEdgeEffect(RecyclerView recyclerView, int i) {
             return new EdgeEffect(recyclerView.getContext());
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ItemAnimator {
         private TimeInterpolator mAddInterpolator;
         private TimeInterpolator mChangeInterpolator;
@@ -379,18 +372,14 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         private long mDelay = 0;
         private long mChangeDelay = 0;
 
-        /* loaded from: classes.dex */
         public interface ItemAnimatorFinishedListener {
             void onAnimationsFinished();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public interface ItemAnimatorListener {
+        interface ItemAnimatorListener {
             void onAnimationFinished(ViewHolder viewHolder);
         }
 
-        /* loaded from: classes.dex */
         public static class ItemHolderInfo {
             public int bottom;
             public int left;
@@ -600,7 +589,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     private class ItemAnimatorRestoreListener implements ItemAnimator.ItemAnimatorListener {
         ItemAnimatorRestoreListener() {
         }
@@ -619,7 +607,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ItemDecoration {
         public void getItemOffsets(Rect rect, int i, RecyclerView recyclerView) {
             rect.set(0, 0, 0, 0);
@@ -644,7 +631,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class LayoutManager {
         boolean mAutoMeasure;
         ChildHelper mChildHelper;
@@ -665,7 +651,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         private int mWidth;
         private int mWidthMode;
 
-        /* loaded from: classes.dex */
         public interface LayoutPrefetchRegistry {
             void addPosition(int i, int i2);
         }
@@ -1215,8 +1200,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return this.mWidthMode;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean hasFlexibleChildInBothOrientations() {
+        boolean hasFlexibleChildInBothOrientations() {
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++) {
                 ViewGroup.LayoutParams layoutParams = getChildAt(i).getLayoutParams();
@@ -1340,8 +1324,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+        void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
             RecyclerView recyclerView = this.mRecyclerView;
             onInitializeAccessibilityNodeInfo(recyclerView.mRecycler, recyclerView.mState, accessibilityNodeInfoCompat);
         }
@@ -1358,8 +1341,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             accessibilityNodeInfoCompat.setCollectionInfo(AccessibilityNodeInfoCompat.CollectionInfoCompat.obtain(getRowCountForAccessibility(recycler, state), getColumnCountForAccessibility(recycler, state), isLayoutHierarchical(recycler, state), getSelectionModeForAccessibility(recycler, state)));
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void onInitializeAccessibilityNodeInfoForItem(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
+        void onInitializeAccessibilityNodeInfoForItem(View view, AccessibilityNodeInfoCompat accessibilityNodeInfoCompat) {
             ViewHolder childViewHolderInt = RecyclerView.getChildViewHolderInt(view);
             if (childViewHolderInt == null || childViewHolderInt.isRemoved() || this.mChildHelper.isHidden(childViewHolderInt.itemView)) {
                 return;
@@ -1425,8 +1407,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean performAccessibilityAction(int i, Bundle bundle) {
+        boolean performAccessibilityAction(int i, Bundle bundle) {
             RecyclerView recyclerView = this.mRecyclerView;
             return performAccessibilityAction(recyclerView.mRecycler, recyclerView.mState, i, bundle);
         }
@@ -1477,8 +1458,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean performAccessibilityActionForItem(View view, int i, Bundle bundle) {
+        boolean performAccessibilityActionForItem(View view, int i, Bundle bundle) {
             RecyclerView recyclerView = this.mRecyclerView;
             return performAccessibilityActionForItem(recyclerView.mRecycler, recyclerView.mState, view, i, bundle);
         }
@@ -1660,15 +1640,13 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             this.mHeightMode = 1073741824;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean shouldMeasureChild(View view, int i, int i2, LayoutParams layoutParams) {
+        boolean shouldMeasureChild(View view, int i, int i2, LayoutParams layoutParams) {
             return (!view.isLayoutRequested() && this.mMeasurementCacheEnabled && isMeasurementUpToDate(view.getWidth(), i, ((ViewGroup.MarginLayoutParams) layoutParams).width) && isMeasurementUpToDate(view.getHeight(), i2, ((ViewGroup.MarginLayoutParams) layoutParams).height)) ? false : true;
         }
 
         abstract boolean shouldMeasureTwice();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean shouldReMeasureChild(View view, int i, int i2, LayoutParams layoutParams) {
+        boolean shouldReMeasureChild(View view, int i, int i2, LayoutParams layoutParams) {
             return (this.mMeasurementCacheEnabled && isMeasurementUpToDate(view.getMeasuredWidth(), i, ((ViewGroup.MarginLayoutParams) layoutParams).width) && isMeasurementUpToDate(view.getMeasuredHeight(), i2, ((ViewGroup.MarginLayoutParams) layoutParams).height)) ? false : true;
         }
 
@@ -1700,7 +1678,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         public abstract boolean supportsPredictiveItemAnimations();
     }
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         public final Rect mDecorInsets;
         boolean mInsetsDirty;
@@ -1771,18 +1748,15 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnChildAttachStateChangeListener {
         void onChildViewAttachedToWindow(View view);
 
         void onChildViewDetachedFromWindow(View view);
     }
 
-    /* loaded from: classes.dex */
     public static abstract class OnFlingListener {
     }
 
-    /* loaded from: classes.dex */
     public interface OnItemTouchListener {
         boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent);
 
@@ -1791,7 +1765,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent);
     }
 
-    /* loaded from: classes.dex */
     public static abstract class OnScrollListener {
         public void onScrollStateChanged(RecyclerView recyclerView, int i) {
         }
@@ -1800,14 +1773,11 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static class RecycledViewPool {
         SparseArray mScrap = new SparseArray();
         private int mAttachCount = 0;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public static class ScrapData {
+        static class ScrapData {
             final ArrayList mScrapHeap = new ArrayList();
             int mMaxScrap = 20;
             long mCreateRunningAverageNs = 0;
@@ -1902,7 +1872,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public final class Recycler {
         final ArrayList mAttachedScrap;
         final ArrayList mCachedViews;
@@ -1979,8 +1948,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void addViewHolderToRecycledViewPool(ViewHolder viewHolder, boolean z) {
+        void addViewHolderToRecycledViewPool(ViewHolder viewHolder, boolean z) {
             RecyclerView.clearNestedRecyclerViewIfNotNested(viewHolder);
             if (viewHolder.hasAnyOfTheFlags(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
                 viewHolder.setFlags(0, LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
@@ -2394,7 +2362,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             updateViewCacheSize();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         /* JADX WARN: Removed duplicated region for block: B:15:0x0039  */
         /* JADX WARN: Removed duplicated region for block: B:24:0x005e  */
         /* JADX WARN: Removed duplicated region for block: B:26:0x0061  */
@@ -2408,7 +2375,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public ViewHolder tryGetViewHolderForPositionByDeadline(int i, boolean z, long j) {
+        ViewHolder tryGetViewHolderForPositionByDeadline(int i, boolean z, long j) {
             ViewHolder viewHolder;
             boolean z2;
             ViewHolder viewHolder2;
@@ -2573,8 +2540,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             viewHolder.clearReturnedFromScrapFlag();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void updateViewCacheSize() {
+        void updateViewCacheSize() {
             LayoutManager layoutManager = RecyclerView.this.mLayout;
             this.mViewCacheMax = this.mRequestedCacheMax + (layoutManager != null ? layoutManager.mPrefetchMaxCountObserved : 0);
             for (int size = this.mCachedViews.size() - 1; size >= 0 && this.mCachedViews.size() > this.mViewCacheMax; size--) {
@@ -2609,13 +2575,10 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public interface RecyclerListener {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class RecyclerViewDataObserver extends AdapterDataObserver {
+    private class RecyclerViewDataObserver extends AdapterDataObserver {
         RecyclerViewDataObserver() {
         }
 
@@ -2677,7 +2640,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SavedState extends AbsSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator() { // from class: androidx.recyclerview.widget.RecyclerView.SavedState.1
             @Override // android.os.Parcelable.Creator
@@ -2717,7 +2679,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class SmoothScroller {
         private LayoutManager mLayoutManager;
         private boolean mPendingInitialRun;
@@ -2728,7 +2689,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         private int mTargetPosition = -1;
         private final Action mRecyclingAction = new Action(0, 0);
 
-        /* loaded from: classes.dex */
         public static class Action {
             private boolean mChanged;
             private int mConsecutiveUpdates;
@@ -2800,7 +2760,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             }
         }
 
-        /* loaded from: classes.dex */
         public interface ScrollVectorProvider {
             PointF computeScrollVectorForPosition(int i);
         }
@@ -2842,8 +2801,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return this.mRunning;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public void normalize(PointF pointF) {
+        protected void normalize(PointF pointF) {
             float f = pointF.x;
             float f2 = pointF.y;
             float sqrt = (float) Math.sqrt((f * f) + (f2 * f2));
@@ -2924,8 +2882,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             this.mStarted = true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public final void stop() {
+        protected final void stop() {
             if (this.mRunning) {
                 this.mRunning = false;
                 onStop();
@@ -2940,7 +2897,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static class State {
         private SparseArray mData;
         long mFocusedItemId;
@@ -2979,8 +2935,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return this.mInPreLayout;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void prepareForNestedPrefetch(Adapter adapter) {
+        void prepareForNestedPrefetch(Adapter adapter) {
             this.mLayoutStep = 1;
             this.mItemCount = adapter.getItemCount();
             this.mInPreLayout = false;
@@ -2997,13 +2952,10 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ViewCacheExtension {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class ViewFlinger implements Runnable {
+    class ViewFlinger implements Runnable {
         private boolean mEatRunOnAnimationRequest;
         Interpolator mInterpolator;
         private int mLastFlingX;
@@ -3218,7 +3170,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ViewHolder {
         private static final List FULLUPDATE_PAYLOADS = Collections.emptyList();
         public final View itemView;
@@ -3349,13 +3300,11 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return (this.itemView.getParent() == null || this.itemView.getParent() == this.mOwnerRecyclerView) ? false : true;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean isBound() {
+        boolean isBound() {
             return (this.mFlags & 1) != 0;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean isInvalid() {
+        boolean isInvalid() {
             return (this.mFlags & 4) != 0;
         }
 
@@ -3363,8 +3312,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
             return (this.mFlags & 16) == 0 && !ViewCompat.hasTransientState(this.itemView);
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean isRemoved() {
+        boolean isRemoved() {
             return (this.mFlags & 8) != 0;
         }
 
@@ -4007,8 +3955,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         return findViewHolderForAdapterPosition.itemView;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ViewHolder getChildViewHolderInt(View view) {
+    static ViewHolder getChildViewHolderInt(View view) {
         if (view == null) {
             return null;
         }
@@ -5421,8 +5368,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         return this.mMinFlingVelocity;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getNanoTime() {
+    long getNanoTime() {
         if (ALLOW_THREAD_GAP_WORK) {
             return System.nanoTime();
         }
@@ -5688,7 +5634,6 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         requestLayout();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:16:0x004b, code lost:
     
         if (r1 >= 30.0f) goto L22;
@@ -5697,7 +5642,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         float f;
         super.onAttachedToWindow();
         this.mLayoutOrScrollCounter = 0;
@@ -5720,7 +5665,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
                 }
                 f = 60.0f;
                 GapWorker gapWorker2 = this.mGapWorker;
-                gapWorker2.mFrameIntervalNs = 1.0E9f / f;
+                gapWorker2.mFrameIntervalNs = (long) (1.0E9f / f);
                 threadLocal.set(gapWorker2);
             }
             this.mGapWorker.add(this);
@@ -5733,9 +5678,8 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
     public void onChildDetachedFromWindow(View view) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         GapWorker gapWorker;
         super.onDetachedFromWindow();
         ItemAnimator itemAnimator = this.mItemAnimator;
@@ -5767,8 +5711,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onEnterLayoutOrScroll() {
+    void onEnterLayoutOrScroll() {
         this.mLayoutOrScrollCounter++;
     }
 
@@ -5776,8 +5719,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         onExitLayoutOrScroll(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onExitLayoutOrScroll(boolean z) {
+    void onExitLayoutOrScroll(boolean z) {
         int i = this.mLayoutOrScrollCounter - 1;
         this.mLayoutOrScrollCounter = i;
         if (i < 1) {
@@ -5928,18 +5870,16 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         return this.mScrollState == 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         TraceCompat.beginSection("RV OnLayout");
         dispatchLayout();
         TraceCompat.endSection();
         this.mFirstLayoutComplete = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         LayoutManager layoutManager = this.mLayout;
         if (layoutManager == null) {
             defaultOnMeasure(i, i2);
@@ -6046,9 +5986,8 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
     public void onScrolled(int i, int i2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         if (i == i3 && i2 == i4) {
             return;
@@ -6233,8 +6172,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         this.mViewInfoStore.addToPreLayout(viewHolder, itemHolderInfo);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void removeAndRecycleViews() {
+    void removeAndRecycleViews() {
         ItemAnimator itemAnimator = this.mItemAnimator;
         if (itemAnimator != null) {
             itemAnimator.endAnimations();
@@ -6327,8 +6265,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         super.requestChildFocus(view, view2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void requestChildOnScreen(View view, View view2) {
+    protected void requestChildOnScreen(View view, View view2) {
         View view3 = view2 != null ? view2 : view;
         this.mTempRect.set(0, 0, view3.getWidth(), view3.getHeight());
         ViewGroup.LayoutParams layoutParams = view3.getLayoutParams();

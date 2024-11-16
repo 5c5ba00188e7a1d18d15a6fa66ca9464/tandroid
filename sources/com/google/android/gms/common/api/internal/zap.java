@@ -18,8 +18,7 @@ public abstract class zap extends LifecycleCallback implements DialogInterface.O
     protected final GoogleApiAvailability zac;
     private final Handler zad;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zap(LifecycleFragment lifecycleFragment, GoogleApiAvailability googleApiAvailability) {
+    zap(LifecycleFragment lifecycleFragment, GoogleApiAvailability googleApiAvailability) {
         super(lifecycleFragment);
         this.zab = new AtomicReference(null);
         this.zad = new com.google.android.gms.internal.base.zau(Looper.getMainLooper());

@@ -17,13 +17,10 @@ import androidx.fragment.R$animator;
 import androidx.fragment.R$id;
 import androidx.fragment.app.FragmentTransition;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class FragmentAnim {
+abstract class FragmentAnim {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class AnimationOrAnimator {
+    static class AnimationOrAnimator {
         public final Animation animation;
         public final Animator animator;
 
@@ -44,17 +41,14 @@ public abstract class FragmentAnim {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class EndViewTransitionAnimation extends AnimationSet implements Runnable {
+    static class EndViewTransitionAnimation extends AnimationSet implements Runnable {
         private boolean mAnimating;
         private final View mChild;
         private boolean mEnded;
         private final ViewGroup mParent;
         private boolean mTransitionEnded;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public EndViewTransitionAnimation(Animation animation, ViewGroup viewGroup, View view) {
+        EndViewTransitionAnimation(Animation animation, ViewGroup viewGroup, View view) {
             super(false);
             this.mAnimating = true;
             this.mParent = viewGroup;
@@ -101,8 +95,7 @@ public abstract class FragmentAnim {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void animateRemoveFragment(final Fragment fragment, AnimationOrAnimator animationOrAnimator, final FragmentTransition.Callback callback) {
+    static void animateRemoveFragment(final Fragment fragment, AnimationOrAnimator animationOrAnimator, final FragmentTransition.Callback callback) {
         final View view = fragment.mView;
         final ViewGroup viewGroup = fragment.mContainer;
         viewGroup.startViewTransition(view);
@@ -170,8 +163,7 @@ public abstract class FragmentAnim {
         return z2 ? z ? fragment.getPopEnterAnim() : fragment.getPopExitAnim() : z ? fragment.getEnterAnim() : fragment.getExitAnim();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static AnimationOrAnimator loadAnimation(Context context, Fragment fragment, boolean z, boolean z2) {
+    static AnimationOrAnimator loadAnimation(Context context, Fragment fragment, boolean z, boolean z2) {
         int nextTransition = fragment.getNextTransition();
         int nextAnim = getNextAnim(fragment, z, z2);
         fragment.setAnimations(0, 0, 0, 0);

@@ -11,19 +11,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public interface DrmSessionEventListener {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onDrmSessionAcquired(DrmSessionEventListener drmSessionEventListener, int i, MediaSource.MediaPeriodId mediaPeriodId) {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class EventDispatcher {
         private final CopyOnWriteArrayList listenerAndHandlers;
         public final MediaSource.MediaPeriodId mediaPeriodId;
         public final int windowIndex;
 
-        /* loaded from: classes.dex */
         private static final class ListenerAndHandler {
             public Handler handler;
             public DrmSessionEventListener listener;

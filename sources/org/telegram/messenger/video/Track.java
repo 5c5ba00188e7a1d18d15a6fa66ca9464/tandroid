@@ -50,8 +50,7 @@ public class Track {
     private boolean first = true;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SamplePresentationTime {
+    static class SamplePresentationTime {
         private long dt;
         private int index;
         private long presentationTime;

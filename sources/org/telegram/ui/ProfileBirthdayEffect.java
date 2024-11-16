@@ -44,7 +44,6 @@ public class ProfileBirthdayEffect extends View {
     public PointF sourcePoint;
     private float t;
 
-    /* loaded from: classes4.dex */
     public static class BirthdayEffectFetcher {
         public final int age;
         public final int currentAccount;
@@ -239,12 +238,9 @@ public class ProfileBirthdayEffect extends View {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ImageReceiverAsset extends ImageReceiver {
+    static class ImageReceiverAsset extends ImageReceiver {
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements ImageReceiver.ImageReceiverDelegate {
+        class 1 implements ImageReceiver.ImageReceiverDelegate {
             final /* synthetic */ Runnable[] val$callback;
 
             1(Runnable[] runnableArr) {
@@ -370,7 +366,7 @@ public class ProfileBirthdayEffect extends View {
             }
             if (this.isPlaying) {
                 long currentTimeMillis = System.currentTimeMillis();
-                this.t = Utilities.clamp(this.t + (((float) Utilities.clamp(currentTimeMillis - this.lastTime, 20L, 0L)) / 4200.0f), 1.0f, 0.0f);
+                this.t = Utilities.clamp(this.t + (Utilities.clamp(currentTimeMillis - this.lastTime, 20L, 0L) / 4200.0f), 1.0f, 0.0f);
                 this.lastTime = currentTimeMillis;
                 updateSourcePoint();
                 float filterWidth = EmojiAnimationsOverlay.getFilterWidth();

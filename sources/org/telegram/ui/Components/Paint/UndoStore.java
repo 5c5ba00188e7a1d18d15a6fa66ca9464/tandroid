@@ -13,7 +13,6 @@ public class UndoStore {
     private Map uuidToOperationMap = new HashMap();
     private List operations = new ArrayList();
 
-    /* loaded from: classes3.dex */
     public interface UndoStoreDelegate {
         void historyChanged();
     }

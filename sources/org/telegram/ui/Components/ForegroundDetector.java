@@ -87,7 +87,6 @@ public abstract class ForegroundDetector implements Application.ActivityLifecycl
                 RecyclerView$ItemAnimator$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
                 try {
                     throw null;
-                    break;
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -110,7 +109,6 @@ public abstract class ForegroundDetector implements Application.ActivityLifecycl
                 RecyclerView$ItemAnimator$$ExternalSyntheticThrowCCEIfNotNull0.m(it.next());
                 try {
                     throw null;
-                    break;
                 } catch (Exception e) {
                     FileLog.e(e);
                 }

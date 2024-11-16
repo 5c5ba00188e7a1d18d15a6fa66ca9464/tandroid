@@ -31,9 +31,7 @@ public class ConfigCacheClient {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class AwaitListener implements OnSuccessListener, OnFailureListener, OnCanceledListener {
+    private static class AwaitListener implements OnSuccessListener, OnFailureListener, OnCanceledListener {
         private final CountDownLatch latch;
 
         private AwaitListener() {

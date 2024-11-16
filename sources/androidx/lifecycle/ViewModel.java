@@ -24,8 +24,7 @@ public abstract class ViewModel {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void clear() {
+    final void clear() {
         this.mCleared = true;
         Map map = this.mBagOfTags;
         if (map != null) {
@@ -54,8 +53,7 @@ public abstract class ViewModel {
         onCleared();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Object getTag(String str) {
+    Object getTag(String str) {
         Object obj;
         Map map = this.mBagOfTags;
         if (map == null) {
@@ -67,12 +65,10 @@ public abstract class ViewModel {
         return obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onCleared() {
+    protected void onCleared() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Object setTagIfAbsent(String str, Object obj) {
+    Object setTagIfAbsent(String str, Object obj) {
         Object obj2;
         synchronized (this.mBagOfTags) {
             try {

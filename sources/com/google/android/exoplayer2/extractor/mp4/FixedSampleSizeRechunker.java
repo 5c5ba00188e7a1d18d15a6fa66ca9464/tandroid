@@ -6,7 +6,6 @@ import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 abstract class FixedSampleSizeRechunker {
 
-    /* loaded from: classes.dex */
     public static final class Results {
         public final long duration;
         public final int[] flags;

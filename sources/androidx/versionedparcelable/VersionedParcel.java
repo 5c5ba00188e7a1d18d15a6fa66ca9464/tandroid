@@ -122,8 +122,7 @@ public abstract class VersionedParcel {
         return !readField(i) ? str : readString();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public VersionedParcelable readVersionedParcelable() {
+    protected VersionedParcelable readVersionedParcelable() {
         String readString = readString();
         if (readString == null) {
             return null;
@@ -199,8 +198,7 @@ public abstract class VersionedParcel {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void writeVersionedParcelable(VersionedParcelable versionedParcelable) {
+    protected void writeVersionedParcelable(VersionedParcelable versionedParcelable) {
         if (versionedParcelable == null) {
             writeString(null);
             return;

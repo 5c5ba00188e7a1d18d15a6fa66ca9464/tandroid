@@ -283,9 +283,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
     private static boolean isFirstOpen = true;
     private static HashMap listStates = new HashMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 17 implements RecyclerListView.OnItemLongClickListenerExtended {
+    class 17 implements RecyclerListView.OnItemLongClickListenerExtended {
         final /* synthetic */ Context val$context;
         final /* synthetic */ Integer val$emojiX;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
@@ -428,8 +426,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
 
@@ -887,12 +884,12 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             View view;
             if (i == 0) {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = SelectAnimatedEmojiDialog.this;
-                view = new HeaderView(selectAnimatedEmojiDialog.getContext(), SelectAnimatedEmojiDialog.this.type == 6);
+                view = selectAnimatedEmojiDialog.new HeaderView(selectAnimatedEmojiDialog.getContext(), SelectAnimatedEmojiDialog.this.type == 6);
             } else if (i == 2) {
                 view = new ImageView(SelectAnimatedEmojiDialog.this.getContext());
             } else if (i == 3 || i == 1 || i == 8) {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog2 = SelectAnimatedEmojiDialog.this;
-                ImageViewEmoji imageViewEmoji = new ImageViewEmoji(selectAnimatedEmojiDialog2.getContext());
+                ImageViewEmoji imageViewEmoji = selectAnimatedEmojiDialog2.new ImageViewEmoji(selectAnimatedEmojiDialog2.getContext());
                 if (i == 8) {
                     imageViewEmoji.isStaticIcon = true;
                     ImageReceiver imageReceiver = new ImageReceiver(imageViewEmoji);
@@ -905,10 +902,10 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                 view = imageViewEmoji;
             } else if (i == 4) {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog3 = SelectAnimatedEmojiDialog.this;
-                view = new EmojiPackExpand(selectAnimatedEmojiDialog3.getContext(), null);
+                view = selectAnimatedEmojiDialog3.new EmojiPackExpand(selectAnimatedEmojiDialog3.getContext(), null);
             } else if (i == 5) {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog4 = SelectAnimatedEmojiDialog.this;
-                view = new EmojiPackButton(selectAnimatedEmojiDialog4.getContext());
+                view = selectAnimatedEmojiDialog4.new EmojiPackButton(selectAnimatedEmojiDialog4.getContext());
             } else if (i == 6) {
                 TextView textView = new TextView(SelectAnimatedEmojiDialog.this.getContext()) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.Adapter.1
                     @Override // android.widget.TextView, android.view.View
@@ -927,7 +924,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                 view = fixedHeightEmptyCell;
             } else {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog5 = SelectAnimatedEmojiDialog.this;
-                view = new ImageViewEmoji(selectAnimatedEmojiDialog5.getContext());
+                view = selectAnimatedEmojiDialog5.new ImageViewEmoji(selectAnimatedEmojiDialog5.getContext());
             }
             if (SelectAnimatedEmojiDialog.this.enterAnimationInProgress()) {
                 view.setScaleX(0.0f);
@@ -937,12 +934,10 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface BackgroundDelegate {
         void drawRect(Canvas canvas, int i, int i2, int i3, int i4, float f, float f2);
     }
 
-    /* loaded from: classes4.dex */
     public class EmojiListView extends RecyclerListView {
         private LongSparseArray animatedEmojiDrawables;
         private boolean invalidated;
@@ -953,7 +948,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         ArrayList unusedLineDrawables;
         SparseArray viewsGroupedByLines;
 
-        /* loaded from: classes4.dex */
         public class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
             ArrayList imageViewEmojis;
             public int position;
@@ -1078,7 +1072,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                                 int childAdapterPosition = EmojiListView.this.getChildAdapterPosition(imageViewEmoji) - SelectAnimatedEmojiDialog.this.animateExpandFromPosition;
                                 int i2 = SelectAnimatedEmojiDialog.this.animateExpandToPosition - SelectAnimatedEmojiDialog.this.animateExpandFromPosition;
                                 if (childAdapterPosition >= 0 && childAdapterPosition < i2) {
-                                    float clamp = MathUtils.clamp(((float) (SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime)) / ((float) SelectAnimatedEmojiDialog.this.animateExpandAppearDuration()), 0.0f, 1.0f);
+                                    float clamp = MathUtils.clamp((SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime) / SelectAnimatedEmojiDialog.this.animateExpandAppearDuration(), 0.0f, 1.0f);
                                     float f3 = childAdapterPosition;
                                     float f4 = i2;
                                     float f5 = f4 / 4.0f;
@@ -1194,7 +1188,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                                 if (childAdapterPosition < 0 || childAdapterPosition >= i2) {
                                     alpha = 1.0f;
                                 } else {
-                                    float clamp = MathUtils.clamp(((float) (SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime)) / ((float) SelectAnimatedEmojiDialog.this.animateExpandAppearDuration()), 0.0f, 1.0f);
+                                    float clamp = MathUtils.clamp((SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime) / SelectAnimatedEmojiDialog.this.animateExpandAppearDuration(), 0.0f, 1.0f);
                                     float f4 = childAdapterPosition;
                                     float f5 = i2;
                                     float f6 = f5 / 4.0f;
@@ -1275,7 +1269,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             arrayList.clear();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Code restructure failed: missing block: B:8:0x0017, code lost:
         
             if (((org.telegram.ui.Components.AnimatedEmojiDrawable) r0).canOverrideColor() != false) goto L10;
@@ -1284,7 +1277,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public boolean canHighlightChildAt(View view, float f, float f2) {
+        protected boolean canHighlightChildAt(View view, float f, float f2) {
             int color;
             if (view instanceof ImageViewEmoji) {
                 ImageViewEmoji imageViewEmoji = (ImageViewEmoji) view;
@@ -1362,7 +1355,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                     }
                     if (z && childAt != null) {
                         if (getChildAdapterPosition(childAt) == SelectAnimatedEmojiDialog.this.animateExpandFromPosition - (SelectAnimatedEmojiDialog.this.animateExpandFromButtonTranslate > 0.0f ? 0 : 1)) {
-                            float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(MathUtils.clamp(((float) (SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime)) / 200.0f, 0.0f, 1.0f));
+                            float interpolation = CubicBezierInterpolator.EASE_OUT.getInterpolation(MathUtils.clamp((SystemClock.elapsedRealtime() - SelectAnimatedEmojiDialog.this.animateExpandStartTime) / 200.0f, 0.0f, 1.0f));
                             if (interpolation < 1.0f) {
                                 float f = 1.0f - interpolation;
                                 canvas.saveLayerAlpha(childAt.getLeft(), childAt.getTop(), childAt.getRight(), childAt.getBottom(), (int) (255.0f * f), 31);
@@ -1503,9 +1496,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             super.invalidateViews();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-        public void onAttachedToWindow() {
+        protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = SelectAnimatedEmojiDialog.this;
             if (this == selectAnimatedEmojiDialog.emojiGridView) {
@@ -1513,9 +1505,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = SelectAnimatedEmojiDialog.this;
             if (this == selectAnimatedEmojiDialog.emojiGridView) {
@@ -1534,8 +1525,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class EmojiPackButton extends FrameLayout {
+    class EmojiPackButton extends FrameLayout {
         AnimatedTextView addButtonTextView;
         FrameLayout addButtonView;
         private ValueAnimator installFadeAway;
@@ -1694,7 +1684,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public class EmojiPackExpand extends FrameLayout {
         public TextView textView;
 
@@ -1712,8 +1701,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class HeaderView extends FrameLayout {
+    class HeaderView extends FrameLayout {
         ImageView closeIcon;
         private LinearLayout layoutView;
         private ValueAnimator lockAnimator;
@@ -1809,7 +1797,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ImageViewEmoji extends View {
         private float animatedScale;
         public boolean attached;
@@ -2215,9 +2202,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    private class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int count;
         int emojiHeaderRow;
         int emojiStartRow;
@@ -2494,7 +2479,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             View imageViewEmoji;
             if (i == 6) {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = SelectAnimatedEmojiDialog.this;
-                imageViewEmoji = new HeaderView(selectAnimatedEmojiDialog.getContext(), SelectAnimatedEmojiDialog.this.type == 6);
+                imageViewEmoji = selectAnimatedEmojiDialog.new HeaderView(selectAnimatedEmojiDialog.getContext(), SelectAnimatedEmojiDialog.this.type == 6);
             } else if (i == 7) {
                 imageViewEmoji = new View(SelectAnimatedEmojiDialog.this.getContext()) { // from class: org.telegram.ui.SelectAnimatedEmojiDialog.SearchAdapter.1
                     @Override // android.view.View
@@ -2505,7 +2490,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                 imageViewEmoji.setTag("searchbox");
             } else {
                 SelectAnimatedEmojiDialog selectAnimatedEmojiDialog2 = SelectAnimatedEmojiDialog.this;
-                imageViewEmoji = new ImageViewEmoji(selectAnimatedEmojiDialog2.getContext());
+                imageViewEmoji = selectAnimatedEmojiDialog2.new ImageViewEmoji(selectAnimatedEmojiDialog2.getContext());
             }
             if (SelectAnimatedEmojiDialog.this.enterAnimationInProgress()) {
                 imageViewEmoji.setScaleX(0.0f);
@@ -2576,7 +2561,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public class SearchBox extends FrameLayout {
         private FrameLayout box;
         private StickerCategoriesListView categoriesListView;
@@ -2591,9 +2575,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         private ImageView search;
         private SearchStateDrawable searchStateDrawable;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 3 extends EditTextCaption {
+        class 3 extends EditTextCaption {
             final /* synthetic */ SelectAnimatedEmojiDialog val$this$0;
 
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -2620,9 +2602,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                 super.invalidate();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onFocusChanged(boolean z, int i, Rect rect) {
+            protected void onFocusChanged(boolean z, int i, Rect rect) {
                 if (z) {
                     SelectAnimatedEmojiDialog.this.onInputFocus();
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SearchBox$3$$ExternalSyntheticLambda1
@@ -3046,7 +3027,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class SelectAnimatedEmojiDialogWindow extends PopupWindow {
         private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$SelectAnimatedEmojiDialogWindow$$ExternalSyntheticLambda0
             @Override // android.view.ViewTreeObserver.OnScrollChangedListener
@@ -3207,8 +3187,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SelectStatusDurationDialog extends Dialog {
+    class SelectStatusDurationDialog extends Dialog {
         private Bitmap blurBitmap;
         private Paint blurBitmapPaint;
         private boolean changeToScrimColor;
@@ -3239,9 +3218,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         private int[] tempLocation;
         private Rect to;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class ContentView extends FrameLayout {
+        private class ContentView extends FrameLayout {
             public ContentView(Context context) {
                 super(context);
             }
@@ -3873,7 +3850,6 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class SetTitleDocument extends TLRPC.Document {
         public final String title;
 
@@ -3882,12 +3858,10 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface onLongPressedListener {
         void onLongPressed(ImageViewEmoji imageViewEmoji);
     }
 
-    /* loaded from: classes4.dex */
     public interface onRecentClearedListener {
     }
 
@@ -4536,8 +4510,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                                 }
                             });
                             17 r9 = new 17(i, context, resourcesProvider, num);
-                            this.emojiGridView.setOnItemLongClickListener(r9, ViewConfiguration.getLongPressTimeout() * 0.25f);
-                            this.emojiSearchGridView.setOnItemLongClickListener(r9, ViewConfiguration.getLongPressTimeout() * 0.25f);
+                            this.emojiGridView.setOnItemLongClickListener(r9, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
+                            this.emojiSearchGridView.setOnItemLongClickListener(r9, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
                             RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda7
                                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                                 public final void onItemClick(View view2, int i11) {
@@ -4828,8 +4802,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                             }
                         });
                         17 r92 = new 17(i, context, resourcesProvider, num);
-                        this.emojiGridView.setOnItemLongClickListener(r92, ViewConfiguration.getLongPressTimeout() * 0.25f);
-                        this.emojiSearchGridView.setOnItemLongClickListener(r92, ViewConfiguration.getLongPressTimeout() * 0.25f);
+                        this.emojiGridView.setOnItemLongClickListener(r92, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
+                        this.emojiSearchGridView.setOnItemLongClickListener(r92, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
                         RecyclerListView.OnItemClickListener onItemClickListener2 = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda7
                             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                             public final void onItemClick(View view22, int i112) {
@@ -5119,8 +5093,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                     }
                 });
                 17 r922 = new 17(i, context, resourcesProvider, num);
-                this.emojiGridView.setOnItemLongClickListener(r922, ViewConfiguration.getLongPressTimeout() * 0.25f);
-                this.emojiSearchGridView.setOnItemLongClickListener(r922, ViewConfiguration.getLongPressTimeout() * 0.25f);
+                this.emojiGridView.setOnItemLongClickListener(r922, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
+                this.emojiSearchGridView.setOnItemLongClickListener(r922, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
                 RecyclerListView.OnItemClickListener onItemClickListener22 = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda7
                     @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                     public final void onItemClick(View view222, int i1122) {
@@ -5416,8 +5390,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             }
         });
         17 r9222 = new 17(i, context, resourcesProvider, num);
-        this.emojiGridView.setOnItemLongClickListener(r9222, ViewConfiguration.getLongPressTimeout() * 0.25f);
-        this.emojiSearchGridView.setOnItemLongClickListener(r9222, ViewConfiguration.getLongPressTimeout() * 0.25f);
+        this.emojiGridView.setOnItemLongClickListener(r9222, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
+        this.emojiSearchGridView.setOnItemLongClickListener(r9222, (long) (ViewConfiguration.getLongPressTimeout() * 0.25f));
         RecyclerListView.OnItemClickListener onItemClickListener222 = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.SelectAnimatedEmojiDialog$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2222, int i11222) {
@@ -7656,9 +7630,8 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
     protected void onInputFocus() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         if (z && this.type == 6) {
             this.layoutManager.setSpanCount((getMeasuredWidth() / AndroidUtilities.dp(42.0f)) * 5);

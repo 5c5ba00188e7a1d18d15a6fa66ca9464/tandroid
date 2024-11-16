@@ -97,7 +97,6 @@ public class LinkEditActivity extends BaseFragment {
     private ArrayList dispalyedUses = new ArrayList();
     private final int[] defaultUses = {1, 10, 100};
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onLinkCreated(TLObject tLObject);
 
@@ -754,9 +753,8 @@ public class LinkEditActivity extends BaseFragment {
                 this.actionBar.addView(this.createTextView, LayoutHelper.createFrame(-2, -2.0f, 8388629, 0.0f, this.actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight / AndroidUtilities.dp(2.0f) : 0, 0.0f, 0.0f));
                 this.scrollView = new ScrollView(context);
                 SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.LinkEditActivity.2
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-                    public void dispatchDraw(Canvas canvas) {
+                    protected void dispatchDraw(Canvas canvas) {
                         super.dispatchDraw(canvas);
                         LinkEditActivity linkEditActivity = LinkEditActivity.this;
                         if (linkEditActivity.scrollToEnd) {
@@ -768,9 +766,8 @@ public class LinkEditActivity extends BaseFragment {
                         }
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    public void onLayout(boolean z, int i9, int i10, int i11, int i12) {
+                    protected void onLayout(boolean z, int i9, int i10, int i11, int i12) {
                         int scrollY = LinkEditActivity.this.scrollView.getScrollY();
                         super.onLayout(z, i9, i10, i11, i12);
                         if (scrollY != LinkEditActivity.this.scrollView.getScrollY()) {
@@ -836,9 +833,8 @@ public class LinkEditActivity extends BaseFragment {
                     chat = getMessagesController().getChat(Long.valueOf(this.chatId));
                     if (chat != null || chat.username == null) {
                         TextCheckCell textCheckCell = new TextCheckCell(context) { // from class: org.telegram.ui.LinkEditActivity.4
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.Cells.TextCheckCell, android.view.View
-                            public void onDraw(Canvas canvas) {
+                            protected void onDraw(Canvas canvas) {
                                 canvas.save();
                                 canvas.clipRect(0, 0, getWidth(), getHeight());
                                 super.onDraw(canvas);
@@ -893,9 +889,8 @@ public class LinkEditActivity extends BaseFragment {
                             EditTextCell editTextCell = new EditTextCell(context, LocaleController.getString(getConnectionsManager().isTestBackend() ? R.string.RequireMonthlyFeePriceHintTest5Minutes : R.string.RequireMonthlyFeePriceHint), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.LinkEditActivity.5
                                 private boolean ignoreTextChanged;
 
-                                /* JADX INFO: Access modifiers changed from: protected */
                                 @Override // org.telegram.ui.Cells.EditTextCell
-                                public void onTextChanged(CharSequence charSequence) {
+                                protected void onTextChanged(CharSequence charSequence) {
                                     super.onTextChanged(charSequence);
                                     if (this.ignoreTextChanged) {
                                         return;
@@ -1368,9 +1363,8 @@ public class LinkEditActivity extends BaseFragment {
                 if (chat != null) {
                 }
                 TextCheckCell textCheckCell3 = new TextCheckCell(context) { // from class: org.telegram.ui.LinkEditActivity.4
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.TextCheckCell, android.view.View
-                    public void onDraw(Canvas canvas) {
+                    protected void onDraw(Canvas canvas) {
                         canvas.save();
                         canvas.clipRect(0, 0, getWidth(), getHeight());
                         super.onDraw(canvas);
@@ -1423,9 +1417,8 @@ public class LinkEditActivity extends BaseFragment {
                     EditTextCell editTextCell2 = new EditTextCell(context, LocaleController.getString(getConnectionsManager().isTestBackend() ? R.string.RequireMonthlyFeePriceHintTest5Minutes : R.string.RequireMonthlyFeePriceHint), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.LinkEditActivity.5
                         private boolean ignoreTextChanged;
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Cells.EditTextCell
-                        public void onTextChanged(CharSequence charSequence) {
+                        protected void onTextChanged(CharSequence charSequence) {
                             super.onTextChanged(charSequence);
                             if (this.ignoreTextChanged) {
                                 return;
@@ -1701,9 +1694,8 @@ public class LinkEditActivity extends BaseFragment {
                 EditTextCell editTextCell22 = new EditTextCell(context, LocaleController.getString(getConnectionsManager().isTestBackend() ? R.string.RequireMonthlyFeePriceHintTest5Minutes : R.string.RequireMonthlyFeePriceHint), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.LinkEditActivity.5
                     private boolean ignoreTextChanged;
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Cells.EditTextCell
-                    public void onTextChanged(CharSequence charSequence) {
+                    protected void onTextChanged(CharSequence charSequence) {
                         super.onTextChanged(charSequence);
                         if (this.ignoreTextChanged) {
                             return;
@@ -1966,9 +1958,8 @@ public class LinkEditActivity extends BaseFragment {
             this.actionBar.addView(this.createTextView, LayoutHelper.createFrame(-2, -2.0f, 8388629, 0.0f, this.actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight / AndroidUtilities.dp(2.0f) : 0, 0.0f, 0.0f));
             this.scrollView = new ScrollView(context);
             SizeNotifierFrameLayout sizeNotifierFrameLayout2 = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.LinkEditActivity.2
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     super.dispatchDraw(canvas);
                     LinkEditActivity linkEditActivity = LinkEditActivity.this;
                     if (linkEditActivity.scrollToEnd) {
@@ -1980,9 +1971,8 @@ public class LinkEditActivity extends BaseFragment {
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z, int i93, int i103, int i113, int i123) {
+                protected void onLayout(boolean z, int i93, int i103, int i113, int i123) {
                     int scrollY = LinkEditActivity.this.scrollView.getScrollY();
                     super.onLayout(z, i93, i103, i113, i123);
                     if (scrollY != LinkEditActivity.this.scrollView.getScrollY()) {
@@ -2047,9 +2037,8 @@ public class LinkEditActivity extends BaseFragment {
             if (chat != null) {
             }
             TextCheckCell textCheckCell32 = new TextCheckCell(context) { // from class: org.telegram.ui.LinkEditActivity.4
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.TextCheckCell, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     canvas.save();
                     canvas.clipRect(0, 0, getWidth(), getHeight());
                     super.onDraw(canvas);
@@ -2103,9 +2092,8 @@ public class LinkEditActivity extends BaseFragment {
             EditTextCell editTextCell222 = new EditTextCell(context, LocaleController.getString(getConnectionsManager().isTestBackend() ? R.string.RequireMonthlyFeePriceHintTest5Minutes : R.string.RequireMonthlyFeePriceHint), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.LinkEditActivity.5
                 private boolean ignoreTextChanged;
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Cells.EditTextCell
-                public void onTextChanged(CharSequence charSequence) {
+                protected void onTextChanged(CharSequence charSequence) {
                     super.onTextChanged(charSequence);
                     if (this.ignoreTextChanged) {
                         return;
@@ -2392,9 +2380,8 @@ public class LinkEditActivity extends BaseFragment {
         this.actionBar.addView(this.createTextView, LayoutHelper.createFrame(-2, -2.0f, 8388629, 0.0f, this.actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight / AndroidUtilities.dp(2.0f) : 0, 0.0f, 0.0f));
         this.scrollView = new ScrollView(context);
         SizeNotifierFrameLayout sizeNotifierFrameLayout22 = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.LinkEditActivity.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 LinkEditActivity linkEditActivity = LinkEditActivity.this;
                 if (linkEditActivity.scrollToEnd) {
@@ -2406,9 +2393,8 @@ public class LinkEditActivity extends BaseFragment {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i93, int i103, int i113, int i123) {
+            protected void onLayout(boolean z, int i93, int i103, int i113, int i123) {
                 int scrollY = LinkEditActivity.this.scrollView.getScrollY();
                 super.onLayout(z, i93, i103, i113, i123);
                 if (scrollY != LinkEditActivity.this.scrollView.getScrollY()) {
@@ -2473,9 +2459,8 @@ public class LinkEditActivity extends BaseFragment {
         if (chat != null) {
         }
         TextCheckCell textCheckCell322 = new TextCheckCell(context) { // from class: org.telegram.ui.LinkEditActivity.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.TextCheckCell, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 canvas.save();
                 canvas.clipRect(0, 0, getWidth(), getHeight());
                 super.onDraw(canvas);
@@ -2529,9 +2514,8 @@ public class LinkEditActivity extends BaseFragment {
         EditTextCell editTextCell2222 = new EditTextCell(context, LocaleController.getString(getConnectionsManager().isTestBackend() ? R.string.RequireMonthlyFeePriceHintTest5Minutes : R.string.RequireMonthlyFeePriceHint), false, false, -1, this.resourceProvider) { // from class: org.telegram.ui.LinkEditActivity.5
             private boolean ignoreTextChanged;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
-            public void onTextChanged(CharSequence charSequence) {
+            protected void onTextChanged(CharSequence charSequence) {
                 super.onTextChanged(charSequence);
                 if (this.ignoreTextChanged) {
                     return;

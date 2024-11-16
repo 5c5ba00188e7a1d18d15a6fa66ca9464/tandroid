@@ -46,8 +46,7 @@ class WebRtcAudioManager {
         return isLowLatencyOutputSupported(context) ? getLowLatencyFramesPerBuffer(audioManager) : getMinOutputFrameSize(i, i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int getSampleRate(AudioManager audioManager) {
+    static int getSampleRate(AudioManager audioManager) {
         if (WebRtcAudioUtils.runningOnEmulator()) {
             Logging.d(TAG, "Running emulator, overriding sample rate to 8 kHz.");
             return 8000;

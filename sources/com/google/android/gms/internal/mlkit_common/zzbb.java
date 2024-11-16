@@ -2,9 +2,8 @@ package com.google.android.gms.internal.mlkit_common;
 
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbb extends zzat {
+final class zzbb extends zzat {
     static final zzat zza = new zzbb(null, new Object[0], 0);
     final transient Object[] zzb;
     private final transient Object zzc;
@@ -16,7 +15,6 @@ public final class zzbb extends zzat {
         this.zzd = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:22:0x01ba  */
     /* JADX WARN: Type inference failed for: r15v0 */
@@ -27,7 +25,7 @@ public final class zzbb extends zzat {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static zzbb zzg(int i, Object[] objArr, zzas zzasVar) {
+    static zzbb zzg(int i, Object[] objArr, zzas zzasVar) {
         int i2;
         short[] sArr;
         char c;

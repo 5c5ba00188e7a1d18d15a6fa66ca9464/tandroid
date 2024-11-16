@@ -7,7 +7,6 @@ import android.widget.Filter;
 class CursorFilter extends Filter {
     CursorFilterClient mClient;
 
-    /* loaded from: classes.dex */
     interface CursorFilterClient {
         void changeCursor(Cursor cursor);
 
@@ -18,8 +17,7 @@ class CursorFilter extends Filter {
         Cursor runQueryOnBackgroundThread(CharSequence charSequence);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CursorFilter(CursorFilterClient cursorFilterClient) {
+    CursorFilter(CursorFilterClient cursorFilterClient) {
         this.mClient = cursorFilterClient;
     }
 

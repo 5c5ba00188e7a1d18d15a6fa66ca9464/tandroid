@@ -40,13 +40,11 @@ public class WebRtcAudioRecord {
     private int requestedSampleRate = 48000;
     private int requestedChannels = 1;
 
-    /* loaded from: classes5.dex */
     public enum AudioRecordStartErrorCode {
         AUDIO_RECORD_START_EXCEPTION,
         AUDIO_RECORD_START_STATE_MISMATCH
     }
 
-    /* loaded from: classes5.dex */
     private class AudioRecordThread extends Thread {
         private volatile boolean keepAlive;
 
@@ -119,7 +117,6 @@ public class WebRtcAudioRecord {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class AudioSamples {
         private final int audioFormat;
         private final int channelCount;
@@ -150,7 +147,6 @@ public class WebRtcAudioRecord {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface WebRtcAudioRecordErrorCallback {
         void onWebRtcAudioRecordError(String str);
 
@@ -159,7 +155,6 @@ public class WebRtcAudioRecord {
         void onWebRtcAudioRecordStartError(AudioRecordStartErrorCode audioRecordStartErrorCode, String str);
     }
 
-    /* loaded from: classes5.dex */
     public interface WebRtcAudioRecordSamplesReadyCallback {
         void onWebRtcAudioRecordSamplesReady(AudioSamples audioSamples);
     }

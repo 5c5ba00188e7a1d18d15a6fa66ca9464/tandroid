@@ -13,17 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BillingController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ChannelMonetizationLayout;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
@@ -55,9 +52,7 @@ public class LegendSignatureView extends FrameLayout {
     public boolean useWeek;
     public boolean zoomEnabled;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class Holder {
+    class Holder {
         TextView percentage;
         final LinearLayout root;
         final TextView signature;
@@ -157,46 +152,37 @@ public class LegendSignatureView extends FrameLayout {
         return capitalize(this.format.format(date)) + capitalize(this.format2.format(date));
     }
 
-    public CharSequence formatWholeNumber(long j, int i, int i2, TextView textView, float f) {
-        if (i == 1) {
-            if (i2 != 0) {
-                return "≈" + BillingController.getInstance().formatCurrency(((float) j) / f, "USD");
-            }
-            if (this.formatterTON == null) {
-                DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-                decimalFormatSymbols.setDecimalSeparator('.');
-                DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
-                this.formatterTON = decimalFormat;
-                decimalFormat.setMinimumFractionDigits(2);
-                this.formatterTON.setMaximumFractionDigits(6);
-                this.formatterTON.setGroupingUsed(false);
-            }
-            this.formatterTON.setMaximumFractionDigits(j <= 1000000000 ? 6 : 2);
-            StringBuilder sb = new StringBuilder();
-            sb.append("TON ");
-            DecimalFormat decimalFormat2 = this.formatterTON;
-            double d = j;
-            Double.isNaN(d);
-            sb.append(decimalFormat2.format(d / 1.0E9d));
-            return ChannelMonetizationLayout.replaceTON(sb.toString(), textView.getPaint(), 0.82f, false);
-        }
-        if (i == 2) {
-            if (i2 == 0) {
-                return StarsIntroActivity.replaceStarsWithPlain("XTR " + LocaleController.formatNumber(j, ' '), 0.7f);
-            }
-            return "≈" + BillingController.getInstance().formatCurrency(((float) j) / f, "USD");
-        }
-        float f2 = (float) j;
-        if (j < 10000) {
-            return String.format("%d", Long.valueOf(j));
-        }
-        int i3 = 0;
-        while (f2 >= 1000.0f && i3 < AndroidUtilities.numbersSignatureArray.length - 1) {
-            f2 /= 1000.0f;
-            i3++;
-        }
-        return String.format("%.2f", Float.valueOf(f2)) + AndroidUtilities.numbersSignatureArray[i3];
-    }
+    /*  JADX ERROR: ConcurrentModificationException in pass: ConstructorVisitor
+        java.util.ConcurrentModificationException
+        	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1043)
+        	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:997)
+        	at jadx.core.dex.visitors.ConstructorVisitor.insertPhiInsn(ConstructorVisitor.java:139)
+        	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:91)
+        	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
+        	at jadx.core.dex.visitors.ConstructorVisitor.visit(ConstructorVisitor.java:42)
+        */
+    public java.lang.CharSequence formatWholeNumber(
+    /*  JADX ERROR: ConcurrentModificationException in pass: ConstructorVisitor
+        java.util.ConcurrentModificationException
+        	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1043)
+        	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:997)
+        	at jadx.core.dex.visitors.ConstructorVisitor.insertPhiInsn(ConstructorVisitor.java:139)
+        	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:91)
+        	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
+        */
+    /*  JADX ERROR: Method generation error
+        jadx.core.utils.exceptions.JadxRuntimeException: Code variable not set in r6v0 ??
+        	at jadx.core.dex.instructions.args.SSAVar.getCodeVar(SSAVar.java:238)
+        	at jadx.core.codegen.MethodGen.addMethodArguments(MethodGen.java:223)
+        	at jadx.core.codegen.MethodGen.addDefinition(MethodGen.java:168)
+        	at jadx.core.codegen.ClassGen.addMethodCode(ClassGen.java:401)
+        	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:335)
+        	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:301)
+        	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
+        	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:258)
+        */
 
     public void recolor() {
         TextView textView = this.time;
@@ -307,7 +293,7 @@ public class LegendSignatureView extends FrameLayout {
                         holder.percentage.setTextColor(Theme.getColor(i11, this.resourcesProvider));
                         i6 = i9;
                         j2 = j4;
-                        float f2 = ((float) ((LineViewData) arrayList.get(i6)).line.y[i]) / ((float) j2);
+                        float f2 = ((LineViewData) arrayList.get(i6)).line.y[i] / j2;
                         if (f2 >= 0.1f || f2 == 0.0f) {
                             holder.percentage.setText(String.format(Locale.ENGLISH, "%d%s", Integer.valueOf(Math.round(f2 * 100.0f)), "%"));
                             i4 = i6 + 1;

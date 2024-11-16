@@ -6,35 +6,33 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 final class zzeh extends zzee {
-    /* JADX INFO: Access modifiers changed from: package-private */
+    zzeh() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_language_id.zzee
-    public final int zza(Map.Entry entry) {
+    final int zza(Map.Entry entry) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(entry.getKey());
         throw new NoSuchMethodError();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzee
-    public final zzej zza(Object obj) {
+    final zzej zza(Object obj) {
         return ((zzeo.zzc) obj).zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzee
-    public final void zza(zzib zzibVar, Map.Entry entry) {
+    final void zza(zzib zzibVar, Map.Entry entry) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(entry.getKey());
         throw new NoSuchMethodError();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzee
-    public final boolean zza(zzfz zzfzVar) {
+    final boolean zza(zzfz zzfzVar) {
         return zzfzVar instanceof zzeo.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzee
-    public final zzej zzb(Object obj) {
+    final zzej zzb(Object obj) {
         zzeo.zzc zzcVar = (zzeo.zzc) obj;
         if (zzcVar.zzc.zzc()) {
             zzcVar.zzc = (zzej) zzcVar.zzc.clone();
@@ -42,9 +40,8 @@ final class zzeh extends zzee {
         return zzcVar.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzee
-    public final void zzc(Object obj) {
+    final void zzc(Object obj) {
         zza(obj).zzb();
     }
 }

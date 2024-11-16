@@ -5,23 +5,23 @@ final class a extends ap {
     private String a;
     private y b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
+    a() {
+    }
+
     @Override // com.google.android.play.core.integrity.ap
-    public final ap a(y yVar) {
+    final ap a(y yVar) {
         this.b = yVar;
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.play.core.integrity.ap
-    public final ap b(String str) {
+    final ap b(String str) {
         this.a = str;
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.play.core.integrity.ap
-    public final aq c() {
+    final aq c() {
         y yVar;
         String str = this.a;
         if (str != null && (yVar = this.b) != null) {

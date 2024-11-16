@@ -89,9 +89,7 @@ public class ChannelBoostLayout extends FrameLayout {
     private int totalGifts;
     boolean usersLoading;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ItemInternal extends AdapterWithDiffUtils.Item {
+    private class ItemInternal extends AdapterWithDiffUtils.Item {
         TL_stories.Boost booster;
         boolean isLast;
         TL_stories.PrepaidGiveaway prepaidGiveaway;
@@ -279,7 +277,6 @@ public class ChannelBoostLayout extends FrameLayout {
                 giveawayCell.setAvatarPadding(5);
             }
 
-            /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0005. Please report as an issue. */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 View shadowSectionCell;

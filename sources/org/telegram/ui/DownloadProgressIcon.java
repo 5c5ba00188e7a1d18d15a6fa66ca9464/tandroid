@@ -36,9 +36,7 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
     boolean showCompletedIcon;
     private boolean wasDrawn;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ProgressObserver implements DownloadController.FileDownloadProgressListener {
+    private class ProgressObserver implements DownloadController.FileDownloadProgressListener {
         long downloaded;
         private final String fileName;
         long total;
@@ -261,7 +259,7 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
         if (j == 0) {
             this.progress = 1.0f;
         } else {
-            this.progress = ((float) j2) / ((float) j);
+            this.progress = j2 / j;
         }
         float f = this.progress;
         if (f > 1.0f) {

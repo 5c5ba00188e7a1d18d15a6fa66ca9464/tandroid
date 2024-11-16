@@ -9,7 +9,6 @@ import android.os.Build;
 /* loaded from: classes.dex */
 public abstract class PackageInfoCompat {
 
-    /* loaded from: classes.dex */
     private static class Api28Impl {
         static Signature[] getApkContentsSigners(SigningInfo signingInfo) {
             return signingInfo.getApkContentsSigners();

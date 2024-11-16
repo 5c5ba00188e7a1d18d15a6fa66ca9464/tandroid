@@ -17,7 +17,6 @@ class MetadataBackendRegistry implements BackendRegistry {
     private final Map backends;
     private final CreationContextFactory creationContextFactory;
 
-    /* loaded from: classes.dex */
     static class BackendFactoryProvider {
         private final Context applicationContext;
         private Map backendProviders = null;
@@ -111,8 +110,7 @@ class MetadataBackendRegistry implements BackendRegistry {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MetadataBackendRegistry(Context context, CreationContextFactory creationContextFactory) {
+    MetadataBackendRegistry(Context context, CreationContextFactory creationContextFactory) {
         this(new BackendFactoryProvider(context), creationContextFactory);
     }
 

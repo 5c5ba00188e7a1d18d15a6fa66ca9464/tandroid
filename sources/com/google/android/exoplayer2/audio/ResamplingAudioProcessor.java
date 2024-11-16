@@ -7,6 +7,9 @@ import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 final class ResamplingAudioProcessor extends BaseAudioProcessor {
+    ResamplingAudioProcessor() {
+    }
+
     @Override // com.google.android.exoplayer2.audio.BaseAudioProcessor
     public AudioProcessor.AudioFormat onConfigure(AudioProcessor.AudioFormat audioFormat) {
         int i = audioFormat.encoding;

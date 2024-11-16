@@ -14,6 +14,6 @@ public final /* synthetic */ class BillingController$$ExternalSyntheticLambda3 i
 
     @Override // com.android.billingclient.api.ProductDetailsResponseListener
     public final void onProductDetailsResponse(BillingResult billingResult, List list) {
-        BillingController.$r8$lambda$u3eoWsyAOzUwIiUdGHizRuGgAaQ(this.f$0, billingResult, list);
+        this.f$0.onQueriedPremiumProductDetails(billingResult, list);
     }
 }

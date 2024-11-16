@@ -135,7 +135,7 @@ public class ContactsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class MyContentObserver extends ContentObserver {
+    class MyContentObserver extends ContentObserver {
         private Runnable checkRunnable;
 
         public MyContentObserver() {
@@ -180,9 +180,8 @@ public class ContactsController extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class PhoneBookContact {
+    private class PhoneBookContact {
         String id;
         String lookup_key;
         String name;
@@ -3243,55 +3242,131 @@ public class ContactsController extends BaseController {
                 switch (i) {
                     case 0:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyStatusTimestamp();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 1:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyChatInvite();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 2:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyPhoneCall();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 3:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyPhoneP2P();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 4:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyProfilePhoto();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 5:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyForwards();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 6:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyPhoneNumber();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 7:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyAddedByPhone();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 8:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyVoiceMessages();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 9:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyAbout();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 11:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyBirthday();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                     case 12:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyStarGiftsAutoSave();
+                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                            @Override // org.telegram.tgnet.RequestDelegate
+                            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                                ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
+                            }
+                        });
                         break;
                 }
-                tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
-                    }
-                });
             }
             i++;
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void markAsContacted(final String str) {
+    protected void markAsContacted(final String str) {
         if (str == null) {
             return;
         }
@@ -3303,8 +3378,7 @@ public class ContactsController extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void migratePhoneBookToV7(final SparseArray<Contact> sparseArray) {
+    protected void migratePhoneBookToV7(final SparseArray<Contact> sparseArray) {
         Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda49
             @Override // java.lang.Runnable
             public final void run() {
@@ -3313,8 +3387,7 @@ public class ContactsController extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void performSyncPhoneBook(final HashMap<String, Contact> hashMap, final boolean z, final boolean z2, final boolean z3, final boolean z4, final boolean z5, final boolean z6) {
+    protected void performSyncPhoneBook(final HashMap<String, Contact> hashMap, final boolean z, final boolean z2, final boolean z3, final boolean z4, final boolean z5, final boolean z6) {
         if (z2 || this.contactsBookLoaded) {
             Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
@@ -3395,7 +3468,7 @@ public class ContactsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:109:0x0565  */
     /* JADX WARN: Removed duplicated region for block: B:111:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:112:0x0557 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r0v36, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v36, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v50 */
     /* JADX WARN: Type inference failed for: r0v56 */
     /* JADX WARN: Type inference failed for: r15v1, types: [java.lang.CharSequence, java.lang.Object, java.lang.String] */
@@ -3406,7 +3479,7 @@ public class ContactsController extends BaseController {
     /* JADX WARN: Type inference failed for: r4v30, types: [android.database.Cursor] */
     /* JADX WARN: Type inference failed for: r5v1 */
     /* JADX WARN: Type inference failed for: r5v12 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3644,9 +3717,6 @@ public class ContactsController extends BaseController {
                     try {
                         query.close();
                     } catch (Exception unused) {
-                        hashMap = hashMap2;
-                        cursor3 = null;
-                        r0 = z;
                     } catch (Throwable th3) {
                         th = th3;
                         cursor = query;
@@ -3662,6 +3732,9 @@ public class ContactsController extends BaseController {
                         if (hashMap == null) {
                         }
                     }
+                    hashMap = hashMap2;
+                    cursor3 = null;
+                    r0 = z;
                 } else {
                     contentResolver = contentResolver3;
                     str = "";

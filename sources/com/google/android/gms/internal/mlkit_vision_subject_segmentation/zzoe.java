@@ -10,8 +10,7 @@ public final class zzoe {
     private final zzrc zzf;
     private final zzdy zzg;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzoe(zzoc zzocVar, zzod zzodVar) {
+    /* synthetic */ zzoe(zzoc zzocVar, zzod zzodVar) {
         zzsc zzscVar;
         zzob zzobVar;
         zznz zznzVar;

@@ -61,7 +61,6 @@ public class ChatObject {
     public static final int VIDEO_FRAME_NO_FRAME = 0;
     public static final int VIDEO_FRAME_REQUESTING = 1;
 
-    /* loaded from: classes3.dex */
     public static class Call {
         public static final int RECORD_TYPE_AUDIO = 0;
         public static final int RECORD_TYPE_VIDEO_LANDSCAPE = 2;
@@ -111,9 +110,6 @@ public class ChatObject {
         private HashSet<Long> loadingSsrcs = new HashSet<>();
         public final LongSparseArray currentSpeakingPeers = new LongSparseArray();
         private final Runnable updateCurrentSpeakingRunnable = new Runnable() { // from class: org.telegram.messenger.ChatObject.Call.1
-            1() {
-            }
-
             @Override // java.lang.Runnable
             public void run() {
                 StringBuilder sb;
@@ -175,74 +171,6 @@ public class ChatObject {
             }
         };
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 implements Runnable {
-            1() {
-            }
-
-            @Override // java.lang.Runnable
-            public void run() {
-                StringBuilder sb;
-                String str;
-                long uptimeMillis = SystemClock.uptimeMillis();
-                int i = 0;
-                boolean z = false;
-                while (i < Call.this.currentSpeakingPeers.size()) {
-                    long keyAt = Call.this.currentSpeakingPeers.keyAt(i);
-                    if (uptimeMillis - ((TLRPC.TL_groupCallParticipant) Call.this.currentSpeakingPeers.get(keyAt)).lastSpeakTime >= 500) {
-                        Call.this.currentSpeakingPeers.remove(keyAt);
-                        MessagesController messagesController = MessagesController.getInstance(Call.this.currentAccount.getCurrentAccount());
-                        if (keyAt > 0) {
-                            TLRPC.User user = messagesController.getUser(Long.valueOf(keyAt));
-                            sb = new StringBuilder();
-                            sb.append("remove from speaking ");
-                            sb.append(keyAt);
-                            sb.append(" ");
-                            if (user != null) {
-                                str = user.first_name;
-                                sb.append(str);
-                                Log.d("GroupCall", sb.toString());
-                                i--;
-                                z = true;
-                            }
-                            str = null;
-                            sb.append(str);
-                            Log.d("GroupCall", sb.toString());
-                            i--;
-                            z = true;
-                        } else {
-                            TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-keyAt));
-                            sb = new StringBuilder();
-                            sb.append("remove from speaking ");
-                            sb.append(keyAt);
-                            sb.append(" ");
-                            if (chat != null) {
-                                str = chat.title;
-                                sb.append(str);
-                                Log.d("GroupCall", sb.toString());
-                                i--;
-                                z = true;
-                            }
-                            str = null;
-                            sb.append(str);
-                            Log.d("GroupCall", sb.toString());
-                            i--;
-                            z = true;
-                        }
-                    }
-                    i++;
-                }
-                if (Call.this.currentSpeakingPeers.size() > 0) {
-                    AndroidUtilities.runOnUIThread(Call.this.updateCurrentSpeakingRunnable, 550L);
-                }
-                if (z) {
-                    Call.this.currentAccount.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallSpeakingUsersUpdated, Long.valueOf(Call.this.chatId), Long.valueOf(Call.this.call.id), Boolean.FALSE);
-                }
-            }
-        }
-
-        /* loaded from: classes3.dex */
         public interface OnParticipantsLoad {
             void onLoad(ArrayList<Long> arrayList);
         }
@@ -278,6 +206,7 @@ public class ChatObject {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void checkQueue() {
             this.checkQueueRunnable = null;
             if (this.updatesStartWaitTime != 0 && System.currentTimeMillis() - this.updatesStartWaitTime >= 1500) {
@@ -335,10 +264,12 @@ public class ChatObject {
             return i < i3 ? 1 : 2;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$createRtmpStreamParticipant$1() {
             this.currentAccount.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallUpdated, Long.valueOf(this.chatId), Long.valueOf(this.call.id), Boolean.FALSE);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadGroupCall$10(TLObject tLObject) {
             this.lastGroupCallReloadTime = SystemClock.elapsedRealtime();
             this.loadingGroupCall = false;
@@ -359,6 +290,7 @@ public class ChatObject {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadGroupCall$11(final TLObject tLObject, TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
@@ -368,6 +300,7 @@ public class ChatObject {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadMembers$2(boolean z, TLObject tLObject, TLRPC.TL_phone_getGroupParticipants tL_phone_getGroupParticipants) {
             this.loadingMembers = false;
             if (z) {
@@ -381,6 +314,7 @@ public class ChatObject {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadMembers$3(final boolean z, final TLRPC.TL_phone_getGroupParticipants tL_phone_getGroupParticipants, final TLObject tLObject, TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
@@ -390,6 +324,7 @@ public class ChatObject {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadUnknownParticipants$5(int i, TLObject tLObject, OnParticipantsLoad onParticipantsLoad, ArrayList arrayList, HashSet hashSet) {
             if (this.loadingGuids.remove(Integer.valueOf(i))) {
                 if (tLObject != null) {
@@ -429,6 +364,7 @@ public class ChatObject {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadUnknownParticipants$6(final int i, final OnParticipantsLoad onParticipantsLoad, final ArrayList arrayList, final HashSet hashSet, final TLObject tLObject, TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
@@ -438,16 +374,19 @@ public class ChatObject {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
             this.typingUpdateRunnableScheduled = false;
             checkOnlineParticipants();
             this.currentAccount.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallTypingsUpdated, new Object[0]);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public static /* synthetic */ int lambda$processUpdatesQueue$7(TLRPC.TL_updateGroupCallParticipants tL_updateGroupCallParticipants, TLRPC.TL_updateGroupCallParticipants tL_updateGroupCallParticipants2) {
             return AndroidUtilities.compare(tL_updateGroupCallParticipants.version, tL_updateGroupCallParticipants2.version);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$reloadGroupCall$8(TLObject tLObject) {
             if (tLObject instanceof TLRPC.TL_phone_groupCall) {
                 TLRPC.TL_phone_groupCall tL_phone_groupCall = (TLRPC.TL_phone_groupCall) tLObject;
@@ -461,6 +400,7 @@ public class ChatObject {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$reloadGroupCall$9(final TLObject tLObject, TLRPC.TL_error tL_error) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
@@ -470,12 +410,14 @@ public class ChatObject {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$setTitle$4(TLObject tLObject, TLRPC.TL_error tL_error) {
             if (tLObject != null) {
                 this.currentAccount.getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ int lambda$sortParticipants$12(long j, boolean z, TLRPC.TL_groupCallParticipant tL_groupCallParticipant, TLRPC.TL_groupCallParticipant tL_groupCallParticipant2) {
             int i;
             int i2;
@@ -534,6 +476,7 @@ public class ChatObject {
             return Integer.compare(i, i2);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$toggleRecord$13(TLObject tLObject, TLRPC.TL_error tL_error) {
             if (tLObject != null) {
                 this.currentAccount.getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
@@ -614,7 +557,7 @@ public class ChatObject {
 
         /* JADX WARN: Code restructure failed: missing block: B:31:0x00f1, code lost:
         
-            if (r6 != r11.lastVisibleDate) goto L113;
+            if (r6 != r11.lastVisibleDate) goto L50;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -691,7 +634,7 @@ public class ChatObject {
 
         /* JADX WARN: Code restructure failed: missing block: B:39:0x0071, code lost:
         
-            if (r1 == 0) goto L93;
+            if (r1 == 0) goto L39;
          */
         /* JADX WARN: Code restructure failed: missing block: B:40:0x0073, code lost:
         
@@ -703,7 +646,7 @@ public class ChatObject {
          */
         /* JADX WARN: Code restructure failed: missing block: B:46:0x007a, code lost:
         
-            if (r1 == 0) goto L93;
+            if (r1 == 0) goto L39;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1891,7 +1834,6 @@ public class ChatObject {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class VideoParticipant {
         public float aspectRatio;
         public int aspectRatioFromHeight;
@@ -2304,39 +2246,22 @@ public class ChatObject {
         }
         switch (i) {
             case 6:
-                return tL_chatBannedRights.send_messages;
+                break;
             case 7:
-                return tL_chatBannedRights.send_media;
+                break;
             case 8:
-                return tL_chatBannedRights.send_stickers;
+                break;
             case 9:
-                return tL_chatBannedRights.embed_links;
+                break;
             case 10:
-                return tL_chatBannedRights.send_polls;
+                break;
             case 11:
-                return tL_chatBannedRights.view_messages;
+                break;
             default:
                 switch (i) {
-                    case 15:
-                        return tL_chatBannedRights.manage_topics;
-                    case 16:
-                        return tL_chatBannedRights.send_photos;
-                    case 17:
-                        return tL_chatBannedRights.send_videos;
-                    case 18:
-                        return tL_chatBannedRights.send_audios;
-                    case 19:
-                        return tL_chatBannedRights.send_docs;
-                    case 20:
-                        return tL_chatBannedRights.send_voices;
-                    case 21:
-                        return tL_chatBannedRights.send_roundvideos;
-                    case 22:
-                        return tL_chatBannedRights.send_plain;
-                    default:
-                        return false;
                 }
         }
+        return false;
     }
 
     public static String getBannedRightsString(TLRPC.TL_chatBannedRights tL_chatBannedRights) {
@@ -2498,7 +2423,6 @@ public class ChatObject {
         return i == 12 || i == 13 || i == 15 || i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:6:0x0008. Please report as an issue. */
     private static boolean isBannableAction(int i) {
         if (i != 0 && i != 1 && i != 3) {
             switch (i) {

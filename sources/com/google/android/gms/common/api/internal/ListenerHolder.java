@@ -11,13 +11,11 @@ public final class ListenerHolder {
     private volatile Object zab;
     private volatile ListenerKey zac;
 
-    /* loaded from: classes.dex */
     public static final class ListenerKey {
         private final Object zaa;
         private final String zab;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public ListenerKey(Object obj, String str) {
+        ListenerKey(Object obj, String str) {
             this.zaa = obj;
             this.zab = str;
         }
@@ -42,15 +40,13 @@ public final class ListenerHolder {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Notifier {
         void notifyListener(Object obj);
 
         void onNotifyListenerFailed();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ListenerHolder(Looper looper, Object obj, String str) {
+    ListenerHolder(Looper looper, Object obj, String str) {
         this.zaa = new HandlerExecutor(looper);
         this.zab = Preconditions.checkNotNull(obj, "Listener must not be null");
         this.zac = new ListenerKey(obj, Preconditions.checkNotEmpty(str));
@@ -75,8 +71,7 @@ public final class ListenerHolder {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zaa(Notifier notifier) {
+    final void zaa(Notifier notifier) {
         Object obj = this.zab;
         if (obj == null) {
             notifier.onNotifyListenerFailed();

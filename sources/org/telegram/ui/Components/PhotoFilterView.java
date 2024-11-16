@@ -125,9 +125,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
     private int warmthTool;
     private float warmthValue;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements TextureView.SurfaceTextureListener {
+    class 2 implements TextureView.SurfaceTextureListener {
         final /* synthetic */ BlurringShader.BlurManager val$blurManager;
         final /* synthetic */ boolean val$ownLayout;
 
@@ -187,7 +185,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class CurvesToolValue {
         public int activeType;
         public ByteBuffer curveBuffer;
@@ -236,7 +233,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class CurvesValue {
         public float[] cachedDataPoints;
         public float blacksLevel = 0.0f;
@@ -359,7 +355,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class EnhanceView extends View {
         private boolean allowTouch;
         private StaticLayout bottomText;
@@ -527,7 +522,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes3.dex */
     private static class RecyclerListViewWithShadows extends RecyclerListView {
         private boolean bottom;
         private AnimatedFloat bottomAlpha;
@@ -579,7 +573,6 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
-    /* loaded from: classes3.dex */
     public class ToolsAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 

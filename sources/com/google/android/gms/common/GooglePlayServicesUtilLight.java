@@ -195,8 +195,7 @@ public abstract class GooglePlayServicesUtilLight {
         return i == 1 || i == 2 || i == 3 || i == 9;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza(Context context, String str) {
+    static boolean zza(Context context, String str) {
         PackageInstaller packageInstaller;
         List allSessions;
         String appPackageName;

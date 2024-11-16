@@ -62,9 +62,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
     private LongSparseArray musicQueues = new LongSparseArray();
     private DelayedStopHandler delayedStopHandler = new DelayedStopHandler();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class DelayedStopHandler extends Handler {
+    private static class DelayedStopHandler extends Handler {
         private final WeakReference<MusicBrowserService> mWeakReference;
 
         private DelayedStopHandler(MusicBrowserService musicBrowserService) {
@@ -83,9 +81,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class MediaSessionCallback extends MediaSession.Callback {
+    private final class MediaSessionCallback extends MediaSession.Callback {
         private MediaSessionCallback() {
         }
 
@@ -194,7 +190,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
         public void onSeekTo(long j) {
             MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
             if (playingMessageObject != null) {
-                MediaController.getInstance().seekToProgress(playingMessageObject, ((float) (j / 1000)) / ((float) playingMessageObject.getDuration()));
+                MediaController.getInstance().seekToProgress(playingMessageObject, (j / 1000) / ((float) playingMessageObject.getDuration()));
             }
         }
 

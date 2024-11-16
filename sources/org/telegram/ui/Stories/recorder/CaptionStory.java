@@ -95,9 +95,7 @@ public abstract class CaptionStory extends CaptionContainerView {
     private final BlobDrawable tinyWaveDrawable;
     private final Paint whitePaint;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class RecordDot extends Drawable {
+    private class RecordDot extends Drawable {
         private float alpha;
         boolean attachedToWindow;
         RLottieDrawable drawable;
@@ -144,7 +142,7 @@ public abstract class CaptionStory extends CaptionContainerView {
             if (this.enterAnimation) {
                 this.alpha = 1.0f;
             } else if (this.isIncr || this.playing) {
-                float f = this.alpha + (((float) currentTimeMillis) / 600.0f);
+                float f = this.alpha + (currentTimeMillis / 600.0f);
                 this.alpha = f;
                 if (f >= 1.0f) {
                     this.alpha = 1.0f;
@@ -152,7 +150,7 @@ public abstract class CaptionStory extends CaptionContainerView {
                     this.isIncr = z;
                 }
             } else {
-                float f2 = this.alpha - (((float) currentTimeMillis) / 600.0f);
+                float f2 = this.alpha - (currentTimeMillis / 600.0f);
                 this.alpha = f2;
                 if (f2 <= 0.0f) {
                     this.alpha = 0.0f;
@@ -668,7 +666,7 @@ public abstract class CaptionStory extends CaptionContainerView {
             if (this.startTime <= 0) {
                 this.startTime = System.currentTimeMillis();
             }
-            double currentTimeMillis = ((float) (System.currentTimeMillis() - this.startTime)) / 900.0f;
+            double currentTimeMillis = (System.currentTimeMillis() - this.startTime) / 900.0f;
             Double.isNaN(currentTimeMillis);
             float sin = (((float) Math.sin(currentTimeMillis * 3.141592653589793d)) + 1.0f) / 2.0f;
             float dp = rectF.left + AndroidUtilities.dp(21.0f);
@@ -848,16 +846,14 @@ public abstract class CaptionStory extends CaptionContainerView {
         return this.recording;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.recordPaint.attach();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.recordPaint.detach();
     }

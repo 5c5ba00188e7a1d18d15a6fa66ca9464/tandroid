@@ -137,7 +137,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
         }
         String str4 = (String) objArr[0];
         if (i2 == this.currentAccount && (str2 = this.currentPath) != null && str2.equals(str4)) {
-            float min = Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue()));
+            float min = Math.min(1.0f, ((Long) objArr[1]).longValue() / ((Long) objArr[2]).longValue());
             int i3 = (int) (min * 100.0f);
             this.builder.setProgress(100, i3, i3 == 0);
             updateNotification();

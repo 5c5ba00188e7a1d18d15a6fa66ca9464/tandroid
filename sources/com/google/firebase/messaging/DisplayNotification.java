@@ -96,8 +96,7 @@ class DisplayNotification {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean handleNotification() {
+    boolean handleNotification() {
         if (this.params.getBoolean("gcm.n.noui")) {
             return true;
         }

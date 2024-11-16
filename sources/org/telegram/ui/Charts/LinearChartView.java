@@ -64,7 +64,7 @@ public class LinearChartView extends BaseChartView {
                         if (j >= 0) {
                             float f9 = (this.chartData.xPercentage[max] * f6) - f7;
                             float f10 = this.currentMinHeight;
-                            float f11 = (((float) j) - f10) / (this.currentMaxHeight - f10);
+                            float f11 = (j - f10) / (this.currentMaxHeight - f10);
                             float strokeWidth = lineViewData.paint.getStrokeWidth() / 2.0f;
                             float measuredHeight = ((getMeasuredHeight() - this.chartBottom) - strokeWidth) - (f11 * (((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) - strokeWidth));
                             if (BaseChartView.USE_LINES) {
@@ -185,16 +185,16 @@ public class LinearChartView extends BaseChartView {
                                 jArr = jArr2;
                             } else {
                                 jArr = jArr2;
-                                f = (float) chartData.maxValue;
+                                f = chartData.maxValue;
                             }
                             if (z) {
                                 f2 = this.pickerMinHeight;
                                 i2 = i3;
                             } else {
                                 i2 = i3;
-                                f2 = (float) chartData.minValue;
+                                f2 = chartData.minValue;
                             }
-                            float f4 = (1.0f - ((((float) j) - f2) / (f - f2))) * this.pikerHeight;
+                            float f4 = (1.0f - ((j - f2) / (f - f2))) * this.pikerHeight;
                             if (BaseChartView.USE_LINES) {
                                 float[] fArr = lineViewData.linesPathBottom;
                                 int i6 = i5 + 1;
@@ -242,9 +242,8 @@ public class LinearChartView extends BaseChartView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void init() {
+    protected void init() {
         this.useMinHeight = true;
         super.init();
     }

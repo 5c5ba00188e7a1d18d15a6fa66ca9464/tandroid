@@ -7,8 +7,7 @@ import java.util.Comparator;
 final class s3 extends u3 implements j$.util.Q, Consumer {
     Object e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public s3(j$.util.Q q, long j, long j2) {
+    s3(j$.util.Q q, long j, long j2) {
         super(q, j, j2);
     }
 

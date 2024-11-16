@@ -11,7 +11,6 @@ public class VideoSource extends MediaSource {
     private VideoProcessor videoProcessor;
     private final Object videoProcessorLock;
 
-    /* loaded from: classes5.dex */
     public static class AspectRatio {
         public static final AspectRatio UNDEFINED = new AspectRatio(0, 0);
         public final int height;
@@ -119,8 +118,7 @@ public class VideoSource extends MediaSource {
         return this.capturerObserver;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getNativeVideoTrackSource() {
+    long getNativeVideoTrackSource() {
         return getNativeMediaSource();
     }
 

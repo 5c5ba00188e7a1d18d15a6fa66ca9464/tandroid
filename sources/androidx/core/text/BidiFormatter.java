@@ -14,7 +14,6 @@ public final class BidiFormatter {
     private final int mFlags;
     private final boolean mIsRtlContext;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private int mFlags;
         private boolean mIsRtlContext;
@@ -39,9 +38,7 @@ public final class BidiFormatter {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class DirectionalityEstimator {
+    private static class DirectionalityEstimator {
         private static final byte[] DIR_TYPE_CACHE = new byte[1792];
         private int charIndex;
         private final boolean isHtml;
@@ -204,7 +201,6 @@ public final class BidiFormatter {
             return c == '<' ? skipTagForward() : c == '&' ? skipEntityForward() : cachedDirectionality;
         }
 
-        /* JADX WARN: Failed to find 'out' block for switch in B:46:0x0045. Please report as an issue. */
         int getEntryDir() {
             this.charIndex = 0;
             int i = 0;
@@ -253,21 +249,22 @@ public final class BidiFormatter {
                         if (i == i3) {
                             return -1;
                         }
-                        i3--;
+                        break;
                     case 16:
                     case 17:
                         if (i == i3) {
                             return 1;
                         }
-                        i3--;
+                        break;
                     case 18:
                         i3++;
+                        continue;
                 }
+                i3--;
             }
             return 0;
         }
 
-        /* JADX WARN: Failed to find 'out' block for switch in B:33:0x001c. Please report as an issue. */
         int getExitDir() {
             this.charIndex = this.length;
             int i = 0;

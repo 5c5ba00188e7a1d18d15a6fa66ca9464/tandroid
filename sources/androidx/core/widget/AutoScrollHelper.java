@@ -31,9 +31,7 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
     private float[] mMinimumVelocity = {0.0f, 0.0f};
     private float[] mMaximumVelocity = {Float.MAX_VALUE, Float.MAX_VALUE};
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ClampedScroller {
+    private static class ClampedScroller {
         private int mEffectiveRampDown;
         private int mRampDownDuration;
         private int mRampUpDuration;
@@ -50,16 +48,15 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         }
 
         private float getValueAt(long j) {
-            long j2 = this.mStartTime;
-            if (j < j2) {
+            if (j < this.mStartTime) {
                 return 0.0f;
             }
-            long j3 = this.mStopTime;
-            if (j3 < 0 || j < j3) {
-                return AutoScrollHelper.constrain(((float) (j - j2)) / this.mRampUpDuration, 0.0f, 1.0f) * 0.5f;
+            long j2 = this.mStopTime;
+            if (j2 < 0 || j < j2) {
+                return AutoScrollHelper.constrain((j - r0) / this.mRampUpDuration, 0.0f, 1.0f) * 0.5f;
             }
             float f = this.mStopValue;
-            return (1.0f - f) + (f * AutoScrollHelper.constrain(((float) (j - j3)) / this.mEffectiveRampDown, 0.0f, 1.0f));
+            return (1.0f - f) + (f * AutoScrollHelper.constrain((j - j2) / this.mEffectiveRampDown, 0.0f, 1.0f));
         }
 
         private float interpolateValue(float f) {
@@ -74,7 +71,7 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
             float interpolateValue = interpolateValue(getValueAt(currentAnimationTimeMillis));
             long j = currentAnimationTimeMillis - this.mDeltaTime;
             this.mDeltaTime = currentAnimationTimeMillis;
-            float f = ((float) j) * interpolateValue;
+            float f = j * interpolateValue;
             this.mDeltaX = (int) (this.mTargetVelocityX * f);
             this.mDeltaY = (int) (f * this.mTargetVelocityY);
         }
@@ -132,9 +129,7 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ScrollAnimationRunnable implements Runnable {
+    private class ScrollAnimationRunnable implements Runnable {
         ScrollAnimationRunnable() {
         }
 

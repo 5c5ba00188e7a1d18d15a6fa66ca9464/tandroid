@@ -35,9 +35,7 @@ import org.telegram.ui.LaunchActivity;
 public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet {
     private final List selectedUsers;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class AdditionalCounterView extends View {
+    static class AdditionalCounterView extends View {
         int count;
         TextPaint paint;
 
@@ -71,9 +69,7 @@ public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class AvatarHolderView extends FrameLayout {
+    static class AvatarHolderView extends FrameLayout {
         private final Paint bgPaint;
         public boolean drawCycle;
         AvatarDrawable fromAvatarDrawable;

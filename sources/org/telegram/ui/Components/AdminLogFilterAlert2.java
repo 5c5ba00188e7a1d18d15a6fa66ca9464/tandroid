@@ -35,7 +35,6 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
     private boolean sectionSettingsExpanded;
     private LongSparseArray selectedAdmins;
 
-    /* loaded from: classes3.dex */
     public interface AdminLogFilterAlertDelegate {
         void didSelectRights(TLRPC.TL_channelAdminLogEventsFilter tL_channelAdminLogEventsFilter, LongSparseArray longSparseArray);
     }
@@ -202,9 +201,8 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         dismiss();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView, org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return !this.recyclerListView.canScrollVertically(-1);
     }
 
@@ -462,9 +460,8 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public void onSmoothContainerViewLayout(float f) {
+    protected void onSmoothContainerViewLayout(float f) {
         super.onSmoothContainerViewLayout(f);
         this.buttonContainer.setTranslationY(-f);
     }

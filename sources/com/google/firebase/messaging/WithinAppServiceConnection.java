@@ -28,9 +28,7 @@ class WithinAppServiceConnection implements ServiceConnection {
     private final Queue intentQueue;
     private final ScheduledExecutorService scheduledExecutorService;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class BindRequest {
+    static class BindRequest {
         final Intent intent;
         private final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
 
@@ -42,7 +40,6 @@ class WithinAppServiceConnection implements ServiceConnection {
             final ScheduledFuture<?> schedule = scheduledExecutorService.schedule(new Runnable(this) { // from class: com.google.firebase.messaging.WithinAppServiceConnection$BindRequest$$Lambda$0
                 private final WithinAppServiceConnection.BindRequest arg$1;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.arg$1 = this;
                 }
@@ -55,7 +52,6 @@ class WithinAppServiceConnection implements ServiceConnection {
             getTask().addOnCompleteListener(scheduledExecutorService, new OnCompleteListener(schedule) { // from class: com.google.firebase.messaging.WithinAppServiceConnection$BindRequest$$Lambda$1
                 private final ScheduledFuture arg$1;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.arg$1 = schedule;
                 }
@@ -76,8 +72,7 @@ class WithinAppServiceConnection implements ServiceConnection {
             return this.taskCompletionSource.getTask();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public final /* synthetic */ void lambda$arrangeTimeout$0$WithinAppServiceConnection$BindRequest() {
+        final /* synthetic */ void lambda$arrangeTimeout$0$WithinAppServiceConnection$BindRequest() {
             String action = this.intent.getAction();
             StringBuilder sb = new StringBuilder(String.valueOf(action).length() + 61);
             sb.append("Service took too long to process intent: ");
@@ -88,8 +83,7 @@ class WithinAppServiceConnection implements ServiceConnection {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WithinAppServiceConnection(Context context, String str) {
+    WithinAppServiceConnection(Context context, String str) {
         this(context, "com.google.firebase.MESSAGING_EVENT", new ScheduledThreadPoolExecutor(0, new NamedThreadFactory("Firebase-FirebaseInstanceIdServiceConnection")));
     }
 
@@ -195,8 +189,7 @@ class WithinAppServiceConnection implements ServiceConnection {
         flushQueue();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Task sendIntent(Intent intent) {
+    synchronized Task sendIntent(Intent intent) {
         BindRequest bindRequest;
         try {
             if (Log.isLoggable("FirebaseMessaging", 3)) {

@@ -41,12 +41,10 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
     BaseFragment parentFragment;
     ActionBarMenuSubItem twoDay;
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onKeepMediaChange(int i, int i2);
     }
 
-    /* loaded from: classes4.dex */
     private static class CheckItem {
         final ActionBarMenuSubItem item;
         final int type;
@@ -57,9 +55,7 @@ public class KeepMediaPopupView extends ActionBarPopupWindow.ActionBarPopupWindo
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ExceptionsView extends FrameLayout {
+    private class ExceptionsView extends FrameLayout {
         AvatarsImageView avatarsImageView;
         boolean ignoreLayout;
         SimpleTextView titleView;

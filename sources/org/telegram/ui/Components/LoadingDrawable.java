@@ -149,12 +149,11 @@ public class LoadingDrawable extends Drawable {
         if (this.start < 0) {
             this.start = elapsedRealtime;
         }
-        float pow = ((float) Math.pow(((((float) (elapsedRealtime - this.start)) / 2000.0f) * this.speed) / 4.0f, 0.8500000238418579d)) * 4.0f * AndroidUtilities.density;
+        float pow = ((float) Math.pow((((elapsedRealtime - this.start) / 2000.0f) * this.speed) / 4.0f, 0.8500000238418579d)) * 4.0f * AndroidUtilities.density;
         float f3 = this.gradientWidth;
         float f4 = (pow * f3) % f3;
-        float f5 = ((float) (elapsedRealtime - this.start)) / 550.0f;
-        long j = this.disappearStart;
-        float interpolation = j > 0 ? 1.0f - CubicBezierInterpolator.EASE_OUT.getInterpolation(Math.min(1.0f, ((float) (elapsedRealtime - j)) / 320.0f)) : 0.0f;
+        float f5 = (elapsedRealtime - this.start) / 550.0f;
+        float interpolation = this.disappearStart > 0 ? 1.0f - CubicBezierInterpolator.EASE_OUT.getInterpolation(Math.min(1.0f, (elapsedRealtime - r9) / 320.0f)) : 0.0f;
         if (isDisappearing()) {
             int max = Math.max(AndroidUtilities.dp(200.0f), bounds.width() / 3);
             if (interpolation < 1.0f) {

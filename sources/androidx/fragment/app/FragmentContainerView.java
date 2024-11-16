@@ -22,8 +22,7 @@ public final class FragmentContainerView extends FrameLayout {
     private boolean mDrawDisappearingViewsFirst;
     private ArrayList mTransitioningFragmentViews;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentContainerView(Context context, AttributeSet attributeSet, FragmentManager fragmentManager) {
+    FragmentContainerView(Context context, AttributeSet attributeSet, FragmentManager fragmentManager) {
         super(context, attributeSet);
         String str;
         this.mDrawDisappearingViewsFirst = true;
@@ -186,8 +185,7 @@ public final class FragmentContainerView extends FrameLayout {
         super.removeViewsInLayout(i, i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setDrawDisappearingViewsLast(boolean z) {
+    void setDrawDisappearingViewsLast(boolean z) {
         this.mDrawDisappearingViewsFirst = z;
     }
 

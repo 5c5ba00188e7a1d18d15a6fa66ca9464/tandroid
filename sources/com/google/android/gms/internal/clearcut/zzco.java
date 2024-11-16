@@ -11,28 +11,23 @@ public class zzco extends IOException {
         this.zzkw = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzco zzbl() {
+    static zzco zzbl() {
         return new zzco("While parsing a protocol message, the input ended unexpectedly in the middle of a field.  This could mean either that the input has been truncated or that an embedded message misreported its own length.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzco zzbm() {
+    static zzco zzbm() {
         return new zzco("Protocol message contained an invalid tag (zero).");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzcp zzbn() {
+    static zzcp zzbn() {
         return new zzcp("Protocol message tag had invalid wire type.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzco zzbo() {
+    static zzco zzbo() {
         return new zzco("Failed to parse the message.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzco zzbp() {
+    static zzco zzbp() {
         return new zzco("Protocol message had invalid UTF-8.");
     }
 

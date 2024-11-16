@@ -14,7 +14,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class FlacMetadataReader {
 
-    /* loaded from: classes.dex */
     public static final class FlacStreamMetadataHolder {
         public FlacStreamMetadata flacStreamMetadata;
 

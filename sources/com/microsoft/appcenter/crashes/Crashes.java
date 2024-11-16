@@ -60,23 +60,18 @@ public class Crashes extends AbstractAppCenterService {
     private UncaughtExceptionHandler mUncaughtExceptionHandler;
     private final Map mUnprocessedErrorReports;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface CallbackProcessor {
+    private interface CallbackProcessor {
         void onCallBack(ErrorReport errorReport);
 
         boolean shouldDeleteThrowable();
     }
 
-    /* loaded from: classes.dex */
     private static class DefaultCrashesListener extends AbstractCrashesListener {
         private DefaultCrashesListener() {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ErrorLogReport {
+    private static class ErrorLogReport {
         private final ManagedErrorLog log;
         private final ErrorReport report;
 
@@ -86,9 +81,7 @@ public class Crashes extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface ExceptionModelBuilder {
+    private interface ExceptionModelBuilder {
         Exception buildExceptionModel();
     }
 
@@ -662,9 +655,8 @@ public class Crashes extends AbstractAppCenterService {
         return "Crashes";
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
-    public int getTriggerCount() {
+    protected int getTriggerCount() {
         return 1;
     }
 
@@ -693,8 +685,7 @@ public class Crashes extends AbstractAppCenterService {
         return saveErrorLogFiles(th, ErrorLogHelper.createErrorLog(this.mContext, thread, exception, Thread.getAllStackTraces(), this.mInitializeTimestamp, true));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void saveUncaughtException(Thread thread, Throwable th) {
+    void saveUncaughtException(Thread thread, Throwable th) {
         String str;
         try {
             saveUncaughtException(thread, th, ErrorLogHelper.getModelExceptionFromThrowable(th));

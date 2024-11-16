@@ -16,7 +16,6 @@ public abstract class TypefaceCompat {
     private static final LruCache sTypefaceCache;
     private static final TypefaceCompatBaseImpl sTypefaceCompatImpl;
 
-    /* loaded from: classes.dex */
     public static class ResourcesCallbackAdapter extends FontsContractCompat.FontRequestCallback {
         private ResourcesCompat.FontCallback mFontCallback;
 

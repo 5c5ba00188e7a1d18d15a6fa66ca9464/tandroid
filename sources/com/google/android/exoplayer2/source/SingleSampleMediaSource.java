@@ -27,7 +27,6 @@ public final class SingleSampleMediaSource extends BaseMediaSource {
     private TransferListener transferListener;
     private final boolean treatLoadErrorsAsEndOfStream;
 
-    /* loaded from: classes.dex */
     public static final class Factory {
         private final DataSource.Factory dataSourceFactory;
         private Object tag;

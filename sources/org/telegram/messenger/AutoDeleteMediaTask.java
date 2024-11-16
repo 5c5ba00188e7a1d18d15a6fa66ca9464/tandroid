@@ -16,8 +16,7 @@ public class AutoDeleteMediaTask {
     public static Set<String> usingFilePaths = Collections.newSetFromMap(new ConcurrentHashMap());
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class FileInfoInternal extends CacheByChatsController.KeepMediaFile {
+    static class FileInfoInternal extends CacheByChatsController.KeepMediaFile {
         final long lastUsageDate;
 
         private FileInfoInternal(File file) {

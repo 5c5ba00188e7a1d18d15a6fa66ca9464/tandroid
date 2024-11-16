@@ -14,12 +14,10 @@ public abstract /* synthetic */ class t0 implements x3 {
     private static final long[] f = new long[0];
     private static final double[] g = new double[0];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public t0(T2 t2) {
+    t0(T2 t2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static x0 D(long j, j$.util.function.I i) {
+    static x0 D(long j, j$.util.function.I i) {
         return (j < 0 || j >= 2147483639) ? new r1() : new Z0(j, i);
     }
 
@@ -79,8 +77,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         return new j1(jArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static H0 I(T2 t2, F0 f0, F0 f02) {
+    static H0 I(T2 t2, F0 f0, F0 f02) {
         int i = G0.a[t2.ordinal()];
         if (i == 1) {
             return new Q0(f0, f02);
@@ -97,8 +94,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         throw new IllegalStateException("Unknown shape " + t2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static u0 J(long j) {
+    static u0 J(long j) {
         return (j < 0 || j >= 2147483639) ? new T0() : new S0(j);
     }
 
@@ -106,8 +102,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         return new y(e2, S2.c(e2));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Y0 L(T2 t2) {
+    static Y0 L(T2 t2) {
         Object obj;
         int i = G0.a[t2.ordinal()];
         if (i == 1) {
@@ -182,8 +177,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         return new j1(jArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static v0 R(long j) {
+    static v0 R(long j) {
         return (j < 0 || j >= 2147483639) ? new c1() : new b1(j);
     }
 
@@ -191,8 +185,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         return new Z(h, S2.c(h));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static w0 T(long j) {
+    static w0 T(long j) {
         return (j < 0 || j >= 2147483639) ? new l1() : new k1(j);
     }
 
@@ -439,8 +432,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         return D.b();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long x(long j, long j2) {
+    static long x(long j, long j2) {
         long j3 = j2 >= 0 ? j + j2 : Long.MAX_VALUE;
         if (j3 >= 0) {
             return j3;
@@ -448,8 +440,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         return Long.MAX_VALUE;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static j$.util.Q y(T2 t2, j$.util.Q q, long j, long j2) {
+    static j$.util.Q y(T2 t2, j$.util.Q q, long j, long j2) {
         long j3 = j2 >= 0 ? j + j2 : Long.MAX_VALUE;
         long j4 = j3 >= 0 ? j3 : Long.MAX_VALUE;
         int i = n2.a[t2.ordinal()];
@@ -468,8 +459,7 @@ public abstract /* synthetic */ class t0 implements x3 {
         throw new IllegalStateException("Unknown shape " + t2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long z(long j, long j2, long j3) {
+    static long z(long j, long j2, long j3) {
         if (j >= 0) {
             return Math.max(-1L, Math.min(j - j2, j3));
         }

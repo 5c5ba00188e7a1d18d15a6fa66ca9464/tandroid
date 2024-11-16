@@ -66,9 +66,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeoutException;
 import org.telegram.messenger.DispatchQueue;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
+final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     private final AnalyticsCollector analyticsCollector;
     private final Context applicationContext;
     private final Looper applicationLooper;
@@ -142,7 +141,6 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     private DispatchQueue workerQueue;
     private final Player wrappingPlayer;
 
-    /* loaded from: classes.dex */
     private static final class Api31 {
         public static PlayerId registerMediaMetricsListener(Context context, ExoPlayerImpl exoPlayerImpl, boolean z) {
             LogSessionId logSessionId;
@@ -160,8 +158,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class ComponentListener implements VideoRendererEventListener, AudioRendererEventListener, TextOutput, MetadataOutput, SurfaceHolder.Callback, TextureView.SurfaceTextureListener, AudioFocusManager.PlayerControl, AudioBecomingNoisyManager.EventListener, StreamVolumeManager.Listener, ExoPlayer.AudioOffloadListener {
+    final class ComponentListener implements VideoRendererEventListener, AudioRendererEventListener, TextOutput, MetadataOutput, SurfaceHolder.Callback, TextureView.SurfaceTextureListener, AudioFocusManager.PlayerControl, AudioBecomingNoisyManager.EventListener, StreamVolumeManager.Listener, ExoPlayer.AudioOffloadListener {
         private ComponentListener() {
         }
 
@@ -515,7 +512,6 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class FrameMetadataListener implements VideoFrameMetadataListener, CameraMotionListener, PlayerMessage.Target {
         private CameraMotionListener cameraMotionListener;
         private CameraMotionListener internalCameraMotionListener;
@@ -580,9 +576,7 @@ public final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaSourceHolderSnapshot implements MediaSourceInfoHolder {
+    private static final class MediaSourceHolderSnapshot implements MediaSourceInfoHolder {
         private Timeline timeline;
         private final Object uid;
 

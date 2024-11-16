@@ -7,7 +7,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class Predicates {
 
-    /* loaded from: classes.dex */
     private static class AndPredicate implements Predicate, Serializable {
         private final List components;
 

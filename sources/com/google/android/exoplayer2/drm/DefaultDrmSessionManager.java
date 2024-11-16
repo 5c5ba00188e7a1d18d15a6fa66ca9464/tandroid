@@ -61,7 +61,6 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
     private final int[] useDrmSessionsForClearContentTrackTypes;
     private final UUID uuid;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private boolean multiSession;
         private boolean playClearSamplesWithoutKeys;
@@ -105,7 +104,6 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         }
     }
 
-    /* loaded from: classes.dex */
     private class MediaDrmEventListener implements ExoMediaDrm.OnEventListener {
         private MediaDrmEventListener() {
         }
@@ -116,9 +114,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class MediaDrmHandler extends Handler {
+    private class MediaDrmHandler extends Handler {
         public MediaDrmHandler(Looper looper) {
             super(looper);
         }
@@ -138,7 +134,6 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class MissingSchemeDataException extends Exception {
         private MissingSchemeDataException(UUID uuid) {
             super("Media does not support uuid: " + uuid);
@@ -146,8 +141,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class PreacquiredSessionReference implements DrmSessionManager.DrmSessionReference {
+    class PreacquiredSessionReference implements DrmSessionManager.DrmSessionReference {
         private final DrmSessionEventListener.EventDispatcher eventDispatcher;
         private boolean isReleased;
         private DrmSession session;
@@ -199,9 +193,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ProvisioningManagerImpl implements DefaultDrmSession.ProvisioningManager {
+    private class ProvisioningManagerImpl implements DefaultDrmSession.ProvisioningManager {
         private DefaultDrmSession provisioningSession;
         private final Set sessionsAwaitingProvisioning = new HashSet();
 
@@ -255,8 +247,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ReferenceCountListenerImpl implements DefaultDrmSession.ReferenceCountListener {
+    class ReferenceCountListenerImpl implements DefaultDrmSession.ReferenceCountListener {
         private ReferenceCountListenerImpl() {
         }
 

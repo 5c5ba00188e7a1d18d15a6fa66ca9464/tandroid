@@ -41,9 +41,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Callback, ChunkSampleStream.ReleaseCallback {
+final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Callback, ChunkSampleStream.ReleaseCallback {
     private static final Pattern CEA608_SERVICE_DESCRIPTOR_REGEX = Pattern.compile("CC([1-4])=(.+)");
     private static final Pattern CEA708_SERVICE_DESCRIPTOR_REGEX = Pattern.compile("([1-4])=lang:(\\w+)(,.+)?");
     private final Allocator allocator;
@@ -71,9 +70,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
     private EventSampleStream[] eventSampleStreams = new EventSampleStream[0];
     private final IdentityHashMap trackEmsgHandlerBySampleStream = new IdentityHashMap();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TrackGroupInfo {
+    private static final class TrackGroupInfo {
         public final int[] adaptationSetIndices;
         public final int embeddedClosedCaptionTrackGroupIndex;
         public final int embeddedEventMessageTrackGroupIndex;
@@ -253,7 +250,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
         int[][] groupedAdaptationSetIndices = getGroupedAdaptationSetIndices(list);
         int length = groupedAdaptationSetIndices.length;
         boolean[] zArr = new boolean[length];
-        Format[][] formatArr = new Format[length];
+        Format[][] formatArr = new Format[length][];
         int identifyEmbeddedTracks = identifyEmbeddedTracks(length, list, groupedAdaptationSetIndices, zArr, formatArr) + length + list2.size();
         TrackGroup[] trackGroupArr = new TrackGroup[identifyEmbeddedTracks];
         TrackGroupInfo[] trackGroupInfoArr = new TrackGroupInfo[identifyEmbeddedTracks];
@@ -340,7 +337,7 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             }
         }
         int size2 = arrayList.size();
-        int[][] iArr = new int[size2];
+        int[][] iArr = new int[size2][];
         for (int i5 = 0; i5 < size2; i5++) {
             int[] array = Ints.toArray((Collection) arrayList.get(i5));
             iArr[i5] = array;

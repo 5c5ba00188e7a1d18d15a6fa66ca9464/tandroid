@@ -96,9 +96,7 @@ public final class DashMediaSource extends BaseMediaSource {
     private final Runnable simulateManifestRefreshRunnable;
     private int staleManifestReloadAttempt;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DashTimeline extends Timeline {
+    private static final class DashTimeline extends Timeline {
         private final long elapsedRealtimeEpochOffsetMs;
         private final int firstPeriodId;
         private final MediaItem.LiveConfiguration liveConfiguration;
@@ -195,7 +193,6 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     private final class DefaultPlayerEmsgCallback implements PlayerEmsgHandler.PlayerEmsgCallback {
         private DefaultPlayerEmsgCallback() {
         }
@@ -211,7 +208,6 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Factory implements MediaSource.Factory {
         private final DashChunkSource.Factory chunkSourceFactory;
         private CompositeSequenceableLoaderFactory compositeSequenceableLoaderFactory;
@@ -258,9 +254,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Iso8601Parser implements ParsingLoadable.Parser {
+    static final class Iso8601Parser implements ParsingLoadable.Parser {
         private static final Pattern TIMESTAMP_WITH_TIMEZONE_PATTERN = Pattern.compile("(.+?)(Z|((\\+|-|−)(\\d\\d)(:?(\\d\\d))?))");
 
         Iso8601Parser() {
@@ -291,9 +285,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class ManifestCallback implements Loader.Callback {
+    private final class ManifestCallback implements Loader.Callback {
         private ManifestCallback() {
         }
 
@@ -313,7 +305,6 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     final class ManifestLoadErrorThrower implements LoaderErrorThrower {
         ManifestLoadErrorThrower() {
         }
@@ -331,9 +322,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class UtcTimestampCallback implements Loader.Callback {
+    private final class UtcTimestampCallback implements Loader.Callback {
         private UtcTimestampCallback() {
         }
 
@@ -353,9 +342,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class XsDateTimeParser implements ParsingLoadable.Parser {
+    private static final class XsDateTimeParser implements ParsingLoadable.Parser {
         private XsDateTimeParser() {
         }
 

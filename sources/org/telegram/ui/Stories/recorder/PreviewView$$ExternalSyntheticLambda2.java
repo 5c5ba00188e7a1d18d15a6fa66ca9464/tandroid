@@ -10,6 +10,6 @@ public final /* synthetic */ class PreviewView$$ExternalSyntheticLambda2 impleme
 
     @Override // java.lang.Runnable
     public final void run() {
-        PreviewView.$r8$lambda$-n7-sOkc-tZfblm4M-j_DVdZLfQ(this.f$0);
+        this.f$0.setupGradient();
     }
 }

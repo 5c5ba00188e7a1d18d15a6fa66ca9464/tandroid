@@ -11,7 +11,6 @@ import androidx.appcompat.view.ActionMode;
 /* loaded from: classes.dex */
 public abstract class ActionBar {
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         public int gravity;
 
@@ -50,8 +49,7 @@ public abstract class ActionBar {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onDestroy() {
+    void onDestroy() {
     }
 
     public abstract boolean onKeyShortcut(int i, KeyEvent keyEvent);

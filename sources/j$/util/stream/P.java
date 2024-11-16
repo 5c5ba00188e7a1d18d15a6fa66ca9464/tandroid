@@ -6,8 +6,7 @@ import j$.util.function.Consumer;
 final class P extends Q {
     final Consumer b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public P(Consumer consumer, boolean z) {
+    P(Consumer consumer, boolean z) {
         super(z);
         this.b = consumer;
     }

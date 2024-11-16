@@ -45,8 +45,7 @@ public class RemoteConfigComponent {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RemoteConfigComponent(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Provider provider) {
+    RemoteConfigComponent(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Provider provider) {
         this(context, Executors.newCachedThreadPool(), firebaseApp, firebaseInstallationsApi, firebaseABTesting, provider, true);
     }
 
@@ -141,8 +140,7 @@ public class RemoteConfigComponent {
         return get(this.firebaseApp, str, this.firebaseInstallations, this.firebaseAbt, this.executorService, cacheClient, cacheClient2, cacheClient3, getFetchHandler(str, cacheClient, metadataClient), getHandler, metadataClient);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FirebaseRemoteConfig getDefault() {
+    FirebaseRemoteConfig getDefault() {
         return get("firebase");
     }
 

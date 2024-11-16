@@ -53,7 +53,6 @@ public class BotLocation {
     private final HashSet listeners = new HashSet();
     public boolean requested;
 
-    /* loaded from: classes5.dex */
     public static class BotUserLocationDrawable extends Drawable implements AttachableDrawable {
         private final Paint arrowPaint;
         private final Paint bgPaint;
@@ -381,7 +380,7 @@ public class BotLocation {
         float verticalAccuracyMeters;
         JSONObject jSONObject = new JSONObject();
         try {
-            jSONObject.put("available", true);
+            jSONObject.put("available", location != null);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -587,14 +586,14 @@ public class BotLocation {
         } else {
             if (location == null) {
                 try {
+                    final LocationListener[] locationListenerArr = {r8};
                     LocationListener locationListener = new LocationListener() { // from class: org.telegram.ui.bots.BotLocation.1
                         @Override // android.location.LocationListener
                         public void onLocationChanged(Location location2) {
-                            locationManager.removeUpdates(r3[0]);
+                            locationManager.removeUpdates(locationListenerArr[0]);
                             callback.run(BotLocation.this.locationObject(location2));
                         }
                     };
-                    final LocationListener[] locationListenerArr = {locationListener};
                     locationManager.requestLocationUpdates("gps", 1L, 0.0f, locationListener);
                     return;
                 } catch (Exception e3) {

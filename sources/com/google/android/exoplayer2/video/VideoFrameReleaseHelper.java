@@ -33,9 +33,7 @@ public final class VideoFrameReleaseHelper {
     private long vsyncOffsetNs;
     private final VSyncSampler vsyncSampler;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api30 {
+    private static final class Api30 {
         public static void setSurfaceFrameRate(Surface surface, float f) {
             try {
                 surface.setFrameRate(f, f == 0.0f ? 0 : 1);
@@ -46,10 +44,8 @@ public final class VideoFrameReleaseHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface DisplayHelper {
+    interface DisplayHelper {
 
-        /* loaded from: classes.dex */
         public interface Listener {
             void onDefaultDisplayChanged(Display display);
         }
@@ -59,9 +55,7 @@ public final class VideoFrameReleaseHelper {
         void unregister();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DisplayHelperV16 implements DisplayHelper {
+    private static final class DisplayHelperV16 implements DisplayHelper {
         private final WindowManager windowManager;
 
         private DisplayHelperV16(WindowManager windowManager) {
@@ -86,9 +80,7 @@ public final class VideoFrameReleaseHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DisplayHelperV17 implements DisplayHelper, DisplayManager.DisplayListener {
+    private static final class DisplayHelperV17 implements DisplayHelper, DisplayManager.DisplayListener {
         private final DisplayManager displayManager;
         private DisplayHelper.Listener listener;
 
@@ -139,7 +131,6 @@ public final class VideoFrameReleaseHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class VSyncSampler implements Choreographer.FrameCallback, Handler.Callback {
         private static final VSyncSampler INSTANCE = new VSyncSampler();
         private Choreographer choreographer;
@@ -341,7 +332,7 @@ public final class VideoFrameReleaseHelper {
         long j2;
         VSyncSampler vSyncSampler;
         if (this.lastAdjustedFrameIndex != -1 && this.frameRateEstimator.isSynced()) {
-            long frameDurationNs = this.lastAdjustedReleaseTimeNs + (((float) (this.frameRateEstimator.getFrameDurationNs() * (this.frameIndex - this.lastAdjustedFrameIndex))) / this.playbackSpeed);
+            long frameDurationNs = this.lastAdjustedReleaseTimeNs + ((long) ((this.frameRateEstimator.getFrameDurationNs() * (this.frameIndex - this.lastAdjustedFrameIndex)) / this.playbackSpeed));
             if (adjustmentAllowed(j, frameDurationNs)) {
                 j2 = frameDurationNs;
                 this.pendingLastAdjustedFrameIndex = this.frameIndex;

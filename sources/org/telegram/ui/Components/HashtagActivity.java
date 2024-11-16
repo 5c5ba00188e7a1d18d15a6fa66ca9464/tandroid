@@ -360,27 +360,24 @@ public class HashtagActivity extends BaseFragment implements NotificationCenter.
                 return false;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onActionModeSelectedUpdate(SparseArray sparseArray) {
+            protected void onActionModeSelectedUpdate(SparseArray sparseArray) {
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
             protected void onSearchStateChanged(boolean z) {
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onTabProgress(float f) {
+            protected void onTabProgress(float f) {
             }
 
             @Override // org.telegram.ui.Components.SharedMediaLayout
             protected void onTabScroll(boolean z) {
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void showActionMode(boolean z) {
+            protected void showActionMode(boolean z) {
             }
         };
         this.sharedMediaLayout = sharedMediaLayout;

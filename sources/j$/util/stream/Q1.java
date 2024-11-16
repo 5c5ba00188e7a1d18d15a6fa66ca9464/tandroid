@@ -21,11 +21,8 @@ public final /* synthetic */ class Q1 implements j$.util.function.I, ToLongFunct
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
-            case 6:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
         }
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.I

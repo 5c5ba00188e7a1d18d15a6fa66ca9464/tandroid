@@ -25,7 +25,6 @@ public final class Api {
     private final ClientKey zab;
     private final String zac;
 
-    /* loaded from: classes.dex */
     public static abstract class AbstractClientBuilder extends BaseClientBuilder {
         public Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
             return buildClient(context, looper, clientSettings, obj, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
@@ -36,31 +35,25 @@ public final class Api {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface AnyClient {
     }
 
-    /* loaded from: classes.dex */
     public static class AnyClientKey {
     }
 
-    /* loaded from: classes.dex */
     public interface ApiOptions {
         public static final NoOptions NO_OPTIONS = new NoOptions(null);
 
-        /* loaded from: classes.dex */
         public interface HasAccountOptions extends ApiOptions {
             Account getAccount();
         }
 
-        /* loaded from: classes.dex */
         public static final class NoOptions implements ApiOptions {
             /* synthetic */ NoOptions(zaa zaaVar) {
             }
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class BaseClientBuilder {
         public List getImpliedScopes(Object obj) {
             return Collections.emptyList();
@@ -71,7 +64,6 @@ public final class Api {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Client extends AnyClient {
         void connect(BaseGmsClient.ConnectionProgressReportCallbacks connectionProgressReportCallbacks);
 
@@ -108,7 +100,6 @@ public final class Api {
         boolean requiresSignIn();
     }
 
-    /* loaded from: classes.dex */
     public static final class ClientKey extends AnyClientKey {
     }
 

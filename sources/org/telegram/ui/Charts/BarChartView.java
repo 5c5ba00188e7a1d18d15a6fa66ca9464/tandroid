@@ -82,7 +82,7 @@ public class BarChartView extends BaseChartView {
                             while (i10 <= i7) {
                                 float f15 = ((f11 / f9) + (this.chartData.xPercentage[i10] * f6)) - f7;
                                 long[] jArr2 = jArr;
-                                float measuredHeight = (getMeasuredHeight() - this.chartBottom) - (((((float) jArr[i10]) / this.currentMaxHeight) * f12) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT));
+                                float measuredHeight = (getMeasuredHeight() - this.chartBottom) - (((jArr[i10] / this.currentMaxHeight) * f12) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT));
                                 if (i10 == this.selectedIndex && this.legendShowing) {
                                     f13 = measuredHeight;
                                     f14 = f15;
@@ -198,11 +198,11 @@ public class BarChartView extends BaseChartView {
                             } else {
                                 i3 = length;
                                 jArr = jArr2;
-                                f = (float) chartData.maxValue;
+                                f = chartData.maxValue;
                             }
                             float[] fArr2 = barViewData.linesPath;
                             fArr2[i8] = f4;
-                            fArr2[i8 + 1] = (1.0f - ((((float) j) / f) * f3)) * (i5 - measuredHeight2);
+                            fArr2[i8 + 1] = (1.0f - ((j / f) * f3)) * (i5 - measuredHeight2);
                             int i9 = i8 + 3;
                             fArr2[i8 + 2] = f4;
                             i8 += 4;
@@ -225,9 +225,8 @@ public class BarChartView extends BaseChartView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSelection(Canvas canvas) {
+    protected void drawSelection(Canvas canvas) {
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
@@ -235,9 +234,8 @@ public class BarChartView extends BaseChartView {
         return 0.1f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         tick();
         drawChart(canvas);
         drawBottomLine(canvas);

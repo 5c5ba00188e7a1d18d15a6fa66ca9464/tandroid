@@ -58,7 +58,6 @@ public class ActionBarPopupWindow extends PopupWindow {
     private boolean scaleOut;
     private AnimatorSet windowAnimatorSet;
 
-    /* loaded from: classes4.dex */
     public static class ActionBarPopupWindowLayout extends FrameLayout {
         private boolean animationEnabled;
         private int backAlpha;
@@ -264,7 +263,6 @@ public class ActionBarPopupWindow extends PopupWindow {
             return this.swipeBackLayout.getChildCount() - 1;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Code restructure failed: missing block: B:89:0x0186, code lost:
         
             if (r21.gapStartY != r9) goto L60;
@@ -276,7 +274,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             int i;
             boolean z;
             int i2;
@@ -528,9 +526,8 @@ public class ActionBarPopupWindow extends PopupWindow {
             return (int) (getMeasuredHeight() * this.backScaleY);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, i2);
             PopupSwipeBackLayout popupSwipeBackLayout = this.swipeBackLayout;
             if (popupSwipeBackLayout != null) {
@@ -715,7 +712,6 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class GapView extends FrameLayout {
         Drawable shadowDrawable;
 
@@ -748,12 +744,10 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface OnDispatchKeyEventListener {
         void onDispatchKeyEvent(KeyEvent keyEvent);
     }
 
-    /* loaded from: classes4.dex */
     public interface onSizeChangedListener {
         void onSizeChanged();
     }

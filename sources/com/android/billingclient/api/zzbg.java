@@ -4,8 +4,7 @@ import org.json.JSONObject;
 
 /* loaded from: classes.dex */
 public final class zzbg {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbg(JSONObject jSONObject) {
+    zzbg(JSONObject jSONObject) {
         jSONObject.getInt("percentageDiscount");
     }
 }

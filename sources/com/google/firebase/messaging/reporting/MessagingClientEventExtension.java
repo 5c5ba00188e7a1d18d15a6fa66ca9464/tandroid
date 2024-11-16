@@ -7,7 +7,6 @@ public final class MessagingClientEventExtension {
     private static final MessagingClientEventExtension DEFAULT_INSTANCE = new Builder().build();
     private final MessagingClientEvent messaging_client_event_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private MessagingClientEvent messaging_client_event_ = null;
 

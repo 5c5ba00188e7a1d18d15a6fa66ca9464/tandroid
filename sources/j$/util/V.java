@@ -9,8 +9,7 @@ final class V implements r, j$.util.function.n, j {
     double b;
     final /* synthetic */ E c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public V(E e) {
+    V(E e) {
         this.c = e;
     }
 

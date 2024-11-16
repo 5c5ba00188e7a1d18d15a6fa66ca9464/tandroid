@@ -23,7 +23,6 @@ public final class RawResourceDataSource extends BaseDataSource {
     private final Resources resources;
     private Uri uri;
 
-    /* loaded from: classes.dex */
     public static class RawResourceDataSourceException extends DataSourceException {
         public RawResourceDataSourceException(String str, Throwable th, int i) {
             super(str, th, i);

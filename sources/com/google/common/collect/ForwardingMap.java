@@ -6,6 +6,9 @@ import java.util.Set;
 
 /* loaded from: classes.dex */
 public abstract class ForwardingMap extends ForwardingObject implements Map {
+    protected ForwardingMap() {
+    }
+
     @Override // java.util.Map
     public void clear() {
         delegate().clear();
@@ -53,18 +56,15 @@ public abstract class ForwardingMap extends ForwardingObject implements Map {
         return delegate().size();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean standardContainsValue(Object obj) {
+    protected boolean standardContainsValue(Object obj) {
         return Maps.containsValueImpl(this, obj);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean standardEquals(Object obj) {
+    protected boolean standardEquals(Object obj) {
         return Maps.equalsImpl(this, obj);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int standardHashCode() {
+    protected int standardHashCode() {
         return Sets.hashCodeImpl(entrySet());
     }
 

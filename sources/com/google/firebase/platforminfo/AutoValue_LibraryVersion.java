@@ -5,8 +5,7 @@ final class AutoValue_LibraryVersion extends LibraryVersion {
     private final String libraryName;
     private final String version;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_LibraryVersion(String str, String str2) {
+    AutoValue_LibraryVersion(String str, String str2) {
         if (str == null) {
             throw new NullPointerException("Null libraryName");
         }

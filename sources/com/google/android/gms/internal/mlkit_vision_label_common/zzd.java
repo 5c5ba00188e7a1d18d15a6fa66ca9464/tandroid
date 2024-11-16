@@ -8,8 +8,7 @@ public final class zzd {
     private final zzc zzb;
     private zzc zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzd(String str, zza zzaVar) {
+    /* synthetic */ zzd(String str, zza zzaVar) {
         zzc zzcVar = new zzc(null);
         this.zzb = zzcVar;
         this.zzc = zzcVar;

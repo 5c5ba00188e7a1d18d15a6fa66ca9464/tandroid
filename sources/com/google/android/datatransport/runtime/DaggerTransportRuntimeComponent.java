@@ -24,9 +24,8 @@ import com.google.android.datatransport.runtime.time.TimeModule_EventClockFactor
 import com.google.android.datatransport.runtime.time.TimeModule_UptimeClockFactory;
 import javax.inject.Provider;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class DaggerTransportRuntimeComponent extends TransportRuntimeComponent {
+final class DaggerTransportRuntimeComponent extends TransportRuntimeComponent {
     private Provider configProvider;
     private Provider creationContextFactoryProvider;
     private Provider defaultSchedulerProvider;
@@ -41,9 +40,7 @@ public final class DaggerTransportRuntimeComponent extends TransportRuntimeCompo
     private Provider workInitializerProvider;
     private Provider workSchedulerProvider;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Builder implements TransportRuntimeComponent.Builder {
+    private static final class Builder implements TransportRuntimeComponent.Builder {
         private Context setApplicationContext;
 
         private Builder() {

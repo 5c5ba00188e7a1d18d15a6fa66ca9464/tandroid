@@ -44,7 +44,6 @@ public class ClearHistoryAlert extends BottomSheet {
     private BottomSheetCell setTimerButton;
     private Drawable shadowDrawable;
 
-    /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private final Theme.ResourcesProvider resourcesProvider;
@@ -84,10 +83,8 @@ public class ClearHistoryAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ClearHistoryAlertDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onClearHistory(ClearHistoryAlertDelegate clearHistoryAlertDelegate, boolean z) {
             }
@@ -176,16 +173,14 @@ public class ClearHistoryAlert extends BottomSheet {
                 return true;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z3, int i5, int i6, int i7, int i8) {
+            protected void onLayout(boolean z3, int i5, int i6, int i7, int i8) {
                 super.onLayout(z3, i5, i6, i7, i8);
                 ClearHistoryAlert.this.updateLayout();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i5, int i6) {
+            protected void onMeasure(int i5, int i6) {
                 int size = View.MeasureSpec.getSize(i6);
                 measureChildWithMargins(ClearHistoryAlert.this.linearLayout, i5, 0, i6, 0);
                 int measuredHeight = ClearHistoryAlert.this.linearLayout.getMeasuredHeight();
@@ -202,9 +197,8 @@ public class ClearHistoryAlert extends BottomSheet {
                 super.onMeasure(i5, View.MeasureSpec.makeMeasureSpec(size, 1073741824));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.core.widget.NestedScrollView, android.view.View
-            public void onScrollChanged(int i5, int i6, int i7, int i8) {
+            protected void onScrollChanged(int i5, int i6, int i7, int i8) {
                 super.onScrollChanged(i5, i6, i7, i8);
                 ClearHistoryAlert.this.updateLayout();
             }
@@ -550,9 +544,8 @@ public class ClearHistoryAlert extends BottomSheet {
         f = 1.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

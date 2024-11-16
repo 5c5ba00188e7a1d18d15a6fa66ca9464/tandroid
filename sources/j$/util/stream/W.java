@@ -64,13 +64,13 @@ final class W extends Y1 {
         switch (this.b) {
             case 5:
                 this.a.n(-1L);
-                return;
+                break;
             case 6:
                 this.a.n(-1L);
-                return;
+                break;
             default:
                 super.n(j);
-                return;
+                break;
         }
     }
 }

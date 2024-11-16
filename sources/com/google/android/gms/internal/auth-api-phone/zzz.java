@@ -8,8 +8,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 final class zzz extends zzi {
     final /* synthetic */ TaskCompletionSource zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzz(zzab zzabVar, TaskCompletionSource taskCompletionSource) {
+    zzz(zzab zzabVar, TaskCompletionSource taskCompletionSource) {
         this.zza = taskCompletionSource;
     }
 

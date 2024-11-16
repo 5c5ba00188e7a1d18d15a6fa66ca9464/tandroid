@@ -62,7 +62,6 @@ public class Switch extends View {
     private int trackCheckedColorKey;
     private int trackColorKey;
 
-    /* loaded from: classes3.dex */
     public interface OnCheckedChangeListener {
     }
 

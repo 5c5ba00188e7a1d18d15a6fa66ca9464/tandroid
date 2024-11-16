@@ -5,15 +5,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class H2 extends N2 implements j$.util.function.n {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public H2() {
+class H2 extends N2 implements j$.util.function.n {
+    H2() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public H2(int i) {
+    H2(int i) {
         super(i);
     }
 
@@ -67,9 +64,8 @@ public class H2 extends N2 implements j$.util.function.n {
         return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(dArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(dArr, NotificationCenter.storyQualityUpdate)));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.N2
-    public final void u(Object obj, int i, int i2, Object obj2) {
+    protected final void u(Object obj, int i, int i2, Object obj2) {
         double[] dArr = (double[]) obj;
         j$.util.function.n nVar = (j$.util.function.n) obj2;
         while (i < i2) {
@@ -78,14 +74,13 @@ public class H2 extends N2 implements j$.util.function.n {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.N2
-    public final int v(Object obj) {
+    protected final int v(Object obj) {
         return ((double[]) obj).length;
     }
 
     @Override // j$.util.stream.N2
     protected final Object[] y() {
-        return new double[8];
+        return new double[8][];
     }
 }

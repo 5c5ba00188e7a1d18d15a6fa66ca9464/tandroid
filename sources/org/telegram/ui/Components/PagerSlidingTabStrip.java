@@ -45,7 +45,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int underlineColor;
     private int underlineHeight;
 
-    /* loaded from: classes3.dex */
     public interface IconTabProvider {
         boolean canScrollToTab(int i);
 
@@ -56,9 +55,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         int getTabPadding(int i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class PageListener implements ViewPager.OnPageChangeListener {
+    private class PageListener implements ViewPager.OnPageChangeListener {
         private PageListener() {
         }
 
@@ -102,9 +99,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TextTab extends TextView {
+    private class TextTab extends TextView {
         final int position;
 
         public TextTab(Context context, int i) {

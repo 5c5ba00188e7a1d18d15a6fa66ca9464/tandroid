@@ -7,8 +7,7 @@ final class zzmb implements Iterator {
     private Iterator zza;
     private final /* synthetic */ zzlz zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzmb(zzlz zzlzVar) {
+    zzmb(zzlz zzlzVar) {
         zzjv zzjvVar;
         this.zzb = zzlzVar;
         zzjvVar = zzlzVar.zza;

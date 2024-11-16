@@ -2,9 +2,11 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class c1 extends J2 implements B0, v0 {
+final class c1 extends J2 implements B0, v0 {
+    c1() {
+    }
+
     @Override // j$.util.stream.J2
     /* renamed from: A */
     public final j$.util.H spliterator() {

@@ -5,7 +5,6 @@ import com.google.android.exoplayer2.util.Assertions;
 /* loaded from: classes.dex */
 public interface SeekMap {
 
-    /* loaded from: classes.dex */
     public static final class SeekPoints {
         public final SeekPoint first;
         public final SeekPoint second;
@@ -50,7 +49,6 @@ public interface SeekMap {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Unseekable implements SeekMap {
         private final long durationUs;
         private final SeekPoints startSeekPoints;

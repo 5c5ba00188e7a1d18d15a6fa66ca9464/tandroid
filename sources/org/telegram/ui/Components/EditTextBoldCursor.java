@@ -142,9 +142,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     private boolean transformHintToHeader;
     private View windowView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ActionModeCallback2Wrapper extends ActionMode.Callback2 {
+    private class ActionModeCallback2Wrapper extends ActionMode.Callback2 {
         private final ActionMode.Callback mWrapped;
 
         public ActionModeCallback2Wrapper(ActionMode.Callback callback) {
@@ -287,13 +285,13 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
                 this.hintLastUpdateTime = currentTimeMillis;
                 if (this.hintVisible) {
-                    float f = this.hintAlpha + (((float) j) / 150.0f);
+                    float f = this.hintAlpha + (j / 150.0f);
                     this.hintAlpha = f;
                     if (f > 1.0f) {
                         this.hintAlpha = 1.0f;
                     }
                 } else {
-                    float f2 = this.hintAlpha - (((float) j) / 150.0f);
+                    float f2 = this.hintAlpha - (j / 150.0f);
                     this.hintAlpha = f2;
                     if (f2 < 0.0f) {
                         this.hintAlpha = 0.0f;
@@ -539,9 +537,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         super.addTextChangedListener(textWatcher);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
     }
 
@@ -553,8 +550,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void extendActionMode(ActionMode actionMode, Menu menu) {
+    protected void extendActionMode(ActionMode actionMode, Menu menu) {
     }
 
     public void fixHandleView(boolean z) {
@@ -593,8 +589,7 @@ public class EditTextBoldCursor extends EditTextEffects {
         this.fixed = z2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getActionModeStyle() {
+    protected int getActionModeStyle() {
         return 1;
     }
 
@@ -705,9 +700,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         return this.isTextWatchersSuppressed;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         try {
             super.onAttachedToWindow();
         } catch (Exception e) {
@@ -717,15 +711,13 @@ public class EditTextBoldCursor extends EditTextEffects {
         AndroidUtilities.runOnUIThread(this.invalidateRunnable);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attachedToWindow = null;
         AndroidUtilities.cancelRunOnUIThread(this.invalidateRunnable);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:131:0x014c A[Catch: all -> 0x00c0, TryCatch #0 {all -> 0x00c0, blocks: (B:112:0x009e, B:114:0x00a2, B:116:0x00a6, B:118:0x00b8, B:121:0x00c9, B:124:0x00cf, B:126:0x00d6, B:128:0x00de, B:129:0x0104, B:131:0x014c, B:133:0x014f, B:134:0x0154, B:137:0x00f1, B:139:0x00f9, B:141:0x00c5), top: B:111:0x009e }] */
     /* JADX WARN: Removed duplicated region for block: B:40:0x0277  */
     /* JADX WARN: Removed duplicated region for block: B:52:0x02c7  */
@@ -743,7 +735,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         boolean z;
         boolean z2;
         int totalPaddingTop;
@@ -1063,7 +1055,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     this.lineLastUpdateTime = SystemClock.elapsedRealtime();
                     this.lastLineActiveness = this.lineActiveness;
                 }
-                elapsedRealtime = ((float) (SystemClock.elapsedRealtime() - this.lineLastUpdateTime)) / 150.0f;
+                elapsedRealtime = (SystemClock.elapsedRealtime() - this.lineLastUpdateTime) / 150.0f;
                 if (elapsedRealtime >= 1.0f || (((z3 = this.lineActive) && this.lineActiveness != 1.0f) || (!z3 && this.lineActiveness != 0.0f))) {
                     this.lineActiveness = AndroidUtilities.lerp(this.lastLineActiveness, !this.lineActive ? 1.0f : 0.0f, Math.max(0.0f, Math.min(1.0f, elapsedRealtime)));
                     if (elapsedRealtime < 1.0f) {
@@ -1098,7 +1090,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             this.lineActive = false;
             if (this.lineActive != z4) {
             }
-            elapsedRealtime = ((float) (SystemClock.elapsedRealtime() - this.lineLastUpdateTime)) / 150.0f;
+            elapsedRealtime = (SystemClock.elapsedRealtime() - this.lineLastUpdateTime) / 150.0f;
             if (elapsedRealtime >= 1.0f) {
             }
             this.lineActiveness = AndroidUtilities.lerp(this.lastLineActiveness, !this.lineActive ? 1.0f : 0.0f, Math.max(0.0f, Math.min(1.0f, elapsedRealtime)));
@@ -1133,9 +1125,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onFocusChanged(boolean z, int i, android.graphics.Rect rect) {
+    protected void onFocusChanged(boolean z, int i, android.graphics.Rect rect) {
         try {
             super.onFocusChanged(z, i, rect);
         } catch (Exception e) {
@@ -1157,9 +1148,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         float measuredHeight;
         super.onMeasure(i, i2);
         int measuredHeight2 = getMeasuredHeight() + (getMeasuredWidth() << 16);
@@ -1184,9 +1174,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         this.lastSize = measuredHeight2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onScrollChanged(int i, int i2, int i3, int i4) {
+    protected void onScrollChanged(int i, int i2, int i3, int i4) {
         super.onScrollChanged(i, i2, i3, i4);
         if (i != i3) {
             getParent().requestDisallowInterceptTouchEvent(true);
@@ -1270,20 +1259,21 @@ public class EditTextBoldCursor extends EditTextEffects {
         Drawable textSelectHandleLeft;
         Drawable textSelectHandle;
         Drawable textSelectHandleRight;
-        if (Build.VERSION.SDK_INT >= 29 && !XiaomiUtilities.isMIUI()) {
-            try {
-                textSelectHandleLeft = getTextSelectHandleLeft();
-                PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
-                textSelectHandleLeft.setColorFilter(i, mode);
-                setTextSelectHandleLeft(textSelectHandleLeft);
-                textSelectHandle = getTextSelectHandle();
-                textSelectHandle.setColorFilter(i, mode);
-                setTextSelectHandle(textSelectHandle);
-                textSelectHandleRight = getTextSelectHandleRight();
-                textSelectHandleRight.setColorFilter(i, mode);
-                setTextSelectHandleRight(textSelectHandleRight);
-            } catch (Exception unused) {
-            }
+        if (Build.VERSION.SDK_INT < 29 || XiaomiUtilities.isMIUI()) {
+            return;
+        }
+        try {
+            textSelectHandleLeft = getTextSelectHandleLeft();
+            PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+            textSelectHandleLeft.setColorFilter(i, mode);
+            setTextSelectHandleLeft(textSelectHandleLeft);
+            textSelectHandle = getTextSelectHandle();
+            textSelectHandle.setColorFilter(i, mode);
+            setTextSelectHandle(textSelectHandle);
+            textSelectHandleRight = getTextSelectHandleRight();
+            textSelectHandleRight.setColorFilter(i, mode);
+            setTextSelectHandleRight(textSelectHandleRight);
+        } catch (Exception unused) {
         }
     }
 

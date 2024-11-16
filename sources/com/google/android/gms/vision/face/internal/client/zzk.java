@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zzk extends com.google.android.gms.internal.vision.zzb implements zzi {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzk(IBinder iBinder) {
+    zzk(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.vision.face.internal.client.INativeFaceDetectorCreator");
     }
 

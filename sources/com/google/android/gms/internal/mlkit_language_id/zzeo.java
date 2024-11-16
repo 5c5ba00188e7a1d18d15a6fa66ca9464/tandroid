@@ -11,7 +11,6 @@ public abstract class zzeo extends zzde {
     protected zzhg zzb = zzhg.zza();
     private int zzc = -1;
 
-    /* loaded from: classes.dex */
     protected static class zza extends zzdj {
         private final zzeo zza;
 
@@ -20,14 +19,12 @@ public abstract class zzeo extends zzde {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class zzb extends zzdh {
         protected zzeo zza;
         protected boolean zzb = false;
         private final zzeo zzc;
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public zzb(zzeo zzeoVar) {
+        protected zzb(zzeo zzeoVar) {
             this.zzc = zzeoVar;
             this.zza = (zzeo) zzeoVar.zza(zze.zzd, (Object) null, (Object) null);
         }
@@ -52,8 +49,7 @@ public abstract class zzeo extends zzde {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public void zzc() {
+        protected void zzc() {
             zzeo zzeoVar = (zzeo) this.zza.zza(zze.zzd, (Object) null, (Object) null);
             zza(zzeoVar, this.zza);
             this.zza = zzeoVar;
@@ -86,21 +82,17 @@ public abstract class zzeo extends zzde {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class zzc extends zzeo implements zzgb {
         protected zzej zzc = zzej.zza();
     }
 
-    /* loaded from: classes.dex */
     public static abstract class zzd extends zzb implements zzgb {
-        /* JADX INFO: Access modifiers changed from: protected */
-        public zzd(zzc zzcVar) {
+        protected zzd(zzc zzcVar) {
             super(zzcVar);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo.zzb
-        public void zzc() {
+        protected void zzc() {
             super.zzc();
             zzeo zzeoVar = this.zza;
             ((zzc) zzeoVar).zzc = (zzej) ((zzc) zzeoVar).zzc.clone();
@@ -125,7 +117,6 @@ public abstract class zzeo extends zzde {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum zze {
         public static final int zza = 1;
         public static final int zzb = 2;
@@ -141,8 +132,7 @@ public abstract class zzeo extends zzde {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzeo zza(Class cls) {
+    static zzeo zza(Class cls) {
         zzeo zzeoVar = zzd.get(cls);
         if (zzeoVar == null) {
             try {
@@ -162,19 +152,16 @@ public abstract class zzeo extends zzde {
         return zzeoVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzew zza(zzew zzewVar) {
+    protected static zzew zza(zzew zzewVar) {
         int size = zzewVar.size();
         return zzewVar.zzb(size == 0 ? 10 : size << 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static Object zza(zzfz zzfzVar, String str, Object[] objArr) {
+    protected static Object zza(zzfz zzfzVar, String str, Object[] objArr) {
         return new zzgm(zzfzVar, str, objArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Method method, Object obj, Object... objArr) {
+    static Object zza(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
         } catch (IllegalAccessException e) {
@@ -191,8 +178,7 @@ public abstract class zzeo extends zzde {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void zza(Class cls, zzeo zzeoVar) {
+    protected static void zza(Class cls, zzeo zzeoVar) {
         zzd.put(cls, zzeoVar);
     }
 
@@ -211,14 +197,12 @@ public abstract class zzeo extends zzde {
         return zzc2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.mlkit_language_id.zzeu, com.google.android.gms.internal.mlkit_language_id.zzer] */
-    public static zzeu zzk() {
+    /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.mlkit_language_id.zzer, com.google.android.gms.internal.mlkit_language_id.zzeu] */
+    protected static zzeu zzk() {
         return zzer.zzd();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzew zzl() {
+    protected static zzew zzl() {
         return zzgn.zzd();
     }
 
@@ -246,13 +230,11 @@ public abstract class zzeo extends zzde {
         return zzga.zza(this, super.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final zzb zza(zzeo zzeoVar) {
+    protected final zzb zza(zzeo zzeoVar) {
         return zzh().zza(zzeoVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object zza(int i, Object obj, Object obj2);
+    protected abstract Object zza(int i, Object obj, Object obj2);
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzde
     final void zza(int i) {
@@ -269,8 +251,7 @@ public abstract class zzeo extends zzde {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final zzb zzh() {
+    protected final zzb zzh() {
         return (zzb) zza(zze.zze, (Object) null, (Object) null);
     }
 

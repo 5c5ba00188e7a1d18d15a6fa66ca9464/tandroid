@@ -2,13 +2,11 @@ package j$.time;
 
 import j$.time.temporal.q;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class m implements j$.time.temporal.k {
+final class m implements j$.time.temporal.k {
     final /* synthetic */ ZoneId a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public m(ZoneId zoneId) {
+    m(ZoneId zoneId) {
         this.a = zoneId;
     }
 

@@ -7,15 +7,12 @@ import com.google.android.exoplayer2.util.HandlerWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class SystemHandlerWrapper implements HandlerWrapper {
+final class SystemHandlerWrapper implements HandlerWrapper {
     private static final List messagePool = new ArrayList(50);
     private final Handler handler;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SystemMessage implements HandlerWrapper.Message {
+    private static final class SystemMessage implements HandlerWrapper.Message {
         private SystemHandlerWrapper handler;
         private Message message;
 

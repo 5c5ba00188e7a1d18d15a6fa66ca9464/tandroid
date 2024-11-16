@@ -15,20 +15,17 @@ public final /* synthetic */ class q implements j$.util.function.n {
         switch (this.a) {
             case 0:
                 this.b.accept(d);
-                return;
+                break;
             default:
                 ((s) this.b).a.accept(d);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.n
     public final /* synthetic */ j$.util.function.n k(j$.util.function.n nVar) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.b(this, nVar);
-            default:
-                return j$.com.android.tools.r8.a.b(this, nVar);
         }
+        return j$.com.android.tools.r8.a.b(this, nVar);
     }
 }

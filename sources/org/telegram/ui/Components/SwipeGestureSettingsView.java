@@ -82,9 +82,8 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.pickerDividersPaint.setStrokeCap(cap);
         this.pickerDividersPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         NumberPicker numberPicker = new NumberPicker(context, 13) { // from class: org.telegram.ui.Components.SwipeGestureSettingsView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.NumberPicker, android.widget.LinearLayout, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 float dp = AndroidUtilities.dp(31.0f);
                 SwipeGestureSettingsView.this.pickerDividersPaint.setColor(Theme.getColor(Theme.key_radioBackgroundChecked));

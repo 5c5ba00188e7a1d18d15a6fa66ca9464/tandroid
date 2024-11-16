@@ -70,7 +70,7 @@ public abstract class CloseProgressDrawable2 extends Drawable {
             long j2 = currentTimeMillis - j;
             boolean z = this.animating;
             if (z || this.angle != 0.0f) {
-                float f6 = this.angle + (((float) (j2 * 360)) / 500.0f);
+                float f6 = this.angle + ((j2 * 360) / 500.0f);
                 this.angle = f6;
                 if (z || f6 < 720.0f) {
                     this.angle = f6 - (((int) (f6 / 720.0f)) * 720);

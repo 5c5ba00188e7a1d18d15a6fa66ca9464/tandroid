@@ -53,7 +53,6 @@ public class VoIPPreNotificationService {
     private static final Object sync = new Object();
     private static Vibrator vibrator;
 
-    /* loaded from: classes3.dex */
     public static final class State implements VoIPServiceState {
         private final TLRPC.PhoneCall call;
         private final int currentAccount;

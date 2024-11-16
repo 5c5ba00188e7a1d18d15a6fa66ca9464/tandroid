@@ -61,9 +61,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     private PipetteDelegate pipetteDelegate;
     private ImageView pipetteView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class AlphaPickerView extends View {
+    private final class AlphaPickerView extends View {
         private float alpha;
         private Paint colorPaint;
         private Paint outlinePaint;
@@ -150,9 +148,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class ColorPickerView extends LinearLayout {
+    private final class ColorPickerView extends LinearLayout {
         private GradientPickerView gradientPickerView;
         private GridPickerView gridPickerView;
         private SlidersPickerView slidersPickerView;
@@ -161,11 +157,11 @@ public class ColorPickerBottomSheet extends BottomSheet {
         public ColorPickerView(Context context) {
             super(context);
             setOrientation(1);
-            GridPickerView gridPickerView = new GridPickerView(context);
+            GridPickerView gridPickerView = ColorPickerBottomSheet.this.new GridPickerView(context);
             this.gridPickerView = gridPickerView;
             gridPickerView.setCurrentColor(ColorPickerBottomSheet.this.mColor);
-            this.gradientPickerView = new GradientPickerView(context);
-            this.slidersPickerView = new SlidersPickerView(context);
+            this.gradientPickerView = ColorPickerBottomSheet.this.new GradientPickerView(context);
+            this.slidersPickerView = ColorPickerBottomSheet.this.new SlidersPickerView(context);
             ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context, ((BottomSheet) ColorPickerBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.Components.Paint.ColorPickerBottomSheet.ColorPickerView.1
                 @Override // org.telegram.ui.Components.ViewPagerFixed
                 protected int tabMarginDp() {
@@ -211,9 +207,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class ColorSliderView extends View {
+    private final class ColorSliderView extends View {
         private Paint colorPaint;
         private int filledColor;
         private int mode;
@@ -313,9 +307,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class GradientPickerView extends View {
+    private final class GradientPickerView extends View {
         private Paint gradientPaint;
         private float[] hsv;
         private Paint outlinePaint;
@@ -426,9 +418,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class GridPickerView extends View {
+    private final class GridPickerView extends View {
         private Map colorMap;
         private final int[] colors;
         private Paint paint;
@@ -602,7 +592,6 @@ public class ColorPickerBottomSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface PipetteDelegate {
         ViewGroup getContainerView();
 
@@ -622,8 +611,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class SliderCell extends FrameLayout {
+    final class SliderCell extends FrameLayout {
         private boolean isInvalidatingColor;
         private int mode;
         private ColorSliderView sliderView;
@@ -638,7 +626,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             this.titleView.setTextSize(1, 14.0f);
             this.titleView.setTypeface(AndroidUtilities.bold());
             addView(this.titleView, LayoutHelper.createFrame(-2, -2.0f, 3, 8.0f, 0.0f, 8.0f, 0.0f));
-            ColorSliderView colorSliderView = new ColorSliderView(context);
+            ColorSliderView colorSliderView = ColorPickerBottomSheet.this.new ColorSliderView(context);
             this.sliderView = colorSliderView;
             addView(colorSliderView, LayoutHelper.createFrame(-1, -1.0f, 3, 0.0f, 16.0f, 78.0f, 0.0f));
             EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context);
@@ -768,8 +756,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class SlidersPickerView extends LinearLayout {
+    final class SlidersPickerView extends LinearLayout {
         private SliderCell blue;
         private SliderCell green;
         private EditText hexEdit;
@@ -780,15 +767,15 @@ public class ColorPickerBottomSheet extends BottomSheet {
             super(context);
             setOrientation(1);
             setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(14.0f), 0);
-            SliderCell sliderCell = new SliderCell(context);
+            SliderCell sliderCell = ColorPickerBottomSheet.this.new SliderCell(context);
             this.red = sliderCell;
             sliderCell.bind(0);
             addView(this.red, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 0, 0, 16));
-            SliderCell sliderCell2 = new SliderCell(context);
+            SliderCell sliderCell2 = ColorPickerBottomSheet.this.new SliderCell(context);
             this.green = sliderCell2;
             sliderCell2.bind(1);
             addView(this.green, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 0, 0, 16));
-            SliderCell sliderCell3 = new SliderCell(context);
+            SliderCell sliderCell3 = ColorPickerBottomSheet.this.new SliderCell(context);
             this.blue = sliderCell3;
             sliderCell3.bind(2);
             addView(this.blue, LayoutHelper.createLinear(-1, -2, 0.0f, 0, 0, 0, 0, 16));

@@ -9,16 +9,13 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes3.dex */
-public abstract class FormatCache<F extends Format> {
+abstract class FormatCache<F extends Format> {
     static final int NONE = -1;
     private static final ConcurrentMap<MultipartKey, String> cDateTimeInstanceCache = new ConcurrentHashMap(7);
     private final ConcurrentMap<MultipartKey, F> cInstanceCache = new ConcurrentHashMap(7);
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class MultipartKey {
+    private static class MultipartKey {
         private int hashCode;
         private final Object[] keys;
 
@@ -42,6 +39,9 @@ public abstract class FormatCache<F extends Format> {
             }
             return this.hashCode;
         }
+    }
+
+    FormatCache() {
     }
 
     private F getDateTimeInstance(Integer num, Integer num2, TimeZone timeZone, Locale locale) {
@@ -69,13 +69,11 @@ public abstract class FormatCache<F extends Format> {
 
     protected abstract F createInstance(String str, TimeZone timeZone, Locale locale);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F getDateInstance(int i, TimeZone timeZone, Locale locale) {
+    F getDateInstance(int i, TimeZone timeZone, Locale locale) {
         return getDateTimeInstance(Integer.valueOf(i), (Integer) null, timeZone, locale);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F getDateTimeInstance(int i, int i2, TimeZone timeZone, Locale locale) {
+    F getDateTimeInstance(int i, int i2, TimeZone timeZone, Locale locale) {
         return getDateTimeInstance(Integer.valueOf(i), Integer.valueOf(i2), timeZone, locale);
     }
 
@@ -103,8 +101,7 @@ public abstract class FormatCache<F extends Format> {
         return putIfAbsent != null ? putIfAbsent : createInstance;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F getTimeInstance(int i, TimeZone timeZone, Locale locale) {
+    F getTimeInstance(int i, TimeZone timeZone, Locale locale) {
         return getDateTimeInstance((Integer) null, Integer.valueOf(i), timeZone, locale);
     }
 }

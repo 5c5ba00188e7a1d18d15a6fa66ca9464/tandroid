@@ -3,7 +3,6 @@ package com.google.firebase.analytics.connector;
 /* loaded from: classes.dex */
 public interface AnalyticsConnector {
 
-    /* loaded from: classes.dex */
     public static class ConditionalUserProperty {
         public long creationTimestamp;
         public String name;

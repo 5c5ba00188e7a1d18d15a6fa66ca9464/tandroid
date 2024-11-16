@@ -22,7 +22,6 @@ public final class ProductDetails {
     private final List zzl;
     private final List zzm;
 
-    /* loaded from: classes.dex */
     public static final class OneTimePurchaseOfferDetails {
         private final String zza;
         private final long zzb;
@@ -72,7 +71,6 @@ public final class ProductDetails {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class PricingPhase {
         private final String zza;
         private final long zzb;
@@ -107,7 +105,6 @@ public final class ProductDetails {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class PricingPhases {
         private final List zza;
 
@@ -129,7 +126,6 @@ public final class ProductDetails {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SubscriptionOfferDetails {
         private final String zza;
         private final String zzb;
@@ -165,8 +161,7 @@ public final class ProductDetails {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ProductDetails(String str) {
+    ProductDetails(String str) {
         this.zza = str;
         JSONObject jSONObject = new JSONObject(str);
         this.zzb = jSONObject;
@@ -257,8 +252,7 @@ public final class ProductDetails {
         return this.zzb.optString("packageName");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzb() {
+    final String zzb() {
         return this.zzh;
     }
 

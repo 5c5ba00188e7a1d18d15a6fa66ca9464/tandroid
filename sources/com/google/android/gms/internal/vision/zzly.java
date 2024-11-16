@@ -8,8 +8,7 @@ final class zzly implements ListIterator {
     private final /* synthetic */ int zzb;
     private final /* synthetic */ zzlz zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzly(zzlz zzlzVar, int i) {
+    zzly(zzlz zzlzVar, int i) {
         zzjv zzjvVar;
         this.zzc = zzlzVar;
         this.zzb = i;

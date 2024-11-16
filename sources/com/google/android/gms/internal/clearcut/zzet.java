@@ -2,8 +2,7 @@ package com.google.android.gms.internal.clearcut;
 
 /* loaded from: classes.dex */
 abstract class zzet {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zzc(zzbb zzbbVar) {
+    static String zzc(zzbb zzbbVar) {
         String str;
         zzeu zzeuVar = new zzeu(zzbbVar);
         StringBuilder sb = new StringBuilder(zzeuVar.size());

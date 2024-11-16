@@ -11,9 +11,7 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 abstract class WavHeaderReader {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ChunkHeader {
+    private static final class ChunkHeader {
         public final int id;
         public final long size;
 

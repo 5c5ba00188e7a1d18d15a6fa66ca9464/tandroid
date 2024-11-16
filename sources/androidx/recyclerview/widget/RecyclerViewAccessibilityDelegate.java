@@ -11,7 +11,6 @@ public class RecyclerViewAccessibilityDelegate extends AccessibilityDelegateComp
     final AccessibilityDelegateCompat mItemDelegate = new ItemDelegate(this);
     final RecyclerView mRecyclerView;
 
-    /* loaded from: classes.dex */
     public static class ItemDelegate extends AccessibilityDelegateCompat {
         final RecyclerViewAccessibilityDelegate mRecyclerViewDelegate;
 

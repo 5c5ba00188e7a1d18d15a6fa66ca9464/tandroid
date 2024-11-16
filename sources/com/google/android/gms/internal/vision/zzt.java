@@ -47,8 +47,7 @@ public abstract class zzt {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Object zzd() {
+    protected final Object zzd() {
         DynamiteModule dynamiteModule;
         synchronized (this.zzb) {
             Object obj = this.zzh;

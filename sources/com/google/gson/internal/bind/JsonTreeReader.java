@@ -32,9 +32,7 @@ public final class JsonTreeReader extends JsonReader {
     };
     private static final Object SENTINEL_CLOSED = new Object();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$com$google$gson$stream$JsonToken;
 
         static {
@@ -263,8 +261,7 @@ public final class JsonTreeReader extends JsonReader {
         return asInt;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public JsonElement nextJsonElement() {
+    JsonElement nextJsonElement() {
         JsonToken peek = peek();
         if (peek != JsonToken.NAME && peek != JsonToken.END_ARRAY && peek != JsonToken.END_OBJECT && peek != JsonToken.END_DOCUMENT) {
             JsonElement jsonElement = (JsonElement) peekStack();

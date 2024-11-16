@@ -6,8 +6,7 @@ final class zzne extends zznh {
     private final boolean zzb;
     private final int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzne(String str, boolean z, int i, zznd zzndVar) {
+    /* synthetic */ zzne(String str, boolean z, int i, zznd zzndVar) {
         this.zza = str;
         this.zzb = z;
         this.zzc = i;

@@ -169,8 +169,7 @@ public final class a {
         qVar15.u(x.SMART, gVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public a(f fVar, Locale locale, x xVar, j$.time.chrono.g gVar) {
+    a(f fVar, Locale locale, x xVar, j$.time.chrono.g gVar) {
         w wVar = w.a;
         this.a = fVar;
         j$.util.a.B(locale, "locale");
@@ -208,8 +207,7 @@ public final class a {
         return this.e;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final f f() {
+    final f f() {
         return this.a.b();
     }
 

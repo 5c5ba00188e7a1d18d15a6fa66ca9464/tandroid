@@ -5,13 +5,11 @@ abstract class zzku {
     private static final zzks zza = zzc();
     private static final zzks zzb = new zzkv();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzks zza() {
+    static zzks zza() {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzks zzb() {
+    static zzks zzb() {
         return zzb;
     }
 

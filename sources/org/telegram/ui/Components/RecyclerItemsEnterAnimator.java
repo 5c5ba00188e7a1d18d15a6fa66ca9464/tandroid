@@ -25,9 +25,7 @@ public class RecyclerItemsEnterAnimator {
     ArrayList currentAnimations = new ArrayList();
     ArrayList preDrawListeners = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements ViewTreeObserver.OnPreDrawListener {
+    class 2 implements ViewTreeObserver.OnPreDrawListener {
         final /* synthetic */ int val$finalFrom;
         final /* synthetic */ View val$finalProgressView;
 

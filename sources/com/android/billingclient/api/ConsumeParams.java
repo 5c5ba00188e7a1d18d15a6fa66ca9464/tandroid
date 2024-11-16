@@ -4,7 +4,6 @@ package com.android.billingclient.api;
 public final class ConsumeParams {
     private String zza;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private String zza;
 

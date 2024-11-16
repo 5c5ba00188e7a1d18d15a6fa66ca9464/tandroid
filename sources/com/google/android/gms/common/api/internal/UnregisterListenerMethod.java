@@ -8,8 +8,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 public abstract class UnregisterListenerMethod {
     private final ListenerHolder.ListenerKey zaa;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public UnregisterListenerMethod(ListenerHolder.ListenerKey listenerKey) {
+    protected UnregisterListenerMethod(ListenerHolder.ListenerKey listenerKey) {
         this.zaa = listenerKey;
     }
 
@@ -17,6 +16,5 @@ public abstract class UnregisterListenerMethod {
         return this.zaa;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void unregisterListener(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource);
+    protected abstract void unregisterListener(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource);
 }

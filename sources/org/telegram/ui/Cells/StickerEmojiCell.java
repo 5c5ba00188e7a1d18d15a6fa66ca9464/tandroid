@@ -69,9 +69,8 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         this.resourceProvider = resourcesProvider;
         this.fromEmojiPanel = z;
         ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Cells.StickerEmojiCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z2, int i2) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z2, int i2) {
                 if ((drawable instanceof BitmapDrawable) && StickerEmojiCell.this.editModeIconColor == 0) {
                     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                     StickerEmojiCell.this.editModeIconColor = AndroidUtilities.getDominantColor(bitmap);
@@ -120,7 +119,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 if (j2 > 1050) {
                     this.time = 1050L;
                 }
-                float interpolation = (interpolator.getInterpolation(((float) this.time) / 150.0f) * 0.5f) + 0.5f;
+                float interpolation = (interpolator.getInterpolation(this.time / 150.0f) * 0.5f) + 0.5f;
                 this.alpha = interpolation;
                 if (interpolation >= 1.0f) {
                     this.changingAlpha = false;
@@ -131,14 +130,14 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 if (this.scaled) {
                     float f = this.scale;
                     if (f != 0.8f) {
-                        float f2 = f - (((float) j) / 400.0f);
+                        float f2 = f - (j / 400.0f);
                         this.scale = f2;
                         if (f2 < 0.8f) {
                             this.scale = 0.8f;
                         }
                     }
                 }
-                float f3 = this.scale + (((float) j) / 400.0f);
+                float f3 = this.scale + (j / 400.0f);
                 this.scale = f3;
                 if (f3 > 1.0f) {
                     this.scale = 1.0f;

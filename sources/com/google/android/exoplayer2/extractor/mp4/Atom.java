@@ -10,7 +10,6 @@ import org.telegram.messenger.NotificationCenter;
 abstract class Atom {
     public final int type;
 
-    /* loaded from: classes.dex */
     static final class ContainerAtom extends Atom {
         public final List containerChildren;
         public final long endPosition;
@@ -59,7 +58,6 @@ abstract class Atom {
         }
     }
 
-    /* loaded from: classes.dex */
     static final class LeafAtom extends Atom {
         public final ParsableByteArray data;
 

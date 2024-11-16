@@ -32,7 +32,7 @@ public class SendingFileDrawable extends StatusDrawable {
         if (j > 50) {
             j = 50;
         }
-        float f = this.progress + (((float) j) / 500.0f);
+        float f = this.progress + (j / 500.0f);
         while (true) {
             this.progress = f;
             float f2 = this.progress;

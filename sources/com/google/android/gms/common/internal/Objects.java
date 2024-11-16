@@ -7,7 +7,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class Objects {
 
-    /* loaded from: classes.dex */
     public static final class ToStringHelper {
         private final List zza;
         private final Object zzb;

@@ -11,9 +11,7 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public abstract class DrmUtil {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api18 {
+    private static final class Api18 {
         public static boolean isDeniedByServerException(Throwable th) {
             return th instanceof DeniedByServerException;
         }
@@ -23,9 +21,7 @@ public abstract class DrmUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api21 {
+    private static final class Api21 {
         public static boolean isMediaDrmStateException(Throwable th) {
             return MediaMetricsListener$$ExternalSyntheticApiModelOutline48.m(th);
         }
@@ -37,9 +33,7 @@ public abstract class DrmUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api23 {
+    private static final class Api23 {
         public static boolean isMediaDrmResetException(Throwable th) {
             return MediaMetricsListener$$ExternalSyntheticApiModelOutline51.m(th);
         }

@@ -2,15 +2,13 @@ package com.android.billingclient.api;
 
 import java.util.concurrent.Callable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzy implements Callable {
+final class zzy implements Callable {
     final /* synthetic */ String zza;
     final /* synthetic */ PurchasesResponseListener zzb;
     final /* synthetic */ BillingClientImpl zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzy(BillingClientImpl billingClientImpl, String str, PurchasesResponseListener purchasesResponseListener) {
+    zzy(BillingClientImpl billingClientImpl, String str, PurchasesResponseListener purchasesResponseListener) {
         this.zzc = billingClientImpl;
         this.zza = str;
         this.zzb = purchasesResponseListener;

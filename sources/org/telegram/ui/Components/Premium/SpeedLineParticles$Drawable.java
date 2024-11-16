@@ -27,7 +27,6 @@ public class SpeedLineParticles$Drawable {
     public long minLifeTime = 2000;
     private final float dt = 1000.0f / AndroidUtilities.screenRefreshRate;
 
-    /* loaded from: classes3.dex */
     private class Particle {
         private int alpha;
         float inProgress;

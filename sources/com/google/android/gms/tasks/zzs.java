@@ -1,12 +1,10 @@
 package com.google.android.gms.tasks;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzs implements OnTokenCanceledListener {
+final class zzs implements OnTokenCanceledListener {
     final /* synthetic */ TaskCompletionSource zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzs(TaskCompletionSource taskCompletionSource) {
+    zzs(TaskCompletionSource taskCompletionSource) {
         this.zza = taskCompletionSource;
     }
 

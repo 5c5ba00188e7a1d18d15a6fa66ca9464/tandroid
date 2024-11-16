@@ -128,15 +128,12 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     float ty;
     public PaintWeightChooserView weightChooserView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Point extends android.graphics.Point {
+    private static class Point extends android.graphics.Point {
         public Point(int i, int i2, float f) {
             super((int) (i * f), (int) (i2 * f));
         }
     }
 
-    /* loaded from: classes3.dex */
     public class SegmentedObject {
         private float borderImageHeight;
         private float borderImageWidth;
@@ -363,7 +360,6 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StickerUploader {
         public boolean addToFavorite;
         public Utilities.Callback2 customHandler;
@@ -428,9 +424,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SubjectMock {
+    private static class SubjectMock {
         public Bitmap bitmap;
         public int height;
         public int startX;
@@ -1518,7 +1512,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             return;
         }
         StickerUploader stickerUploader8 = this.stickerUploader;
-        stickerUploader8.uploadProgress = Utilities.clamp(((float) longValue3) / ((float) longValue4), 1.0f, stickerUploader8.uploadProgress);
+        stickerUploader8.uploadProgress = Utilities.clamp(longValue3 / longValue4, 1.0f, stickerUploader8.uploadProgress);
         preparingVideoToast = this.loadingToast;
         if (preparingVideoToast == null) {
             return;

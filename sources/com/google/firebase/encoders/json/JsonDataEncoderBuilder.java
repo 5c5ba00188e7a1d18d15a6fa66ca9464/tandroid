@@ -45,7 +45,6 @@ public final class JsonDataEncoderBuilder implements EncoderConfig {
     private ObjectEncoder fallbackEncoder = DEFAULT_FALLBACK_ENCODER;
     private boolean ignoreNullValues = false;
 
-    /* loaded from: classes.dex */
     private static final class TimestampEncoder implements ValueEncoder {
         private static final DateFormat rfc339;
 

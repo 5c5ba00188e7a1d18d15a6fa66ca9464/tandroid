@@ -48,8 +48,7 @@ public class ProcessLifecycleOwner implements LifecycleOwner {
         return sInstance;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void init(Context context) {
+    static void init(Context context) {
         sInstance.attach(context);
     }
 

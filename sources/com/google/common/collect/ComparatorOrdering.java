@@ -8,8 +8,7 @@ import java.util.Comparator;
 final class ComparatorOrdering extends Ordering implements Serializable {
     final Comparator comparator;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ComparatorOrdering(Comparator comparator) {
+    ComparatorOrdering(Comparator comparator) {
         this.comparator = (Comparator) Preconditions.checkNotNull(comparator);
     }
 

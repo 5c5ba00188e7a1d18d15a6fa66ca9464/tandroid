@@ -23,7 +23,6 @@ public class BirthdayController {
     private boolean loading;
     private BirthdayState state;
 
-    /* loaded from: classes3.dex */
     public static class BirthdayState {
         public String todayKey;
         public String tomorrowKey;
@@ -119,8 +118,7 @@ public class BirthdayController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TL_birthdays extends TLObject {
+    static class TL_birthdays extends TLObject {
         public static final int constructor = 290452237;
         public ArrayList<TLRPC.TL_contactBirthday> contacts;
 

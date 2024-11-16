@@ -80,7 +80,6 @@ public class TrackSelectionParameters implements Bundleable {
     public final boolean viewportOrientationMayChange;
     public final int viewportWidth;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private HashSet disabledTrackTypes;
         private boolean forceHighestSupportedBitrate;
@@ -140,8 +139,7 @@ public class TrackSelectionParameters implements Bundleable {
             setViewportSizeToPhysicalDisplaySize(context, true);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public Builder(Bundle bundle) {
+        protected Builder(Bundle bundle) {
             String str = TrackSelectionParameters.FIELD_MAX_VIDEO_WIDTH;
             TrackSelectionParameters trackSelectionParameters = TrackSelectionParameters.DEFAULT_WITHOUT_CONTEXT;
             this.maxVideoWidth = bundle.getInt(str, trackSelectionParameters.maxVideoWidth);
@@ -182,8 +180,7 @@ public class TrackSelectionParameters implements Bundleable {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public Builder(TrackSelectionParameters trackSelectionParameters) {
+        protected Builder(TrackSelectionParameters trackSelectionParameters) {
             init(trackSelectionParameters);
         }
 
@@ -249,8 +246,7 @@ public class TrackSelectionParameters implements Bundleable {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public Builder set(TrackSelectionParameters trackSelectionParameters) {
+        protected Builder set(TrackSelectionParameters trackSelectionParameters) {
             init(trackSelectionParameters);
             return this;
         }
@@ -322,8 +318,7 @@ public class TrackSelectionParameters implements Bundleable {
         };
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public TrackSelectionParameters(Builder builder) {
+    protected TrackSelectionParameters(Builder builder) {
         this.maxVideoWidth = builder.maxVideoWidth;
         this.maxVideoHeight = builder.maxVideoHeight;
         this.maxVideoFrameRate = builder.maxVideoFrameRate;

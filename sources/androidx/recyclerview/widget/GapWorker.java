@@ -10,9 +10,8 @@ import java.util.concurrent.TimeUnit;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class GapWorker implements Runnable {
+final class GapWorker implements Runnable {
     static final ThreadLocal sGapWorker = new ThreadLocal();
     static Comparator sTaskComparator = new Comparator() { // from class: androidx.recyclerview.widget.GapWorker.1
         @Override // java.util.Comparator
@@ -41,13 +40,14 @@ public final class GapWorker implements Runnable {
     ArrayList mRecyclerViews = new ArrayList();
     private ArrayList mTasks = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class LayoutPrefetchRegistryImpl implements RecyclerView.LayoutManager.LayoutPrefetchRegistry {
+    static class LayoutPrefetchRegistryImpl implements RecyclerView.LayoutManager.LayoutPrefetchRegistry {
         int mCount;
         int[] mPrefetchArray;
         int mPrefetchDx;
         int mPrefetchDy;
+
+        LayoutPrefetchRegistryImpl() {
+        }
 
         @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager.LayoutPrefetchRegistry
         public void addPosition(int i, int i2) {
@@ -75,8 +75,7 @@ public final class GapWorker implements Runnable {
             this.mCount++;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void clearPrefetchPositions() {
+        void clearPrefetchPositions() {
             int[] iArr = this.mPrefetchArray;
             if (iArr != null) {
                 Arrays.fill(iArr, -1);
@@ -109,8 +108,7 @@ public final class GapWorker implements Runnable {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean lastPrefetchIncludedPosition(int i) {
+        boolean lastPrefetchIncludedPosition(int i) {
             if (this.mPrefetchArray != null) {
                 int i2 = this.mCount * 2;
                 for (int i3 = 0; i3 < i2; i3 += 2) {
@@ -128,9 +126,7 @@ public final class GapWorker implements Runnable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Task {
+    static class Task {
         public int distanceToItem;
         public boolean immediate;
         public int position;
@@ -147,6 +143,9 @@ public final class GapWorker implements Runnable {
             this.view = null;
             this.position = 0;
         }
+    }
+
+    GapWorker() {
     }
 
     private void buildTaskList() {
@@ -286,8 +285,7 @@ public final class GapWorker implements Runnable {
         this.mRecyclerViews.add(recyclerView);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void postFromTraversal(RecyclerView recyclerView, int i, int i2) {
+    void postFromTraversal(RecyclerView recyclerView, int i, int i2) {
         if (recyclerView.isAttachedToWindow() && this.mPostTimeNs == 0) {
             this.mPostTimeNs = recyclerView.getNanoTime();
             recyclerView.post(this);

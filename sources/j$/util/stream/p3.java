@@ -6,8 +6,7 @@ import j$.util.function.Consumer;
 final class p3 extends r3 implements j$.util.H, j$.util.function.F {
     int e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public p3(j$.util.H h, long j, long j2) {
+    p3(j$.util.H h, long j, long j2) {
         super(h, j, j2);
     }
 

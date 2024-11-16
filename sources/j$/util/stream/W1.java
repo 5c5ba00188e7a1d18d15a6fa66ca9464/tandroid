@@ -13,16 +13,13 @@ import j$.util.function.ToLongFunction;
 import java.util.Comparator;
 import java.util.Iterator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class W1 extends b implements Stream {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public W1(j$.util.Q q, int i, boolean z) {
+abstract class W1 extends b implements Stream {
+    W1(j$.util.Q q, int i, boolean z) {
         super(q, i, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public W1(b bVar, int i) {
+    W1(b bVar, int i) {
         super(bVar, i);
     }
 
@@ -205,9 +202,8 @@ public abstract class W1 extends b implements Stream {
         return (Optional) l0(new y1(T2.REFERENCE, fVar, 1));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final T2 q0() {
+    final T2 q0() {
         return T2.REFERENCE;
     }
 
@@ -239,9 +235,8 @@ public abstract class W1 extends b implements Stream {
         return !t0() ? this : new S1(this, S2.r);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final x0 v0(long j, j$.util.function.I i) {
+    final x0 v0(long j, j$.util.function.I i) {
         return t0.D(j, i);
     }
 

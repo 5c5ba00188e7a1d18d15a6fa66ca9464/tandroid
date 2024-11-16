@@ -11,8 +11,7 @@ final class zzaf implements ValueEncoderContext {
     private FieldDescriptor zzc;
     private final zzab zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaf(zzab zzabVar) {
+    zzaf(zzab zzabVar) {
         this.zzd = zzabVar;
     }
 
@@ -37,8 +36,7 @@ final class zzaf implements ValueEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(FieldDescriptor fieldDescriptor, boolean z) {
+    final void zza(FieldDescriptor fieldDescriptor, boolean z) {
         this.zza = false;
         this.zzc = fieldDescriptor;
         this.zzb = z;

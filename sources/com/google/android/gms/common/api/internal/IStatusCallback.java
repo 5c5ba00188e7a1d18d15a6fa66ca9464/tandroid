@@ -8,7 +8,6 @@ import com.google.android.gms.internal.base.zab;
 /* loaded from: classes.dex */
 public interface IStatusCallback extends IInterface {
 
-    /* loaded from: classes.dex */
     public static abstract class Stub extends zab implements IStatusCallback {
         public Stub() {
             super("com.google.android.gms.common.api.internal.IStatusCallback");

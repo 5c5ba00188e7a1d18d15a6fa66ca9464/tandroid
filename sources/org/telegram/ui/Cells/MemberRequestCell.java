@@ -26,7 +26,6 @@ public class MemberRequestCell extends FrameLayout {
     private final SimpleTextView nameTextView;
     private final SimpleTextView statusTextView;
 
-    /* loaded from: classes4.dex */
     public interface OnClickListener {
         void onAddClicked(TLRPC.TL_chatInviteImporter tL_chatInviteImporter);
 

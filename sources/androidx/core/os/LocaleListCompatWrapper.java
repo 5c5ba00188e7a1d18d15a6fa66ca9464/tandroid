@@ -13,8 +13,7 @@ final class LocaleListCompatWrapper implements LocaleListInterface {
     private static final Locale LOCALE_AR_XB = new Locale("ar", "XB");
     private static final Locale EN_LATN = LocaleListCompat.forLanguageTagCompat("en-Latn");
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocaleListCompatWrapper(Locale... localeArr) {
+    LocaleListCompatWrapper(Locale... localeArr) {
         String sb;
         if (localeArr.length == 0) {
             this.mList = sEmptyList;

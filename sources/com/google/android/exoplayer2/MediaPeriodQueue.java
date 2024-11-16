@@ -12,9 +12,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.HandlerWrapper;
 import com.google.common.collect.ImmutableList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class MediaPeriodQueue {
+final class MediaPeriodQueue {
     private final AnalyticsCollector analyticsCollector;
     private final HandlerWrapper analyticsCollectorHandler;
     private int length;

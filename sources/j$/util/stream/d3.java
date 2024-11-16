@@ -3,15 +3,13 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class d3 extends U2 implements j$.util.E {
+final class d3 extends U2 implements j$.util.E {
     d3(b bVar, j$.util.Q q, boolean z) {
         super(bVar, q, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public d3(b bVar, Supplier supplier, boolean z) {
+    d3(b bVar, Supplier supplier, boolean z) {
         super(bVar, supplier, z);
     }
 
@@ -23,8 +21,8 @@ public final class d3 extends U2 implements j$.util.E {
     @Override // j$.util.N
     public final void e(j$.util.function.n nVar) {
         if (this.h != null || this.i) {
-            do {
-            } while (p(nVar));
+            while (p(nVar)) {
+            }
             return;
         }
         nVar.getClass();

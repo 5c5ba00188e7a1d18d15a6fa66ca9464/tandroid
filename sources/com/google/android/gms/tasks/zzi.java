@@ -5,8 +5,7 @@ final class zzi implements Runnable {
     final /* synthetic */ Task zza;
     final /* synthetic */ zzj zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzi(zzj zzjVar, Task task) {
+    zzi(zzj zzjVar, Task task) {
         this.zzb = zzjVar;
         this.zza = task;
     }

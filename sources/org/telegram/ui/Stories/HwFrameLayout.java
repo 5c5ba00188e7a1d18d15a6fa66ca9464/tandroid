@@ -8,9 +8,8 @@ import java.util.Iterator;
 import java.util.Set;
 import org.telegram.messenger.SharedConfig;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes5.dex */
-public abstract class HwFrameLayout extends FrameLayout {
+abstract class HwFrameLayout extends FrameLayout {
     private final boolean isFastDevice;
     static final Set hwViews = new HashSet();
     static boolean hwEnabled = false;

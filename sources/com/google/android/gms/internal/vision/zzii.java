@@ -11,7 +11,6 @@ public abstract class zzii extends zzhq {
     private static final boolean zzc = zzma.zza();
     zzil zza;
 
-    /* loaded from: classes.dex */
     private static class zza extends zzii {
         private final byte[] zzb;
         private final int zzc;
@@ -333,7 +332,6 @@ public abstract class zzii extends zzhq {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class zzb extends IOException {
         /* JADX WARN: Illegal instructions before constructor call */
         /*
@@ -352,8 +350,7 @@ public abstract class zzii extends zzhq {
     private zzii() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(zzkk zzkkVar, zzlc zzlcVar) {
+    static int zza(zzkk zzkkVar, zzlc zzlcVar) {
         zzhf zzhfVar = (zzhf) zzkkVar;
         int zzi = zzhfVar.zzi();
         if (zzi == -1) {
@@ -383,8 +380,7 @@ public abstract class zzii extends zzhq {
         return zzg(i << 3) + 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, zzkk zzkkVar, zzlc zzlcVar) {
+    static int zzb(int i, zzkk zzkkVar, zzlc zzlcVar) {
         return zzg(i << 3) + zza(zzkkVar, zzlcVar);
     }
 
@@ -431,8 +427,7 @@ public abstract class zzii extends zzhq {
         return zzg + zzg(zza2) + zza2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(int i, zzkk zzkkVar, zzlc zzlcVar) {
+    static int zzc(int i, zzkk zzkkVar, zzlc zzlcVar) {
         int zzg = zzg(i << 3) << 1;
         zzhf zzhfVar = (zzhf) zzkkVar;
         int zzi = zzhfVar.zzi();
@@ -614,8 +609,7 @@ public abstract class zzii extends zzhq {
 
     public abstract void zza(int i, zzkk zzkkVar);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(int i, zzkk zzkkVar, zzlc zzlcVar);
+    abstract void zza(int i, zzkk zzkkVar, zzlc zzlcVar);
 
     public abstract void zza(int i, String str);
 

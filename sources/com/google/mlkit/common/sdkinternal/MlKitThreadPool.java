@@ -34,8 +34,7 @@ public class MlKitThreadPool extends zzbg {
         threadPoolExecutor.allowCoreThreadTimeOut(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzd(Runnable runnable) {
+    static /* synthetic */ void zzd(Runnable runnable) {
         zza.set(new ArrayDeque());
         runnable.run();
     }
@@ -44,14 +43,13 @@ public class MlKitThreadPool extends zzbg {
     public static void zze(Deque deque, Runnable runnable) {
         Preconditions.checkNotNull(deque);
         deque.add(runnable);
-        if (deque.size() > 1) {
-            return;
+        if (deque.size() <= 1) {
+            do {
+                runnable.run();
+                deque.removeFirst();
+                runnable = (Runnable) deque.peekFirst();
+            } while (runnable != null);
         }
-        do {
-            runnable.run();
-            deque.removeFirst();
-            runnable = (Runnable) deque.peekFirst();
-        } while (runnable != null);
     }
 
     @Override // java.util.concurrent.Executor

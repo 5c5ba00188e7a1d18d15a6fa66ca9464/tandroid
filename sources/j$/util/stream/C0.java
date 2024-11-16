@@ -22,10 +22,7 @@ public final /* synthetic */ class C0 implements j$.util.function.W {
     @Override // j$.util.function.W
     public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.d(this, w);
-            default:
-                return j$.com.android.tools.r8.a.d(this, w);
         }
+        return j$.com.android.tools.r8.a.d(this, w);
     }
 }

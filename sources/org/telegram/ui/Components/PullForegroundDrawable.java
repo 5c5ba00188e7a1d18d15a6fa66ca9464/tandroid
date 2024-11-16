@@ -86,9 +86,7 @@ public abstract class PullForegroundDrawable {
     private final Paint backgroundPaint = new Paint();
     private final RectF rectF = new RectF();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ArrowDrawable extends Drawable {
+    private class ArrowDrawable extends Drawable {
         private float lastDensity;
         private Path path = new Path();
         private Paint paint = new Paint(1);

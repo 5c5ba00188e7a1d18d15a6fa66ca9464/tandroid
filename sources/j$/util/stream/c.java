@@ -8,14 +8,12 @@ abstract class c extends e {
     protected final AtomicReference h;
     protected volatile boolean i;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public c(b bVar, j$.util.Q q) {
+    protected c(b bVar, j$.util.Q q) {
         super(bVar, q);
         this.h = new AtomicReference(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public c(c cVar, j$.util.Q q) {
+    protected c(c cVar, j$.util.Q q) {
         super(cVar, q);
         this.h = cVar.h;
     }
@@ -88,9 +86,8 @@ abstract class c extends e {
         cVar.tryComplete();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final void e(Object obj) {
+    protected final void e(Object obj) {
         if (!c()) {
             super.e(obj);
         } else if (obj != null) {
@@ -109,8 +106,7 @@ abstract class c extends e {
         return b();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void h() {
+    protected final void h() {
         c cVar = this;
         for (c cVar2 = (c) ((e) getCompleter()); cVar2 != null; cVar2 = (c) ((e) cVar2.getCompleter())) {
             if (cVar2.d == cVar) {

@@ -12,7 +12,6 @@ public abstract class zzjb extends zzhf {
     protected zzlx zzb = zzlx.zza();
     private int zzc = -1;
 
-    /* loaded from: classes.dex */
     protected static class zza extends zzhg {
         private final zzjb zza;
 
@@ -21,14 +20,12 @@ public abstract class zzjb extends zzhf {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class zzb extends zzhe {
         protected zzjb zza;
         protected boolean zzb = false;
         private final zzjb zzc;
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public zzb(zzjb zzjbVar) {
+        protected zzb(zzjb zzjbVar) {
             this.zzc = zzjbVar;
             this.zza = (zzjb) zzjbVar.zza(zzg.zzd, (Object) null, (Object) null);
         }
@@ -75,8 +72,7 @@ public abstract class zzjb extends zzhf {
             return this;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public void zzb() {
+        protected void zzb() {
             zzjb zzjbVar = (zzjb) this.zza.zza(zzg.zzd, (Object) null, (Object) null);
             zza(zzjbVar, this.zza);
             this.zza = zzjbVar;
@@ -109,11 +105,9 @@ public abstract class zzjb extends zzhf {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class zze extends zzim {
     }
 
-    /* loaded from: classes.dex */
     public enum zzg {
         public static final int zza = 1;
         public static final int zzb = 2;
@@ -129,8 +123,7 @@ public abstract class zzjb extends zzhf {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzjb zza(Class cls) {
+    static zzjb zza(Class cls) {
         zzjb zzjbVar = zzd.get(cls);
         if (zzjbVar == null) {
             try {
@@ -150,19 +143,16 @@ public abstract class zzjb extends zzhf {
         return zzjbVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzjl zza(zzjl zzjlVar) {
+    protected static zzjl zza(zzjl zzjlVar) {
         int size = zzjlVar.size();
         return zzjlVar.zza(size == 0 ? 10 : size << 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static Object zza(zzkk zzkkVar, String str, Object[] objArr) {
+    protected static Object zza(zzkk zzkkVar, String str, Object[] objArr) {
         return new zzla(zzkkVar, str, objArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Method method, Object obj, Object... objArr) {
+    static Object zza(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
         } catch (IllegalAccessException e) {
@@ -179,8 +169,7 @@ public abstract class zzjb extends zzhf {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void zza(Class cls, zzjb zzjbVar) {
+    protected static void zza(Class cls, zzjb zzjbVar) {
         zzd.put(cls, zzjbVar);
     }
 
@@ -199,14 +188,12 @@ public abstract class zzjb extends zzhf {
         return zzd2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.vision.zzjj, com.google.android.gms.internal.vision.zzjd] */
-    public static zzjj zzn() {
+    /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.vision.zzjd, com.google.android.gms.internal.vision.zzjj] */
+    protected static zzjj zzn() {
         return zzjd.zzd();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzjl zzo() {
+    protected static zzjl zzo() {
         return zzlb.zzd();
     }
 
@@ -234,8 +221,7 @@ public abstract class zzjb extends zzhf {
         return zzkp.zza(this, super.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object zza(int i, Object obj, Object obj2);
+    protected abstract Object zza(int i, Object obj, Object obj2);
 
     @Override // com.google.android.gms.internal.vision.zzkk
     public final void zza(zzii zziiVar) {
@@ -252,8 +238,7 @@ public abstract class zzjb extends zzhf {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final zzb zzj() {
+    protected final zzb zzj() {
         return (zzb) zza(zzg.zze, (Object) null, (Object) null);
     }
 

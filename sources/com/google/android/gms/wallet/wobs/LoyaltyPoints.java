@@ -12,8 +12,7 @@ public final class LoyaltyPoints extends AbstractSafeParcelable {
     LoyaltyPointsBalance zzb;
     TimeInterval zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LoyaltyPoints(String str, LoyaltyPointsBalance loyaltyPointsBalance, TimeInterval timeInterval) {
+    LoyaltyPoints(String str, LoyaltyPointsBalance loyaltyPointsBalance, TimeInterval timeInterval) {
         this.zza = str;
         this.zzb = loyaltyPointsBalance;
         this.zzc = timeInterval;

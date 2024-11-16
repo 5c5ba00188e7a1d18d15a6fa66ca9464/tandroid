@@ -13,7 +13,6 @@ final class AutoValue_LogEvent extends LogEvent {
     private final String sourceExtensionJsonProto3;
     private final long timezoneOffsetSeconds;
 
-    /* loaded from: classes.dex */
     static final class Builder extends LogEvent.Builder {
         private Integer eventCode;
         private Long eventTimeMs;
@@ -22,6 +21,9 @@ final class AutoValue_LogEvent extends LogEvent {
         private byte[] sourceExtension;
         private String sourceExtensionJsonProto3;
         private Long timezoneOffsetSeconds;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.cct.internal.LogEvent.Builder
         public LogEvent build() {

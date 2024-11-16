@@ -48,8 +48,7 @@ public class Rpc {
         this.zzg = scheduledThreadPoolExecutor;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Bundle zza(Task task) {
+    static final /* synthetic */ Bundle zza(Task task) {
         if (task.isSuccessful()) {
             return (Bundle) task.getResult();
         }
@@ -63,8 +62,7 @@ public class Rpc {
         throw new IOException("SERVICE_NOT_AVAILABLE", task.getException());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Task zza(Bundle bundle) {
+    static final /* synthetic */ Task zza(Bundle bundle) {
         return zzb(bundle) ? Tasks.forResult(null) : Tasks.forResult(bundle);
     }
 
@@ -183,8 +181,7 @@ public class Rpc {
         Log.w("Rpc", "Dropping invalid message");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ void zza(TaskCompletionSource taskCompletionSource) {
+    static final /* synthetic */ void zza(TaskCompletionSource taskCompletionSource) {
         if (taskCompletionSource.trySetException(new IOException("TIMEOUT"))) {
             Log.w("Rpc", "No response");
         }
@@ -252,7 +249,6 @@ public class Rpc {
             final ScheduledFuture<?> schedule = this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
                 private final TaskCompletionSource zza;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.zza = taskCompletionSource;
                 }
@@ -267,7 +263,6 @@ public class Rpc {
                 private final String zzb;
                 private final ScheduledFuture zzc;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.zza = this;
                     this.zzb = zza2;
@@ -289,7 +284,6 @@ public class Rpc {
         final ScheduledFuture schedule2 = this.zzg.schedule(new Runnable(taskCompletionSource) { // from class: com.google.android.gms.cloudmessaging.zzu
             private final TaskCompletionSource zza;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = taskCompletionSource;
             }
@@ -304,7 +298,6 @@ public class Rpc {
             private final String zzb;
             private final ScheduledFuture zzc;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = zza2;
@@ -324,7 +317,6 @@ public class Rpc {
             private final Rpc zza;
             private final Bundle zzb;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = bundle;
@@ -337,13 +329,11 @@ public class Rpc {
         }) : Tasks.forException(new IOException("MISSING_INSTANCEID_SERVICE"));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Task zza(Bundle bundle, Task task) {
+    final /* synthetic */ Task zza(Bundle bundle, Task task) {
         return (task.isSuccessful() && zzb((Bundle) task.getResult())) ? zzc(bundle).onSuccessTask(zzc, zzw.zza) : task;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zza(String str, ScheduledFuture scheduledFuture, Task task) {
+    final /* synthetic */ void zza(String str, ScheduledFuture scheduledFuture, Task task) {
         synchronized (this.zzd) {
             this.zzd.remove(str);
         }

@@ -29,8 +29,7 @@ final class SharedPreferencesQueue {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static SharedPreferencesQueue createInstance(SharedPreferences sharedPreferences, String str, String str2, Executor executor) {
+    static SharedPreferencesQueue createInstance(SharedPreferences sharedPreferences, String str, String str2, Executor executor) {
         SharedPreferencesQueue sharedPreferencesQueue = new SharedPreferencesQueue(sharedPreferences, "topic_operation_queue", ",", executor);
         sharedPreferencesQueue.initQueue();
         return sharedPreferencesQueue;
@@ -69,7 +68,6 @@ final class SharedPreferencesQueue {
         this.syncExecutor.execute(new Runnable(this) { // from class: com.google.firebase.messaging.SharedPreferencesQueue$$Lambda$0
             private final SharedPreferencesQueue arg$1;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
             }

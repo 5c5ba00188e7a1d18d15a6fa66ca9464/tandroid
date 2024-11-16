@@ -63,8 +63,8 @@ public class LiteMode {
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v4 long, still in use, count: 2, list:
           (r0v4 long) from 0x000a: ARITH (r0v4 long) - (wrap:long:0x0008: SGET  A[WRAPPED] org.telegram.messenger.LiteMode.lastBatteryLevelChecked long) A[WRAPPED]
           (r0v4 long) from 0x0015: PHI (r0v2 long) = (r0v1 long), (r0v4 long) binds: [B:11:0x0013, B:4:0x0010] A[DONT_GENERATE, DONT_INLINE]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:114)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)

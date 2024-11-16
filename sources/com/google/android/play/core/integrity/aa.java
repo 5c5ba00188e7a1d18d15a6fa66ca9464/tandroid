@@ -6,8 +6,7 @@ import com.google.android.gms.tasks.Task;
 final class aa implements IntegrityManager {
     private final aj a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public aa(aj ajVar) {
+    aa(aj ajVar) {
         this.a = ajVar;
     }
 

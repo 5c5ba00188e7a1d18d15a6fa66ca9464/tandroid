@@ -12,7 +12,6 @@ public final class zzy$zzaa extends zzeo implements zzgb {
     private boolean zze;
     private String zzf = "";
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzeo.zzb implements zzgb {
         private zza() {
             super(zzy$zzaa.zzg);
@@ -32,10 +31,9 @@ public final class zzy$zzaa extends zzeo implements zzgb {
     private zzy$zzaa() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v16, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r3v16, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzx zzxVar = null;
         switch (zzx.zza[i - 1]) {
             case 1:

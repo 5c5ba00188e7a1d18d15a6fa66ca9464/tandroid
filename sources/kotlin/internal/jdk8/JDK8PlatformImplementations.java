@@ -7,9 +7,7 @@ import kotlin.random.jdk8.PlatformThreadLocalRandom;
 /* loaded from: classes.dex */
 public class JDK8PlatformImplementations extends JDK7PlatformImplementations {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ReflectSdkVersion {
+    private static final class ReflectSdkVersion {
         public static final ReflectSdkVersion INSTANCE = new ReflectSdkVersion();
         public static final Integer sdkVersion;
 

@@ -8,7 +8,6 @@ import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public abstract class FlacFrameReader {
 
-    /* loaded from: classes.dex */
     public static final class SampleNumberHolder {
         public long sampleNumber;
     }

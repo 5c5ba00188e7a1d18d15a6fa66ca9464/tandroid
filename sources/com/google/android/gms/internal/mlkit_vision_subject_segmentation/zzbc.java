@@ -5,8 +5,7 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 final class zzbc extends zzbt {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbc(Iterator it) {
+    zzbc(Iterator it) {
         super(it);
     }
 

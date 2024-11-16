@@ -12,7 +12,6 @@ public abstract class BinarySearchSeeker {
     protected SeekOperationParams seekOperationParams;
     protected final TimestampSeeker timestampSeeker;
 
-    /* loaded from: classes.dex */
     public static class BinarySearchSeekMap implements SeekMap {
         private final long approxBytesPerFrame;
         private final long ceilingBytePosition;
@@ -52,7 +51,6 @@ public abstract class BinarySearchSeeker {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class DefaultSeekTimestampConverter implements SeekTimestampConverter {
         @Override // com.google.android.exoplayer2.extractor.BinarySearchSeeker.SeekTimestampConverter
         public long timeUsToTargetTime(long j) {
@@ -60,9 +58,7 @@ public abstract class BinarySearchSeeker {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public static class SeekOperationParams {
+    protected static class SeekOperationParams {
         private final long approxBytesPerFrame;
         private long ceilingBytePosition;
         private long ceilingTimePosition;
@@ -87,7 +83,7 @@ public abstract class BinarySearchSeeker {
             if (j4 + 1 >= j5 || j2 + 1 >= j3) {
                 return j4;
             }
-            long j7 = ((float) (j - j2)) * (((float) (j5 - j4)) / ((float) (j3 - j2)));
+            long j7 = (long) ((j - j2) * ((j5 - j4) / (j3 - j2)));
             return Util.constrainValue(((j7 + j4) - j6) - (j7 / 20), j4, j5 - 1);
         }
 
@@ -136,12 +132,10 @@ public abstract class BinarySearchSeeker {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
     public interface SeekTimestampConverter {
         long timeUsToTargetTime(long j);
     }
 
-    /* loaded from: classes.dex */
     public static final class TimestampSearchResult {
         public static final TimestampSearchResult NO_TIMESTAMP_IN_RANGE_RESULT = new TimestampSearchResult(-3, -9223372036854775807L, -1);
         private final long bytePositionToUpdate;
@@ -168,10 +162,8 @@ public abstract class BinarySearchSeeker {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
     public interface TimestampSeeker {
 
-        /* loaded from: classes.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onSeekFinished(TimestampSeeker timestampSeeker) {
             }
@@ -182,8 +174,7 @@ public abstract class BinarySearchSeeker {
         TimestampSearchResult searchForTimestamp(ExtractorInput extractorInput, long j);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public BinarySearchSeeker(SeekTimestampConverter seekTimestampConverter, TimestampSeeker timestampSeeker, long j, long j2, long j3, long j4, long j5, long j6, int i) {
+    protected BinarySearchSeeker(SeekTimestampConverter seekTimestampConverter, TimestampSeeker timestampSeeker, long j, long j2, long j3, long j4, long j5, long j6, int i) {
         this.timestampSeeker = timestampSeeker;
         this.minimumSearchRange = i;
         this.seekMap = new BinarySearchSeekMap(seekTimestampConverter, j, j2, j3, j4, j5, j6);

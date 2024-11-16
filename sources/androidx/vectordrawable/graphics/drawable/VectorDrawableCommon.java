@@ -12,6 +12,9 @@ import androidx.core.graphics.drawable.TintAwareDrawable;
 abstract class VectorDrawableCommon extends Drawable implements TintAwareDrawable {
     Drawable mDelegateDrawable;
 
+    VectorDrawableCommon() {
+    }
+
     @Override // android.graphics.drawable.Drawable
     public void applyTheme(Resources.Theme theme) {
         Drawable drawable = this.mDelegateDrawable;

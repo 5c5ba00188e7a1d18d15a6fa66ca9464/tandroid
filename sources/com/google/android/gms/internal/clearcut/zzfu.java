@@ -6,9 +6,8 @@ public abstract class zzfu extends zzfz {
     public void zza(zzfs zzfsVar) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzfz
-    public int zzen() {
+    protected int zzen() {
         return 0;
     }
 

@@ -4,16 +4,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class h implements g {
+final class h implements g {
     private final j$.time.temporal.l a;
     private final int b;
     private final int c;
     private final boolean d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public h(j$.time.temporal.a aVar) {
+    h(j$.time.temporal.a aVar) {
         j$.util.a.B(aVar, "field");
         if (!aVar.a().f()) {
             throw new IllegalArgumentException("Field must have a fixed set of values: " + aVar);

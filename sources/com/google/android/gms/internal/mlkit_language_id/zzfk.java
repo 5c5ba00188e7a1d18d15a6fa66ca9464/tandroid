@@ -10,15 +10,13 @@ final class zzfk extends zzfj {
         return (zzew) zzhn.zzf(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
-    public final void zza(Object obj, long j) {
+    final void zza(Object obj, long j) {
         zzb(obj, j).b_();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
-    public final void zza(Object obj, Object obj2, long j) {
+    final void zza(Object obj, Object obj2, long j) {
         zzew zzb = zzb(obj, j);
         zzew zzb2 = zzb(obj2, j);
         int size = zzb.size();

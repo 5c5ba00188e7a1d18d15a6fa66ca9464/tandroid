@@ -17,17 +17,13 @@ abstract class SignatureImpl implements Signature {
     static String[] EMPTY_STRING_ARRAY = new String[0];
     static Class[] EMPTY_CLASS_ARRAY = new Class[0];
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface Cache {
+    private interface Cache {
         String get(int i);
 
         void set(int i, String str);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CacheImpl implements Cache {
+    private static final class CacheImpl implements Cache {
         private SoftReference toStringCacheRef;
 
         public CacheImpl() {
@@ -63,8 +59,7 @@ abstract class SignatureImpl implements Signature {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SignatureImpl(int i, String str, Class cls) {
+    SignatureImpl(int i, String str, Class cls) {
         this.modifiers = i;
         this.name = str;
         this.declaringType = cls;
@@ -101,13 +96,11 @@ abstract class SignatureImpl implements Signature {
         return this.stringRep.substring(i2, indexOf);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Class extractType(int i) {
+    Class extractType(int i) {
         return Factory.makeClass(extractString(i), getLookupClassLoader());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Class[] extractTypes(int i) {
+    Class[] extractTypes(int i) {
         StringTokenizer stringTokenizer = new StringTokenizer(extractString(i), ":");
         int countTokens = stringTokenizer.countTokens();
         Class[] clsArr = new Class[countTokens];
@@ -149,13 +142,12 @@ abstract class SignatureImpl implements Signature {
         return toString(StringMaker.middleStringMaker);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:10:0x0026  */
     /* JADX WARN: Removed duplicated region for block: B:7:0x001e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public String toString(StringMaker stringMaker) {
+    String toString(StringMaker stringMaker) {
         String str;
         if (useCache) {
             Cache cache = this.stringCache;

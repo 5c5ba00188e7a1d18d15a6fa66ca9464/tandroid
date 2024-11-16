@@ -9,23 +9,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* loaded from: classes.dex */
 public interface BandwidthMeter {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static long $default$getTimeToFirstByteEstimateUs(BandwidthMeter bandwidthMeter) {
             return -9223372036854775807L;
         }
     }
 
-    /* loaded from: classes.dex */
     public interface EventListener {
 
-        /* loaded from: classes.dex */
         public static final class EventDispatcher {
             private final CopyOnWriteArrayList listeners = new CopyOnWriteArrayList();
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* loaded from: classes.dex */
-            public static final class HandlerAndListener {
+            static final class HandlerAndListener {
                 private final Handler handler;
                 private final EventListener listener;
                 private boolean released;

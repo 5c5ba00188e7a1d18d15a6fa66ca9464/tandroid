@@ -6,15 +6,12 @@ import android.text.SpannableString;
 import androidx.core.text.PrecomputedTextCompat;
 import j$.util.stream.IntStream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class UnprecomputeTextOnModificationSpannable implements Spannable {
+class UnprecomputeTextOnModificationSpannable implements Spannable {
     private Spannable mDelegate;
     private boolean mSafeToWrite = false;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class CharSequenceHelper_API24 {
+    private static class CharSequenceHelper_API24 {
         static IntStream chars(CharSequence charSequence) {
             IntStream convert;
             convert = IntStream.VivifiedWrapper.convert(charSequence.chars());
@@ -28,9 +25,7 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class PrecomputedTextDetector {
+    static class PrecomputedTextDetector {
         PrecomputedTextDetector() {
         }
 
@@ -39,9 +34,7 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class PrecomputedTextDetector_28 extends PrecomputedTextDetector {
+    static class PrecomputedTextDetector_28 extends PrecomputedTextDetector {
         PrecomputedTextDetector_28() {
         }
 
@@ -51,13 +44,11 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public UnprecomputeTextOnModificationSpannable(Spannable spannable) {
+    UnprecomputeTextOnModificationSpannable(Spannable spannable) {
         this.mDelegate = spannable;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public UnprecomputeTextOnModificationSpannable(CharSequence charSequence) {
+    UnprecomputeTextOnModificationSpannable(CharSequence charSequence) {
         this.mDelegate = new SpannableString(charSequence);
     }
 
@@ -118,8 +109,7 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
         return this.mDelegate.getSpans(i, i2, cls);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Spannable getUnwrappedSpannable() {
+    Spannable getUnwrappedSpannable() {
         return this.mDelegate;
     }
 

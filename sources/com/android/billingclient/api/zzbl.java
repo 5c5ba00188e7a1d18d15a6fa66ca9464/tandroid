@@ -5,11 +5,9 @@ import com.android.billingclient.api.BillingResult;
 import com.google.android.gms.internal.play_billing.zzb;
 import java.util.ArrayList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzbl {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbk zza(Bundle bundle, String str, String str2) {
+abstract class zzbl {
+    static zzbk zza(Bundle bundle, String str, String str2) {
         BillingResult billingResult = zzat.zzj;
         if (bundle == null) {
             zzb.zzj("BillingClient", String.format("%s got null owned items list", str2));

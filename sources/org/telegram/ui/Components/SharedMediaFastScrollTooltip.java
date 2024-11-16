@@ -22,7 +22,6 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class SharedMediaFastScrollTooltip extends FrameLayout {
 
-    /* loaded from: classes3.dex */
     private class TooltipDrawableView extends View {
         Paint fadePaint;
         Paint fadePaintBack;

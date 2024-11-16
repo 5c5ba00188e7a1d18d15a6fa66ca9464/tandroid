@@ -28,7 +28,6 @@ class MediaCodecUtils {
     static final int[] ENCODER_COLOR_FORMATS = {19, 21, 2141391872, COLOR_QCOM_FORMATYUV420PackedSemiPlanar32m};
     static final int[] TEXTURE_COLOR_FORMATS = getTextureColorFormats();
 
-    /* loaded from: classes5.dex */
     static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$webrtc$VideoCodecMimeType;
 
@@ -61,8 +60,7 @@ class MediaCodecUtils {
     private MediaCodecUtils() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean codecSupportsType(MediaCodecInfo mediaCodecInfo, VideoCodecMimeType videoCodecMimeType) {
+    static boolean codecSupportsType(MediaCodecInfo mediaCodecInfo, VideoCodecMimeType videoCodecMimeType) {
         for (String str : mediaCodecInfo.getSupportedTypes()) {
             if (videoCodecMimeType.mimeType().equals(str)) {
                 return true;
@@ -71,8 +69,7 @@ class MediaCodecUtils {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Map<String, String> getCodecProperties(VideoCodecMimeType videoCodecMimeType, boolean z) {
+    static Map<String, String> getCodecProperties(VideoCodecMimeType videoCodecMimeType, boolean z) {
         int i = 1.$SwitchMap$org$webrtc$VideoCodecMimeType[videoCodecMimeType.ordinal()];
         if (i == 1 || i == 2 || i == 3 || i == 4) {
             return new HashMap();
@@ -112,8 +109,7 @@ class MediaCodecUtils {
         return new int[]{2130708361};
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isHardwareAccelerated(MediaCodecInfo mediaCodecInfo) {
+    static boolean isHardwareAccelerated(MediaCodecInfo mediaCodecInfo) {
         return Build.VERSION.SDK_INT >= 29 ? isHardwareAcceleratedQOrHigher(mediaCodecInfo) : !isSoftwareOnly(mediaCodecInfo);
     }
 
@@ -123,8 +119,7 @@ class MediaCodecUtils {
         return isHardwareAccelerated;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isSoftwareOnly(MediaCodecInfo mediaCodecInfo) {
+    static boolean isSoftwareOnly(MediaCodecInfo mediaCodecInfo) {
         if (Build.VERSION.SDK_INT >= 29) {
             return isSoftwareOnlyQOrHigher(mediaCodecInfo);
         }
@@ -148,8 +143,7 @@ class MediaCodecUtils {
         return mediaCodecInfo.getName().compareTo(mediaCodecInfo2.getName());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Integer selectColorFormat(int[] iArr, MediaCodecInfo.CodecCapabilities codecCapabilities) {
+    static Integer selectColorFormat(int[] iArr, MediaCodecInfo.CodecCapabilities codecCapabilities) {
         for (int i : iArr) {
             for (int i2 : codecCapabilities.colorFormats) {
                 if (i2 == i) {

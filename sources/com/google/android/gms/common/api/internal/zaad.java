@@ -34,24 +34,21 @@ public final class zaad {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zac(BasePendingResult basePendingResult, boolean z) {
+    final void zac(BasePendingResult basePendingResult, boolean z) {
         this.zaa.put(basePendingResult, Boolean.valueOf(z));
         basePendingResult.addStatusListener(new zaab(this, basePendingResult));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zad(TaskCompletionSource taskCompletionSource, boolean z) {
+    final void zad(TaskCompletionSource taskCompletionSource, boolean z) {
         this.zab.put(taskCompletionSource, Boolean.valueOf(z));
         taskCompletionSource.getTask().addOnCompleteListener(new zaac(this, taskCompletionSource));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:6:0x0018  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final void zae(int i, String str) {
+    final void zae(int i, String str) {
         String str2;
         StringBuilder sb = new StringBuilder("The connection to Google Play services was lost");
         if (i != 1) {
@@ -72,8 +69,7 @@ public final class zaad {
         zah(false, GoogleApiManager.zaa);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zag() {
+    final boolean zag() {
         return (this.zaa.isEmpty() && this.zab.isEmpty()) ? false : true;
     }
 }

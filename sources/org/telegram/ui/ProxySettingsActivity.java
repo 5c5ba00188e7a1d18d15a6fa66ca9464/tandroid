@@ -391,6 +391,7 @@ public class ProxySettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Removed duplicated region for block: B:11:0x002e  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x002d A[RETURN] */
     /*
@@ -453,33 +454,40 @@ public class ProxySettingsActivity extends BaseFragment {
                                             c = 0;
                                             break;
                                         }
+                                        c = 65535;
                                         break;
                                     case -905826493:
                                         if (lowerCase.equals("server")) {
                                             c = 1;
                                             break;
                                         }
+                                        c = 65535;
                                         break;
                                     case 3433489:
                                         if (lowerCase.equals("pass")) {
                                             c = 2;
                                             break;
                                         }
+                                        c = 65535;
                                         break;
                                     case 3446913:
                                         if (lowerCase.equals("port")) {
                                             c = 3;
                                             break;
                                         }
+                                        c = 65535;
                                         break;
                                     case 3599307:
                                         if (lowerCase.equals("user")) {
                                             c = 4;
                                             break;
                                         }
+                                        c = 65535;
+                                        break;
+                                    default:
+                                        c = 65535;
                                         break;
                                 }
-                                c = 65535;
                                 switch (c) {
                                     case 0:
                                         if (this.pasteType == 1) {

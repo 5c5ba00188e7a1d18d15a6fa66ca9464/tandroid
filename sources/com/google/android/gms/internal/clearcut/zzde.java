@@ -2,6 +2,9 @@ package com.google.android.gms.internal.clearcut;
 
 /* loaded from: classes.dex */
 final class zzde implements zzdn {
+    zzde() {
+    }
+
     @Override // com.google.android.gms.internal.clearcut.zzdn
     public final boolean zza(Class cls) {
         return false;

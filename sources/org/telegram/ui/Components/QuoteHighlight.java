@@ -27,9 +27,7 @@ public class QuoteHighlight extends Path {
     public final int start;
     private final AnimatedFloat t;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Rect {
+    private static class Rect {
         public float bottom;
         public boolean first;
         public boolean last;

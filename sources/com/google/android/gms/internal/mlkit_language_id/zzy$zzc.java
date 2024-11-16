@@ -12,7 +12,6 @@ public final class zzy$zzc extends zzeo implements zzgb {
     private int zze;
     private zzy$zzab zzf;
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzeo.zzb implements zzgb {
         private zza() {
             super(zzy$zzc.zzg);
@@ -23,7 +22,6 @@ public final class zzy$zzc extends zzeo implements zzgb {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class zzb extends zzeo implements zzgb {
         private static final zzex zzj = new zzz();
         private static final zzex zzl = new zzaa();
@@ -38,7 +36,6 @@ public final class zzy$zzc extends zzeo implements zzgb {
         private zzeu zzi = zzeo.zzk();
         private zzeu zzk = zzeo.zzk();
 
-        /* loaded from: classes.dex */
         public static final class zza extends zzeo.zzb implements zzgb {
             private zza() {
                 super(zzb.zzm);
@@ -49,8 +46,8 @@ public final class zzy$zzc extends zzeo implements zzgb {
             }
         }
 
-        /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.mlkit_language_id.zzz, com.google.android.gms.internal.mlkit_language_id.zzex] */
-        /* JADX WARN: Type inference failed for: r0v1, types: [com.google.android.gms.internal.mlkit_language_id.zzex, com.google.android.gms.internal.mlkit_language_id.zzaa] */
+        /* JADX WARN: Type inference failed for: r0v0, types: [com.google.android.gms.internal.mlkit_language_id.zzex, com.google.android.gms.internal.mlkit_language_id.zzz] */
+        /* JADX WARN: Type inference failed for: r0v1, types: [com.google.android.gms.internal.mlkit_language_id.zzaa, com.google.android.gms.internal.mlkit_language_id.zzex] */
         static {
             zzb zzbVar = new zzb();
             zzm = zzbVar;
@@ -60,10 +57,9 @@ public final class zzy$zzc extends zzeo implements zzgb {
         private zzb() {
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Type inference failed for: r5v22, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+        /* JADX WARN: Type inference failed for: r5v22, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-        public final Object zza(int i, Object obj, Object obj2) {
+        protected final Object zza(int i, Object obj, Object obj2) {
             zzx zzxVar = null;
             switch (zzx.zza[i - 1]) {
                 case 1:
@@ -111,10 +107,9 @@ public final class zzy$zzc extends zzeo implements zzgb {
     private zzy$zzc() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzx zzxVar = null;
         switch (zzx.zza[i - 1]) {
             case 1:

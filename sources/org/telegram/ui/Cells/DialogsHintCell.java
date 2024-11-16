@@ -113,9 +113,8 @@ public class DialogsHintCell extends BlurredFrameLayout {
         onClickListener.onClick(view);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         canvas.drawRect(0.0f, getHeight() - 1, getWidth(), getHeight(), Theme.dividerPaint);
     }

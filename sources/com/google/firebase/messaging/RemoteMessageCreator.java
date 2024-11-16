@@ -8,8 +8,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 
 /* loaded from: classes.dex */
 public class RemoteMessageCreator implements Parcelable.Creator {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void writeToParcel(RemoteMessage remoteMessage, Parcel parcel, int i) {
+    static void writeToParcel(RemoteMessage remoteMessage, Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeBundle(parcel, 2, remoteMessage.bundle, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);

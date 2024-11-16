@@ -35,7 +35,6 @@ public final class SpliceInsertCommand extends SpliceCommand {
     public final boolean spliceImmediateFlag;
     public final int uniqueProgramId;
 
-    /* loaded from: classes.dex */
     public static final class ComponentSplice {
         public final long componentSplicePlaybackPositionUs;
         public final long componentSplicePts;
@@ -95,8 +94,7 @@ public final class SpliceInsertCommand extends SpliceCommand {
         this.availsExpected = parcel.readInt();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static SpliceInsertCommand parseFromSection(ParsableByteArray parsableByteArray, long j, TimestampAdjuster timestampAdjuster) {
+    static SpliceInsertCommand parseFromSection(ParsableByteArray parsableByteArray, long j, TimestampAdjuster timestampAdjuster) {
         List list;
         boolean z;
         boolean z2;

@@ -24,9 +24,8 @@ public class HintEditText extends EditTextBoldCursor {
         return this.hintText;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         if (this.hintText != null && length() < this.hintText.length()) {
             float f = 0.0f;
             int i = 0;
@@ -53,9 +52,8 @@ public class HintEditText extends EditTextBoldCursor {
         super.onDraw(canvas);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         onTextChange();
     }

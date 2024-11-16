@@ -286,9 +286,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     private final ChatScrollCallback chatScrollHelperCallback = new ChatScrollCallback();
     private int savedScrollPosition = -1;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public static /* synthetic */ class 24 {
+    static /* synthetic */ class 24 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$AvatarPreviewer$MenuItem;
 
         static {
@@ -305,9 +303,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 9 extends ChatListItemAnimator {
+    class 9 extends ChatListItemAnimator {
         Runnable finishRunnable;
         int scrollAnimationIndex;
 
@@ -327,9 +323,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
-        public void onAllAnimationsDone() {
+        protected void onAllAnimationsDone() {
             super.onAllAnimationsDone();
             Runnable runnable = this.finishRunnable;
             if (runnable != null) {
@@ -361,7 +356,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ChatActivityAdapter extends RecyclerView.Adapter {
         private int loadingUpRow;
         private Context mContext;
@@ -371,9 +365,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         private final ArrayList oldStableIds = new ArrayList();
         private final ArrayList stableIds = new ArrayList();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements ChatMessageCell.ChatMessageCellDelegate {
+        class 1 implements ChatMessageCell.ChatMessageCellDelegate {
             1() {
             }
 
@@ -1075,9 +1067,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 3 implements ChatActionCell.ChatActionCellDelegate {
+        class 3 implements ChatActionCell.ChatActionCellDelegate {
             3() {
             }
 
@@ -1516,7 +1506,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ChatScrollCallback extends RecyclerAnimationScrollHelper.AnimationCallback {
         private boolean lastBottom;
         private int lastItemOffset;
@@ -3765,9 +3754,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     return ((ChannelAdminLogActivity.this == parentLayout.getLastFragment() && parentLayout.isTransitionAnimationInProgress()) || parentLayout.isPreviewOpenAnimationInProgress() || ((BaseFragment) ChannelAdminLogActivity.this).isPaused || !ChannelAdminLogActivity.this.openAnimationEnded) ? false : true;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onPanTranslationUpdate(float f, float f2, boolean z) {
+                protected void onPanTranslationUpdate(float f, float f2, boolean z) {
                     if (ChannelAdminLogActivity.this.getParentLayout() == null || !ChannelAdminLogActivity.this.getParentLayout().isPreviewOpenAnimationInProgress()) {
                         ChannelAdminLogActivity.this.contentPanTranslation = f;
                         ChannelAdminLogActivity.this.contentPanTranslationT = f2;
@@ -3789,14 +3777,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionEnd() {
+                protected void onTransitionEnd() {
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionStart(boolean z, int i2) {
+                protected void onTransitionStart(boolean z, int i2) {
                     ChannelAdminLogActivity.this.wasManualScroll = true;
                 }
             };
@@ -3824,9 +3810,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 return ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void onAttachedToWindow() {
+            protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
                 MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
                 if (playingMessageObject == null || !playingMessageObject.isRoundVideo() || playingMessageObject.eventId == 0 || playingMessageObject.getDialogId() != (-ChannelAdminLogActivity.this.currentChat.id)) {
@@ -3835,7 +3820,6 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 MediaController.getInstance().setTextureView(ChannelAdminLogActivity.this.createTextureView(false), ChannelAdminLogActivity.this.aspectRatioFrameLayout, ChannelAdminLogActivity.this.roundVideoContainer, true);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:15:0x004b  */
             /* JADX WARN: Removed duplicated region for block: B:22:0x0096  */
             /* JADX WARN: Removed duplicated region for block: B:31:0x00b9  */
@@ -3844,7 +3828,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 int i6;
                 int i7;
                 int i8;
@@ -4067,9 +4051,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 return drawChild;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                 ChannelAdminLogActivity.this.applyScrolledPosition();
                 super.onLayout(z, i3, i4, i5, i6);
             }

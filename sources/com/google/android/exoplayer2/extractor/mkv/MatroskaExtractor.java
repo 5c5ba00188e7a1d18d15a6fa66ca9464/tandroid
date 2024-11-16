@@ -122,7 +122,6 @@ public class MatroskaExtractor implements Extractor {
     private static final byte[] VTT_PREFIX = {87, 69, 66, 86, 84, 84, 10, 10, 48, 48, 58, 48, 48, 58, 48, 48, 46, 48, 48, 48, 32, 45, 45, 62, 32, 48, 48, 58, 48, 48, 58, 48, 48, 46, 48, 48, 48, 10};
     private static final UUID WAVE_SUBFORMAT_PCM = new UUID(72057594037932032L, -9223371306706625679L);
 
-    /* loaded from: classes.dex */
     private final class InnerEbmlProcessor implements EbmlProcessor {
         private InnerEbmlProcessor() {
         }
@@ -168,9 +167,7 @@ public class MatroskaExtractor implements Extractor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public static final class Track {
+    protected static final class Track {
         private int blockAddIdType;
         public String codecId;
         public byte[] codecPrivate;
@@ -368,7 +365,6 @@ public class MatroskaExtractor implements Extractor {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Failed to find 'out' block for switch in B:5:0x01df. Please report as an issue. */
         /* JADX WARN: Removed duplicated region for block: B:14:0x0409  */
         /* JADX WARN: Removed duplicated region for block: B:19:0x0420  */
         /* JADX WARN: Removed duplicated region for block: B:22:0x042f  */
@@ -1691,241 +1687,40 @@ public class MatroskaExtractor implements Extractor {
 
     private static boolean isCodecSupported(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2095576542:
-                if (str.equals("V_MPEG4/ISO/AP")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -2095575984:
-                if (str.equals("V_MPEG4/ISO/SP")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1985379776:
-                if (str.equals("A_MS/ACM")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -1784763192:
-                if (str.equals("A_TRUEHD")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -1730367663:
-                if (str.equals("A_VORBIS")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -1482641358:
-                if (str.equals("A_MPEG/L2")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case -1482641357:
-                if (str.equals("A_MPEG/L3")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case -1373388978:
-                if (str.equals("V_MS/VFW/FOURCC")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case -933872740:
-                if (str.equals("S_DVBSUB")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case -538363189:
-                if (str.equals("V_MPEG4/ISO/ASP")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case -538363109:
-                if (str.equals("V_MPEG4/ISO/AVC")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case -425012669:
-                if (str.equals("S_VOBSUB")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case -356037306:
-                if (str.equals("A_DTS/LOSSLESS")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 62923557:
-                if (str.equals("A_AAC")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case 62923603:
-                if (str.equals("A_AC3")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case 62927045:
-                if (str.equals("A_DTS")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case 82318131:
-                if (str.equals("V_AV1")) {
-                    c = 16;
-                    break;
-                }
-                break;
-            case 82338133:
-                if (str.equals("V_VP8")) {
-                    c = 17;
-                    break;
-                }
-                break;
-            case 82338134:
-                if (str.equals("V_VP9")) {
-                    c = 18;
-                    break;
-                }
-                break;
-            case 99146302:
-                if (str.equals("S_HDMV/PGS")) {
-                    c = 19;
-                    break;
-                }
-                break;
-            case 444813526:
-                if (str.equals("V_THEORA")) {
-                    c = 20;
-                    break;
-                }
-                break;
-            case 542569478:
-                if (str.equals("A_DTS/EXPRESS")) {
-                    c = 21;
-                    break;
-                }
-                break;
-            case 635596514:
-                if (str.equals("A_PCM/FLOAT/IEEE")) {
-                    c = 22;
-                    break;
-                }
-                break;
-            case 725948237:
-                if (str.equals("A_PCM/INT/BIG")) {
-                    c = 23;
-                    break;
-                }
-                break;
-            case 725957860:
-                if (str.equals("A_PCM/INT/LIT")) {
-                    c = 24;
-                    break;
-                }
-                break;
-            case 738597099:
-                if (str.equals("S_TEXT/ASS")) {
-                    c = 25;
-                    break;
-                }
-                break;
-            case 855502857:
-                if (str.equals("V_MPEGH/ISO/HEVC")) {
-                    c = 26;
-                    break;
-                }
-                break;
-            case 1045209816:
-                if (str.equals("S_TEXT/WEBVTT")) {
-                    c = 27;
-                    break;
-                }
-                break;
-            case 1422270023:
-                if (str.equals("S_TEXT/UTF8")) {
-                    c = 28;
-                    break;
-                }
-                break;
-            case 1809237540:
-                if (str.equals("V_MPEG2")) {
-                    c = 29;
-                    break;
-                }
-                break;
-            case 1950749482:
-                if (str.equals("A_EAC3")) {
-                    c = 30;
-                    break;
-                }
-                break;
-            case 1950789798:
-                if (str.equals("A_FLAC")) {
-                    c = 31;
-                    break;
-                }
-                break;
-            case 1951062397:
-                if (str.equals("A_OPUS")) {
-                    c = ' ';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case '\b':
-            case '\t':
-            case '\n':
-            case 11:
-            case '\f':
-            case '\r':
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-            case 24:
-            case 25:
-            case 26:
-            case 27:
-            case 28:
-            case 29:
-            case 30:
-            case 31:
-            case ' ':
+        switch (str) {
+            case "V_MPEG4/ISO/AP":
+            case "V_MPEG4/ISO/SP":
+            case "A_MS/ACM":
+            case "A_TRUEHD":
+            case "A_VORBIS":
+            case "A_MPEG/L2":
+            case "A_MPEG/L3":
+            case "V_MS/VFW/FOURCC":
+            case "S_DVBSUB":
+            case "V_MPEG4/ISO/ASP":
+            case "V_MPEG4/ISO/AVC":
+            case "S_VOBSUB":
+            case "A_DTS/LOSSLESS":
+            case "A_AAC":
+            case "A_AC3":
+            case "A_DTS":
+            case "V_AV1":
+            case "V_VP8":
+            case "V_VP9":
+            case "S_HDMV/PGS":
+            case "V_THEORA":
+            case "A_DTS/EXPRESS":
+            case "A_PCM/FLOAT/IEEE":
+            case "A_PCM/INT/BIG":
+            case "A_PCM/INT/LIT":
+            case "S_TEXT/ASS":
+            case "V_MPEGH/ISO/HEVC":
+            case "S_TEXT/WEBVTT":
+            case "S_TEXT/UTF8":
+            case "V_MPEG2":
+            case "A_EAC3":
+            case "A_FLAC":
+            case "A_OPUS":
                 return true;
             default:
                 return false;
@@ -1992,37 +1787,16 @@ public class MatroskaExtractor implements Extractor {
         byte[] formatSubtitleTimecode;
         int i;
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 738597099:
-                if (str.equals("S_TEXT/ASS")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 1045209816:
-                if (str.equals("S_TEXT/WEBVTT")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 1422270023:
-                if (str.equals("S_TEXT/UTF8")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "S_TEXT/ASS":
                 formatSubtitleTimecode = formatSubtitleTimecode(j, "%01d:%02d:%02d:%02d", 10000L);
                 i = 21;
                 break;
-            case 1:
+            case "S_TEXT/WEBVTT":
                 formatSubtitleTimecode = formatSubtitleTimecode(j, "%02d:%02d:%02d.%03d", 1000L);
                 i = 25;
                 break;
-            case 2:
+            case "S_TEXT/UTF8":
                 formatSubtitleTimecode = formatSubtitleTimecode(j, "%02d:%02d:%02d,%03d", 1000L);
                 i = 19;
                 break;
@@ -2554,7 +2328,6 @@ public class MatroskaExtractor implements Extractor {
     protected void floatElement(int i, double d) {
         if (i == 181) {
             getCurrentTrack(i).sampleRate = (int) d;
-            return;
         }
         if (i == 17545) {
             this.durationTimecode = (long) d;
@@ -2563,47 +2336,45 @@ public class MatroskaExtractor implements Extractor {
         switch (i) {
             case 21969:
                 getCurrentTrack(i).primaryRChromaticityX = (float) d;
-                return;
+                break;
             case 21970:
                 getCurrentTrack(i).primaryRChromaticityY = (float) d;
-                return;
+                break;
             case 21971:
                 getCurrentTrack(i).primaryGChromaticityX = (float) d;
-                return;
+                break;
             case 21972:
                 getCurrentTrack(i).primaryGChromaticityY = (float) d;
-                return;
+                break;
             case 21973:
                 getCurrentTrack(i).primaryBChromaticityX = (float) d;
-                return;
+                break;
             case 21974:
                 getCurrentTrack(i).primaryBChromaticityY = (float) d;
-                return;
+                break;
             case 21975:
                 getCurrentTrack(i).whitePointChromaticityX = (float) d;
-                return;
+                break;
             case 21976:
                 getCurrentTrack(i).whitePointChromaticityY = (float) d;
-                return;
+                break;
             case 21977:
                 getCurrentTrack(i).maxMasteringLuminance = (float) d;
-                return;
+                break;
             case 21978:
                 getCurrentTrack(i).minMasteringLuminance = (float) d;
-                return;
+                break;
             default:
                 switch (i) {
                     case 30323:
                         getCurrentTrack(i).projectionPoseYaw = (float) d;
-                        return;
+                        break;
                     case 30324:
                         getCurrentTrack(i).projectionPosePitch = (float) d;
-                        return;
+                        break;
                     case 30325:
                         getCurrentTrack(i).projectionPoseRoll = (float) d;
-                        return;
-                    default:
-                        return;
+                        break;
                 }
         }
     }

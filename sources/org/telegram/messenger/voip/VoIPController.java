@@ -50,14 +50,12 @@ public class VoIPController {
     protected ConnectionStateListener listener;
     protected long nativeInst = nativeInit(new File(ApplicationLoader.applicationContext.getFilesDir(), "voip_persistent_state.json").getAbsolutePath());
 
-    /* loaded from: classes3.dex */
     public interface ConnectionStateListener {
         void onConnectionStateChanged(int i, boolean z);
 
         void onSignalBarCountChanged(int i);
     }
 
-    /* loaded from: classes3.dex */
     public static class Stats {
         public long bytesRecvdMobile;
         public long bytesRecvdWifi;

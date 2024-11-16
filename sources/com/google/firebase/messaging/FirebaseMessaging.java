@@ -54,8 +54,7 @@ public class FirebaseMessaging {
     private final Task topicsSubscriberTask;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AutoInit {
+    class AutoInit {
         private Boolean autoInitEnabled;
         private EventHandler dataCollectionDefaultChangeEventHandler;
         private boolean initialized;
@@ -95,7 +94,6 @@ public class FirebaseMessaging {
                     EventHandler eventHandler = new EventHandler(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$AutoInit$$Lambda$0
                         private final FirebaseMessaging.AutoInit arg$1;
 
-                        /* JADX INFO: Access modifiers changed from: package-private */
                         {
                             this.arg$1 = this;
                         }
@@ -125,16 +123,14 @@ public class FirebaseMessaging {
             return bool != null ? bool.booleanValue() : FirebaseMessaging.this.firebaseApp.isDataCollectionDefaultEnabled();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public final /* synthetic */ void lambda$initialize$0$FirebaseMessaging$AutoInit(Event event) {
+        final /* synthetic */ void lambda$initialize$0$FirebaseMessaging$AutoInit(Event event) {
             if (isEnabled()) {
                 FirebaseMessaging.this.startSyncIfNecessary();
             }
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FirebaseMessaging(FirebaseApp firebaseApp, FirebaseInstanceIdInternal firebaseInstanceIdInternal, Provider provider, Provider provider2, FirebaseInstallationsApi firebaseInstallationsApi, TransportFactory transportFactory2, Subscriber subscriber) {
+    FirebaseMessaging(FirebaseApp firebaseApp, FirebaseInstanceIdInternal firebaseInstanceIdInternal, Provider provider, Provider provider2, FirebaseInstallationsApi firebaseInstallationsApi, TransportFactory transportFactory2, Subscriber subscriber) {
         this(firebaseApp, firebaseInstanceIdInternal, provider, provider2, firebaseInstallationsApi, transportFactory2, subscriber, new Metadata(firebaseApp.getApplicationContext()));
     }
 
@@ -172,7 +168,6 @@ public class FirebaseMessaging {
             firebaseInstanceIdInternal.addNewTokenListener(new FirebaseInstanceIdInternal.NewTokenListener(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$0
                 private final FirebaseMessaging arg$1;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.arg$1 = this;
                 }
@@ -190,7 +185,6 @@ public class FirebaseMessaging {
         executor2.execute(new Runnable(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$1
             private final FirebaseMessaging arg$1;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
             }
@@ -205,7 +199,6 @@ public class FirebaseMessaging {
         createInstance.addOnSuccessListener(FcmExecutors.newTopicsSyncTriggerExecutor(), new OnSuccessListener(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$2
             private final FirebaseMessaging arg$1;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
             }
@@ -268,8 +261,7 @@ public class FirebaseMessaging {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String blockingGetToken() {
+    String blockingGetToken() {
         Store.Token tokenWithoutTriggeringSync = getTokenWithoutTriggeringSync();
         if (!tokenNeedsRefresh(tokenWithoutTriggeringSync)) {
             return tokenWithoutTriggeringSync.token;
@@ -280,7 +272,6 @@ public class FirebaseMessaging {
                 private final FirebaseMessaging arg$1;
                 private final String arg$2;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.arg$1 = this;
                     this.arg$2 = defaultSenderId;
@@ -308,8 +299,7 @@ public class FirebaseMessaging {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void enqueueTaskWithDelaySeconds(Runnable runnable, long j) {
+    void enqueueTaskWithDelaySeconds(Runnable runnable, long j) {
         synchronized (FirebaseMessaging.class) {
             try {
                 if (syncExecutor == null) {
@@ -322,8 +312,7 @@ public class FirebaseMessaging {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Context getApplicationContext() {
+    Context getApplicationContext() {
         return this.context;
     }
 
@@ -333,7 +322,6 @@ public class FirebaseMessaging {
             private final FirebaseMessaging arg$1;
             private final TaskCompletionSource arg$2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
                 this.arg$2 = taskCompletionSource;
@@ -355,23 +343,19 @@ public class FirebaseMessaging {
         return this.autoInit.isEnabled();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isGmsCorePresent() {
+    boolean isGmsCorePresent() {
         return this.metadata.isGmscorePresent();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Task lambda$blockingGetToken$8$FirebaseMessaging(Task task) {
+    final /* synthetic */ Task lambda$blockingGetToken$8$FirebaseMessaging(Task task) {
         return this.gmsRpc.getToken((String) task.getResult());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Task lambda$blockingGetToken$9$FirebaseMessaging(String str, final Task task) {
+    final /* synthetic */ Task lambda$blockingGetToken$9$FirebaseMessaging(String str, final Task task) {
         return this.requestDeduplicator.getOrStartGetTokenRequest(str, new RequestDeduplicator.GetTokenRequest(this, task) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$9
             private final FirebaseMessaging arg$1;
             private final Task arg$2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
                 this.arg$2 = task;
@@ -384,8 +368,7 @@ public class FirebaseMessaging {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void lambda$getToken$2$FirebaseMessaging(TaskCompletionSource taskCompletionSource) {
+    final /* synthetic */ void lambda$getToken$2$FirebaseMessaging(TaskCompletionSource taskCompletionSource) {
         try {
             taskCompletionSource.setResult(blockingGetToken());
         } catch (Exception e) {
@@ -393,27 +376,23 @@ public class FirebaseMessaging {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void lambda$new$0$FirebaseMessaging() {
+    final /* synthetic */ void lambda$new$0$FirebaseMessaging() {
         if (isAutoInitEnabled()) {
             startSyncIfNecessary();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void lambda$new$1$FirebaseMessaging(TopicsSubscriber topicsSubscriber) {
+    final /* synthetic */ void lambda$new$1$FirebaseMessaging(TopicsSubscriber topicsSubscriber) {
         if (isAutoInitEnabled()) {
             topicsSubscriber.startTopicsSyncIfNecessary();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void setSyncScheduledOrRunning(boolean z) {
+    synchronized void setSyncScheduledOrRunning(boolean z) {
         this.syncScheduledOrRunning = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void syncWithDelaySecondsInternal(long j) {
+    synchronized void syncWithDelaySecondsInternal(long j) {
         enqueueTaskWithDelaySeconds(new SyncTask(this, Math.min(Math.max(30L, j + j), MAX_DELAY_SEC)), j);
         this.syncScheduledOrRunning = true;
     }

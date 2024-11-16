@@ -10,6 +10,9 @@ import java.util.RandomAccess;
 public abstract class zzds extends zzdp implements List, RandomAccess {
     private static final zzdv zza = new zzdq(zzdt.zza, 0);
 
+    zzds() {
+    }
+
     static zzds zzi(Object[] objArr, int i) {
         return i == 0 ? zzdt.zza : new zzdt(objArr, i);
     }

@@ -22,7 +22,6 @@ public class HlsMultivariantPlaylist extends HlsPlaylist {
     public final List variants;
     public final List videos;
 
-    /* loaded from: classes.dex */
     public static final class Rendition {
         public final Format format;
         public final String groupId;
@@ -37,7 +36,6 @@ public class HlsMultivariantPlaylist extends HlsPlaylist {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Variant {
         public final String audioGroupId;
         public final String captionGroupId;

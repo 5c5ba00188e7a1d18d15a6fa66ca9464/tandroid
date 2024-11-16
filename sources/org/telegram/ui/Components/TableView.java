@@ -42,7 +42,6 @@ public class TableView extends android.widget.TableLayout {
     private final Theme.ResourcesProvider resourcesProvider;
     private final float w;
 
-    /* loaded from: classes3.dex */
     public static class TableRowContent extends FrameLayout {
         private boolean first;
         private boolean last;
@@ -107,7 +106,6 @@ public class TableView extends android.widget.TableLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TableRowFullContent extends FrameLayout {
         private boolean first;
         private boolean last;
@@ -176,7 +174,6 @@ public class TableView extends android.widget.TableLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TableRowTitle extends TextView {
         private boolean first;
         private boolean last;

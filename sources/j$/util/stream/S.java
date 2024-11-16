@@ -23,8 +23,7 @@ final class S extends CountedCompleter {
         this.f = s2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public S(b bVar, j$.util.Q q, e2 e2Var) {
+    protected S(b bVar, j$.util.Q q, e2 e2Var) {
         super(null);
         this.a = bVar;
         this.b = q;

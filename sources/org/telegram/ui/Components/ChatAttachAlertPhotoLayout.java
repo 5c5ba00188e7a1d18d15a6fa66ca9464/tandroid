@@ -207,9 +207,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     public static ArrayList selectedPhotosOrder = new ArrayList();
     public static int lastImageId = -1;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends BasePhotoProvider {
+    class 1 extends BasePhotoProvider {
         1() {
             super(ChatAttachAlertPhotoLayout.this, null);
         }
@@ -433,9 +431,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 10 implements ShutterButton.ShutterButtonDelegate {
+    class 10 implements ShutterButton.ShutterButtonDelegate {
         private File outputFile;
         final /* synthetic */ FrameLayout val$container;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
@@ -487,7 +483,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     int i4 = ChatAttachAlertPhotoLayout.lastImageId;
                     ChatAttachAlertPhotoLayout.lastImageId = i4 - 1;
                     photoEntry = new MediaController.PhotoEntry(0, i4, 0L, this.outputFile.getAbsolutePath(), 0, true, i2, i3, 0L);
-                    photoEntry.duration = (int) (((float) j) / 1000.0f);
+                    photoEntry.duration = (int) (j / 1000.0f);
                     photoEntry.thumbPath = str;
                     chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
                     if (chatAttachAlertPhotoLayout.parentAlert.avatarPicker != 0) {
@@ -502,7 +498,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 int i42 = ChatAttachAlertPhotoLayout.lastImageId;
                 ChatAttachAlertPhotoLayout.lastImageId = i42 - 1;
                 photoEntry = new MediaController.PhotoEntry(0, i42, 0L, this.outputFile.getAbsolutePath(), 0, true, i2, i3, 0L);
-                photoEntry.duration = (int) (((float) j) / 1000.0f);
+                photoEntry.duration = (int) (j / 1000.0f);
                 photoEntry.thumbPath = str;
                 chatAttachAlertPhotoLayout = ChatAttachAlertPhotoLayout.this;
                 if (chatAttachAlertPhotoLayout.parentAlert.avatarPicker != 0 && chatAttachAlertPhotoLayout.cameraView.isFrontface()) {
@@ -699,9 +695,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 15 extends BasePhotoProvider {
+    class 15 extends BasePhotoProvider {
         final /* synthetic */ boolean val$sameTakePictureOrientation;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -863,7 +857,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /* loaded from: classes3.dex */
     private class BasePhotoProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         private BasePhotoProvider() {
         }
@@ -963,8 +956,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
+    class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
         private int itemsCount;
         private Context mContext;
         private boolean needCamera;
@@ -1400,9 +1392,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 return false;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z3, int i3, int i4, int i5, int i6) {
+            protected void onLayout(boolean z3, int i3, int i4, int i5, int i6) {
                 super.onLayout(z3, i3, i4, i5, i6);
                 PhotoViewer.getInstance().checkCurrentImageVisibility();
             }
@@ -1481,9 +1472,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                         return super.calculateDyToMakeVisible(view, i4) - (ChatAttachAlertPhotoLayout.this.gridView.getPaddingTop() - AndroidUtilities.dp(7.0f));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i4) {
+                    protected int calculateTimeForDeceleration(int i4) {
                         return super.calculateTimeForDeceleration(i4) * 2;
                     }
                 };
@@ -2496,13 +2486,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 videoEditedInfo2.bitrate = -1;
                 videoEditedInfo2.muted = true;
                 videoEditedInfo2.startTime = 0L;
-                videoEditedInfo2.start = (float) 0;
+                videoEditedInfo2.start = 0L;
                 videoEditedInfo2.endTime = previewView.getDuration();
                 VideoEditedInfo videoEditedInfo3 = photoEntry.editedInfo;
                 videoEditedInfo3.framerate = 30;
                 videoEditedInfo3.avatarStartTime = 0L;
                 long j2 = videoEditedInfo3.endTime;
-                videoEditedInfo3.estimatedSize = (int) ((((float) j2) / 1000.0f) * 115200.0f);
+                videoEditedInfo3.estimatedSize = (int) ((j2 / 1000.0f) * 115200.0f);
                 videoEditedInfo3.estimatedDuration = j2;
                 VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
                 mediaEntity.type = (byte) 0;
@@ -2897,50 +2887,26 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Failed to find 'out' block for switch in B:12:0x002c. Please report as an issue. */
     public void setCameraFlashModeIcon(ImageView imageView, String str) {
         int i;
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 3551:
-                if (str.equals("on")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 109935:
-                if (str.equals("off")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3005871:
-                if (str.equals("auto")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "on":
                 imageView.setImageResource(R.drawable.flash_on);
                 i = R.string.AccDescrCameraFlashOn;
-                imageView.setContentDescription(LocaleController.getString(i));
-                return;
-            case 1:
+                break;
+            case "off":
                 imageView.setImageResource(R.drawable.flash_off);
                 i = R.string.AccDescrCameraFlashOff;
-                imageView.setContentDescription(LocaleController.getString(i));
-                return;
-            case 2:
+                break;
+            case "auto":
                 imageView.setImageResource(R.drawable.flash_auto);
                 i = R.string.AccDescrCameraFlashAuto;
-                imageView.setContentDescription(LocaleController.getString(i));
-                return;
+                break;
             default:
                 return;
         }
+        imageView.setContentDescription(LocaleController.getString(i));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3217,8 +3183,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void checkCameraViewPosition() {
+    protected void checkCameraViewPosition() {
         WindowInsets rootWindowInsets;
         int systemWindowInsetLeft;
         TextView textView;
@@ -3812,7 +3777,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
             try {
                 mediaMetadataRetriever.setDataSource(str3);
-                r3 = mediaMetadataRetriever.extractMetadata(9) != null ? (int) Math.ceil(((float) Long.parseLong(r0)) / 1000.0f) : 0L;
+                r3 = mediaMetadataRetriever.extractMetadata(9) != null ? (int) Math.ceil(Long.parseLong(r0) / 1000.0f) : 0L;
                 mediaMetadataRetriever.release();
             } catch (Exception e3) {
                 e = e3;
@@ -5141,9 +5106,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     }
                 };
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.messenger.camera.CameraView, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     if (AndroidUtilities.makingGlobalBlurBitmap) {
                         return;
                     }
@@ -5177,9 +5141,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     canvas.restore();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.messenger.camera.CameraView, android.view.ViewGroup, android.view.View
-                public void onAttachedToWindow() {
+                protected void onAttachedToWindow() {
                     super.onAttachedToWindow();
                     Bulletin.addDelegate(ChatAttachAlertPhotoLayout.this.cameraView, this.bulletinDelegate);
                 }

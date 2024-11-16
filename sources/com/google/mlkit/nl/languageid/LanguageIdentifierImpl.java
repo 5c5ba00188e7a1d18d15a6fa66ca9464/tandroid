@@ -28,7 +28,6 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
     private final AtomicReference zzd;
     private final CancellationTokenSource zze = new CancellationTokenSource();
 
-    /* loaded from: classes.dex */
     public static final class Factory {
         private final zzcv zza;
         private final LanguageIdentificationJni zzb;
@@ -69,7 +68,6 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
             private final zzy$zzau.zzd zze;
             private final zzy$zzau.zzc zzf;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = elapsedRealtime;
@@ -109,7 +107,6 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
             private final String zzc;
             private final boolean zzd;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = languageIdentificationJni;
@@ -124,8 +121,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         }, this.zze.getToken());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ zzy$zzad.zza zza(long j, boolean z, zzai zzaiVar, zzy$zzau.zzd zzdVar, zzy$zzau.zzc zzcVar) {
+    final /* synthetic */ zzy$zzad.zza zza(long j, boolean z, zzai zzaiVar, zzy$zzau.zzd zzdVar, zzy$zzau.zzc zzcVar) {
         zzy$zzau.zza zza = zzy$zzau.zza().zza(this.zza.zza()).zza(zzy$zzaf.zza().zza(j).zza(z).zza(zzaiVar));
         if (zzdVar != null) {
             zza.zza(zzdVar);
@@ -136,8 +132,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         return zzy$zzad.zzb().zza(true).zza(zza);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zza(LanguageIdentificationJni languageIdentificationJni, String str, boolean z) {
+    final /* synthetic */ String zza(LanguageIdentificationJni languageIdentificationJni, String str, boolean z) {
         Float zzb = this.zza.zzb();
         long elapsedRealtime = SystemClock.elapsedRealtime();
         try {

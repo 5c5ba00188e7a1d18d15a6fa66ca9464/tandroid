@@ -4,16 +4,14 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AppLocalesStorageHelper$SerialExecutor implements Executor {
+class AppLocalesStorageHelper$SerialExecutor implements Executor {
     Runnable mActive;
     final Executor mExecutor;
     private final Object mLock = new Object();
     final Queue mTasks = new ArrayDeque();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppLocalesStorageHelper$SerialExecutor(Executor executor) {
+    AppLocalesStorageHelper$SerialExecutor(Executor executor) {
         this.mExecutor = executor;
     }
 

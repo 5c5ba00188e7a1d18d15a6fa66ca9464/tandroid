@@ -10,8 +10,7 @@ import com.google.android.gms.maps.GoogleMapOptions;
 
 /* loaded from: classes.dex */
 public final class zze extends com.google.android.gms.internal.maps.zza implements zzf {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zze(IBinder iBinder) {
+    zze(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.internal.ICreator");
     }
 

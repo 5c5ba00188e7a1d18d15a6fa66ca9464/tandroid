@@ -58,7 +58,6 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
     float swipeBackX;
     private VelocityTracker velocityTracker;
 
-    /* loaded from: classes4.dex */
     public interface BaseFragmentWithFullscreen {
         View getFullscreenView();
     }
@@ -588,8 +587,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
         this.fragmentViewPadding = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setOpenProgress(float f) {
+    void setOpenProgress(float f) {
     }
 
     public void setTransitionPaddingBottom(int i) {

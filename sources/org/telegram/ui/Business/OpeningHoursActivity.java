@@ -49,7 +49,6 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
     public ArrayList[] currentValue = null;
     public ArrayList[] value = {new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList(), new ArrayList()};
 
-    /* loaded from: classes4.dex */
     public static class Period {
         public int end;
         public int start;

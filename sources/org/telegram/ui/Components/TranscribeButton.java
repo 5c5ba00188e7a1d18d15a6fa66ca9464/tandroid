@@ -88,7 +88,6 @@ public abstract class TranscribeButton {
     private long start = SystemClock.elapsedRealtime();
     private android.graphics.Rect bounds = new android.graphics.Rect(0, 0, AndroidUtilities.dp(30.0f), AndroidUtilities.dp(30.0f));
 
-    /* loaded from: classes3.dex */
     private static class LoadingPointsDrawable extends Drawable {
         private int lastColor;
         private RLottieDrawable lottie;
@@ -98,15 +97,14 @@ public abstract class TranscribeButton {
             this.paint = textPaint;
             float textSize = textPaint.getTextSize() * 0.89f;
             RLottieDrawable rLottieDrawable = new RLottieDrawable(org.telegram.messenger.R.raw.dots_loading, "dots_loading", (int) textSize, (int) (textSize * 1.25f)) { // from class: org.telegram.ui.Components.TranscribeButton.LoadingPointsDrawable.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RLottieDrawable
-                public boolean hasParentView() {
+                protected boolean hasParentView() {
                     return true;
                 }
             };
             this.lottie = rLottieDrawable;
             rLottieDrawable.setAutoRepeat(1);
-            this.lottie.setCurrentFrame((int) ((((float) SystemClock.elapsedRealtime()) / 16.0f) % 60.0f));
+            this.lottie.setCurrentFrame((int) ((SystemClock.elapsedRealtime() / 16.0f) % 60.0f));
             this.lottie.setAllowDecodeSingleFrame(true);
             this.lottie.start();
         }
@@ -143,7 +141,6 @@ public abstract class TranscribeButton {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LoadingPointsSpan extends ImageSpan {
         private static LoadingPointsDrawable drawable;
 
@@ -385,14 +382,15 @@ public abstract class TranscribeButton {
         }
         long j2 = j % 5400;
         float[] fArr = this.segments;
-        float f = ((float) (1520 * j2)) / 5400.0f;
+        float f = (1520 * j2) / 5400.0f;
         fArr[0] = f - 20.0f;
         fArr[1] = f;
         for (int i = 0; i < 4; i++) {
             float[] fArr2 = this.segments;
-            fArr2[1] = fArr2[1] + (this.interpolator.getInterpolation(((float) (j2 - (i * 1350))) / 667.0f) * 250.0f);
+            int i2 = i * 1350;
+            fArr2[1] = fArr2[1] + (this.interpolator.getInterpolation((j2 - i2) / 667.0f) * 250.0f);
             float[] fArr3 = this.segments;
-            fArr3[0] = fArr3[0] + (this.interpolator.getInterpolation(((float) (j2 - (r6 + 667))) / 667.0f) * 250.0f);
+            fArr3[0] = fArr3[0] + (this.interpolator.getInterpolation((j2 - (i2 + 667)) / 667.0f) * 250.0f);
         }
         return this.segments;
     }
@@ -704,7 +702,7 @@ public abstract class TranscribeButton {
         canvas.restore();
         float f4 = this.loadingFloat.set(this.loading ? 1.0f : 0.0f);
         if (f4 > 0.0f) {
-            float[] segments = getSegments(((float) (SystemClock.elapsedRealtime() - this.start)) * 0.75f);
+            float[] segments = getSegments((long) ((SystemClock.elapsedRealtime() - this.start) * 0.75f));
             Path path3 = this.progressClipPath;
             if (path3 == null) {
                 this.progressClipPath = new Path();

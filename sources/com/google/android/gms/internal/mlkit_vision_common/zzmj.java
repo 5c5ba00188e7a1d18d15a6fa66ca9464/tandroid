@@ -77,13 +77,11 @@ public final class zzmj {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zza() {
+    final /* synthetic */ String zza() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzb(zzmb zzmbVar, zziv zzivVar, String str) {
+    final /* synthetic */ void zzb(zzmb zzmbVar, zziv zzivVar, String str) {
         zzmbVar.zza(zzivVar);
         String zzc = zzmbVar.zzc();
         zzky zzkyVar = new zzky();

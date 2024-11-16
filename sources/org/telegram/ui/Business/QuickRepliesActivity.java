@@ -87,9 +87,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     public final ArrayList selected = new ArrayList();
     private boolean shownEditItem = true;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+    class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
 
@@ -146,7 +144,6 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class LargeQuickReplyView extends FrameLayout {
         private final Paint arrowPaint;
         private final Path arrowPath;
@@ -298,9 +295,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class MoreSpan extends ReplacementSpan {
+    private static class MoreSpan extends ReplacementSpan {
         private final Paint backgroundPaint = new Paint(1);
         private final Text text;
 
@@ -340,7 +335,6 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class QuickReplyView extends FrameLayout {
         private final AvatarDrawable avatarDrawable;
         private final CheckBox2 checkBox;
@@ -720,7 +714,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     /* JADX WARN: Type inference failed for: r1v10 */
     /* JADX WARN: Type inference failed for: r1v11, types: [boolean] */
     /* JADX WARN: Type inference failed for: r1v16 */
-    /* JADX WARN: Type inference failed for: r4v13, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r4v13, types: [android.view.View, android.view.ViewGroup, android.widget.LinearLayout] */
     public static void openRenameReplyAlert(Context context, final int i, String str, final QuickRepliesController.QuickReply quickReply, final Theme.ResourcesProvider resourcesProvider, boolean z, final Utilities.Callback callback) {
         ?? r1;
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
@@ -744,24 +738,21 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 this.limit.setGravity(5);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 this.limit.setTextColor(this.limitColor.set(Theme.getColor(this.limitCount < 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, resourcesProvider)));
                 this.limit.setBounds(getScrollX(), 0, getScrollX() + getWidth(), getHeight());
                 this.limit.draw(canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            protected void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 super.onTextChanged(charSequence, i2, i3, i4);
                 if (this.limit != null) {
                     this.limitCount = 32 - charSequence.length();
@@ -814,18 +805,18 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         textView2.setAlpha(0.0f);
         frameLayout.addView(textView2, LayoutHelper.createFrame(-1, -2, 83));
         final ValueAnimator[] valueAnimatorArr = new ValueAnimator[1];
-        final Utilities.Callback callback2 = new Utilities.Callback() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda0
-            @Override // org.telegram.messenger.Utilities.Callback
-            public final void run(Object obj) {
-                QuickRepliesActivity.lambda$openRenameReplyAlert$4(r1, valueAnimatorArr, textView2, textView, (Boolean) obj);
-            }
-        };
         final Runnable[] runnableArr = {new Runnable() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 QuickRepliesActivity.lambda$openRenameReplyAlert$5(Utilities.Callback.this);
             }
         }};
+        final Utilities.Callback callback2 = new Utilities.Callback() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda0
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                QuickRepliesActivity.lambda$openRenameReplyAlert$4(runnableArr, valueAnimatorArr, textView2, textView, (Boolean) obj);
+            }
+        };
         editTextBoldCursor.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Business.QuickRepliesActivity.5
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {

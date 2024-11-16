@@ -21,7 +21,6 @@ public class DatabaseManager implements Closeable {
     private SQLiteOpenHelper mSQLiteOpenHelper;
     private final ContentValues mSchema;
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onCreate(SQLiteDatabase sQLiteDatabase);
 

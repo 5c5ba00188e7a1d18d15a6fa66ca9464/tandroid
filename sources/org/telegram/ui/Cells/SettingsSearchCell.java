@@ -28,7 +28,6 @@ public class SettingsSearchCell extends FrameLayout {
     private TextView textView;
     private TextView valueTextView;
 
-    /* loaded from: classes4.dex */
     public static class VerticalImageSpan extends ImageSpan {
         public VerticalImageSpan(Drawable drawable) {
             super(drawable);

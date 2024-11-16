@@ -23,7 +23,6 @@ public final class UrlTemplate {
         return new UrlTemplate(strArr, iArr, strArr2, parseTemplate(str, strArr, iArr, strArr2));
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:29:0x00c4. Please report as an issue. */
     private static int parseTemplate(String str, String[] strArr, int[] iArr, String[] strArr2) {
         String str2;
         strArr[0] = "";
@@ -31,7 +30,6 @@ public final class UrlTemplate {
         int i2 = 0;
         while (i < str.length()) {
             int indexOf = str.indexOf("$", i);
-            char c = 65535;
             if (indexOf == -1) {
                 strArr[i2] = strArr[i2] + str.substring(i);
                 i = str.length();
@@ -59,34 +57,14 @@ public final class UrlTemplate {
                         str2 = "%01d";
                     }
                     substring.hashCode();
-                    switch (substring.hashCode()) {
-                        case -1950496919:
-                            if (substring.equals("Number")) {
-                                c = 0;
-                                break;
-                            }
-                            break;
-                        case 2606829:
-                            if (substring.equals("Time")) {
-                                c = 1;
-                                break;
-                            }
-                            break;
-                        case 38199441:
-                            if (substring.equals("Bandwidth")) {
-                                c = 2;
-                                break;
-                            }
-                            break;
-                    }
-                    switch (c) {
-                        case 0:
+                    switch (substring) {
+                        case "Number":
                             iArr[i2] = 2;
                             break;
-                        case 1:
+                        case "Time":
                             iArr[i2] = 4;
                             break;
-                        case 2:
+                        case "Bandwidth":
                             iArr[i2] = 3;
                             break;
                         default:

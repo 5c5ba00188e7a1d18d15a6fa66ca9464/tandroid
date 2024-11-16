@@ -59,14 +59,12 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
     private final long[] pendingOutputStreamOffsetsUs;
     private DrmSession sourceDrmSession;
 
-    /* loaded from: classes.dex */
     private static final class Api23 {
         public static void setAudioSinkPreferredDevice(AudioSink audioSink, Object obj) {
             audioSink.setPreferredDevice(DecoderAudioRenderer$Api23$$ExternalSyntheticApiModelOutline0.m(obj));
         }
     }
 
-    /* loaded from: classes.dex */
     private final class AudioSinkListener implements AudioSink.Listener {
         private AudioSinkListener() {
         }
@@ -390,8 +388,7 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         return this.currentPositionUs;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final int getSinkFormatSupport(Format format) {
+    protected final int getSinkFormatSupport(Format format) {
         return this.audioSink.getFormatSupport(format);
     }
 
@@ -501,9 +498,8 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         this.audioSink.pause();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+    protected void onStreamChanged(Format[] formatArr, long j, long j2) {
         super.onStreamChanged(formatArr, j, j2);
         this.firstStreamSampleRead = false;
         if (this.outputStreamOffsetUs == -9223372036854775807L) {
@@ -552,10 +548,10 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         if (this.decoder != null) {
             try {
                 TraceUtil.beginSection("drainAndFeed");
-                do {
-                } while (drainOutputBuffer());
-                do {
-                } while (feedInputBuffer());
+                while (drainOutputBuffer()) {
+                }
+                while (feedInputBuffer()) {
+                }
                 TraceUtil.endSection();
                 this.decoderCounters.ensureUpdated();
             } catch (AudioSink.ConfigurationException e3) {
@@ -577,8 +573,7 @@ public abstract class DecoderAudioRenderer extends BaseRenderer implements Media
         this.audioSink.setPlaybackParameters(playbackParameters);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean sinkSupportsFormat(Format format) {
+    protected final boolean sinkSupportsFormat(Format format) {
         return this.audioSink.supportsFormat(format);
     }
 

@@ -23,13 +23,11 @@ public class PlaybackException extends Exception implements Bundleable {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public PlaybackException(Bundle bundle) {
+    protected PlaybackException(Bundle bundle) {
         this(bundle.getString(FIELD_STRING_MESSAGE), getCauseFromBundle(bundle), bundle.getInt(FIELD_INT_ERROR_CODE, 1000), bundle.getLong(FIELD_LONG_TIMESTAMP_MS, SystemClock.elapsedRealtime()));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public PlaybackException(String str, Throwable th, int i, long j) {
+    protected PlaybackException(String str, Throwable th, int i, long j) {
         super(str, th);
         this.errorCode = i;
         this.timestampMs = j;

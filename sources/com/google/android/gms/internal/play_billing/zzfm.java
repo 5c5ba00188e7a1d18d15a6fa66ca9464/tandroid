@@ -20,20 +20,20 @@ public final class zzfm extends zzcb implements zzdg {
         return (zzfl) zzb.zzg();
     }
 
-    public static /* synthetic */ void zzx(zzfm zzfmVar, String str) {
+    static /* synthetic */ void zzx(zzfm zzfmVar, String str) {
         str.getClass();
         zzfmVar.zzd |= 1;
         zzfmVar.zze = str;
     }
 
-    public static /* synthetic */ void zzy(zzfm zzfmVar, String str) {
+    static /* synthetic */ void zzy(zzfm zzfmVar, String str) {
         str.getClass();
         zzfmVar.zzd |= 2;
         zzfmVar.zzf = str;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzcb
-    public final Object zzu(int i, Object obj, Object obj2) {
+    protected final Object zzu(int i, Object obj, Object obj2) {
         int i2 = i - 1;
         if (i2 == 0) {
             return (byte) 1;
@@ -44,8 +44,9 @@ public final class zzfm extends zzcb implements zzdg {
         if (i2 == 3) {
             return new zzfm();
         }
+        zzfk zzfkVar = null;
         if (i2 == 4) {
-            return new zzfl(null);
+            return new zzfl(zzfkVar);
         }
         if (i2 != 5) {
             return null;

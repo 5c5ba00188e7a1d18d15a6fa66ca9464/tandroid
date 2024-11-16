@@ -80,9 +80,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
     private final ViewPagerFixed.TabsView tabs;
     ViewPagerFixed viewPagerFixed;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends ViewPagerFixed.Adapter {
+    class 1 extends ViewPagerFixed.Adapter {
         private ActionBarPopupWindow popupWindow;
         final /* synthetic */ Context val$context;
         final /* synthetic */ BaseFragment val$parentFragment;
@@ -300,8 +298,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public abstract class BaseAdapter extends AdapterWithDiffUtils {
+    abstract class BaseAdapter extends AdapterWithDiffUtils {
         ArrayList itemInners = new ArrayList();
         final int type;
 
@@ -322,7 +319,6 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         abstract void update();
     }
 
-    /* loaded from: classes4.dex */
     private abstract class BaseFilesAdapter extends BaseAdapter {
         ArrayList oldItems;
 
@@ -347,7 +343,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
                 ArrayList arrayList = i == 1 ? cacheModel.media : i == 2 ? cacheModel.documents : i == 3 ? cacheModel.music : i == 5 ? cacheModel.voice : i == 4 ? cacheModel.stories : null;
                 if (arrayList != null) {
                     for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                        this.itemInners.add(new ItemInner(2, (CacheModel.FileInfo) arrayList.get(i2)));
+                        this.itemInners.add(CachedMediaLayout.this.new ItemInner(2, (CacheModel.FileInfo) arrayList.get(i2)));
                     }
                 }
             }
@@ -355,9 +351,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BasePlaceProvider extends PhotoViewer.EmptyPhotoViewerProvider {
+    private class BasePlaceProvider extends PhotoViewer.EmptyPhotoViewerProvider {
         RecyclerListView recyclerListView;
 
         private BasePlaceProvider() {
@@ -392,8 +386,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class CacheCell extends FrameLayout {
+    class CacheCell extends FrameLayout {
         CheckBox2 checkBox;
         FrameLayout container;
         boolean drawDivider;
@@ -486,10 +479,8 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         public abstract void onCheckBoxPressed();
     }
 
-    /* loaded from: classes4.dex */
     public interface Delegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$dismiss(Delegate delegate) {
             }
@@ -504,7 +495,6 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         void onItemSelected(CacheControlActivity.DialogFileEntities dialogFileEntities, CacheModel.FileInfo fileInfo, boolean z);
     }
 
-    /* loaded from: classes4.dex */
     private class DialogsAdapter extends BaseAdapter {
         ArrayList old;
 
@@ -566,16 +556,14 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
                 for (int i = 0; i < CachedMediaLayout.this.cacheModel.entities.size(); i++) {
                     ArrayList arrayList = this.itemInners;
                     CachedMediaLayout cachedMediaLayout = CachedMediaLayout.this;
-                    arrayList.add(new ItemInner(1, (CacheControlActivity.DialogFileEntities) cachedMediaLayout.cacheModel.entities.get(i)));
+                    arrayList.add(cachedMediaLayout.new ItemInner(1, (CacheControlActivity.DialogFileEntities) cachedMediaLayout.cacheModel.entities.get(i)));
                 }
             }
             setItems(this.old, this.itemInners);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class DocumentsAdapter extends BaseFilesAdapter {
+    private class DocumentsAdapter extends BaseFilesAdapter {
         ArrayList photoEntries;
 
         private DocumentsAdapter() {
@@ -633,8 +621,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ItemInner extends AdapterWithDiffUtils.Item {
+    class ItemInner extends AdapterWithDiffUtils.Item {
         CacheControlActivity.DialogFileEntities entities;
         CacheModel.FileInfo file;
 
@@ -672,9 +659,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class MediaAdapter extends BaseFilesAdapter {
+    private class MediaAdapter extends BaseFilesAdapter {
         boolean isStories;
         ArrayList photoEntries;
         private SharedPhotoVideoCell2.SharedResources sharedResources;
@@ -757,7 +742,6 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         }
     }
 
-    /* loaded from: classes4.dex */
     private class MusicAdapter extends BaseFilesAdapter {
         private MusicAdapter() {
             super(3);
@@ -808,9 +792,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Page {
+    private class Page {
         public final BaseAdapter adapter;
         public final String title;
         public final int type;
@@ -1161,9 +1143,8 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
     }
 
@@ -1186,8 +1167,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         this.delegate = delegate;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void showActionMode(boolean z) {
+    protected void showActionMode(boolean z) {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:63:0x0121  */

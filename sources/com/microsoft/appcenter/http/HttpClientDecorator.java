@@ -4,8 +4,7 @@ package com.microsoft.appcenter.http;
 public abstract class HttpClientDecorator implements HttpClient {
     final HttpClient mDecoratedApi;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpClientDecorator(HttpClient httpClient) {
+    HttpClientDecorator(HttpClient httpClient) {
         this.mDecoratedApi = httpClient;
     }
 

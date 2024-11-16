@@ -31,7 +31,6 @@ public class ShapeInput {
     private ArrayList movingPoints = new ArrayList();
     private float[] tempPoint = new float[2];
 
-    /* loaded from: classes3.dex */
     private class CornerPoint extends Point {
         public float rx;
         public float ry;
@@ -87,9 +86,7 @@ public class ShapeInput {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Point {
+    private class Point {
         boolean green;
         float x;
         float y;

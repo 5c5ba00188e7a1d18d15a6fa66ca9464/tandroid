@@ -5,26 +5,24 @@ import com.google.android.datatransport.Event;
 import com.google.android.datatransport.Transformer;
 import com.google.android.datatransport.runtime.AutoValue_SendRequest;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class SendRequest {
+abstract class SendRequest {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract SendRequest build();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public abstract Builder setEncoding(Encoding encoding);
+        abstract Builder setEncoding(Encoding encoding);
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public abstract Builder setEvent(Event event);
+        abstract Builder setEvent(Event event);
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public abstract Builder setTransformer(Transformer transformer);
+        abstract Builder setTransformer(Transformer transformer);
 
         public abstract Builder setTransportContext(TransportContext transportContext);
 
         public abstract Builder setTransportName(String str);
+    }
+
+    SendRequest() {
     }
 
     public static Builder builder() {
@@ -33,15 +31,13 @@ public abstract class SendRequest {
 
     public abstract Encoding getEncoding();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract Event getEvent();
+    abstract Event getEvent();
 
     public byte[] getPayload() {
         return (byte[]) getTransformer().apply(getEvent().getPayload());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract Transformer getTransformer();
+    abstract Transformer getTransformer();
 
     public abstract TransportContext getTransportContext();
 

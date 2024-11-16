@@ -7,8 +7,7 @@ public final class zzlg {
     private final Integer zza = null;
     private final Float zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzlg(zzle zzleVar, zzlf zzlfVar) {
+    /* synthetic */ zzlg(zzle zzleVar, zzlf zzlfVar) {
         Float f;
         f = zzleVar.zza;
         this.zzb = f;

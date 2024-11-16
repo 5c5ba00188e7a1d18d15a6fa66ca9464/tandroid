@@ -654,36 +654,44 @@ public abstract class VoIPHelper {
                 switch (i3) {
                     case 0:
                         i2 = R.string.RateCallVideoDistorted;
+                        string = LocaleController.getString(i2);
                         break;
                     case 1:
                         i2 = R.string.RateCallVideoPixelated;
+                        string = LocaleController.getString(i2);
                         break;
                     case 2:
                         i2 = R.string.RateCallEcho;
+                        string = LocaleController.getString(i2);
                         break;
                     case 3:
                         i2 = R.string.RateCallNoise;
+                        string = LocaleController.getString(i2);
                         break;
                     case 4:
                         i2 = R.string.RateCallInterruptions;
+                        string = LocaleController.getString(i2);
                         break;
                     case 5:
                         i2 = R.string.RateCallDistorted;
+                        string = LocaleController.getString(i2);
                         break;
                     case 6:
                         i2 = R.string.RateCallSilentLocal;
+                        string = LocaleController.getString(i2);
                         break;
                     case 7:
                         i2 = R.string.RateCallSilentRemote;
+                        string = LocaleController.getString(i2);
                         break;
                     case 8:
                         i2 = R.string.RateCallDropped;
+                        string = LocaleController.getString(i2);
                         break;
                     default:
                         string = null;
                         break;
                 }
-                string = LocaleController.getString(i2);
                 checkBoxCell.setText(string, null, false, false);
                 checkBoxCell.setOnClickListener(onClickListener);
                 checkBoxCell.setTag(strArr[i3]);

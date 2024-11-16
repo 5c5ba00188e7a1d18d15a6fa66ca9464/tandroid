@@ -38,7 +38,6 @@ public class DraftsController {
     private boolean loading;
     private boolean loadingFailed;
 
-    /* loaded from: classes5.dex */
     public static class StoryDraft {
         public String audioAuthor;
         public long audioDuration;
@@ -319,9 +318,9 @@ public class DraftsController {
             this.muted = storyEntry.muted;
             float f = storyEntry.left;
             long j = storyEntry.duration;
-            float f2 = (float) j;
-            this.left = f * f2;
-            this.right = storyEntry.right * f2;
+            float f2 = j;
+            this.left = (long) (f * f2);
+            this.right = (long) (storyEntry.right * f2);
             this.orientation = storyEntry.orientation;
             this.invert = storyEntry.invert;
             this.width = storyEntry.width;
@@ -399,9 +398,9 @@ public class DraftsController {
             long j = this.duration;
             storyEntry.duration = j;
             if (j > 0) {
-                float f = (float) j;
-                storyEntry.left = ((float) this.left) / f;
-                storyEntry.right = ((float) this.right) / f;
+                float f = j;
+                storyEntry.left = this.left / f;
+                storyEntry.right = this.right / f;
             } else {
                 storyEntry.left = 0.0f;
                 storyEntry.right = 1.0f;

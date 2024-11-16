@@ -67,9 +67,7 @@ public class ProximitySheet extends FrameLayout {
     private boolean useImperialSystem;
     private VelocityTracker velocityTracker;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 6 extends AnimatorListenerAdapter {
+    class 6 extends AnimatorListenerAdapter {
         6() {
         }
 
@@ -107,7 +105,6 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface onRadiusPickerChange {
         boolean run(boolean z, int i);
     }

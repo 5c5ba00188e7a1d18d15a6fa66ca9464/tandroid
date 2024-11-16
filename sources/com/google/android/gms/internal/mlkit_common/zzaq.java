@@ -11,8 +11,10 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
     public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzbe zza = new zzao(zzaw.zza, 0);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzaq zzg(Object[] objArr, int i) {
+    zzaq() {
+    }
+
+    static zzaq zzg(Object[] objArr, int i) {
         return i == 0 ? zzaw.zza : new zzaw(objArr, i);
     }
 
@@ -132,9 +134,8 @@ public abstract class zzaq extends zzam implements List, RandomAccess {
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzam
-    public int zza(Object[] objArr, int i) {
+    int zza(Object[] objArr, int i) {
         int size = size();
         for (int i2 = 0; i2 < size; i2++) {
             objArr[i2] = get(i2);

@@ -21,7 +21,6 @@ public final class DataSpec {
     public Uri uri;
     public final long uriPositionOffset;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Object customData;
         private int flags;

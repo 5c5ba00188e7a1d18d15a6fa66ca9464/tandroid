@@ -4,13 +4,11 @@ import java.util.Comparator;
 
 /* loaded from: classes2.dex */
 abstract class l3 extends n3 implements j$.util.N {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public l3(j$.util.N n, long j, long j2) {
+    l3(j$.util.N n, long j, long j2) {
         super(n, j, j2, 0L, Math.min(n.estimateSize(), j2));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public l3(j$.util.N n, long j, long j2, long j3, long j4) {
+    l3(j$.util.N n, long j, long j2, long j3, long j4) {
         super(n, j, j2, j3, j4);
     }
 

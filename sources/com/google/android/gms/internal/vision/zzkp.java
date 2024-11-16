@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzkp {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(zzkk zzkkVar, String str) {
+abstract class zzkp {
+    static String zza(zzkk zzkkVar, String str) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ");
         sb.append(str);
@@ -139,8 +137,7 @@ public abstract class zzkp {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final void zza(StringBuilder sb, int i, String str, Object obj) {
+    static final void zza(StringBuilder sb, int i, String str, Object obj) {
         if (obj instanceof List) {
             Iterator it = ((List) obj).iterator();
             while (it.hasNext()) {

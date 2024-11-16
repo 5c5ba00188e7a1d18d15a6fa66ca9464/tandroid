@@ -16,15 +16,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class SyncTask implements Runnable {
+class SyncTask implements Runnable {
     private final FirebaseMessaging firebaseMessaging;
     private final long nextDelaySeconds;
     ExecutorService processorExecutor = new ThreadPoolExecutor(0, 1, 30, TimeUnit.SECONDS, new LinkedBlockingQueue(), new NamedThreadFactory("firebase-iid-executor"));
     private final PowerManager.WakeLock syncWakeLock;
 
-    /* loaded from: classes.dex */
     static class ConnectivityChangeReceiver extends BroadcastReceiver {
         private SyncTask task;
 

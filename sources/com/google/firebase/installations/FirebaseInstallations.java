@@ -52,9 +52,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 3 {
+    static /* synthetic */ class 3 {
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$installations$remote$InstallationResponse$ResponseCode;
         static final /* synthetic */ int[] $SwitchMap$com$google$firebase$installations$remote$TokenResult$ResponseCode;
 
@@ -86,8 +84,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FirebaseInstallations(FirebaseApp firebaseApp, Provider provider, Provider provider2) {
+    FirebaseInstallations(FirebaseApp firebaseApp, Provider provider, Provider provider2) {
         this(new ThreadPoolExecutor(0, 1, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue(), THREAD_FACTORY), firebaseApp, new FirebaseInstallationServiceClient(firebaseApp.getApplicationContext(), provider, provider2), new PersistedInstallation(firebaseApp), Utils.getInstance(), new IidStore(firebaseApp), new RandomFidGenerator());
     }
 

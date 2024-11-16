@@ -10,8 +10,7 @@ final class zzx implements Iterator {
     Collection zzb;
     final /* synthetic */ zzy zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzx(zzy zzyVar) {
+    zzx(zzy zzyVar) {
         this.zzc = zzyVar;
         this.zza = zzyVar.zza.entrySet().iterator();
     }

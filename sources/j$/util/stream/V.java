@@ -15,10 +15,10 @@ final class V extends Y1 {
         switch (this.b) {
             case 0:
                 this.a.accept(i);
-                return;
+                break;
             default:
                 this.a.accept(i);
-                return;
+                break;
         }
     }
 }

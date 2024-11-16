@@ -7,8 +7,7 @@ abstract class y {
     private final com.google.android.play.integrity.internal.s a = new com.google.android.play.integrity.internal.s("IntegrityDialogWrapper");
     private final Object d = new Object();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public y(String str, long j) {
+    y(String str, long j) {
         this.b = str;
         this.c = j;
     }

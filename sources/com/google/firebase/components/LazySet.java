@@ -7,9 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class LazySet implements Provider {
+class LazySet implements Provider {
     private volatile Set actualSet = null;
     private volatile Set providers = Collections.newSetFromMap(new ConcurrentHashMap());
 
@@ -17,8 +16,7 @@ public class LazySet implements Provider {
         this.providers.addAll(collection);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static LazySet fromCollection(Collection collection) {
+    static LazySet fromCollection(Collection collection) {
         return new LazySet((Set) collection);
     }
 

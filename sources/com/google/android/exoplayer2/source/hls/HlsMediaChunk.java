@@ -29,9 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class HlsMediaChunk extends MediaChunk {
+final class HlsMediaChunk extends MediaChunk {
     private static final AtomicInteger uidSource = new AtomicInteger();
     public final int discontinuitySequenceNumber;
     private final DrmInitData drmInitData;

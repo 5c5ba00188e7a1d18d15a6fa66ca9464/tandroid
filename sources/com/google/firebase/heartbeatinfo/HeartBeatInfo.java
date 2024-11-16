@@ -3,7 +3,6 @@ package com.google.firebase.heartbeatinfo;
 /* loaded from: classes.dex */
 public interface HeartBeatInfo {
 
-    /* loaded from: classes.dex */
     public enum HeartBeat {
         NONE(0),
         SDK(1),

@@ -2,13 +2,11 @@ package com.google.android.gms.internal.clearcut;
 
 import java.nio.charset.Charset;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class zzbi extends zzbh {
+class zzbi extends zzbh {
     protected final byte[] zzfp;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbi(byte[] bArr) {
+    zzbi(byte[] bArr) {
         this.zzfp = bArr;
     }
 
@@ -56,9 +54,8 @@ public class zzbi extends zzbh {
         return new String(this.zzfp, zzac(), size(), charset);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzbb
-    public final void zza(zzba zzbaVar) {
+    final void zza(zzba zzbaVar) {
         zzbaVar.zza(this.zzfp, zzac(), size());
     }
 

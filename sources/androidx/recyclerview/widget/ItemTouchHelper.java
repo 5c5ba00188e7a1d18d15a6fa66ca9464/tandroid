@@ -175,7 +175,6 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     };
 
-    /* loaded from: classes.dex */
     public static abstract class Callback {
         private static final Interpolator sDragScrollInterpolator = new Interpolator() { // from class: androidx.recyclerview.widget.ItemTouchHelper.Callback.1
             @Override // android.animation.TimeInterpolator
@@ -323,7 +322,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
 
         public int interpolateOutOfBoundsScroll(RecyclerView recyclerView, int i, int i2, int i3, long j) {
-            int signum = (int) (((int) (((int) Math.signum(i2)) * getMaxDragScroll(recyclerView) * sDragViewScrollCapInterpolator.getInterpolation(Math.min(1.0f, (Math.abs(i2) * 1.0f) / i)))) * sDragScrollInterpolator.getInterpolation(j <= 500 ? ((float) j) / 500.0f : 1.0f));
+            int signum = (int) (((int) (((int) Math.signum(i2)) * getMaxDragScroll(recyclerView) * sDragViewScrollCapInterpolator.getInterpolation(Math.min(1.0f, (Math.abs(i2) * 1.0f) / i)))) * sDragScrollInterpolator.getInterpolation(j <= 500 ? j / 500.0f : 1.0f));
             return signum == 0 ? i2 > 0 ? 1 : -1 : signum;
         }
 
@@ -423,9 +422,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         public abstract void onSwiped(RecyclerView.ViewHolder viewHolder, int i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ItemTouchHelperGestureListener extends GestureDetector.SimpleOnGestureListener {
+    private class ItemTouchHelperGestureListener extends GestureDetector.SimpleOnGestureListener {
         private boolean mShouldReactToLongPress = true;
 
         ItemTouchHelperGestureListener() {
@@ -468,9 +465,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class RecoverAnimation implements Animator.AnimatorListener {
+    private static class RecoverAnimation implements Animator.AnimatorListener {
         final int mActionState;
         final int mAnimationType;
         private float mFraction;
@@ -555,7 +550,6 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class SimpleCallback extends Callback {
         private int mDefaultDragDirs;
         private int mDefaultSwipeDirs;
@@ -579,7 +573,6 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         }
     }
 
-    /* loaded from: classes.dex */
     public interface ViewDropHandler {
         void prepareForDrop(View view, View view2, int i, int i2);
     }

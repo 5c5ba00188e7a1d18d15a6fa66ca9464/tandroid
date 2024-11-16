@@ -5,17 +5,15 @@ import android.util.Base64;
 import android.util.Log;
 import java.io.IOException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzal extends zzae {
+final class zzal extends zzae {
     private final Object lock;
     private String zzec;
     private Object zzed;
     private final /* synthetic */ zzan zzee;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzal(zzao zzaoVar, String str, Object obj, zzan zzanVar) {
+    zzal(zzao zzaoVar, String str, Object obj, zzan zzanVar) {
         super(zzaoVar, str, obj, null);
         this.zzee = zzanVar;
         this.lock = new Object();
@@ -32,9 +30,8 @@ public final class zzal extends zzae {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzae
-    public final Object zzb(String str) {
+    protected final Object zzb(String str) {
         Object obj;
         try {
             synchronized (this.lock) {

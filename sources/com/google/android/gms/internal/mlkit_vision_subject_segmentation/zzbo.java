@@ -7,8 +7,7 @@ final class zzbo extends zzay {
     private final transient zzax zza;
     private final transient zzav zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbo(zzax zzaxVar, zzav zzavVar) {
+    zzbo(zzax zzaxVar, zzav zzavVar) {
         this.zza = zzaxVar;
         this.zzb = zzavVar;
     }
@@ -28,9 +27,8 @@ final class zzbo extends zzay {
         return this.zza.size();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzaq
-    public final int zza(Object[] objArr, int i) {
+    final int zza(Object[] objArr, int i) {
         return this.zzb.zza(objArr, 0);
     }
 }

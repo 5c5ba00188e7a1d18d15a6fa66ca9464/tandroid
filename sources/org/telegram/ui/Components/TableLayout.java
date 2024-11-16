@@ -66,7 +66,6 @@ public class TableLayout extends View {
     private ArrayList rowSpans;
     private TextSelectionHelper.ArticleTextSelectionHelper textSelectionHelper;
 
-    /* loaded from: classes3.dex */
     public static abstract class Alignment {
         Alignment() {
         }
@@ -84,9 +83,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static final class Arc {
+    static final class Arc {
         public final Interval span;
         public boolean valid = true;
         public final MutableInt value;
@@ -97,9 +94,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static final class Assoc extends ArrayList {
+    static final class Assoc extends ArrayList {
         private final Class keyType;
         private final Class valueType;
 
@@ -129,9 +124,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public final class Axis {
+    final class Axis {
         public Arc[] arcs;
         public boolean arcsValid;
         PackedMap backwardLinks;
@@ -643,7 +636,7 @@ public class TableLayout extends View {
 
         Arc[][] groupArcsByFirstVertex(Arc[] arcArr) {
             int count = getCount() + 1;
-            Arc[][] arcArr2 = new Arc[count];
+            Arc[][] arcArr2 = new Arc[count][];
             int[] iArr = new int[count];
             for (Arc arc : arcArr) {
                 int i = arc.span.min;
@@ -708,9 +701,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class Bounds {
+    static class Bounds {
         public int after;
         public int before;
         public int flexibility;
@@ -748,7 +739,6 @@ public class TableLayout extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class Child {
         private TLRPC.TL_pageTableCell cell;
         private int fixedHeight;
@@ -1123,9 +1113,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static final class Interval {
+    static final class Interval {
         public final int max;
         public final int min;
 
@@ -1158,7 +1146,6 @@ public class TableLayout extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         private static final Interval DEFAULT_SPAN;
         private static final int DEFAULT_SPAN_SIZE;
@@ -1218,9 +1205,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static final class MutableInt {
+    static final class MutableInt {
         public int value;
 
         public MutableInt() {
@@ -1236,9 +1221,7 @@ public class TableLayout extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static final class PackedMap {
+    static final class PackedMap {
         public final int[] index;
         public final Object[] keys;
         public final Object[] values;
@@ -1280,7 +1263,6 @@ public class TableLayout extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Spec {
         static final Spec UNDEFINED = TableLayout.spec(Integer.MIN_VALUE);
         final Alignment alignment;
@@ -1329,7 +1311,6 @@ public class TableLayout extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface TableLayoutDelegate {
         ArticleViewer.DrawingText createTextLayout(TLRPC.TL_pageTableCell tL_pageTableCell, int i);
 

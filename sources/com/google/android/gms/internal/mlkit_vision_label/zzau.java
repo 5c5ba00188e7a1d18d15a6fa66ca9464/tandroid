@@ -8,9 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzau extends AbstractMap implements Serializable {
+final class zzau extends AbstractMap implements Serializable {
     private static final Object zzd = new Object();
     transient int[] zza;
     transient Object[] zzb;
@@ -22,8 +21,7 @@ public final class zzau extends AbstractMap implements Serializable {
     private transient Set zzi;
     private transient Collection zzj;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzau(int i) {
+    zzau(int i) {
         zzo(12);
     }
 
@@ -41,32 +39,27 @@ public final class zzau extends AbstractMap implements Serializable {
         return objArr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzb(zzau zzauVar) {
+    static /* synthetic */ int zzb(zzau zzauVar) {
         int i = zzauVar.zzg;
         zzauVar.zzg = i - 1;
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ Object zzg(zzau zzauVar, int i) {
+    static /* synthetic */ Object zzg(zzau zzauVar, int i) {
         return zzauVar.zzA()[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ Object zzj(zzau zzauVar, int i) {
+    static /* synthetic */ Object zzj(zzau zzauVar, int i) {
         return zzauVar.zzB()[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ Object zzk(zzau zzauVar) {
+    static /* synthetic */ Object zzk(zzau zzauVar) {
         Object obj = zzauVar.zze;
         obj.getClass();
         return obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzm(zzau zzauVar, int i, Object obj) {
+    static /* synthetic */ void zzm(zzau zzauVar, int i, Object obj) {
         zzauVar.zzB()[i] = obj;
     }
 
@@ -379,13 +372,11 @@ public final class zzau extends AbstractMap implements Serializable {
         return zzatVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zze() {
+    final int zze() {
         return isEmpty() ? -1 : 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zzf(int i) {
+    final int zzf(int i) {
         int i2 = i + 1;
         if (i2 < this.zzg) {
             return i2;
@@ -393,8 +384,7 @@ public final class zzau extends AbstractMap implements Serializable {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Map zzl() {
+    final Map zzl() {
         Object obj = this.zze;
         if (obj instanceof Map) {
             return (Map) obj;
@@ -402,8 +392,7 @@ public final class zzau extends AbstractMap implements Serializable {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzn() {
+    final void zzn() {
         this.zzf += 32;
     }
 
@@ -411,8 +400,7 @@ public final class zzau extends AbstractMap implements Serializable {
         this.zzf = zzcf.zza(12, 1, 1073741823);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzp(int i, int i2) {
+    final void zzp(int i, int i2) {
         Object obj = this.zze;
         obj.getClass();
         int[] zzz = zzz();
@@ -451,8 +439,7 @@ public final class zzau extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzq() {
+    final boolean zzq() {
         return this.zze == null;
     }
 }

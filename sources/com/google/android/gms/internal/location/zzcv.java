@@ -6,8 +6,7 @@ import com.google.android.gms.common.api.internal.ListenerHolder;
 final class zzcv implements ListenerHolder.Notifier {
     final /* synthetic */ zzcw zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcv(zzcw zzcwVar) {
+    zzcv(zzcw zzcwVar) {
         this.zza = zzcwVar;
     }
 

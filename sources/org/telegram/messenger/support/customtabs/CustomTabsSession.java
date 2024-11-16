@@ -10,20 +10,17 @@ public final class CustomTabsSession {
     private final Object mLock = new Object();
     private final ICustomTabsService mService;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CustomTabsSession(ICustomTabsService iCustomTabsService, ICustomTabsCallback iCustomTabsCallback, ComponentName componentName) {
+    CustomTabsSession(ICustomTabsService iCustomTabsService, ICustomTabsCallback iCustomTabsCallback, ComponentName componentName) {
         this.mService = iCustomTabsService;
         this.mCallback = iCustomTabsCallback;
         this.mComponentName = componentName;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public IBinder getBinder() {
+    IBinder getBinder() {
         return this.mCallback.asBinder();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ComponentName getComponentName() {
+    ComponentName getComponentName() {
         return this.mComponentName;
     }
 }

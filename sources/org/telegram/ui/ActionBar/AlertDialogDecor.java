@@ -39,7 +39,6 @@ public class AlertDialogDecor extends AlertDialog {
     private View rootView;
     private final Runnable showRunnable;
 
-    /* loaded from: classes4.dex */
     public static class Builder extends AlertDialog.Builder {
         public Builder(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, 0, resourcesProvider);

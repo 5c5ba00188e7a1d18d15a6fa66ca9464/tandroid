@@ -11,15 +11,13 @@ final class EmojiKeyListener implements KeyListener {
     private final EmojiCompatHandleKeyDownHelper mEmojiCompatHandleKeyDownHelper;
     private final KeyListener mKeyListener;
 
-    /* loaded from: classes.dex */
     public static class EmojiCompatHandleKeyDownHelper {
         public boolean handleKeyDown(Editable editable, int i, KeyEvent keyEvent) {
             return EmojiCompat.handleOnKeyDown(editable, i, keyEvent);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiKeyListener(KeyListener keyListener) {
+    EmojiKeyListener(KeyListener keyListener) {
         this(keyListener, new EmojiCompatHandleKeyDownHelper());
     }
 

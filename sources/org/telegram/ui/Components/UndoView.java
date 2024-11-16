@@ -95,7 +95,6 @@ public class UndoView extends FrameLayout {
     private TextView undoTextView;
     private int undoViewHeight;
 
-    /* loaded from: classes3.dex */
     public class LinkMovementMethodMy extends LinkMovementMethod {
         public LinkMovementMethodMy() {
         }
@@ -435,7 +434,7 @@ public class UndoView extends FrameLayout {
         }
         int i = this.currentAction;
         if (i == 1 || i == 0 || i == 27 || i == 26 || i == 81 || i == 88) {
-            int ceil = this.timeLeft > 0 ? (int) Math.ceil(((float) r10) / 1000.0f) : 0;
+            int ceil = this.timeLeft > 0 ? (int) Math.ceil(r10 / 1000.0f) : 0;
             if (this.prevSeconds != ceil) {
                 this.prevSeconds = ceil;
                 this.timeLeftString = String.format("%d", Integer.valueOf(Math.max(1, ceil)));
@@ -483,7 +482,7 @@ public class UndoView extends FrameLayout {
                 }
                 canvas.restore();
             }
-            canvas.drawArc(this.rect, -90.0f, (-360.0f) * (((float) this.timeLeft) / 5000.0f), false, this.progressPaint);
+            canvas.drawArc(this.rect, -90.0f, (-360.0f) * (this.timeLeft / 5000.0f), false, this.progressPaint);
         }
         long elapsedRealtime = SystemClock.elapsedRealtime();
         long j = this.timeLeft - (elapsedRealtime - this.lastUpdateTime);

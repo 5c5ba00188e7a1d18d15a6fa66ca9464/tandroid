@@ -75,14 +75,11 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
     private View shadow;
     private AnimatorSet shadowAnimation;
 
-    /* loaded from: classes3.dex */
     public interface AudioSelectDelegate {
         void didSelectAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -155,7 +152,6 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /* loaded from: classes3.dex */
     public class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
         private Context mContext;
@@ -436,9 +432,8 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                         return super.calculateDyToMakeVisible(view, i3) - (ChatAttachAlertAudioLayout.this.listView.getPaddingTop() - AndroidUtilities.dp(7.0f));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i3) {
+                    protected int calculateTimeForDeceleration(int i3) {
                         return super.calculateTimeForDeceleration(i3) * 2;
                     }
                 };

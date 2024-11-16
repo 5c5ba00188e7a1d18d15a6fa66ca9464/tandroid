@@ -7,8 +7,7 @@ final class zan extends zabw {
     final /* synthetic */ Dialog zaa;
     final /* synthetic */ zao zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zan(zao zaoVar, Dialog dialog) {
+    zan(zao zaoVar, Dialog dialog) {
         this.zab = zaoVar;
         this.zaa = dialog;
     }

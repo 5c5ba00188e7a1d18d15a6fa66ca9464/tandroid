@@ -73,9 +73,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
     int type;
     int videoDividerRow;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends AdapterWithDiffUtils {
+    private class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
 
@@ -214,16 +212,16 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                     final SeekBarView seekBarView = new SeekBarView(SaveToGallerySettingsActivity.this.getContext());
                     FrameLayout frameLayout = new FrameLayout(SaveToGallerySettingsActivity.this.getContext());
                     SaveToGallerySettingsActivity saveToGallerySettingsActivity = SaveToGallerySettingsActivity.this;
-                    final SelectableAnimatedTextView selectableAnimatedTextView = new SelectableAnimatedTextView(saveToGallerySettingsActivity.getContext());
+                    final SelectableAnimatedTextView selectableAnimatedTextView = saveToGallerySettingsActivity.new SelectableAnimatedTextView(saveToGallerySettingsActivity.getContext());
                     selectableAnimatedTextView.setTextSize(AndroidUtilities.dp(13.0f));
                     selectableAnimatedTextView.setText(AndroidUtilities.formatFileSize(524288L, true, false));
                     frameLayout.addView(selectableAnimatedTextView, LayoutHelper.createFrame(-2, -2, 83));
                     SaveToGallerySettingsActivity saveToGallerySettingsActivity2 = SaveToGallerySettingsActivity.this;
-                    final SelectableAnimatedTextView selectableAnimatedTextView2 = new SelectableAnimatedTextView(saveToGallerySettingsActivity2.getContext());
+                    final SelectableAnimatedTextView selectableAnimatedTextView2 = saveToGallerySettingsActivity2.new SelectableAnimatedTextView(saveToGallerySettingsActivity2.getContext());
                     selectableAnimatedTextView2.setTextSize(AndroidUtilities.dp(13.0f));
                     frameLayout.addView(selectableAnimatedTextView2, LayoutHelper.createFrame(-2, -2, 81));
                     SaveToGallerySettingsActivity saveToGallerySettingsActivity3 = SaveToGallerySettingsActivity.this;
-                    final SelectableAnimatedTextView selectableAnimatedTextView3 = new SelectableAnimatedTextView(saveToGallerySettingsActivity3.getContext());
+                    final SelectableAnimatedTextView selectableAnimatedTextView3 = saveToGallerySettingsActivity3.new SelectableAnimatedTextView(saveToGallerySettingsActivity3.getContext());
                     selectableAnimatedTextView3.setTextSize(AndroidUtilities.dp(13.0f));
                     long j = 4194304000L;
                     selectableAnimatedTextView3.setText(AndroidUtilities.formatFileSize(4194304000L, true, false));
@@ -254,7 +252,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                         */
                         public void onSeekBarDrag(boolean z, float f) {
                             boolean isAttachedToWindow = seekBarView.isAttachedToWindow();
-                            long j3 = f > 0.7f ? ((float) SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT) + (((float) 4089446400L) * ((f - 0.7f) / 0.3f)) : (((float) 104333312) * (f / 0.7f)) + 524288.0f;
+                            long j3 = (long) (f > 0.7f ? SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT + (4089446400L * ((f - 0.7f) / 0.3f)) : (104333312 * (f / 0.7f)) + 524288.0f);
                             if (f >= 1.0f) {
                                 selectableAnimatedTextView.setSelectedInternal(false, isAttachedToWindow);
                                 selectableAnimatedTextView2.setSelectedInternal(false, isAttachedToWindow);
@@ -286,7 +284,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                         public void onSeekBarPressed(boolean z) {
                         }
                     });
-                    seekBarView.setProgress(((float) j) > ((float) SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT) * 0.7f ? ((((float) (j - SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT)) / ((float) 4089446400L)) * 0.3f) + 0.7f : (((float) (j - 524288)) / ((float) 104333312)) * 0.7f);
+                    seekBarView.setProgress(((float) j) > ((float) SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT) * 0.7f ? (((j - SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT) / 4089446400L) * 0.3f) + 0.7f : ((j - 524288) / 104333312) * 0.7f);
                     seekBarView.delegate.onSeekBarDrag(false, seekBarView.getProgress());
                     linearLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     view2 = linearLayout;
@@ -308,9 +306,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Item extends AdapterWithDiffUtils.Item {
+    private class Item extends AdapterWithDiffUtils.Item {
         final SaveToGallerySettingsHelper.DialogException exception;
         String title;
 
@@ -351,7 +347,6 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     private class SelectableAnimatedTextView extends AnimatedTextView {
         AnimatedFloat progressToSelect;
         boolean selected;

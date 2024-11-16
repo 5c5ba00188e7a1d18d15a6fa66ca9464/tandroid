@@ -68,18 +68,15 @@ public class LinkActionView extends LinearLayout {
     private final TextView shareView;
     private int usersCount;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class AvatarsContainer extends FrameLayout {
+    private class AvatarsContainer extends FrameLayout {
         AvatarsImageView avatarsImageView;
         TextView countTextView;
 
         public AvatarsContainer(Context context) {
             super(context);
             this.avatarsImageView = new AvatarsImageView(context, false) { // from class: org.telegram.ui.Components.LinkActionView.AvatarsContainer.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
-                public void onMeasure(int i, int i2) {
+                protected void onMeasure(int i, int i2) {
                     super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(Math.min(3, LinkActionView.this.usersCount) == 0 ? 0 : ((r2 - 1) * 20) + 32), 1073741824), i2);
                 }
             };
@@ -97,10 +94,8 @@ public class LinkActionView extends LinearLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Delegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$editLink(Delegate delegate) {
             }
@@ -318,9 +313,8 @@ public class LinkActionView extends LinearLayout {
             Context context = getContext();
             String str = this.link;
             baseFragment.showDialog(new ShareAlert(context, null, str, false, str, false, baseFragment.getResourceProvider()) { // from class: org.telegram.ui.Components.LinkActionView.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.ShareAlert
-                public void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
+                protected void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
                     String formatString;
                     if (longSparseArray == null || longSparseArray.size() != 1) {
                         formatString = LocaleController.formatString(R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0]));

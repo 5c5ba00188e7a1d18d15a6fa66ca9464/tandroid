@@ -10,8 +10,7 @@ class ResumeFromBackgroundTask extends AsyncTask {
     private final Context mContext;
     private final long mDownloadedId;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ResumeFromBackgroundTask(Context context, long j) {
+    ResumeFromBackgroundTask(Context context, long j) {
         this.mContext = context;
         this.mDownloadedId = j;
     }

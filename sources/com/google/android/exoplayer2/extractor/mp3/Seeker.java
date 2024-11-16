@@ -5,7 +5,6 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 /* loaded from: classes.dex */
 interface Seeker extends SeekMap {
 
-    /* loaded from: classes.dex */
     public static class UnseekableSeeker extends SeekMap.Unseekable implements Seeker {
         public UnseekableSeeker() {
             super(-9223372036854775807L);

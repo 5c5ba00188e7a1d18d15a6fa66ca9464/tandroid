@@ -5,8 +5,7 @@ final class zzic implements zzhz {
     private zzic() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzic(zzhs zzhsVar) {
+    /* synthetic */ zzic(zzhs zzhsVar) {
         this();
     }
 

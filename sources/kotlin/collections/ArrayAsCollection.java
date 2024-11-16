@@ -6,9 +6,8 @@ import kotlin.jvm.internal.ArrayIteratorKt;
 import kotlin.jvm.internal.CollectionToArray;
 import kotlin.jvm.internal.Intrinsics;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ArrayAsCollection implements Collection {
+final class ArrayAsCollection implements Collection {
     private final boolean isVarargs;
     private final Object[] values;
 

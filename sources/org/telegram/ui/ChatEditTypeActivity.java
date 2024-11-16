@@ -141,7 +141,6 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     private boolean deactivatingLinks = false;
     private boolean activatingEditableLink = false;
 
-    /* loaded from: classes4.dex */
     class 6 extends TextInfoPrivacyCell {
         int prevHeight;
         ValueAnimator translateAnimator;
@@ -197,7 +196,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r7v0, types: [org.telegram.ui.ChatEditTypeActivity$6, org.telegram.ui.Cells.TextInfoPrivacyCell] */
+        /* JADX WARN: Type inference failed for: r7v0, types: [org.telegram.ui.Cells.TextInfoPrivacyCell, org.telegram.ui.ChatEditTypeActivity$6] */
         /* JADX WARN: Type inference failed for: r8v0, types: [java.lang.CharSequence] */
         /* JADX WARN: Type inference failed for: r8v1, types: [java.lang.CharSequence] */
         /* JADX WARN: Type inference failed for: r8v3, types: [android.text.SpannableStringBuilder] */
@@ -233,8 +232,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class UsernamesListView extends RecyclerListView {
+    class UsernamesListView extends RecyclerListView {
         private final int VIEW_TYPE_HEADER;
         private final int VIEW_TYPE_HELP;
         private final int VIEW_TYPE_USERNAME;
@@ -244,9 +242,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         private LinearLayoutManager layoutManager;
         private boolean needReorder;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements RecyclerListView.OnItemClickListener {
+        class 1 implements RecyclerListView.OnItemClickListener {
             final /* synthetic */ ChatEditTypeActivity val$this$0;
 
             1(ChatEditTypeActivity chatEditTypeActivity) {
@@ -359,9 +355,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class Adapter extends RecyclerListView.SelectionAdapter {
+        private class Adapter extends RecyclerListView.SelectionAdapter {
             private Adapter() {
             }
 
@@ -472,7 +466,6 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
         }
 
-        /* loaded from: classes4.dex */
         public class TouchHelperCallback extends ItemTouchHelper.Callback {
             public TouchHelperCallback() {
             }
@@ -593,9 +586,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             ChatEditTypeActivity.this.getMessagesController().putChat(ChatEditTypeActivity.this.currentChat, true);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             int childAdapterPosition;
             int size = ChatEditTypeActivity.this.usernames.size();
             int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -614,9 +606,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             super.dispatchDraw(canvas);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(9999999, Integer.MIN_VALUE));
         }
 
@@ -1366,7 +1357,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     ChatEditTypeActivity.this.lambda$updateDoneProgress$7(valueAnimator2);
                 }
             });
-            this.doneButtonDrawableAnimator.setDuration(Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f);
+            this.doneButtonDrawableAnimator.setDuration((long) (Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f));
             this.doneButtonDrawableAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.doneButtonDrawableAnimator.start();
         }

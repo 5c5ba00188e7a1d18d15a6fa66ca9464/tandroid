@@ -92,17 +92,14 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     private boolean justCreated = false;
     private boolean startPressed = false;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements TextureView.SurfaceTextureListener {
+    class 2 implements TextureView.SurfaceTextureListener {
         2() {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onSurfaceTextureAvailable$0() {
-            float currentTimeMillis = ((float) (System.currentTimeMillis() - IntroActivity.this.currentDate)) / 1000.0f;
             Intro.setPage(IntroActivity.this.currentViewPagerPage);
-            Intro.setDate(currentTimeMillis);
+            Intro.setDate((System.currentTimeMillis() - IntroActivity.this.currentDate) / 1000.0f);
             Intro.onDrawFrame(0);
             if (IntroActivity.this.eglThread == null || !IntroActivity.this.eglThread.isAlive() || IntroActivity.this.eglThread.eglDisplay == null || IntroActivity.this.eglThread.eglSurface == null) {
                 return;
@@ -118,7 +115,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             if (IntroActivity.this.eglThread != null || surfaceTexture == null) {
                 return;
             }
-            IntroActivity.this.eglThread = new EGLThread(surfaceTexture);
+            IntroActivity.this.eglThread = IntroActivity.this.new EGLThread(surfaceTexture);
             IntroActivity.this.eglThread.setSurfaceTextureSize(i, i2);
             IntroActivity.this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$2$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -151,9 +148,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 5 implements NotificationCenter.NotificationCenterDelegate {
+    class 5 implements NotificationCenter.NotificationCenterDelegate {
         final /* synthetic */ AlertDialog val$loaderDialog;
 
         5(AlertDialog alertDialog) {
@@ -181,7 +176,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class EGLThread extends DispatchQueue {
         private Runnable drawRunnable;
         private EGL10 egl10;
@@ -222,31 +216,30 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                             return;
                         }
                         int min = (int) Math.min(currentTimeMillis - EGLThread.this.lastDrawFrame, 16L);
-                        float f = ((float) (currentTimeMillis - IntroActivity.this.currentDate)) / 1000.0f;
                         Intro.setPage(IntroActivity.this.currentViewPagerPage);
-                        Intro.setDate(f);
+                        Intro.setDate((currentTimeMillis - IntroActivity.this.currentDate) / 1000.0f);
                         Intro.onDrawFrame(min);
                         EGLThread.this.egl10.eglSwapBuffers(EGLThread.this.eglDisplay, EGLThread.this.eglSurface);
                         EGLThread.this.lastDrawFrame = currentTimeMillis;
-                        float f2 = 0.0f;
+                        float f = 0.0f;
                         if (EGLThread.this.maxRefreshRate == 0.0f) {
                             if (Build.VERSION.SDK_INT >= 21) {
                                 supportedRefreshRates = ((WindowManager) ApplicationLoader.applicationContext.getSystemService("window")).getDefaultDisplay().getSupportedRefreshRates();
-                                for (float f3 : supportedRefreshRates) {
-                                    if (f3 > f2) {
-                                        f2 = f3;
+                                for (float f2 : supportedRefreshRates) {
+                                    if (f2 > f) {
+                                        f = f2;
                                     }
                                 }
                                 eGLThread = EGLThread.this;
                             } else {
                                 eGLThread = EGLThread.this;
-                                f2 = 60.0f;
+                                f = 60.0f;
                             }
-                            eGLThread.maxRefreshRate = f2;
+                            eGLThread.maxRefreshRate = f;
                         }
                         long currentTimeMillis2 = System.currentTimeMillis() - currentTimeMillis;
                         EGLThread eGLThread2 = EGLThread.this;
-                        eGLThread2.postRunnable(eGLThread2.drawRunnable, Math.max((1000.0f / EGLThread.this.maxRefreshRate) - currentTimeMillis2, 0L));
+                        eGLThread2.postRunnable(eGLThread2.drawRunnable, Math.max(((long) (1000.0f / EGLThread.this.maxRefreshRate)) - currentTimeMillis2, 0L));
                     }
                 }
             };
@@ -502,7 +495,6 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     private class IntroAdapter extends PagerAdapter {
         private IntroAdapter() {
         }
@@ -656,8 +648,10 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         RLottieDrawable rLottieDrawable = this.darkThemeDrawable;
         rLottieDrawable.setCustomEndFrame(z ? rLottieDrawable.getFramesCount() - 1 : 0);
         rLottieImageView.playAnimation();
-        rLottieImageView.getLocationInWindow(r4);
-        int[] iArr = {iArr[0] + (rLottieImageView.getMeasuredWidth() / 2), iArr[1] + (rLottieImageView.getMeasuredHeight() / 2)};
+        int[] iArr = new int[2];
+        rLottieImageView.getLocationInWindow(iArr);
+        iArr[0] = iArr[0] + (rLottieImageView.getMeasuredWidth() / 2);
+        iArr[1] = iArr[1] + (rLottieImageView.getMeasuredHeight() / 2);
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), rLottieImageView);
         rLottieImageView.setContentDescription(LocaleController.getString(z ? R.string.AccDescrSwitchToDayTheme : R.string.AccDescrSwitchToNightTheme));
     }

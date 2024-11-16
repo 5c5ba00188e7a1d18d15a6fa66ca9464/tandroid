@@ -332,9 +332,8 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         }
         addView(view2, LayoutHelper.createFrame(32, -2.0f, i6, f10, f11, f12, 0.0f));
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.SharedDocumentCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 float currentAlpha = SharedDocumentCell.this.thumbImageView.getImageReceiver().hasBitmapImage() ? 1.0f - SharedDocumentCell.this.thumbImageView.getImageReceiver().getCurrentAlpha() : 1.0f;
                 SharedDocumentCell.this.extTextView.setAlpha(currentAlpha);
                 SharedDocumentCell.this.placeholderImageView.setAlpha(currentAlpha);
@@ -797,7 +796,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         }
         this.downloadedSize = j;
         updateDateView();
-        this.progressView.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        this.progressView.setProgress(Math.min(1.0f, j / j2), true);
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener

@@ -15,24 +15,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class FragmentTransition {
+abstract class FragmentTransition {
     private static final int[] INVERSE_OPS = {0, 3, 0, 1, 5, 4, 7, 6, 9, 8, 10};
     static final FragmentTransitionImpl PLATFORM_IMPL;
     static final FragmentTransitionImpl SUPPORT_IMPL;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Callback {
+    interface Callback {
         void onComplete(Fragment fragment, CancellationSignal cancellationSignal);
 
         void onStart(Fragment fragment, CancellationSignal cancellationSignal);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class FragmentContainerTransition {
+    static class FragmentContainerTransition {
         public Fragment firstOut;
         public boolean firstOutIsPop;
         public BackStackRecord firstOutTransaction;
@@ -294,8 +289,7 @@ public abstract class FragmentTransition {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void callSharedElementStartEnd(Fragment fragment, Fragment fragment2, boolean z, ArrayMap arrayMap, boolean z2) {
+    static void callSharedElementStartEnd(Fragment fragment, Fragment fragment2, boolean z, ArrayMap arrayMap, boolean z2) {
         if (z) {
             fragment2.getEnterTransitionCallback();
         } else {
@@ -716,8 +710,7 @@ public abstract class FragmentTransition {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void retainValues(ArrayMap arrayMap, ArrayMap arrayMap2) {
+    static void retainValues(ArrayMap arrayMap, ArrayMap arrayMap2) {
         for (int size = arrayMap.size() - 1; size >= 0; size--) {
             if (!arrayMap2.containsKey((String) arrayMap.valueAt(size))) {
                 arrayMap.removeAt(size);
@@ -759,8 +752,7 @@ public abstract class FragmentTransition {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void setViewVisibility(ArrayList arrayList, int i) {
+    static void setViewVisibility(ArrayList arrayList, int i) {
         if (arrayList == null) {
             return;
         }
@@ -769,8 +761,7 @@ public abstract class FragmentTransition {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void startTransitions(Context context, FragmentContainer fragmentContainer, ArrayList arrayList, ArrayList arrayList2, int i, int i2, boolean z, Callback callback) {
+    static void startTransitions(Context context, FragmentContainer fragmentContainer, ArrayList arrayList, ArrayList arrayList2, int i, int i2, boolean z, Callback callback) {
         ViewGroup viewGroup;
         SparseArray sparseArray = new SparseArray();
         for (int i3 = i; i3 < i2; i3++) {

@@ -79,8 +79,7 @@ public class WebviewActivity extends BaseFragment {
     private WebView webView;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class TelegramWebviewProxy {
+    class TelegramWebviewProxy {
         private TelegramWebviewProxy() {
         }
 

@@ -5,7 +5,6 @@ import java.util.Objects;
 /* loaded from: classes.dex */
 public abstract class ObjectsCompat {
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static boolean equals(Object obj, Object obj2) {
             return Objects.equals(obj, obj2);

@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zze extends zza implements zzg {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zze(IBinder iBinder) {
+    zze(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.vision.label.internal.client.INativeImageLabelerCreator");
     }
 

@@ -90,7 +90,7 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.ChatActivity;
-import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda229;
+import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda230;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -211,9 +211,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     private BotWebViewContainer webViewContainer;
     private WindowView windowView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 11 implements View.OnLayoutChangeListener {
+    class 11 implements View.OnLayoutChangeListener {
         11() {
         }
 
@@ -255,9 +253,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 3 implements BotWebViewContainer.Delegate {
+    class 3 implements BotWebViewContainer.Delegate {
         private boolean sentWebViewData;
         final /* synthetic */ Context val$context;
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
@@ -737,7 +733,6 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         }
     }
 
-    /* loaded from: classes5.dex */
     public class WindowView extends SizeNotifierFrameLayout implements BottomSheetTabsOverlay.SheetView {
         private final Path clipPath;
         private boolean drawingFromOverlay;
@@ -754,9 +749,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             this.clipPath = new Path();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             boolean z;
             if (this.drawingFromOverlay) {
                 return;
@@ -877,9 +871,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             return this.rect;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void onAttachedToWindow() {
+        protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             Bulletin.addDelegate(this, new Bulletin.Delegate() { // from class: org.telegram.ui.bots.BotWebViewSheet.WindowView.1
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
@@ -924,9 +917,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             });
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             Bulletin.removeDelegate(this);
         }
@@ -1218,9 +1210,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         windowView4.addView(frameLayout, createFrame3);
         this.actionBarShadow = ContextCompat.getDrawable(getContext(), R.drawable.header_shadow).mutate();
         ActionBar actionBar = new ActionBar(context, resourcesProvider) { // from class: org.telegram.ui.bots.BotWebViewSheet.5
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.ActionBar, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 if (AndroidUtilities.isTablet() && !AndroidUtilities.isInMultiwindow && !AndroidUtilities.isSmallTablet()) {
                     Point point = AndroidUtilities.displaySize;
                     i2 = View.MeasureSpec.makeMeasureSpec((int) (Math.min(point.x, point.y) * 0.8f), 1073741824);
@@ -1947,7 +1938,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.fileItems.clear();
         if (botDownloads.hasFiles()) {
             final ItemOptions makeSwipeback = makeOptions.makeSwipeback();
-            makeSwipeback.add(R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), new ChatActivity$$ExternalSyntheticLambda229(makeOptions));
+            makeSwipeback.add(R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), new ChatActivity$$ExternalSyntheticLambda230(makeOptions));
             makeSwipeback.addGap();
             Iterator it2 = botDownloads.getFiles().iterator();
             while (it2.hasNext()) {
@@ -2927,6 +2918,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             requestWebView(baseFragment, webTabData.props);
             this.hasSettings = webTabData.settings;
             if (webTabData.error) {
+                this.errorShown = true;
                 createErrorContainer();
                 ArticleViewer.ErrorContainer errorContainer = this.errorContainer;
                 String userName = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.botId)));

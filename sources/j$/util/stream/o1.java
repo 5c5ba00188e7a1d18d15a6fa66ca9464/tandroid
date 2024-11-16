@@ -1,12 +1,10 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class o1 extends q1 implements d2 {
+final class o1 extends q1 implements d2 {
     private final long[] h;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public o1(j$.util.Q q, b bVar, long[] jArr) {
+    o1(j$.util.Q q, b bVar, long[] jArr) {
         super(jArr.length, q, bVar);
         this.h = jArr;
     }

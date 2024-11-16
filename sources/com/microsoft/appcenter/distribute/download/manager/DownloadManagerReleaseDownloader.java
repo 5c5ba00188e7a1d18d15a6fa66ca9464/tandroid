@@ -93,8 +93,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized long getDownloadId() {
+    synchronized long getDownloadId() {
         try {
             if (this.mDownloadId == -1) {
                 this.mDownloadId = SharedPreferencesManager.getLong("Distribute.download_id", -1L);
@@ -105,8 +104,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         return this.mDownloadId;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DownloadManager getDownloadManager() {
+    DownloadManager getDownloadManager() {
         return (DownloadManager) this.mContext.getSystemService("download");
     }
 
@@ -115,8 +113,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         return this.mDownloadId != -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadComplete(Cursor cursor) {
+    synchronized void onDownloadComplete(Cursor cursor) {
         try {
             if (isCancelled()) {
                 return;
@@ -129,8 +126,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadError(RuntimeException runtimeException) {
+    synchronized void onDownloadError(RuntimeException runtimeException) {
         if (isCancelled()) {
             return;
         }
@@ -138,8 +134,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         this.mListener.onError(runtimeException.getMessage());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadProgress(Cursor cursor) {
+    synchronized void onDownloadProgress(Cursor cursor) {
         if (isCancelled()) {
             return;
         }
@@ -154,8 +149,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadStarted(long j, long j2) {
+    synchronized void onDownloadStarted(long j, long j2) {
         if (isCancelled()) {
             return;
         }
@@ -166,8 +160,7 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onStart() {
+    synchronized void onStart() {
         request();
     }
 

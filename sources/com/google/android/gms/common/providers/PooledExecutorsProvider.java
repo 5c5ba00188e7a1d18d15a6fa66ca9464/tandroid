@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 public abstract class PooledExecutorsProvider {
     private static PooledExecutorFactory zza;
 
-    /* loaded from: classes.dex */
     public interface PooledExecutorFactory {
         ScheduledExecutorService newSingleThreadScheduledExecutor();
     }

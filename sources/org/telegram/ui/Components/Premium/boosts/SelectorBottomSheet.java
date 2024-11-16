@@ -77,10 +77,8 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     private int type;
     private final ArrayList users;
 
-    /* loaded from: classes3.dex */
     public interface SelectedObjectsListener {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onShowToast(SelectedObjectsListener selectedObjectsListener, String str) {
             }

@@ -79,9 +79,7 @@ public class ChatbotsActivity extends BaseFragment {
     private TLRPC.User selectedBot = null;
     private LongSparseArray foundBots = new LongSparseArray();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 5 implements SearchAdapterHelper.SearchAdapterHelperDelegate {
+    class 5 implements SearchAdapterHelper.SearchAdapterHelperDelegate {
         5() {
         }
 

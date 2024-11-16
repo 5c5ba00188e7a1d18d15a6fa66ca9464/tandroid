@@ -14,8 +14,7 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 public abstract class FragmentTransitionImpl {
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void bfsAddViewChildren(List list, View view) {
+    protected static void bfsAddViewChildren(List list, View view) {
         int size = list.size();
         if (containedBeforeIndex(list, view, size)) {
             return;
@@ -56,8 +55,7 @@ public abstract class FragmentTransitionImpl {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static boolean isNullOrEmpty(List list) {
+    protected static boolean isNullOrEmpty(List list) {
         return list == null || list.isEmpty();
     }
 
@@ -69,8 +67,7 @@ public abstract class FragmentTransitionImpl {
 
     public abstract boolean canHandle(Object obj);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void captureTransitioningViews(ArrayList arrayList, View view) {
+    void captureTransitioningViews(ArrayList arrayList, View view) {
         if (view.getVisibility() == 0) {
             boolean z = view instanceof ViewGroup;
             View view2 = view;
@@ -92,8 +89,7 @@ public abstract class FragmentTransitionImpl {
 
     public abstract Object cloneTransition(Object obj);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void findNamedViews(Map map, View view) {
+    void findNamedViews(Map map, View view) {
         if (view.getVisibility() == 0) {
             String transitionName = ViewCompat.getTransitionName(view);
             if (transitionName != null) {
@@ -109,8 +105,7 @@ public abstract class FragmentTransitionImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void getBoundsOnScreen(View view, Rect rect) {
+    protected void getBoundsOnScreen(View view, Rect rect) {
         if (ViewCompat.isAttachedToWindow(view)) {
             RectF rectF = new RectF();
             rectF.set(0.0f, 0.0f, view.getWidth(), view.getHeight());
@@ -134,8 +129,7 @@ public abstract class FragmentTransitionImpl {
 
     public abstract Object mergeTransitionsTogether(Object obj, Object obj2, Object obj3);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ArrayList prepareSetNameOverridesReordered(ArrayList arrayList) {
+    ArrayList prepareSetNameOverridesReordered(ArrayList arrayList) {
         ArrayList arrayList2 = new ArrayList();
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
@@ -152,8 +146,7 @@ public abstract class FragmentTransitionImpl {
 
     public abstract void scheduleHideFragmentView(Object obj, View view, ArrayList arrayList);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void scheduleNameReset(ViewGroup viewGroup, final ArrayList arrayList, final Map map) {
+    void scheduleNameReset(ViewGroup viewGroup, final ArrayList arrayList, final Map map) {
         OneShotPreDrawListener.add(viewGroup, new Runnable() { // from class: androidx.fragment.app.FragmentTransitionImpl.3
             @Override // java.lang.Runnable
             public void run() {
@@ -174,8 +167,7 @@ public abstract class FragmentTransitionImpl {
 
     public abstract void setListenerForTransitionEnd(Fragment fragment, Object obj, CancellationSignal cancellationSignal, Runnable runnable);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setNameOverridesOrdered(View view, final ArrayList arrayList, final Map map) {
+    void setNameOverridesOrdered(View view, final ArrayList arrayList, final Map map) {
         OneShotPreDrawListener.add(view, new Runnable() { // from class: androidx.fragment.app.FragmentTransitionImpl.2
             @Override // java.lang.Runnable
             public void run() {
@@ -191,8 +183,7 @@ public abstract class FragmentTransitionImpl {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setNameOverridesReordered(View view, final ArrayList arrayList, final ArrayList arrayList2, final ArrayList arrayList3, Map map) {
+    void setNameOverridesReordered(View view, final ArrayList arrayList, final ArrayList arrayList2, final ArrayList arrayList3, Map map) {
         final int size = arrayList2.size();
         final ArrayList arrayList4 = new ArrayList();
         for (int i = 0; i < size; i++) {

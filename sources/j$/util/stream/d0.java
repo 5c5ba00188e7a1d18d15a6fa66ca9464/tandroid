@@ -2,8 +2,7 @@ package j$.util.stream;
 
 /* loaded from: classes2.dex */
 final class d0 extends Z1 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public d0(e2 e2Var) {
+    d0(e2 e2Var) {
         super(e2Var);
     }
 

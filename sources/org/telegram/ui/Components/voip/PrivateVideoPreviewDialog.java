@@ -62,7 +62,6 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
     private ViewPager viewPager;
     private int visibleCameraPage;
 
-    /* loaded from: classes3.dex */
     private class Adapter extends PagerAdapter {
         private Adapter() {
         }
@@ -78,7 +77,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r12v13, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
+        /* JADX WARN: Type inference failed for: r12v13, types: [android.view.View, android.view.ViewGroup, android.widget.FrameLayout] */
         @Override // androidx.viewpager.widget.PagerAdapter
         public Object instantiateItem(ViewGroup viewGroup, int i) {
             Bitmap bitmap;

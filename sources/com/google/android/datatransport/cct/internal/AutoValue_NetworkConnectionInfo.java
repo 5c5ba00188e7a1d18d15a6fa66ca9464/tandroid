@@ -7,10 +7,12 @@ final class AutoValue_NetworkConnectionInfo extends NetworkConnectionInfo {
     private final NetworkConnectionInfo.MobileSubtype mobileSubtype;
     private final NetworkConnectionInfo.NetworkType networkType;
 
-    /* loaded from: classes.dex */
     static final class Builder extends NetworkConnectionInfo.Builder {
         private NetworkConnectionInfo.MobileSubtype mobileSubtype;
         private NetworkConnectionInfo.NetworkType networkType;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.cct.internal.NetworkConnectionInfo.Builder
         public NetworkConnectionInfo build() {

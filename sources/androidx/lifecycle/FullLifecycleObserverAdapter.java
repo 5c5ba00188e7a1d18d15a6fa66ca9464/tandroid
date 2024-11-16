@@ -2,13 +2,11 @@ package androidx.lifecycle;
 
 import androidx.lifecycle.Lifecycle;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FullLifecycleObserverAdapter implements LifecycleEventObserver {
+class FullLifecycleObserverAdapter implements LifecycleEventObserver {
     private final FullLifecycleObserver mFullLifecycleObserver;
     private final LifecycleEventObserver mLifecycleEventObserver;
 
-    /* loaded from: classes.dex */
     static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;
 
@@ -46,8 +44,7 @@ public class FullLifecycleObserverAdapter implements LifecycleEventObserver {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FullLifecycleObserverAdapter(FullLifecycleObserver fullLifecycleObserver, LifecycleEventObserver lifecycleEventObserver) {
+    FullLifecycleObserverAdapter(FullLifecycleObserver fullLifecycleObserver, LifecycleEventObserver lifecycleEventObserver) {
         this.mFullLifecycleObserver = fullLifecycleObserver;
         this.mLifecycleEventObserver = lifecycleEventObserver;
     }

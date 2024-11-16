@@ -33,8 +33,7 @@ public class Camera2Enumerator implements CameraEnumerator {
         this.cameraManager = Camera2Session$$ExternalSyntheticApiModelOutline9.m(context.getSystemService("camera"));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates(Range<Integer>[] rangeArr, int i) {
+    static List<CameraEnumerationAndroid.CaptureFormat.FramerateRange> convertFramerates(Range<Integer>[] rangeArr, int i) {
         Comparable lower;
         Comparable upper;
         ArrayList arrayList = new ArrayList();
@@ -70,8 +69,7 @@ public class Camera2Enumerator implements CameraEnumerator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int getFpsUnitFactor(Range<Integer>[] rangeArr) {
+    static int getFpsUnitFactor(Range<Integer>[] rangeArr) {
         Comparable upper;
         if (rangeArr.length == 0) {
             return 1000;
@@ -145,8 +143,7 @@ public class Camera2Enumerator implements CameraEnumerator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static List<Size> getSupportedSizes(CameraCharacteristics cameraCharacteristics) {
+    static List<Size> getSupportedSizes(CameraCharacteristics cameraCharacteristics) {
         CameraCharacteristics.Key key;
         Object obj;
         CameraCharacteristics.Key key2;

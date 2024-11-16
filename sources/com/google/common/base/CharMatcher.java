@@ -3,7 +3,6 @@ package com.google.common.base;
 /* loaded from: classes.dex */
 public abstract class CharMatcher implements Predicate {
 
-    /* loaded from: classes.dex */
     static abstract class FastMatcher extends CharMatcher {
         FastMatcher() {
         }
@@ -14,7 +13,6 @@ public abstract class CharMatcher implements Predicate {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class Is extends FastMatcher {
         private final char match;
 
@@ -37,7 +35,6 @@ public abstract class CharMatcher implements Predicate {
         }
     }
 
-    /* loaded from: classes.dex */
     static abstract class NamedFastMatcher extends FastMatcher {
         private final String description;
 
@@ -50,7 +47,6 @@ public abstract class CharMatcher implements Predicate {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class None extends NamedFastMatcher {
         static final None INSTANCE = new None();
 

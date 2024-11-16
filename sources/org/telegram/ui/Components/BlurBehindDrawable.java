@@ -44,7 +44,6 @@ public class BlurBehindDrawable {
     BlurBackgroundTask blurBackgroundTask = new BlurBackgroundTask();
     Paint emptyPaint = new Paint(2);
 
-    /* loaded from: classes3.dex */
     public class BlurBackgroundTask implements Runnable {
         boolean canceled;
         int height;

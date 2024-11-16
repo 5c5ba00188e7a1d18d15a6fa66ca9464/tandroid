@@ -41,7 +41,6 @@ public final class DefaultDateTypeAdapter extends TypeAdapter {
     private final List dateFormats;
     private final DateType dateType;
 
-    /* loaded from: classes.dex */
     public static abstract class DateType {
         public static final DateType DATE = new DateType(Date.class) { // from class: com.google.gson.internal.bind.DefaultDateTypeAdapter.DateType.1
             @Override // com.google.gson.internal.bind.DefaultDateTypeAdapter.DateType
@@ -51,8 +50,7 @@ public final class DefaultDateTypeAdapter extends TypeAdapter {
         };
         private final Class dateClass;
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public DateType(Class cls) {
+        protected DateType(Class cls) {
             this.dateClass = cls;
         }
 

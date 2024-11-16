@@ -6,8 +6,7 @@ import java.util.Arrays;
 final class t2 extends p2 {
     private H2 c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public t2(e2 e2Var) {
+    t2(e2 e2Var) {
         super(e2Var);
     }
 

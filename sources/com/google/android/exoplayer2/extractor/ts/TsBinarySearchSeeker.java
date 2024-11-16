@@ -7,11 +7,9 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class TsBinarySearchSeeker extends BinarySearchSeeker {
+final class TsBinarySearchSeeker extends BinarySearchSeeker {
 
-    /* loaded from: classes.dex */
     private static final class TsPcrSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final ParsableByteArray packetBuffer = new ParsableByteArray();
         private final int pcrPid;

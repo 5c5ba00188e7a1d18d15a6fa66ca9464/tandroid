@@ -20,7 +20,6 @@ public abstract class DrawableCompat {
     private static Method sSetLayoutDirectionMethod;
     private static boolean sSetLayoutDirectionMethodFetched;
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static int getAlpha(Drawable drawable) {
             return drawable.getAlpha();
@@ -43,9 +42,7 @@ public abstract class DrawableCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static void applyTheme(Drawable drawable, Resources.Theme theme) {
             drawable.applyTheme(theme);
         }
@@ -83,7 +80,6 @@ public abstract class DrawableCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static int getLayoutDirection(Drawable drawable) {
             return drawable.getLayoutDirection();

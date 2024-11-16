@@ -8,7 +8,6 @@ import com.google.firebase.appindexing.internal.zzc;
 /* loaded from: classes.dex */
 public interface Action {
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final Bundle zza = new Bundle();
         private final String zzb;
@@ -66,8 +65,7 @@ public interface Action {
             return put("url", str);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public final String zza() {
+        protected final String zza() {
             String str = this.zzc;
             if (str == null) {
                 return null;
@@ -75,8 +73,7 @@ public interface Action {
             return new String(str);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public final String zzb() {
+        protected final String zzb() {
             String str = this.zzd;
             if (str == null) {
                 return null;
@@ -84,8 +81,7 @@ public interface Action {
             return new String(str);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public final String zzc() {
+        protected final String zzc() {
             return new String(this.zzg);
         }
     }

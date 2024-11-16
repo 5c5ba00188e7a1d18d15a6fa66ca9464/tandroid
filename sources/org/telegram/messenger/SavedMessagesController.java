@@ -47,7 +47,6 @@ public class SavedMessagesController {
     };
     private final LongSparseArray checkMessagesCallbacks = new LongSparseArray();
 
-    /* loaded from: classes3.dex */
     public static class SavedDialog {
         public long dialogId;
         private int localDate;

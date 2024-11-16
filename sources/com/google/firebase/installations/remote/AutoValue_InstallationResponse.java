@@ -10,13 +10,15 @@ final class AutoValue_InstallationResponse extends InstallationResponse {
     private final InstallationResponse.ResponseCode responseCode;
     private final String uri;
 
-    /* loaded from: classes.dex */
     static final class Builder extends InstallationResponse.Builder {
         private TokenResult authToken;
         private String fid;
         private String refreshToken;
         private InstallationResponse.ResponseCode responseCode;
         private String uri;
+
+        Builder() {
+        }
 
         @Override // com.google.firebase.installations.remote.InstallationResponse.Builder
         public InstallationResponse build() {

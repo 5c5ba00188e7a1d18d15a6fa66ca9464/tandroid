@@ -9,7 +9,6 @@ import android.os.Parcel;
 /* loaded from: classes3.dex */
 public interface ICustomTabsCallback extends IInterface {
 
-    /* loaded from: classes3.dex */
     public static abstract class Stub extends Binder implements ICustomTabsCallback {
         public Stub() {
             attachInterface(this, "android.support.customtabs.ICustomTabsCallback");

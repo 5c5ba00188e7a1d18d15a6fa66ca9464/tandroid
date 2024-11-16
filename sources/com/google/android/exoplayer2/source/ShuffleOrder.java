@@ -6,7 +6,6 @@ import java.util.Random;
 /* loaded from: classes.dex */
 public interface ShuffleOrder {
 
-    /* loaded from: classes.dex */
     public static class DefaultShuffleOrder implements ShuffleOrder {
         private final int[] indexInShuffled;
         private final Random random;
@@ -154,7 +153,6 @@ public interface ShuffleOrder {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class UnshuffledShuffleOrder implements ShuffleOrder {
         private final int length;
 

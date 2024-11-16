@@ -61,8 +61,7 @@ public class FactCheckController {
     };
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Key {
+    static class Key {
         public final long dialogId;
         public final long hash;
         public final int messageId;
@@ -525,18 +524,16 @@ public class FactCheckController {
                 this.limit.setGravity(5);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 this.limit.setTextColor(this.limitColor.set(Theme.getColor(this.limitCount < 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, resourcesProvider)));
                 this.limit.setBounds(getScrollX(), 0, getScrollX() + getWidth(), getHeight());
                 this.limit.draw(canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            public void extendActionMode(ActionMode actionMode, Menu menu) {
+            protected void extendActionMode(ActionMode actionMode, Menu menu) {
                 int i2 = R.id.menu_bold;
                 if (menu.findItem(i2) != null) {
                     return;
@@ -555,9 +552,8 @@ public class FactCheckController {
                 menu.add(i3, R.id.menu_regular, 9, LocaleController.getString(R.string.Regular));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            protected void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 super.onTextChanged(charSequence, i2, i3, i4);
                 if (this.limit != null) {
                     this.limitCount = i - charSequence.length();

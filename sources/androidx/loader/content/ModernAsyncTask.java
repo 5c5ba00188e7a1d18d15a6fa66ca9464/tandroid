@@ -32,7 +32,6 @@ abstract class ModernAsyncTask {
     final AtomicBoolean mCancelled = new AtomicBoolean();
     final AtomicBoolean mTaskInvoked = new AtomicBoolean();
 
-    /* loaded from: classes.dex */
     static /* synthetic */ class 4 {
         static final /* synthetic */ int[] $SwitchMap$androidx$loader$content$ModernAsyncTask$Status;
 
@@ -50,9 +49,7 @@ abstract class ModernAsyncTask {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class AsyncTaskResult {
+    private static class AsyncTaskResult {
         final Object[] mData;
         final ModernAsyncTask mTask;
 
@@ -62,9 +59,7 @@ abstract class ModernAsyncTask {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class InternalHandler extends Handler {
+    private static class InternalHandler extends Handler {
         InternalHandler() {
             super(Looper.getMainLooper());
         }
@@ -84,14 +79,12 @@ abstract class ModernAsyncTask {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum Status {
         PENDING,
         RUNNING,
         FINISHED
     }
 
-    /* loaded from: classes.dex */
     private static abstract class WorkerRunnable implements Callable {
         Object[] mParams;
 
@@ -116,8 +109,7 @@ abstract class ModernAsyncTask {
         sDefaultExecutor = threadPoolExecutor;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ModernAsyncTask() {
+    ModernAsyncTask() {
         WorkerRunnable workerRunnable = new WorkerRunnable() { // from class: androidx.loader.content.ModernAsyncTask.2
             @Override // java.util.concurrent.Callable
             public Object call() {

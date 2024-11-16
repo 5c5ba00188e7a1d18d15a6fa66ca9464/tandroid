@@ -12,8 +12,7 @@ public abstract class EmojiSpan extends ReplacementSpan {
     private short mHeight = -1;
     private float mRatio = 1.0f;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiSpan(EmojiMetadata emojiMetadata) {
+    EmojiSpan(EmojiMetadata emojiMetadata) {
         Preconditions.checkNotNull(emojiMetadata, "metadata cannot be null");
         this.mMetadata = emojiMetadata;
     }
@@ -40,8 +39,7 @@ public abstract class EmojiSpan extends ReplacementSpan {
         return width;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int getWidth() {
+    final int getWidth() {
         return this.mWidth;
     }
 }

@@ -4,16 +4,16 @@ import android.content.Context;
 import com.google.android.datatransport.runtime.scheduling.persistence.EventStore;
 import java.io.Closeable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class TransportRuntimeComponent implements Closeable {
+abstract class TransportRuntimeComponent implements Closeable {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Builder {
+    interface Builder {
         TransportRuntimeComponent build();
 
         Builder setApplicationContext(Context context);
+    }
+
+    TransportRuntimeComponent() {
     }
 
     @Override // java.io.Closeable, java.lang.AutoCloseable
@@ -23,6 +23,5 @@ public abstract class TransportRuntimeComponent implements Closeable {
 
     abstract EventStore getEventStore();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract TransportRuntime getTransportRuntime();
+    abstract TransportRuntime getTransportRuntime();
 }

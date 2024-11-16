@@ -58,8 +58,7 @@ public class RtpSender {
         return this.dtmfSender;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getNativeRtpSender() {
+    long getNativeRtpSender() {
         checkRtpSenderExists();
         return this.nativeRtpSender;
     }

@@ -45,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.MediaController;
 import org.telegram.messenger.TranslateController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.MediaStreamTrack;
@@ -77,8 +76,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     private final ExoTrackSelection.Factory trackSelectionFactory;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class AudioTrackInfo extends TrackInfo implements Comparable {
+    static final class AudioTrackInfo extends TrackInfo implements Comparable {
         private final int bitrate;
         private final int channelCount;
         private final boolean hasMainOrNoRoleFlag;
@@ -234,9 +232,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class OtherTrackScore implements Comparable {
+    private static final class OtherTrackScore implements Comparable {
         private final boolean isDefault;
         private final boolean isWithinRendererCapabilities;
 
@@ -251,7 +247,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Parameters extends TrackSelectionParameters implements Bundleable {
         public static final Bundleable.Creator CREATOR;
         public static final Parameters DEFAULT;
@@ -289,7 +284,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         private final SparseArray selectionOverrides;
         public final boolean tunnelingEnabled;
 
-        /* loaded from: classes.dex */
         public static final class Builder extends TrackSelectionParameters.Builder {
             private boolean allowAudioMixedChannelCountAdaptiveness;
             private boolean allowAudioMixedDecoderSupportAdaptiveness;
@@ -427,9 +421,8 @@ public class DefaultTrackSelector extends MappingTrackSelector {
                 return this;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // com.google.android.exoplayer2.trackselection.TrackSelectionParameters.Builder
-            public Builder set(TrackSelectionParameters trackSelectionParameters) {
+            protected Builder set(TrackSelectionParameters trackSelectionParameters) {
                 super.set(trackSelectionParameters);
                 return this;
             }
@@ -725,7 +718,6 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SelectionOverride implements Bundleable {
         public final int groupIndex;
         public final int length;
@@ -787,9 +779,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class SpatializerWrapperV32 {
+    private static class SpatializerWrapperV32 {
         private Handler handler;
         private Spatializer.OnSpatializerStateChangedListener listener;
         private final boolean spatializationSupported;
@@ -879,8 +869,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class TextTrackInfo extends TrackInfo implements Comparable {
+    static final class TextTrackInfo extends TrackInfo implements Comparable {
         private final boolean hasCaptionRoleFlags;
         private final boolean isDefault;
         private final boolean isForced;
@@ -962,14 +951,12 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static abstract class TrackInfo {
+    static abstract class TrackInfo {
         public final Format format;
         public final int rendererIndex;
         public final TrackGroup trackGroup;
         public final int trackIndex;
 
-        /* loaded from: classes.dex */
         public interface Factory {
             List create(int i, TrackGroup trackGroup, int[] iArr);
         }
@@ -987,8 +974,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class VideoTrackInfo extends TrackInfo {
+    static final class VideoTrackInfo extends TrackInfo {
         private final boolean allowMixedMimeTypes;
         private final int bitrate;
         private final int codecPreferenceScore;
@@ -1370,53 +1356,9 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         if (str == null) {
             return 0;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1851077871:
-                if (str.equals("video/dolby-vision")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1662735862:
-                if (str.equals("video/av01")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1662541442:
-                if (str.equals("video/hevc")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1331836730:
-                if (str.equals(MediaController.VIDEO_MIME_TYPE)) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 1599127257:
-                if (str.equals("video/x-vnd.on2.vp9")) {
-                    c = 4;
-                    break;
-                }
-                break;
+        switch (str) {
         }
-        switch (c) {
-            case 0:
-                return 5;
-            case 1:
-                return 4;
-            case 2:
-                return 3;
-            case 3:
-                return 1;
-            case 4:
-                return 2;
-            default:
-                return 0;
-        }
+        return 0;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1451,42 +1393,9 @@ public class DefaultTrackSelector extends MappingTrackSelector {
         if (str == null) {
             return false;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2123537834:
-                if (str.equals("audio/eac3-joc")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 187078296:
-                if (str.equals("audio/ac3")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 187078297:
-                if (str.equals("audio/ac4")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1504578661:
-                if (str.equals("audio/eac3")) {
-                    c = 3;
-                    break;
-                }
-                break;
+        switch (str) {
         }
-        switch (c) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                return true;
-            default:
-                return false;
-        }
+        return false;
     }
 
     protected static boolean isSupported(int i, boolean z) {

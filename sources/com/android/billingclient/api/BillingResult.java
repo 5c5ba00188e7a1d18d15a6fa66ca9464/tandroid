@@ -7,7 +7,6 @@ public final class BillingResult {
     private int zza;
     private String zzb;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private int zza;
         private String zzb = "";

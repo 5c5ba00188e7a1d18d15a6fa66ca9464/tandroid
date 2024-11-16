@@ -25,9 +25,8 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ActionProvider;
 import java.util.ArrayList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProvider.SubUiVisibilityListener {
+class ActionMenuPresenter extends BaseMenuPresenter implements ActionProvider.SubUiVisibilityListener {
     private final SparseBooleanArray mActionButtonGroups;
     ActionButtonSubmenu mActionButtonPopup;
     private int mActionItemWidthLimit;
@@ -49,9 +48,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
     private int mWidthLimit;
     private boolean mWidthLimitSet;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ActionButtonSubmenu extends MenuPopupHelper {
+    private class ActionButtonSubmenu extends MenuPopupHelper {
         public ActionButtonSubmenu(Context context, SubMenuBuilder subMenuBuilder, View view) {
             super(context, subMenuBuilder, view, false, R$attr.actionOverflowMenuStyle);
             if (!((MenuItemImpl) subMenuBuilder.getItem()).isActionButton()) {
@@ -70,7 +67,6 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         }
     }
 
-    /* loaded from: classes.dex */
     private class ActionMenuPopupCallback extends ActionMenuItemView.PopupCallback {
         ActionMenuPopupCallback() {
         }
@@ -85,9 +81,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class OpenOverflowRunnable implements Runnable {
+    private class OpenOverflowRunnable implements Runnable {
         private OverflowPopup mPopup;
 
         public OpenOverflowRunnable(OverflowPopup overflowPopup) {
@@ -107,9 +101,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class OverflowMenuButton extends AppCompatImageView implements ActionMenuView.ActionMenuChildView {
+    private class OverflowMenuButton extends AppCompatImageView implements ActionMenuView.ActionMenuChildView {
         public OverflowMenuButton(Context context) {
             super(context, null, R$attr.actionOverflowButtonStyle);
             setClickable(true);
@@ -182,9 +174,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class OverflowPopup extends MenuPopupHelper {
+    private class OverflowPopup extends MenuPopupHelper {
         public OverflowPopup(Context context, MenuBuilder menuBuilder, View view, boolean z) {
             super(context, menuBuilder, view, z, R$attr.actionOverflowMenuStyle);
             setGravity(8388613);
@@ -201,7 +191,6 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         }
     }
 
-    /* loaded from: classes.dex */
     private class PopupPresenterCallback implements MenuPresenter.Callback {
         PopupPresenterCallback() {
         }

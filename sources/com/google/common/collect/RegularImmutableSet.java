@@ -1,8 +1,7 @@
 package com.google.common.collect;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class RegularImmutableSet extends ImmutableSet {
+final class RegularImmutableSet extends ImmutableSet {
     static final RegularImmutableSet EMPTY;
     private static final Object[] EMPTY_ARRAY;
     final transient Object[] elements;
@@ -17,8 +16,7 @@ public final class RegularImmutableSet extends ImmutableSet {
         EMPTY = new RegularImmutableSet(objArr, 0, objArr, 0, 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RegularImmutableSet(Object[] objArr, int i, Object[] objArr2, int i2, int i3) {
+    RegularImmutableSet(Object[] objArr, int i, Object[] objArr2, int i2, int i3) {
         this.elements = objArr;
         this.hashCode = i;
         this.table = objArr2;
@@ -62,9 +60,8 @@ public final class RegularImmutableSet extends ImmutableSet {
         return this.hashCode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public Object[] internalArray() {
+    Object[] internalArray() {
         return this.elements;
     }
 
@@ -73,9 +70,8 @@ public final class RegularImmutableSet extends ImmutableSet {
         return this.size;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public int internalArrayStart() {
+    int internalArrayStart() {
         return 0;
     }
 
@@ -84,9 +80,8 @@ public final class RegularImmutableSet extends ImmutableSet {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public boolean isPartialView() {
+    boolean isPartialView() {
         return false;
     }
 

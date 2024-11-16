@@ -2,8 +2,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 /* loaded from: classes.dex */
 abstract class zzhd {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(zzdn zzdnVar) {
+    static String zza(zzdn zzdnVar) {
         String str;
         zzhc zzhcVar = new zzhc(zzdnVar);
         StringBuilder sb = new StringBuilder(zzhcVar.zza());

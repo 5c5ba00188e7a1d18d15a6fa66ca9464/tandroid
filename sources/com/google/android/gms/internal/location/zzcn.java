@@ -8,8 +8,7 @@ final class zzcn extends zzj {
     final /* synthetic */ Object zza;
     final /* synthetic */ TaskCompletionSource zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcn(Object obj, TaskCompletionSource taskCompletionSource) {
+    zzcn(Object obj, TaskCompletionSource taskCompletionSource) {
         this.zza = obj;
         this.zzb = taskCompletionSource;
     }

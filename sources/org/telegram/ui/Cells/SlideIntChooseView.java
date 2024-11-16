@@ -38,7 +38,6 @@ public class SlideIntChooseView extends FrameLayout {
     private final AnimatedTextView valueText;
     private Utilities.Callback whenChanged;
 
-    /* loaded from: classes4.dex */
     public static class Options {
         public int max;
         public int maxStringResId;

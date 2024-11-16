@@ -96,9 +96,7 @@ public class CustomEmojiReactionsWindow {
     ArrayList animators = new ArrayList();
     private int frameDrawCount = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends SelectAnimatedEmojiDialog {
+    class 2 extends SelectAnimatedEmojiDialog {
         final /* synthetic */ BaseFragment val$baseFragment;
         final /* synthetic */ ReactionsContainerLayout val$reactionsContainerLayout;
 
@@ -179,7 +177,6 @@ public class CustomEmojiReactionsWindow {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class ContainerView extends FrameLayout {
         Paint backgroundPaint;
         private final Path clipPath;

@@ -4,8 +4,7 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class zzak extends zzv {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzak(Map map) {
+    zzak(Map map) {
         super(map);
     }
 }

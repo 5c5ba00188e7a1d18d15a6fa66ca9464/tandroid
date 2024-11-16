@@ -14,8 +14,7 @@ abstract class zzbq {
         zzb = zzboVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbo zza() {
+    static zzbo zza() {
         zzbo zzboVar = zzb;
         if (zzboVar != null) {
             return zzboVar;
@@ -23,8 +22,7 @@ abstract class zzbq {
         throw new IllegalStateException("Protobuf runtime is not correctly loaded.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbo zzb() {
+    static zzbo zzb() {
         return zza;
     }
 }

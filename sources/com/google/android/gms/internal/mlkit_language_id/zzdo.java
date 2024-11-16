@@ -2,6 +2,9 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 /* loaded from: classes.dex */
 abstract class zzdo implements zzds {
+    zzdo() {
+    }
+
     @Override // java.util.Iterator
     public /* synthetic */ Object next() {
         return Byte.valueOf(zza());

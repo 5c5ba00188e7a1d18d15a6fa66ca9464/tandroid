@@ -10,9 +10,8 @@ abstract class zza extends zzc {
     public final Bundle zzb;
     final /* synthetic */ BaseGmsClient zzc;
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zza(BaseGmsClient baseGmsClient, int i, Bundle bundle) {
+    protected zza(BaseGmsClient baseGmsClient, int i, Bundle bundle) {
         super(baseGmsClient, Boolean.TRUE);
         this.zzc = baseGmsClient;
         this.zza = i;
@@ -38,9 +37,8 @@ abstract class zza extends zzc {
 
     protected abstract void zzb(ConnectionResult connectionResult);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.zzc
-    public final void zzc() {
+    protected final void zzc() {
     }
 
     protected abstract boolean zzd();

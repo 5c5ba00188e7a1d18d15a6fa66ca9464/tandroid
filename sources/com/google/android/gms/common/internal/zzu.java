@@ -14,23 +14,19 @@ public final class zzu {
         this.zzd = z2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zza() {
+    final int zza() {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzb() {
+    final String zzb() {
         return this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzc() {
+    final String zzc() {
         return this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzd() {
+    final boolean zzd() {
         return this.zzd;
     }
 }

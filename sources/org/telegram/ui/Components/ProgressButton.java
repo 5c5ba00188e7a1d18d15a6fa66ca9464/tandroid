@@ -65,19 +65,19 @@ public class ProgressButton extends Button {
             long currentTimeMillis = System.currentTimeMillis();
             if (Math.abs(this.lastUpdateTime - System.currentTimeMillis()) < 1000) {
                 long j = currentTimeMillis - this.lastUpdateTime;
-                int i = (int) (this.angle + (((float) (360 * j)) / 2000.0f));
+                int i = (int) (this.angle + ((360 * j) / 2000.0f));
                 this.angle = i - ((i / 360) * 360);
                 if (this.drawProgress) {
                     float f2 = this.progressAlpha;
                     f = 1.0f;
                     if (f2 < 1.0f) {
-                        float f3 = f2 + (((float) j) / 200.0f);
+                        float f3 = f2 + (j / 200.0f);
                         this.progressAlpha = f3;
                     }
                 } else {
                     float f4 = this.progressAlpha;
                     if (f4 > 0.0f) {
-                        float f5 = f4 - (((float) j) / 200.0f);
+                        float f5 = f4 - (j / 200.0f);
                         this.progressAlpha = f5;
                     }
                 }

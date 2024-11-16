@@ -70,9 +70,7 @@ public class LocationController extends BaseController implements NotificationCe
     public static String[] unnamedRoads = {"Unnamed Road", "Вulicya bez nazvi", "Нeizvestnaya doroga", "İsimsiz Yol", "Ceļš bez nosaukuma", "Kelias be pavadinimo", "Droga bez nazwy", "Cesta bez názvu", "Silnice bez názvu", "Drum fără nume", "Route sans nom", "Vía sin nombre", "Estrada sem nome", "Οdos xoris onomasia", "Rrugë pa emër", "Пat bez ime", "Нeimenovani put", "Strada senza nome", "Straße ohne Straßennamen"};
     private static HashMap<LocationFetchCallback, Runnable> callbacks = new HashMap<>();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class FusedLocationListener implements ILocationServiceProvider.ILocationListener {
+    private class FusedLocationListener implements ILocationServiceProvider.ILocationListener {
         private FusedLocationListener() {
         }
 
@@ -85,9 +83,7 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class GpsLocationListener implements LocationListener {
+    private class GpsLocationListener implements LocationListener {
         private GpsLocationListener() {
         }
 
@@ -120,12 +116,10 @@ public class LocationController extends BaseController implements NotificationCe
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface LocationFetchCallback {
         void onLocationAddressAvailable(String str, String str2, TLRPC.TL_messageMediaVenue tL_messageMediaVenue, TLRPC.TL_messageMediaVenue tL_messageMediaVenue2, Location location);
     }
 
-    /* loaded from: classes3.dex */
     public static class SharingLocationInfo {
         public int account;
         public long did;
@@ -1603,8 +1597,7 @@ public class LocationController extends BaseController implements NotificationCe
         ApplicationLoader.applicationContext.stopService(new Intent(ApplicationLoader.applicationContext, (Class<?>) LocationSharingService.class));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void addSharingLocation(TLRPC.Message message) {
+    protected void addSharingLocation(TLRPC.Message message) {
         final SharingLocationInfo sharingLocationInfo = new SharingLocationInfo();
         sharingLocationInfo.did = message.dialog_id;
         sharingLocationInfo.mid = message.id;
@@ -1905,8 +1898,7 @@ public class LocationController extends BaseController implements NotificationCe
         setLastKnownLocation(location);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setNewLocationEndWatchTime() {
+    protected void setNewLocationEndWatchTime() {
         if (this.sharingLocations.isEmpty()) {
             return;
         }
@@ -1945,8 +1937,7 @@ public class LocationController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void update() {
+    protected void update() {
         getUserConfig();
         if (!this.sharingLocations.isEmpty()) {
             int i = 0;

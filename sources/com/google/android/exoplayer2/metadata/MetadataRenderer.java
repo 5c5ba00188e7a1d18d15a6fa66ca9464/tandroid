@@ -169,9 +169,8 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
         this.outputStreamEnded = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+    protected void onStreamChanged(Format[] formatArr, long j, long j2) {
         this.decoder = this.decoderFactory.createDecoder(formatArr[0]);
         Metadata metadata = this.pendingMetadata;
         if (metadata != null) {

@@ -54,7 +54,6 @@ public abstract class SelfStoriesPreviewView extends View {
     private int viewH;
     private int viewW;
 
-    /* loaded from: classes5.dex */
     public class ImageHolder {
         StaticLayout layout;
         TextPaint paint = new TextPaint(1);

@@ -52,8 +52,7 @@ public abstract class BasicContainer implements Container, Iterator, Closeable {
         return this.boxes;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long getContainerSize() {
+    protected long getContainerSize() {
         long j = 0;
         for (int i = 0; i < getBoxes().size(); i++) {
             j += ((Box) this.boxes.get(i)).getSize();

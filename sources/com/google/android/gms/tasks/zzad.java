@@ -7,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 final class zzad implements zzae {
     private final CountDownLatch zza = new CountDownLatch(1);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzad(zzac zzacVar) {
+    /* synthetic */ zzad(zzac zzacVar) {
     }
 
     @Override // com.google.android.gms.tasks.OnCanceledListener

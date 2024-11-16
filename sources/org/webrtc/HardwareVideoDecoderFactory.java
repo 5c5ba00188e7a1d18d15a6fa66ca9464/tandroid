@@ -28,6 +28,7 @@ public class HardwareVideoDecoderFactory extends MediaCodecVideoDecoderFactory {
         
             if (r3.equals(org.telegram.messenger.MediaController.VIDEO_MIME_TYPE) == false) goto L15;
          */
+        /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
         @Override // org.webrtc.Predicate
         /*
             Code decompiled incorrectly, please refer to instructions dump.

@@ -59,7 +59,6 @@ public abstract class VideoSeekPreviewImage extends View {
     private int ytImageY;
     private Path ytPath;
 
-    /* loaded from: classes3.dex */
     public interface VideoSeekPreviewImageDelegate {
         void onReady();
     }
@@ -380,7 +379,7 @@ public abstract class VideoSeekPreviewImage extends View {
                 this.currentPixel = i2;
             }
         }
-        final long j = ((float) this.duration) * f;
+        final long j = (long) (this.duration * f);
         this.frameTime = AndroidUtilities.formatShortDuration((int) (j / 1000));
         this.timeWidth = (int) Math.ceil(this.textPaint.measureText(r8));
         invalidate();
@@ -414,7 +413,7 @@ public abstract class VideoSeekPreviewImage extends View {
                 this.currentPixel = i2;
             }
         }
-        this.frameTime = AndroidUtilities.formatShortDuration((int) ((photoViewerWebView.getVideoDuration() * f) / 1000));
+        this.frameTime = AndroidUtilities.formatShortDuration((int) (((long) (photoViewerWebView.getVideoDuration() * f)) / 1000));
         this.timeWidth = (int) Math.ceil(this.textPaint.measureText(r10));
         invalidate();
         if (this.progressRunnable != null) {

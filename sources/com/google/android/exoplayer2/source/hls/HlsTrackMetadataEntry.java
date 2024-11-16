@@ -27,7 +27,6 @@ public final class HlsTrackMetadataEntry implements Metadata.Entry {
     public final String name;
     public final List variantInfos;
 
-    /* loaded from: classes.dex */
     public static final class VariantInfo implements Parcelable {
         public static final Parcelable.Creator<VariantInfo> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.source.hls.HlsTrackMetadataEntry.VariantInfo.1
             @Override // android.os.Parcelable.Creator

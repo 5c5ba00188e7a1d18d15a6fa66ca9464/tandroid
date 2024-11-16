@@ -57,7 +57,6 @@ public final class Cue implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Bitmap bitmap;
         private float bitmapHeight;

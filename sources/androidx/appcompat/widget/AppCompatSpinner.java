@@ -50,16 +50,13 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     private SpinnerAdapter mTempAdapter;
     final Rect mTempRect;
 
-    /* loaded from: classes.dex */
     private static final class Api16Impl {
         static void removeOnGlobalLayoutListener(ViewTreeObserver viewTreeObserver, ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener) {
             viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api17Impl {
+    private static final class Api17Impl {
         static int getTextAlignment(View view) {
             return view.getTextAlignment();
         }
@@ -77,7 +74,6 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class Api23Impl {
         static void setDropDownViewTheme(ThemedSpinnerAdapter themedSpinnerAdapter, Resources.Theme theme) {
             if (ObjectsCompat.equals(themedSpinnerAdapter.getDropDownViewTheme(), theme)) {
@@ -87,7 +83,6 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
     }
 
-    /* loaded from: classes.dex */
     class DialogPopup implements SpinnerPopup, DialogInterface.OnClickListener {
         private ListAdapter mListAdapter;
         AlertDialog mPopup;
@@ -192,9 +187,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class DropDownAdapter implements ListAdapter, SpinnerAdapter {
+    private static class DropDownAdapter implements ListAdapter, SpinnerAdapter {
         private SpinnerAdapter mAdapter;
         private ListAdapter mListAdapter;
 
@@ -306,7 +299,6 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
     }
 
-    /* loaded from: classes.dex */
     class DropdownPopup extends ListPopupWindow implements SpinnerPopup {
         ListAdapter mAdapter;
         private CharSequence mHintText;
@@ -444,9 +436,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class SavedState extends View.BaseSavedState {
+    static class SavedState extends View.BaseSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator() { // from class: androidx.appcompat.widget.AppCompatSpinner.SavedState.1
             @Override // android.os.Parcelable.Creator
             public SavedState createFromParcel(Parcel parcel) {
@@ -476,9 +466,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface SpinnerPopup {
+    interface SpinnerPopup {
         void dismiss();
 
         Drawable getBackground();
@@ -534,7 +522,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     /* JADX WARN: Type inference failed for: r11v3 */
     /* JADX WARN: Type inference failed for: r11v4 */
     /* JADX WARN: Type inference failed for: r11v7, types: [android.content.res.TypedArray] */
-    /* JADX WARN: Type inference failed for: r6v0, types: [androidx.appcompat.widget.AppCompatSpinner, android.view.View] */
+    /* JADX WARN: Type inference failed for: r6v0, types: [android.view.View, androidx.appcompat.widget.AppCompatSpinner] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

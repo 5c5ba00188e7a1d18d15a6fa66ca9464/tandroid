@@ -12,8 +12,7 @@ final class z implements K {
     final long c;
     final long d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public z(long j, long j2, long j3, long j4) {
+    z(long j, long j2, long j3, long j4) {
         this.a = j;
         this.b = j2;
         this.c = j3;

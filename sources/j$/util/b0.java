@@ -5,6 +5,9 @@ import java.util.Comparator;
 
 /* loaded from: classes2.dex */
 final class b0 extends a implements Q {
+    b0() {
+    }
+
     @Override // j$.util.Q
     public final void a(Consumer consumer) {
         consumer.getClass();

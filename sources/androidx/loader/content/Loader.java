@@ -16,7 +16,6 @@ public abstract class Loader {
     boolean mContentChanged = false;
     boolean mProcessingChange = false;
 
-    /* loaded from: classes.dex */
     public interface OnLoadCompleteListener {
         void onLoadComplete(Loader loader, Object obj);
     }
@@ -100,8 +99,7 @@ public abstract class Loader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onForceLoad() {
+    protected void onForceLoad() {
     }
 
     protected void onReset() {

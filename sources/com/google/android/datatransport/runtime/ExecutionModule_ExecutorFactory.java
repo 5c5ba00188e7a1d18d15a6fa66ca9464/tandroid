@@ -7,7 +7,6 @@ import java.util.concurrent.Executor;
 /* loaded from: classes.dex */
 public final class ExecutionModule_ExecutorFactory implements Factory {
 
-    /* loaded from: classes.dex */
     private static final class InstanceHolder {
         private static final ExecutionModule_ExecutorFactory INSTANCE = new ExecutionModule_ExecutorFactory();
     }

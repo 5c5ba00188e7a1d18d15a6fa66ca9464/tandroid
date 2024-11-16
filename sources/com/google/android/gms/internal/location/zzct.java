@@ -8,8 +8,7 @@ import com.google.android.gms.location.LocationResult;
 final class zzct implements ListenerHolder.Notifier {
     final /* synthetic */ LocationResult zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzct(zzcw zzcwVar, LocationResult locationResult) {
+    zzct(zzcw zzcwVar, LocationResult locationResult) {
         this.zza = locationResult;
     }
 

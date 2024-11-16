@@ -44,8 +44,7 @@ public abstract class WebvttCueParser {
     private static final Map DEFAULT_TEXT_COLORS;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Element {
+    static class Element {
         private static final Comparator BY_START_POSITION_ASC = new Comparator() { // from class: com.google.android.exoplayer2.text.webvtt.WebvttCueParser$Element$$ExternalSyntheticLambda0
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
@@ -68,9 +67,7 @@ public abstract class WebvttCueParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class StartTag {
+    private static final class StartTag {
         public final Set classes;
         public final String name;
         public final int position;
@@ -109,9 +106,7 @@ public abstract class WebvttCueParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class StyleMatch implements Comparable {
+    private static final class StyleMatch implements Comparable {
         public final int score;
         public final WebvttCssStyle style;
 
@@ -126,9 +121,7 @@ public abstract class WebvttCueParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class WebvttCueInfoBuilder {
+    private static final class WebvttCueInfoBuilder {
         public CharSequence text;
         public long startTimeUs = 0;
         public long endTimeUs = 0;
@@ -265,44 +258,17 @@ public abstract class WebvttCueParser {
     private static void applyEntity(String str, SpannableStringBuilder spannableStringBuilder) {
         char c;
         str.hashCode();
-        char c2 = 65535;
-        switch (str.hashCode()) {
-            case 3309:
-                if (str.equals("gt")) {
-                    c2 = 0;
-                    break;
-                }
-                break;
-            case 3464:
-                if (str.equals("lt")) {
-                    c2 = 1;
-                    break;
-                }
-                break;
-            case 96708:
-                if (str.equals("amp")) {
-                    c2 = 2;
-                    break;
-                }
-                break;
-            case 3374865:
-                if (str.equals("nbsp")) {
-                    c2 = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c2) {
-            case 0:
+        switch (str) {
+            case "gt":
                 c = '>';
                 break;
-            case 1:
+            case "lt":
                 c = '<';
                 break;
-            case 2:
+            case "amp":
                 c = '&';
                 break;
-            case 3:
+            case "nbsp":
                 c = ' ';
                 break;
             default:
@@ -335,113 +301,62 @@ public abstract class WebvttCueParser {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:28:0x0071. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[LOOP:0: B:38:0x0098->B:40:0x009e, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static void applySpansForTag(String str, StartTag startTag, List list, SpannableStringBuilder spannableStringBuilder, List list2) {
+        int i;
+        int length;
+        int i2;
         List applicableStyles;
         Object styleSpan;
-        int i = startTag.position;
-        int length = spannableStringBuilder.length();
+        i = startTag.position;
+        length = spannableStringBuilder.length();
         String str2 = startTag.name;
         str2.hashCode();
-        char c = 65535;
-        switch (str2.hashCode()) {
-            case 0:
-                if (str2.equals("")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 98:
-                if (str2.equals("b")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 99:
-                if (str2.equals("c")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 105:
-                if (str2.equals("i")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 117:
-                if (str2.equals("u")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 118:
-                if (str2.equals("v")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 3314158:
-                if (str2.equals("lang")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 3511770:
-                if (str2.equals("ruby")) {
-                    c = 7;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 5:
-            case 6:
+        switch (str2) {
+            case "":
+            case "v":
+            case "lang":
                 applicableStyles = getApplicableStyles(list2, str, startTag);
-                for (int i2 = 0; i2 < applicableStyles.size(); i2++) {
+                for (i2 = 0; i2 < applicableStyles.size(); i2++) {
                     applyStyleToText(spannableStringBuilder, ((StyleMatch) applicableStyles.get(i2)).style, i, length);
                 }
-                return;
-            case 1:
+                break;
+            case "b":
                 styleSpan = new StyleSpan(1);
                 spannableStringBuilder.setSpan(styleSpan, i, length, 33);
                 applicableStyles = getApplicableStyles(list2, str, startTag);
                 while (i2 < applicableStyles.size()) {
                 }
-                return;
-            case 2:
+                break;
+            case "c":
                 applyDefaultColors(spannableStringBuilder, startTag.classes, i, length);
                 applicableStyles = getApplicableStyles(list2, str, startTag);
                 while (i2 < applicableStyles.size()) {
                 }
-                return;
-            case 3:
+                break;
+            case "i":
                 styleSpan = new StyleSpan(2);
                 spannableStringBuilder.setSpan(styleSpan, i, length, 33);
                 applicableStyles = getApplicableStyles(list2, str, startTag);
                 while (i2 < applicableStyles.size()) {
                 }
-                return;
-            case 4:
+                break;
+            case "u":
                 styleSpan = new UnderlineSpan();
                 spannableStringBuilder.setSpan(styleSpan, i, length, 33);
                 applicableStyles = getApplicableStyles(list2, str, startTag);
                 while (i2 < applicableStyles.size()) {
                 }
-                return;
-            case 7:
+                break;
+            case "ruby":
                 applyRubySpans(spannableStringBuilder, str, startTag, list, list2);
                 applicableStyles = getApplicableStyles(list2, str, startTag);
                 while (i2 < applicableStyles.size()) {
                 }
-                return;
-            default:
-                return;
+                break;
         }
     }
 
@@ -544,74 +459,22 @@ public abstract class WebvttCueParser {
 
     private static boolean isSupportedTag(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 98:
-                if (str.equals("b")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 99:
-                if (str.equals("c")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 105:
-                if (str.equals("i")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 117:
-                if (str.equals("u")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 118:
-                if (str.equals("v")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 3650:
-                if (str.equals("rt")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 3314158:
-                if (str.equals("lang")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 3511770:
-                if (str.equals("ruby")) {
-                    c = 7;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
+        switch (str) {
+            case "b":
+            case "c":
+            case "i":
+            case "u":
+            case "v":
+            case "rt":
+            case "lang":
+            case "ruby":
                 return true;
             default:
                 return false;
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Cue newCueForText(CharSequence charSequence) {
+    static Cue newCueForText(CharSequence charSequence) {
         WebvttCueInfoBuilder webvttCueInfoBuilder = new WebvttCueInfoBuilder();
         webvttCueInfoBuilder.text = charSequence;
         return webvttCueInfoBuilder.toCueBuilder().build();
@@ -662,8 +525,7 @@ public abstract class WebvttCueParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Cue.Builder parseCueSettingsList(String str) {
+    static Cue.Builder parseCueSettingsList(String str) {
         WebvttCueInfoBuilder webvttCueInfoBuilder = new WebvttCueInfoBuilder();
         parseCueSettingsList(str, webvttCueInfoBuilder);
         return webvttCueInfoBuilder.toCueBuilder();
@@ -694,8 +556,7 @@ public abstract class WebvttCueParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static SpannedString parseCueText(String str, String str2, List list) {
+    static SpannedString parseCueText(String str, String str2, List list) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         ArrayDeque arrayDeque = new ArrayDeque();
         ArrayList arrayList = new ArrayList();
@@ -738,22 +599,21 @@ public abstract class WebvttCueParser {
                     if (!substring.trim().isEmpty()) {
                         String tagName = getTagName(substring);
                         if (isSupportedTag(tagName)) {
-                            if (!z) {
-                                if (!z2) {
-                                    arrayDeque.push(StartTag.buildStartTag(substring, spannableStringBuilder.length()));
+                            if (z) {
+                                while (!arrayDeque.isEmpty()) {
+                                    StartTag startTag = (StartTag) arrayDeque.pop();
+                                    applySpansForTag(str, startTag, arrayList, spannableStringBuilder, list);
+                                    if (arrayDeque.isEmpty()) {
+                                        arrayList.clear();
+                                    } else {
+                                        arrayList.add(new Element(startTag, spannableStringBuilder.length()));
+                                    }
+                                    if (startTag.name.equals(tagName)) {
+                                        break;
+                                    }
                                 }
-                            }
-                            while (!arrayDeque.isEmpty()) {
-                                StartTag startTag = (StartTag) arrayDeque.pop();
-                                applySpansForTag(str, startTag, arrayList, spannableStringBuilder, list);
-                                if (arrayDeque.isEmpty()) {
-                                    arrayList.clear();
-                                } else {
-                                    arrayList.add(new Element(startTag, spannableStringBuilder.length()));
-                                }
-                                if (startTag.name.equals(tagName)) {
-                                    break;
-                                }
+                            } else if (!z2) {
+                                arrayDeque.push(StartTag.buildStartTag(substring, spannableStringBuilder.length()));
                             }
                         }
                     }
@@ -770,40 +630,13 @@ public abstract class WebvttCueParser {
 
     private static int parseLineAnchor(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1364013995:
-                if (str.equals("center")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1074341483:
-                if (str.equals("middle")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 100571:
-                if (str.equals("end")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 109757538:
-                if (str.equals("start")) {
-                    c = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 1:
+        switch (str) {
+            case "center":
+            case "middle":
                 return 1;
-            case 2:
+            case "end":
                 return 2;
-            case 3:
+            case "start":
                 return 0;
             default:
                 Log.w("WebvttCueParser", "Invalid anchor value: " + str);
@@ -828,54 +661,15 @@ public abstract class WebvttCueParser {
 
     private static int parsePositionAnchor(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1842484672:
-                if (str.equals("line-left")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1364013995:
-                if (str.equals("center")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1276788989:
-                if (str.equals("line-right")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -1074341483:
-                if (str.equals("middle")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 100571:
-                if (str.equals("end")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 109757538:
-                if (str.equals("start")) {
-                    c = 5;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 5:
+        switch (str) {
+            case "line-left":
+            case "start":
                 return 0;
-            case 1:
-            case 3:
+            case "center":
+            case "middle":
                 return 1;
-            case 2:
-            case 4:
+            case "line-right":
+            case "end":
                 return 2;
             default:
                 Log.w("WebvttCueParser", "Invalid anchor value: " + str);
@@ -894,56 +688,17 @@ public abstract class WebvttCueParser {
 
     private static int parseTextAlignment(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1364013995:
-                if (str.equals("center")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1074341483:
-                if (str.equals("middle")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 100571:
-                if (str.equals("end")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 3317767:
-                if (str.equals("left")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 108511772:
-                if (str.equals("right")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 109757538:
-                if (str.equals("start")) {
-                    c = 5;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 1:
+        switch (str) {
+            case "center":
+            case "middle":
                 return 2;
-            case 2:
+            case "end":
                 return 3;
-            case 3:
+            case "left":
                 return 4;
-            case 4:
+            case "right":
                 return 5;
-            case 5:
+            case "start":
                 return 1;
             default:
                 Log.w("WebvttCueParser", "Invalid alignment value: " + str);

@@ -14,8 +14,7 @@ public final class zzac extends AbstractSafeParcelable {
     public final long zzc;
     public final long zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzac(int i, int i2, long j, long j2) {
+    zzac(int i, int i2, long j, long j2) {
         this.zza = i;
         this.zzb = i2;
         this.zzc = j;

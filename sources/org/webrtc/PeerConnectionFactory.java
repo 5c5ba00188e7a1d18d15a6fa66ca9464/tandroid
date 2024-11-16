@@ -25,7 +25,6 @@ public class PeerConnectionFactory {
     private volatile ThreadInfo signalingThread;
     private volatile ThreadInfo workerThread;
 
-    /* loaded from: classes5.dex */
     public static class Builder {
         private AudioDecoderFactoryFactory audioDecoderFactoryFactory;
         private AudioDeviceModule audioDeviceModule;
@@ -133,7 +132,6 @@ public class PeerConnectionFactory {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class InitializationOptions {
         final Context applicationContext;
         final boolean enableInternalTracer;
@@ -142,7 +140,6 @@ public class PeerConnectionFactory {
         Logging.Severity loggableSeverity;
         final String nativeLibraryName;
 
-        /* loaded from: classes5.dex */
         public static class Builder {
             private final Context applicationContext;
             private boolean enableInternalTracer;
@@ -195,7 +192,6 @@ public class PeerConnectionFactory {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class Options {
         static final int ADAPTER_TYPE_ANY = 32;
         static final int ADAPTER_TYPE_CELLULAR = 4;
@@ -221,9 +217,7 @@ public class PeerConnectionFactory {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class ThreadInfo {
+    private static class ThreadInfo {
         final Thread thread;
         final int tid;
 

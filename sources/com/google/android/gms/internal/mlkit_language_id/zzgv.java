@@ -12,8 +12,7 @@ final class zzgv extends zzhb {
         this.zza = zzgqVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzgv(zzgq zzgqVar, zzgt zzgtVar) {
+    /* synthetic */ zzgv(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }
 

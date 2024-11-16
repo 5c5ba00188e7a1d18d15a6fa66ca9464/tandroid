@@ -2,15 +2,13 @@ package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzau extends zzav {
+final class zzau extends zzav {
     final transient int zza;
     final transient int zzb;
     final /* synthetic */ zzav zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzau(zzav zzavVar, int i, int i2) {
+    zzau(zzav zzavVar, int i, int i2) {
         this.zzc = zzavVar;
         this.zza = i;
         this.zzb = i2;
@@ -37,15 +35,13 @@ public final class zzau extends zzav {
         return this.zzc.zzc() + this.zza + this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzaq
-    public final int zzc() {
+    final int zzc() {
         return this.zzc.zzc() + this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_subject_segmentation.zzaq
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzc.zze();
     }
 

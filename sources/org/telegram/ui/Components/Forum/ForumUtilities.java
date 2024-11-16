@@ -42,7 +42,6 @@ public abstract class ForumUtilities {
     static SparseArray dialogForumDrawables = new SparseArray();
     static Drawable dialogGeneralIcon;
 
-    /* loaded from: classes3.dex */
     public static class GeneralTopicDrawable extends Drawable {
         int color;
         Drawable icon;

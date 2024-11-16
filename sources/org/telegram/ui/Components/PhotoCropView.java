@@ -47,7 +47,6 @@ public class PhotoCropView extends FrameLayout {
     private AnimatorSet thumbOverrideAnimation;
     public CropRotationWheel wheelView;
 
-    /* loaded from: classes3.dex */
     public interface PhotoCropViewDelegate {
         int getVideoThumbX();
 

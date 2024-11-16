@@ -5,15 +5,13 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.play.integrity.internal.o;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ai extends o {
+final class ai extends o {
     final /* synthetic */ aj a;
     private final com.google.android.play.integrity.internal.s b = new com.google.android.play.integrity.internal.s("OnRequestIntegrityTokenCallback");
     private final TaskCompletionSource c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ai(aj ajVar, TaskCompletionSource taskCompletionSource) {
+    ai(aj ajVar, TaskCompletionSource taskCompletionSource) {
         this.a = ajVar;
         this.c = taskCompletionSource;
     }

@@ -139,7 +139,6 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     private boolean wasKeyboardVisible;
     public final TLRPC.Document widgets;
 
-    /* loaded from: classes5.dex */
     private class ContainerView extends FrameLayout {
         private final Paint backgroundBlurPaint;
         private final Paint backgroundPaint;
@@ -286,9 +285,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class EmojiListView extends RecyclerListView {
+    private static class EmojiListView extends RecyclerListView {
         private float bottomBound;
         public boolean emoji;
         private boolean invalidated;
@@ -302,7 +299,6 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private final SparseArray viewsGroupedByLines;
         private final ColorFilter whiteFilter;
 
-        /* loaded from: classes5.dex */
         public class DrawingInBackgroundLine extends DrawingInBackgroundThreadDrawable {
             ArrayList imageViewEmojis;
             public int position;
@@ -488,7 +484,6 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
         }
 
-        /* loaded from: classes5.dex */
         public static class EmojiImageView extends View {
             boolean attached;
             public ImageReceiver.BackgroundThreadDrawHolder[] backgroundThreadDrawHolder;
@@ -738,9 +733,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
             java.lang.NullPointerException
             */
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(android.graphics.Canvas r13) {
+        protected void dispatchDraw(android.graphics.Canvas r13) {
             /*
                 Method dump skipped, instructions count: 588
                 To view this dump add '--comments-level debug' option
@@ -782,8 +776,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class GifPage extends IPage implements NotificationCenter.NotificationCenterDelegate {
+    class GifPage extends IPage implements NotificationCenter.NotificationCenterDelegate {
         public GifAdapter adapter;
         private final ArrayList gifs;
         public ExtendedGridLayoutManager layoutManager;
@@ -793,8 +786,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         public SearchField searchField;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class GifAdapter extends RecyclerListView.SelectionAdapter {
+        class GifAdapter extends RecyclerListView.SelectionAdapter {
             private TLRPC.User bot;
             private int currentReqId;
             private String offset;
@@ -1032,7 +1024,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX WARN: Multi-variable type inference failed */
-            /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.ui.Cells.StickerSetNameCell, android.view.View] */
+            /* JADX WARN: Type inference failed for: r3v3, types: [android.view.View, org.telegram.ui.Cells.StickerSetNameCell] */
             /* JADX WARN: Type inference failed for: r3v5, types: [android.view.View] */
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -1084,7 +1076,6 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
         }
 
-        /* loaded from: classes5.dex */
         private class GifLayoutManager extends ExtendedGridLayoutManager {
             private final Size size;
 
@@ -1099,9 +1090,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 });
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
-            public int getFlowItemCount() {
+            protected int getFlowItemCount() {
                 return getItemCount();
             }
 
@@ -1496,9 +1486,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public abstract class IPage extends FrameLayout {
+    abstract class IPage extends FrameLayout {
         public int currentType;
 
         public IPage(Context context) {
@@ -1512,7 +1500,6 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         public abstract void updateTops();
     }
 
-    /* loaded from: classes5.dex */
     private static class NoEmojiView extends FrameLayout {
         BackupImageView imageView;
         private int lastI;
@@ -1550,8 +1537,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Page extends IPage {
+    class Page extends IPage {
         public Adapter adapter;
         public GridLayoutManager layoutManager;
         public EmojiListView listView;
@@ -1562,8 +1548,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         public EmojiTabsStrip tabsStrip;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class Adapter extends RecyclerView.Adapter {
+        class Adapter extends RecyclerView.Adapter {
             private String activeQuery;
             private TLRPC.TL_messages_stickerSet faveSet;
             private boolean includeNotFound;
@@ -2119,7 +2104,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         noEmojiView = new NoEmojiView(Page.this.getContext(), Page.this.currentType == 0);
                     } else if (i == 4) {
                         Page page = Page.this;
-                        StoryWidgetsCell storyWidgetsCell = new StoryWidgetsCell(page.getContext());
+                        StoryWidgetsCell storyWidgetsCell = EmojiBottomSheet.this.new StoryWidgetsCell(page.getContext());
                         final EmojiBottomSheet emojiBottomSheet = EmojiBottomSheet.this;
                         storyWidgetsCell.setOnButtonClickListener(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet$Page$Adapter$$ExternalSyntheticLambda2
                             @Override // org.telegram.messenger.Utilities.Callback
@@ -2416,8 +2401,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class SearchField extends FrameLayout {
+    static class SearchField extends FrameLayout {
         private final FrameLayout box;
         private StickerCategoriesListView categoriesListView;
         private int categoriesListViewType;
@@ -2432,9 +2416,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         private final SearchStateDrawable searchImageDrawable;
         private final ImageView searchImageView;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes5.dex */
-        public class 3 implements TextWatcher {
+        class 3 implements TextWatcher {
             3() {
             }
 
@@ -2523,9 +2505,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             imageView.setImageDrawable(searchStateDrawable);
             frameLayout.addView(imageView, LayoutHelper.createFrame(36, 36, 51));
             EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.SearchField.2
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public void onFocusChanged(boolean z, int i2, Rect rect) {
+                protected void onFocusChanged(boolean z, int i2, Rect rect) {
                     super.onFocusChanged(z, i2, rect);
                     if (z) {
                         return;
@@ -2759,17 +2740,14 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class StoryWidgetsCell extends View {
+    class StoryWidgetsCell extends View {
         private final Paint bgPaint;
         float[] lineWidths;
         private Utilities.Callback onClickListener;
         private final TextPaint textPaint;
         private final List widgets;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public abstract class BaseWidget {
+        private abstract class BaseWidget {
             public AnimatedFloat animatedWidth;
             ButtonBounce bounce;
             RectF bounds;
@@ -2794,8 +2772,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class Button extends BaseWidget {
+        class Button extends BaseWidget {
             Drawable drawable;
             String emojiDrawable;
             StaticLayout layout;
@@ -2891,8 +2868,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class ReactionWidget extends BaseWidget {
+        class ReactionWidget extends BaseWidget {
             StoryReactionWidgetBackground background;
             int currentIndex;
             ReactionImageHolder nextReactionHolder;
@@ -2901,9 +2877,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             Timer timeTimer;
             ArrayList visibleReactions;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes5.dex */
-            public class 1 extends TimerTask {
+            class 1 extends TimerTask {
                 1() {
                 }
 
@@ -3221,9 +3195,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class TabsView extends View {
+    private static class TabsView extends View {
         private StaticLayout emojiLayout;
         private float emojiLayoutLeft;
         private float emojiLayoutWidth;
@@ -3389,9 +3361,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         setUseLightStatusBar(false);
         this.containerView = new ContainerView(context);
         ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z3) {
+            protected void onTabAnimationUpdate(boolean z3) {
                 if (EmojiBottomSheet.this.tabsView != null) {
                     EmojiBottomSheet.this.tabsView.setType(EmojiBottomSheet.this.viewPager.getPositionAnimated());
                 }
@@ -3414,7 +3385,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i) {
-                return i == 1 ? new GifPage(context) : new Page(context);
+                return i == 1 ? EmojiBottomSheet.this.new GifPage(context) : EmojiBottomSheet.this.new Page(context);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
@@ -3577,9 +3548,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return this.viewPager.getTranslationY() >= ((float) ((int) this.maxPadding));
     }
 

@@ -13,13 +13,11 @@ abstract class zzbx {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbu zzap() {
+    static zzbu zzap() {
         return zzgr;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbu zzaq() {
+    static zzbu zzaq() {
         zzbu zzbuVar = zzgs;
         if (zzbuVar != null) {
             return zzbuVar;

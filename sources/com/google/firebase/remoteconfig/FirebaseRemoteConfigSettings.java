@@ -7,7 +7,6 @@ public class FirebaseRemoteConfigSettings {
     private final long fetchTimeoutInSeconds;
     private final long minimumFetchInterval;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private long fetchTimeoutInSeconds = 60;
         private long minimumFetchInterval = ConfigFetchHandler.DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS;

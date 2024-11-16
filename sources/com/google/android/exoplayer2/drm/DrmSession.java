@@ -9,7 +9,6 @@ import java.util.UUID;
 /* loaded from: classes.dex */
 public interface DrmSession {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void replaceSession(DrmSession drmSession, DrmSession drmSession2) {
             if (drmSession == drmSession2) {
@@ -24,7 +23,6 @@ public interface DrmSession {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DrmSessionException extends IOException {
         public final int errorCode;
 

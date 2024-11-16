@@ -4,8 +4,7 @@ import j$.util.function.Consumer;
 
 /* loaded from: classes2.dex */
 final class e1 extends g1 implements j$.util.H {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public e1(B0 b0) {
+    e1(B0 b0) {
         super(b0);
     }
 

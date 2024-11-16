@@ -22,7 +22,6 @@ public class ButtonSpan extends ReplacementSpan {
     private final Theme.ResourcesProvider resourcesProvider;
     private final Text text;
 
-    /* loaded from: classes3.dex */
     public static class TextViewButtons extends LinkSpanDrawable.LinksTextView {
         private ButtonSpan pressedSpan;
 

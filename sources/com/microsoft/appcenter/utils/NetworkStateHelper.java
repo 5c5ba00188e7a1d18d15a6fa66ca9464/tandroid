@@ -26,9 +26,7 @@ public class NetworkStateHelper implements Closeable {
     private final Set mListeners = new CopyOnWriteArraySet();
     private final AtomicBoolean mConnected = new AtomicBoolean();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ConnectivityReceiver extends BroadcastReceiver {
+    private class ConnectivityReceiver extends BroadcastReceiver {
         private ConnectivityReceiver() {
         }
 
@@ -38,7 +36,6 @@ public class NetworkStateHelper implements Closeable {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onNetworkStateUpdated(boolean z);
     }

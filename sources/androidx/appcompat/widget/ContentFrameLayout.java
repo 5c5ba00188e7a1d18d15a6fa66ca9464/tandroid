@@ -20,7 +20,6 @@ public class ContentFrameLayout extends FrameLayout {
     private TypedValue mMinWidthMajor;
     private TypedValue mMinWidthMinor;
 
-    /* loaded from: classes.dex */
     public interface OnAttachListener {
         void onAttachedFromWindow();
 

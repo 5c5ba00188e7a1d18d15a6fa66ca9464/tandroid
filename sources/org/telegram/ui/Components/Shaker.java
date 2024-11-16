@@ -30,7 +30,7 @@ public class Shaker {
 
     public void concat(Canvas canvas, float f) {
         Runnable runnable;
-        float currentTimeMillis = ((float) (System.currentTimeMillis() - this.start)) / 1000.0f;
+        float currentTimeMillis = (System.currentTimeMillis() - this.start) / 1000.0f;
         double d = this.r * currentTimeMillis;
         Double.isNaN(d);
         canvas.rotate(((float) Math.sin(d * 3.141592653589793d)) * 1.0f * f);

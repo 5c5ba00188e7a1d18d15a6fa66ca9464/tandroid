@@ -6,9 +6,8 @@ import java.util.Collection;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzjd extends zzhj implements zzjl, zzkw, RandomAccess {
+final class zzjd extends zzhj implements zzjl, zzkw, RandomAccess {
     private static final zzjd zza;
     private int[] zzb;
     private int zzc;

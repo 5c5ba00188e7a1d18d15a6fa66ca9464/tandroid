@@ -11,7 +11,6 @@ import java.util.List;
 public class AccessibilityNodeProviderCompat {
     private final Object mProvider;
 
-    /* loaded from: classes.dex */
     static class AccessibilityNodeProviderApi16 extends AccessibilityNodeProvider {
         final AccessibilityNodeProviderCompat mCompat;
 
@@ -48,7 +47,6 @@ public class AccessibilityNodeProviderCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class AccessibilityNodeProviderApi19 extends AccessibilityNodeProviderApi16 {
         AccessibilityNodeProviderApi19(AccessibilityNodeProviderCompat accessibilityNodeProviderCompat) {
             super(accessibilityNodeProviderCompat);
@@ -64,7 +62,6 @@ public class AccessibilityNodeProviderCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class AccessibilityNodeProviderApi26 extends AccessibilityNodeProviderApi19 {
         AccessibilityNodeProviderApi26(AccessibilityNodeProviderCompat accessibilityNodeProviderCompat) {
             super(accessibilityNodeProviderCompat);

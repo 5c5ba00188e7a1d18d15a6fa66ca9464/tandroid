@@ -12,9 +12,8 @@ import android.util.Log;
 import java.io.IOException;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class TopicsSyncTask implements Runnable {
+class TopicsSyncTask implements Runnable {
     private static final Object TOPIC_SYNC_TASK_LOCK = new Object();
     private static Boolean hasAccessNetworkStatePermission;
     private static Boolean hasWakeLockPermission;
@@ -24,7 +23,6 @@ public class TopicsSyncTask implements Runnable {
     private final PowerManager.WakeLock syncWakeLock;
     private final TopicsSubscriber topicsSubscriber;
 
-    /* loaded from: classes.dex */
     class ConnectivityChangeReceiver extends BroadcastReceiver {
         private TopicsSyncTask task;
 
@@ -40,7 +38,7 @@ public class TopicsSyncTask implements Runnable {
                     return;
                 }
                 if (topicsSyncTask.isDeviceConnected()) {
-                    if (TopicsSyncTask.access$100()) {
+                    if (TopicsSyncTask.isLoggable()) {
                         Log.d("FirebaseMessaging", "Connectivity changed. Starting background sync.");
                     }
                     this.task.topicsSubscriber.scheduleSyncTaskWithDelaySeconds(this.task, 0L);
@@ -53,24 +51,19 @@ public class TopicsSyncTask implements Runnable {
         }
 
         public void registerReceiver() {
-            if (TopicsSyncTask.access$100()) {
+            if (TopicsSyncTask.isLoggable()) {
                 Log.d("FirebaseMessaging", "Connectivity change received registered");
             }
             TopicsSyncTask.this.context.registerReceiver(this, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TopicsSyncTask(TopicsSubscriber topicsSubscriber, Context context, Metadata metadata, long j) {
+    TopicsSyncTask(TopicsSubscriber topicsSubscriber, Context context, Metadata metadata, long j) {
         this.topicsSubscriber = topicsSubscriber;
         this.context = context;
         this.nextDelaySeconds = j;
         this.metadata = metadata;
         this.syncWakeLock = ((PowerManager) context.getSystemService("power")).newWakeLock(1, "wake:com.google.firebase.messaging");
-    }
-
-    static /* synthetic */ boolean access$100() {
-        return isLoggable();
     }
 
     private static String createPermissionMissingLog(String str) {
@@ -139,7 +132,8 @@ public class TopicsSyncTask implements Runnable {
         }
     }
 
-    private static boolean isLoggable() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static boolean isLoggable() {
         if (Log.isLoggable("FirebaseMessaging", 3)) {
             return true;
         }

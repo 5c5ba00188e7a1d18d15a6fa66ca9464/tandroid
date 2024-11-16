@@ -25,8 +25,7 @@ public final class zznr {
         return new zznr(context, "mlkit:vision");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzb(long j, Exception exc) {
+    final /* synthetic */ void zzb(long j, Exception exc) {
         this.zzb.set(j);
     }
 

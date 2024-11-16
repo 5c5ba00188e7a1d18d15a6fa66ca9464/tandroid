@@ -7,9 +7,7 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public abstract class PathParser {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ExtractFloatResult {
+    private static class ExtractFloatResult {
         int mEndPosition;
         boolean mEndWithNegOrDot;
 
@@ -17,7 +15,6 @@ public abstract class PathParser {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class PathDataNode {
         public float[] mParams;
         public char mType;
@@ -533,7 +530,6 @@ public abstract class PathParser {
     
         if (r2 == false) goto L15;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:10:0x001e. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:14:0x0037 A[LOOP:0: B:2:0x0007->B:14:0x0037, LOOP_END] */
     /* JADX WARN: Removed duplicated region for block: B:15:0x003a A[SYNTHETIC] */
     /*

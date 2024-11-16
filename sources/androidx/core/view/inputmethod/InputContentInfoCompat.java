@@ -9,7 +9,6 @@ import android.view.inputmethod.InputContentInfo;
 public final class InputContentInfoCompat {
     private final InputContentInfoCompatImpl mImpl;
 
-    /* loaded from: classes.dex */
     private static final class InputContentInfoCompatApi25Impl implements InputContentInfoCompatImpl {
         final InputContentInfo mObject;
 
@@ -52,7 +51,6 @@ public final class InputContentInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class InputContentInfoCompatBaseImpl implements InputContentInfoCompatImpl {
         private final Uri mContentUri;
         private final ClipDescription mDescription;
@@ -93,7 +91,6 @@ public final class InputContentInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private interface InputContentInfoCompatImpl {
         Uri getContentUri();
 

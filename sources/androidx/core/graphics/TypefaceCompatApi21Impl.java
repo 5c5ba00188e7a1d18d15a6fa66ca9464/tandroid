@@ -26,6 +26,9 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     private static Constructor sFontFamilyCtor = null;
     private static boolean sHasInitBeenCalled = false;
 
+    TypefaceCompatApi21Impl() {
+    }
+
     private static boolean addFontWeightStyle(Object obj, String str, int i, boolean z) {
         init();
         try {
@@ -143,13 +146,7 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
                     return createFromInputStream;
                 } finally {
                 }
-            } catch (Throwable th) {
-                try {
-                    openFileDescriptor.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-                throw th;
+            } finally {
             }
         } catch (IOException unused) {
             return null;

@@ -22,8 +22,7 @@ public final class zzeh {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzeh zze(zzeh zzehVar, zzeh zzehVar2) {
+    static zzeh zze(zzeh zzehVar, zzeh zzehVar2) {
         int i = zzehVar.zzb + zzehVar2.zzb;
         int[] copyOf = Arrays.copyOf(zzehVar.zzc, i);
         System.arraycopy(zzehVar2.zzc, 0, copyOf, zzehVar.zzb, zzehVar2.zzb);
@@ -32,8 +31,7 @@ public final class zzeh {
         return new zzeh(i, copyOf, copyOf2, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzeh zzf() {
+    static zzeh zzf() {
         return new zzeh(0, new int[8], new Object[8], true);
     }
 
@@ -173,8 +171,7 @@ public final class zzeh {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzeh zzd(zzeh zzehVar) {
+    final zzeh zzd(zzeh zzehVar) {
         if (zzehVar.equals(zza)) {
             return this;
         }
@@ -199,15 +196,13 @@ public final class zzeh {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzi(StringBuilder sb, int i) {
+    final void zzi(StringBuilder sb, int i) {
         for (int i2 = 0; i2 < this.zzb; i2++) {
             zzdh.zzb(sb, i, String.valueOf(this.zzc[i2] >>> 3), this.zzd[i2]);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzj(int i, Object obj) {
+    final void zzj(int i, Object obj) {
         zzg();
         zzl(this.zzb + 1);
         int[] iArr = this.zzc;

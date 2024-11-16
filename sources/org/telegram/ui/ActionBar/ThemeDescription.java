@@ -104,10 +104,8 @@ public class ThemeDescription {
     public Theme.ResourcesProvider resourcesProvider;
     private View viewToInvalidate;
 
-    /* loaded from: classes4.dex */
     public interface ThemeDescriptionDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onAnimationProgress(ThemeDescriptionDelegate themeDescriptionDelegate, float f) {
             }

@@ -9,12 +9,10 @@ import org.telegram.messenger.LanguageDetector;
 /* loaded from: classes3.dex */
 public class LanguageDetector {
 
-    /* loaded from: classes3.dex */
     public interface ExceptionCallback {
         void run(Exception exc);
     }
 
-    /* loaded from: classes3.dex */
     public interface StringCallback {
         void run(String str);
     }

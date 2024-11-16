@@ -5,14 +5,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaac implements OnCompleteListener {
+final class zaac implements OnCompleteListener {
     final /* synthetic */ TaskCompletionSource zaa;
     final /* synthetic */ zaad zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaac(zaad zaadVar, TaskCompletionSource taskCompletionSource) {
+    zaac(zaad zaadVar, TaskCompletionSource taskCompletionSource) {
         this.zab = zaadVar;
         this.zaa = taskCompletionSource;
     }

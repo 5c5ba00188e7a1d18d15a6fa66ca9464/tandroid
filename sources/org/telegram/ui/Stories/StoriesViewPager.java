@@ -46,8 +46,7 @@ public abstract class StoriesViewPager extends ViewPager {
     private int updateVisibleItemPosition;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class PageLayout extends FrameLayout {
+    class PageLayout extends FrameLayout {
         ArrayList day;
         long dialogId;
         boolean isVisible;
@@ -112,7 +111,7 @@ public abstract class StoriesViewPager extends ViewPager {
                 PeerStoriesView peerStoriesView;
                 long longValue;
                 MessageObject findMessageObject;
-                PageLayout pageLayout = new PageLayout(context);
+                PageLayout pageLayout = StoriesViewPager.this.new PageLayout(context);
                 if (this.cachedViews.isEmpty()) {
                     peerStoriesView = new HwPeerStoriesView(context, storyViewer, StoriesViewPager.this.resources, resourcesProvider) { // from class: org.telegram.ui.Stories.StoriesViewPager.2.1
                         @Override // org.telegram.ui.Stories.PeerStoriesView
@@ -430,9 +429,8 @@ public abstract class StoriesViewPager extends ViewPager {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.viewpager.widget.ViewPager, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         if (this.updateDelegate) {
             this.updateDelegate = false;

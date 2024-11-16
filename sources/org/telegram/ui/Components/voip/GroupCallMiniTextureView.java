@@ -143,9 +143,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     private boolean videoIsPaused;
     private float videoIsPausedProgress;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class NoVideoStubLayout extends View {
+    private class NoVideoStubLayout extends View {
         float amplitude;
         float animateAmplitudeDiff;
         float animateToAmplitude;

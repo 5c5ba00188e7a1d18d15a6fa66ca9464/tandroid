@@ -6,7 +6,6 @@ import com.google.firebase.FirebaseException;
 public class FirebaseInstallationsException extends FirebaseException {
     private final Status status;
 
-    /* loaded from: classes.dex */
     public enum Status {
         BAD_CONFIG,
         UNAVAILABLE,

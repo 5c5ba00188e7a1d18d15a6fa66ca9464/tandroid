@@ -12,9 +12,8 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzko implements zzlc {
+final class zzko implements zzlc {
     private static final int[] zza = new int[0];
     private static final Unsafe zzb = zzma.zzc();
     private final int[] zzc;
@@ -67,7 +66,6 @@ public final class zzko implements zzlc {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0023. Please report as an issue. */
     private final int zza(Object obj, byte[] bArr, int i, int i2, int i3, int i4, int i5, int i6, int i7, long j, int i8, zzhn zzhnVar) {
         Object valueOf;
         Object valueOf2;
@@ -666,13 +664,12 @@ public final class zzko implements zzlc {
         throw null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:106:0x033b  */
     /* JADX WARN: Removed duplicated region for block: B:124:0x0399  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static zzko zza(Class cls, zzki zzkiVar, zzks zzksVar, zzju zzjuVar, zzlu zzluVar, zziq zziqVar, zzkh zzkhVar) {
+    static zzko zza(Class cls, zzki zzkiVar, zzks zzksVar, zzju zzjuVar, zzlu zzluVar, zziq zziqVar, zzkh zzkhVar) {
         int i;
         int charAt;
         int charAt2;
@@ -1376,7 +1373,6 @@ public final class zzko implements zzlc {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:29:0x007e. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:228:0x041f  */
     /* JADX WARN: Removed duplicated region for block: B:8:0x0031  */
     /*
@@ -1930,7 +1926,6 @@ public final class zzko implements zzlc {
     
         if (r3 != null) goto L69;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x001b. Please report as an issue. */
     @Override // com.google.android.gms.internal.vision.zzlc
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2206,9 +2201,8 @@ public final class zzko implements zzlc {
         return this.zzh ? (hashCode * 53) + this.zzr.zza(obj).hashCode() : hashCode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Failed to find 'out' block for switch in B:106:0x008c. Please report as an issue. */
-    public final int zza(Object obj, byte[] bArr, int i, int i2, int i3, zzhn zzhnVar) {
+    final int zza(Object obj, byte[] bArr, int i, int i2, int i3, zzhn zzhnVar) {
         Unsafe unsafe;
         int i4;
         zzko zzkoVar;
@@ -2934,8 +2928,6 @@ public final class zzko implements zzlc {
         return this.zzo.zza(this.zzg);
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:25:0x0065. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:306:0x052c. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:10:0x003b  */
     /* JADX WARN: Removed duplicated region for block: B:269:0x04c3  */
     /* JADX WARN: Removed duplicated region for block: B:291:0x0502  */
@@ -4342,7 +4334,6 @@ public final class zzko implements zzlc {
     
         if (com.google.android.gms.internal.vision.zzle.zza(com.google.android.gms.internal.vision.zzma.zzf(r10, r6), com.google.android.gms.internal.vision.zzma.zzf(r11, r6)) != false) goto L104;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:5:0x0017. Please report as an issue. */
     @Override // com.google.android.gms.internal.vision.zzlc
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4700,8 +4691,6 @@ public final class zzko implements zzlc {
     
         r3 = com.google.android.gms.internal.vision.zzii.zzb(r3, (java.lang.String) r4);
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:11:0x003f. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:232:0x03b8. Please report as an issue. */
     @Override // com.google.android.gms.internal.vision.zzlc
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5582,7 +5571,6 @@ public final class zzko implements zzlc {
         return i19 + zza(this.zzq, obj);
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:5:0x001b. Please report as an issue. */
     @Override // com.google.android.gms.internal.vision.zzlc
     public final void zzb(Object obj, Object obj2) {
         obj2.getClass();

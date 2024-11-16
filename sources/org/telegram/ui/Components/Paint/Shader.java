@@ -13,9 +13,7 @@ public class Shader {
     protected Map uniformsMap = new HashMap();
     protected int program = GLES20.glCreateProgram();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CompilationResult {
+    private static class CompilationResult {
         int shader;
         int status;
 

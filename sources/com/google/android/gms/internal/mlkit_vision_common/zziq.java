@@ -10,8 +10,7 @@ public final class zziq {
     private final Integer zzf;
     private final Integer zzg;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zziq(zzin zzinVar, zzip zzipVar) {
+    /* synthetic */ zziq(zzin zzinVar, zzip zzipVar) {
         Long l;
         zzio zzioVar;
         zzii zziiVar;

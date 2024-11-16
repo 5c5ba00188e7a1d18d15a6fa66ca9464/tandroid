@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 public class NotificationDismissReceiver extends BroadcastReceiver {
     @Override // android.content.BroadcastReceiver
     public void onReceive(Context context, Intent intent) {
+        StringBuilder sb;
         SharedPreferences.Editor edit;
         if (intent == null) {
             return;
@@ -27,15 +28,20 @@ public class NotificationDismissReceiver extends BroadcastReceiver {
             }
             String str = "dismissDate";
             if (longExtra == 0) {
-                FileLog.d("set dismissDate of global to " + intExtra2);
+                sb = new StringBuilder();
+                sb.append("set dismissDate of global to ");
+                sb.append(intExtra2);
+                FileLog.d(sb.toString());
                 edit = MessagesController.getNotificationsSettings(intExtra).edit();
             } else {
-                FileLog.d("set dismissDate of " + longExtra + " to " + intExtra2);
-                edit = MessagesController.getNotificationsSettings(intExtra).edit();
-                StringBuilder sb = new StringBuilder();
-                sb.append("dismissDate");
+                sb = new StringBuilder();
+                sb.append("set dismissDate of ");
                 sb.append(longExtra);
-                str = sb.toString();
+                sb.append(" to ");
+                sb.append(intExtra2);
+                FileLog.d(sb.toString());
+                edit = MessagesController.getNotificationsSettings(intExtra).edit();
+                str = "dismissDate" + longExtra;
             }
             edit.putInt(str, intExtra2).commit();
         }

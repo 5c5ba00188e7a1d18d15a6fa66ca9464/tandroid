@@ -55,9 +55,7 @@ public class DefaultThemesPreviewCell extends LinearLayout {
     int themeIndex;
     private Boolean wasPortrait;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements View.OnClickListener {
+    class 2 implements View.OnClickListener {
         final /* synthetic */ Context val$context;
         final /* synthetic */ BaseFragment val$parentFragment;
 
@@ -166,8 +164,10 @@ public class DefaultThemesPreviewCell extends LinearLayout {
                 RLottieDrawable rLottieDrawable = DefaultThemesPreviewCell.this.darkThemeDrawable;
                 rLottieDrawable.setCustomEndFrame(!z ? rLottieDrawable.getFramesCount() - 1 : 0);
                 DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
-                DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(r11);
-                int[] iArr = {iArr[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
+                int[] iArr = new int[2];
+                DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(iArr);
+                iArr[0] = iArr[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2);
+                iArr[1] = iArr[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f);
                 final Context context = this.val$context;
                 final BaseFragment baseFragment = this.val$parentFragment;
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell, new Runnable() { // from class: org.telegram.ui.DefaultThemesPreviewCell$2$$ExternalSyntheticLambda0
@@ -183,8 +183,10 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             RLottieDrawable rLottieDrawable2 = DefaultThemesPreviewCell.this.darkThemeDrawable;
             rLottieDrawable2.setCustomEndFrame(!z2 ? rLottieDrawable2.getFramesCount() - 1 : 0);
             DefaultThemesPreviewCell.this.dayNightCell.getImageView().playAnimation();
-            DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(iArr);
-            int[] iArr2 = {iArr2[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2), iArr2[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f)};
+            int[] iArr2 = new int[2];
+            DefaultThemesPreviewCell.this.dayNightCell.getImageView().getLocationInWindow(iArr2);
+            iArr2[0] = iArr2[0] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredWidth() / 2);
+            iArr2[1] = iArr2[1] + (DefaultThemesPreviewCell.this.dayNightCell.getImageView().getMeasuredHeight() / 2) + AndroidUtilities.dp(3.0f);
             final Context context2 = this.val$context;
             final BaseFragment baseFragment2 = this.val$parentFragment;
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, theme2, Boolean.FALSE, iArr2, -1, Boolean.valueOf(z2), DefaultThemesPreviewCell.this.dayNightCell.getImageView(), DefaultThemesPreviewCell.this.dayNightCell, new Runnable() { // from class: org.telegram.ui.DefaultThemesPreviewCell$2$$ExternalSyntheticLambda0

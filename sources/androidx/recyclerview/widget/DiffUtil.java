@@ -18,7 +18,6 @@ public abstract class DiffUtil {
         }
     };
 
-    /* loaded from: classes.dex */
     public static abstract class Callback {
         public abstract boolean areContentsTheSame(int i, int i2);
 
@@ -33,7 +32,6 @@ public abstract class DiffUtil {
         public abstract int getOldListSize();
     }
 
-    /* loaded from: classes.dex */
     public static class DiffResult {
         private final Callback mCallback;
         private final boolean mDetectMoves;
@@ -273,9 +271,7 @@ public abstract class DiffUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PostponedUpdate {
+    private static class PostponedUpdate {
         int currentPos;
         int posInOwnerList;
         boolean removal;
@@ -287,9 +283,7 @@ public abstract class DiffUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Range {
+    static class Range {
         int newListEnd;
         int newListStart;
         int oldListEnd;
@@ -306,9 +300,7 @@ public abstract class DiffUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Snake {
+    static class Snake {
         boolean removal;
         boolean reverse;
         int size;

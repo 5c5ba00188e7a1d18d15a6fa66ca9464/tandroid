@@ -6,7 +6,6 @@ import android.database.Cursor;
 final class zzn {
     public Cursor zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzn(zzm zzmVar) {
+    /* synthetic */ zzn(zzm zzmVar) {
     }
 }

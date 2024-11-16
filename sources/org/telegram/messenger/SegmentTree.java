@@ -5,9 +5,7 @@ public class SegmentTree {
     private long[] array;
     private Node[] heap;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class Node {
+    static class Node {
         int from;
         long max;
         long min;

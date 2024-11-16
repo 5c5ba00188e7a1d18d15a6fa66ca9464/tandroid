@@ -23,8 +23,7 @@ public class VorbisComment implements Metadata.Entry {
     public final String key;
     public final String value;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public VorbisComment(Parcel parcel) {
+    protected VorbisComment(Parcel parcel) {
         this.key = (String) Util.castNonNull(parcel.readString());
         this.value = (String) Util.castNonNull(parcel.readString());
     }
@@ -68,57 +67,22 @@ public class VorbisComment implements Metadata.Entry {
     public void populateMediaMetadata(MediaMetadata.Builder builder) {
         String str = this.key;
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 62359119:
-                if (str.equals("ALBUM")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 79833656:
-                if (str.equals("TITLE")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 428414940:
-                if (str.equals("DESCRIPTION")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1746739798:
-                if (str.equals("ALBUMARTIST")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 1939198791:
-                if (str.equals("ARTIST")) {
-                    c = 4;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "ALBUM":
                 builder.setAlbumTitle(this.value);
-                return;
-            case 1:
+                break;
+            case "TITLE":
                 builder.setTitle(this.value);
-                return;
-            case 2:
+                break;
+            case "DESCRIPTION":
                 builder.setDescription(this.value);
-                return;
-            case 3:
+                break;
+            case "ALBUMARTIST":
                 builder.setAlbumArtist(this.value);
-                return;
-            case 4:
+                break;
+            case "ARTIST":
                 builder.setArtist(this.value);
-                return;
-            default:
-                return;
+                break;
         }
     }
 

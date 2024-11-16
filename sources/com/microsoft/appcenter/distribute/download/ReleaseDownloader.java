@@ -6,7 +6,6 @@ import com.microsoft.appcenter.distribute.ReleaseDetails;
 /* loaded from: classes.dex */
 public interface ReleaseDownloader {
 
-    /* loaded from: classes.dex */
     public interface Listener {
         boolean onComplete(Uri uri);
 

@@ -14,9 +14,7 @@ public class BiometricManager {
     private final FingerprintManagerCompat mFingerprintManager;
     private final Injector mInjector;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    private static class Api29Impl {
         static int canAuthenticate(android.hardware.biometrics.BiometricManager biometricManager) {
             return biometricManager.canAuthenticate();
         }
@@ -34,17 +32,13 @@ public class BiometricManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api30Impl {
+    private static class Api30Impl {
         static int canAuthenticate(android.hardware.biometrics.BiometricManager biometricManager, int i) {
             return biometricManager.canAuthenticate(i);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class DefaultInjector implements Injector {
+    private static class DefaultInjector implements Injector {
         private final Context mContext;
 
         DefaultInjector(Context context) {
@@ -82,9 +76,7 @@ public class BiometricManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Injector {
+    interface Injector {
         android.hardware.biometrics.BiometricManager getBiometricManager();
 
         FingerprintManagerCompat getFingerprintManager();

@@ -5,7 +5,6 @@ import android.content.Context;
 /* loaded from: classes.dex */
 public interface MenuPresenter {
 
-    /* loaded from: classes.dex */
     public interface Callback {
         void onCloseMenu(MenuBuilder menuBuilder, boolean z);
 

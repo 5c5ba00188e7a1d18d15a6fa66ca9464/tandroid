@@ -6,8 +6,7 @@ import android.content.Context;
 final class q implements x {
     private Context a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ q(p pVar) {
+    /* synthetic */ q(p pVar) {
     }
 
     public final q a(Context context) {

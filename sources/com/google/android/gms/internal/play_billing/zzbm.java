@@ -5,8 +5,7 @@ final class zzbm {
     private final Object zza;
     private final int zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbm(Object obj, int i) {
+    zzbm(Object obj, int i) {
         this.zza = obj;
         this.zzb = i;
     }

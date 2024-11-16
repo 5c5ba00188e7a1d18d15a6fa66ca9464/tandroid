@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbg {
+final class zzbg {
     private final byte[] buffer;
     private final zzbn zzfo;
 
@@ -12,8 +11,7 @@ public final class zzbg {
         this.zzfo = zzbn.zzc(bArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbg(int i, zzbc zzbcVar) {
+    /* synthetic */ zzbg(int i, zzbc zzbcVar) {
         this(i);
     }
 

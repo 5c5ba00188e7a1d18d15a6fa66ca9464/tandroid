@@ -63,7 +63,6 @@ public class BotHelpCell extends View {
     public boolean wasDraw;
     private int width;
 
-    /* loaded from: classes4.dex */
     public interface BotHelpCellDelegate {
         void didPressUrl(String str);
     }

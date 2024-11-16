@@ -21,7 +21,6 @@ public class ChatCell extends BaseCell {
     private final ImageView deleteImageView;
     private boolean removable;
 
-    /* loaded from: classes3.dex */
     public interface ChatDeleteListener {
         void onChatDeleted(TLRPC.Chat chat);
     }
@@ -59,9 +58,8 @@ public class ChatCell extends BaseCell {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Premium.boosts.cells.BaseCell, android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         this.deleteImageView.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
     }

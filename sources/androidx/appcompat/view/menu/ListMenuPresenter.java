@@ -25,7 +25,6 @@ public class ListMenuPresenter implements MenuPresenter, AdapterView.OnItemClick
     ExpandedMenuView mMenuView;
     int mThemeRes;
 
-    /* loaded from: classes.dex */
     private class MenuAdapter extends BaseAdapter {
         private int mExpandedIndex = -1;
 

@@ -9,7 +9,6 @@ import org.telegram.ui.LaunchActivity;
 public abstract class FloatingDebugController {
     private static FloatingDebugView debugView;
 
-    /* loaded from: classes3.dex */
     public static class DebugItem {
         Runnable action;
         AnimationProperties.FloatProperty floatProperty;
@@ -38,7 +37,6 @@ public abstract class FloatingDebugController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public enum DebugItemType {
         SIMPLE,
         HEADER,

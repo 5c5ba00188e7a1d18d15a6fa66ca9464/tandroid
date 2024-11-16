@@ -23,9 +23,7 @@ class AsynchronousMediaCodecBufferEnqueuer {
     private final AtomicReference pendingRuntimeException;
     private boolean started;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class MessageParams {
+    private static class MessageParams {
         public final MediaCodec.CryptoInfo cryptoInfo = new MediaCodec.CryptoInfo();
         public int flags;
         public int index;

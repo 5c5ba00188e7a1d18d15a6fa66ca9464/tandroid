@@ -9,46 +9,42 @@ import java.util.RandomAccess;
 import java.util.Set;
 
 /* loaded from: classes.dex */
-public abstract class zzag extends zzai implements Serializable {
+abstract class zzag extends zzai implements Serializable {
     private transient Map zza;
     private transient int zzb;
 
-    public zzag(Map map) {
+    protected zzag(Map map) {
         if (!map.isEmpty()) {
             throw new IllegalArgumentException();
         }
         this.zza = map;
     }
 
-    public static /* synthetic */ int zzd(zzag zzagVar) {
+    static /* synthetic */ int zzd(zzag zzagVar) {
         int i = zzagVar.zzb;
         zzagVar.zzb = i + 1;
         return i;
     }
 
-    public static /* synthetic */ int zze(zzag zzagVar) {
+    static /* synthetic */ int zze(zzag zzagVar) {
         int i = zzagVar.zzb;
         zzagVar.zzb = i - 1;
         return i;
     }
 
-    public static /* synthetic */ int zzf(zzag zzagVar, int i) {
+    static /* synthetic */ int zzf(zzag zzagVar, int i) {
         int i2 = zzagVar.zzb + i;
         zzagVar.zzb = i2;
         return i2;
     }
 
-    public static /* synthetic */ int zzg(zzag zzagVar, int i) {
+    static /* synthetic */ int zzg(zzag zzagVar, int i) {
         int i2 = zzagVar.zzb - i;
         zzagVar.zzb = i2;
         return i2;
     }
 
-    public static /* synthetic */ Map zzj(zzag zzagVar) {
-        return zzagVar.zza;
-    }
-
-    public static /* synthetic */ void zzm(zzag zzagVar, Object obj) {
+    static /* synthetic */ void zzm(zzag zzagVar, Object obj) {
         Object obj2;
         Map map = zzagVar.zza;
         map.getClass();
@@ -65,9 +61,9 @@ public abstract class zzag extends zzai implements Serializable {
         }
     }
 
-    public abstract Collection zza();
+    abstract Collection zza();
 
-    public abstract Collection zzb(Object obj, Collection collection);
+    abstract Collection zzb(Object obj, Collection collection);
 
     public final Collection zzh(Object obj) {
         Collection collection = (Collection) this.zza.get(obj);
@@ -77,7 +73,7 @@ public abstract class zzag extends zzai implements Serializable {
         return zzb(obj, collection);
     }
 
-    public final List zzi(Object obj, List list, zzad zzadVar) {
+    final List zzi(Object obj, List list, zzad zzadVar) {
         return list instanceof RandomAccess ? new zzab(this, obj, list, zzadVar) : new zzaf(this, obj, list, zzadVar);
     }
 

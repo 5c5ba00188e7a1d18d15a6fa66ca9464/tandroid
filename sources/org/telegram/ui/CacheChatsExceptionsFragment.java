@@ -44,9 +44,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
     ArrayList items;
     RecyclerListView recyclerListView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends AdapterWithDiffUtils {
+    private class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
 
@@ -121,9 +119,7 @@ public class CacheChatsExceptionsFragment extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Item extends AdapterWithDiffUtils.Item {
+    private class Item extends AdapterWithDiffUtils.Item {
         final CacheByChatsController.KeepMediaException exception;
 
         private Item(int i, CacheByChatsController.KeepMediaException keepMediaException) {

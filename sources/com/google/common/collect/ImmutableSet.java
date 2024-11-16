@@ -11,8 +11,10 @@ import java.util.SortedSet;
 public abstract class ImmutableSet extends ImmutableCollection implements Set {
     private transient ImmutableList asList;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int chooseTableSize(int i) {
+    ImmutableSet() {
+    }
+
+    static int chooseTableSize(int i) {
         int max = Math.max(i, 2);
         if (max >= 751619276) {
             Preconditions.checkArgument(max < 1073741824, "collection too large");

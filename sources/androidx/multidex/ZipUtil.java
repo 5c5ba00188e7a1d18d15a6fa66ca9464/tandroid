@@ -9,9 +9,7 @@ import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 abstract class ZipUtil {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class CentralDirectory {
+    static class CentralDirectory {
         long offset;
         long size;
 
@@ -66,8 +64,7 @@ abstract class ZipUtil {
         throw new ZipException("End Of Central Directory signature not found");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long getZipCrc(File file) {
+    static long getZipCrc(File file) {
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
         try {
             return computeCrcOfCentralDir(randomAccessFile, findCentralDirectory(randomAccessFile));

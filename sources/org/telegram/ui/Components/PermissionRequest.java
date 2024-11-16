@@ -166,7 +166,8 @@ public abstract class PermissionRequest {
         if (Build.VERSION.SDK_INT >= 23) {
             final int i = lastId;
             lastId = i + 1;
-            final NotificationCenter.NotificationCenterDelegate[] notificationCenterDelegateArr = {new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.Components.PermissionRequest.1
+            final NotificationCenter.NotificationCenterDelegate[] notificationCenterDelegateArr = new NotificationCenter.NotificationCenterDelegate[1];
+            notificationCenterDelegateArr[0] = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.Components.PermissionRequest.1
                 @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
                 public void didReceivedNotification(int i2, int i3, Object... objArr) {
                     int i4 = NotificationCenter.activityPermissionsGranted;
@@ -182,7 +183,7 @@ public abstract class PermissionRequest {
                         }
                     }
                 }
-            }};
+            };
             NotificationCenter.getGlobalInstance().addObserver(notificationCenterDelegateArr[0], NotificationCenter.activityPermissionsGranted);
             activity.requestPermissions(strArr, i);
             return;

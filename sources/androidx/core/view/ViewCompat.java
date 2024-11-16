@@ -58,7 +58,6 @@ public abstract class ViewCompat {
     };
     private static final AccessibilityPaneVisibilityManager sAccessibilityPaneVisibilityManager = new AccessibilityPaneVisibilityManager();
 
-    /* loaded from: classes.dex */
     static class AccessibilityPaneVisibilityManager implements ViewTreeObserver.OnGlobalLayoutListener, View.OnAttachStateChangeListener {
         private final WeakHashMap mPanesToVisible = new WeakHashMap();
 
@@ -114,9 +113,7 @@ public abstract class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class AccessibilityViewProperty {
+    static abstract class AccessibilityViewProperty {
         private final int mContentChangeType;
         private final int mFrameworkMinimumSdk;
         private final int mTagKey;
@@ -176,16 +173,13 @@ public abstract class ViewCompat {
         abstract boolean shouldUpdate(Object obj, Object obj2);
     }
 
-    /* loaded from: classes.dex */
     static class Api15Impl {
         static boolean hasOnClickListeners(View view) {
             return view.hasOnClickListeners();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static AccessibilityNodeProvider getAccessibilityNodeProvider(View view) {
             return view.getAccessibilityNodeProvider();
         }
@@ -263,7 +257,6 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api17Impl {
         static int generateViewId() {
             return View.generateViewId();
@@ -310,9 +303,7 @@ public abstract class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api19Impl {
+    static class Api19Impl {
         static int getAccessibilityLiveRegion(View view) {
             return view.getAccessibilityLiveRegion();
         }
@@ -342,9 +333,7 @@ public abstract class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api20Impl {
+    static class Api20Impl {
         static WindowInsets dispatchApplyWindowInsets(View view, WindowInsets windowInsets) {
             return view.dispatchApplyWindowInsets(windowInsets);
         }
@@ -358,7 +347,6 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Api21Impl {
         static void callCompatInsetAnimationCallback(WindowInsets windowInsets, View view) {
             View.OnApplyWindowInsetsListener onApplyWindowInsetsListener = (View.OnApplyWindowInsetsListener) view.getTag(R$id.tag_window_insets_animation_callback);
@@ -501,7 +489,6 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Api23Impl {
         public static WindowInsetsCompat getRootWindowInsets(View view) {
             WindowInsets rootWindowInsets = view.getRootWindowInsets();
@@ -527,7 +514,6 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api26Impl {
         static void addKeyboardNavigationClusters(View view, Collection<View> collection, int i) {
             view.addKeyboardNavigationClusters(collection, i);
@@ -590,9 +576,7 @@ public abstract class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static void addOnUnhandledKeyEventListener(View view, final OnUnhandledKeyEventListenerCompat onUnhandledKeyEventListenerCompat) {
             int i = R$id.tag_unhandled_key_listeners;
             SimpleArrayMap simpleArrayMap = (SimpleArrayMap) view.getTag(i);
@@ -649,9 +633,7 @@ public abstract class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    private static class Api29Impl {
         static View.AccessibilityDelegate getAccessibilityDelegate(View view) {
             return view.getAccessibilityDelegate();
         }
@@ -669,9 +651,7 @@ public abstract class ViewCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api30Impl {
+    private static class Api30Impl {
         static CharSequence getStateDescription(View view) {
             return view.getStateDescription();
         }
@@ -681,7 +661,6 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class Api31Impl {
         public static String[] getReceiveContentMimeTypes(View view) {
             return view.getReceiveContentMimeTypes();
@@ -705,7 +684,6 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class OnReceiveContentListenerAdapter implements android.view.OnReceiveContentListener {
         private final OnReceiveContentListener mJetpackListener;
 
@@ -724,11 +702,9 @@ public abstract class ViewCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnUnhandledKeyEventListenerCompat {
     }
 
-    /* loaded from: classes.dex */
     static class UnhandledKeyEventManager {
         private static final ArrayList sViewsWithListeners = new ArrayList();
         private WeakHashMap mViewsContainingListeners = null;
@@ -912,16 +888,14 @@ public abstract class ViewCompat {
         return windowInsetsCompat;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean dispatchUnhandledKeyEventBeforeCallback(View view, KeyEvent keyEvent) {
+    static boolean dispatchUnhandledKeyEventBeforeCallback(View view, KeyEvent keyEvent) {
         if (Build.VERSION.SDK_INT >= 28) {
             return false;
         }
         return UnhandledKeyEventManager.at(view).dispatch(view, keyEvent);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean dispatchUnhandledKeyEventBeforeHierarchy(View view, KeyEvent keyEvent) {
+    static boolean dispatchUnhandledKeyEventBeforeHierarchy(View view, KeyEvent keyEvent) {
         if (Build.VERSION.SDK_INT >= 28) {
             return false;
         }

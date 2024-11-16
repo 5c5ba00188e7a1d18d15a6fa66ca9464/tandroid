@@ -13,7 +13,6 @@ public abstract class CompoundButtonCompat {
     private static Field sButtonDrawableField;
     private static boolean sButtonDrawableFieldFetched;
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static ColorStateList getButtonTintList(CompoundButton compoundButton) {
             return compoundButton.getButtonTintList();
@@ -32,7 +31,6 @@ public abstract class CompoundButtonCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static Drawable getButtonDrawable(CompoundButton compoundButton) {
             return compoundButton.getButtonDrawable();

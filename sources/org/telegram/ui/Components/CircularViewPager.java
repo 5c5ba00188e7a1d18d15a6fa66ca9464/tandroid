@@ -8,7 +8,6 @@ import androidx.viewpager.widget.ViewPager;
 public abstract class CircularViewPager extends ViewPager {
     private Adapter adapter;
 
-    /* loaded from: classes3.dex */
     public static abstract class Adapter extends PagerAdapter {
         public abstract int getExtraCount();
 

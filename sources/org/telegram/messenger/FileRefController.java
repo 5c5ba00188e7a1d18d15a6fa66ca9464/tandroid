@@ -30,9 +30,7 @@ public class FileRefController extends BaseController {
     private ArrayList<Waiter> savedGifsWaiters;
     private ArrayList<Waiter> wallpaperWaiters;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CachedResult {
+    private static class CachedResult {
         private long firstQueryTime;
         private TLObject response;
 
@@ -41,8 +39,7 @@ public class FileRefController extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Requester {
+    static class Requester {
         private Object[] args;
         private boolean completed;
         private TLRPC.InputFileLocation location;
@@ -52,9 +49,7 @@ public class FileRefController extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Waiter {
+    private static class Waiter {
         private String locationKey;
         private String parentKey;
 

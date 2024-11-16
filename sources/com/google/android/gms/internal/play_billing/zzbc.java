@@ -9,8 +9,7 @@ final class zzbc extends zzbe {
     private int zzd;
     private int zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbc(byte[] bArr, int i, int i2, boolean z, zzbb zzbbVar) {
+    /* synthetic */ zzbc(byte[] bArr, int i, int i2, boolean z, zzbb zzbbVar) {
         super(null);
         this.zze = ConnectionsManager.DEFAULT_DATACENTER_ID;
         this.zzb = bArr;

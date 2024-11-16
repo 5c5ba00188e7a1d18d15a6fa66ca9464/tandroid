@@ -14,49 +14,16 @@ public interface MetadataDecoderFactory {
         public MetadataDecoder createDecoder(Format format) {
             String str = format.sampleMimeType;
             if (str != null) {
-                char c = 65535;
-                switch (str.hashCode()) {
-                    case -1354451219:
-                        if (str.equals("application/vnd.dvb.ait")) {
-                            c = 0;
-                            break;
-                        }
-                        break;
-                    case -1348231605:
-                        if (str.equals("application/x-icy")) {
-                            c = 1;
-                            break;
-                        }
-                        break;
-                    case -1248341703:
-                        if (str.equals("application/id3")) {
-                            c = 2;
-                            break;
-                        }
-                        break;
-                    case 1154383568:
-                        if (str.equals("application/x-emsg")) {
-                            c = 3;
-                            break;
-                        }
-                        break;
-                    case 1652648887:
-                        if (str.equals("application/x-scte35")) {
-                            c = 4;
-                            break;
-                        }
-                        break;
-                }
-                switch (c) {
-                    case 0:
+                switch (str) {
+                    case "application/vnd.dvb.ait":
                         return new AppInfoTableDecoder();
-                    case 1:
+                    case "application/x-icy":
                         return new IcyDecoder();
-                    case 2:
+                    case "application/id3":
                         return new Id3Decoder();
-                    case 3:
+                    case "application/x-emsg":
                         return new EventMessageDecoder();
-                    case 4:
+                    case "application/x-scte35":
                         return new SpliceInfoDecoder();
                 }
             }

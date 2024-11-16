@@ -10,6 +10,9 @@ import java.util.Collection;
 public abstract class zzl extends AbstractCollection implements Serializable {
     private static final Object[] zza = new Object[0];
 
+    zzl() {
+    }
+
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean add(Object obj) {
         throw new UnsupportedOperationException();
@@ -66,11 +69,9 @@ public abstract class zzl extends AbstractCollection implements Serializable {
 
     public abstract zzo zza();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract Object[] zzb();
+    abstract Object[] zzb();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zzc();
+    abstract int zzc();
 
     abstract int zzd();
 }

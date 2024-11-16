@@ -53,9 +53,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
     private int shadowRow;
     private int shareLinkRow;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {

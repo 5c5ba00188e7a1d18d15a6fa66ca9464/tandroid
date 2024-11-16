@@ -11,7 +11,6 @@ public class Frame {
     private ByteBuffer zzb;
     private Bitmap zzd;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final Frame zza = new Frame();
 
@@ -60,7 +59,6 @@ public class Frame {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Metadata {
         private int zza;
         private int zzb;
@@ -90,9 +88,7 @@ public class Frame {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class zza {
+    private static class zza {
     }
 
     private Frame() {

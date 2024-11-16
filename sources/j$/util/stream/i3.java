@@ -2,11 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class i3 extends l3 implements j$.util.E {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public i3(j$.util.E e, long j, long j2) {
+final class i3 extends l3 implements j$.util.E {
+    i3(j$.util.E e, long j, long j2) {
         super(e, j, j2);
     }
 

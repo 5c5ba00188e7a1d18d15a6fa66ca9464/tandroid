@@ -1,14 +1,12 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbu extends zzbe {
+final class zzbu extends zzbe {
     static final zzbe zza = new zzbu(new Object[0], 0);
     final transient Object[] zzb;
     private final transient int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbu(Object[] objArr, int i) {
+    zzbu(Object[] objArr, int i) {
         this.zzb = objArr;
         this.zzc = i;
     }
@@ -37,15 +35,13 @@ public final class zzbu extends zzbe {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzaz
-    public final int zzc() {
+    final int zzc() {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzaz
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzb;
     }
 }

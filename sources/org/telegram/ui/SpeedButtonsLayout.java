@@ -15,7 +15,6 @@ import org.telegram.ui.SpeedButtonsLayout;
 public class SpeedButtonsLayout extends LinearLayout {
     ActionBarMenuSubItem[] speedItems;
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onSpeedSelected(float f, boolean z, boolean z2);
     }

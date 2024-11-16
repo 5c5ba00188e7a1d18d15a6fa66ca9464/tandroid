@@ -24,7 +24,6 @@ public class CropGestureDetector {
     private int mActivePointerId = -1;
     private int mActivePointerIndex = 0;
 
-    /* loaded from: classes3.dex */
     public interface CropGestureListener {
         void onDrag(float f, float f2);
 

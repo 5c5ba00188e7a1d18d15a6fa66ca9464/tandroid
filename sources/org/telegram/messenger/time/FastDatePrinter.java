@@ -28,9 +28,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     private transient Rule[] mRules;
     private final TimeZone mTimeZone;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CharacterLiteral implements Rule {
+    private static class CharacterLiteral implements Rule {
         private final char mValue;
 
         CharacterLiteral(char c) {
@@ -48,15 +46,11 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public interface NumberRule extends Rule {
+    private interface NumberRule extends Rule {
         void appendTo(StringBuffer stringBuffer, int i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class PaddedNumberField implements NumberRule {
+    private static class PaddedNumberField implements NumberRule {
         private final int mField;
         private final int mSize;
 
@@ -106,17 +100,13 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public interface Rule {
+    private interface Rule {
         void appendTo(StringBuffer stringBuffer, Calendar calendar);
 
         int estimateLength();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class StringLiteral implements Rule {
+    private static class StringLiteral implements Rule {
         private final String mValue;
 
         StringLiteral(String str) {
@@ -134,9 +124,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TextField implements Rule {
+    private static class TextField implements Rule {
         private final int mField;
         private final String[] mValues;
 
@@ -167,9 +155,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TimeZoneDisplayKey {
+    private static class TimeZoneDisplayKey {
         private final Locale mLocale;
         private final int mStyle;
         private final TimeZone mTimeZone;
@@ -200,9 +186,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TimeZoneNameRule implements Rule {
+    private static class TimeZoneNameRule implements Rule {
         private final String mDaylight;
         private final Locale mLocale;
         private final String mStandard;
@@ -239,9 +223,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TimeZoneNumberRule implements Rule {
+    private static class TimeZoneNumberRule implements Rule {
         static final TimeZoneNumberRule INSTANCE_COLON = new TimeZoneNumberRule(true);
         static final TimeZoneNumberRule INSTANCE_NO_COLON = new TimeZoneNumberRule(false);
         final boolean mColon;
@@ -276,9 +258,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TwelveHourField implements NumberRule {
+    private static class TwelveHourField implements NumberRule {
         private final NumberRule mRule;
 
         TwelveHourField(NumberRule numberRule) {
@@ -305,9 +285,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TwentyFourHourField implements NumberRule {
+    private static class TwentyFourHourField implements NumberRule {
         private final NumberRule mRule;
 
         TwentyFourHourField(NumberRule numberRule) {
@@ -334,9 +312,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TwoDigitMonthField implements NumberRule {
+    private static class TwoDigitMonthField implements NumberRule {
         static final TwoDigitMonthField INSTANCE = new TwoDigitMonthField();
 
         TwoDigitMonthField() {
@@ -359,9 +335,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TwoDigitNumberField implements NumberRule {
+    private static class TwoDigitNumberField implements NumberRule {
         private final int mField;
 
         TwoDigitNumberField(int i) {
@@ -389,9 +363,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TwoDigitYearField implements NumberRule {
+    private static class TwoDigitYearField implements NumberRule {
         static final TwoDigitYearField INSTANCE = new TwoDigitYearField();
 
         TwoDigitYearField() {
@@ -414,9 +386,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class UnpaddedMonthField implements NumberRule {
+    private static class UnpaddedMonthField implements NumberRule {
         static final UnpaddedMonthField INSTANCE = new UnpaddedMonthField();
 
         UnpaddedMonthField() {
@@ -442,9 +412,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class UnpaddedNumberField implements NumberRule {
+    private static class UnpaddedNumberField implements NumberRule {
         private final int mField;
 
         UnpaddedNumberField(int i) {
@@ -476,8 +444,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public FastDatePrinter(String str, TimeZone timeZone, Locale locale) {
+    protected FastDatePrinter(String str, TimeZone timeZone, Locale locale) {
         this.mPattern = str;
         this.mTimeZone = timeZone;
         this.mLocale = locale;
@@ -525,8 +492,7 @@ public class FastDatePrinter implements DatePrinter, Serializable {
         init();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public StringBuffer applyRules(Calendar calendar, StringBuffer stringBuffer) {
+    protected StringBuffer applyRules(Calendar calendar, StringBuffer stringBuffer) {
         for (Rule rule : this.mRules) {
             rule.appendTo(stringBuffer, calendar);
         }
@@ -633,9 +599,6 @@ public class FastDatePrinter implements DatePrinter, Serializable {
     
         if (r12 == 2) goto L30;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:10:0x0053. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:11:0x0056. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:12:0x0059. Please report as an issue. */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

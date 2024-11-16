@@ -40,7 +40,6 @@ public final class ClearcutLogger {
     private zzc zzr;
     private final zza zzs;
 
-    /* loaded from: classes.dex */
     public class LogEventBuilder {
         private final zzha zzaa;
         private boolean zzab;
@@ -110,16 +109,13 @@ public final class ClearcutLogger {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface zza {
         boolean zza(zze zzeVar);
     }
 
-    /* loaded from: classes.dex */
     public interface zzb {
     }
 
-    /* loaded from: classes.dex */
     public static class zzc {
     }
 
@@ -131,7 +127,7 @@ public final class ClearcutLogger {
         API = new Api("ClearcutLogger.API", zzaVar, clientKey);
         zze = new ExperimentTokens[0];
         zzf = new String[0];
-        zzg = new byte[0];
+        zzg = new byte[0][];
     }
 
     private ClearcutLogger(Context context, int i, String str, String str2, String str3, boolean z, com.google.android.gms.clearcut.zzb zzbVar, Clock clock, zzc zzcVar, zza zzaVar) {

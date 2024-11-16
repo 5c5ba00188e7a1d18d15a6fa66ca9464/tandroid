@@ -33,9 +33,8 @@ public abstract class ChatSearchTabs extends BlurredFrameLayout {
         onShownUpdate(false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         canvas.save();
         if (this.showWithCut) {
             canvas.clipRect(0, 0, getWidth(), getCurrentHeight());

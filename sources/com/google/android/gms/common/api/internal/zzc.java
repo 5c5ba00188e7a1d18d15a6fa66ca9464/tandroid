@@ -8,8 +8,7 @@ final class zzc implements Runnable {
     final /* synthetic */ String zzb;
     final /* synthetic */ zzd zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(zzd zzdVar, LifecycleCallback lifecycleCallback, String str) {
+    zzc(zzd zzdVar, LifecycleCallback lifecycleCallback, String str) {
         this.zzc = zzdVar;
         this.zza = lifecycleCallback;
         this.zzb = str;

@@ -9,8 +9,7 @@ public final class zzdw {
     private final zznj zzc;
     private final zzrz zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzdw(zzdu zzduVar, zzdv zzdvVar) {
+    /* synthetic */ zzdw(zzdu zzduVar, zzdv zzdvVar) {
         zzoa zzoaVar;
         Boolean bool;
         zzrz zzrzVar;

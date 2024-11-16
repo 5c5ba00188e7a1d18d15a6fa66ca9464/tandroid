@@ -4,17 +4,15 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class zzhb extends AbstractSet {
+class zzhb extends AbstractSet {
     private final /* synthetic */ zzgq zza;
 
     private zzhb(zzgq zzgqVar) {
         this.zza = zzgqVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzhb(zzgq zzgqVar, zzgt zzgtVar) {
+    /* synthetic */ zzhb(zzgq zzgqVar, zzgt zzgtVar) {
         this(zzgqVar);
     }
 

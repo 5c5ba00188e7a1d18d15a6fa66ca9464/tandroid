@@ -9,8 +9,7 @@ import java.util.NoSuchElementException;
 class DownloadManagerUpdateTask extends AsyncTask {
     private final DownloadManagerReleaseDownloader mDownloader;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DownloadManagerUpdateTask(DownloadManagerReleaseDownloader downloadManagerReleaseDownloader) {
+    DownloadManagerUpdateTask(DownloadManagerReleaseDownloader downloadManagerReleaseDownloader) {
         this.mDownloader = downloadManagerReleaseDownloader;
     }
 

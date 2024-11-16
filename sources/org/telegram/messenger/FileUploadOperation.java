@@ -68,7 +68,6 @@ public class FileUploadOperation {
     private SparseArray<UploadCachedResult> cachedResults = new SparseArray<>();
     private boolean[] recalculatedEstimatedSize = {false, false};
 
-    /* loaded from: classes3.dex */
     public interface FileUploadOperationDelegate {
         void didChangedUploadProgress(FileUploadOperation fileUploadOperation, long j, long j2);
 
@@ -77,9 +76,7 @@ public class FileUploadOperation {
         void didFinishUploadingFile(FileUploadOperation fileUploadOperation, TLRPC.InputFile inputFile, TLRPC.InputEncryptedFile inputEncryptedFile, byte[] bArr, byte[] bArr2);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class UploadCachedResult {
+    private static class UploadCachedResult {
         private long bytesOffset;
         private byte[] iv;
 
@@ -168,7 +165,7 @@ public class FileUploadOperation {
                 if (!zArr2[1]) {
                     zArr2[1] = true;
                     if (z2) {
-                        this.estimatedSize = ((float) j2) / f.floatValue();
+                        this.estimatedSize = (long) (j2 / f.floatValue());
                     }
                 }
             }
@@ -861,8 +858,7 @@ public class FileUploadOperation {
         cleanup();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void checkNewDataAvailable(final long j, final long j2, final Float f) {
+    protected void checkNewDataAvailable(final long j, final long j2, final Float f) {
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileUploadOperation$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -875,8 +871,7 @@ public class FileUploadOperation {
         return this.totalFileSize;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onNetworkChanged(final boolean z) {
+    protected void onNetworkChanged(final boolean z) {
         if (this.state != 1) {
             return;
         }

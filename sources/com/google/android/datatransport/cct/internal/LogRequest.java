@@ -6,7 +6,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class LogRequest {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract LogRequest build();
 

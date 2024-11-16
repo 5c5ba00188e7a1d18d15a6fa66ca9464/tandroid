@@ -66,9 +66,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
     private ViewPage[] viewPages = new ViewPage[2];
     private boolean swipeBackEnabled = true;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ViewPage extends FrameLayout {
+    private static class ViewPage extends FrameLayout {
         private ActionBar actionBar;
         private FrameLayout fragmentView;
         private RecyclerListView listView;

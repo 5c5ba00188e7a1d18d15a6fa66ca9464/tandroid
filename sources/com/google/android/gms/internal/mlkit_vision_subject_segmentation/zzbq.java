@@ -1,8 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbq extends zzax {
+final class zzbq extends zzax {
     static final zzax zza = new zzbq(null, new Object[0], 0);
     final transient Object[] zzb;
     private final transient int zzc;
@@ -12,8 +11,7 @@ public final class zzbq extends zzax {
         this.zzc = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbq zzg(int i, Object[] objArr, zzaw zzawVar) {
+    static zzbq zzg(int i, Object[] objArr, zzaw zzawVar) {
         Object obj = objArr[0];
         obj.getClass();
         Object obj2 = objArr[1];

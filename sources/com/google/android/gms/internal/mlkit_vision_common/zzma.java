@@ -6,8 +6,7 @@ final class zzma extends zzme {
     private final boolean zzb;
     private final int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzma(String str, boolean z, int i, zzlz zzlzVar) {
+    /* synthetic */ zzma(String str, boolean z, int i, zzlz zzlzVar) {
         this.zza = str;
         this.zzb = z;
         this.zzc = i;

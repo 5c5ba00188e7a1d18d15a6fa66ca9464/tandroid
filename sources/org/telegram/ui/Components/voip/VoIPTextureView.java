@@ -325,9 +325,8 @@ public class VoIPTextureView extends FrameLayout {
         this.animateNextDuration = 0L;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         if (this.imageView.getVisibility() == 0 && this.renderer.isFirstFrameRendered()) {
             float f = this.stubVisibleProgress - 0.10666667f;
@@ -358,9 +357,8 @@ public class VoIPTextureView extends FrameLayout {
         this.blurRenderer.animate().setDuration(300L).alpha(1.0f);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         float top;
         float left;
         float measuredHeight;
@@ -652,8 +650,7 @@ public class VoIPTextureView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateRendererSize() {
+    protected void updateRendererSize() {
         TextureView textureView = this.blurRenderer;
         if (textureView != null) {
             textureView.getLayoutParams().width = this.renderer.getMeasuredWidth();

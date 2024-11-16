@@ -105,9 +105,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     private float shownT;
     private TextView subtitleView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements TextWatcher {
+    class 2 implements TextWatcher {
         2() {
         }
 
@@ -187,9 +185,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 9 implements ViewTreeObserver.OnGlobalLayoutListener {
+    class 9 implements ViewTreeObserver.OnGlobalLayoutListener {
         final /* synthetic */ Runnable val$onShow;
         final /* synthetic */ int val$x;
         final /* synthetic */ int val$y;
@@ -397,9 +393,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class AnimatingTextView extends FrameLayout {
+    private class AnimatingTextView extends FrameLayout {
         private ArrayList characterTextViews;
         private AnimatorSet currentAnimation;
         private Runnable dotRunnable;
@@ -728,9 +722,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class InnerAnimator {
+    private static class InnerAnimator {
         private AnimatorSet animatorSet;
         private float startRadius;
 
@@ -738,7 +730,6 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class PasscodeButton extends FrameLayout {
         private final ImageView imageView;
         private final TextView textView1;
@@ -815,7 +806,6 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface PasscodeViewDelegate {
         void didAcceptedPassword(PasscodeView passcodeView);
     }

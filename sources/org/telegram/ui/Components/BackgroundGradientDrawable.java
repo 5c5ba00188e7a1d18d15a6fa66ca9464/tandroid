@@ -25,9 +25,7 @@ public class BackgroundGradientDrawable extends GradientDrawable {
     private final List ditheringRunnables;
     private final ArrayMap isForExactBounds;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$android$graphics$drawable$GradientDrawable$Orientation;
 
         static {
@@ -64,19 +62,16 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Disposable {
         void dispose();
     }
 
-    /* loaded from: classes3.dex */
     public interface Listener {
         void onAllSizesReady();
 
         void onSizeReady(int i, int i2);
     }
 
-    /* loaded from: classes3.dex */
     public static class ListenerAdapter implements Listener {
         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.Listener
         public void onAllSizesReady() {
@@ -87,11 +82,9 @@ public class BackgroundGradientDrawable extends GradientDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Sizes {
         private final IntSize[] arr;
 
-        /* loaded from: classes3.dex */
         public enum Orientation {
             PORTRAIT,
             LANDSCAPE,

@@ -23,7 +23,6 @@ public final class FaceDetector extends Detector {
     private final Object zzc;
     private boolean zzd;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final Context zza;
         private int zzb = 0;

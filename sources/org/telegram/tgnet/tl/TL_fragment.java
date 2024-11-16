@@ -6,7 +6,6 @@ import org.telegram.tgnet.TLObject;
 /* loaded from: classes3.dex */
 public class TL_fragment {
 
-    /* loaded from: classes3.dex */
     public static class InputCollectible extends TLObject {
         public static InputCollectible TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
             InputCollectible tL_inputCollectibleUsername = i != -1562241884 ? i != -476815191 ? null : new TL_inputCollectibleUsername() : new TL_inputCollectiblePhone();
@@ -20,7 +19,6 @@ public class TL_fragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_collectibleInfo extends TLObject {
         public static final int constructor = 1857945489;
         public long amount;
@@ -64,7 +62,6 @@ public class TL_fragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_getCollectibleInfo extends TLObject {
         public static final int constructor = -1105295942;
         public InputCollectible collectible;
@@ -81,7 +78,6 @@ public class TL_fragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_inputCollectiblePhone extends InputCollectible {
         public static final int constructor = -1562241884;
         public String phone;
@@ -98,7 +94,6 @@ public class TL_fragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_inputCollectibleUsername extends InputCollectible {
         public static final int constructor = -476815191;
         public String username;

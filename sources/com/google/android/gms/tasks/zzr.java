@@ -3,12 +3,14 @@ package com.google.android.gms.tasks;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzr {
+final class zzr {
     private final Object zza = new Object();
     private Queue zzb;
     private boolean zzc;
+
+    zzr() {
+    }
 
     public final void zza(zzq zzqVar) {
         synchronized (this.zza) {

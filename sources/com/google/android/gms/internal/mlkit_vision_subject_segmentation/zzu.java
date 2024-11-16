@@ -7,9 +7,8 @@ import java.util.ListIterator;
 final class zzu extends zzs implements ListIterator {
     final /* synthetic */ zzv zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzu(zzv zzvVar) {
+    zzu(zzv zzvVar) {
         super(zzvVar);
         this.zzd = zzvVar;
     }

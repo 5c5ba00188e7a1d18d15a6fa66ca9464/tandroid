@@ -2,20 +2,17 @@ package j$.time;
 
 import j$.time.zone.ZoneRules;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class n extends ZoneId {
+final class n extends ZoneId {
     private final String b;
     private final transient ZoneRules c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public n(String str, ZoneRules zoneRules) {
+    n(String str, ZoneRules zoneRules) {
         this.b = str;
         this.c = zoneRules;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static n h(String str) {
+    static n h(String str) {
         j$.util.a.B(str, "zoneId");
         int length = str.length();
         if (length < 2) {

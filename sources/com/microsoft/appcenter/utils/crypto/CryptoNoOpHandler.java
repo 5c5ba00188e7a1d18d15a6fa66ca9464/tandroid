@@ -6,6 +6,9 @@ import java.security.KeyStore;
 
 /* loaded from: classes.dex */
 class CryptoNoOpHandler implements CryptoHandler {
+    CryptoNoOpHandler() {
+    }
+
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
     public byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) {
         return bArr;

@@ -8,8 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 final class zzx implements Closeable {
     final /* synthetic */ TaskQueue zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzx(TaskQueue taskQueue, zzw zzwVar) {
+    /* synthetic */ zzx(TaskQueue taskQueue, zzw zzwVar) {
         AtomicReference atomicReference;
         this.zza = taskQueue;
         atomicReference = taskQueue.zzd;

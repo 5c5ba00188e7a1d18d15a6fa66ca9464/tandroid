@@ -30,8 +30,7 @@ public class GetServiceRequest extends AbstractSafeParcelable {
     boolean zzo;
     private String zzp;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GetServiceRequest(int i, int i2, int i3, String str, IBinder iBinder, Scope[] scopeArr, Bundle bundle, Account account, Feature[] featureArr, Feature[] featureArr2, boolean z, int i4, boolean z2, String str2) {
+    GetServiceRequest(int i, int i2, int i3, String str, IBinder iBinder, Scope[] scopeArr, Bundle bundle, Account account, Feature[] featureArr, Feature[] featureArr2, boolean z, int i4, boolean z2, String str2) {
         scopeArr = scopeArr == null ? zza : scopeArr;
         bundle = bundle == null ? new Bundle() : bundle;
         featureArr = featureArr == null ? zzb : featureArr;

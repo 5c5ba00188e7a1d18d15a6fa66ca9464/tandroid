@@ -41,9 +41,7 @@ public class Stripe {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ResponseWrapper {
+    private class ResponseWrapper {
         final Exception error;
         final Token token;
 
@@ -53,9 +51,7 @@ public class Stripe {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface TokenCreator {
+    interface TokenCreator {
         void create(Card card, String str, Executor executor, TokenCallback tokenCallback);
     }
 

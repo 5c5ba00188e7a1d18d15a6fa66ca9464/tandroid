@@ -4,6 +4,9 @@ import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 final class zzht extends zzho {
+    zzht() {
+    }
+
     private static int zza(byte[] bArr, int i, long j, int i2) {
         int zzb;
         int zzb2;
@@ -140,9 +143,8 @@ final class zzht extends zzho {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzho
-    public final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         long j;
         String str;
         String str2;

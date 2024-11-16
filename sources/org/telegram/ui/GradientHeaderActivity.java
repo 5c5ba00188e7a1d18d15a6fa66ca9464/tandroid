@@ -72,7 +72,6 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     protected int yOffset;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes4.dex */
     public static class BackgroundView extends LinearLayout {
         private final FrameLayout aboveTitleLayout;
         private final FrameLayout belowSubTitleLayout;
@@ -126,7 +125,6 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ContentView extends NestedSizeNotifierLayout {
         private LinearGradient backgroundGradient;
         private final Paint backgroundGradientPaint;
@@ -153,9 +151,8 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             float measuredWidth;
             float dp;
             Paint paint;
@@ -313,9 +310,8 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.NestedSizeNotifierLayout, android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             GradientHeaderActivity gradientHeaderActivity = GradientHeaderActivity.this;
             BackgroundView backgroundView = gradientHeaderActivity.backgroundView;
             gradientHeaderActivity.isLandscapeMode = View.MeasureSpec.getSize(i) > View.MeasureSpec.getSize(i2);
@@ -443,8 +439,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         this.savedScrollPosition = -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void configureHeader(CharSequence charSequence, CharSequence charSequence2, View view, View view2) {
+    protected void configureHeader(CharSequence charSequence, CharSequence charSequence2, View view, View view2) {
         this.backgroundView.setData(charSequence, charSequence2, view, view2);
     }
 
@@ -456,9 +451,8 @@ public abstract class GradientHeaderActivity extends BaseFragment {
 
     public StarParticlesView createParticlesView() {
         return new StarParticlesView(getContext()) { // from class: org.telegram.ui.GradientHeaderActivity.8
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.Premium.StarParticlesView
-            public void configure() {
+            protected void configure() {
                 StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(50) { // from class: org.telegram.ui.GradientHeaderActivity.8.1
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView.Drawable
                     protected int getPathColor(int i) {
@@ -569,8 +563,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public View getHeader(Context context) {
+    protected View getHeader(Context context) {
         return new View(context) { // from class: org.telegram.ui.GradientHeaderActivity.3
             @Override // android.view.View
             protected void onMeasure(int i, int i2) {
@@ -617,9 +610,8 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onDialogDismiss(Dialog dialog) {
+    protected void onDialogDismiss(Dialog dialog) {
         super.onDialogDismiss(dialog);
         updateDialogVisibility(false);
     }
@@ -683,8 +675,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         return showDialog;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateDialogVisibility(boolean z) {
+    protected void updateDialogVisibility(boolean z) {
         if (z != this.isDialogVisible) {
             this.isDialogVisible = z;
             this.particlesView.setPaused(z);

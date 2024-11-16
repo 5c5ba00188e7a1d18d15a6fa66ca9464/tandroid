@@ -40,7 +40,6 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     CacheControlActivity.DialogFileEntities entities;
     LinearLayout linearLayout;
 
-    /* loaded from: classes4.dex */
     public interface Delegate {
         void cleanupDialogFiles(CacheControlActivity.DialogFileEntities dialogFileEntities, StorageDiagramView.ClearViewData[] clearViewDataArr, CacheModel cacheModel);
 
@@ -70,9 +69,8 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
         this.linearLayout = linearLayout;
         linearLayout.setOrientation(1);
         StorageDiagramView storageDiagramView = new StorageDiagramView(getContext(), dialogFileEntities.dialogId) { // from class: org.telegram.ui.DilogCacheBottomSheet.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.StorageDiagramView
-            public void onAvatarClick() {
+            protected void onAvatarClick() {
                 delegate.onAvatarClick();
             }
         };
@@ -139,9 +137,8 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
         }
         this.circleDiagramView.setData(cacheModel, this.clearViewData);
         CachedMediaLayout cachedMediaLayout = new CachedMediaLayout(getContext(), cacheControlActivity) { // from class: org.telegram.ui.DilogCacheBottomSheet.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.CachedMediaLayout, android.widget.FrameLayout, android.view.View
-            public void onMeasure(int i5, int i6) {
+            protected void onMeasure(int i5, int i6) {
                 super.onMeasure(i5, View.MeasureSpec.makeMeasureSpec((((BottomSheetWithRecyclerListView) DilogCacheBottomSheet.this).contentHeight - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight, 1073741824));
             }
         };

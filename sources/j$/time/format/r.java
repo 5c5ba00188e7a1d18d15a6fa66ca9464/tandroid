@@ -10,8 +10,7 @@ final class r implements j$.time.temporal.k {
     final /* synthetic */ j$.time.chrono.f c;
     final /* synthetic */ ZoneId d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public r(LocalDate localDate, j$.time.temporal.k kVar, j$.time.chrono.f fVar, ZoneId zoneId) {
+    r(LocalDate localDate, j$.time.temporal.k kVar, j$.time.chrono.f fVar, ZoneId zoneId) {
         this.a = localDate;
         this.b = kVar;
         this.c = fVar;

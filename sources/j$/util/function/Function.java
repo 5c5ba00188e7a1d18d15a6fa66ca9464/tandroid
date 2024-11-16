@@ -5,7 +5,6 @@ import java.util.function.UnaryOperator;
 /* loaded from: classes2.dex */
 public interface Function<T, R> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class -CC {
         public static Function $default$andThen(Function function, Function function2) {
             function2.getClass();
@@ -18,7 +17,6 @@ public interface Function<T, R> {
         }
     }
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class VivifiedWrapper implements Function {
         public final /* synthetic */ java.util.function.Function a;
 

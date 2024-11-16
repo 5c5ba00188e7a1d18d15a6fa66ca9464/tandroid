@@ -2,14 +2,12 @@ package j$.time.format;
 
 import java.util.ArrayList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class f implements g {
+final class f implements g {
     private final g[] a;
     private final boolean b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public f(ArrayList arrayList, boolean z) {
+    f(ArrayList arrayList, boolean z) {
         this((g[]) arrayList.toArray(new g[arrayList.size()]), z);
     }
 

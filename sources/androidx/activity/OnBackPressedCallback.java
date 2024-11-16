@@ -14,8 +14,7 @@ public abstract class OnBackPressedCallback {
         this.mEnabled = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void addCancellable(Cancellable cancellable) {
+    void addCancellable(Cancellable cancellable) {
         this.mCancellables.add(cancellable);
     }
 
@@ -32,8 +31,7 @@ public abstract class OnBackPressedCallback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void removeCancellable(Cancellable cancellable) {
+    void removeCancellable(Cancellable cancellable) {
         this.mCancellables.remove(cancellable);
     }
 
@@ -45,8 +43,7 @@ public abstract class OnBackPressedCallback {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setIsEnabledConsumer(Consumer consumer) {
+    void setIsEnabledConsumer(Consumer consumer) {
         this.mEnabledConsumer = consumer;
     }
 }

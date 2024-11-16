@@ -7,7 +7,6 @@ public class DataChannel {
     private long nativeDataChannel;
     private long nativeObserver;
 
-    /* loaded from: classes5.dex */
     public static class Buffer {
         public final boolean binary;
         public final ByteBuffer data;
@@ -18,7 +17,6 @@ public class DataChannel {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class Init {
         public boolean negotiated;
         public boolean ordered = true;
@@ -52,7 +50,6 @@ public class DataChannel {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface Observer {
         void onBufferedAmountChange(long j);
 
@@ -61,7 +58,6 @@ public class DataChannel {
         void onStateChange();
     }
 
-    /* loaded from: classes5.dex */
     public enum State {
         CONNECTING,
         OPEN,

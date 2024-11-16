@@ -18,9 +18,7 @@ public class ID3v2FrameBody {
     private final RangeInputStream input;
     private final ID3v2TagHeader tagHeader;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static final class Buffer {
+    static final class Buffer {
         byte[] bytes;
 
         Buffer(int i) {
@@ -40,8 +38,7 @@ public class ID3v2FrameBody {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ID3v2FrameBody(InputStream inputStream, long j, int i, ID3v2TagHeader iD3v2TagHeader, ID3v2FrameHeader iD3v2FrameHeader) {
+    ID3v2FrameBody(InputStream inputStream, long j, int i, ID3v2TagHeader iD3v2TagHeader, ID3v2FrameHeader iD3v2FrameHeader) {
         RangeInputStream rangeInputStream = new RangeInputStream(inputStream, j, i);
         this.input = rangeInputStream;
         this.data = new ID3v2DataInput(rangeInputStream);

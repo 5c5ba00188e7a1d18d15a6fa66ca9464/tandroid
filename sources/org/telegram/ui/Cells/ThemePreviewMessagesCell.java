@@ -320,13 +320,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     final /* synthetic */ Context val$context;
                     final /* synthetic */ int val$type;
 
-                    /* JADX INFO: Access modifiers changed from: package-private */
-                    /* loaded from: classes4.dex */
-                    public class 1 extends GestureDetector.SimpleOnGestureListener {
+                    class 1 extends GestureDetector.SimpleOnGestureListener {
 
-                        /* JADX INFO: Access modifiers changed from: package-private */
-                        /* loaded from: classes4.dex */
-                        public class 1 implements ViewTreeObserver.OnPreDrawListener {
+                        class 1 implements ViewTreeObserver.OnPreDrawListener {
                             1() {
                             }
 

@@ -15,8 +15,7 @@ public final class zzo extends AbstractSafeParcelable implements Result {
     public List zzb;
     public String[] zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(Status status, List list, String[] strArr) {
+    zzo(Status status, List list, String[] strArr) {
         this.zza = status;
         this.zzb = list;
         this.zzc = strArr;

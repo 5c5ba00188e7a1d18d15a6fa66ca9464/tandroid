@@ -6,7 +6,6 @@ public final class TimeWindow {
     private final long end_ms_;
     private final long start_ms_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private long start_ms_ = 0;
         private long end_ms_ = 0;

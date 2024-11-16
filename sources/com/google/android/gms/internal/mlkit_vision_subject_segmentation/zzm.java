@@ -8,8 +8,7 @@ import java.util.Set;
 final class zzm extends zzbd {
     final /* synthetic */ zzo zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzm(zzo zzoVar) {
+    zzm(zzo zzoVar) {
         this.zza = zzoVar;
     }
 

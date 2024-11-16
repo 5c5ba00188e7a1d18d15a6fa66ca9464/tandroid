@@ -126,9 +126,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 implements ScaleGestureDetector.OnScaleGestureListener {
+    class 3 implements ScaleGestureDetector.OnScaleGestureListener {
         3() {
         }
 
@@ -224,9 +222,7 @@ public class RTMPStreamPipOverlay implements NotificationCenter.NotificationCent
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 8 implements RendererCommon.RendererEvents {
+    class 8 implements RendererCommon.RendererEvents {
         8() {
         }
 

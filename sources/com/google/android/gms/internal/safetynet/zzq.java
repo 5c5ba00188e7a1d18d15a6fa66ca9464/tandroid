@@ -3,13 +3,11 @@ package com.google.android.gms.internal.safetynet;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.Status;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzq extends zzd {
+final class zzq extends zzd {
     final /* synthetic */ zzr zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzq(zzr zzrVar) {
+    zzq(zzr zzrVar) {
         this.zza = zzrVar;
     }
 

@@ -14,6 +14,9 @@ public abstract class zzax implements Map, Serializable, j$.util.Map {
     private transient zzay zzb;
     private transient zzaq zzc;
 
+    zzax() {
+    }
+
     public static zzax zzc(Object obj, Object obj2) {
         zzab.zzb("optional-module-barcode", "com.google.android.gms.vision.barcode");
         return zzbq.zzg(1, new Object[]{"optional-module-barcode", "com.google.android.gms.vision.barcode"}, null);

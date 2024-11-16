@@ -33,9 +33,7 @@ public abstract class BotButtons extends FrameLayout {
     private Utilities.Callback whenClicked;
     private Runnable whenResized;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Button {
+    private class Button {
         public final AnimatedFloat alpha;
         public final AnimatedColor backgroundColor;
         public final Paint backgroundPaint;
@@ -86,7 +84,6 @@ public abstract class BotButtons extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class ButtonState {
         public boolean active;
         public int color;
@@ -115,7 +112,6 @@ public abstract class BotButtons extends FrameLayout {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class ButtonsState {
         public int backgroundColor;
         public ButtonState main = new ButtonState();
@@ -132,14 +128,13 @@ public abstract class BotButtons extends FrameLayout {
         this.height = new AnimatedFloat(this, 0L, 320L, cubicBezierInterpolator);
         this.background = new AnimatedColor(this, 0L, 320L, cubicBezierInterpolator);
         this.state = new ButtonsState();
-        this.buttons = r2;
+        this.buttons = new Button[]{new Button(), new Button()};
         setWillNotDraw(false);
         paint2.setColor(Theme.multAlpha(-16777216, 0.1f));
         ButtonsState buttonsState = this.state;
         int color = Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider);
         buttonsState.backgroundColor = color;
         paint.setColor(color);
-        Button[] buttonArr = {new Button(), new Button()};
     }
 
     private Button getHitButton(float f, float f2) {
@@ -297,9 +292,8 @@ public abstract class BotButtons extends FrameLayout {
         return AndroidUtilities.dp(i == 1 ? 58.0f : 109.0f);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(109.0f) + 1, 1073741824));
     }
 

@@ -37,7 +37,6 @@ public class PremiumGradient {
     public InternalDrawable premiumStarMenuDrawable;
     public InternalDrawable premiumStarMenuDrawable2;
 
-    /* loaded from: classes3.dex */
     public static class InternalDrawable extends BitmapDrawable {
         public int[] colors;
         Drawable originDrawable;
@@ -59,7 +58,6 @@ public class PremiumGradient {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class PremiumGradientTools {
         final int colorKey1;
         final int colorKey2;

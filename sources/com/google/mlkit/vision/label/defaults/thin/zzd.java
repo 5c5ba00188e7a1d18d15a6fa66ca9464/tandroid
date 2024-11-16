@@ -19,8 +19,7 @@ final class zzd implements MultiFlavorDetectorCreator.DetectorCreator {
     private final ExecutorSelector zzb;
     private final zznp zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzd(zze zzeVar, ExecutorSelector executorSelector) {
+    zzd(zze zzeVar, ExecutorSelector executorSelector) {
         zznp zzb = zzoa.zzb("play-services-mlkit-image-labeling");
         this.zza = zzeVar;
         this.zzb = executorSelector;

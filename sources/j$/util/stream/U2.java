@@ -3,9 +3,8 @@ package j$.util.stream;
 import j$.util.function.Supplier;
 import java.util.Comparator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class U2 implements j$.util.Q {
+abstract class U2 implements j$.util.Q {
     final boolean a;
     final b b;
     private Supplier c;
@@ -16,16 +15,14 @@ public abstract class U2 implements j$.util.Q {
     d h;
     boolean i;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public U2(b bVar, j$.util.Q q, boolean z) {
+    U2(b bVar, j$.util.Q q, boolean z) {
         this.b = bVar;
         this.c = null;
         this.d = q;
         this.a = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public U2(b bVar, Supplier supplier, boolean z) {
+    U2(b bVar, Supplier supplier, boolean z) {
         this.b = bVar;
         this.c = supplier;
         this.d = null;
@@ -45,8 +42,7 @@ public abstract class U2 implements j$.util.Q {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean b() {
+    final boolean b() {
         d dVar = this.h;
         if (dVar == null) {
             if (this.i) {
@@ -99,8 +95,7 @@ public abstract class U2 implements j$.util.Q {
         return -1L;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void h() {
+    final void h() {
         if (this.d == null) {
             this.d = (j$.util.Q) this.c.get();
             this.c = null;

@@ -26,7 +26,6 @@ public class LinkView extends EntityView {
     public final LinkPreview marker;
     public TL_stories.MediaArea mediaArea;
 
-    /* loaded from: classes3.dex */
     public class TextViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;

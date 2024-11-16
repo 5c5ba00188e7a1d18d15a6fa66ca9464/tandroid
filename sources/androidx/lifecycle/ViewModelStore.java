@@ -17,18 +17,15 @@ public class ViewModelStore {
         this.mMap.clear();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final ViewModel get(String str) {
+    final ViewModel get(String str) {
         return (ViewModel) this.mMap.get(str);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Set keys() {
+    Set keys() {
         return new HashSet(this.mMap.keySet());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void put(String str, ViewModel viewModel) {
+    final void put(String str, ViewModel viewModel) {
         ViewModel viewModel2 = (ViewModel) this.mMap.put(str, viewModel);
         if (viewModel2 != null) {
             viewModel2.onCleared();

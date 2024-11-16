@@ -23,7 +23,6 @@ public class OneCollectorChannelListener extends AbstractChannelListener {
     private final UUID mInstallId;
     private final LogSerializer mLogSerializer;
 
-    /* loaded from: classes.dex */
     private static class EpochAndSeq {
         final String epoch;
         long seq;

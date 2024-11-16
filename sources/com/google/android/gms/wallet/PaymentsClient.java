@@ -10,8 +10,7 @@ import com.google.android.gms.wallet.Wallet;
 
 /* loaded from: classes.dex */
 public class PaymentsClient extends GoogleApi {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentsClient(Context context, Wallet.WalletOptions walletOptions) {
+    PaymentsClient(Context context, Wallet.WalletOptions walletOptions) {
         super(context, Wallet.API, walletOptions, GoogleApi.Settings.DEFAULT_SETTINGS);
     }
 

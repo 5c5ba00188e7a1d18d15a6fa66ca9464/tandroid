@@ -88,7 +88,7 @@ public abstract class ColorStateListInflaterCompat {
         Resources resources2 = resources;
         int i4 = 1;
         int depth2 = xmlPullParser.getDepth() + 1;
-        int[][] iArr = new int[20];
+        int[][] iArr = new int[20][];
         int[] iArr2 = new int[20];
         int i5 = 0;
         while (true) {
@@ -162,7 +162,7 @@ public abstract class ColorStateListInflaterCompat {
             resources2 = resources;
         }
         int[] iArr4 = new int[i5];
-        int[][] iArr5 = new int[i5];
+        int[][] iArr5 = new int[i5][];
         System.arraycopy(iArr2, 0, iArr4, 0, i5);
         System.arraycopy(iArr, 0, iArr5, 0, i5);
         return new ColorStateList(iArr5, iArr4);

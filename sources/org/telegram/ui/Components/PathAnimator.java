@@ -17,9 +17,7 @@ public class PathAnimator {
     private float pathTime = -1.0f;
     private ArrayList keyFrames = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class CurveTo {
+    private static class CurveTo {
         public float x;
         public float x1;
         public float x2;
@@ -31,9 +29,7 @@ public class PathAnimator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class KeyFrame {
+    private static class KeyFrame {
         public ArrayList commands;
         public float time;
 
@@ -42,9 +38,7 @@ public class PathAnimator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class LineTo {
+    private static class LineTo {
         public float x;
         public float y;
 
@@ -52,9 +46,7 @@ public class PathAnimator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class MoveTo {
+    private static class MoveTo {
         public float x;
         public float y;
 

@@ -77,7 +77,6 @@ public class BottomSheetTabs extends FrameLayout {
     public static final HashMap tabs = new HashMap();
     public static final HashMap tabDrawables = new HashMap();
 
-    /* loaded from: classes4.dex */
     public static class ClipTools {
         private final BottomSheetTabs tabs;
         private final RectF clipRect = new RectF();
@@ -117,7 +116,6 @@ public class BottomSheetTabs extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class TabDrawable {
         public final AnimatedFloat animatedAlpha;
         public final AnimatedFloat animatedPosition;
@@ -170,7 +168,7 @@ public class BottomSheetTabs extends FrameLayout {
             this.animatedPosition = new AnimatedFloat(view, 320L, cubicBezierInterpolator);
             this.animatedAlpha = new AnimatedFloat(view, 320L, cubicBezierInterpolator);
             this.favicon = webTabData.favicon;
-            this.title = new Text(Emoji.replaceEmoji(webTabData.getTitle(), BottomSheetTabs.access$100().getFontMetricsInt(), false), 17.0f, AndroidUtilities.bold());
+            this.title = new Text(Emoji.replaceEmoji(webTabData.getTitle(), BottomSheetTabs.getTextPaint().getFontMetricsInt(), false), 17.0f, AndroidUtilities.bold());
             int i = webTabData.actionBarColor;
             this.tabColor = i;
             this.tabIsDark = AndroidUtilities.computePerceivedBrightness(i) < 0.721f;
@@ -305,7 +303,6 @@ public class BottomSheetTabs extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class WebTabData {
         public int actionBarColor;
         public int actionBarColorKey;
@@ -395,11 +392,8 @@ public class BottomSheetTabs extends FrameLayout {
         updateVisibility(false);
     }
 
-    static /* synthetic */ TextPaint access$100() {
-        return getTextPaint();
-    }
-
-    private static TextPaint getTextPaint() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static TextPaint getTextPaint() {
         if (textPaint == null) {
             TextPaint textPaint2 = new TextPaint(1);
             textPaint = textPaint2;

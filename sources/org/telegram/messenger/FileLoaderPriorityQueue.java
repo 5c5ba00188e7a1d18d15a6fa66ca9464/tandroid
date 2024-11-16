@@ -23,8 +23,7 @@ public class FileLoaderPriorityQueue {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FileLoaderPriorityQueue(int i, String str, int i2, DispatchQueue dispatchQueue) {
+    FileLoaderPriorityQueue(int i, String str, int i2, DispatchQueue dispatchQueue) {
         this.currentAccount = i;
         this.name = str;
         this.type = i2;

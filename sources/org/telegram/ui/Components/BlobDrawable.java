@@ -149,8 +149,7 @@ public class BlobDrawable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void generateBlob(float[] fArr, float[] fArr2, int i) {
+    protected void generateBlob(float[] fArr, float[] fArr2, int i) {
         float f = (360.0f / this.N) * 0.05f;
         float f2 = this.maxRadius;
         float f3 = this.minRadius;
@@ -208,7 +207,7 @@ public class BlobDrawable {
         float f2 = this.amplitude;
         if (f != f2) {
             float f3 = this.animateAmplitudeDiff;
-            float f4 = f2 + (((float) j) * f3);
+            float f4 = f2 + (j * f3);
             this.amplitude = f4;
             if (f3 > 0.0f) {
                 if (f4 <= f) {

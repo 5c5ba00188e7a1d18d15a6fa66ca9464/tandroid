@@ -5,8 +5,7 @@ final class zzbe extends zzbi {
     private final int zzfm;
     private final int zzfn;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbe(byte[] bArr, int i, int i2) {
+    zzbe(byte[] bArr, int i, int i2) {
         super(bArr);
         zzbb.zzb(i, i + i2, bArr.length);
         this.zzfm = i;

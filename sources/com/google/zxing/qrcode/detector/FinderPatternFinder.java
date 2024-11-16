@@ -22,9 +22,7 @@ public class FinderPatternFinder {
     private final List possibleCenters = new ArrayList();
     private final int[] crossCheckStateCount = new int[5];
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class EstimatedModuleComparator implements Comparator, Serializable {
+    private static final class EstimatedModuleComparator implements Comparator, Serializable {
         private EstimatedModuleComparator() {
         }
 
@@ -462,8 +460,7 @@ public class FinderPatternFinder {
         Arrays.fill(iArr, 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final FinderPatternInfo find(Map map) {
+    final FinderPatternInfo find(Map map) {
         boolean z = map != null && map.containsKey(DecodeHintType.TRY_HARDER);
         int height = this.image.getHeight();
         int width = this.image.getWidth();

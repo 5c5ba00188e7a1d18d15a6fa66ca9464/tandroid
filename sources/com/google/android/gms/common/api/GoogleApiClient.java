@@ -32,7 +32,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public abstract class GoogleApiClient {
     private static final Set zaa = Collections.newSetFromMap(new WeakHashMap());
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Account zaa;
         private int zad;
@@ -137,11 +136,9 @@ public abstract class GoogleApiClient {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface ConnectionCallbacks extends com.google.android.gms.common.api.internal.ConnectionCallbacks {
     }
 
-    /* loaded from: classes.dex */
     public interface OnConnectionFailedListener extends com.google.android.gms.common.api.internal.OnConnectionFailedListener {
     }
 

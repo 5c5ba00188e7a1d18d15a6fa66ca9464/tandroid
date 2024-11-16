@@ -146,7 +146,6 @@ public class GoogleMapsProvider implements IMapsProvider {
         private Map<Circle, GoogleCircle> implToAbsCircleMap;
         private Map<Marker, GoogleMarker> implToAbsMarkerMap;
 
-        /* loaded from: classes3.dex */
         public final class GoogleCircle implements IMapsProvider.ICircle {
             private Circle circle;
 
@@ -186,7 +185,6 @@ public class GoogleMapsProvider implements IMapsProvider {
             }
         }
 
-        /* loaded from: classes3.dex */
         public final class GoogleMarker implements IMapsProvider.IMarker {
             private Marker marker;
 
@@ -470,9 +468,7 @@ public class GoogleMapsProvider implements IMapsProvider {
         private MapView mapView;
         private Runnable onLayoutListener;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 extends MapView {
+        class 1 extends MapView {
             1(Context context) {
                 super(context);
             }

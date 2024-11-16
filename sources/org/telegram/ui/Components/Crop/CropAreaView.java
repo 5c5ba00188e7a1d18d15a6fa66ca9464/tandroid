@@ -79,7 +79,6 @@ public class CropAreaView extends ViewGroup {
     public float tx;
     public float ty;
 
-    /* loaded from: classes3.dex */
     static /* synthetic */ class 3 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$Crop$CropAreaView$Control;
 
@@ -121,7 +120,6 @@ public class CropAreaView extends ViewGroup {
         }
     }
 
-    /* loaded from: classes3.dex */
     interface AreaViewListener {
         void onAreaChange();
 
@@ -130,7 +128,6 @@ public class CropAreaView extends ViewGroup {
         void onAreaChangeEnded();
     }
 
-    /* loaded from: classes3.dex */
     private enum Control {
         NONE,
         TOP_LEFT,
@@ -143,9 +140,7 @@ public class CropAreaView extends ViewGroup {
         RIGHT
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public enum GridType {
+    enum GridType {
         NONE,
         MINOR,
         MAJOR
@@ -610,7 +605,7 @@ public class CropAreaView extends ViewGroup {
                 j = 17;
             }
             this.lastUpdateTime = elapsedRealtime;
-            float f44 = this.frameAlpha + (((float) j) / 180.0f);
+            float f44 = this.frameAlpha + (j / 180.0f);
             this.frameAlpha = f44;
             if (f44 > 1.0f) {
                 this.frameAlpha = 1.0f;

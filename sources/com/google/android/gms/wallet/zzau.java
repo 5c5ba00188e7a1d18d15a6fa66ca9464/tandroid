@@ -12,8 +12,7 @@ public final class zzau extends AbstractSafeParcelable {
     String zza;
     Bundle zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzau(String str, Bundle bundle) {
+    zzau(String str, Bundle bundle) {
         this.zza = str;
         this.zzb = bundle;
     }

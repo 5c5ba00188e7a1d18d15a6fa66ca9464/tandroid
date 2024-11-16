@@ -11,6 +11,9 @@ class O2 extends d implements Consumer, Iterable {
     protected Object[] e = new Object[1 << 4];
     protected Object[][] f;
 
+    O2() {
+    }
+
     @Override // j$.util.function.Consumer
     /* renamed from: accept */
     public void r(Object obj) {
@@ -19,7 +22,7 @@ class O2 extends d implements Consumer, Iterable {
         Object[] objArr = this.e;
         if (i == objArr.length) {
             if (this.f == null) {
-                Object[][] objArr2 = new Object[8];
+                Object[][] objArr2 = new Object[8][];
                 this.f = objArr2;
                 this.d = new long[8];
                 objArr2[0] = objArr;
@@ -113,13 +116,12 @@ class O2 extends d implements Consumer, Iterable {
         return "SpinedBuffer:" + arrayList.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void u(long j) {
+    protected final void u(long j) {
         int i = this.c;
         long length = i == 0 ? this.e.length : this.d[i] + this.f[i].length;
         if (j > length) {
             if (this.f == null) {
-                Object[][] objArr = new Object[8];
+                Object[][] objArr = new Object[8][];
                 this.f = objArr;
                 this.d = new long[8];
                 objArr[0] = this.e;

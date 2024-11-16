@@ -79,24 +79,19 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
     });
     private final LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static void cancelPendingInputEvents(View view) {
             view.cancelPendingInputEvents();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api33Impl {
+    static class Api33Impl {
         static OnBackInvokedDispatcher getOnBackInvokedDispatcher(Activity activity) {
             return activity.getOnBackInvokedDispatcher();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class NonConfigurationInstances {
+    static final class NonConfigurationInstances {
         Object custom;
         ViewModelStore viewModelStore;
 
@@ -333,9 +328,8 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
         invalidateOptionsMenu();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onActivityResult(int i, int i2, Intent intent) {
+    protected void onActivityResult(int i, int i2, Intent intent) {
         if (this.mActivityResultRegistry.dispatchResult(i, i2, intent)) {
             return;
         }
@@ -356,9 +350,8 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.app.ComponentActivity, android.app.Activity
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         this.mSavedStateRegistryController.performRestore(bundle);
         this.mContextAwareHelper.dispatchOnContextAvailable(this);
         super.onCreate(bundle);
@@ -409,9 +402,8 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
-    public void onNewIntent(Intent intent) {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Iterator it = this.mOnNewIntentListeners.iterator();
         while (it.hasNext()) {
@@ -480,9 +472,8 @@ public abstract class ComponentActivity extends androidx.core.app.ComponentActiv
         return nonConfigurationInstances2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.app.ComponentActivity, android.app.Activity
-    public void onSaveInstanceState(Bundle bundle) {
+    protected void onSaveInstanceState(Bundle bundle) {
         Lifecycle lifecycle = getLifecycle();
         if (lifecycle instanceof LifecycleRegistry) {
             ((LifecycleRegistry) lifecycle).setCurrentState(Lifecycle.State.CREATED);

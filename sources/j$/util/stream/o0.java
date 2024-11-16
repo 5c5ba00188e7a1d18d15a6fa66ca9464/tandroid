@@ -5,9 +5,8 @@ final class o0 extends p0 implements b2 {
     final /* synthetic */ q0 c;
     final /* synthetic */ j$.util.function.r d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public o0(j$.util.function.r rVar, q0 q0Var) {
+    o0(j$.util.function.r rVar, q0 q0Var) {
         super(q0Var);
         this.c = q0Var;
         this.d = rVar;

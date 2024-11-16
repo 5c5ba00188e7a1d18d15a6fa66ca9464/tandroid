@@ -56,9 +56,8 @@ public class FileLog {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class TLObjectDeserializer implements JsonSerializer {
+    private static class TLObjectDeserializer implements JsonSerializer {
         private TLObjectDeserializer() {
         }
 

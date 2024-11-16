@@ -50,8 +50,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
     private boolean useProgressiveMediaSourceForSubtitles;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DelegateFactoryLoader {
+    static final class DelegateFactoryLoader {
         private DataSource.Factory dataSourceFactory;
         private DrmSessionManagerProvider drmSessionManagerProvider;
         private final ExtractorsFactory extractorsFactory;
@@ -80,10 +79,6 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                 return (Supplier) this.mediaSourceFactorySuppliers.get(Integer.valueOf(i));
             }
             final DataSource.Factory factory = (DataSource.Factory) Assertions.checkNotNull(this.dataSourceFactory);
-            try {
-            } catch (ClassNotFoundException unused) {
-                supplier = null;
-            }
             if (i == 0) {
                 final Class asSubclass = DashMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
                 supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda4
@@ -199,9 +194,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class UnknownSubtitlesExtractor implements Extractor {
+    private static final class UnknownSubtitlesExtractor implements Extractor {
         private final Format format;
 
         public UnknownSubtitlesExtractor(Format format) {

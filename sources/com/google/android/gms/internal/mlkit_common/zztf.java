@@ -7,8 +7,7 @@ import java.util.Map;
 abstract class zztf {
     private static final Map zza = new HashMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza() {
+    static void zza() {
         zza.clear();
     }
 }

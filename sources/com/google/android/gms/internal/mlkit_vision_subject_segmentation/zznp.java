@@ -6,8 +6,7 @@ public final class zznp {
     private final zzoa zzb;
     private final Boolean zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zznp(zznn zznnVar, zzno zznoVar) {
+    /* synthetic */ zznp(zznn zznnVar, zzno zznoVar) {
         Long l;
         zzoa zzoaVar;
         Boolean bool;

@@ -12,14 +12,12 @@ public abstract class zzcg extends zzas {
     protected zzey zzjp = zzey.zzea();
     private int zzjq = -1;
 
-    /* loaded from: classes.dex */
     public static abstract class zza extends zzat {
         private final zzcg zzjs;
         protected zzcg zzjt;
         protected boolean zzju = false;
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public zza(zzcg zzcgVar) {
+        protected zza(zzcg zzcgVar) {
             this.zzjs = zzcgVar;
             this.zzjt = (zzcg) zzcgVar.zza(zzg.zzkg, (Object) null, (Object) null);
         }
@@ -46,8 +44,7 @@ public abstract class zzcg extends zzas {
             return this.zzjs;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public void zzbf() {
+        protected void zzbf() {
             if (this.zzju) {
                 zzcg zzcgVar = (zzcg) this.zzjt.zza(zzg.zzkg, (Object) null, (Object) null);
                 zza(zzcgVar, this.zzjt);
@@ -87,7 +84,6 @@ public abstract class zzcg extends zzas {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class zzb extends zzau {
         private zzcg zzjs;
 
@@ -96,7 +92,6 @@ public abstract class zzcg extends zzas {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum zzg {
         public static final int zzkd = 1;
         public static final int zzke = 2;
@@ -137,13 +132,11 @@ public abstract class zzcg extends zzas {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static Object zza(zzdo zzdoVar, String str, Object[] objArr) {
+    protected static Object zza(zzdo zzdoVar, String str, Object[] objArr) {
         return new zzec(zzdoVar, str, objArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Method method, Object obj, Object... objArr) {
+    static Object zza(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
         } catch (IllegalAccessException e) {
@@ -160,13 +153,11 @@ public abstract class zzcg extends zzas {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void zza(Class cls, zzcg zzcgVar) {
+    protected static void zza(Class cls, zzcg zzcgVar) {
         zzjr.put(cls, zzcgVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzcg zzb(zzcg zzcgVar, byte[] bArr) {
+    protected static zzcg zzb(zzcg zzcgVar, byte[] bArr) {
         zzcg zza2 = zza(zzcgVar, bArr);
         if (zza2 != null) {
             byte byteValue = ((Byte) zza2.zza(zzg.zzkd, (Object) null, (Object) null)).byteValue();
@@ -186,13 +177,11 @@ public abstract class zzcg extends zzas {
         return zza2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzcn zzbb() {
+    protected static zzcn zzbb() {
         return zzeb.zzcn();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzcg zzc(Class cls) {
+    static zzcg zzc(Class cls) {
         zzcg zzcgVar = zzjr.get(cls);
         if (zzcgVar == null) {
             try {
@@ -233,8 +222,7 @@ public abstract class zzcg extends zzas {
         return zzdr.zza(this, super.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object zza(int i, Object obj, Object obj2);
+    protected abstract Object zza(int i, Object obj, Object obj2);
 
     @Override // com.google.android.gms.internal.clearcut.zzdo
     public final int zzas() {
@@ -266,15 +254,13 @@ public abstract class zzcg extends zzas {
         return (zzcg) zza(zzg.zzki, (Object) null, (Object) null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzas
-    public final void zzf(int i) {
+    final void zzf(int i) {
         this.zzjq = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzas
-    public final int zzs() {
+    final int zzs() {
         return this.zzjq;
     }
 }

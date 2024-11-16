@@ -23,9 +23,7 @@ class AppCompatProgressBarHelper {
     private Bitmap mSampleTile;
     private final ProgressBar mView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    private static class Api23Impl {
         public static void transferLayerProperties(LayerDrawable layerDrawable, LayerDrawable layerDrawable2, int i) {
             layerDrawable2.setLayerGravity(i, layerDrawable.getLayerGravity(i));
             layerDrawable2.setLayerWidth(i, layerDrawable.getLayerWidth(i));
@@ -39,8 +37,7 @@ class AppCompatProgressBarHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatProgressBarHelper(ProgressBar progressBar) {
+    AppCompatProgressBarHelper(ProgressBar progressBar) {
         this.mView = progressBar;
     }
 
@@ -65,13 +62,11 @@ class AppCompatProgressBarHelper {
         return animationDrawable2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Bitmap getSampleTile() {
+    Bitmap getSampleTile() {
         return this.mSampleTile;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void loadFromAttributes(AttributeSet attributeSet, int i) {
+    void loadFromAttributes(AttributeSet attributeSet, int i) {
         TintTypedArray obtainStyledAttributes = TintTypedArray.obtainStyledAttributes(this.mView.getContext(), attributeSet, TINT_ATTRS, i, 0);
         Drawable drawableIfKnown = obtainStyledAttributes.getDrawableIfKnown(0);
         if (drawableIfKnown != null) {

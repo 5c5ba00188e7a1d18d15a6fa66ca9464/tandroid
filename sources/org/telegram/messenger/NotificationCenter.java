@@ -339,75 +339,22 @@ public class NotificationCenter {
     private final SparseArray<AllowedNotifications> allowedNotifications = new SparseArray<>();
     SparseArray<Runnable> alreadyPostedRunnubles = new SparseArray<>();
 
-    /* loaded from: classes3.dex */
-    public class 1 implements View.OnAttachStateChangeListener {
-        final /* synthetic */ NotificationCenterDelegate val$delegate;
-        final /* synthetic */ int val$id;
-
-        1(NotificationCenterDelegate notificationCenterDelegate, int i) {
-            r2 = notificationCenterDelegate;
-            r3 = i;
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewAttachedToWindow(View view) {
-            NotificationCenter.getGlobalInstance().addObserver(r2, r3);
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewDetachedFromWindow(View view) {
-            NotificationCenter.getGlobalInstance().removeObserver(r2, r3);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements View.OnAttachStateChangeListener {
-        final /* synthetic */ NotificationCenterDelegate val$delegate;
-        final /* synthetic */ int val$id;
-
-        2(NotificationCenterDelegate notificationCenterDelegate, int i) {
-            r2 = notificationCenterDelegate;
-            r3 = i;
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewAttachedToWindow(View view) {
-            NotificationCenter.this.addObserver(r2, r3);
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewDetachedFromWindow(View view) {
-            NotificationCenter.this.removeObserver(r2, r3);
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public static class AllowedNotifications {
+    private static class AllowedNotifications {
         int[] allowedIds;
         final long time;
 
         private AllowedNotifications() {
             this.time = SystemClock.elapsedRealtime();
         }
-
-        /* synthetic */ AllowedNotifications(1 r1) {
-            this();
-        }
     }
 
-    /* loaded from: classes3.dex */
-    public static class DelayedPost {
+    private static class DelayedPost {
         private Object[] args;
         private int id;
 
         private DelayedPost(int i, Object[] objArr) {
             this.id = i;
             this.args = objArr;
-        }
-
-        /* synthetic */ DelayedPost(int i, Object[] objArr, 1 r3) {
-            this(i, objArr);
         }
     }
 
@@ -416,21 +363,15 @@ public class NotificationCenter {
         void didReceivedNotification(int i, int i2, Object... objArr);
     }
 
-    /* loaded from: classes3.dex */
     public interface PostponeNotificationCallback {
         boolean needPostpone(int i, int i2, Object[] objArr);
     }
 
-    /* loaded from: classes3.dex */
-    public class UniqArrayList<T> extends ArrayList<T> {
+    private class UniqArrayList<T> extends ArrayList<T> {
         HashSet<T> set;
 
         private UniqArrayList() {
             this.set = new HashSet<>();
-        }
-
-        /* synthetic */ UniqArrayList(NotificationCenter notificationCenter, 1 r2) {
-            this();
         }
 
         @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
@@ -503,6 +444,7 @@ public class NotificationCenter {
         this.currentAccount = i;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkForExpiredNotifications() {
         ArrayList arrayList = null;
         this.checkForExpiredNotifications = null;
@@ -577,38 +519,46 @@ public class NotificationCenter {
         return notificationCenter;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkForExpiredNotifications$0() {
         this.checkForExpiredNotifications = new NotificationCenter$$ExternalSyntheticLambda9(this);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$listen$6() {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$listen$7(int i, Utilities.Callback callback, int i2, int i3, Object[] objArr) {
         if (i2 == i) {
             callback.run(objArr);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$listen$8(View view, View.OnAttachStateChangeListener onAttachStateChangeListener, NotificationCenterDelegate notificationCenterDelegate, int i) {
         view.removeOnAttachStateChangeListener(onAttachStateChangeListener);
         removeObserver(notificationCenterDelegate, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$listenGlobal$3() {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$listenGlobal$4(int i, Utilities.Callback callback, int i2, int i3, Object[] objArr) {
         if (i2 == i) {
             callback.run(objArr);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$listenGlobal$5(View view, View.OnAttachStateChangeListener onAttachStateChangeListener, NotificationCenterDelegate notificationCenterDelegate, int i) {
         view.removeOnAttachStateChangeListener(onAttachStateChangeListener);
         getGlobalInstance().removeObserver(notificationCenterDelegate, i);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$listenOnce$10(int i, NotificationCenterDelegate[] notificationCenterDelegateArr, Runnable runnable, int i2, int i3, Object[] objArr) {
         if (i2 != i || notificationCenterDelegateArr[0] == null) {
             return;
@@ -620,6 +570,7 @@ public class NotificationCenter {
         notificationCenterDelegateArr[0] = null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$postNotificationDebounced$2(int i, Object[] objArr, int i2) {
         postNotificationNameInternal(i, false, objArr);
         this.alreadyPostedRunnubles.remove(i2);
@@ -733,30 +684,22 @@ public class NotificationCenter {
                 NotificationCenter.lambda$listen$7(i, callback, i2, i3, objArr);
             }
         };
-        final 2 r3 = new View.OnAttachStateChangeListener() { // from class: org.telegram.messenger.NotificationCenter.2
-            final /* synthetic */ NotificationCenterDelegate val$delegate;
-            final /* synthetic */ int val$id;
-
-            2(final NotificationCenterDelegate notificationCenterDelegate2, final int i2) {
-                r2 = notificationCenterDelegate2;
-                r3 = i2;
-            }
-
+        final View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() { // from class: org.telegram.messenger.NotificationCenter.2
             @Override // android.view.View.OnAttachStateChangeListener
             public void onViewAttachedToWindow(View view2) {
-                NotificationCenter.this.addObserver(r2, r3);
+                NotificationCenter.this.addObserver(notificationCenterDelegate, i);
             }
 
             @Override // android.view.View.OnAttachStateChangeListener
             public void onViewDetachedFromWindow(View view2) {
-                NotificationCenter.this.removeObserver(r2, r3);
+                NotificationCenter.this.removeObserver(notificationCenterDelegate, i);
             }
         };
-        view.addOnAttachStateChangeListener(r3);
+        view.addOnAttachStateChangeListener(onAttachStateChangeListener);
         return new Runnable() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
-                NotificationCenter.this.lambda$listen$8(view, r3, notificationCenterDelegate2, i2);
+                NotificationCenter.this.lambda$listen$8(view, onAttachStateChangeListener, notificationCenterDelegate, i);
             }
         };
     }
@@ -776,42 +719,34 @@ public class NotificationCenter {
                 NotificationCenter.lambda$listenGlobal$4(i, callback, i2, i3, objArr);
             }
         };
-        final 1 r5 = new View.OnAttachStateChangeListener() { // from class: org.telegram.messenger.NotificationCenter.1
-            final /* synthetic */ NotificationCenterDelegate val$delegate;
-            final /* synthetic */ int val$id;
-
-            1(final NotificationCenterDelegate notificationCenterDelegate2, final int i2) {
-                r2 = notificationCenterDelegate2;
-                r3 = i2;
-            }
-
+        final View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() { // from class: org.telegram.messenger.NotificationCenter.1
             @Override // android.view.View.OnAttachStateChangeListener
             public void onViewAttachedToWindow(View view2) {
-                NotificationCenter.getGlobalInstance().addObserver(r2, r3);
+                NotificationCenter.getGlobalInstance().addObserver(notificationCenterDelegate, i);
             }
 
             @Override // android.view.View.OnAttachStateChangeListener
             public void onViewDetachedFromWindow(View view2) {
-                NotificationCenter.getGlobalInstance().removeObserver(r2, r3);
+                NotificationCenter.getGlobalInstance().removeObserver(notificationCenterDelegate, i);
             }
         };
-        view.addOnAttachStateChangeListener(r5);
+        view.addOnAttachStateChangeListener(onAttachStateChangeListener);
         return new Runnable() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                NotificationCenter.lambda$listenGlobal$5(view, r5, notificationCenterDelegate2, i2);
+                NotificationCenter.lambda$listenGlobal$5(view, onAttachStateChangeListener, notificationCenterDelegate, i);
             }
         };
     }
 
     public void listenOnce(final int i, final Runnable runnable) {
+        final NotificationCenterDelegate[] notificationCenterDelegateArr = {r1};
         NotificationCenterDelegate notificationCenterDelegate = new NotificationCenterDelegate() { // from class: org.telegram.messenger.NotificationCenter$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
             public final void didReceivedNotification(int i2, int i3, Object[] objArr) {
-                NotificationCenter.this.lambda$listenOnce$10(i, r3, runnable, i2, i3, objArr);
+                NotificationCenter.this.lambda$listenOnce$10(i, notificationCenterDelegateArr, runnable, i2, i3, objArr);
             }
         };
-        final NotificationCenterDelegate[] notificationCenterDelegateArr = {notificationCenterDelegate};
         addObserver(notificationCenterDelegate, i);
     }
 
@@ -840,7 +775,7 @@ public class NotificationCenter {
     /* JADX WARN: Removed duplicated region for block: B:52:0x00bb A[LOOP:2: B:52:0x00bb->B:54:0x00c1, LOOP_START, PHI: r5
       0x00bb: PHI (r5v1 int) = (r5v0 int), (r5v2 int) binds: [B:51:0x00b9, B:54:0x00c1] A[DONT_GENERATE, DONT_INLINE]] */
     /* JADX WARN: Removed duplicated region for block: B:58:0x00d1 A[ORIG_RETURN, RETURN] */
-    /* renamed from: postNotificationName */
+    /* renamed from: postNotificationName, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

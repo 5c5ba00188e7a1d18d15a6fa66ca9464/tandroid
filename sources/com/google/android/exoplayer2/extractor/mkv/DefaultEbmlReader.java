@@ -15,7 +15,6 @@ final class DefaultEbmlReader implements EbmlReader {
     private final ArrayDeque masterElementsStack = new ArrayDeque();
     private final VarintReader varintReader = new VarintReader();
 
-    /* loaded from: classes.dex */
     private static final class MasterElement {
         private final long elementEndPosition;
         private final int elementId;

@@ -8,8 +8,7 @@ import java.util.Set;
 final class zzw extends zzbm {
     final /* synthetic */ zzy zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzw(zzy zzyVar) {
+    zzw(zzy zzyVar) {
         this.zza = zzyVar;
     }
 

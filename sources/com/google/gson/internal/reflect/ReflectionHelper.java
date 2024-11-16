@@ -12,7 +12,6 @@ import java.lang.reflect.Modifier;
 public abstract class ReflectionHelper {
     private static final RecordHelper RECORD_HELPER;
 
-    /* loaded from: classes.dex */
     private static abstract class RecordHelper {
         private RecordHelper() {
         }
@@ -26,7 +25,6 @@ public abstract class ReflectionHelper {
         abstract boolean isRecord(Class cls);
     }
 
-    /* loaded from: classes.dex */
     private static class RecordNotSupportedHelper extends RecordHelper {
         private RecordNotSupportedHelper() {
             super();
@@ -53,7 +51,6 @@ public abstract class ReflectionHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class RecordSupportedHelper extends RecordHelper {
         private final Method getName;
         private final Method getRecordComponents;

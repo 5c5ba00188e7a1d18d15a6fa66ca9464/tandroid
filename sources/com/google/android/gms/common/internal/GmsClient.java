@@ -20,13 +20,11 @@ public abstract class GmsClient extends BaseGmsClient implements Api.Client, zaj
     private final Set zac;
     private final Account zad;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public GmsClient(Context context, Looper looper, int i, ClientSettings clientSettings, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
+    protected GmsClient(Context context, Looper looper, int i, ClientSettings clientSettings, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         this(context, looper, i, clientSettings, (ConnectionCallbacks) connectionCallbacks, (OnConnectionFailedListener) onConnectionFailedListener);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public GmsClient(Context context, Looper looper, int i, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
+    protected GmsClient(Context context, Looper looper, int i, ClientSettings clientSettings, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         this(context, looper, GmsClientSupervisor.getInstance(context), GoogleApiAvailability.getInstance(), i, clientSettings, (ConnectionCallbacks) Preconditions.checkNotNull(connectionCallbacks), (OnConnectionFailedListener) Preconditions.checkNotNull(onConnectionFailedListener));
     }
 
@@ -58,8 +56,7 @@ public abstract class GmsClient extends BaseGmsClient implements Api.Client, zaj
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ClientSettings getClientSettings() {
+    protected final ClientSettings getClientSettings() {
         return this.zab;
     }
 

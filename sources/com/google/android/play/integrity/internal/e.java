@@ -5,8 +5,7 @@ final class e extends f {
     private final int a;
     private final long b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public e(int i, long j) {
+    e(int i, long j) {
         this.a = i;
         this.b = j;
     }

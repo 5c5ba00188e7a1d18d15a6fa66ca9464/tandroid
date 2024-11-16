@@ -9,8 +9,7 @@ final class zze implements Callable {
     private final /* synthetic */ String zzp;
     private final /* synthetic */ Integer zzr;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zze(SharedPreferences sharedPreferences, String str, Integer num) {
+    zze(SharedPreferences sharedPreferences, String str, Integer num) {
         this.zzo = sharedPreferences;
         this.zzp = str;
         this.zzr = num;

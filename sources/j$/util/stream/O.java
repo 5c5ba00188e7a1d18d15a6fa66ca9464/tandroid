@@ -1,12 +1,10 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class O extends Q implements d2 {
+final class O extends Q implements d2 {
     final j$.util.function.W b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public O(j$.util.function.W w, boolean z) {
+    O(j$.util.function.W w, boolean z) {
         super(z);
         this.b = w;
     }

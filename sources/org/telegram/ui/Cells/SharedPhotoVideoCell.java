@@ -49,7 +49,6 @@ public class SharedPhotoVideoCell extends FrameLayout {
     private PhotoVideoView[] photoVideoViews;
     private int type;
 
-    /* loaded from: classes4.dex */
     public class PhotoVideoView extends FrameLayout {
         private AnimatorSet animator;
         private CheckBox2 checkBox;
@@ -274,7 +273,6 @@ public class SharedPhotoVideoCell extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface SharedPhotoVideoCellDelegate {
         void didClickItem(SharedPhotoVideoCell sharedPhotoVideoCell, int i, MessageObject messageObject, int i2);
 

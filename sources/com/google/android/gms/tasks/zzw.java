@@ -5,15 +5,17 @@ import com.google.android.gms.common.internal.Preconditions;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzw extends Task {
+final class zzw extends Task {
     private final Object zza = new Object();
     private final zzr zzb = new zzr();
     private boolean zzc;
     private volatile boolean zzd;
     private Object zze;
     private Exception zzf;
+
+    zzw() {
+    }
 
     private final void zzf() {
         Preconditions.checkState(this.zzc, "Task is not yet complete");

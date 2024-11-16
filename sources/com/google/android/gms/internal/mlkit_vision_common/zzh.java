@@ -7,8 +7,7 @@ abstract class zzh extends zzac {
     private final int zza;
     private int zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzh(int i, int i2) {
+    protected zzh(int i, int i2) {
         zzf.zzb(i2, i, "index");
         this.zza = i;
         this.zzb = i2;

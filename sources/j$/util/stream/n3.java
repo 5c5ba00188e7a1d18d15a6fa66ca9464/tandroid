@@ -8,8 +8,7 @@ abstract class n3 {
     long d;
     long e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public n3(j$.util.Q q, long j, long j2, long j3, long j4) {
+    n3(j$.util.Q q, long j, long j2, long j3, long j4) {
         this.c = q;
         this.a = j;
         this.b = j2;

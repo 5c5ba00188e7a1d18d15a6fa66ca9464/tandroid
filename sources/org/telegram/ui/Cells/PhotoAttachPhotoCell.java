@@ -87,7 +87,6 @@ public class PhotoAttachPhotoCell extends FrameLayout {
     private TextView videoTextView;
     private boolean zoomOnSelect;
 
-    /* loaded from: classes4.dex */
     public interface PhotoAttachPhotoCellDelegate {
         void onCheckClick(PhotoAttachPhotoCell photoAttachPhotoCell);
     }
@@ -133,9 +132,8 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             private Paint crossfadePaint = new Paint(1);
             private long lastUpdate;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
                 ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
                 if (imageReceiver == null) {
@@ -186,7 +184,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                 long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
                 float floatValue = PhotoAttachPhotoCell.this.crossfadeDuration == null ? 250.0f : PhotoAttachPhotoCell.this.crossfadeDuration.floatValue();
                 PhotoAttachPhotoCell photoAttachPhotoCell = PhotoAttachPhotoCell.this;
-                photoAttachPhotoCell.imageViewCrossfadeProgress = Math.min(1.0f, photoAttachPhotoCell.imageViewCrossfadeProgress + (((float) min) / floatValue));
+                photoAttachPhotoCell.imageViewCrossfadeProgress = Math.min(1.0f, photoAttachPhotoCell.imageViewCrossfadeProgress + (min / floatValue));
                 this.lastUpdate = System.currentTimeMillis();
                 invalidate();
                 if (PhotoAttachPhotoCell.this.spoilerEffect2 != null) {

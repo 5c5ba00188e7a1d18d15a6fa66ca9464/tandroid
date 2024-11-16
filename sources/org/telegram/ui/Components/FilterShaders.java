@@ -140,9 +140,7 @@ public class FilterShaders {
     private int[] curveTextures = new int[1];
     public boolean scaleBitmap = true;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class BlurProgram {
+    private static class BlurProgram {
         public int blurHeightHandle;
         public int blurInputTexCoordHandle;
         public int blurPositionHandle;
@@ -211,7 +209,6 @@ public class FilterShaders {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface FilterShadersDelegate {
         ByteBuffer fillAndGetCurveBuffer();
 
@@ -262,9 +259,7 @@ public class FilterShaders {
         boolean shouldShowOriginal();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ToneCurve {
+    private static class ToneCurve {
         private float[] blueCurve;
         private int[] curveTexture = new int[1];
         private float[] greenCurve;

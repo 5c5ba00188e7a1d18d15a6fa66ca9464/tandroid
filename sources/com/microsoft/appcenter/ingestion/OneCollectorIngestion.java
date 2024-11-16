@@ -27,7 +27,6 @@ public class OneCollectorIngestion implements Ingestion {
     private final LogSerializer mLogSerializer;
     private String mLogUrl = "https://mobile.events.data.microsoft.com/OneCollector/1.0";
 
-    /* loaded from: classes.dex */
     private static class IngestionCallTemplate implements HttpClient.CallTemplate {
         private final LogContainer mLogContainer;
         private final LogSerializer mLogSerializer;

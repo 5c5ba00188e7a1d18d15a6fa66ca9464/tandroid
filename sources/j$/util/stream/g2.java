@@ -2,15 +2,13 @@ package j$.util.stream;
 
 import org.telegram.messenger.LiteMode;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class g2 extends V1 {
+final class g2 extends V1 {
     final /* synthetic */ long m;
     final /* synthetic */ long n;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public g2(b bVar, int i, long j, long j2) {
+    g2(b bVar, int i, long j, long j2) {
         super(bVar, i, 0);
         this.m = j;
         this.n = j2;
@@ -74,9 +72,8 @@ public final class g2 extends V1 {
         return new s3(F02, j2, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final e2 z0(int i, e2 e2Var) {
+    final e2 z0(int i, e2 e2Var) {
         return new f2(this, e2Var);
     }
 }

@@ -4,9 +4,11 @@ package j$.util.stream;
 final class V2 extends Y2 implements j$.util.function.n {
     final double[] c = new double[128];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
+    V2() {
+    }
+
     @Override // j$.util.stream.Y2
-    public final void a(Object obj, long j) {
+    final void a(Object obj, long j) {
         j$.util.function.n nVar = (j$.util.function.n) obj;
         for (int i = 0; i < j; i++) {
             nVar.accept(this.c[i]);

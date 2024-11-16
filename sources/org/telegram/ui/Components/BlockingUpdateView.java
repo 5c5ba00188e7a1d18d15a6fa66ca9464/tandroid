@@ -313,7 +313,7 @@ public abstract class BlockingUpdateView extends FrameLayout implements Notifica
             if (str6 == null || !str6.equals(str5)) {
                 return;
             }
-            this.radialProgress.setProgress(Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue())), true);
+            this.radialProgress.setProgress(Math.min(1.0f, ((Long) objArr[1]).longValue() / ((Long) objArr[2]).longValue()), true);
         }
     }
 

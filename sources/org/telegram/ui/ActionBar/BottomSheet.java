@@ -158,9 +158,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     protected boolean useSmoothKeyboard;
     protected boolean waitingKeyboard;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 7 extends AnimatorListenerAdapter {
+    class 7 extends AnimatorListenerAdapter {
         final /* synthetic */ int val$item;
 
         7(int i) {
@@ -211,9 +209,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 extends AnimatorListenerAdapter {
+    class 8 extends AnimatorListenerAdapter {
         8() {
         }
 
@@ -255,7 +251,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class BottomSheetCell extends FrameLayout {
         private boolean checked;
         int currentType;
@@ -406,7 +401,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class BottomSheetDelegate implements BottomSheetDelegateInterface {
         @Override // org.telegram.ui.ActionBar.BottomSheet.BottomSheetDelegateInterface
         public boolean canDismiss() {
@@ -418,14 +412,12 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface BottomSheetDelegateInterface {
         boolean canDismiss();
 
         void onOpenAnimationEnd();
     }
 
-    /* loaded from: classes4.dex */
     public static class Builder {
         public static int CELL_TYPE_CALL = 4;
         private BottomSheet bottomSheet;
@@ -540,7 +532,6 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ContainerView extends FrameLayout implements NestedScrollingParent {
         private boolean allowedSwipeToBack;
         private Paint backgroundPaint;
@@ -2189,8 +2180,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         return containerView != null && containerView.isAttachedToWindow();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return this.canDismissWithSwipe;
     }
 
@@ -2281,7 +2271,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 visibleBulletin = Bulletin.getVisibleBulletin();
                 if (visibleBulletin != null && visibleBulletin.isShowing() && visibleBulletin.hideAfterBottomSheet) {
                     if (j <= 0) {
-                        visibleBulletin.hide(((float) j) * 0.6f);
+                        visibleBulletin.hide((long) (j * 0.6f));
                     } else {
                         visibleBulletin.hide();
                     }
@@ -2535,8 +2525,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         return !this.dismissed;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void mainContainerDispatchDraw(Canvas canvas) {
+    protected void mainContainerDispatchDraw(Canvas canvas) {
     }
 
     public void makeAttached(BaseFragment baseFragment) {
@@ -2575,9 +2564,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     public void onContainerTranslationYChanged(float f) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         onCreateInternal();
     }
@@ -2594,8 +2582,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean onCustomOpenAnimation() {
+    protected boolean onCustomOpenAnimation() {
         return false;
     }
 
@@ -2622,13 +2609,11 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     protected void onScrollUpEnd(float f) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onSmoothContainerViewLayout(float f) {
+    protected void onSmoothContainerViewLayout(float f) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Dialog
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
     }
 

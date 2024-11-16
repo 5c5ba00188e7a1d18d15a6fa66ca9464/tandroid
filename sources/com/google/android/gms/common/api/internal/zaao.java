@@ -9,9 +9,8 @@ import com.google.android.gms.common.internal.zal;
 import java.util.ArrayList;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaao extends zaav {
+final class zaao extends zaav {
     final /* synthetic */ zaaw zaa;
     private final Map zac;
 

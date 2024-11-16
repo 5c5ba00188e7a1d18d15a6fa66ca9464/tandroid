@@ -10,7 +10,6 @@ import java.util.List;
 public final class DisplayCutoutCompat {
     private final DisplayCutout mDisplayCutout;
 
-    /* loaded from: classes.dex */
     static class Api28Impl {
         static DisplayCutout createDisplayCutout(Rect rect, List<Rect> list) {
             return new DisplayCutout(rect, list);
@@ -41,8 +40,7 @@ public final class DisplayCutoutCompat {
         this.mDisplayCutout = displayCutout;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static DisplayCutoutCompat wrap(DisplayCutout displayCutout) {
+    static DisplayCutoutCompat wrap(DisplayCutout displayCutout) {
         if (displayCutout == null) {
             return null;
         }

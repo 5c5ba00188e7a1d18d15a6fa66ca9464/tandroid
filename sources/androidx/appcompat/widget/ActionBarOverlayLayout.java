@@ -65,7 +65,6 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
     private Drawable mWindowContentOverlay;
     private int mWindowVisibility;
 
-    /* loaded from: classes.dex */
     public interface ActionBarVisibilityCallback {
         void enableContentAnimations(boolean z);
 
@@ -80,7 +79,6 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         void showForSystem();
     }
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         public LayoutParams(int i, int i2) {
             super(i, i2);

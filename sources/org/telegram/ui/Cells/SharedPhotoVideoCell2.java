@@ -121,7 +121,6 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
     AnimatedFloat viewsAlpha;
     AnimatedTextView.AnimatedTextDrawable viewsText;
 
-    /* loaded from: classes4.dex */
     public static class SharedResources {
         Drawable playDrawable;
         Drawable viewDrawable;
@@ -732,7 +731,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             float dp3 = AndroidUtilities.dp(18.0f);
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(this.imageReceiver.getCenterX() - dp3, this.imageReceiver.getCenterY() - dp3, this.imageReceiver.getCenterX() + dp3, this.imageReceiver.getCenterY() + dp3);
-            float currentTimeMillis = (((float) (System.currentTimeMillis() % 1500)) / 1500.0f) * 360.0f;
+            float currentTimeMillis = ((System.currentTimeMillis() % 1500) / 1500.0f) * 360.0f;
             AnimatedFloat animatedFloat = this.animatedProgress;
             MessageObject messageObject2 = this.currentMessageObject;
             canvas.drawArc(rectF, currentTimeMillis, animatedFloat.set(AndroidUtilities.lerp(0.15f, 0.95f, messageObject2 != null ? messageObject2.getProgress() : 0.0f)) * 360.0f, false, this.progressPaint);
@@ -1248,7 +1247,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         this.spoilerRevealX = f;
         this.spoilerRevealY = f2;
         this.spoilerMaxRadius = (float) Math.sqrt(Math.pow(getWidth(), 2.0d) + Math.pow(getHeight(), 2.0d));
-        ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(MathUtils.clamp(this.spoilerMaxRadius * 0.3f, 250.0f, 550.0f));
+        ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration((long) MathUtils.clamp(this.spoilerMaxRadius * 0.3f, 250.0f, 550.0f));
         duration.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
         duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.SharedPhotoVideoCell2$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener

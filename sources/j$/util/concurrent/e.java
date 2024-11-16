@@ -4,14 +4,12 @@ import j$.util.Q;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class e extends o implements Q {
+final class e extends o implements Q {
     final ConcurrentHashMap i;
     long j;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public e(k[] kVarArr, int i, int i2, int i3, long j, ConcurrentHashMap concurrentHashMap) {
+    e(k[] kVarArr, int i, int i2, int i3, long j, ConcurrentHashMap concurrentHashMap) {
         super(kVarArr, i, i2, i3);
         this.i = concurrentHashMap;
         this.j = j;

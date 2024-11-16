@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 /* loaded from: classes.dex */
 public abstract class MarginLayoutParamsCompat {
 
-    /* loaded from: classes.dex */
     static class Api17Impl {
         static int getLayoutDirection(ViewGroup.MarginLayoutParams marginLayoutParams) {
             return marginLayoutParams.getLayoutDirection();

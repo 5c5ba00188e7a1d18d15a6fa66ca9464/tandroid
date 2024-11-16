@@ -6,13 +6,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class b implements Collection, Serializable {
+abstract class b implements Collection, Serializable {
     final ConcurrentHashMap a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public b(ConcurrentHashMap concurrentHashMap) {
+    b(ConcurrentHashMap concurrentHashMap) {
         this.a = concurrentHashMap;
     }
 

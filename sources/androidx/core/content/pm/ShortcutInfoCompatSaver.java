@@ -6,7 +6,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class ShortcutInfoCompatSaver {
 
-    /* loaded from: classes.dex */
     public static class NoopImpl extends ShortcutInfoCompatSaver {
         @Override // androidx.core.content.pm.ShortcutInfoCompatSaver
         public Void addShortcuts(List list) {

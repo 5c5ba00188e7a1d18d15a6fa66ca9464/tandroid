@@ -29,10 +29,10 @@ public final /* synthetic */ class c3 implements b2 {
         switch (this.a) {
             case 0:
                 ((H2) this.b).accept(d);
-                return;
+                break;
             default:
                 this.b.accept(d);
-                return;
+                break;
         }
     }
 
@@ -66,31 +66,25 @@ public final /* synthetic */ class c3 implements b2 {
         switch (this.a) {
             case 0:
                 r((Double) obj);
-                return;
+                break;
             default:
                 r((Double) obj);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.Consumer
     public final /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
         }
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.n
     public final /* synthetic */ j$.util.function.n k(j$.util.function.n nVar) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.b(this, nVar);
-            default:
-                return j$.com.android.tools.r8.a.b(this, nVar);
         }
+        return j$.com.android.tools.r8.a.b(this, nVar);
     }
 
     @Override // j$.util.stream.e2
@@ -106,11 +100,8 @@ public final /* synthetic */ class c3 implements b2 {
     @Override // j$.util.stream.e2
     public final /* synthetic */ boolean q() {
         switch (this.a) {
-            case 0:
-                return false;
-            default:
-                return false;
         }
+        return false;
     }
 
     @Override // j$.util.stream.b2
@@ -118,10 +109,10 @@ public final /* synthetic */ class c3 implements b2 {
         switch (this.a) {
             case 0:
                 t0.e(this, d);
-                return;
+                break;
             default:
                 t0.e(this, d);
-                return;
+                break;
         }
     }
 }

@@ -2,13 +2,11 @@ package com.google.android.gms.internal.play_billing;
 
 import sun.misc.Unsafe;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzep {
+abstract class zzep {
     final Unsafe zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzep(Unsafe unsafe) {
+    zzep(Unsafe unsafe) {
         this.zza = unsafe;
     }
 

@@ -172,11 +172,12 @@ public final class LatmReader implements ElementaryStreamReader {
         if (readBit2) {
             if (readBits == 1) {
                 this.otherDataLenBits = latmGetValue(parsableBitArray);
+            } else {
+                do {
+                    readBit = parsableBitArray.readBit();
+                    this.otherDataLenBits = (this.otherDataLenBits << 8) + parsableBitArray.readBits(8);
+                } while (readBit);
             }
-            do {
-                readBit = parsableBitArray.readBit();
-                this.otherDataLenBits = (this.otherDataLenBits << 8) + parsableBitArray.readBits(8);
-            } while (readBit);
         }
         if (parsableBitArray.readBit()) {
             parsableBitArray.skipBits(8);

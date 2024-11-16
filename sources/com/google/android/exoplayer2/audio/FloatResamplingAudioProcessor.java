@@ -8,6 +8,9 @@ import java.nio.ByteBuffer;
 final class FloatResamplingAudioProcessor extends BaseAudioProcessor {
     private static final int FLOAT_NAN_AS_INT = Float.floatToIntBits(Float.NaN);
 
+    FloatResamplingAudioProcessor() {
+    }
+
     private static void writePcm32BitFloat(int i, ByteBuffer byteBuffer) {
         double d = i;
         Double.isNaN(d);

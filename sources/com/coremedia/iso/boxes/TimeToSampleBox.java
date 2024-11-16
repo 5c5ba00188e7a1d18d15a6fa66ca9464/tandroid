@@ -22,7 +22,6 @@ public class TimeToSampleBox extends AbstractFullBox {
     static Map cache;
     List entries;
 
-    /* loaded from: classes.dex */
     public static class Entry {
         long count;
         long delta;

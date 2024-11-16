@@ -42,9 +42,7 @@ public final class ResourceManagerInternal {
     private static final PorterDuff.Mode DEFAULT_MODE = PorterDuff.Mode.SRC_IN;
     private static final ColorFilterLruCache COLOR_FILTER_CACHE = new ColorFilterLruCache(6);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class AsldcInflateDelegate implements InflateDelegate {
+    static class AsldcInflateDelegate implements InflateDelegate {
         AsldcInflateDelegate() {
         }
 
@@ -59,9 +57,7 @@ public final class ResourceManagerInternal {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class AvdcInflateDelegate implements InflateDelegate {
+    private static class AvdcInflateDelegate implements InflateDelegate {
         AvdcInflateDelegate() {
         }
 
@@ -76,9 +72,7 @@ public final class ResourceManagerInternal {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class ColorFilterLruCache extends LruCache {
+    private static class ColorFilterLruCache extends LruCache {
         public ColorFilterLruCache(int i) {
             super(i);
         }
@@ -96,9 +90,7 @@ public final class ResourceManagerInternal {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class DrawableDelegate implements InflateDelegate {
+    static class DrawableDelegate implements InflateDelegate {
         DrawableDelegate() {
         }
 
@@ -122,13 +114,10 @@ public final class ResourceManagerInternal {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface InflateDelegate {
+    private interface InflateDelegate {
         Drawable createFromXmlInner(Context context, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme);
     }
 
-    /* loaded from: classes.dex */
     public interface ResourceManagerHooks {
         Drawable createDrawableFor(ResourceManagerInternal resourceManagerInternal, Context context, int i);
 
@@ -141,9 +130,7 @@ public final class ResourceManagerInternal {
         boolean tintDrawableUsingColorFilter(Context context, int i, Drawable drawable);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class VdcInflateDelegate implements InflateDelegate {
+    private static class VdcInflateDelegate implements InflateDelegate {
         VdcInflateDelegate() {
         }
 
@@ -388,8 +375,7 @@ public final class ResourceManagerInternal {
         return wrap;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
+    static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
         int[] state = drawable.getState();
         if (DrawableUtils.canSafelyMutateDrawable(drawable) && drawable.mutate() != drawable) {
             Log.d("ResourceManagerInternal", "Mutated drawable is not the same instance as the input.");
@@ -414,8 +400,7 @@ public final class ResourceManagerInternal {
         return getDrawable(context, i, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Drawable getDrawable(Context context, int i, boolean z) {
+    synchronized Drawable getDrawable(Context context, int i, boolean z) {
         Drawable loadDrawableFromDelegates;
         try {
             checkVectorDrawableSetup(context);
@@ -438,8 +423,7 @@ public final class ResourceManagerInternal {
         return loadDrawableFromDelegates;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized ColorStateList getTintList(Context context, int i) {
+    synchronized ColorStateList getTintList(Context context, int i) {
         ColorStateList tintListFromCache;
         tintListFromCache = getTintListFromCache(context, i);
         if (tintListFromCache == null) {
@@ -460,8 +444,7 @@ public final class ResourceManagerInternal {
         return resourceManagerHooks.getTintModeForDrawableRes(i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Drawable onDrawableLoadedFromResources(Context context, VectorEnabledTintResources vectorEnabledTintResources, int i) {
+    synchronized Drawable onDrawableLoadedFromResources(Context context, VectorEnabledTintResources vectorEnabledTintResources, int i) {
         try {
             Drawable loadDrawableFromDelegates = loadDrawableFromDelegates(context, i);
             if (loadDrawableFromDelegates == null) {
@@ -480,8 +463,7 @@ public final class ResourceManagerInternal {
         this.mHooks = resourceManagerHooks;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean tintDrawableUsingColorFilter(Context context, int i, Drawable drawable) {
+    boolean tintDrawableUsingColorFilter(Context context, int i, Drawable drawable) {
         ResourceManagerHooks resourceManagerHooks = this.mHooks;
         return resourceManagerHooks != null && resourceManagerHooks.tintDrawableUsingColorFilter(context, i, drawable);
     }

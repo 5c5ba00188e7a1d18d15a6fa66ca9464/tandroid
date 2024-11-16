@@ -6,8 +6,7 @@ public final class zziy {
     private final zziv zzb;
     private final zziq zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zziy(zziw zziwVar, zzix zzixVar) {
+    /* synthetic */ zziy(zziw zziwVar, zzix zzixVar) {
         zzla zzlaVar;
         zziv zzivVar;
         zziq zziqVar;

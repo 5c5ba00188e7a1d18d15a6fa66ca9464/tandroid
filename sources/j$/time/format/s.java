@@ -7,19 +7,17 @@ import j$.time.ZoneOffset;
 import j$.time.zone.ZoneRules;
 import java.util.Locale;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class s {
+final class s {
     private j$.time.temporal.k a;
     private a b;
     private int c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0074  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public s(j$.time.temporal.k kVar, a aVar) {
+    s(j$.time.temporal.k kVar, a aVar) {
         ZoneId zoneId;
         ZoneRules rules;
         j$.time.chrono.f b = aVar.b();
@@ -77,28 +75,23 @@ public final class s {
         this.b = aVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void a() {
+    final void a() {
         this.c--;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final w b() {
+    final w b() {
         return this.b.c();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Locale c() {
+    final Locale c() {
         return this.b.d();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final j$.time.temporal.k d() {
+    final j$.time.temporal.k d() {
         return this.a;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Long e(j$.time.temporal.l lVar) {
+    final Long e(j$.time.temporal.l lVar) {
         try {
             return Long.valueOf(this.a.b(lVar));
         } catch (j$.time.c e) {
@@ -109,8 +102,7 @@ public final class s {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object f(j$.time.temporal.n nVar) {
+    final Object f(j$.time.temporal.n nVar) {
         j$.time.temporal.k kVar = this.a;
         Object c = kVar.c(nVar);
         if (c != null || this.c != 0) {
@@ -119,8 +111,7 @@ public final class s {
         throw new j$.time.c("Unable to extract value: " + kVar.getClass());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void g() {
+    final void g() {
         this.c++;
     }
 

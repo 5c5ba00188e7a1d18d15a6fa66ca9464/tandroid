@@ -53,7 +53,6 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
     private View shadow;
     private AnimatorSet shadowAnimation;
 
-    /* loaded from: classes4.dex */
     public class ShareAdapter extends RecyclerListView.SectionsAdapter {
         private int currentAccount;
         private Context mContext;
@@ -158,7 +157,6 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ShareSearchAdapter extends RecyclerListView.SelectionAdapter {
         public String lastQuery;
         private Context mContext;
@@ -261,7 +259,6 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class UserCell extends FrameLayout {
     }
 
@@ -347,9 +344,8 @@ public class ChatAttachAlertQuickRepliesLayout extends ChatAttachAlert.AttachAle
                         return super.calculateDyToMakeVisible(view, i2) - (ChatAttachAlertQuickRepliesLayout.this.listView.getPaddingTop() - AndroidUtilities.dp(8.0f));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i2) {
+                    protected int calculateTimeForDeceleration(int i2) {
                         return super.calculateTimeForDeceleration(i2) * 2;
                     }
                 };

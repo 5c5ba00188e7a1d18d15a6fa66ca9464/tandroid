@@ -43,8 +43,10 @@ public class ThreadLocalRandom extends Random {
         new ObjectStreamField("initialized", Boolean.TYPE);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final int a(int i) {
+    ThreadLocalRandom() {
+    }
+
+    static final int a(int i) {
         int i2 = i ^ (i << 13);
         int i3 = i2 ^ (i2 >>> 17);
         int i4 = i3 ^ (i3 << 5);
@@ -52,8 +54,7 @@ public class ThreadLocalRandom extends Random {
         return i4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final int b() {
+    static final int b() {
         return ((ThreadLocalRandom) g.get()).b;
     }
 
@@ -65,8 +66,7 @@ public class ThreadLocalRandom extends Random {
         return threadLocalRandom;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final void f() {
+    static final void f() {
         int addAndGet = d.addAndGet(-1640531527);
         if (addAndGet == 0) {
             addAndGet = 1;
@@ -88,8 +88,7 @@ public class ThreadLocalRandom extends Random {
         return j3 ^ (j3 >>> 33);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final double c(double d2, double d3) {
+    final double c(double d2, double d3) {
         double nextLong = nextLong() >>> 11;
         Double.isNaN(nextLong);
         double d4 = nextLong * 1.1102230246251565E-16d;
@@ -100,8 +99,7 @@ public class ThreadLocalRandom extends Random {
         return d5 >= d3 ? Double.longBitsToDouble(Double.doubleToLongBits(d3) - 1) : d5;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int d(int i, int i2) {
+    final int d(int i, int i2) {
         int i3;
         int g2 = g(i());
         if (i >= i2) {
@@ -164,8 +162,7 @@ public class ThreadLocalRandom extends Random {
         throw new IllegalArgumentException("bound must be greater than origin");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final long e(long j, long j2) {
+    final long e(long j, long j2) {
         long h = h(i());
         if (j >= j2) {
             return h;

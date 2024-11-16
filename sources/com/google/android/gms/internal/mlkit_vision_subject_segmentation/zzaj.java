@@ -8,8 +8,7 @@ final class zzaj extends zzx {
     private final Object zzb;
     private int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaj(zzal zzalVar, int i) {
+    zzaj(zzal zzalVar, int i) {
         this.zza = zzalVar;
         Object[] objArr = zzalVar.zzb;
         objArr.getClass();

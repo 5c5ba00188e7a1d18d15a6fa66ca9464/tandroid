@@ -32,9 +32,7 @@ import org.json.JSONObject;
 public abstract class StripeApiHandler {
     private static final SSLSocketFactory SSL_SOCKET_FACTORY = new StripeSSLSocketFactory();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Parameter {
+    private static final class Parameter {
         public final String key;
         public final String value;
 

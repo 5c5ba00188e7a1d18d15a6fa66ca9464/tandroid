@@ -7,8 +7,7 @@ abstract class zzi extends zzr {
     private final int zza;
     private int zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzi(int i, int i2) {
+    protected zzi(int i, int i2) {
         zzg.zzb(i2, i);
         this.zza = i;
         this.zzb = i2;

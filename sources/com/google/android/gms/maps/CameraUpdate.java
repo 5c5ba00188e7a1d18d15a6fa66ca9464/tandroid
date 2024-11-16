@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 public final class CameraUpdate {
     private final IObjectWrapper zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CameraUpdate(IObjectWrapper iObjectWrapper) {
+    CameraUpdate(IObjectWrapper iObjectWrapper) {
         this.zza = (IObjectWrapper) Preconditions.checkNotNull(iObjectWrapper);
     }
 

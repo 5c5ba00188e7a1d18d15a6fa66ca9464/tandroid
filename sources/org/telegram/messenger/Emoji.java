@@ -51,9 +51,7 @@ public class Emoji {
     private static final HashMap<CharSequence, DrawableInfo> rects = new HashMap<>();
     private static boolean inited = false;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class DrawableInfo {
+    private static class DrawableInfo {
         public int emojiIndex;
         public byte page;
         public short page2;
@@ -65,7 +63,6 @@ public class Emoji {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class EmojiDrawable extends Drawable {
         public boolean fullSize = false;
         int placeholderColor = 268435456;
@@ -78,7 +75,6 @@ public class Emoji {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class EmojiSpan extends ImageSpan {
         public boolean drawn;
         public String emoji;
@@ -199,7 +195,6 @@ public class Emoji {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class EmojiSpanRange {
         public CharSequence code;
         public int end;
@@ -212,7 +207,6 @@ public class Emoji {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SimpleEmojiDrawable extends EmojiDrawable {
         private static Paint paint = new Paint(2);
         private static Rect rect = new Rect();
@@ -301,8 +295,8 @@ public class Emoji {
     static {
         String[][] strArr = EmojiData.data;
         emojiCounts = new int[]{strArr[0].length, strArr[1].length, strArr[2].length, strArr[3].length, strArr[4].length, strArr[5].length, strArr[6].length, strArr[7].length};
-        emojiBmp = new Bitmap[8];
-        loadingEmoji = new boolean[8];
+        emojiBmp = new Bitmap[8][];
+        loadingEmoji = new boolean[8][];
         emojiUseHistory = new HashMap<>();
         recentEmoji = new ArrayList<>();
         emojiColor = new HashMap<>();
@@ -645,43 +639,6 @@ public class Emoji {
         return parseEmojis(charSequence, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x016b, code lost:
-    
-        if (r8 == 56128) goto L107;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:115:0x0171, code lost:
-    
-        if (r7 >= r25.length()) goto L110;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x0173, code lost:
-    
-        r2.append(r25.charAt(r7));
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:117:0x017a, code lost:
-    
-        r10 = r7 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x0180, code lost:
-    
-        if (r10 >= r25.length()) goto L113;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:119:0x0182, code lost:
-    
-        r2.append(r25.charAt(r10));
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:120:0x0189, code lost:
-    
-        r14 = r14 + 2;
-        r7 = r7 + 2;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x0191, code lost:
-    
-        if (r7 >= r25.length()) goto L206;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:123:0x0197, code lost:
-    
-        if (r25.charAt(r7) == 56128) goto L208;
-     */
     /* JADX WARN: Removed duplicated region for block: B:103:0x0278  */
     /* JADX WARN: Removed duplicated region for block: B:179:0x0102 A[Catch: Exception -> 0x0078, TryCatch #0 {Exception -> 0x0078, blocks: (B:8:0x0029, B:15:0x006c, B:18:0x0121, B:20:0x0125, B:22:0x0132, B:26:0x0140, B:30:0x01a3, B:32:0x01a7, B:36:0x01b4, B:38:0x01ba, B:40:0x0215, B:55:0x01ea, B:57:0x01ee, B:67:0x0204, B:69:0x0208, B:81:0x021c, B:83:0x0223, B:85:0x0227, B:87:0x0232, B:91:0x0240, B:94:0x0250, B:96:0x0259, B:98:0x025c, B:99:0x026d, B:106:0x014d, B:108:0x0154, B:110:0x015e, B:114:0x016d, B:116:0x0173, B:117:0x017a, B:119:0x0182, B:120:0x0189, B:122:0x0193, B:133:0x0041, B:135:0x004c, B:142:0x007b, B:150:0x009d, B:154:0x0093, B:159:0x00af, B:163:0x00c3, B:179:0x0102, B:189:0x00e4, B:194:0x00fa), top: B:7:0x0029 }] */
     /* JADX WARN: Removed duplicated region for block: B:180:0x010d  */
@@ -841,11 +798,21 @@ public class Emoji {
                                         }
                                         i8 = i + 1;
                                     }
-                                } else if (sb.length() >= 2) {
-                                    if (sb.charAt(0) == 55356) {
-                                        if (sb.charAt(1) == 57332) {
+                                } else if (sb.length() >= 2 && sb.charAt(0) == 55356 && sb.charAt(1) == 57332 && charAt4 == 56128) {
+                                    do {
+                                        if (i11 < charSequence.length()) {
+                                            sb.append(charSequence.charAt(i11));
                                         }
-                                    }
+                                        i8 = i11 + 1;
+                                        if (i8 < charSequence.length()) {
+                                            sb.append(charSequence.charAt(i8));
+                                        }
+                                        i10 += 2;
+                                        i11 += 2;
+                                        if (i11 >= charSequence.length()) {
+                                            break;
+                                        }
+                                    } while (charSequence.charAt(i11) == 56128);
                                 }
                             }
                             i7 = i8;

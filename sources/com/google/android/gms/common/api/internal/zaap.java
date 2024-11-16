@@ -4,9 +4,8 @@ import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.internal.IAccountAccessor;
 import java.util.ArrayList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaap extends zaav {
+final class zaap extends zaav {
     final /* synthetic */ zaaw zaa;
     private final ArrayList zac;
 

@@ -10,6 +10,9 @@ class DynamicBitrateAdjuster extends BaseBitrateAdjuster {
     private double deviationBytes;
     private double timeSinceLastAdjustmentMs;
 
+    DynamicBitrateAdjuster() {
+    }
+
     private double getBitrateAdjustmentScale() {
         double d = this.bitrateAdjustmentScaleExp;
         Double.isNaN(d);

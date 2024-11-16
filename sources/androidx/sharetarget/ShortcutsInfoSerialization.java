@@ -24,15 +24,12 @@ import org.xmlpull.v1.XmlSerializer;
 /* loaded from: classes.dex */
 abstract class ShortcutsInfoSerialization {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class ShortcutContainer {
+    static class ShortcutContainer {
         final String mBitmapPath;
         final String mResourceName;
         final ShortcutInfoCompat mShortcutInfo;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public ShortcutContainer(ShortcutInfoCompat shortcutInfoCompat, String str, String str2) {
+        ShortcutContainer(ShortcutInfoCompat shortcutInfoCompat, String str, String str2) {
             this.mShortcutInfo = shortcutInfoCompat;
             this.mResourceName = str;
             this.mBitmapPath = str2;
@@ -44,8 +41,7 @@ abstract class ShortcutsInfoSerialization {
         return attributeValue == null ? xmlPullParser.getAttributeValue(null, str) : attributeValue;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Map loadFromXml(File file, Context context) {
+    static Map loadFromXml(File file, Context context) {
         FileInputStream fileInputStream;
         ShortcutContainer parseShortcutContainer;
         ShortcutInfoCompat shortcutInfoCompat;
@@ -53,13 +49,7 @@ abstract class ShortcutsInfoSerialization {
         try {
             fileInputStream = new FileInputStream(file);
             try {
-            } catch (Throwable th) {
-                try {
-                    fileInputStream.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-                throw th;
+            } finally {
             }
         } catch (Exception e) {
             file.delete();
@@ -168,8 +158,7 @@ abstract class ShortcutsInfoSerialization {
         return new ShortcutContainer(rank.build(), attributeValue5, attributeValue6);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void saveAsXml(List list, File file) {
+    static void saveAsXml(List list, File file) {
         FileOutputStream startWrite;
         AtomicFile atomicFile = new AtomicFile(file);
         FileOutputStream fileOutputStream = null;

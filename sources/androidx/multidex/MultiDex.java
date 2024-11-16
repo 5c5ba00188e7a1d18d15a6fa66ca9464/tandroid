@@ -23,9 +23,7 @@ public abstract class MultiDex {
     private static final Set installedApk = new HashSet();
     private static final boolean IS_VM_MULTIDEX_CAPABLE = isVMMultidexCapable(System.getProperty("java.vm.version"));
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class V19 {
+    private static final class V19 {
         static void install(ClassLoader classLoader, List list, File file) {
             IOException[] iOExceptionArr;
             Object obj = MultiDex.findField(classLoader, "pathList").get(classLoader);
@@ -117,7 +115,6 @@ public abstract class MultiDex {
                         installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, true));
                     }
                     try {
-                        multiDexExtractor.close();
                         e = null;
                     } catch (IOException e2) {
                         e = e2;
@@ -125,15 +122,14 @@ public abstract class MultiDex {
                     if (e != null) {
                         throw e;
                     }
-                } catch (Throwable th2) {
+                } finally {
                     try {
                         multiDexExtractor.close();
                     } catch (IOException unused) {
                     }
-                    throw th2;
                 }
-            } catch (Throwable th3) {
-                throw th3;
+            } catch (Throwable th2) {
+                throw th2;
             }
         }
     }

@@ -3,9 +3,8 @@ package com.google.android.gms.internal.play_billing;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzdn {
+final class zzdn {
     private static final zzdn zza = new zzdn();
     private final ConcurrentMap zzc = new ConcurrentHashMap();
     private final zzdq zzb = new zzcx();

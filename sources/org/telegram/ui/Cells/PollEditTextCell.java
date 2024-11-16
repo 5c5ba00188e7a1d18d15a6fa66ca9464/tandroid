@@ -72,16 +72,14 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
                 return onCreateInputConnection;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 PollEditTextCell.this.onEditTextDraw(this, canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onFocusChanged(boolean z2, int i2, Rect rect) {
+            protected void onFocusChanged(boolean z2, int i2, Rect rect) {
                 super.onFocusChanged(z2, i2, rect);
                 PollEditTextCell.this.onEditTextFocusChanged(z2);
             }
@@ -318,8 +316,7 @@ public class PollEditTextCell extends FrameLayout implements SuggestEmojiView.An
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onCheckBoxClick(PollEditTextCell pollEditTextCell, boolean z) {
+    protected void onCheckBoxClick(PollEditTextCell pollEditTextCell, boolean z) {
         this.checkBox.setChecked(z, true);
     }
 

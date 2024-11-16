@@ -50,8 +50,7 @@ public final class zzss {
         this.zzj = zzatVar.containsKey(str) ? DynamiteModule.getRemoteVersion(context, (String) zzatVar.get(str)) : -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zza() {
+    final /* synthetic */ String zza() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 }

@@ -116,8 +116,8 @@ public final class WorkQueue {
         if (task != null) {
             globalQueue.addLast(task);
         }
-        do {
-        } while (pollTo(globalQueue));
+        while (pollTo(globalQueue)) {
+        }
     }
 
     public final Task poll() {

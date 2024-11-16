@@ -9,8 +9,7 @@ final class zzk extends FilterInputStream {
     private long zza;
     private long zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzk(InputStream inputStream, long j) {
+    zzk(InputStream inputStream, long j) {
         super(inputStream);
         this.zzb = -1L;
         inputStream.getClass();

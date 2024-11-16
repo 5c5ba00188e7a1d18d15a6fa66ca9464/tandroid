@@ -60,9 +60,7 @@ public class ReportBottomSheet extends BottomSheet {
     private final boolean stories;
     private final ViewPagerFixed viewPager;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 implements Listener {
+    class 3 implements Listener {
         final /* synthetic */ BulletinFactory val$bulletinFactory;
         final /* synthetic */ boolean[] val$done;
         final /* synthetic */ Utilities.Callback val$whenDone;
@@ -115,9 +113,7 @@ public class ReportBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 implements Listener {
+    class 4 implements Listener {
         final /* synthetic */ Context val$context;
         final /* synthetic */ ChatActivity val$fragment;
         final /* synthetic */ MessageObject val$message;
@@ -181,7 +177,6 @@ public class ReportBottomSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     private class ContainerView extends FrameLayout {
         private final AnimatedFloat isActionBar;
         private final Path path;
@@ -257,11 +252,8 @@ public class ReportBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public interface Listener {
+    interface Listener {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onHidden(Listener listener) {
             }
@@ -278,8 +270,7 @@ public class ReportBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Page extends FrameLayout {
+    class Page extends FrameLayout {
         private ButtonWithCounterView button;
         private FrameLayout buttonContainer;
         TLRPC.TL_reportResultAddComment commentOption;
@@ -292,8 +283,7 @@ public class ReportBottomSheet extends BottomSheet {
         TLRPC.TL_channels_sponsoredMessageReportResultChooseOption sponsoredOption;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class BigHeaderCell extends FrameLayout {
+        class BigHeaderCell extends FrameLayout {
             public BackDrawable backDrawable;
             private final ImageView btnBack;
             private Runnable onBackClickListener;
@@ -526,9 +516,8 @@ public class ReportBottomSheet extends BottomSheet {
                 } else if (this.commentOption != null) {
                     if (this.editTextCell == null) {
                         EditTextCell editTextCell = new EditTextCell(getContext(), "", true, false, 1024, ((BottomSheet) ReportBottomSheet.this).resourcesProvider) { // from class: org.telegram.ui.ReportBottomSheet.Page.2
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.Cells.EditTextCell
-                            public void onTextChanged(CharSequence charSequence) {
+                            protected void onTextChanged(CharSequence charSequence) {
                                 super.onTextChanged(charSequence);
                                 if (Page.this.button != null) {
                                     ButtonWithCounterView buttonWithCounterView = Page.this.button;
@@ -706,9 +695,8 @@ public class ReportBottomSheet extends BottomSheet {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z3) {
+            protected void onTabAnimationUpdate(boolean z3) {
                 super.onTabAnimationUpdate(z3);
                 ((BottomSheet) ReportBottomSheet.this).containerView.invalidate();
             }
@@ -725,7 +713,7 @@ public class ReportBottomSheet extends BottomSheet {
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i3) {
-                return new Page(context);
+                return ReportBottomSheet.this.new Page(context);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
@@ -1147,9 +1135,8 @@ public class ReportBottomSheet extends BottomSheet {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         View currentView = this.viewPager.getCurrentView();
         if (currentView instanceof Page) {
             return ((Page) currentView).atTop();

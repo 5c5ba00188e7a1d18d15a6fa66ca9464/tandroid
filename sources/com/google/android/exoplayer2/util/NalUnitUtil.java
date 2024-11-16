@@ -11,7 +11,6 @@ public abstract class NalUnitUtil {
     private static final Object scratchEscapePositionsLock = new Object();
     private static int[] scratchEscapePositions = new int[10];
 
-    /* loaded from: classes.dex */
     public static final class H265SpsData {
         public final int[] constraintBytes;
         public final int generalLevelIdc;
@@ -38,7 +37,6 @@ public abstract class NalUnitUtil {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class PpsData {
         public final boolean bottomFieldPicOrderInFramePresentFlag;
         public final int picParameterSetId;
@@ -51,7 +49,6 @@ public abstract class NalUnitUtil {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class SpsData {
         public final int constraintsFlagsAndReservedZero2Bits;
         public final boolean deltaPicOrderAlwaysZeroFlag;

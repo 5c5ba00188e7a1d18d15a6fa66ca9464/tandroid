@@ -9,16 +9,14 @@ class ErrorDetails {
     ErrorDetails() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ErrorDetails parse(String str) {
+    static ErrorDetails parse(String str) {
         JSONObject jSONObject = new JSONObject(str);
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.code = jSONObject.getString("code");
         return errorDetails;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getCode() {
+    String getCode() {
         return this.code;
     }
 }

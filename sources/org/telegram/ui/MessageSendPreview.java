@@ -144,9 +144,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
     private SpoilerEffect2 spoilerEffect2;
     private final FrameLayout windowView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 16 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+    class 16 implements ReactionsContainerLayout.ReactionsContainerDelegate {
         final /* synthetic */ BaseFragment val$fragment;
 
         16(BaseFragment baseFragment) {
@@ -291,9 +289,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements ViewTreeObserver.OnGlobalFocusChangeListener {
+    class 2 implements ViewTreeObserver.OnGlobalFocusChangeListener {
         2() {
         }
 
@@ -331,9 +327,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 extends SizeNotifierFrameLayout {
+    class 3 extends SizeNotifierFrameLayout {
         private Paint backgroundPaint;
         int chatListViewTy;
         private GradientClip clip;
@@ -367,7 +361,6 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             return Boolean.TRUE;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         /* JADX WARN: Code restructure failed: missing block: B:70:0x04f9, code lost:
         
             if ((r29.destCellPos[1] - r29.pos2[1]) > r2) goto L82;
@@ -376,7 +369,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void dispatchDraw(final Canvas canvas) {
+        protected void dispatchDraw(final Canvas canvas) {
             char c;
             float f;
             float f2;
@@ -582,9 +575,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 7 extends ChatListItemAnimator {
+    class 7 extends ChatListItemAnimator {
         Runnable finishRunnable;
 
         7(ChatActivity chatActivity, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider) {
@@ -628,9 +619,8 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             AndroidUtilities.runOnUIThread(runnable2);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.ChatListItemAnimator, androidx.recyclerview.widget.DefaultItemAnimator
-        public void onAllAnimationsDone() {
+        protected void onAllAnimationsDone() {
             super.onAllAnimationsDone();
             Runnable runnable = this.finishRunnable;
             if (runnable != null) {
@@ -660,7 +650,6 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         }
     }
 
-    /* loaded from: classes4.dex */
     private class MessageCell extends ChatMessageCell {
         public int bottom;
         private int pastId;
@@ -683,9 +672,8 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             return SpoilerEffect2.getInstance(1, this, MessageSendPreview.this.windowView);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Cells.ChatMessageCell, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             super.onLayout(z, i, i2, i3, i4);
             if (!this.transitionParams.animateBackgroundBoundsInner || i2 == 0 || this.top == Integer.MAX_VALUE || i4 == 0 || this.bottom == Integer.MAX_VALUE) {
                 return;
@@ -702,9 +690,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class VisiblePart {
+    private static class VisiblePart {
         private int blurredViewBottomOffset;
         private int blurredViewTopOffset;
         private int childPosition;
@@ -849,7 +835,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;
@@ -1072,9 +1058,8 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 canvas.saveLayerAlpha(0.0f, getScrollY() + 1, getWidth(), (getScrollY() + getHeight()) - 1, NotificationCenter.notificationsCountUpdated, 31);
                 canvas.save();
                 drawChatBackgroundElements(canvas);
@@ -1135,9 +1120,8 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                 return drawChild;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                 for (int i6 = 0; i6 < getChildCount(); i6++) {
                     View childAt = getChildAt(i6);
                     if (childAt.getTop() != 0 && (childAt instanceof MessageCell)) {
@@ -1150,9 +1134,8 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
                 super.onLayout(z, i2, i3, i4, i5);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(Math.max(0, ((AndroidUtilities.displaySize.y - (AndroidUtilities.dp(MessageSendPreview.this.messageObjects.isEmpty() ? -6.0f : 48.0f) + (MessageSendPreview.this.optionsView == null ? 0 : MessageSendPreview.this.optionsView.getMeasuredHeight()))) - AndroidUtilities.dp(8.0f)) - MessageSendPreview.this.insets.top), Integer.MIN_VALUE));
                 int max = Math.max(MessageSendPreview.this.sendButtonWidth, -((MessageSendPreview.this.sendButtonInitialPosition[0] + AndroidUtilities.dp(7.0f)) - getMeasuredWidth()));
                 float max2 = Math.max(1, getMeasuredWidth() - max) / Math.max(1, ((getMeasuredWidth() - max) - AndroidUtilities.dp(8.0f)) + Math.max(0, MessageSendPreview.this.messageObjectsWidth - ((getMeasuredWidth() - max) - AndroidUtilities.dp((MessageSendPreview.this.groupedMessagesMap.isEmpty() ? 0 : 40) + 8))));
@@ -1323,7 +1306,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
                 MessageSendPreview messageSendPreview = MessageSendPreview.this;
-                MessageCell messageCell = new MessageCell(context, messageSendPreview.currentAccount, true, null, resourcesProvider);
+                MessageCell messageCell = messageSendPreview.new MessageCell(context, messageSendPreview.currentAccount, true, null, resourcesProvider);
                 messageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate() { // from class: org.telegram.ui.MessageSendPreview.11.1
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
                     public /* synthetic */ boolean canDrawOutboundsContent() {

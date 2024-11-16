@@ -27,9 +27,8 @@ import java.util.Collections;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AppCompatTextViewAutoSizeHelper {
+class AppCompatTextViewAutoSizeHelper {
     private final Context mContext;
     private final Impl mImpl;
     private TextPaint mTempTextPaint;
@@ -45,9 +44,7 @@ public class AppCompatTextViewAutoSizeHelper {
     private int[] mAutoSizeTextSizesInPx = new int[0];
     private boolean mHasPresetAutoSizeValues = false;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api16Impl {
+    private static final class Api16Impl {
         static StaticLayout createStaticLayoutForMeasuring(CharSequence charSequence, Layout.Alignment alignment, int i, TextView textView, TextPaint textPaint) {
             return new StaticLayout(charSequence, textPaint, i, alignment, textView.getLineSpacingMultiplier(), textView.getLineSpacingExtra(), textView.getIncludeFontPadding());
         }
@@ -57,17 +54,13 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api18Impl {
+    private static final class Api18Impl {
         static boolean isInLayout(View view) {
             return view.isInLayout();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api23Impl {
+    private static final class Api23Impl {
         static StaticLayout createStaticLayoutForMeasuring(CharSequence charSequence, Layout.Alignment alignment, int i, int i2, TextView textView, TextPaint textPaint, Impl impl) {
             StaticLayout.Builder obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
             StaticLayout.Builder hyphenationFrequency = obtain.setAlignment(alignment).setLineSpacing(textView.getLineSpacingExtra(), textView.getLineSpacingMultiplier()).setIncludePad(textView.getIncludeFontPadding()).setBreakStrategy(textView.getBreakStrategy()).setHyphenationFrequency(textView.getHyphenationFrequency());
@@ -84,9 +77,7 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Impl {
+    private static class Impl {
         Impl() {
         }
 
@@ -98,7 +89,6 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Impl23 extends Impl {
         Impl23() {
         }
@@ -109,7 +99,6 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Impl29 extends Impl23 {
         Impl29() {
         }
@@ -129,8 +118,7 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatTextViewAutoSizeHelper(TextView textView) {
+    AppCompatTextViewAutoSizeHelper(TextView textView) {
         this.mTextView = textView;
         this.mContext = textView.getContext();
         int i = Build.VERSION.SDK_INT;
@@ -313,8 +301,7 @@ public class AppCompatTextViewAutoSizeHelper {
         this.mHasPresetAutoSizeValues = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void autoSizeText() {
+    void autoSizeText() {
         if (isAutoSizeEnabled()) {
             if (this.mNeedsAutoSizeText) {
                 if (this.mTextView.getMeasuredHeight() <= 0 || this.mTextView.getMeasuredWidth() <= 0) {
@@ -347,28 +334,23 @@ public class AppCompatTextViewAutoSizeHelper {
         return Build.VERSION.SDK_INT >= 23 ? Api23Impl.createStaticLayoutForMeasuring(charSequence, alignment, i, i2, this.mTextView, this.mTempTextPaint, this.mImpl) : Api16Impl.createStaticLayoutForMeasuring(charSequence, alignment, i, this.mTextView, this.mTempTextPaint);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeMaxTextSize() {
+    int getAutoSizeMaxTextSize() {
         return Math.round(this.mAutoSizeMaxTextSizeInPx);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeMinTextSize() {
+    int getAutoSizeMinTextSize() {
         return Math.round(this.mAutoSizeMinTextSizeInPx);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeStepGranularity() {
+    int getAutoSizeStepGranularity() {
         return Math.round(this.mAutoSizeStepGranularityInPx);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int[] getAutoSizeTextAvailableSizes() {
+    int[] getAutoSizeTextAvailableSizes() {
         return this.mAutoSizeTextSizesInPx;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getAutoSizeTextType() {
+    int getAutoSizeTextType() {
         return this.mAutoSizeTextType;
     }
 
@@ -383,13 +365,11 @@ public class AppCompatTextViewAutoSizeHelper {
         this.mTempTextPaint.setTextSize(i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isAutoSizeEnabled() {
+    boolean isAutoSizeEnabled() {
         return supportsAutoSizeText() && this.mAutoSizeTextType != 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void loadFromAttributes(AttributeSet attributeSet, int i) {
+    void loadFromAttributes(AttributeSet attributeSet, int i) {
         int resourceId;
         Context context = this.mContext;
         int[] iArr = R$styleable.AppCompatTextView;
@@ -435,8 +415,7 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAutoSizeTextTypeUniformWithConfiguration(int i, int i2, int i3, int i4) {
+    void setAutoSizeTextTypeUniformWithConfiguration(int i, int i2, int i3, int i4) {
         if (supportsAutoSizeText()) {
             DisplayMetrics displayMetrics = this.mContext.getResources().getDisplayMetrics();
             validateAndSetAutoSizeTextTypeUniformConfiguration(TypedValue.applyDimension(i4, i, displayMetrics), TypedValue.applyDimension(i4, i2, displayMetrics), TypedValue.applyDimension(i4, i3, displayMetrics));
@@ -446,8 +425,7 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAutoSizeTextTypeUniformWithPresetSizes(int[] iArr, int i) {
+    void setAutoSizeTextTypeUniformWithPresetSizes(int[] iArr, int i) {
         if (supportsAutoSizeText()) {
             int length = iArr.length;
             if (length > 0) {
@@ -473,8 +451,7 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setAutoSizeTextTypeWithDefaults(int i) {
+    void setAutoSizeTextTypeWithDefaults(int i) {
         if (supportsAutoSizeText()) {
             if (i == 0) {
                 clearAutoSizeConfiguration();
@@ -491,8 +468,7 @@ public class AppCompatTextViewAutoSizeHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setTextSizeInternal(int i, float f) {
+    void setTextSizeInternal(int i, float f) {
         Context context = this.mContext;
         setRawTextSize(TypedValue.applyDimension(i, f, (context == null ? Resources.getSystem() : context.getResources()).getDisplayMetrics()));
     }

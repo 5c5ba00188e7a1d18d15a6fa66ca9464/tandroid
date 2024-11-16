@@ -19,7 +19,6 @@ public final class BackgroundDetector implements Application.ActivityLifecycleCa
     private final ArrayList zzd = new ArrayList();
     private boolean zze = false;
 
-    /* loaded from: classes.dex */
     public interface BackgroundStateChangeListener {
         void onBackgroundStateChanged(boolean z);
     }

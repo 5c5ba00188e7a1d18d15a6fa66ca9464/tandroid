@@ -102,7 +102,6 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
     boolean animateToPinnedToCenter = false;
     float pinnedProgress = 0.0f;
 
-    /* loaded from: classes3.dex */
     class 3 extends FrameLayout {
         Runnable micRunnable;
         AnimatorSet moveToBoundsAnimator;
@@ -355,9 +354,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 9 extends AnimatorListenerAdapter {
+    class 9 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$alert;
         final /* synthetic */ WindowManager val$windowManager;
         final /* synthetic */ View val$windowRemoveTooltipOverlayView;
@@ -700,7 +697,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         onDestroy();
         instance = null;
         AnimatorSet animatorSet = new AnimatorSet();
-        long currentFrame = this.deleteIcon.getCurrentFrame() < 33 ? ((1.0f - (this.deleteIcon.getCurrentFrame() / 33.0f)) * ((float) this.deleteIcon.getDuration())) / 2.0f : 0L;
+        long currentFrame = this.deleteIcon.getCurrentFrame() < 33 ? (long) (((1.0f - (this.deleteIcon.getCurrentFrame() / 33.0f)) * this.deleteIcon.getDuration()) / 2.0f) : 0L;
         float f = this.windowLayoutParams.x;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(f, measuredWidth + f);
         ofFloat.addUpdateListener(this.updateXlistener);
@@ -719,9 +716,9 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
         animatorSet.playTogether(ObjectAnimator.ofFloat(frameLayout, (Property<FrameLayout, Float>) property2, frameLayout.getScaleY(), 0.1f).setDuration(180L));
         Property property3 = View.ALPHA;
         ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(frameLayout, (Property<FrameLayout, Float>) property3, 1.0f, 0.0f);
-        float f3 = (float) 350;
-        ofFloat3.setStartDelay(f3 * 0.7f);
-        ofFloat3.setDuration(f3 * 0.3f);
+        float f3 = 350L;
+        ofFloat3.setStartDelay((long) (f3 * 0.7f));
+        ofFloat3.setDuration((long) (f3 * 0.3f));
         animatorSet.playTogether(ofFloat3);
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.GroupCallPip$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable

@@ -7,9 +7,8 @@ final class l0 extends p0 {
     final /* synthetic */ q0 c;
     final /* synthetic */ Predicate d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public l0(Predicate predicate, q0 q0Var) {
+    l0(Predicate predicate, q0 q0Var) {
         super(q0Var);
         this.c = q0Var;
         this.d = predicate;

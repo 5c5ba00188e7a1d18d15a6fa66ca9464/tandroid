@@ -11,8 +11,7 @@ public abstract class AbstractReleaseDownloader implements ReleaseDownloader {
     protected final ReleaseDownloader.Listener mListener;
     protected final ReleaseDetails mReleaseDetails;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractReleaseDownloader(Context context, ReleaseDetails releaseDetails, ReleaseDownloader.Listener listener) {
+    protected AbstractReleaseDownloader(Context context, ReleaseDetails releaseDetails, ReleaseDownloader.Listener listener) {
         this.mContext = context;
         this.mReleaseDetails = releaseDetails;
         this.mListener = listener;
@@ -28,8 +27,7 @@ public abstract class AbstractReleaseDownloader implements ReleaseDownloader {
         return this.mReleaseDetails;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean isCancelled() {
+    protected boolean isCancelled() {
         return this.mCancelled;
     }
 }

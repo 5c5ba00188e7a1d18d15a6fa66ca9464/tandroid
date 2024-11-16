@@ -109,7 +109,6 @@ public class RecordControl extends View implements FlashViews.Invertable {
     private float touchY;
     private final Drawable unlockDrawable;
 
-    /* loaded from: classes5.dex */
     public interface Delegate {
         boolean canRecordAudio();
 
@@ -436,7 +435,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
         float f24 = this.cy;
         rectF2.set(f23 - max3, f24 - max3, f23 + max3, f24 + max3);
         float f25 = this.recording ? 0.0f : 1.0f - f11;
-        float f26 = (((float) currentTimeMillis) / 60000.0f) * 360.0f;
+        float f26 = (currentTimeMillis / 60000.0f) * 360.0f;
         float f27 = this.recordingLoadingT.set(this.recordingLoading);
         this.outlineFilledPaint.setStrokeWidth(AndroidUtilities.dp(3.0f));
         this.outlineFilledPaint.setAlpha((int) (Math.max(0.7f * f27, 1.0f - f25) * 255.0f));
@@ -453,7 +452,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
             f5 = f20;
             f6 = lerp2;
             j = currentTimeMillis;
-            CircularProgressDrawable.getSegments((float) ((SystemClock.elapsedRealtime() - this.recordingLoadingStart) % 5400), this.loadingSegments);
+            CircularProgressDrawable.getSegments((SystemClock.elapsedRealtime() - this.recordingLoadingStart) % 5400, this.loadingSegments);
             invalidate();
             float[] fArr = this.loadingSegments;
             float f28 = fArr[0];

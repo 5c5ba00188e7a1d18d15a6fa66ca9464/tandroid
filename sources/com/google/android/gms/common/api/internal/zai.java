@@ -11,8 +11,7 @@ public abstract class zai {
         this.zac = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ Status zah(RemoteException remoteException) {
+    static /* bridge */ /* synthetic */ Status zah(RemoteException remoteException) {
         return new Status(19, remoteException.getClass().getSimpleName() + ": " + remoteException.getLocalizedMessage());
     }
 

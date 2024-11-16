@@ -18,14 +18,12 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class LoaderManagerImpl extends LoaderManager {
+class LoaderManagerImpl extends LoaderManager {
     static boolean DEBUG = false;
     private final LifecycleOwner mLifecycleOwner;
     private final LoaderViewModel mLoaderViewModel;
 
-    /* loaded from: classes.dex */
     public static class LoaderInfo extends MutableLiveData implements Loader.OnLoadCompleteListener {
         private final Bundle mArgs;
         private final int mId;
@@ -174,9 +172,7 @@ public class LoaderManagerImpl extends LoaderManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class LoaderObserver implements Observer {
+    static class LoaderObserver implements Observer {
         private final LoaderManager.LoaderCallbacks mCallback;
         private boolean mDeliveredData = false;
         private final Loader mLoader;
@@ -219,9 +215,7 @@ public class LoaderManagerImpl extends LoaderManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class LoaderViewModel extends ViewModel {
+    static class LoaderViewModel extends ViewModel {
         private static final ViewModelProvider.Factory FACTORY = new ViewModelProvider.Factory() { // from class: androidx.loader.app.LoaderManagerImpl.LoaderViewModel.1
             @Override // androidx.lifecycle.ViewModelProvider.Factory
             public ViewModel create(Class cls) {
@@ -279,9 +273,8 @@ public class LoaderManagerImpl extends LoaderManager {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.lifecycle.ViewModel
-        public void onCleared() {
+        protected void onCleared() {
             super.onCleared();
             int size = this.mLoaders.size();
             for (int i = 0; i < size; i++) {
@@ -299,8 +292,7 @@ public class LoaderManagerImpl extends LoaderManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LoaderManagerImpl(LifecycleOwner lifecycleOwner, ViewModelStore viewModelStore) {
+    LoaderManagerImpl(LifecycleOwner lifecycleOwner, ViewModelStore viewModelStore) {
         this.mLifecycleOwner = lifecycleOwner;
         this.mLoaderViewModel = LoaderViewModel.getInstance(viewModelStore);
     }

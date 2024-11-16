@@ -42,7 +42,6 @@ public final class BundledChunkExtractor implements ExtractorOutput, ChunkExtrac
     private SeekMap seekMap;
     private ChunkExtractor.TrackOutputProvider trackOutputProvider;
 
-    /* loaded from: classes.dex */
     private static final class BindingTrackOutput implements TrackOutput {
         private long endTimeUs;
         private final DummyTrackOutput fakeTrackOutput = new DummyTrackOutput();

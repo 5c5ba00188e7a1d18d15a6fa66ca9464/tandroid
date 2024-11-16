@@ -39,11 +39,9 @@ public final class MediaItem implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     public static final class AdsConfiguration {
     }
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private ClippingConfiguration.Builder clippingConfiguration;
         private String customCacheKey;
@@ -145,7 +143,6 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class ClippingConfiguration implements Bundleable {
         public final long endPositionMs;
         public final boolean relativeToDefaultPosition;
@@ -167,7 +164,6 @@ public final class MediaItem implements Bundleable {
             }
         };
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private long endPositionMs;
             private boolean relativeToDefaultPosition;
@@ -289,7 +285,6 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class ClippingProperties extends ClippingConfiguration {
         public static final ClippingProperties UNSET = new ClippingConfiguration.Builder().buildClippingProperties();
 
@@ -298,7 +293,6 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class DrmConfiguration {
         public final boolean forceDefaultLicenseUri;
         public final ImmutableList forcedSessionTrackTypes;
@@ -312,7 +306,6 @@ public final class MediaItem implements Bundleable {
         public final ImmutableList sessionForClearTypes;
         public final UUID uuid;
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private boolean forceDefaultLicenseUri;
             private ImmutableList forcedSessionTrackTypes;
@@ -390,7 +383,6 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class LiveConfiguration implements Bundleable {
         public final long maxOffsetMs;
         public final float maxPlaybackSpeed;
@@ -412,7 +404,6 @@ public final class MediaItem implements Bundleable {
             }
         };
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private long maxOffsetMs;
             private float maxPlaybackSpeed;
@@ -540,7 +531,6 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class LocalConfiguration {
         public final String customCacheKey;
         public final DrmConfiguration drmConfiguration;
@@ -590,14 +580,12 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class PlaybackProperties extends LocalConfiguration {
         private PlaybackProperties(Uri uri, String str, DrmConfiguration drmConfiguration, AdsConfiguration adsConfiguration, List list, String str2, ImmutableList immutableList, Object obj) {
             super(uri, str, drmConfiguration, adsConfiguration, list, str2, immutableList, obj);
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class RequestMetadata implements Bundleable {
         public final Bundle extras;
         public final Uri mediaUri;
@@ -615,7 +603,6 @@ public final class MediaItem implements Bundleable {
             }
         };
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private Bundle extras;
             private Uri mediaUri;
@@ -689,14 +676,12 @@ public final class MediaItem implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Subtitle extends SubtitleConfiguration {
         private Subtitle(SubtitleConfiguration.Builder builder) {
             super(builder);
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SubtitleConfiguration {
         public final String id;
         public final String label;
@@ -706,7 +691,6 @@ public final class MediaItem implements Bundleable {
         public final int selectionFlags;
         public final Uri uri;
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private String id;
             private String label;

@@ -50,7 +50,6 @@ public class TopicsController extends BaseController {
     LongSparseIntArray topicsIsLoading;
     LongSparseArray topicsMapByChatId;
 
-    /* loaded from: classes3.dex */
     public static class TopicUpdate {
         long dialogId;
         ArrayList<MessageObject> groupedMessages;
@@ -64,9 +63,7 @@ public class TopicsController extends BaseController {
         int unreadMentions;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TopicsLoadOffset {
+    private class TopicsLoadOffset {
         int lastMessageDate;
         int lastMessageId;
         int lastTopicId;
@@ -982,7 +979,7 @@ public class TopicsController extends BaseController {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:93:0x01f2  */
     /* JADX WARN: Type inference failed for: r3v3 */
-    /* JADX WARN: Type inference failed for: r3v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

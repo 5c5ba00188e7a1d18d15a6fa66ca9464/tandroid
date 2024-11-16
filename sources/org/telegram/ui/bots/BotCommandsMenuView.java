@@ -52,7 +52,6 @@ public class BotCommandsMenuView extends View {
     final TextPaint textPaint;
     RLottieDrawable webViewAnimation;
 
-    /* loaded from: classes5.dex */
     public static class BotCommandView extends LinearLayout {
         TextView command;
         String commandStr;
@@ -93,7 +92,6 @@ public class BotCommandsMenuView extends View {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class BotCommandsAdapter extends RecyclerListView.SelectionAdapter {
         ArrayList newResult = new ArrayList();
         ArrayList newResultHelp = new ArrayList();
@@ -156,9 +154,8 @@ public class BotCommandsMenuView extends View {
         this.backDrawable = menuDrawable;
         int i = R.raw.bot_webview_sheet_to_cross;
         this.webViewAnimation = new RLottieDrawable(i, String.valueOf(i) + hashCode(), AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f)) { // from class: org.telegram.ui.bots.BotCommandsMenuView.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RLottieDrawable
-            public void invalidateInternal() {
+            protected void invalidateInternal() {
                 super.invalidateInternal();
                 BotCommandsMenuView.this.invalidate();
             }

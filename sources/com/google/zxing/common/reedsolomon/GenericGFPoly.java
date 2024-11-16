@@ -1,13 +1,11 @@
 package com.google.zxing.common.reedsolomon;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class GenericGFPoly {
+final class GenericGFPoly {
     private final int[] coefficients;
     private final GenericGF field;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly(GenericGF genericGF, int[] iArr) {
+    GenericGFPoly(GenericGF genericGF, int[] iArr) {
         if (iArr.length == 0) {
             throw new IllegalArgumentException();
         }
@@ -31,8 +29,7 @@ public final class GenericGFPoly {
         System.arraycopy(iArr, i, iArr2, 0, i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly addOrSubtract(GenericGFPoly genericGFPoly) {
+    GenericGFPoly addOrSubtract(GenericGFPoly genericGFPoly) {
         if (!this.field.equals(genericGFPoly.field)) {
             throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
         }
@@ -57,8 +54,7 @@ public final class GenericGFPoly {
         return new GenericGFPoly(this.field, iArr3);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly[] divide(GenericGFPoly genericGFPoly) {
+    GenericGFPoly[] divide(GenericGFPoly genericGFPoly) {
         if (!this.field.equals(genericGFPoly.field)) {
             throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
         }
@@ -78,8 +74,7 @@ public final class GenericGFPoly {
         return new GenericGFPoly[]{zero, genericGFPoly2};
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int evaluateAt(int i) {
+    int evaluateAt(int i) {
         if (i == 0) {
             return getCoefficient(0);
         }
@@ -99,28 +94,23 @@ public final class GenericGFPoly {
         return i4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getCoefficient(int i) {
+    int getCoefficient(int i) {
         return this.coefficients[(r0.length - 1) - i];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int[] getCoefficients() {
+    int[] getCoefficients() {
         return this.coefficients;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getDegree() {
+    int getDegree() {
         return this.coefficients.length - 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isZero() {
+    boolean isZero() {
         return this.coefficients[0] == 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly multiply(int i) {
+    GenericGFPoly multiply(int i) {
         if (i == 0) {
             return this.field.getZero();
         }
@@ -135,8 +125,7 @@ public final class GenericGFPoly {
         return new GenericGFPoly(this.field, iArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly multiply(GenericGFPoly genericGFPoly) {
+    GenericGFPoly multiply(GenericGFPoly genericGFPoly) {
         if (!this.field.equals(genericGFPoly.field)) {
             throw new IllegalArgumentException("GenericGFPolys do not have same GenericGF field");
         }
@@ -158,8 +147,7 @@ public final class GenericGFPoly {
         return new GenericGFPoly(this.field, iArr3);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly multiplyByMonomial(int i, int i2) {
+    GenericGFPoly multiplyByMonomial(int i, int i2) {
         if (i < 0) {
             throw new IllegalArgumentException();
         }

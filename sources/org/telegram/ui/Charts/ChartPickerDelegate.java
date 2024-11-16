@@ -24,9 +24,7 @@ public class ChartPickerDelegate {
     public float minDistance = 0.1f;
     CapturesData[] capturedStates = {null, null};
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class CapturesData {
+    class CapturesData {
         ValueAnimator a;
         public float aValue = 0.0f;
         public int capturedX;
@@ -72,9 +70,7 @@ public class ChartPickerDelegate {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public interface Listener {
+    interface Listener {
         void invalidate();
 
         void onPickerDataChanged();

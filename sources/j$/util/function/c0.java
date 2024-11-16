@@ -17,11 +17,12 @@ public final /* synthetic */ class c0 implements f0 {
         switch (this.a) {
             case 0:
                 f0Var.getClass();
-                return new c0(this, f0Var, 0);
+                break;
             default:
                 f0Var.getClass();
-                return new c0(this, f0Var, 0);
+                break;
         }
+        return new c0(this, f0Var, 0);
     }
 
     @Override // j$.util.function.f0
@@ -39,10 +40,11 @@ public final /* synthetic */ class c0 implements f0 {
         switch (this.a) {
             case 0:
                 f0Var.getClass();
-                return new c0(this, f0Var, 1);
+                break;
             default:
                 f0Var.getClass();
-                return new c0(this, f0Var, 1);
+                break;
         }
+        return new c0(this, f0Var, 1);
     }
 }

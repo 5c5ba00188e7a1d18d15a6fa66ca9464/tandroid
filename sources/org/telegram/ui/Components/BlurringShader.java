@@ -61,7 +61,6 @@ public class BlurringShader {
     private FloatBuffer uvBuffer;
     private int width;
 
-    /* loaded from: classes3.dex */
     public static class BlurManager {
         private EGLContext context;
         private BlurringShader currentShader;
@@ -237,7 +236,6 @@ public class BlurringShader {
         }
     }
 
-    /* loaded from: classes3.dex */
     private static class Program {
         int flipyHandle;
         int gl;
@@ -270,7 +268,6 @@ public class BlurringShader {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StoryBlurDrawer {
         private boolean animateBitmapChange;
         private BitmapShader bitmapShader;
@@ -735,7 +732,6 @@ public class BlurringShader {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ThumbBlurer {
         private final Paint clearPaint;
         private Runnable generate;

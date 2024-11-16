@@ -39,7 +39,6 @@ public class WakeLock {
     private int zzl;
     private AtomicInteger zzm;
 
-    /* loaded from: classes.dex */
     public interface zza {
     }
 

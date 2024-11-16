@@ -2,13 +2,11 @@ package com.google.common.collect;
 
 import com.google.common.base.Preconditions;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class SingletonImmutableSet extends ImmutableSet {
+final class SingletonImmutableSet extends ImmutableSet {
     final transient Object element;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SingletonImmutableSet(Object obj) {
+    SingletonImmutableSet(Object obj) {
         this.element = Preconditions.checkNotNull(obj);
     }
 
@@ -33,9 +31,8 @@ public final class SingletonImmutableSet extends ImmutableSet {
         return this.element.hashCode();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public boolean isPartialView() {
+    boolean isPartialView() {
         return false;
     }
 

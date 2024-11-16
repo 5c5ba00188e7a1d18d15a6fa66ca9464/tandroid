@@ -12,7 +12,6 @@ public class zzio {
     private static final zzio zze = new zzio(true);
     private final Map zzf = Collections.emptyMap();
 
-    /* loaded from: classes.dex */
     private static final class zza {
         private final Object zza;
         private final int zzb;

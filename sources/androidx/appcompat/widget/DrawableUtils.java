@@ -16,8 +16,7 @@ public abstract class DrawableUtils {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void fixDrawable(Drawable drawable) {
+    static void fixDrawable(Drawable drawable) {
         String name = drawable.getClass().getName();
         int i = Build.VERSION.SDK_INT;
         if (!(i == 21 && "android.graphics.drawable.VectorDrawable".equals(name)) && (i < 29 || i >= 31 || !"android.graphics.drawable.ColorStateListDrawable".equals(name))) {

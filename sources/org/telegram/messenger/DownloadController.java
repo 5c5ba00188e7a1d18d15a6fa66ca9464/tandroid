@@ -72,9 +72,8 @@ public class DownloadController extends BaseController implements NotificationCe
     private ArrayList<DownloadObject> videoDownloadQueue;
     public Preset wifiPreset;
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public class DownloadingDocumentEntry {
+    private class DownloadingDocumentEntry {
         int hash;
         long id;
 
@@ -647,7 +646,7 @@ public class DownloadController extends BaseController implements NotificationCe
         if (j == 0) {
             return 0.0f;
         }
-        return Math.min(1.0f, ((float) jArr[0]) / ((float) j));
+        return Math.min(1.0f, jArr[0] / j);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1326,8 +1325,7 @@ public class DownloadController extends BaseController implements NotificationCe
         return canDownloadMediaInternal(messageObject);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean canDownloadNextTrack() {
+    protected boolean canDownloadNextTrack() {
         int autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
         return autodownloadNetworkType == 1 ? this.wifiPreset.enabled && getCurrentWiFiPreset().preloadMusic : autodownloadNetworkType == 2 ? this.roamingPreset.enabled && getCurrentRoamingPreset().preloadMusic : this.mobilePreset.enabled && getCurrentMobilePreset().preloadMusic;
     }
@@ -1354,8 +1352,7 @@ public class DownloadController extends BaseController implements NotificationCe
         return currentMobilePreset.preloadStories;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void cancelDownloading(ArrayList<Pair<Long, Integer>> arrayList) {
+    protected void cancelDownloading(ArrayList<Pair<Long, Integer>> arrayList) {
         TLRPC.PhotoSize closestPhotoSizeWithSize;
         int size = arrayList.size();
         for (int i = 0; i < size; i++) {
@@ -1816,8 +1813,7 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void newDownloadObjectsAvailable(int i) {
+    protected void newDownloadObjectsAvailable(int i) {
         int currentDownloadMask = getCurrentDownloadMask();
         if ((currentDownloadMask & 1) != 0 && (i & 1) != 0 && this.photoDownloadQueue.isEmpty()) {
             getMessagesStorage().getDownloadQueue(1);
@@ -1865,7 +1861,6 @@ public class DownloadController extends BaseController implements NotificationCe
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:19:0x0065  */
     /* JADX WARN: Removed duplicated region for block: B:30:0x008a  */
@@ -1874,7 +1869,7 @@ public class DownloadController extends BaseController implements NotificationCe
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void processDownloadObjects(int i, ArrayList<DownloadObject> arrayList) {
+    protected void processDownloadObjects(int i, ArrayList<DownloadObject> arrayList) {
         TLRPC.PhotoSize photoSize;
         TLRPC.PhotoSize photoSize2;
         if (arrayList.isEmpty()) {

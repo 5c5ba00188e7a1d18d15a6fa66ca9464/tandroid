@@ -815,14 +815,13 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
                     float lerp = AndroidUtilities.lerp(f34, f31, f6);
                     float lerp2 = AndroidUtilities.lerp((AndroidUtilities.dp(12.0f) * f33) + y5, f32, f33);
                     if (this.roundRectRadii == null) {
-                        this.roundRectRadii = r4;
+                        this.roundRectRadii = new float[]{r5, r5, 0.0f, 0.0f, 0.0f, 0.0f, r5, r5};
                         float dp5 = AndroidUtilities.dp(4.0f);
-                        float[] fArr = {dp5, dp5, 0.0f, 0.0f, 0.0f, 0.0f, dp5, dp5};
-                        float[] fArr2 = this.roundRectRadii;
-                        fArr2[5] = 0.0f;
-                        fArr2[4] = 0.0f;
-                        fArr2[3] = 0.0f;
-                        fArr2[2] = 0.0f;
+                        float[] fArr = this.roundRectRadii;
+                        fArr[5] = 0.0f;
+                        fArr[4] = 0.0f;
+                        fArr[3] = 0.0f;
+                        fArr[2] = 0.0f;
                     }
                     RectF rectF = AndroidUtilities.rectTmp;
                     rectF.set(f34, y5, this.replyFromStartWidth + f34, AndroidUtilities.dp(35.0f) + y5);

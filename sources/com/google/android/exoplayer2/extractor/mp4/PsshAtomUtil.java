@@ -9,9 +9,7 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class PsshAtomUtil {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PsshAtom {
+    private static class PsshAtom {
         private final byte[] schemeData;
         private final UUID uuid;
         private final int version;

@@ -93,9 +93,7 @@ public abstract class AboutLinkCell extends FrameLayout {
     private Point urlPathOffset;
     private TextView valueTextView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements Runnable {
+    class 2 implements Runnable {
         2() {
         }
 
@@ -198,9 +196,7 @@ public abstract class AboutLinkCell extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 extends Browser.Progress {
+    class 3 extends Browser.Progress {
         LoadingDrawable thisLoading;
         final /* synthetic */ Layout val$layout;
         final /* synthetic */ ClickableSpan val$pressedLink;
@@ -246,7 +242,6 @@ public abstract class AboutLinkCell extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class SpringInterpolator {
         public float friction;
         public float tension;
@@ -911,7 +906,7 @@ public abstract class AboutLinkCell extends FrameLayout {
                 AboutLinkCell.this.didResizeStart();
             }
         });
-        this.collapseAnimator.setDuration(abs);
+        this.collapseAnimator.setDuration((long) abs);
         this.collapseAnimator.start();
     }
 

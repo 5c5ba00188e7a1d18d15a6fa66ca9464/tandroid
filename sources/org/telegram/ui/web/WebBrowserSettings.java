@@ -62,7 +62,6 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     private long historySize;
     private Utilities.Callback whenHistoryClicked;
 
-    /* loaded from: classes5.dex */
     public static class WebsiteView extends FrameLayout {
         private ArrayList domains;
         public final ImageView imageView;
@@ -71,7 +70,6 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         public final TextView subtitleView;
         public final TextView titleView;
 
-        /* loaded from: classes5.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -732,9 +730,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                                     textView.setText(LocaleController.getString(R.string.BrowserSettingsAddText));
                                     linearLayout2.addView(textView, LayoutHelper.createLinear(-1, -2, 24.0f, 5.0f, 24.0f, 12.0f));
                                     final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.web.WebBrowserSettings.2
-                                        /* JADX INFO: Access modifiers changed from: protected */
                                         @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                                        public void onMeasure(int i8, int i9) {
+                                        protected void onMeasure(int i8, int i9) {
                                             super.onMeasure(i8, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
                                         }
                                     };

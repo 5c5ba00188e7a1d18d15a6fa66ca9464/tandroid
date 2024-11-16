@@ -76,9 +76,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     private ArrayList oldItems = new ArrayList();
     private ArrayList items = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends AdapterWithDiffUtils {
+    private class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
 
@@ -187,7 +185,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                             }
                         };
                     } else if (i == 3 || i == 4) {
-                        switchCell = new SwitchCell(context);
+                        switchCell = LiteModeSettingsActivity.this.new SwitchCell(context);
                     } else if (i == 5) {
                         switchCell = new TextCell(context, 23, false, true, null);
                     } else {
@@ -195,16 +193,14 @@ public class LiteModeSettingsActivity extends BaseFragment {
                     }
                     return new RecyclerListView.Holder(switchCell);
                 }
-                switchCell = new PowerSaverSlider(context);
+                switchCell = LiteModeSettingsActivity.this.new PowerSaverSlider(context);
             }
             switchCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             return new RecyclerListView.Holder(switchCell);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class Item extends AdapterWithDiffUtils.Item {
+    private static class Item extends AdapterWithDiffUtils.Item {
         public int flags;
         public int iconResId;
         public CharSequence text;
@@ -273,8 +269,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PowerSaverSlider extends FrameLayout {
+    class PowerSaverSlider extends FrameLayout {
         BatteryDrawable batteryIcon;
         SpannableStringBuilder batteryText;
         LinearLayout headerLayout;
@@ -311,9 +306,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
             AnimatedTextView animatedTextView = new AnimatedTextView(context, true, false, false) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.1
                 Drawable backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(4.0f), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader), 0.15f));
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     this.backgroundDrawable.setBounds(0, 0, (int) (getPaddingLeft() + getDrawable().getCurrentWidth() + getPaddingRight()), getMeasuredHeight());
                     this.backgroundDrawable.draw(canvas);
                     super.onDraw(canvas);
@@ -376,9 +370,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
             this.leftTextView.setText(LocaleController.getString(R.string.LiteBatteryDisabled));
             this.valuesView.addView(this.leftTextView, LayoutHelper.createFrame(-2, -2, 19));
             AnimatedTextView animatedTextView2 = new AnimatedTextView(context, false, true, true) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.3
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onMeasure(int i3, int i4) {
+                protected void onMeasure(int i3, int i4) {
                     int size = View.MeasureSpec.getSize(i3);
                     if (size <= 0) {
                         size = AndroidUtilities.displaySize.x - AndroidUtilities.dp(20.0f);
@@ -613,9 +606,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SwitchCell extends FrameLayout {
+    private class SwitchCell extends FrameLayout {
         private int all;
         private ImageView arrowView;
         private CheckBox2 checkBoxView;

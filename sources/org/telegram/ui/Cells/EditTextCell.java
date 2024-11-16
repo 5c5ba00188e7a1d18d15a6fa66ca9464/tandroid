@@ -53,9 +53,8 @@ public class EditTextCell extends FrameLayout {
         this.limit.setGravity(5);
         this.maxLength = i;
         EditTextCaption editTextCaption = new EditTextCaption(context, resourcesProvider) { // from class: org.telegram.ui.Cells.EditTextCell.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 EditTextCell editTextCell = EditTextCell.this;
                 editTextCell.limit.setTextColor(editTextCell.limitColor.set(Theme.getColor(editTextCell.limitCount <= 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, resourcesProvider)));
@@ -63,9 +62,8 @@ public class EditTextCell extends FrameLayout {
                 EditTextCell.this.limit.draw(canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor
-            public void extendActionMode(ActionMode actionMode, Menu menu) {
+            protected void extendActionMode(ActionMode actionMode, Menu menu) {
                 if (z2) {
                     int i2 = R.id.menu_bold;
                     if (menu.findItem(i2) != null) {
@@ -90,18 +88,16 @@ public class EditTextCell extends FrameLayout {
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextCaption, org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 canvas.save();
                 canvas.clipRect(getScrollX() + getPaddingLeft(), 0, (getScrollX() + getWidth()) - getPaddingRight(), getHeight());
                 super.onDraw(canvas);
                 canvas.restore();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            protected void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 super.onTextChanged(charSequence, i2, i3, i4);
                 AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = EditTextCell.this.limit;
                 if (animatedTextDrawable2 == null || i <= 0) {
@@ -234,8 +230,7 @@ public class EditTextCell extends FrameLayout {
     protected void onFocusChanged(boolean z) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTextChanged(CharSequence charSequence) {
+    protected void onTextChanged(CharSequence charSequence) {
     }
 
     public void setDivider(boolean z) {

@@ -6,8 +6,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class l extends a implements n {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public l(IBinder iBinder) {
+    l(IBinder iBinder) {
         super(iBinder, "com.google.android.play.core.integrity.protocol.IIntegrityService");
     }
 

@@ -4,8 +4,7 @@ package com.google.android.gms.internal.mlkit_common;
 final class zzao extends zzag {
     private final zzaq zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzao(zzaq zzaqVar, int i) {
+    zzao(zzaq zzaqVar, int i) {
         super(zzaqVar.size(), i);
         this.zza = zzaqVar;
     }

@@ -9,7 +9,6 @@ import androidx.core.view.GravityCompat;
 /* loaded from: classes.dex */
 public abstract class RoundedBitmapDrawableFactory {
 
-    /* loaded from: classes.dex */
     private static class DefaultRoundedBitmapDrawable extends RoundedBitmapDrawable {
         DefaultRoundedBitmapDrawable(Resources resources, Bitmap bitmap) {
             super(resources, bitmap);

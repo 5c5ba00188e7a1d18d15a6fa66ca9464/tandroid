@@ -147,8 +147,7 @@ public abstract class HashtagHistoryView extends FrameLayout {
 
     protected abstract void onClick(String str);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+    protected void onScrolled(RecyclerView recyclerView, int i, int i2) {
     }
 
     public void show(final boolean z) {

@@ -71,9 +71,7 @@ public class ReplyMessageLine {
     private int switchedCount = 0;
     private float emojiAlpha = 1.0f;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class IconCoords {
+    private static class IconCoords {
         public float a;
         public boolean q;
         public float s;
@@ -165,8 +163,8 @@ public class ReplyMessageLine {
     private void incrementLoadingT() {
         long currentTimeMillis = System.currentTimeMillis();
         float f = this.loadingStateT.set(this.loading);
-        this.loadingT += ((float) Math.min(30L, currentTimeMillis - this.lastLoadingTTime)) * f;
-        this.loadingTranslationT += ((float) Math.min(30L, currentTimeMillis - this.lastLoadingTTime)) * f;
+        this.loadingT += Math.min(30L, currentTimeMillis - this.lastLoadingTTime) * f;
+        this.loadingTranslationT += Math.min(30L, currentTimeMillis - this.lastLoadingTTime) * f;
         this.lastLoadingTTime = currentTimeMillis;
     }
 

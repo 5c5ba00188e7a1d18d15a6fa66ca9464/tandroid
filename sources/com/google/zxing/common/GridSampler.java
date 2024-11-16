@@ -6,7 +6,6 @@ import com.google.zxing.NotFoundException;
 public abstract class GridSampler {
     private static GridSampler gridSampler = new DefaultGridSampler();
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:14:0x0035  */
     /* JADX WARN: Removed duplicated region for block: B:18:0x0039  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x0072  */
@@ -14,7 +13,7 @@ public abstract class GridSampler {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void checkAndNudgePoints(BitMatrix bitMatrix, float[] fArr) {
+    protected static void checkAndNudgePoints(BitMatrix bitMatrix, float[] fArr) {
         int width = bitMatrix.getWidth();
         int height = bitMatrix.getHeight();
         int length = fArr.length - 1;

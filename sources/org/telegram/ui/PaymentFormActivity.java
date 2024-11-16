@@ -240,9 +240,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     private static final List WEBVIEW_PROTOCOLS = Arrays.asList("http", "https");
     private static final List BLACKLISTED_PROTOCOLS = Collections.singletonList("tg");
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 18 extends WebViewClient {
+    class 18 extends WebViewClient {
         final /* synthetic */ Context val$context;
 
         18(Context context) {
@@ -304,9 +302,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 25 implements TokenCallback {
+    class 25 implements TokenCallback {
         25() {
         }
 
@@ -346,9 +342,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 6 extends WebViewClient {
+    class 6 extends WebViewClient {
         final /* synthetic */ Context val$context;
 
         6(Context context) {
@@ -417,8 +411,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BottomFrameLayout extends FrameLayout {
+    class BottomFrameLayout extends FrameLayout {
         Paint paint;
         float progress;
         SpringAnimation springAnimation;
@@ -488,7 +481,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
     public enum InvoiceStatus {
         PAID,
         CANCELLED,
@@ -496,7 +488,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         FAILED
     }
 
-    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         public LinkSpan() {
         }
@@ -514,11 +505,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public interface PaymentFormActivityDelegate {
+    private interface PaymentFormActivityDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$currentPasswordUpdated(PaymentFormActivityDelegate paymentFormActivityDelegate, TLRPC.account_Password account_password) {
             }
@@ -543,14 +531,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         void onFragmentDestroyed();
     }
 
-    /* loaded from: classes4.dex */
     public interface PaymentFormCallback {
         void onInvoiceStatusChanged(InvoiceStatus invoiceStatus);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class TelegramWebviewProxy {
+    class TelegramWebviewProxy {
         private TelegramWebviewProxy() {
         }
 
@@ -2283,94 +2269,37 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         if (tL_error != null) {
             String str = tL_error.text;
             str.hashCode();
-            char c = 65535;
-            switch (str.hashCode()) {
-                case -2092780146:
-                    if (str.equals("ADDRESS_CITY_INVALID")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case -1623547228:
-                    if (str.equals("ADDRESS_STREET_LINE1_INVALID")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case -1224177757:
-                    if (str.equals("ADDRESS_COUNTRY_INVALID")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case -1031752045:
-                    if (str.equals("REQ_INFO_NAME_INVALID")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-                case -274035920:
-                    if (str.equals("ADDRESS_POSTCODE_INVALID")) {
-                        c = 4;
-                        break;
-                    }
-                    break;
-                case 417441502:
-                    if (str.equals("ADDRESS_STATE_INVALID")) {
-                        c = 5;
-                        break;
-                    }
-                    break;
-                case 708423542:
-                    if (str.equals("REQ_INFO_PHONE_INVALID")) {
-                        c = 6;
-                        break;
-                    }
-                    break;
-                case 863965605:
-                    if (str.equals("ADDRESS_STREET_LINE2_INVALID")) {
-                        c = 7;
-                        break;
-                    }
-                    break;
-                case 889106340:
-                    if (str.equals("REQ_INFO_EMAIL_INVALID")) {
-                        c = '\b';
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (str) {
+                case "ADDRESS_CITY_INVALID":
                     shakeField(2);
-                    return;
-                case 1:
+                    break;
+                case "ADDRESS_STREET_LINE1_INVALID":
                     shakeField(0);
-                    return;
-                case 2:
+                    break;
+                case "ADDRESS_COUNTRY_INVALID":
                     shakeField(4);
-                    return;
-                case 3:
+                    break;
+                case "REQ_INFO_NAME_INVALID":
                     shakeField(6);
-                    return;
-                case 4:
+                    break;
+                case "ADDRESS_POSTCODE_INVALID":
                     shakeField(5);
-                    return;
-                case 5:
+                    break;
+                case "ADDRESS_STATE_INVALID":
                     shakeField(3);
-                    return;
-                case 6:
+                    break;
+                case "REQ_INFO_PHONE_INVALID":
                     shakeField(9);
-                    return;
-                case 7:
+                    break;
+                case "ADDRESS_STREET_LINE2_INVALID":
                     shakeField(1);
-                    return;
-                case '\b':
+                    break;
+                case "REQ_INFO_EMAIL_INVALID":
                     shakeField(7);
-                    return;
+                    break;
                 default:
                     AlertsCreator.processError(this.currentAccount, tL_error, this, tLObject, new Object[0]);
-                    return;
+                    break;
             }
         }
     }
@@ -3261,8 +3190,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r3v1 java.lang.String, still in use, count: 2, list:
           (r3v1 java.lang.String) from 0x0033: IF  (r3v1 java.lang.String) != (null java.lang.String)  -> B:4:0x0024 A[HIDDEN]
           (r3v1 java.lang.String) from 0x0024: PHI (r3v3 java.lang.String) = (r3v1 java.lang.String) binds: [B:33:0x0033] A[DONT_GENERATE, DONT_INLINE]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
@@ -3656,7 +3585,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Code restructure failed: missing block: B:182:0x02cf, code lost:
     
         if (r15.email_requested == false) goto L84;
@@ -3732,13 +3660,13 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Removed duplicated region for block: B:87:0x03fe  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x0434  */
     /* JADX WARN: Type inference failed for: r14v2 */
-    /* JADX WARN: Type inference failed for: r14v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r14v6 */
-    /* JADX WARN: Type inference failed for: r14v93, types: [android.widget.LinearLayout, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r14v93, types: [android.view.ViewGroup, android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r2v48, types: [java.lang.CharSequence, java.lang.String] */
     /* JADX WARN: Type inference failed for: r2v51, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r3v118, types: [org.telegram.ui.PaymentFormActivity$BottomFrameLayout] */
-    /* JADX WARN: Type inference failed for: r3v120, types: [org.telegram.ui.ActionBar.ActionBarMenuItem, android.view.View] */
+    /* JADX WARN: Type inference failed for: r3v120, types: [android.view.View, org.telegram.ui.ActionBar.ActionBarMenuItem] */
     /* JADX WARN: Type inference failed for: r3v129, types: [android.text.SpannableStringBuilder, java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r3v61, types: [org.telegram.ui.Cells.TextDetailSettingsCell[]] */
     /* JADX WARN: Type inference failed for: r3v62, types: [org.telegram.ui.Cells.TextDetailSettingsCell] */
@@ -3752,11 +3680,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r3v92, types: [android.view.View] */
     /* JADX WARN: Type inference failed for: r4v109, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r4v84, types: [android.webkit.WebSettings] */
-    /* JADX WARN: Type inference failed for: r6v172, types: [android.widget.LinearLayout, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r6v31, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
+    /* JADX WARN: Type inference failed for: r6v172, types: [android.view.ViewGroup, android.widget.LinearLayout] */
+    /* JADX WARN: Type inference failed for: r6v31, types: [android.text.SpannableString, java.lang.CharSequence, java.lang.Object] */
     /* JADX WARN: Type inference failed for: r9v11, types: [java.lang.StringBuilder] */
-    /* JADX WARN: Type inference failed for: r9v123, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r9v94, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r9v123, types: [android.view.View, android.view.ViewGroup, android.widget.LinearLayout] */
+    /* JADX WARN: Type inference failed for: r9v94, types: [android.view.View, android.view.ViewGroup, android.widget.FrameLayout] */
     /* JADX WARN: Type inference failed for: r9v97, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r9v98, types: [android.view.ViewGroup] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -4097,6 +4025,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     if (tL_paymentRequestedInfo5 != null && (tL_postAddress = tL_paymentRequestedInfo5.shipping_address) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
                                         str6 = tL_postAddress.street_line1;
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
@@ -4106,6 +4035,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     if (tL_paymentRequestedInfo6 != null && (tL_postAddress2 = tL_paymentRequestedInfo6.shipping_address) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
                                         str6 = tL_postAddress2.street_line2;
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
@@ -4115,6 +4045,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     if (tL_paymentRequestedInfo7 != null && (tL_postAddress3 = tL_paymentRequestedInfo7.shipping_address) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
                                         str6 = tL_postAddress3.city;
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
@@ -4124,6 +4055,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     if (tL_paymentRequestedInfo8 != null && (tL_postAddress4 = tL_paymentRequestedInfo8.shipping_address) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
                                         str6 = tL_postAddress4.state;
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
@@ -4148,6 +4080,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     if (tL_paymentRequestedInfo10 != null && (tL_postAddress6 = tL_paymentRequestedInfo10.shipping_address) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
                                         str6 = tL_postAddress6.post_code;
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
@@ -4156,6 +4089,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     TLRPC.TL_paymentRequestedInfo tL_paymentRequestedInfo11 = this.paymentForm.saved_info;
                                     if (tL_paymentRequestedInfo11 != null && (str6 = tL_paymentRequestedInfo11.name) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
@@ -4164,11 +4098,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     TLRPC.TL_paymentRequestedInfo tL_paymentRequestedInfo12 = this.paymentForm.saved_info;
                                     if (tL_paymentRequestedInfo12 != null && (str6 = tL_paymentRequestedInfo12.email) != null) {
                                         editTextBoldCursor7 = this.inputFields[i21];
+                                        editTextBoldCursor7.setText(str6);
                                         break;
                                     }
                                     break;
                             }
-                            editTextBoldCursor7.setText(str6);
                             EditTextBoldCursor editTextBoldCursor10 = this.inputFields[i21];
                             editTextBoldCursor10.setSelection(editTextBoldCursor10.length());
                             if (i21 != 8) {
@@ -4436,7 +4370,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         this.inputFields[i21].setImeOptions(268435461);
                         switch (i21) {
                         }
-                        editTextBoldCursor7.setText(str6);
                         EditTextBoldCursor editTextBoldCursor102 = this.inputFields[i21];
                         editTextBoldCursor102.setSelection(editTextBoldCursor102.length());
                         if (i21 != 8) {
@@ -5446,8 +5379,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     textPriceCell4.setBackgroundColor(getThemedColor(i38));
                     textPriceCell4.setTextAndValue(LocaleController.getString(R.string.PaymentTipOptional), "", false);
                     frameLayout5.addView(textPriceCell4);
-                    this.inputFields = r5;
-                    EditTextBoldCursor[] editTextBoldCursorArr2 = {new EditTextBoldCursor(context)};
+                    this.inputFields = new EditTextBoldCursor[]{new EditTextBoldCursor(context)};
                     this.inputFields[0].setTag(0);
                     this.inputFields[0].setTextSize(1, 16.0f);
                     EditTextBoldCursor editTextBoldCursor14 = this.inputFields[0];
@@ -5525,12 +5457,12 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                             int selectionStart = PaymentFormActivity.this.inputFields[0].getSelectionStart();
                             PaymentFormActivity.this.ignoreOnTextChange = true;
                             long longValue4 = PaymentFormActivity.this.tipAmount.longValue();
-                            EditTextBoldCursor[] editTextBoldCursorArr3 = PaymentFormActivity.this.inputFields;
+                            EditTextBoldCursor[] editTextBoldCursorArr2 = PaymentFormActivity.this.inputFields;
                             if (longValue4 == 0) {
-                                editTextBoldCursorArr3[0].setText("");
+                                editTextBoldCursorArr2[0].setText("");
                                 z5 = z6;
                             } else {
-                                EditTextBoldCursor editTextBoldCursor18 = editTextBoldCursorArr3[0];
+                                EditTextBoldCursor editTextBoldCursor18 = editTextBoldCursorArr2[0];
                                 z5 = z6;
                                 str12 = LocaleController.getInstance().formatCurrencyString(PaymentFormActivity.this.tipAmount.longValue(), false, z6, true, PaymentFormActivity.this.paymentForm.invoice.currency);
                                 editTextBoldCursor18.setText(str12);

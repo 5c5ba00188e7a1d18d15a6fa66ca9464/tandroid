@@ -492,9 +492,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
                 universalRecyclerView.smoothScrollToPosition(2);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
-            public void onTextChanged(CharSequence charSequence) {
+            protected void onTextChanged(CharSequence charSequence) {
                 BusinessIntroActivity.this.greetingsView.setPreview(BusinessIntroActivity.this.titleEdit.getText().toString(), BusinessIntroActivity.this.messageEdit.getText().toString());
                 BusinessIntroActivity.this.checkDone(true, true);
             }
@@ -517,9 +516,8 @@ public class BusinessIntroActivity extends UniversalFragment implements Notifica
                 universalRecyclerView.smoothScrollToPosition(3);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Cells.EditTextCell
-            public void onTextChanged(CharSequence charSequence) {
+            protected void onTextChanged(CharSequence charSequence) {
                 BusinessIntroActivity.this.greetingsView.setPreview(BusinessIntroActivity.this.titleEdit.getText().toString(), BusinessIntroActivity.this.messageEdit.getText().toString());
                 BusinessIntroActivity.this.checkDone(true, true);
             }

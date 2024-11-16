@@ -2,15 +2,13 @@ package com.google.android.gms.internal.location;
 
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzdr extends zzds {
+final class zzdr extends zzds {
     final transient int zza;
     final transient int zzb;
     final /* synthetic */ zzds zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdr(zzds zzdsVar, int i, int i2) {
+    zzdr(zzds zzdsVar, int i, int i2) {
         this.zzc = zzdsVar;
         this.zza = i;
         this.zzb = i2;
@@ -37,21 +35,18 @@ public final class zzdr extends zzds {
         return this.zzc.zzc() + this.zza + this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.location.zzdp
-    public final int zzc() {
+    final int zzc() {
         return this.zzc.zzc() + this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.location.zzdp
-    public final boolean zzf() {
+    final boolean zzf() {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.location.zzdp
-    public final Object[] zzg() {
+    final Object[] zzg() {
         return this.zzc.zzg();
     }
 

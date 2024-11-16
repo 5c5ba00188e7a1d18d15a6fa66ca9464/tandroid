@@ -5,6 +5,9 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 final class zzdk implements zzdj {
+    zzdk() {
+    }
+
     @Override // com.google.android.gms.internal.clearcut.zzdj
     public final int zzb(int i, Object obj, Object obj2) {
         zzdi zzdiVar = (zzdi) obj;

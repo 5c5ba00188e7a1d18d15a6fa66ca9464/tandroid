@@ -20,8 +20,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         this(i, null, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ConnectionResult(int i, int i2, PendingIntent pendingIntent, String str) {
+    ConnectionResult(int i, int i2, PendingIntent pendingIntent, String str) {
         this.zza = i;
         this.zzb = i2;
         this.zzc = pendingIntent;
@@ -36,8 +35,7 @@ public final class ConnectionResult extends AbstractSafeParcelable {
         this(1, i, pendingIntent, str);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(int i) {
+    static String zza(int i) {
         if (i == 99) {
             return "UNFINISHED";
         }

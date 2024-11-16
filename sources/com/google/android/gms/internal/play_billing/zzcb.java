@@ -13,8 +13,7 @@ public abstract class zzcb extends zzak {
     private int zzd = -1;
     protected zzeh zzc = zzeh.zzc();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzcb zzh(Class cls) {
+    static zzcb zzh(Class cls) {
         Map map = zzb;
         zzcb zzcbVar = (zzcb) map.get(cls);
         if (zzcbVar == null) {
@@ -35,8 +34,7 @@ public abstract class zzcb extends zzak {
         return zzcbVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static zzcb zzj(zzcb zzcbVar, byte[] bArr, zzbn zzbnVar) {
+    protected static zzcb zzj(zzcb zzcbVar, byte[] bArr, zzbn zzbnVar) {
         zzcb zzw = zzw(zzcbVar, bArr, 0, bArr.length, zzbnVar);
         if (zzw == null || zzw.zzs()) {
             return zzw;
@@ -46,8 +44,7 @@ public abstract class zzcb extends zzak {
         throw zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzl(Method method, Object obj, Object... objArr) {
+    static Object zzl(Method method, Object obj, Object... objArr) {
         try {
             return method.invoke(obj, objArr);
         } catch (IllegalAccessException e) {
@@ -64,13 +61,11 @@ public abstract class zzcb extends zzak {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static Object zzm(zzdf zzdfVar, String str, Object[] objArr) {
+    protected static Object zzm(zzdf zzdfVar, String str, Object[] objArr) {
         return new zzdo(zzdfVar, str, objArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void zzp(Class cls, zzcb zzcbVar) {
+    protected static void zzp(Class cls, zzcb zzcbVar) {
         zzcbVar.zzo();
         zzb.put(cls, zzcbVar);
     }
@@ -134,9 +129,8 @@ public abstract class zzcb extends zzak {
         return zzdh.zza(this, super.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzak
-    public final int zza(zzdp zzdpVar) {
+    final int zza(zzdp zzdpVar) {
         if (zzt()) {
             int zza = zzdpVar.zza(this);
             if (zza >= 0) {
@@ -186,13 +180,11 @@ public abstract class zzcb extends zzak {
         return (zzcb) zzu(6, null, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final zzbx zzg() {
+    protected final zzbx zzg() {
         return (zzbx) zzu(5, null, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzcb zzi() {
+    final zzcb zzi() {
         return (zzcb) zzu(4, null, null);
     }
 
@@ -201,19 +193,16 @@ public abstract class zzcb extends zzak {
         return (zzbx) zzu(5, null, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzn() {
+    protected final void zzn() {
         zzdn.zza().zzb(getClass()).zzf(this);
         zzo();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzo() {
+    final void zzo() {
         this.zzd &= ConnectionsManager.DEFAULT_DATACENTER_ID;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzq(int i) {
+    final void zzq(int i) {
         this.zzd = (this.zzd & Integer.MIN_VALUE) | ConnectionsManager.DEFAULT_DATACENTER_ID;
     }
 
@@ -235,11 +224,9 @@ public abstract class zzcb extends zzak {
         return zzk;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzt() {
+    final boolean zzt() {
         return (this.zzd & Integer.MIN_VALUE) != 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object zzu(int i, Object obj, Object obj2);
+    protected abstract Object zzu(int i, Object obj, Object obj2);
 }

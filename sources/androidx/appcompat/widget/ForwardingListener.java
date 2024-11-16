@@ -19,9 +19,7 @@ public abstract class ForwardingListener implements View.OnTouchListener, View.O
     private final int[] mTmpLocation = new int[2];
     private Runnable mTriggerLongPress;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class DisallowIntercept implements Runnable {
+    private class DisallowIntercept implements Runnable {
         DisallowIntercept() {
         }
 
@@ -34,9 +32,7 @@ public abstract class ForwardingListener implements View.OnTouchListener, View.O
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class TriggerLongPress implements Runnable {
+    private class TriggerLongPress implements Runnable {
         TriggerLongPress() {
         }
 

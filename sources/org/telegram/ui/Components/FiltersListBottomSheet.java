@@ -53,14 +53,11 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     private AnimatorSet shadowAnimation;
     private TextView titleTextView;
 
-    /* loaded from: classes3.dex */
     public interface FiltersListBottomSheetDelegate {
         void didSelectFilter(MessagesController.DialogFilter dialogFilter, boolean z);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
         public ListAdapter(Context context) {
@@ -484,9 +481,8 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

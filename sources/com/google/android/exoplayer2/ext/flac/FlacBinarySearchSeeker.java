@@ -13,7 +13,6 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
     private static final int MIN_FRAME_HEADER_SIZE = 6;
     private final FlacDecoderJni decoderJni;
 
-    /* loaded from: classes.dex */
     private static final class FlacTimestampSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final FlacDecoderJni decoderJni;
         private final OutputFrameHolder outputFrameHolder;
@@ -52,7 +51,6 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class OutputFrameHolder {
         public final ByteBuffer byteBuffer;
         public long timeUs = 0;

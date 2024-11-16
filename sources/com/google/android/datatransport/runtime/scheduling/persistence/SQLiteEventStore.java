@@ -43,15 +43,11 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
     private final SchemaManager schemaManager;
     private final Clock wallClock;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Function {
+    interface Function {
         Object apply(Object obj);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Metadata {
+    private static class Metadata {
         final String key;
         final String value;
 
@@ -61,14 +57,11 @@ public class SQLiteEventStore implements EventStore, SynchronizationGuard, Clien
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Producer {
+    interface Producer {
         Object produce();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SQLiteEventStore(Clock clock, Clock clock2, EventStoreConfig eventStoreConfig, SchemaManager schemaManager, Provider provider) {
+    SQLiteEventStore(Clock clock, Clock clock2, EventStoreConfig eventStoreConfig, SchemaManager schemaManager, Provider provider) {
         this.schemaManager = schemaManager;
         this.wallClock = clock;
         this.monotonicClock = clock2;

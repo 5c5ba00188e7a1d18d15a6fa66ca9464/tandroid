@@ -86,7 +86,6 @@ public abstract class ActionBarMenuSlider extends FrameLayout {
     private ValueAnimator valueAnimator;
     private ColorFilter whiteColorFilter;
 
-    /* loaded from: classes4.dex */
     public static class SpeedSlider extends ActionBarMenuSlider {
         String label;
         private final SeekBarAccessibilityDelegate seekBarAccessibilityDelegate;
@@ -103,9 +102,8 @@ public abstract class ActionBarMenuSlider extends FrameLayout {
                     return SpeedIconDrawable.formatNumber(SpeedSlider.this.getSpeed()) + "x  " + LocaleController.getString(R.string.AccDescrSpeedSlider);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-                public float getDelta() {
+                protected float getDelta() {
                     return 0.2f;
                 }
 

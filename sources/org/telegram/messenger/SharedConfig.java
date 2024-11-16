@@ -205,12 +205,10 @@ public class SharedConfig {
     }
 
     @Retention(RetentionPolicy.SOURCE)
-    /* loaded from: classes.dex */
     public @interface PasscodeType {
     }
 
     @Retention(RetentionPolicy.SOURCE)
-    /* loaded from: classes.dex */
     public @interface PerformanceClass {
     }
 

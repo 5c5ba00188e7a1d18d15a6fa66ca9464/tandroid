@@ -4,8 +4,7 @@ import sun.misc.Unsafe;
 
 /* loaded from: classes.dex */
 final class zzeo extends zzep {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzeo(Unsafe unsafe) {
+    zzeo(Unsafe unsafe) {
         super(unsafe);
     }
 

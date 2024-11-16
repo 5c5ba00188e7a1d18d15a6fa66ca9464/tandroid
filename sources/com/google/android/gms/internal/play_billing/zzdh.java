@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzdh {
+abstract class zzdh {
     private static final char[] zza;
 
     static {
@@ -21,8 +20,7 @@ public abstract class zzdh {
         Arrays.fill(cArr, ' ');
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(zzdf zzdfVar, String str) {
+    static String zza(zzdf zzdfVar, String str) {
         StringBuilder sb = new StringBuilder();
         sb.append("# ");
         sb.append(str);
@@ -30,8 +28,7 @@ public abstract class zzdh {
         return sb.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zzb(StringBuilder sb, int i, String str, Object obj) {
+    static void zzb(StringBuilder sb, int i, String str, Object obj) {
         if (obj instanceof List) {
             Iterator it = ((List) obj).iterator();
             while (it.hasNext()) {

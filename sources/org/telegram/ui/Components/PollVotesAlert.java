@@ -102,7 +102,6 @@ public class PollVotesAlert extends BottomSheet {
     private ArrayList voters;
     private HashMap votesPercents;
 
-    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SectionsAdapter {
         private int currentAccount = UserConfig.selectedAccount;
         private Context mContext;
@@ -256,7 +255,7 @@ public class PollVotesAlert extends BottomSheet {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view;
             if (i == 0) {
-                view = new UserCell(this.mContext);
+                view = PollVotesAlert.this.new UserCell(this.mContext);
             } else if (i == 1) {
                 if (PollVotesAlert.this.titleTextView.getParent() != null) {
                     ((ViewGroup) PollVotesAlert.this.titleTextView.getParent()).removeView(PollVotesAlert.this.titleTextView);
@@ -293,8 +292,7 @@ public class PollVotesAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Button {
+    static class Button {
         private float decimal;
         private int percent;
         private int votesCount;
@@ -315,7 +313,6 @@ public class PollVotesAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class SectionCell extends FrameLayout {
         private TextView middleTextView;
         private AnimatedTextView righTextView;
@@ -435,7 +432,6 @@ public class PollVotesAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class UserCell extends FrameLayout {
         private ArrayList animators;
         private AvatarDrawable avatarDrawable;
@@ -693,8 +689,7 @@ public class PollVotesAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class VotesList {
+    static class VotesList {
         public boolean collapsed;
         public int collapsedCount = 10;
         public int count;
@@ -937,9 +932,8 @@ public class PollVotesAlert extends BottomSheet {
                 return f2 >= ((float) (PollVotesAlert.this.scrollOffsetY + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (PollVotesAlert.this.loadingResults) {
                     long elapsedRealtime = SystemClock.elapsedRealtime();
                     long abs = Math.abs(this.lastUpdateTime - elapsedRealtime);
@@ -948,7 +942,7 @@ public class PollVotesAlert extends BottomSheet {
                     }
                     this.lastUpdateTime = elapsedRealtime;
                     PollVotesAlert pollVotesAlert = PollVotesAlert.this;
-                    PollVotesAlert.access$3116(pollVotesAlert, (((float) abs) * pollVotesAlert.gradientWidth) / 1800.0f);
+                    PollVotesAlert.access$3116(pollVotesAlert, (abs * pollVotesAlert.gradientWidth) / 1800.0f);
                     while (PollVotesAlert.this.totalTranslation >= PollVotesAlert.this.gradientWidth * 2.0f) {
                         PollVotesAlert pollVotesAlert2 = PollVotesAlert.this;
                         PollVotesAlert.access$3124(pollVotesAlert2, pollVotesAlert2.gradientWidth * 2.0f);
@@ -972,9 +966,8 @@ public class PollVotesAlert extends BottomSheet {
         this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setClipToPadding(false);
         this.listView.setLayoutManager(new LinearLayoutManager(getContext(), 1, false) { // from class: org.telegram.ui.Components.PollVotesAlert.5
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.LinearLayoutManager
-            public int getExtraLayoutSpace(RecyclerView.State state) {
+            protected int getExtraLayoutSpace(RecyclerView.State state) {
                 return AndroidUtilities.dp(4000.0f);
             }
         });
@@ -1468,9 +1461,8 @@ public class PollVotesAlert extends BottomSheet {
         return Math.round((i2 / i) * 100.0f);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

@@ -5,13 +5,11 @@ abstract class zzdl {
     private static final zzdj zzmf = zzce();
     private static final zzdj zzmg = new zzdk();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdj zzcc() {
+    static zzdj zzcc() {
         return zzmf;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdj zzcd() {
+    static zzdj zzcd() {
         return zzmg;
     }
 

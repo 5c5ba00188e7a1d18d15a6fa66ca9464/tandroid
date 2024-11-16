@@ -4,14 +4,12 @@ import android.os.Bundle;
 
 /* loaded from: classes.dex */
 final class zzn extends zzq {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzn(int i, int i2, Bundle bundle) {
+    zzn(int i, int i2, Bundle bundle) {
         super(i, 2, bundle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.cloudmessaging.zzq
-    public final void zza(Bundle bundle) {
+    final void zza(Bundle bundle) {
         if (bundle.getBoolean("ack", false)) {
             zza((Object) null);
         } else {
@@ -19,9 +17,8 @@ final class zzn extends zzq {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.cloudmessaging.zzq
-    public final boolean zza() {
+    final boolean zza() {
         return true;
     }
 }

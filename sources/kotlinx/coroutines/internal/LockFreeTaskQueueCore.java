@@ -19,7 +19,6 @@ public final class LockFreeTaskQueueCore {
     private final int mask;
     private final boolean singleConsumer;
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }
@@ -45,7 +44,6 @@ public final class LockFreeTaskQueueCore {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Placeholder {
         public final int index;
 

@@ -4,9 +4,8 @@ package com.google.android.gms.internal.mlkit_vision_label;
 final class zzam extends zzaq {
     final /* synthetic */ zzau zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzam(zzau zzauVar) {
+    zzam(zzau zzauVar) {
         super(zzauVar, null);
         this.zza = zzauVar;
     }

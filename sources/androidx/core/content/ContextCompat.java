@@ -66,7 +66,6 @@ public abstract class ContextCompat {
     private static final Object sLock = new Object();
     private static final Object sSync = new Object();
 
-    /* loaded from: classes.dex */
     static class Api16Impl {
         static void startActivities(Context context, Intent[] intentArr, Bundle bundle) {
             context.startActivities(intentArr, bundle);
@@ -77,7 +76,6 @@ public abstract class ContextCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static File[] getExternalCacheDirs(Context context) {
             return context.getExternalCacheDirs();
@@ -92,9 +90,7 @@ public abstract class ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static File getCodeCacheDir(Context context) {
             return context.getCodeCacheDir();
         }
@@ -108,9 +104,7 @@ public abstract class ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static int getColor(Context context, int i) {
             return context.getColor(i);
         }
@@ -124,7 +118,6 @@ public abstract class ContextCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api24Impl {
         static Context createDeviceProtectedStorageContext(Context context) {
             return context.createDeviceProtectedStorageContext();
@@ -139,16 +132,13 @@ public abstract class ContextCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api28Impl {
         static Executor getMainExecutor(Context context) {
             return context.getMainExecutor();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class LegacyServiceMapHolder {
+    private static final class LegacyServiceMapHolder {
         static final HashMap SERVICES;
 
         static {

@@ -63,13 +63,11 @@ public final class DefaultExtractorsFactory implements ExtractorsFactory {
     private ImmutableList tsSubtitleFormats = ImmutableList.of();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ExtensionLoader {
+    static final class ExtensionLoader {
         private final ConstructorSupplier constructorSupplier;
         private final AtomicBoolean extensionLoaded = new AtomicBoolean(false);
         private Constructor extractorConstructor;
 
-        /* loaded from: classes.dex */
         public interface ConstructorSupplier {
             Constructor getConstructor();
         }
@@ -107,85 +105,70 @@ public final class DefaultExtractorsFactory implements ExtractorsFactory {
         }
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0002. Please report as an issue. */
     private void addExtractorsForFileType(int i, List list) {
         Extractor ac3Extractor;
         switch (i) {
             case 0:
                 ac3Extractor = new Ac3Extractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 1:
                 ac3Extractor = new Ac4Extractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 2:
                 ac3Extractor = new AdtsExtractor((this.constantBitrateSeekingAlwaysEnabled ? 2 : 0) | this.adtsFlags | (this.constantBitrateSeekingEnabled ? 1 : 0));
-                list.add(ac3Extractor);
-                return;
+                break;
             case 3:
                 ac3Extractor = new AmrExtractor((this.constantBitrateSeekingAlwaysEnabled ? 2 : 0) | this.amrFlags | (this.constantBitrateSeekingEnabled ? 1 : 0));
-                list.add(ac3Extractor);
-                return;
+                break;
             case 4:
                 ac3Extractor = FLAC_EXTENSION_LOADER.getExtractor(Integer.valueOf(this.flacFlags));
                 if (ac3Extractor == null) {
                     ac3Extractor = new FlacExtractor(this.flacFlags);
+                    break;
                 }
-                list.add(ac3Extractor);
-                return;
+                break;
             case 5:
                 ac3Extractor = new FlvExtractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 6:
                 ac3Extractor = new MatroskaExtractor(this.matroskaFlags);
-                list.add(ac3Extractor);
-                return;
+                break;
             case 7:
                 ac3Extractor = new Mp3Extractor((this.constantBitrateSeekingAlwaysEnabled ? 2 : 0) | this.mp3Flags | (this.constantBitrateSeekingEnabled ? 1 : 0));
-                list.add(ac3Extractor);
-                return;
+                break;
             case 8:
                 list.add(new FragmentedMp4Extractor(this.fragmentedMp4Flags));
                 ac3Extractor = new Mp4Extractor(this.mp4Flags);
-                list.add(ac3Extractor);
-                return;
+                break;
             case 9:
                 ac3Extractor = new OggExtractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 10:
                 ac3Extractor = new PsExtractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 11:
                 ac3Extractor = new TsExtractor(this.tsMode, new TimestampAdjuster(0L), new DefaultTsPayloadReaderFactory(this.tsFlags, this.tsSubtitleFormats), this.tsTimestampSearchBytes);
-                list.add(ac3Extractor);
-                return;
+                break;
             case 12:
                 ac3Extractor = new WavExtractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 13:
             default:
                 return;
             case 14:
                 ac3Extractor = new JpegExtractor();
-                list.add(ac3Extractor);
-                return;
+                break;
             case 15:
                 ac3Extractor = MIDI_EXTENSION_LOADER.getExtractor(new Object[0]);
                 if (ac3Extractor == null) {
                     return;
                 }
-                list.add(ac3Extractor);
-                return;
+                break;
             case 16:
                 ac3Extractor = new AviExtractor();
-                list.add(ac3Extractor);
-                return;
+                break;
         }
+        list.add(ac3Extractor);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -10,6 +10,6 @@ public final /* synthetic */ class ChatActivity$$ExternalSyntheticLambda201 impl
 
     @Override // java.lang.Runnable
     public final void run() {
-        ChatActivity.$r8$lambda$9RTBMRKI2ADE4kbCy-0hU6dA7gc(this.f$0);
+        this.f$0.checkConversionDateTimeToast();
     }
 }

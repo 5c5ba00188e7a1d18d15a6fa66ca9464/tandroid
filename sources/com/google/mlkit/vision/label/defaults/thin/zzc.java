@@ -26,8 +26,7 @@ final class zzc implements zzb {
     private boolean zzd;
     private com.google.android.gms.internal.mlkit_vision_label.zzd zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(Context context, ImageLabelerOptions imageLabelerOptions) {
+    zzc(Context context, ImageLabelerOptions imageLabelerOptions) {
         this.zza = context;
         Locale.getDefault().getLanguage().equals(Locale.ENGLISH.getLanguage());
         this.zzb = new com.google.android.gms.internal.mlkit_vision_label.zzj(1, -1, imageLabelerOptions.getConfidenceThreshold(), 1);

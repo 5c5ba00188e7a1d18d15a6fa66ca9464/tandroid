@@ -43,12 +43,10 @@ public final class DynamiteModule {
     public static final VersionPolicy PREFER_HIGHEST_OR_REMOTE_VERSION = new zzk();
     public static final VersionPolicy zza = new zzl();
 
-    /* loaded from: classes.dex */
     public static class DynamiteLoaderClassLoader {
         public static ClassLoader sClassLoader;
     }
 
-    /* loaded from: classes.dex */
     public static class LoadingException extends Exception {
         /* synthetic */ LoadingException(String str, zzp zzpVar) {
             super(str);
@@ -59,17 +57,14 @@ public final class DynamiteModule {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface VersionPolicy {
 
-        /* loaded from: classes.dex */
         public interface IVersions {
             int zza(Context context, String str);
 
             int zzb(Context context, String str, boolean z);
         }
 
-        /* loaded from: classes.dex */
         public static class SelectionResult {
             public int localVersion = 0;
             public int remoteVersion = 0;

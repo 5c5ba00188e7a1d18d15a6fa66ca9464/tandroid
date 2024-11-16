@@ -8,10 +8,12 @@ final class AutoValue_BackendRequest extends BackendRequest {
     private final Iterable events;
     private final byte[] extras;
 
-    /* loaded from: classes.dex */
     static final class Builder extends BackendRequest.Builder {
         private Iterable events;
         private byte[] extras;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.runtime.backends.BackendRequest.Builder
         public BackendRequest build() {

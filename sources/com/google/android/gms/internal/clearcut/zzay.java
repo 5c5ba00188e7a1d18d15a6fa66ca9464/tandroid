@@ -5,4 +5,7 @@ final class zzay {
     public int zzfd;
     public long zzfe;
     public Object zzff;
+
+    zzay() {
+    }
 }

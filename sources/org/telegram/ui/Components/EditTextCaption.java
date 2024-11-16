@@ -62,7 +62,6 @@ public class EditTextCaption extends EditTextBoldCursor {
     private int xOffset;
     private int yOffset;
 
-    /* loaded from: classes3.dex */
     public interface EditTextCaptionDelegate {
         void onSpansChanged();
     }
@@ -353,7 +352,7 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r2v1, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    /* JADX WARN: Type inference failed for: r3v1, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r3v1, types: [android.view.View, android.view.ViewGroup, android.widget.FrameLayout] */
     public void makeSelectedUrl() {
         final int selectionEnd;
         CharSequence charSequence;
@@ -361,9 +360,8 @@ public class EditTextCaption extends EditTextBoldCursor {
         builder.setTitle(LocaleController.getString(R.string.CreateLink));
         ?? frameLayout = new FrameLayout(getContext());
         final EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(getContext()) { // from class: org.telegram.ui.Components.EditTextCaption.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i, int i2) {
+            protected void onMeasure(int i, int i2) {
                 super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64.0f), 1073741824));
             }
         };
@@ -494,9 +492,8 @@ public class EditTextCaption extends EditTextBoldCursor {
     protected void onContextMenuOpen() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         canvas.save();
         canvas.translate(0.0f, this.offsetY);
         super.onDraw(canvas);
@@ -553,9 +550,8 @@ public class EditTextCaption extends EditTextBoldCursor {
     protected void onLineCountChanged(int i, int i2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         int indexOf;
         try {
             this.isInitLineCount = getMeasuredWidth() == 0 && getMeasuredHeight() == 0;

@@ -32,8 +32,7 @@ public final class zact extends com.google.android.gms.signin.internal.zac imple
         this.zad = abstractClientBuilder;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ void zad(zact zactVar, com.google.android.gms.signin.internal.zak zakVar) {
+    static /* bridge */ /* synthetic */ void zad(zact zactVar, com.google.android.gms.signin.internal.zak zakVar) {
         ConnectionResult zaa2 = zakVar.zaa();
         if (zaa2.isSuccess()) {
             com.google.android.gms.common.internal.zav zavVar = (com.google.android.gms.common.internal.zav) Preconditions.checkNotNull(zakVar.zab());

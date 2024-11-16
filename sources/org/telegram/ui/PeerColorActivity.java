@@ -118,7 +118,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
     private SimpleTextView titleView;
     private ViewPagerFixed viewPager;
 
-    /* loaded from: classes4.dex */
     public static class ChangeNameColorCell extends View {
         private final Text buttonText;
         private PeerColorDrawable color1Drawable;
@@ -355,7 +354,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ColoredActionBar extends View {
         private LinearGradient backgroundGradient;
         private int backgroundGradientColor1;
@@ -478,7 +476,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class LevelLock extends Drawable {
         private final PremiumGradient.PremiumGradientTools gradientTools;
         private final Drawable lock;
@@ -539,8 +536,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Page extends FrameLayout {
+    class Page extends FrameLayout {
         private int actionBarHeight;
         private ButtonWithCounterView button;
         private FrameLayout buttonContainer;
@@ -566,9 +562,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         int shadowRow;
         private final int type;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 2 extends RecyclerListView.SelectionAdapter {
+        class 2 extends RecyclerListView.SelectionAdapter {
             final /* synthetic */ PeerColorActivity val$this$0;
             final /* synthetic */ int val$type;
 
@@ -699,7 +693,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 } else if (i == 3) {
                     Page page = Page.this;
                     Page page2 = Page.this;
-                    SetReplyIconCell setReplyIconCell = page.setReplyIconCell = new SetReplyIconCell(page2.getContext());
+                    SetReplyIconCell setReplyIconCell = page.setReplyIconCell = page2.new SetReplyIconCell(page2.getContext());
                     setReplyIconCell.update(false);
                     view = setReplyIconCell;
                 } else if (i == 4) {
@@ -729,9 +723,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public class SetReplyIconCell extends FrameLayout {
+        private class SetReplyIconCell extends FrameLayout {
             private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable imageDrawable;
             private Text offText;
             private TextView textView;
@@ -861,16 +853,14 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
             this.selectedEmoji = emojiId;
             RecyclerListView recyclerListView = new RecyclerListView(getContext(), PeerColorActivity.this.getResourceProvider()) { // from class: org.telegram.ui.PeerColorActivity.Page.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+                protected void onLayout(boolean z, int i2, int i3, int i4, int i5) {
                     super.onLayout(z, i2, i3, i4, i5);
                     Page.this.updateButtonY();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-                public void onMeasure(int i2, int i3) {
+                protected void onMeasure(int i2, int i3) {
                     super.onMeasure(i2, i3);
                     Page.this.updateButtonY();
                 }
@@ -1218,7 +1208,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class PeerColorDrawable extends Drawable {
         private final Path clipCirclePath;
         private final Paint color1Paint;
@@ -1342,7 +1331,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class PeerColorGrid extends View {
         private final Paint backgroundPaint;
         private ColorButton[] buttons;
@@ -1357,7 +1345,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         private int selectedColorId;
         private final int type;
 
-        /* loaded from: classes4.dex */
         public class ColorButton {
             private final ButtonBounce bounce;
             private Paint closePaint;
@@ -1776,7 +1763,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class PeerColorSpan extends ReplacementSpan {
         public PeerColorDrawable drawable;
         private int size = AndroidUtilities.dp(21.0f);
@@ -1811,7 +1797,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ProfilePreview extends FrameLayout {
         protected final AvatarDrawable avatarDrawable;
         private final int currentAccount;
@@ -1851,16 +1836,14 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             boolean z = j < 0;
             this.isChannel = z;
             SimpleTextView simpleTextView3 = new SimpleTextView(context) { // from class: org.telegram.ui.PeerColorActivity.ProfilePreview.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-                public void onAttachedToWindow() {
+                protected void onAttachedToWindow() {
                     super.onAttachedToWindow();
                     ProfilePreview.this.statusEmoji.attach();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-                public void onDetachedFromWindow() {
+                protected void onDetachedFromWindow() {
                     super.onDetachedFromWindow();
                     ProfilePreview.this.statusEmoji.detach();
                 }

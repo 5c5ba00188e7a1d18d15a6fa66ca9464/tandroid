@@ -192,9 +192,8 @@ public class PremiumTierCell extends ViewGroup {
         requestLayout();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         if (!this.isDrawingGradient) {
             super.dispatchDraw(canvas);
             return;
@@ -358,7 +357,7 @@ public class PremiumTierCell extends ViewGroup {
             i = getMeasuredWidth();
         }
         this.lastUpdateTime = elapsedRealtime;
-        int i2 = (int) (this.totalTranslation + (((float) (abs * i)) / 400.0f));
+        int i2 = (int) (this.totalTranslation + ((abs * i) / 400.0f));
         this.totalTranslation = i2;
         if (i2 >= i * 4) {
             this.totalTranslation = (-this.gradientWidth) * 2;

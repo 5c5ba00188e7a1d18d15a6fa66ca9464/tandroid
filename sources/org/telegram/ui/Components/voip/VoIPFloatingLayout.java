@@ -74,7 +74,6 @@ public class VoIPFloatingLayout extends FrameLayout {
     public float updatePositionFromY;
     final Paint xRefPaint;
 
-    /* loaded from: classes3.dex */
     public interface VoIPFloatingLayoutDelegate {
         void onChange(float f, boolean z);
     }

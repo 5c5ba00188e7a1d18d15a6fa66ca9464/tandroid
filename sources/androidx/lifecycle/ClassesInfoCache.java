@@ -14,9 +14,7 @@ final class ClassesInfoCache {
     private final Map mCallbackMap = new HashMap();
     private final Map mHasLifecycleMethods = new HashMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class CallbackInfo {
+    static class CallbackInfo {
         final Map mEventToHandlers = new HashMap();
         final Map mHandlerToEvent;
 
@@ -41,16 +39,13 @@ final class ClassesInfoCache {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public void invokeCallbacks(LifecycleOwner lifecycleOwner, Lifecycle.Event event, Object obj) {
+        void invokeCallbacks(LifecycleOwner lifecycleOwner, Lifecycle.Event event, Object obj) {
             invokeMethodsForEvent((List) this.mEventToHandlers.get(event), lifecycleOwner, event, obj);
             invokeMethodsForEvent((List) this.mEventToHandlers.get(Lifecycle.Event.ON_ANY), lifecycleOwner, event, obj);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class MethodReference {
+    static final class MethodReference {
         final int mCallType;
         final Method mMethod;
 
@@ -171,14 +166,12 @@ final class ClassesInfoCache {
         throw new IllegalArgumentException("Method " + methodReference.mMethod.getName() + " in " + cls.getName() + " already declared with different @OnLifecycleEvent value: previous value " + event2 + ", new value " + event);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CallbackInfo getInfo(Class cls) {
+    CallbackInfo getInfo(Class cls) {
         CallbackInfo callbackInfo = (CallbackInfo) this.mCallbackMap.get(cls);
         return callbackInfo != null ? callbackInfo : createInfo(cls, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean hasLifecycleMethods(Class cls) {
+    boolean hasLifecycleMethods(Class cls) {
         Boolean bool = (Boolean) this.mHasLifecycleMethods.get(cls);
         if (bool != null) {
             return bool.booleanValue();

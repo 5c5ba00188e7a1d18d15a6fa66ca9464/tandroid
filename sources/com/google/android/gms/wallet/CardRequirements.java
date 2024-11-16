@@ -14,8 +14,7 @@ public final class CardRequirements extends AbstractSafeParcelable {
     boolean zzc;
     int zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CardRequirements(ArrayList arrayList, boolean z, boolean z2, int i) {
+    CardRequirements(ArrayList arrayList, boolean z, boolean z2, int i) {
         this.zza = arrayList;
         this.zzb = z;
         this.zzc = z2;

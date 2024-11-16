@@ -59,7 +59,6 @@ public class zzfl {
         final zzfq zzfqVar3 = zzfq.zzrc;
         final String str = "STRING";
         zzfl zzflVar9 = new zzfl(str, i3, zzfqVar3, i) { // from class: com.google.android.gms.internal.clearcut.zzfm
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i4 = 2;
                 int i5 = 8;
@@ -70,7 +69,6 @@ public class zzfl {
         final String str2 = "GROUP";
         final int i4 = 9;
         zzfl zzflVar10 = new zzfl(str2, i4, zzfqVar4, i2) { // from class: com.google.android.gms.internal.clearcut.zzfn
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i5 = 3;
                 int i6 = 9;
@@ -81,7 +79,6 @@ public class zzfl {
         final int i5 = 10;
         final int i6 = 2;
         zzfl zzflVar11 = new zzfl(str3, i5, zzfqVar4, i6) { // from class: com.google.android.gms.internal.clearcut.zzfo
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i7 = 2;
                 int i8 = 10;
@@ -92,7 +89,6 @@ public class zzfl {
         final zzfq zzfqVar5 = zzfq.zzrd;
         final String str4 = "BYTES";
         zzfl zzflVar12 = new zzfl(str4, i7, zzfqVar5, i6) { // from class: com.google.android.gms.internal.clearcut.zzfp
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i8 = 2;
                 int i9 = 11;

@@ -11,9 +11,7 @@ import androidx.core.util.Preconditions;
 public abstract class EditorInfoCompat {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api30Impl {
+    private static class Api30Impl {
         static void setInitialSurroundingSubText(EditorInfo editorInfo, CharSequence charSequence, int i) {
             editorInfo.setInitialSurroundingSubText(charSequence, i);
         }

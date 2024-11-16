@@ -11,8 +11,7 @@ public final class zzcr {
     private final Map zzb;
     private final ObjectEncoder zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcr(Map map, Map map2, ObjectEncoder objectEncoder) {
+    zzcr(Map map, Map map2, ObjectEncoder objectEncoder) {
         this.zza = map;
         this.zzb = map2;
         this.zzc = objectEncoder;

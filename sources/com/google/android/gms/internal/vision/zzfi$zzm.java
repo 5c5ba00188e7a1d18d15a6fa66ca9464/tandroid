@@ -10,7 +10,6 @@ public final class zzfi$zzm extends zzjb implements zzkm {
     private int zzd;
     private int zze;
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzjb.zzb implements zzkm {
         private zza() {
             super(zzfi$zzm.zzf);
@@ -30,10 +29,9 @@ public final class zzfi$zzm extends zzjb implements zzkm {
     private zzfi$zzm() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzjb$zza, com.google.android.gms.internal.vision.zzkx] */
     @Override // com.google.android.gms.internal.vision.zzjb
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzfk zzfkVar = null;
         switch (zzfk.zza[i - 1]) {
             case 1:

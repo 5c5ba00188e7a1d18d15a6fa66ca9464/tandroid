@@ -57,7 +57,6 @@ public class UItem extends AdapterWithDiffUtils.Item {
     public View view;
     public boolean withUsername;
 
-    /* loaded from: classes3.dex */
     public static abstract class UItemFactory {
         private ArrayList cache;
         public final int viewType = UItem.access$208();
@@ -89,8 +88,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
             return uItem.itemEquals(uItem2);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public View getCached() {
+        protected View getCached() {
             ArrayList arrayList = this.cache;
             if (arrayList == null || arrayList.isEmpty()) {
                 return null;
@@ -501,9 +499,8 @@ public class UItem extends AdapterWithDiffUtils.Item {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.ListView.AdapterWithDiffUtils.Item
-    public boolean contentsEquals(AdapterWithDiffUtils.Item item) {
+    protected boolean contentsEquals(AdapterWithDiffUtils.Item item) {
         UItemFactory findFactory;
         if (this == item) {
             return true;

@@ -71,9 +71,7 @@ public class Painting {
     public boolean masking = false;
     private RenderState renderState = new RenderState();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends AnimatorListenerAdapter {
+    class 1 extends AnimatorListenerAdapter {
         1() {
         }
 
@@ -96,9 +94,7 @@ public class Painting {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends AnimatorListenerAdapter {
+    class 2 extends AnimatorListenerAdapter {
         2() {
         }
 
@@ -133,7 +129,6 @@ public class Painting {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class PaintingData {
         public Bitmap bitmap;
         public ByteBuffer data;
@@ -144,7 +139,6 @@ public class Painting {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface PaintingDelegate {
         void contentChanged();
 

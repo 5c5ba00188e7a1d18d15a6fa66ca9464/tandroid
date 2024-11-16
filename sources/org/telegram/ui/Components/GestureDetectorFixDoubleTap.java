@@ -13,7 +13,6 @@ import org.telegram.messenger.NotificationCenter;
 public class GestureDetectorFixDoubleTap {
     private final GestureDetectorCompatImpl mImpl;
 
-    /* loaded from: classes3.dex */
     interface GestureDetectorCompatImpl {
         boolean onTouchEvent(MotionEvent motionEvent);
 
@@ -22,7 +21,6 @@ public class GestureDetectorFixDoubleTap {
         void setLongpressDuration(long j);
     }
 
-    /* loaded from: classes3.dex */
     static class GestureDetectorCompatImplBase implements GestureDetectorCompatImpl {
         private static final int TAP_TIMEOUT = ViewConfiguration.getTapTimeout();
         private boolean mAlwaysInBiggerTapRegion;
@@ -48,7 +46,6 @@ public class GestureDetectorFixDoubleTap {
         private int mTouchSlopSquare;
         private VelocityTracker mVelocityTracker;
 
-        /* loaded from: classes3.dex */
         private class GestureHandler extends Handler {
             GestureHandler() {
             }
@@ -374,7 +371,6 @@ public class GestureDetectorFixDoubleTap {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class OnGestureListener extends GestureDetector.SimpleOnGestureListener {
         public abstract boolean hasDoubleTap(MotionEvent motionEvent);
     }

@@ -16,9 +16,7 @@ import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public abstract class VorbisUtil {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CodeBook {
+    private static final class CodeBook {
         public final int dimensions;
         public final int entries;
         public final boolean isOrdered;
@@ -34,7 +32,6 @@ public abstract class VorbisUtil {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class CommentHeader {
         public final String[] comments;
         public final int length;
@@ -47,7 +44,6 @@ public abstract class VorbisUtil {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Mode {
         public final boolean blockFlag;
         public final int mapping;
@@ -62,7 +58,6 @@ public abstract class VorbisUtil {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class VorbisIdHeader {
         public final int bitrateMaximum;
         public final int bitrateMinimum;

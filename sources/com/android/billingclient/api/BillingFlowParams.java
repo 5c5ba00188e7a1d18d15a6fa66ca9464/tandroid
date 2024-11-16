@@ -15,7 +15,6 @@ public class BillingFlowParams {
     private ArrayList zzf;
     private boolean zzg;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private String zza;
         private String zzb;
@@ -106,12 +105,10 @@ public class BillingFlowParams {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class ProductDetailsParams {
         private final ProductDetails zza;
         private final String zzb;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private ProductDetails zza;
             private String zzb;
@@ -158,14 +155,12 @@ public class BillingFlowParams {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SubscriptionUpdateParams {
         private String zza;
         private String zzb;
         private int zzc = 0;
         private int zzd = 0;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private String zza;
             private String zzb;
@@ -303,8 +298,7 @@ public class BillingFlowParams {
         return this.zzg;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzq() {
+    final boolean zzq() {
         return (this.zzb == null && this.zzc == null && this.zzd.zze() == null && this.zzd.zza() == 0 && this.zzd.zzb() == 0 && !this.zza && !this.zzg) ? false : true;
     }
 }

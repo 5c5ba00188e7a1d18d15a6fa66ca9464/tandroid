@@ -17,8 +17,7 @@ final class AlignmentPatternFinder {
     private final List possibleCenters = new ArrayList(5);
     private final int[] crossCheckStateCount = new int[3];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AlignmentPatternFinder(BitMatrix bitMatrix, int i, int i2, int i3, int i4, float f, ResultPointCallback resultPointCallback) {
+    AlignmentPatternFinder(BitMatrix bitMatrix, int i, int i2, int i3, int i4, float f, ResultPointCallback resultPointCallback) {
         this.image = bitMatrix;
         this.startX = i;
         this.startY = i2;
@@ -116,8 +115,7 @@ final class AlignmentPatternFinder {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AlignmentPattern find() {
+    AlignmentPattern find() {
         AlignmentPattern handlePossibleCenter;
         AlignmentPattern handlePossibleCenter2;
         int i = this.startX;

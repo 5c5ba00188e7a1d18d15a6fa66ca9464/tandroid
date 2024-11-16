@@ -30,9 +30,7 @@ public class RecyclerAnimationScrollHelper {
     public SparseArray positionToOldView = new SparseArray();
     private HashMap oldStableIds = new HashMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements View.OnLayoutChangeListener {
+    class 1 implements View.OnLayoutChangeListener {
         final /* synthetic */ RecyclerView.Adapter val$adapter;
         final /* synthetic */ AnimatableAdapter val$finalAnimatableAdapter;
         final /* synthetic */ ArrayList val$oldViews;
@@ -232,7 +230,7 @@ public class RecyclerAnimationScrollHelper {
                     valueAnimator.setInterpolator(cubicBezierInterpolator);
                     RecyclerAnimationScrollHelper.this.animator.start();
                 }
-                long measuredHeight = ((height / recyclerAnimationScrollHelper.recyclerView.getMeasuredHeight()) + 1.0f) * 200.0f;
+                long measuredHeight = (long) (((height / recyclerAnimationScrollHelper.recyclerView.getMeasuredHeight()) + 1.0f) * 200.0f);
                 if (measuredHeight >= 300) {
                     j2 = measuredHeight;
                 }
@@ -245,7 +243,7 @@ public class RecyclerAnimationScrollHelper {
                     valueAnimator.setInterpolator(cubicBezierInterpolator);
                     RecyclerAnimationScrollHelper.this.animator.start();
                 }
-                long measuredHeight2 = ((height / recyclerAnimationScrollHelper.recyclerView.getMeasuredHeight()) + 1.0f) * 200.0f;
+                long measuredHeight2 = (long) (((height / recyclerAnimationScrollHelper.recyclerView.getMeasuredHeight()) + 1.0f) * 200.0f);
                 if (measuredHeight2 >= 300) {
                     j2 = measuredHeight2;
                 }
@@ -259,7 +257,6 @@ public class RecyclerAnimationScrollHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class AnimatableAdapter extends RecyclerListView.SelectionAdapter {
         public boolean animationRunning;
         private ArrayList rangeInserted = new ArrayList();
@@ -347,7 +344,6 @@ public class RecyclerAnimationScrollHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class AnimationCallback {
         public void ignoreView(View view, boolean z) {
         }
@@ -364,7 +360,6 @@ public class RecyclerAnimationScrollHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ScrollListener {
         void onScroll();
     }

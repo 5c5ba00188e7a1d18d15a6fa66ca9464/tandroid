@@ -73,7 +73,6 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     private static final AccessibilityDelegate ACCESSIBILITY_DELEGATE = new AccessibilityDelegate();
     private static final int[] SCROLLVIEW_STYLEABLE = {R.attr.fillViewport};
 
-    /* loaded from: classes.dex */
     static class AccessibilityDelegate extends AccessibilityDelegateCompat {
         AccessibilityDelegate() {
         }
@@ -146,22 +145,17 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static boolean getClipToPadding(ViewGroup viewGroup) {
             return viewGroup.getClipToPadding();
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnScrollChangeListener {
         void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class SavedState extends View.BaseSavedState {
+    static class SavedState extends View.BaseSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator() { // from class: androidx.core.widget.NestedScrollView.SavedState.1
             @Override // android.os.Parcelable.Creator
             public SavedState createFromParcel(Parcel parcel) {
@@ -760,8 +754,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
+    protected int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
         if (getChildCount() == 0) {
             return 0;
         }
@@ -1145,9 +1138,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         return this.mIsBeingDragged;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         int i5 = 0;
         this.mIsLayoutDirty = false;
@@ -1177,9 +1169,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         this.mIsLaidOut = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         if (this.mFillViewport && View.MeasureSpec.getMode(i2) != 0 && getChildCount() > 0) {
             View childAt = getChildAt(0);
@@ -1282,9 +1273,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         return savedState;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onScrollChanged(int i, int i2, int i3, int i4) {
+    protected void onScrollChanged(int i, int i2, int i3, int i4) {
         super.onScrollChanged(i, i2, i3, i4);
         OnScrollChangeListener onScrollChangeListener = this.mOnScrollChangeListener;
         if (onScrollChangeListener != null) {

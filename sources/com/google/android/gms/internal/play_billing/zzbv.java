@@ -15,8 +15,7 @@ abstract class zzbv {
     private static final Logger zza = Logger.getLogger(zzbi.class.getName());
     private static final String zzb = "com.google.protobuf.BlazeGeneratedExtensionRegistryLiteLoader";
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzbn zzb(Class cls) {
+    static zzbn zzb(Class cls) {
         String str;
         ClassLoader classLoader = zzbv.class.getClassLoader();
         if (cls.equals(zzbn.class)) {

@@ -19,8 +19,7 @@ public abstract class EventLoop extends CoroutineDispatcher {
         eventLoop.incrementUseCount(z);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long getNextTime() {
+    protected long getNextTime() {
         return Long.MAX_VALUE;
     }
 

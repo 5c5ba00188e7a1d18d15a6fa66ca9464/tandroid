@@ -122,9 +122,7 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -207,7 +205,6 @@ public class TwoStepVerificationActivity extends BaseFragment implements Notific
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface TwoStepVerificationActivityDelegate {
         void didEnterPassword(TLRPC.InputCheckPasswordSRP inputCheckPasswordSRP);
     }

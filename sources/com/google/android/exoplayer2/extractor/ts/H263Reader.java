@@ -29,9 +29,7 @@ public final class H263Reader implements ElementaryStreamReader {
     private final CsdBuffer csdBuffer = new CsdBuffer(128);
     private long pesTimeUs = -9223372036854775807L;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CsdBuffer {
+    private static final class CsdBuffer {
         private static final byte[] START_CODE = {0, 0, 1};
         public byte[] data;
         private boolean isFilling;
@@ -112,7 +110,6 @@ public final class H263Reader implements ElementaryStreamReader {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class SampleReader {
         private boolean lookingForVopCodingType;
         private final TrackOutput output;
@@ -169,8 +166,7 @@ public final class H263Reader implements ElementaryStreamReader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public H263Reader(UserDataReader userDataReader) {
+    H263Reader(UserDataReader userDataReader) {
         ParsableByteArray parsableByteArray;
         this.userDataReader = userDataReader;
         if (userDataReader != null) {

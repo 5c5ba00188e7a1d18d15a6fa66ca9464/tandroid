@@ -9,6 +9,9 @@ abstract class zzbp extends AbstractMap {
     private transient Set zza;
     private transient Collection zzc;
 
+    zzbp() {
+    }
+
     @Override // java.util.AbstractMap, java.util.Map
     public final Set entrySet() {
         Set set = this.zza;

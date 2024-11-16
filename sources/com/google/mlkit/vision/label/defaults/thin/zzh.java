@@ -38,8 +38,7 @@ public final class zzh extends MLTask {
     private final zznp zze;
     private final zznr zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzh(ImageLabelerOptions imageLabelerOptions, zzb zzbVar, zznp zznpVar) {
+    zzh(ImageLabelerOptions imageLabelerOptions, zzb zzbVar, zznp zznpVar) {
         Preconditions.checkNotNull(imageLabelerOptions, "ImageLabelerOptions can not be null");
         this.zzd = zzbVar;
         this.zze = zznpVar;
@@ -99,8 +98,7 @@ public final class zzh extends MLTask {
         zznpVar.zzd(zzns.zzf(zzkgVar), zzkf.zzp);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ zznf zzc(long j, zzke zzkeVar, InputImage inputImage) {
+    final /* synthetic */ zznf zzc(long j, zzke zzkeVar, InputImage inputImage) {
         zzkg zzkgVar = new zzkg();
         zzkgVar.zze(zzkd.zzb);
         zzky zzkyVar = new zzky();

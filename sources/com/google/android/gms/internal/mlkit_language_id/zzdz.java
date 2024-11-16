@@ -14,8 +14,7 @@ public abstract class zzdz {
         this.zzc = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdz zza(byte[] bArr, int i, int i2, boolean z) {
+    static zzdz zza(byte[] bArr, int i, int i2, boolean z) {
         zzeb zzebVar = new zzeb(bArr, i2);
         try {
             zzebVar.zza(i2);

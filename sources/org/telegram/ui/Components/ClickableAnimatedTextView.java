@@ -23,9 +23,8 @@ public class ClickableAnimatedTextView extends AnimatedTextView {
         return this.bounds;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         android.graphics.Rect rect;
         int i;
         if (this.backgroundDrawable != null) {

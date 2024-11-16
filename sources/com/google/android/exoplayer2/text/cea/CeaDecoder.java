@@ -11,9 +11,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class CeaDecoder implements SubtitleDecoder {
+abstract class CeaDecoder implements SubtitleDecoder {
     private final ArrayDeque availableInputBuffers = new ArrayDeque();
     private final ArrayDeque availableOutputBuffers;
     private CeaInputBuffer dequeuedInputBuffer;
@@ -21,9 +20,7 @@ public abstract class CeaDecoder implements SubtitleDecoder {
     private long queuedInputBufferCount;
     private final PriorityQueue queuedInputBuffers;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CeaInputBuffer extends SubtitleInputBuffer implements Comparable {
+    private static final class CeaInputBuffer extends SubtitleInputBuffer implements Comparable {
         private long queuedInputBufferCount;
 
         private CeaInputBuffer() {
@@ -46,8 +43,7 @@ public abstract class CeaDecoder implements SubtitleDecoder {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CeaOutputBuffer extends SubtitleOutputBuffer {
+    static final class CeaOutputBuffer extends SubtitleOutputBuffer {
         private DecoderOutputBuffer.Owner owner;
 
         public CeaOutputBuffer(DecoderOutputBuffer.Owner owner) {
@@ -137,13 +133,11 @@ public abstract class CeaDecoder implements SubtitleDecoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final SubtitleOutputBuffer getAvailableOutputBuffer() {
+    protected final SubtitleOutputBuffer getAvailableOutputBuffer() {
         return (SubtitleOutputBuffer) this.availableOutputBuffers.pollFirst();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final long getPositionUs() {
+    protected final long getPositionUs() {
         return this.playbackPositionUs;
     }
 
@@ -168,8 +162,7 @@ public abstract class CeaDecoder implements SubtitleDecoder {
     public void release() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
+    protected void releaseOutputBuffer(SubtitleOutputBuffer subtitleOutputBuffer) {
         subtitleOutputBuffer.clear();
         this.availableOutputBuffers.add(subtitleOutputBuffer);
     }

@@ -19,8 +19,7 @@ class AppCompatBackgroundHelper {
     private int mBackgroundResId = -1;
     private final AppCompatDrawableManager mDrawableManager = AppCompatDrawableManager.get();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatBackgroundHelper(View view) {
+    AppCompatBackgroundHelper(View view) {
         this.mView = view;
     }
 
@@ -52,8 +51,7 @@ class AppCompatBackgroundHelper {
         return i > 21 ? this.mInternalBackgroundTint != null : i == 21;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void applySupportBackgroundTint() {
+    void applySupportBackgroundTint() {
         Drawable background = this.mView.getBackground();
         if (background != null) {
             if (shouldApplyFrameworkTintUsingColorFilter() && applyFrameworkTintUsingColorFilter(background)) {
@@ -71,8 +69,7 @@ class AppCompatBackgroundHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ColorStateList getSupportBackgroundTintList() {
+    ColorStateList getSupportBackgroundTintList() {
         TintInfo tintInfo = this.mBackgroundTint;
         if (tintInfo != null) {
             return tintInfo.mTintList;
@@ -80,8 +77,7 @@ class AppCompatBackgroundHelper {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PorterDuff.Mode getSupportBackgroundTintMode() {
+    PorterDuff.Mode getSupportBackgroundTintMode() {
         TintInfo tintInfo = this.mBackgroundTint;
         if (tintInfo != null) {
             return tintInfo.mTintMode;
@@ -89,8 +85,7 @@ class AppCompatBackgroundHelper {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void loadFromAttributes(AttributeSet attributeSet, int i) {
+    void loadFromAttributes(AttributeSet attributeSet, int i) {
         Context context = this.mView.getContext();
         int[] iArr = R$styleable.ViewBackgroundHelper;
         TintTypedArray obtainStyledAttributes = TintTypedArray.obtainStyledAttributes(context, attributeSet, iArr, i, 0);
@@ -120,15 +115,13 @@ class AppCompatBackgroundHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onSetBackgroundDrawable(Drawable drawable) {
+    void onSetBackgroundDrawable(Drawable drawable) {
         this.mBackgroundResId = -1;
         setInternalBackgroundTint(null);
         applySupportBackgroundTint();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void onSetBackgroundResource(int i) {
+    void onSetBackgroundResource(int i) {
         this.mBackgroundResId = i;
         AppCompatDrawableManager appCompatDrawableManager = this.mDrawableManager;
         setInternalBackgroundTint(appCompatDrawableManager != null ? appCompatDrawableManager.getTintList(this.mView.getContext(), i) : null);
@@ -149,8 +142,7 @@ class AppCompatBackgroundHelper {
         applySupportBackgroundTint();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportBackgroundTintList(ColorStateList colorStateList) {
+    void setSupportBackgroundTintList(ColorStateList colorStateList) {
         if (this.mBackgroundTint == null) {
             this.mBackgroundTint = new TintInfo();
         }
@@ -160,8 +152,7 @@ class AppCompatBackgroundHelper {
         applySupportBackgroundTint();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
+    void setSupportBackgroundTintMode(PorterDuff.Mode mode) {
         if (this.mBackgroundTint == null) {
             this.mBackgroundTint = new TintInfo();
         }

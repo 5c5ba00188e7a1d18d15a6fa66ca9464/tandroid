@@ -7,8 +7,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 /* loaded from: classes.dex */
 public final class zzo extends zzb implements zzl {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(IBinder iBinder) {
+    zzo(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.vision.barcode.internal.client.INativeBarcodeDetector");
     }
 

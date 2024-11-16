@@ -2,9 +2,8 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public interface F0 {
+interface F0 {
     F0 a(int i);
 
     long count();

@@ -34,7 +34,6 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
     private final Map lazySetMap;
     private final List unprocessedRegistrarProviders;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private final Executor defaultExecutor;
         private final List lazyRegistrars = new ArrayList();

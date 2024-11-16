@@ -19,9 +19,7 @@ public class UserNameResolver {
     android.util.LruCache<String, CachedPeer> resolvedCache = new android.util.LruCache<>(100);
     HashMap<String, ArrayList<Consumer>> resolvingConsumers = new HashMap<>();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CachedPeer {
+    private class CachedPeer {
         final long peerId;
         final long time = System.currentTimeMillis();
 
@@ -30,8 +28,7 @@ public class UserNameResolver {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public UserNameResolver(int i) {
+    UserNameResolver(int i) {
         this.currentAccount = i;
     }
 

@@ -15,7 +15,6 @@ public class PersistedInstallation {
     private final File dataFile;
     private final FirebaseApp firebaseApp;
 
-    /* loaded from: classes.dex */
     public enum RegistrationStatus {
         ATTEMPT_MIGRATION,
         NOT_GENERATED,

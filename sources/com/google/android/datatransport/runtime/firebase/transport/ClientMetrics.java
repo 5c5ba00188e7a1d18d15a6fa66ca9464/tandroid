@@ -13,7 +13,6 @@ public final class ClientMetrics {
     private final List log_source_metrics_;
     private final TimeWindow window_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private TimeWindow window_ = null;
         private List log_source_metrics_ = new ArrayList();

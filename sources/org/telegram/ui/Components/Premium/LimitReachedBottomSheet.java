@@ -161,9 +161,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     Runnable statisticClickRunnable;
     final int type;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 5 extends RecyclerListView.SelectionAdapter {
+    class 5 extends RecyclerListView.SelectionAdapter {
         5() {
         }
 
@@ -499,10 +497,10 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     break;
                 case 9:
                     LimitReachedBottomSheet limitReachedBottomSheet2 = LimitReachedBottomSheet.this;
-                    view = new BoostFeatureCell(context, ((BottomSheet) limitReachedBottomSheet2).resourcesProvider);
+                    view = limitReachedBottomSheet2.new BoostFeatureCell(context, ((BottomSheet) limitReachedBottomSheet2).resourcesProvider);
                     break;
                 default:
-                    view = LimitReachedBottomSheet.this.headerView = new HeaderView(context);
+                    view = LimitReachedBottomSheet.this.headerView = LimitReachedBottomSheet.this.new HeaderView(context);
                     break;
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -510,9 +508,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class BoostFeature {
+    private static class BoostFeature {
         public final int countPlural;
         public final String countValue;
         public final int iconResId;
@@ -520,7 +516,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         public final int textKey;
         public final String textKeyPlural;
 
-        /* loaded from: classes3.dex */
         public static class BoostFeatureLevel extends BoostFeature {
             public final boolean isFirst;
             public final int lvl;
@@ -593,7 +588,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
     }
 
-    /* loaded from: classes3.dex */
     private class BoostFeatureCell extends FrameLayout {
         public BoostFeature feature;
         private final ImageView imageView;
@@ -726,8 +720,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class HeaderView extends LinearLayout {
+    class HeaderView extends LinearLayout {
         BoostCounterView boostCounterView;
         TextView description;
         TextView title;
@@ -1479,7 +1472,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LimitParams {
         int icon = 0;
         String descriptionStr = null;
@@ -3062,8 +3054,6 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         }
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:3:0x0006. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x0009. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:11:0x0019  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0029  */
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView

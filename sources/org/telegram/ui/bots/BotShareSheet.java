@@ -542,9 +542,8 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
                 return false;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public boolean isStatusBarVisible() {
+            protected boolean isStatusBarVisible() {
                 return false;
             }
 
@@ -586,76 +585,23 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
     public static MessageObject convert(int i, long j, TLRPC.BotInlineResult botInlineResult, File file) {
         TLRPC.TL_photo tL_photo;
         TLRPC.TL_document tL_document;
+        String str;
+        String absolutePath;
         char c;
-        char c2;
         TLRPC.TL_photo tL_photo2;
         TLRPC.TL_documentAttributeAudio tL_documentAttributeAudio;
-        String str;
+        String str2;
         if (file != null && file.exists()) {
-            String str2 = botInlineResult.type;
-            String absolutePath = file.getAbsolutePath();
-            str2.hashCode();
-            switch (str2.hashCode()) {
-                case -1890252483:
-                    if (str2.equals("sticker")) {
-                        c = 0;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 102340:
-                    if (str2.equals("gif")) {
-                        c = 1;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 3143036:
-                    if (str2.equals("file")) {
-                        c = 2;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 93166550:
-                    if (str2.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
-                        c = 3;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 106642994:
-                    if (str2.equals("photo")) {
-                        c = 4;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 112202875:
-                    if (str2.equals(MediaStreamTrack.VIDEO_TRACK_KIND)) {
-                        c = 5;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                case 112386354:
-                    if (str2.equals("voice")) {
-                        c = 6;
-                        break;
-                    }
-                    c = 65535;
-                    break;
-                default:
-                    c = 65535;
-                    break;
-            }
-            switch (c) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 5:
-                case 6:
+            str = botInlineResult.type;
+            absolutePath = file.getAbsolutePath();
+            str.hashCode();
+            switch (str) {
+                case "sticker":
+                case "gif":
+                case "file":
+                case "audio":
+                case "video":
+                case "voice":
                     TLRPC.TL_document tL_document2 = new TLRPC.TL_document();
                     tL_document2.id = 0L;
                     tL_document2.size = 0L;
@@ -665,54 +611,54 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
                     tL_document2.date = ConnectionsManager.getInstance(i).getCurrentTime();
                     TLRPC.TL_documentAttributeFilename tL_documentAttributeFilename = new TLRPC.TL_documentAttributeFilename();
                     tL_document2.attributes.add(tL_documentAttributeFilename);
-                    switch (str2.hashCode()) {
+                    switch (str.hashCode()) {
                         case -1890252483:
-                            if (str2.equals("sticker")) {
-                                c2 = 0;
+                            if (str.equals("sticker")) {
+                                c = 0;
                                 break;
                             }
-                            c2 = 65535;
+                            c = 65535;
                             break;
                         case 102340:
-                            if (str2.equals("gif")) {
-                                c2 = 1;
+                            if (str.equals("gif")) {
+                                c = 1;
                                 break;
                             }
-                            c2 = 65535;
+                            c = 65535;
                             break;
                         case 3143036:
-                            if (str2.equals("file")) {
-                                c2 = 2;
+                            if (str.equals("file")) {
+                                c = 2;
                                 break;
                             }
-                            c2 = 65535;
+                            c = 65535;
                             break;
                         case 93166550:
-                            if (str2.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
-                                c2 = 3;
+                            if (str.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
+                                c = 3;
                                 break;
                             }
-                            c2 = 65535;
+                            c = 65535;
                             break;
                         case 112202875:
-                            if (str2.equals(MediaStreamTrack.VIDEO_TRACK_KIND)) {
-                                c2 = 4;
+                            if (str.equals(MediaStreamTrack.VIDEO_TRACK_KIND)) {
+                                c = 4;
                                 break;
                             }
-                            c2 = 65535;
+                            c = 65535;
                             break;
                         case 112386354:
-                            if (str2.equals("voice")) {
-                                c2 = 5;
+                            if (str.equals("voice")) {
+                                c = 5;
                                 break;
                             }
-                            c2 = 65535;
+                            c = 65535;
                             break;
                         default:
-                            c2 = 65535;
+                            c = 65535;
                             break;
                     }
-                    switch (c2) {
+                    switch (c) {
                         case 0:
                             TLRPC.TL_documentAttributeSticker tL_documentAttributeSticker = new TLRPC.TL_documentAttributeSticker();
                             tL_documentAttributeSticker.alt = "";
@@ -787,8 +733,8 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
                                 tL_documentAttributeAudio.performer = str3;
                                 tL_documentAttributeAudio.flags = i2 | 3;
                             }
-                            str = "audio.mp3";
-                            tL_documentAttributeFilename.file_name = str;
+                            str2 = "audio.mp3";
+                            tL_documentAttributeFilename.file_name = str2;
                             tL_document2.attributes.add(tL_documentAttributeAudio);
                             tL_photo2 = null;
                             break;
@@ -822,8 +768,8 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
                             tL_documentAttributeAudio = new TLRPC.TL_documentAttributeAudio();
                             tL_documentAttributeAudio.duration = MessageObject.getInlineResultDuration(botInlineResult);
                             tL_documentAttributeAudio.voice = true;
-                            str = "audio.ogg";
-                            tL_documentAttributeFilename.file_name = str;
+                            str2 = "audio.ogg";
+                            tL_documentAttributeFilename.file_name = str2;
                             tL_document2.attributes.add(tL_documentAttributeAudio);
                             tL_photo2 = null;
                             break;
@@ -850,7 +796,7 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
                     }
                     tL_document = tL_document2;
                     tL_photo = tL_photo2;
-                case 4:
+                case "photo":
                     TLRPC.TL_photo generatePhotoSizes = file.exists() ? SendMessagesHelper.getInstance(i).generatePhotoSizes(absolutePath, null) : null;
                     if (generatePhotoSizes == null) {
                         generatePhotoSizes = new TLRPC.TL_photo();
@@ -1223,9 +1169,8 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
         return LocaleController.getString(R.string.BotShareMessage);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.recyclerListView.scrollToPosition(Math.max((this.recyclerListView.getAdapter() == null ? 0 : this.recyclerListView.getAdapter().getItemCount()) - 1, 0));
     }

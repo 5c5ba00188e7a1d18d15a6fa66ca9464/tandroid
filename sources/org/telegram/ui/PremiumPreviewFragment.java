@@ -178,8 +178,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     private boolean whiteBackground;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
 
@@ -475,8 +474,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BackgroundView extends LinearLayout {
+    class BackgroundView extends LinearLayout {
         private final FrameLayout imageFrameLayout;
         private final GLIconTextureView imageView;
         private boolean setTierListViewVisibility;
@@ -485,9 +483,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         private boolean tierListViewVisible;
         TextView titleView;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 3 extends RecyclerListView.SelectionAdapter {
+        class 3 extends RecyclerListView.SelectionAdapter {
             final /* synthetic */ Context val$context;
             final /* synthetic */ PremiumPreviewFragment val$this$0;
 
@@ -629,9 +625,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     return super.onInterceptTouchEvent(motionEvent);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-                public void onSizeChanged(int i2, int i3, int i4, int i5) {
+                protected void onSizeChanged(int i2, int i3, int i4, int i5) {
                     super.onSizeChanged(i2, i3, i4, i5);
                     BackgroundView.this.measureGradient(i2, i3);
                 }
@@ -935,7 +930,6 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class PremiumFeatureData {
         public final String description;
         public final int icon;
@@ -951,7 +945,6 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
     public static final class SubscriptionTier {
         private int discount;
         private ProductDetails googlePlayProductDetails;
@@ -2834,9 +2827,8 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onDialogDismiss(Dialog dialog) {
+    protected void onDialogDismiss(Dialog dialog) {
         super.onDialogDismiss(dialog);
         updateDialogVisibility(false);
     }

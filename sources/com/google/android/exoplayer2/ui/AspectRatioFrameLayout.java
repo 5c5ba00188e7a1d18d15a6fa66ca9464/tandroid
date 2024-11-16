@@ -15,11 +15,9 @@ public class AspectRatioFrameLayout extends FrameLayout {
     private int rotation;
     private float videoAspectRatio;
 
-    /* loaded from: classes.dex */
     public interface AspectRatioListener {
     }
 
-    /* loaded from: classes.dex */
     private final class AspectRatioUpdateDispatcher implements Runnable {
         private boolean aspectRatioMismatch;
         private boolean isScheduled;
@@ -75,7 +73,6 @@ public class AspectRatioFrameLayout extends FrameLayout {
         return this.drawingReady;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:18:0x0044, code lost:
     
         if (r4 > 0.0f) goto L27;
@@ -92,7 +89,7 @@ public class AspectRatioFrameLayout extends FrameLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         if (this.videoAspectRatio <= 0.0f) {
             return;

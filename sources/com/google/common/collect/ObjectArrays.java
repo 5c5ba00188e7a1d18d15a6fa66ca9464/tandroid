@@ -2,8 +2,7 @@ package com.google.common.collect;
 
 /* loaded from: classes.dex */
 public abstract class ObjectArrays {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object checkElementNotNull(Object obj, int i) {
+    static Object checkElementNotNull(Object obj, int i) {
         if (obj != null) {
             return obj;
         }
@@ -13,8 +12,7 @@ public abstract class ObjectArrays {
         throw new NullPointerException(sb.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object[] checkElementsNotNull(Object... objArr) {
+    static Object[] checkElementsNotNull(Object... objArr) {
         checkElementsNotNull(objArr, objArr.length);
         return objArr;
     }

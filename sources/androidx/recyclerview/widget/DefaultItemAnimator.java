@@ -35,9 +35,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     protected boolean delayAnimations = true;
     private long delayIncrement = 0;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public static class ChangeInfo {
+    protected static class ChangeInfo {
         public int fromX;
         public int fromY;
         public RecyclerView.ViewHolder newHolder;
@@ -50,8 +48,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             this.newHolder = viewHolder2;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public ChangeInfo(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2, int i, int i2, int i3, int i4) {
+        ChangeInfo(RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder2, int i, int i2, int i3, int i4) {
             this(viewHolder, viewHolder2);
             this.fromX = i;
             this.fromY = i2;
@@ -65,7 +62,6 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
     public static class MoveInfo {
         public int fromX;
         public int fromY;
@@ -318,8 +314,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void animateMoveImpl(RecyclerView.ViewHolder viewHolder, MoveInfo moveInfo) {
+    protected void animateMoveImpl(RecyclerView.ViewHolder viewHolder, MoveInfo moveInfo) {
         animateMoveImpl(viewHolder, moveInfo, 0L);
     }
 
@@ -386,8 +381,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void animateRemoveImpl(RecyclerView.ViewHolder viewHolder) {
+    protected void animateRemoveImpl(RecyclerView.ViewHolder viewHolder) {
         animateRemoveImpl(viewHolder, 0L);
     }
 
@@ -439,8 +433,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         return !list.isEmpty() || super.canReuseUpdatedViewHolder(viewHolder, list);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void cancelAll(List list) {
+    void cancelAll(List list) {
         for (int size = list.size() - 1; size >= 0; size--) {
             ((RecyclerView.ViewHolder) list.get(size)).itemView.animate().cancel();
         }
@@ -449,8 +442,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     public void checkIsRunning() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void dispatchFinishedWhenDone() {
+    protected void dispatchFinishedWhenDone() {
         if (isRunning()) {
             return;
         }
@@ -633,8 +625,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void endChangeAnimationIfNecessary(ChangeInfo changeInfo) {
+    protected void endChangeAnimationIfNecessary(ChangeInfo changeInfo) {
         RecyclerView.ViewHolder viewHolder = changeInfo.oldHolder;
         if (viewHolder != null) {
             endChangeAnimationIfNecessary(changeInfo, viewHolder);
@@ -683,16 +674,13 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
     protected void onAddAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onAllAnimationsDone() {
+    protected void onAllAnimationsDone() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+    protected void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+    protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
     }
 
     protected void onRemoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {

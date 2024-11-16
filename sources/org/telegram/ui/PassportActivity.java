@@ -265,9 +265,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     private int usingSavedPassword;
     private SlideView[] views;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1ValueToSend {
+    class 1ValueToSend {
         boolean selfie_required;
         boolean translation_required;
         TLRPC.TL_secureValue value;
@@ -279,9 +277,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 3 extends ActionBar.ActionBarMenuOnItemClick {
+    class 3 extends ActionBar.ActionBarMenuOnItemClick {
         3() {
         }
 
@@ -751,9 +747,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 implements RequestDelegate {
+    class 8 implements RequestDelegate {
         final /* synthetic */ TLRPC.TL_account_getPasswordSettings val$req;
         final /* synthetic */ boolean val$saved;
         final /* synthetic */ String val$textPassword;
@@ -1150,9 +1144,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class EncryptionResult {
+    private static class EncryptionResult {
         byte[] decrypyedFileSecret;
         byte[] encryptedData;
         byte[] fileHash;
@@ -1169,12 +1161,10 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public interface ErrorRunnable {
+    interface ErrorRunnable {
         void onError(String str, String str2);
     }
 
-    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         public LinkSpan() {
         }
@@ -1193,8 +1183,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public interface PassportActivityDelegate {
+    interface PassportActivityDelegate {
         void deleteValue(TLRPC.TL_secureRequiredType tL_secureRequiredType, TLRPC.TL_secureRequiredType tL_secureRequiredType2, ArrayList arrayList, boolean z, Runnable runnable, ErrorRunnable errorRunnable);
 
         SecureDocument saveFile(TLRPC.TL_secureFile tL_secureFile);
@@ -1202,7 +1191,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         void saveValue(TLRPC.TL_secureRequiredType tL_secureRequiredType, String str, String str2, TLRPC.TL_secureRequiredType tL_secureRequiredType2, String str3, ArrayList arrayList, SecureDocument secureDocument, ArrayList arrayList2, SecureDocument secureDocument2, SecureDocument secureDocument3, Runnable runnable, ErrorRunnable errorRunnable);
     }
 
-    /* loaded from: classes4.dex */
     public class PhoneConfirmationView extends SlideView implements NotificationCenter.NotificationCenterDelegate {
         private ImageView blackImageView;
         private ImageView blueImageView;
@@ -1233,9 +1221,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         private int verificationType;
         private boolean waitingForEvent;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 4 extends TimerTask {
+        class 4 extends TimerTask {
             4() {
             }
 
@@ -1264,9 +1250,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 5 extends TimerTask {
+        class 5 extends TimerTask {
             5() {
             }
 
@@ -2337,9 +2321,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ProgressView extends View {
+    private static class ProgressView extends View {
         private Paint paint;
         private Paint paint2;
         private float progress;
@@ -2365,7 +2347,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public class SecureDocumentCell extends FrameLayout implements DownloadController.FileDownloadProgressListener {
         private int TAG;
         private int buttonState;
@@ -2454,7 +2435,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressDownload(String str, long j, long j2) {
-            this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+            this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
             if (this.buttonState != 1) {
                 updateButtonState(false);
             }
@@ -2462,7 +2443,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
         public void onProgressUpload(String str, long j, long j2, boolean z) {
-            this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+            this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
         }
 
         @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
@@ -2519,7 +2500,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public class TextDetailSecureCell extends FrameLayout {
         private ImageView checkImageView;
         private boolean needDivider;
@@ -2598,7 +2578,13 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:24:0x01b4. Please report as an issue. */
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue
+    java.lang.NullPointerException
+    	at jadx.core.dex.visitors.regions.SwitchOverStringVisitor.restoreSwitchOverString(SwitchOverStringVisitor.java:109)
+    	at jadx.core.dex.visitors.regions.SwitchOverStringVisitor.visitRegion(SwitchOverStringVisitor.java:66)
+    	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:77)
+    	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:82)
+     */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0148 A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
     /* JADX WARN: Removed duplicated region for block: B:19:0x015f A[Catch: Exception -> 0x020f, TryCatch #0 {Exception -> 0x020f, blocks: (B:6:0x0037, B:8:0x004a, B:11:0x0065, B:14:0x013e, B:16:0x0148, B:19:0x015f, B:20:0x0166, B:21:0x016a, B:24:0x01b4, B:28:0x01b8, B:29:0x01c0, B:30:0x01c8, B:32:0x01d3, B:34:0x01df, B:36:0x01ea, B:38:0x01f5, B:41:0x01fb, B:44:0x016e, B:47:0x0178, B:50:0x0182, B:53:0x018c, B:56:0x0196, B:59:0x01a0, B:62:0x01a9, B:67:0x007b, B:69:0x007f, B:70:0x008f, B:72:0x0093, B:73:0x00a3, B:75:0x00a7, B:76:0x00b7, B:78:0x00bb, B:80:0x00c7, B:82:0x00cb, B:83:0x00db, B:85:0x00df, B:86:0x00ee, B:88:0x00f2, B:89:0x0103, B:91:0x0107, B:92:0x010a, B:94:0x0112, B:96:0x011e, B:99:0x0128), top: B:5:0x0037 }] */
     /* JADX WARN: Removed duplicated region for block: B:22:0x016d  */
@@ -2796,44 +2782,53 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                                 c = 3;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case -906020504:
                             if (str10.equals("selfie")) {
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 3076010:
                             if (str10.equals("data")) {
                                 c = 0;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 97434231:
                             if (str10.equals("files")) {
                                 c = 1;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 97705513:
                             if (str10.equals("front")) {
                                 c = 4;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 329856746:
                             if (str10.equals("error_all")) {
                                 c = 6;
                                 break;
                             }
+                            c = 65535;
                             break;
                         case 1099846370:
                             if (str10.equals("reverse")) {
                                 c = 5;
                                 break;
                             }
+                            c = 65535;
+                            break;
+                        default:
+                            c = 65535;
                             break;
                     }
-                    c = 65535;
                     switch (c) {
                         case 0:
                             if (str11 == null) {
@@ -2921,7 +2916,6 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     case 1099846370:
                         break;
                 }
-                c = 65535;
                 switch (c) {
                 }
                 i3++;
@@ -4412,7 +4406,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
                 public /* synthetic */ void doOnIdle(Runnable runnable) {
-                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
+                    runnable.run();
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -4636,6 +4630,9 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /* JADX WARN: Removed duplicated region for block: B:46:0x02e9  */
     /* JADX WARN: Removed duplicated region for block: B:50:0x0311  */
     /* JADX WARN: Removed duplicated region for block: B:54:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0555  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0584  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0587  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5147,6 +5144,82 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         editTextBoldCursor.setHintText(LocaleController.getString(i3));
                         hashMap2 = this.currentValues;
                         str2 = "first_name";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor10 = this.inputFields[i2];
+                        editTextBoldCursor10.setSelection(editTextBoldCursor10.length());
+                        if (i2 != 0 || i2 == 2 || i2 == 1) {
+                            this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                                private boolean ignore;
+
+                                @Override // android.text.TextWatcher
+                                public void afterTextChanged(Editable editable) {
+                                    boolean z5;
+                                    if (this.ignore) {
+                                        return;
+                                    }
+                                    int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                    int i20 = 0;
+                                    while (true) {
+                                        if (i20 >= editable.length()) {
+                                            z5 = false;
+                                            break;
+                                        }
+                                        char charAt = editable.charAt(i20);
+                                        if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                            z5 = true;
+                                            break;
+                                        }
+                                        i20++;
+                                    }
+                                    if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                        editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                    } else {
+                                        PassportActivity.this.nonLatinNames[intValue] = z5;
+                                        PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                    }
+                                }
+
+                                @Override // android.text.TextWatcher
+                                public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                                }
+
+                                @Override // android.text.TextWatcher
+                                public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                                }
+                            });
+                        } else {
+                            this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.17
+                                @Override // android.text.TextWatcher
+                                public void afterTextChanged(Editable editable) {
+                                    PassportActivity passportActivity = PassportActivity.this;
+                                    passportActivity.checkFieldForError(editTextBoldCursor8, str2, editable, hashMap2 == passportActivity.currentDocumentValues);
+                                    int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                    EditTextBoldCursor editTextBoldCursor11 = PassportActivity.this.inputFields[intValue];
+                                    if (intValue == 6) {
+                                        PassportActivity.this.checkNativeFields(true);
+                                    }
+                                }
+
+                                @Override // android.text.TextWatcher
+                                public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                                }
+
+                                @Override // android.text.TextWatcher
+                                public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                                }
+                            });
+                        }
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 1:
                         if (this.currentType.native_names) {
@@ -5159,6 +5232,62 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         editTextBoldCursor2.setHintText(LocaleController.getString(i4));
                         hashMap2 = this.currentValues;
                         str2 = "middle_name";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor102 = this.inputFields[i2];
+                        editTextBoldCursor102.setSelection(editTextBoldCursor102.length());
+                        if (i2 != 0) {
+                            break;
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 2:
                         if (this.currentType.native_names) {
@@ -5171,114 +5300,423 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         editTextBoldCursor3.setHintText(LocaleController.getString(i5));
                         hashMap2 = this.currentValues;
                         str2 = "last_name";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor1022 = this.inputFields[i2];
+                        editTextBoldCursor1022.setSelection(editTextBoldCursor1022.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 3:
                         this.inputFields[i2].setHintText(LocaleController.getString(R.string.PassportBirthdate));
                         hashMap2 = this.currentValues;
                         str2 = "birth_date";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor10222 = this.inputFields[i2];
+                        editTextBoldCursor10222.setSelection(editTextBoldCursor10222.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 4:
                         this.inputFields[i2].setHintText(LocaleController.getString(R.string.PassportGender));
                         hashMap2 = this.currentValues;
                         str2 = "gender";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor102222 = this.inputFields[i2];
+                        editTextBoldCursor102222.setSelection(editTextBoldCursor102222.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 5:
                         this.inputFields[i2].setHintText(LocaleController.getString(R.string.PassportCitizenship));
                         hashMap2 = this.currentValues;
                         str2 = "country_code";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor1022222 = this.inputFields[i2];
+                        editTextBoldCursor1022222.setSelection(editTextBoldCursor1022222.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 6:
                         this.inputFields[i2].setHintText(LocaleController.getString(R.string.PassportResidence));
                         hashMap2 = this.currentValues;
                         str2 = "residence_country_code";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor10222222 = this.inputFields[i2];
+                        editTextBoldCursor10222222.setSelection(editTextBoldCursor10222222.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 7:
                         this.inputFields[i2].setHintText(LocaleController.getString(R.string.PassportDocumentNumber));
                         hashMap2 = this.currentDocumentValues;
                         str2 = "document_no";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor102222222 = this.inputFields[i2];
+                        editTextBoldCursor102222222.setSelection(editTextBoldCursor102222222.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                     case 8:
                         this.inputFields[i2].setHintText(LocaleController.getString(R.string.PassportExpired));
                         hashMap2 = this.currentDocumentValues;
                         str2 = "expiry_date";
+                        setFieldValues(hashMap2, this.inputFields[i2], str2);
+                        EditTextBoldCursor editTextBoldCursor1022222222 = this.inputFields[i2];
+                        editTextBoldCursor1022222222.setSelection(editTextBoldCursor1022222222.length());
+                        if (i2 != 0) {
+                        }
+                        this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
+                            private boolean ignore;
+
+                            @Override // android.text.TextWatcher
+                            public void afterTextChanged(Editable editable) {
+                                boolean z5;
+                                if (this.ignore) {
+                                    return;
+                                }
+                                int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
+                                int i20 = 0;
+                                while (true) {
+                                    if (i20 >= editable.length()) {
+                                        z5 = false;
+                                        break;
+                                    }
+                                    char charAt = editable.charAt(i20);
+                                    if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
+                                        z5 = true;
+                                        break;
+                                    }
+                                    i20++;
+                                }
+                                if (z5 && !PassportActivity.this.allowNonLatinName) {
+                                    editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
+                                } else {
+                                    PassportActivity.this.nonLatinNames[intValue] = z5;
+                                    PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
+                                }
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+
+                            @Override // android.text.TextWatcher
+                            public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
+                            }
+                        });
+                        this.inputFields[i2].setPadding(0, 0, 0, 0);
+                        this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+                        frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
+                        this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
+                            @Override // android.widget.TextView.OnEditorActionListener
+                            public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
+                                boolean lambda$createIdentityInterface$52;
+                                lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
+                                return lambda$createIdentityInterface$52;
+                            }
+                        });
                         break;
                 }
-                setFieldValues(hashMap2, this.inputFields[i2], str2);
-                EditTextBoldCursor editTextBoldCursor10 = this.inputFields[i2];
-                editTextBoldCursor10.setSelection(editTextBoldCursor10.length());
-                if (i2 == 0 || i2 == 2 || i2 == 1) {
-                    this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.16
-                        private boolean ignore;
-
-                        @Override // android.text.TextWatcher
-                        public void afterTextChanged(Editable editable) {
-                            boolean z5;
-                            if (this.ignore) {
-                                return;
-                            }
-                            int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
-                            int i20 = 0;
-                            while (true) {
-                                if (i20 >= editable.length()) {
-                                    z5 = false;
-                                    break;
-                                }
-                                char charAt = editable.charAt(i20);
-                                if ((charAt < '0' || charAt > '9') && ((charAt < 'a' || charAt > 'z') && !((charAt >= 'A' && charAt <= 'Z') || charAt == ' ' || charAt == '\'' || charAt == ',' || charAt == '.' || charAt == '&' || charAt == '-' || charAt == '/'))) {
-                                    z5 = true;
-                                    break;
-                                }
-                                i20++;
-                            }
-                            if (z5 && !PassportActivity.this.allowNonLatinName) {
-                                editTextBoldCursor8.setErrorText(LocaleController.getString(R.string.PassportUseLatinOnly));
-                            } else {
-                                PassportActivity.this.nonLatinNames[intValue] = z5;
-                                PassportActivity.this.checkFieldForError(editTextBoldCursor8, str2, editable, false);
-                            }
-                        }
-
-                        @Override // android.text.TextWatcher
-                        public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
-                        }
-
-                        @Override // android.text.TextWatcher
-                        public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
-                        }
-                    });
-                } else {
-                    this.inputFields[i2].addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.PassportActivity.17
-                        @Override // android.text.TextWatcher
-                        public void afterTextChanged(Editable editable) {
-                            PassportActivity passportActivity = PassportActivity.this;
-                            passportActivity.checkFieldForError(editTextBoldCursor8, str2, editable, hashMap2 == passportActivity.currentDocumentValues);
-                            int intValue = ((Integer) editTextBoldCursor8.getTag()).intValue();
-                            EditTextBoldCursor editTextBoldCursor11 = PassportActivity.this.inputFields[intValue];
-                            if (intValue == 6) {
-                                PassportActivity.this.checkNativeFields(true);
-                            }
-                        }
-
-                        @Override // android.text.TextWatcher
-                        public void beforeTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
-                        }
-
-                        @Override // android.text.TextWatcher
-                        public void onTextChanged(CharSequence charSequence4, int i20, int i21, int i22) {
-                        }
-                    });
-                }
-                this.inputFields[i2].setPadding(0, 0, 0, 0);
-                this.inputFields[i2].setGravity((LocaleController.isRTL ? 5 : 3) | 16);
-                frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 21.0f, 0.0f, 21.0f, 0.0f));
-                this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.PassportActivity$$ExternalSyntheticLambda22
-                    @Override // android.widget.TextView.OnEditorActionListener
-                    public final boolean onEditorAction(TextView textView, int i20, KeyEvent keyEvent) {
-                        boolean lambda$createIdentityInterface$52;
-                        lambda$createIdentityInterface$52 = PassportActivity.this.lambda$createIdentityInterface$52(textView, i20, keyEvent);
-                        return lambda$createIdentityInterface$52;
-                    }
-                });
                 i2++;
                 z3 = false;
             }
@@ -5548,8 +5986,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         });
         this.inputFields = new EditTextBoldCursor[1];
-        this.inputFieldContainers = r3;
-        ViewGroup[] viewGroupArr = {new FrameLayout(context)};
+        this.inputFieldContainers = new ViewGroup[]{new FrameLayout(context)};
         this.linearLayout2.addView(this.inputFieldContainers[0], LayoutHelper.createLinear(-1, 50));
         this.inputFieldContainers[0].setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         this.inputFields[0] = new EditTextBoldCursor(context);
@@ -6615,142 +7052,37 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public int getFieldCost(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2006252145:
-                if (str.equals("residence_country_code")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1537298398:
-                if (str.equals("last_name_native")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1249512767:
-                if (str.equals("gender")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -796150911:
-                if (str.equals("street_line1")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -796150910:
-                if (str.equals("street_line2")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -160985414:
-                if (str.equals("first_name")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 3053931:
-                if (str.equals("city")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 109757585:
-                if (str.equals("state")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 421072629:
-                if (str.equals("middle_name")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 451516732:
-                if (str.equals("first_name_native")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 475919162:
-                if (str.equals("expiry_date")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 506677093:
-                if (str.equals("document_no")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 1168724782:
-                if (str.equals("birth_date")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 1181577377:
-                if (str.equals("middle_name_native")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case 1481071862:
-                if (str.equals("country_code")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case 2002465324:
-                if (str.equals("post_code")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case 2013122196:
-                if (str.equals("last_name")) {
-                    c = 16;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "residence_country_code":
                 return 26;
-            case 1:
-            case 16:
+            case "last_name_native":
+            case "last_name":
                 return 22;
-            case 2:
+            case "gender":
                 return 24;
-            case 3:
+            case "street_line1":
                 return 29;
-            case 4:
+            case "street_line2":
                 return 30;
-            case 5:
-            case '\t':
+            case "first_name":
+            case "first_name_native":
                 return 20;
-            case 6:
+            case "city":
                 return 32;
-            case 7:
+            case "state":
                 return 33;
-            case '\b':
-            case '\r':
+            case "middle_name":
+            case "middle_name_native":
                 return 21;
-            case '\n':
+            case "expiry_date":
                 return 28;
-            case 11:
+            case "document_no":
                 return 27;
-            case '\f':
+            case "birth_date":
                 return 23;
-            case 14:
+            case "country_code":
                 return 25;
-            case 15:
+            case "post_code":
                 return 31;
             default:
                 return 100;
@@ -8751,9 +9083,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             PassportActivity passportActivity = new PassportActivity(i, tL_account_authorizationForm, account_password, tL_secureRequiredType, valueByType, tL_secureRequiredType2, valueByType2, hashMap4, hashMap);
             passportActivity.delegate = new PassportActivityDelegate() { // from class: org.telegram.ui.PassportActivity.20
 
-                /* JADX INFO: Access modifiers changed from: package-private */
-                /* loaded from: classes4.dex */
-                public class 1 implements RequestDelegate {
+                class 1 implements RequestDelegate {
                     final /* synthetic */ PassportActivityDelegate val$currentDelegate;
                     final /* synthetic */ TLRPC.TL_secureRequiredType val$documentRequiredType;
                     final /* synthetic */ ArrayList val$documents;
@@ -9323,39 +9653,12 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         String str2 = (String) hashMap.get(str);
         if (str2 != null) {
             str.hashCode();
-            char c = 65535;
-            switch (str.hashCode()) {
-                case -2006252145:
-                    if (str.equals("residence_country_code")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case -1249512767:
-                    if (str.equals("gender")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 475919162:
-                    if (str.equals("expiry_date")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case 1481071862:
-                    if (str.equals("country_code")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (str) {
+                case "residence_country_code":
                     this.currentResidence = str2;
                     str2 = (String) this.languageMap.get(str2);
                     break;
-                case 1:
+                case "gender":
                     if ("male".equals(str2)) {
                         this.currentGender = str2;
                         i = R.string.PassportMale;
@@ -9366,7 +9669,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     str2 = LocaleController.getString(i);
                     editTextBoldCursor.setText(str2);
                     break;
-                case 2:
+                case "expiry_date":
                     if (!TextUtils.isEmpty(str2)) {
                         String[] split = str2.split("\\.");
                         if (split.length == 3) {
@@ -9384,7 +9687,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     i = R.string.PassportNoExpireDate;
                     str2 = LocaleController.getString(i);
                     editTextBoldCursor.setText(str2);
-                case 3:
+                case "country_code":
                     this.currentCitizeship = str2;
                     str2 = (String) this.languageMap.get(str2);
                     break;
@@ -10732,9 +11035,8 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onDialogDismiss(Dialog dialog) {
+    protected void onDialogDismiss(Dialog dialog) {
         if (this.currentActivityType != 3 || Build.VERSION.SDK_INT < 23 || dialog != this.permissionsDialog || this.permissionsItems.isEmpty()) {
             return;
         }

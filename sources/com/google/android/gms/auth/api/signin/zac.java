@@ -5,6 +5,9 @@ import java.util.Comparator;
 
 /* loaded from: classes.dex */
 final class zac implements Comparator {
+    zac() {
+    }
+
     @Override // java.util.Comparator
     public final /* bridge */ /* synthetic */ int compare(Object obj, Object obj2) {
         return ((Scope) obj).getScopeUri().compareTo(((Scope) obj2).getScopeUri());

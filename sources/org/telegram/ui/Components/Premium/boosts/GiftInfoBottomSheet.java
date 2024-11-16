@@ -33,9 +33,7 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
     private final boolean isUnused;
     private String slug;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends GiftInfoAdapter {
+    class 2 extends GiftInfoAdapter {
         2(Theme.ResourcesProvider resourcesProvider) {
             super(resourcesProvider);
         }
@@ -60,17 +58,15 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
             GiftInfoBottomSheet.this.dismiss();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter
-        public void onHiddenLinkClicked() {
+        protected void onHiddenLinkClicked() {
             String string = LocaleController.getString(((GiftInfoBottomSheet.this.slug == null || GiftInfoBottomSheet.this.slug.isEmpty()) && GiftInfoBottomSheet.this.giftCode.to_id == -1) ? R.string.BoostingOnlyGiveawayCreatorSeeLink : R.string.BoostingOnlyRecipientCode);
             GiftInfoBottomSheet giftInfoBottomSheet = GiftInfoBottomSheet.this;
             BulletinFactory.of(giftInfoBottomSheet.container, ((BottomSheet) giftInfoBottomSheet).resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, string).show(true);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter
-        public void onObjectClicked(TLObject tLObject) {
+        protected void onObjectClicked(TLObject tLObject) {
             BaseFragment baseFragment;
             long j;
             dismiss();

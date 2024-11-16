@@ -9,7 +9,6 @@ import org.telegram.tgnet.tl.TL_stories;
 /* loaded from: classes5.dex */
 public abstract class StoryCustomParamsHelper {
 
-    /* loaded from: classes5.dex */
     private static class Params_v1 extends TLObject {
         int flags;
         final TL_stories.StoryItem storyItem;

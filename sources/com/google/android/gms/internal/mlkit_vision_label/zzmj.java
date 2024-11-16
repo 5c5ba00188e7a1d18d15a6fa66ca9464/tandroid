@@ -14,8 +14,7 @@ public final class zzmj {
     private final Integer zzj;
     private final Integer zzk;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzmj(zzmh zzmhVar, zzmi zzmiVar) {
+    /* synthetic */ zzmj(zzmh zzmhVar, zzmi zzmiVar) {
         String str;
         String str2;
         String str3;

@@ -13,7 +13,6 @@ import java.nio.ByteBuffer;
 /* loaded from: classes.dex */
 public interface MediaCodecAdapter {
 
-    /* loaded from: classes.dex */
     public static final class Configuration {
         public final MediaCodecInfo codecInfo;
         public final MediaCrypto crypto;
@@ -40,12 +39,10 @@ public interface MediaCodecAdapter {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Factory {
         MediaCodecAdapter createAdapter(Configuration configuration);
     }
 
-    /* loaded from: classes.dex */
     public interface OnFrameRenderedListener {
         void onFrameRendered(MediaCodecAdapter mediaCodecAdapter, long j, long j2);
     }

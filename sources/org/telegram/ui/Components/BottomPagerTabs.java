@@ -32,7 +32,6 @@ public abstract class BottomPagerTabs extends View {
     private int value;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes3.dex */
     public class Tab {
         private boolean active;
         final RectF clickRect;

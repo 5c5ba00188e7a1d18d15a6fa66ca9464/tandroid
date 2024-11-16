@@ -23,13 +23,10 @@ import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class CryptoObjectUtils {
+abstract class CryptoObjectUtils {
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    private static class Api23Impl {
         static KeyGenParameterSpec buildKeyGenParameterSpec(KeyGenParameterSpec.Builder builder) {
             return builder.build();
         }
@@ -51,9 +48,7 @@ public abstract class CryptoObjectUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    private static class Api28Impl {
         static BiometricPrompt.CryptoObject create(Signature signature) {
             return new BiometricPrompt.CryptoObject(signature);
         }
@@ -79,9 +74,7 @@ public abstract class CryptoObjectUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api30Impl {
+    private static class Api30Impl {
         static BiometricPrompt.CryptoObject create(IdentityCredential identityCredential) {
             return new BiometricPrompt.CryptoObject(identityCredential);
         }
@@ -91,8 +84,7 @@ public abstract class CryptoObjectUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static BiometricPrompt.CryptoObject createFakeCryptoObject() {
+    static BiometricPrompt.CryptoObject createFakeCryptoObject() {
         try {
             KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
             keyStore.load(null);
@@ -112,8 +104,7 @@ public abstract class CryptoObjectUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static BiometricPrompt.CryptoObject unwrapFromBiometricPrompt(BiometricPrompt.CryptoObject cryptoObject) {
+    static BiometricPrompt.CryptoObject unwrapFromBiometricPrompt(BiometricPrompt.CryptoObject cryptoObject) {
         IdentityCredential identityCredential;
         if (cryptoObject == null) {
             return null;
@@ -136,8 +127,7 @@ public abstract class CryptoObjectUtils {
         return new BiometricPrompt.CryptoObject(identityCredential);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static BiometricPrompt.CryptoObject unwrapFromFingerprintManager(FingerprintManagerCompat.CryptoObject cryptoObject) {
+    static BiometricPrompt.CryptoObject unwrapFromFingerprintManager(FingerprintManagerCompat.CryptoObject cryptoObject) {
         if (cryptoObject == null) {
             return null;
         }
@@ -156,8 +146,7 @@ public abstract class CryptoObjectUtils {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static BiometricPrompt.CryptoObject wrapForBiometricPrompt(BiometricPrompt.CryptoObject cryptoObject) {
+    static BiometricPrompt.CryptoObject wrapForBiometricPrompt(BiometricPrompt.CryptoObject cryptoObject) {
         IdentityCredential identityCredential;
         if (cryptoObject == null) {
             return null;
@@ -180,8 +169,7 @@ public abstract class CryptoObjectUtils {
         return Api30Impl.create(identityCredential);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static FingerprintManagerCompat.CryptoObject wrapForFingerprintManager(BiometricPrompt.CryptoObject cryptoObject) {
+    static FingerprintManagerCompat.CryptoObject wrapForFingerprintManager(BiometricPrompt.CryptoObject cryptoObject) {
         if (cryptoObject == null) {
             return null;
         }

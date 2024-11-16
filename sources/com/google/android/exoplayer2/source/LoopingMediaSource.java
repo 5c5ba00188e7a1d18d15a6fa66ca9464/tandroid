@@ -16,7 +16,6 @@ public final class LoopingMediaSource extends WrappingMediaSource {
     private final int loopCount;
     private final Map mediaPeriodToChildMediaPeriodId;
 
-    /* loaded from: classes.dex */
     private static final class InfinitelyLoopingTimeline extends ForwardingTimeline {
         public InfinitelyLoopingTimeline(Timeline timeline) {
             super(timeline);
@@ -35,7 +34,6 @@ public final class LoopingMediaSource extends WrappingMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class LoopingTimeline extends AbstractConcatenatedTimeline {
         private final int childPeriodCount;
         private final Timeline childTimeline;

@@ -121,7 +121,6 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
     int topicId;
     private final int[] vibrateLabels;
 
-    /* loaded from: classes4.dex */
     public class ExpandView extends TextCell {
         public ImageView imageView;
 
@@ -135,18 +134,16 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             addView(this.imageView, LayoutHelper.createFrame(24, 24.0f, (LocaleController.isRTL ? 3 : 5) | 16, 17.0f, 0.0f, 17.0f, 0.0f));
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             super.onLayout(z, i, i2, i3, i4);
             int dp = LocaleController.isRTL ? AndroidUtilities.dp(17.0f) : (i3 - i) - AndroidUtilities.dp(41.0f);
             int dp2 = ((i4 - i2) - AndroidUtilities.dp(24.0f)) / 2;
             this.imageView.layout(dp, dp2, AndroidUtilities.dp(24.0f) + dp, AndroidUtilities.dp(24.0f) + dp2);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Cells.TextCell, android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, i2);
             this.imageView.measure(i, i2);
         }
@@ -165,9 +162,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ItemInner extends AdapterWithDiffUtils.Item {
+    private static class ItemInner extends AdapterWithDiffUtils.Item {
         public boolean checked;
         public int color;
         public NotificationsSettingsActivity.NotificationException exception;
@@ -247,9 +242,8 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             return itemInner;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ListView.AdapterWithDiffUtils.Item
-        public boolean contentsEquals(AdapterWithDiffUtils.Item item) {
+        protected boolean contentsEquals(AdapterWithDiffUtils.Item item) {
             if (this == item) {
                 return true;
             }
@@ -272,9 +266,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends AdapterWithDiffUtils {
+    private class ListAdapter extends AdapterWithDiffUtils {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -311,16 +303,16 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             switch (viewHolder.getItemViewType()) {
                 case 0:
                     ((HeaderCell) viewHolder.itemView).setText(itemInner.text);
-                    return;
+                    break;
                 case 1:
                     ((TextCheckCell) viewHolder.itemView).setTextAndCheck("" + ((Object) itemInner.text), itemInner.checked, z);
-                    return;
+                    break;
                 case 2:
                     ((UserCell) viewHolder.itemView).setException(itemInner.exception, null, z);
-                    return;
+                    break;
                 case 3:
                     ((TextColorCell) viewHolder.itemView).setTextAndColor("" + ((Object) itemInner.text), itemInner.color, z);
-                    return;
+                    break;
                 case 4:
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     if (itemInner.text == null) {
@@ -331,33 +323,32 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                         textInfoPrivacyCell.setText(itemInner.text);
                     }
                     viewHolder.itemView.setBackground(Theme.getThemedDrawableByKey(this.mContext, !z ? R.drawable.greydivider_bottom : R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    return;
+                    break;
                 case 5:
                     ((TextSettingsCell) viewHolder.itemView).setTextAndValue(itemInner.text, itemInner.text2, z);
-                    return;
+                    break;
                 case 6:
                     NotificationsCheckCell notificationsCheckCell = (NotificationsCheckCell) viewHolder.itemView;
                     notificationsCheckCell.setDrawLine(true);
                     notificationsCheckCell.setChecked(itemInner.checked);
                     notificationsCheckCell.setTextAndValueAndIconAndCheck(itemInner.text, itemInner.text2, itemInner.resId, itemInner.checked, 0, false, z, true);
-                    return;
+                    break;
                 case 7:
                     TextCell textCell = (TextCell) viewHolder.itemView;
-                    if (itemInner.resId == 0) {
+                    if (itemInner.resId != 0) {
+                        textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
+                        textCell.setTextAndIcon("" + ((Object) itemInner.text), itemInner.resId, z);
+                        break;
+                    } else {
                         textCell.setColors(-1, Theme.key_text_RedRegular);
                         textCell.setText("" + ((Object) itemInner.text), z);
-                        return;
+                        break;
                     }
-                    textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
-                    textCell.setTextAndIcon("" + ((Object) itemInner.text), itemInner.resId, z);
-                    return;
                 case 8:
                     ExpandView expandView = (ExpandView) viewHolder.itemView;
                     expandView.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                     expandView.set(itemInner.text, itemInner.resId == 1, z);
-                    return;
-                default:
-                    return;
+                    break;
             }
         }
 
@@ -398,7 +389,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
                     headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 8:
-                    headerCell = new ExpandView(this.mContext);
+                    headerCell = NotificationsCustomSettingsActivity.this.new ExpandView(this.mContext);
                     headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
             }
@@ -433,8 +424,7 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private SearchAdapterHelper searchAdapterHelper;
         private ArrayList searchResult = new ArrayList();
@@ -2632,9 +2622,8 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
         this.emptyView.showTextView();
         frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.NotificationsCustomSettingsActivity.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 if (NotificationsCustomSettingsActivity.this.currentType != -1) {
                     if (NotificationsCustomSettingsActivity.this.exceptionsStart >= 0) {
                         drawSectionBackground(canvas, NotificationsCustomSettingsActivity.this.exceptionsStart, NotificationsCustomSettingsActivity.this.exceptionsEnd, getThemedColor(Theme.key_windowBackgroundWhite));
@@ -2672,9 +2661,8 @@ public class NotificationsCustomSettingsActivity extends BaseFragment implements
             }
         });
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.NotificationsCustomSettingsActivity.5
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 NotificationsCustomSettingsActivity.this.listView.invalidate();
             }
         };

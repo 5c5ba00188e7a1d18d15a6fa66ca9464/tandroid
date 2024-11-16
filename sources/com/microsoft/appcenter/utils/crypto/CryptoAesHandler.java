@@ -9,6 +9,9 @@ import javax.crypto.spec.IvParameterSpec;
 
 /* loaded from: classes.dex */
 class CryptoAesHandler implements CryptoHandler {
+    CryptoAesHandler() {
+    }
+
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler
     public byte[] decrypt(CryptoUtils.ICryptoFactory iCryptoFactory, int i, KeyStore.Entry entry, byte[] bArr) {
         CryptoUtils.ICipher cipher = iCryptoFactory.getCipher("AES/CBC/PKCS7Padding", "AndroidKeyStoreBCWorkaround");

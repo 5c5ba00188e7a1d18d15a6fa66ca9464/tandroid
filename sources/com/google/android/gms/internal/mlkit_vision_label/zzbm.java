@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.Map;
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzbm extends zzca {
+abstract class zzbm extends zzca {
+    zzbm() {
+    }
+
     @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
     public final void clear() {
         zza().clear();

@@ -24,7 +24,6 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
     private transient ImmutableSet keySet;
     private transient ImmutableCollection values;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         Object[] alternatingKeysAndValues;
         DuplicateKey duplicateKey;
@@ -32,22 +31,18 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
         int size;
         Comparator valueComparator;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes.dex */
-        public static final class DuplicateKey {
+        static final class DuplicateKey {
             private final Object key;
             private final Object value1;
             private final Object value2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            public DuplicateKey(Object obj, Object obj2, Object obj3) {
+            DuplicateKey(Object obj, Object obj2, Object obj3) {
                 this.key = obj;
                 this.value1 = obj2;
                 this.value2 = obj3;
             }
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            public IllegalArgumentException exception() {
+            IllegalArgumentException exception() {
                 String valueOf = String.valueOf(this.key);
                 String valueOf2 = String.valueOf(this.value1);
                 String valueOf3 = String.valueOf(this.key);
@@ -201,6 +196,9 @@ public abstract class ImmutableMap implements Map, Serializable, j$.util.Map {
             }
             return this;
         }
+    }
+
+    ImmutableMap() {
     }
 
     public static Builder builder() {

@@ -5,8 +5,7 @@ final class zzby implements zzcd {
     private final int zza;
     private final zzcc zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzby(int i, zzcc zzccVar) {
+    zzby(int i, zzcc zzccVar) {
         this.zza = i;
         this.zzb = zzccVar;
     }

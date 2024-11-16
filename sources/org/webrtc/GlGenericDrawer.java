@@ -37,14 +37,12 @@ public class GlGenericDrawer implements RendererCommon.GlDrawer {
     private float[] textureMatrix;
     private final String vertexShader;
 
-    /* loaded from: classes5.dex */
     public interface ShaderCallbacks {
         void onNewShader(GlShader glShader);
 
         void onPrepareShader(GlShader glShader, float[] fArr, int i, int i2, int i3, int i4);
     }
 
-    /* loaded from: classes5.dex */
     public interface TextureCallback {
         void run(Bitmap bitmap, int i);
     }

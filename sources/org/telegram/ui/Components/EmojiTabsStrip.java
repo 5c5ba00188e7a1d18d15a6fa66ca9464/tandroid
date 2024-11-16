@@ -74,7 +74,6 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     private static int[] emojiTabsDrawableIds = {R.drawable.msg_emoji_smiles, R.drawable.msg_emoji_cat, R.drawable.msg_emoji_food, R.drawable.msg_emoji_activities, R.drawable.msg_emoji_travel, R.drawable.msg_emoji_objects, R.drawable.msg_emoji_other, R.drawable.msg_emoji_flags};
     private static int[] emojiTabsAnimatedDrawableIds = {R.raw.msg_emoji_smiles, R.raw.msg_emoji_cat, R.raw.msg_emoji_food, R.raw.msg_emoji_activities, R.raw.msg_emoji_travel, R.raw.msg_emoji_objects, R.raw.msg_emoji_other, R.raw.msg_emoji_flags};
 
-    /* loaded from: classes3.dex */
     public class EmojiTabButton extends ViewGroup {
         AnimatedEmojiDrawable animatedEmoji;
         TLRPC.Document animatedEmojiDocument;
@@ -696,8 +695,7 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class EmojiTabsView extends ScrollableHorizontalScrollView {
+    class EmojiTabsView extends ScrollableHorizontalScrollView {
         public long id;
         private float showT;
         private boolean shown;
@@ -828,7 +826,6 @@ public abstract class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
     }
 
-    /* loaded from: classes3.dex */
     private static class StabDrawable extends Drawable {
         private final Paint paint;
         private final RectF rectF;

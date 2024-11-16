@@ -39,9 +39,7 @@ public class FireworksOverlay extends View {
     private boolean startedFall;
     private boolean withStars;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Particle {
+    private class Particle {
         byte colorType;
         byte finishedStart;
         float moveX;
@@ -341,8 +339,7 @@ public class FireworksOverlay extends View {
         onStop();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onStop() {
+    protected void onStop() {
     }
 
     public void start() {

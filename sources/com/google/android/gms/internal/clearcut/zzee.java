@@ -5,18 +5,15 @@ final class zzee {
     private final String info;
     private int position = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzee(String str) {
+    zzee(String str) {
         this.info = str;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean hasNext() {
+    final boolean hasNext() {
         return this.position < this.info.length();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int next() {
+    final int next() {
         String str = this.info;
         int i = this.position;
         this.position = i + 1;

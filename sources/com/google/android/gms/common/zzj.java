@@ -14,14 +14,12 @@ import java.util.Arrays;
 abstract class zzj extends zzy {
     private final int zza;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzj(byte[] bArr) {
+    protected zzj(byte[] bArr) {
         Preconditions.checkArgument(bArr.length == 25);
         this.zza = Arrays.hashCode(bArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static byte[] zze(String str) {
+    protected static byte[] zze(String str) {
         try {
             return str.getBytes("ISO-8859-1");
         } catch (UnsupportedEncodingException e) {

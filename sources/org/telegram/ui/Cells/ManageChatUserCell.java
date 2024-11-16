@@ -52,7 +52,6 @@ public class ManageChatUserCell extends FrameLayout {
     private final StoriesUtilities.AvatarStoryParams storyAvatarParams;
     private TL_stories.StoryItem storyItem;
 
-    /* loaded from: classes4.dex */
     public interface ManageChatUserCellDelegate {
         boolean onOptionsButtonCheck(ManageChatUserCell manageChatUserCell, boolean z);
     }
@@ -72,9 +71,8 @@ public class ManageChatUserCell extends FrameLayout {
         this.namePadding = i2;
         this.avatarDrawable = new AvatarDrawable();
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.ManageChatUserCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 if (ManageChatUserCell.this.storyItem == null) {
                     super.onDraw(canvas);
                     return;

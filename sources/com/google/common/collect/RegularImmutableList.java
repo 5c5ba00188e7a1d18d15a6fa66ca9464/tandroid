@@ -3,22 +3,19 @@ package com.google.common.collect;
 import com.google.common.base.Preconditions;
 import java.util.Objects;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class RegularImmutableList extends ImmutableList {
+class RegularImmutableList extends ImmutableList {
     static final ImmutableList EMPTY = new RegularImmutableList(new Object[0], 0);
     final transient Object[] array;
     private final transient int size;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RegularImmutableList(Object[] objArr, int i) {
+    RegularImmutableList(Object[] objArr, int i) {
         this.array = objArr;
         this.size = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableList, com.google.common.collect.ImmutableCollection
-    public int copyIntoArray(Object[] objArr, int i) {
+    int copyIntoArray(Object[] objArr, int i) {
         System.arraycopy(this.array, 0, objArr, i, this.size);
         return i + this.size;
     }
@@ -31,9 +28,8 @@ public class RegularImmutableList extends ImmutableList {
         return obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public Object[] internalArray() {
+    Object[] internalArray() {
         return this.array;
     }
 
@@ -42,15 +38,13 @@ public class RegularImmutableList extends ImmutableList {
         return this.size;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public int internalArrayStart() {
+    int internalArrayStart() {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.common.collect.ImmutableCollection
-    public boolean isPartialView() {
+    boolean isPartialView() {
         return false;
     }
 

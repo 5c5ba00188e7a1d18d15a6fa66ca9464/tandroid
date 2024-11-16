@@ -26,14 +26,12 @@ public final class TimeSignalCommand extends SpliceCommand {
         this.playbackPositionUs = j2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static TimeSignalCommand parseFromSection(ParsableByteArray parsableByteArray, long j, TimestampAdjuster timestampAdjuster) {
+    static TimeSignalCommand parseFromSection(ParsableByteArray parsableByteArray, long j, TimestampAdjuster timestampAdjuster) {
         long parseSpliceTime = parseSpliceTime(parsableByteArray, j);
         return new TimeSignalCommand(parseSpliceTime, timestampAdjuster.adjustTsTimestamp(parseSpliceTime));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long parseSpliceTime(ParsableByteArray parsableByteArray, long j) {
+    static long parseSpliceTime(ParsableByteArray parsableByteArray, long j) {
         long readUnsignedByte = parsableByteArray.readUnsignedByte();
         if ((128 & readUnsignedByte) != 0) {
             return 8589934591L & ((((readUnsignedByte & 1) << 32) | parsableByteArray.readUnsignedInt()) + j);

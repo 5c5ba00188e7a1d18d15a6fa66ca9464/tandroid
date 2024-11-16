@@ -298,8 +298,7 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean checkPasscode(Intent intent, boolean z, boolean z2, boolean z3, int i, int i2) {
+    protected boolean checkPasscode(Intent intent, boolean z, boolean z2, boolean z3, int i, int i2) {
         if (z3 || !(AndroidUtilities.needShowPasscode(true) || SharedConfig.isWaitingForPasscodeEnter)) {
             return true;
         }

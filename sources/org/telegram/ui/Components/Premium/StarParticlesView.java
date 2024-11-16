@@ -39,7 +39,6 @@ public class StarParticlesView extends View {
     public Drawable drawable;
     int size;
 
-    /* loaded from: classes3.dex */
     public static class Drawable {
         float a;
         float a1;
@@ -97,7 +96,6 @@ public class StarParticlesView extends View {
         public final boolean[] flip = new boolean[3];
         private int lastParticleI = 0;
 
-        /* loaded from: classes3.dex */
         public class Particle {
             private int alpha;
             private float drawingX;
@@ -171,7 +169,7 @@ public class StarParticlesView extends View {
                     if (Drawable.this.checkTime) {
                         long j2 = this.lifeTime - j;
                         if (j2 < 200) {
-                            f2 = Utilities.clamp(1.0f - (((float) j2) / 150.0f), 1.0f, 0.0f);
+                            f2 = Utilities.clamp(1.0f - (j2 / 150.0f), 1.0f, 0.0f);
                             f3 = this.inProgress;
                             if (f3 >= 1.0f || GLIconSettingsView.smallStarsSize != 1.0f) {
                                 float interpolation = AndroidUtilities.overshootInterpolator.getInterpolation(f3) * GLIconSettingsView.smallStarsSize;
@@ -639,7 +637,7 @@ public class StarParticlesView extends View {
             long clamp = MathUtils.clamp(currentTimeMillis - this.prevTime, 4L, 50L);
             if (this.useRotate) {
                 this.matrix.reset();
-                float f2 = (float) clamp;
+                float f2 = clamp;
                 float f3 = this.a + ((f2 / 40000.0f) * 360.0f);
                 this.a = f3;
                 this.a1 += (f2 / 50000.0f) * 360.0f;
@@ -714,8 +712,7 @@ public class StarParticlesView extends View {
         this.drawable.speedScale = ((Float) valueAnimator.getAnimatedValue()).floatValue();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void configure() {
+    protected void configure() {
         Drawable drawable = this.drawable;
         drawable.type = 100;
         drawable.roundEffect = true;
@@ -782,9 +779,8 @@ public class StarParticlesView extends View {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         int measuredWidth = getMeasuredWidth() << (getMeasuredHeight() + 16);
         this.drawable.rect.set(0.0f, 0.0f, getStarsRectWidth(), AndroidUtilities.dp(140.0f));

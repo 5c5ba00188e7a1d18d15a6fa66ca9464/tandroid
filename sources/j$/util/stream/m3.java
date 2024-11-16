@@ -3,11 +3,9 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class m3 extends n3 implements j$.util.Q {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public m3(j$.util.Q q, long j, long j2) {
+final class m3 extends n3 implements j$.util.Q {
+    m3(j$.util.Q q, long j, long j2) {
         super(q, j, j2, 0L, Math.min(q.estimateSize(), j2));
     }
 

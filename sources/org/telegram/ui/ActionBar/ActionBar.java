@@ -129,7 +129,6 @@ public class ActionBar extends FrameLayout {
     private FrameLayout titlesContainer;
     private boolean useContainerForTitles;
 
-    /* loaded from: classes4.dex */
     public static class ActionBarMenuOnItemClick {
         public boolean canOpenMenu() {
             return true;
@@ -476,9 +475,8 @@ public class ActionBar extends FrameLayout {
         return this.menu;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         if (this.blurredBackground && this.actionBarColor != 0) {
             this.rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
             this.blurScrimPaint.setColor(this.actionBarColor);
@@ -487,14 +485,13 @@ public class ActionBar extends FrameLayout {
         super.dispatchDraw(canvas);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:56:0x013e  */
     /* JADX WARN: Removed duplicated region for block: B:57:0x0142  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean drawChild(Canvas canvas, View view, long j) {
+    protected boolean drawChild(Canvas canvas, View view, long j) {
         Drawable currentHolidayDrawable;
         SnowflakesEffect snowflakesEffect;
         SnowflakesEffect snowflakesEffect2;
@@ -831,14 +828,13 @@ public class ActionBar extends FrameLayout {
         return (onTouchListener != null && onTouchListener.onTouch(this, motionEvent)) || super.onInterceptTouchEvent(motionEvent);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:108:0x0244  */
     /* JADX WARN: Removed duplicated region for block: B:116:0x0253  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         float f;
         int i5;
         int i6;
@@ -956,7 +952,6 @@ public class ActionBar extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:147:0x020e, code lost:
     
         if (getResources().getConfiguration().orientation == 2) goto L138;
@@ -979,7 +974,7 @@ public class ActionBar extends FrameLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         float f;
         SimpleTextView simpleTextView;
         SimpleTextView simpleTextView2;
@@ -1134,8 +1129,7 @@ public class ActionBar extends FrameLayout {
         actionBarMenu.onMenuButtonPressed();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onPause() {
+    protected void onPause() {
         this.resumed = false;
         updateAttachState();
         ActionBarMenu actionBarMenu = this.menu;
@@ -1909,8 +1903,7 @@ public class ActionBar extends FrameLayout {
         return this.addToContainer;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean shouldClipChild(View view) {
+    protected boolean shouldClipChild(View view) {
         if (!this.clipContent) {
             return false;
         }

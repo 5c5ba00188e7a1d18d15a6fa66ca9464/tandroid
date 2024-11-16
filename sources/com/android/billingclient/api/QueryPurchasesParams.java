@@ -4,7 +4,6 @@ package com.android.billingclient.api;
 public final class QueryPurchasesParams {
     private final String zza;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private String zza;
 

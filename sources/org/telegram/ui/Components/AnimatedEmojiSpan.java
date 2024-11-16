@@ -62,7 +62,6 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
     public boolean standard;
     public boolean top;
 
-    /* loaded from: classes3.dex */
     public static class AnimatedEmojiHolder implements InvalidateHolder {
         public float alpha;
         private ImageReceiver.BackgroundThreadDrawHolder[] backgroundDrawHolder = new ImageReceiver.BackgroundThreadDrawHolder[2];
@@ -174,7 +173,6 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class EmojiGroupedSpans {
         public ArrayList holders = new ArrayList();
         HashMap groupedByLayout = new HashMap();
@@ -243,14 +241,11 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface InvalidateHolder {
         void invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SpansChunk {
+    private static class SpansChunk {
         private boolean allowBackgroundRendering;
         DrawingInBackgroundThreadDrawable backgroundThreadDrawable;
         ArrayList holders = new ArrayList();
@@ -390,7 +385,6 @@ public class AnimatedEmojiSpan extends ReplacementSpan {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TextViewEmojis extends TextView {
         EmojiGroupedSpans stack;
 

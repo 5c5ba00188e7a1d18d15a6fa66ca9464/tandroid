@@ -48,19 +48,16 @@ public class CleanInputStream extends FilterInputStream {
         }
         bArr[i] = (byte) read;
         int i3 = 1;
-        while (true) {
-            if (i3 < i2) {
-                try {
-                    int read2 = read();
-                    if (read2 == -1) {
-                        break;
-                    }
-                    bArr[i + i3] = (byte) read2;
-                    i3++;
-                } catch (IOException unused) {
+        while (i3 < i2) {
+            try {
+                int read2 = read();
+                if (read2 == -1) {
+                    break;
                 }
+                bArr[i + i3] = (byte) read2;
+                i3++;
+            } catch (IOException unused) {
             }
-            return i3;
         }
         return i3;
     }

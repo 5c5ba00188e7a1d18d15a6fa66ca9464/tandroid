@@ -29,7 +29,6 @@ public final class Tracks implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     public static final class Group implements Bundleable {
         private final boolean adaptiveSupported;
         public final int length;

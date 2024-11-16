@@ -33,7 +33,6 @@ public class PaintToolsView extends LinearLayout {
     private int selectedIndex;
     private Paint selectorPaint;
 
-    /* loaded from: classes3.dex */
     public interface Delegate {
         void onAddButtonPressed(View view);
 

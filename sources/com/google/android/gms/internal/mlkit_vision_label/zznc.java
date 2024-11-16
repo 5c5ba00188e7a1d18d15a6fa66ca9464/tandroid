@@ -7,6 +7,9 @@ final class zznc extends zzng {
     private int zzc;
     private byte zzd;
 
+    zznc() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzng
     public final zzng zza(boolean z) {
         this.zzb = true;

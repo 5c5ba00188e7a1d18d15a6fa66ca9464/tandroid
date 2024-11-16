@@ -36,9 +36,7 @@ public class StoriesIntro extends FrameLayout {
     private final Runnable startItemAnimationRunnable;
     private ValueAnimator valueAnimator;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public static class StoriesIntroItemView extends View {
+    static class StoriesIntroItemView extends View {
         private final Paint backgroundPaint;
         private final String header;
         private final TextPaint headerTextPaint;
@@ -251,8 +249,7 @@ public class StoriesIntro extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void startAnimation(boolean z) {
+    void startAnimation(boolean z) {
         ValueAnimator valueAnimator = this.valueAnimator;
         if (valueAnimator != null) {
             valueAnimator.cancel();

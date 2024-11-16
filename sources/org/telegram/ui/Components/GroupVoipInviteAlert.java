@@ -68,7 +68,6 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
     private final SearchAdapter searchAdapter;
     private boolean showContacts;
 
-    /* loaded from: classes3.dex */
     public interface GroupVoipInviteAlertDelegate {
         void copyInviteLink();
 
@@ -77,7 +76,6 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         void needOpenSearch(MotionEvent motionEvent, EditTextBoldCursor editTextBoldCursor);
     }
 
-    /* loaded from: classes3.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -177,7 +175,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
 
         /* JADX WARN: Multi-variable type inference failed */
         /* JADX WARN: Type inference failed for: r4v10, types: [org.telegram.ui.Cells.ManageChatTextCell] */
-        /* JADX WARN: Type inference failed for: r4v11, types: [org.telegram.ui.Cells.GraySectionCell, android.view.View] */
+        /* JADX WARN: Type inference failed for: r4v11, types: [android.view.View, org.telegram.ui.Cells.GraySectionCell] */
         /* JADX WARN: Type inference failed for: r4v12, types: [android.view.View] */
         /* JADX WARN: Type inference failed for: r4v14, types: [android.view.View] */
         /* JADX WARN: Type inference failed for: r5v13, types: [org.telegram.ui.Components.FlickerLoadingView] */
@@ -232,8 +230,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int emptyRow;
         private int globalStartRow;
         private int groupStartRow;
@@ -607,7 +604,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r3v10, types: [org.telegram.ui.Cells.GraySectionCell, android.view.View] */
+        /* JADX WARN: Type inference failed for: r3v10, types: [android.view.View, org.telegram.ui.Cells.GraySectionCell] */
         /* JADX WARN: Type inference failed for: r3v11, types: [android.view.View] */
         /* JADX WARN: Type inference failed for: r3v12, types: [android.view.View] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

@@ -51,9 +51,7 @@ public class FirebaseApp {
     private final List backgroundStateChangeListeners = new CopyOnWriteArrayList();
     private final List lifecycleListeners = new CopyOnWriteArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class GlobalBackgroundStateListener implements BackgroundDetector.BackgroundStateChangeListener {
+    private static class GlobalBackgroundStateListener implements BackgroundDetector.BackgroundStateChangeListener {
         private static AtomicReference INSTANCE = new AtomicReference();
 
         private GlobalBackgroundStateListener() {
@@ -91,7 +89,6 @@ public class FirebaseApp {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class UiExecutor implements Executor {
         private static final Handler HANDLER = new Handler(Looper.getMainLooper());
 
@@ -104,9 +101,7 @@ public class FirebaseApp {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class UserUnlockReceiver extends BroadcastReceiver {
+    private static class UserUnlockReceiver extends BroadcastReceiver {
         private static AtomicReference INSTANCE = new AtomicReference();
         private final Context applicationContext;
 

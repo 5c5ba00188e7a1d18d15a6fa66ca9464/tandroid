@@ -2,13 +2,11 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.nio.charset.Charset;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class zzdx extends zzdu {
+class zzdx extends zzdu {
     protected final byte[] zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdx(byte[] bArr) {
+    zzdx(byte[] bArr) {
         bArr.getClass();
         this.zzb = bArr;
     }
@@ -62,9 +60,8 @@ public class zzdx extends zzdu {
         return new String(this.zzb, zze(), zza(), charset);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public final void zza(zzdk zzdkVar) {
+    final void zza(zzdk zzdkVar) {
         zzdkVar.zza(this.zzb, zze(), zza());
     }
 
@@ -106,9 +103,8 @@ public class zzdx extends zzdu {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzdn
-    public byte zzb(int i) {
+    byte zzb(int i) {
         return this.zzb[i];
     }
 

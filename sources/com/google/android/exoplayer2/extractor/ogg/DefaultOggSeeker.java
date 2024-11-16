@@ -9,9 +9,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.io.EOFException;
 import java.io.IOException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class DefaultOggSeeker implements OggSeeker {
+final class DefaultOggSeeker implements OggSeeker {
     private long end;
     private long endGranule;
     private final OggPageHeader pageHeader;
@@ -25,9 +24,7 @@ public final class DefaultOggSeeker implements OggSeeker {
     private long targetGranule;
     private long totalGranules;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class OggSeekMap implements SeekMap {
+    private final class OggSeekMap implements SeekMap {
         private OggSeekMap() {
         }
 

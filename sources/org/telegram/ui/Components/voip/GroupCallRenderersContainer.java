@@ -573,8 +573,7 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         return (this.hasPinnedVideo || System.currentTimeMillis() - this.lastUpdateTime <= 2000 || this.swipeToBackGesture || this.isInPinchToZoomTouchMode) ? false : true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean canHideUI() {
+    protected boolean canHideUI() {
         return this.inFullscreenMode;
     }
 
@@ -873,9 +872,8 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup
-    public boolean drawChild(Canvas canvas, View view, long j) {
+    protected boolean drawChild(Canvas canvas, View view, long j) {
         if (!this.drawFirst) {
             UndoView[] undoViewArr = this.undoView;
             if (view == undoViewArr[0] || view == undoViewArr[1]) {
@@ -1767,8 +1765,7 @@ public abstract class GroupCallRenderersContainer extends FrameLayout {
         this.speakingMembersAvatars.commitTransition(z2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void update() {
+    protected void update() {
         invalidate();
     }
 }

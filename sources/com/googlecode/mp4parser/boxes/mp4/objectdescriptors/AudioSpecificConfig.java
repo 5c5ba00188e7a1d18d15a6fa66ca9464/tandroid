@@ -56,7 +56,6 @@ public class AudioSpecificConfig extends BaseDescriptor {
     public static Map samplingFrequencyIndexMap = new HashMap();
     public static Map audioObjectTypeMap = new HashMap();
 
-    /* loaded from: classes.dex */
     public class ELDSpecificConfig {
         public boolean aacScalefactorDataResilienceFlag;
         public boolean aacSectionDataResilienceFlag;
@@ -119,12 +118,11 @@ public class AudioSpecificConfig extends BaseDescriptor {
                     break;
             }
             for (int i3 = 0; i3 < i2; i3++) {
-                new sbr_header(bitReaderBuffer);
+                AudioSpecificConfig.this.new sbr_header(bitReaderBuffer);
             }
         }
     }
 
-    /* loaded from: classes.dex */
     public class sbr_header {
         public boolean bs_alter_scale;
         public boolean bs_amp_res;

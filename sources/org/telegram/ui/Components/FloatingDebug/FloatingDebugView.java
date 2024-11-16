@@ -78,7 +78,6 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     private int touchSlop;
     private int wasStatusBar;
 
-    /* loaded from: classes3.dex */
     static /* synthetic */ class 4 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType;
 
@@ -100,7 +99,6 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* loaded from: classes3.dex */
     private class SeekBarCell extends FrameLayout {
         private AnimationProperties.FloatProperty callback;
         private int lastWidth;
@@ -388,7 +386,7 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 int i2 = 4.$SwitchMap$org$telegram$ui$Components$FloatingDebug$FloatingDebugController$DebugItemType[FloatingDebugController.DebugItemType.values()[i].ordinal()];
-                View alertDialogCell = i2 != 2 ? i2 != 3 ? new AlertDialog.AlertDialogCell(context, null) : new SeekBarCell(context) : new HeaderCell(context);
+                View alertDialogCell = i2 != 2 ? i2 != 3 ? new AlertDialog.AlertDialogCell(context, null) : FloatingDebugView.this.new SeekBarCell(context) : new HeaderCell(context);
                 alertDialogCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 return new RecyclerListView.Holder(alertDialogCell);
             }

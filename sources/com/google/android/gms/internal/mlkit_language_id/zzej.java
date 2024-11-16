@@ -257,8 +257,7 @@ final class zzej {
         return this.zzc ? new zzff(this.zza.entrySet().iterator()) : this.zza.entrySet().iterator();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Iterator zze() {
+    final Iterator zze() {
         return this.zzc ? new zzff(this.zza.zze().iterator()) : this.zza.zze().iterator();
     }
 

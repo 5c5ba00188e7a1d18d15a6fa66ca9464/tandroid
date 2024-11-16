@@ -3,11 +3,9 @@ package com.google.common.collect;
 import com.google.common.base.Objects;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class CompactHashing {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object createTable(int i) {
+abstract class CompactHashing {
+    static Object createTable(int i) {
         if (i >= 2 && i <= 1073741824 && Integer.highestOneBit(i) == i) {
             return i <= 256 ? new byte[i] : i <= 65536 ? new short[i] : new int[i];
         }
@@ -17,28 +15,23 @@ public abstract class CompactHashing {
         throw new IllegalArgumentException(sb.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int getHashPrefix(int i, int i2) {
+    static int getHashPrefix(int i, int i2) {
         return i & (i2 ^ (-1));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int getNext(int i, int i2) {
+    static int getNext(int i, int i2) {
         return i & i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int maskCombine(int i, int i2, int i3) {
+    static int maskCombine(int i, int i2, int i3) {
         return (i & (i3 ^ (-1))) | (i2 & i3);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int newCapacity(int i) {
+    static int newCapacity(int i) {
         return (i < 32 ? 4 : 2) * (i + 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int remove(Object obj, Object obj2, int i, Object obj3, int[] iArr, Object[] objArr, Object[] objArr2) {
+    static int remove(Object obj, Object obj2, int i, Object obj3, int[] iArr, Object[] objArr, Object[] objArr2) {
         int i2;
         int i3;
         int smearedHash = Hashing.smearedHash(obj);
@@ -70,8 +63,7 @@ public abstract class CompactHashing {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tableClear(Object obj) {
+    static void tableClear(Object obj) {
         if (obj instanceof byte[]) {
             Arrays.fill((byte[]) obj, (byte) 0);
         } else if (obj instanceof short[]) {
@@ -81,13 +73,11 @@ public abstract class CompactHashing {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int tableGet(Object obj, int i) {
+    static int tableGet(Object obj, int i) {
         return obj instanceof byte[] ? ((byte[]) obj)[i] & 255 : obj instanceof short[] ? ((short[]) obj)[i] & 65535 : ((int[]) obj)[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void tableSet(Object obj, int i, int i2) {
+    static void tableSet(Object obj, int i, int i2) {
         if (obj instanceof byte[]) {
             ((byte[]) obj)[i] = (byte) i2;
         } else if (obj instanceof short[]) {
@@ -97,8 +87,7 @@ public abstract class CompactHashing {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int tableSize(int i) {
+    static int tableSize(int i) {
         return Math.max(4, Hashing.closedTableSize(i + 1, 1.0d));
     }
 }

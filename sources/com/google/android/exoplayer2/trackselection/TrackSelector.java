@@ -13,13 +13,11 @@ public abstract class TrackSelector {
     private BandwidthMeter bandwidthMeter;
     private InvalidationListener listener;
 
-    /* loaded from: classes.dex */
     public interface InvalidationListener {
         void onTrackSelectionsInvalidated();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final BandwidthMeter getBandwidthMeter() {
+    protected final BandwidthMeter getBandwidthMeter() {
         return (BandwidthMeter) Assertions.checkStateNotNull(this.bandwidthMeter);
     }
 
@@ -30,8 +28,7 @@ public abstract class TrackSelector {
         this.bandwidthMeter = bandwidthMeter;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void invalidate() {
+    protected final void invalidate() {
         InvalidationListener invalidationListener = this.listener;
         if (invalidationListener != null) {
             invalidationListener.onTrackSelectionsInvalidated();

@@ -197,8 +197,7 @@ public class ConfigFetchHttpClient {
         setCustomRequestHeaders(httpURLConnection, map);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpURLConnection createHttpURLConnection() {
+    HttpURLConnection createHttpURLConnection() {
         try {
             return (HttpURLConnection) new URL(getFetchUrl(this.projectNumber, this.namespace)).openConnection();
         } catch (IOException e) {
@@ -206,8 +205,7 @@ public class ConfigFetchHttpClient {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ConfigFetchHandler.FetchResponse fetch(HttpURLConnection httpURLConnection, String str, String str2, Map<String, String> map, String str3, Map<String, String> map2, Date date) {
+    ConfigFetchHandler.FetchResponse fetch(HttpURLConnection httpURLConnection, String str, String str2, Map<String, String> map, String str3, Map<String, String> map2, Date date) {
         setUpUrlConnection(httpURLConnection, str3, str2, map2);
         try {
             try {

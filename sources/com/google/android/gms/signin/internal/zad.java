@@ -8,7 +8,6 @@ public abstract class zad extends com.google.android.gms.internal.base.zab imple
         super("com.google.android.gms.signin.internal.ISignInCallbacks");
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:1:0x0000. Please report as an issue. */
     @Override // com.google.android.gms.internal.base.zab
     protected final boolean zaa(int i, Parcel parcel, Parcel parcel2, int i2) {
         switch (i) {

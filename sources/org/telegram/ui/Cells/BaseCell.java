@@ -28,9 +28,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
     private RenderNode renderNode;
     protected boolean updatedContent;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class CheckForLongPress implements Runnable {
+    class CheckForLongPress implements Runnable {
         public int currentPressCount;
 
         CheckForLongPress() {
@@ -50,9 +48,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public final class CheckForTap implements Runnable {
+    private final class CheckForTap implements Runnable {
         private CheckForTap() {
         }
 
@@ -60,7 +56,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         public void run() {
             if (BaseCell.this.pendingCheckForLongPress == null) {
                 BaseCell baseCell = BaseCell.this;
-                baseCell.pendingCheckForLongPress = new CheckForLongPress();
+                baseCell.pendingCheckForLongPress = baseCell.new CheckForLongPress();
             }
             BaseCell.this.pendingCheckForLongPress.currentPressCount = BaseCell.access$104(BaseCell.this);
             BaseCell baseCell2 = BaseCell.this;
@@ -68,7 +64,6 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class RippleDrawableSafe extends RippleDrawable {
         public RippleDrawableSafe(ColorStateList colorStateList, Drawable drawable, Drawable drawable2) {
             super(colorStateList, drawable, drawable2);
@@ -145,8 +140,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void cancelCheckLongPress() {
+    protected void cancelCheckLongPress() {
         this.checkingForLongPress = false;
         CheckForLongPress checkForLongPress = this.pendingCheckForLongPress;
         if (checkForLongPress != null) {
@@ -255,8 +249,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         this.cachingBottom = z3;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void startCheckLongPress() {
+    protected void startCheckLongPress() {
         if (this.checkingForLongPress) {
             return;
         }

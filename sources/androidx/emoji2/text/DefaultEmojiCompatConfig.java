@@ -20,7 +20,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class DefaultEmojiCompatConfig {
 
-    /* loaded from: classes.dex */
     public static class DefaultEmojiCompatConfigFactory {
         private final DefaultEmojiCompatConfigHelper mHelper;
 
@@ -89,7 +88,6 @@ public abstract class DefaultEmojiCompatConfig {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DefaultEmojiCompatConfigHelper {
         public abstract ProviderInfo getProviderInfo(ResolveInfo resolveInfo);
 
@@ -100,7 +98,6 @@ public abstract class DefaultEmojiCompatConfig {
         public abstract List queryIntentContentProviders(PackageManager packageManager, Intent intent, int i);
     }
 
-    /* loaded from: classes.dex */
     public static class DefaultEmojiCompatConfigHelper_API19 extends DefaultEmojiCompatConfigHelper {
         @Override // androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigHelper
         public ProviderInfo getProviderInfo(ResolveInfo resolveInfo) {
@@ -113,7 +110,6 @@ public abstract class DefaultEmojiCompatConfig {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DefaultEmojiCompatConfigHelper_API28 extends DefaultEmojiCompatConfigHelper_API19 {
         @Override // androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigHelper
         public Signature[] getSigningSignatures(PackageManager packageManager, String str) {

@@ -19,8 +19,7 @@ public final class LocationAvailability extends AbstractSafeParcelable implement
     public static final LocationAvailability zzb = new LocationAvailability(1000, 1, 1, 0, null, false);
     public static final Parcelable.Creator<LocationAvailability> CREATOR = new zzw();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocationAvailability(int i, int i2, int i3, long j, zzac[] zzacVarArr, boolean z) {
+    LocationAvailability(int i, int i2, int i3, long j, zzac[] zzacVarArr, boolean z) {
         this.zzc = i < 1000 ? 0 : 1000;
         this.zzd = i2;
         this.zze = i3;

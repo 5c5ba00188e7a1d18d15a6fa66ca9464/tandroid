@@ -3,7 +3,6 @@ package org.webrtc;
 /* loaded from: classes5.dex */
 public interface VideoDecoderFactory {
 
-    /* loaded from: classes5.dex */
     public abstract /* synthetic */ class -CC {
         public static VideoDecoder $default$createDecoder(VideoDecoderFactory videoDecoderFactory, String str) {
             throw new UnsupportedOperationException("Deprecated and not implemented.");

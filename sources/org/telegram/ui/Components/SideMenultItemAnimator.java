@@ -30,9 +30,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
     ArrayList mRemoveAnimations = new ArrayList();
     ArrayList mChangeAnimations = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ChangeInfo {
+    private static class ChangeInfo {
         public int fromX;
         public int fromY;
         public RecyclerView.ViewHolder newHolder;
@@ -58,9 +56,7 @@ public class SideMenultItemAnimator extends SimpleItemAnimator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class MoveInfo {
+    private static class MoveInfo {
         public int fromX;
         public int fromY;
         public RecyclerView.ViewHolder holder;

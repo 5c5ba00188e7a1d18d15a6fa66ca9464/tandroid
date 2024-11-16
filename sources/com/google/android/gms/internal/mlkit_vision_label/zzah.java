@@ -4,6 +4,9 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class zzah implements Map.Entry {
+    zzah() {
+    }
+
     @Override // java.util.Map.Entry
     public final boolean equals(Object obj) {
         if (obj instanceof Map.Entry) {

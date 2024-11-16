@@ -30,7 +30,6 @@ public class SuperRipple extends ISuperRipple {
     public final float[] t;
     public int width;
 
-    /* loaded from: classes4.dex */
     public static class Effect {
         public final ValueAnimator animator;
         public final float cx;
@@ -191,7 +190,8 @@ public class SuperRipple extends ISuperRipple {
         if (this.effects.size() >= 7) {
             return;
         }
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, (Math.max(Math.max(MathUtils.distance(0.0f, 0.0f, f, f2), MathUtils.distance(this.view.getWidth(), 0.0f, f, f2)), Math.max(MathUtils.distance(0.0f, this.view.getHeight(), f, f2), MathUtils.distance(this.view.getWidth(), this.view.getHeight(), f, f2))) * 2.0f) / (AndroidUtilities.density * 1200.0f));
+        float max = (Math.max(Math.max(MathUtils.distance(0.0f, 0.0f, f, f2), MathUtils.distance(this.view.getWidth(), 0.0f, f, f2)), Math.max(MathUtils.distance(0.0f, this.view.getHeight(), f, f2), MathUtils.distance(this.view.getWidth(), this.view.getHeight(), f, f2))) * 2.0f) / (AndroidUtilities.density * 1200.0f);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, max);
         final Effect effect = new Effect(f, f2, f3, ofFloat);
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stars.SuperRipple$$ExternalSyntheticLambda9
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -207,7 +207,7 @@ public class SuperRipple extends ISuperRipple {
             }
         });
         ofFloat.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        ofFloat.setDuration(r2 * 1000.0f);
+        ofFloat.setDuration((long) (max * 1000.0f));
         this.effects.add(effect);
         updateProperties();
         ofFloat.start();

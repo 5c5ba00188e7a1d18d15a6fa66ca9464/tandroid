@@ -4,6 +4,9 @@ package j$.util.stream;
 final class W2 extends Y2 implements j$.util.function.F {
     final int[] c = new int[128];
 
+    W2() {
+    }
+
     @Override // j$.util.stream.Y2
     public final void a(Object obj, long j) {
         j$.util.function.F f = (j$.util.function.F) obj;

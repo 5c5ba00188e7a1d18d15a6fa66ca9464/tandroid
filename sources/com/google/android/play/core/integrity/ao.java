@@ -8,8 +8,7 @@ final class ao extends IntegrityTokenRequest {
     private final Long b;
     private final Object c = null;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ ao(String str, Long l, Object obj, an anVar) {
+    /* synthetic */ ao(String str, Long l, Object obj, an anVar) {
         this.a = str;
         this.b = l;
     }

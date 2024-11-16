@@ -22,7 +22,6 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public abstract class GigagroupConvertAlert extends BottomSheet {
 
-    /* loaded from: classes3.dex */
     public static class BottomSheetCell extends FrameLayout {
         private View background;
         private TextView textView;

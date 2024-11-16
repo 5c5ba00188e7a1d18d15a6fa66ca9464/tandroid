@@ -98,45 +98,21 @@ public class Bulletin {
     private boolean showing;
     public int tag;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends ParentLayout {
-        final /* synthetic */ FrameLayout val$containerLayout;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        1(Layout layout, FrameLayout frameLayout) {
-            super(layout);
-            r3 = frameLayout;
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.ParentLayout
-        protected void onHide() {
-            Bulletin.this.hide();
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.ParentLayout
-        protected void onPressedStateChanged(boolean z) {
-            Bulletin.this.setCanHide(!z);
-            if (r3.getParent() != null) {
-                r3.getParent().requestDisallowInterceptTouchEvent(z);
-            }
-        }
-    }
-
-    /* loaded from: classes3.dex */
-    public class 2 implements View.OnLayoutChangeListener {
+    class 2 implements View.OnLayoutChangeListener {
         final /* synthetic */ boolean val$top;
 
         2(boolean z) {
             this.val$top = z;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onLayoutChange$0() {
             Bulletin.this.layout.transitionRunningEnter = false;
             Bulletin.this.layout.onEnterTransitionEnd();
             Bulletin.this.setCanHide(true);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onLayoutChange$1(boolean z, Float f) {
             if (Bulletin.this.currentDelegate == null || z) {
                 return;
@@ -158,7 +134,7 @@ public class Bulletin {
                 if (Bulletin.this.currentDelegate != null) {
                     Bulletin.this.currentDelegate.onShow(Bulletin.this);
                 }
-                if (!Bulletin.access$800()) {
+                if (!Bulletin.isTransitionsEnabled()) {
                     if (Bulletin.this.currentDelegate != null && !this.val$top) {
                         Bulletin.this.currentDelegate.onBottomOffsetChange(Bulletin.this.layout.getHeight() - Bulletin.this.currentBottomOffset);
                     }
@@ -199,84 +175,10 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
-    public class 3 implements View.OnAttachStateChangeListener {
-        3() {
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewAttachedToWindow(View view) {
-        }
-
-        @Override // android.view.View.OnAttachStateChangeListener
-        public void onViewDetachedFromWindow(View view) {
-            Bulletin.this.layout.removeOnAttachStateChangeListener(this);
-            Bulletin.this.hide(false, 0L);
-        }
-    }
-
-    /* loaded from: classes3.dex */
     public static class BulletinWindow extends Dialog {
         private final BulletinWindowLayout container;
         private WindowManager.LayoutParams params;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 implements Delegate {
-            final /* synthetic */ Delegate val$delegate;
-
-            1(Delegate delegate) {
-                r2 = delegate;
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ boolean allowLayoutChanges() {
-                return Delegate.-CC.$default$allowLayoutChanges(this);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ boolean bottomOffsetAnimated() {
-                return Delegate.-CC.$default$bottomOffsetAnimated(this);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public boolean clipWithGradient(int i) {
-                Delegate delegate = r2;
-                return delegate != null && delegate.clipWithGradient(i);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public int getBottomOffset(int i) {
-                Delegate delegate = r2;
-                if (delegate == null) {
-                    return 0;
-                }
-                return delegate.getBottomOffset(i);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public int getTopOffset(int i) {
-                Delegate delegate = r2;
-                return delegate == null ? AndroidUtilities.statusBarHeight : delegate.getTopOffset(i);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ void onBottomOffsetChange(float f) {
-                Delegate.-CC.$default$onBottomOffsetChange(this, f);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ void onHide(Bulletin bulletin) {
-                Delegate.-CC.$default$onHide(this, bulletin);
-            }
-
-            @Override // org.telegram.ui.Components.Bulletin.Delegate
-            public /* synthetic */ void onShow(Bulletin bulletin) {
-                Delegate.-CC.$default$onShow(this, bulletin);
-            }
-        }
-
-        /* loaded from: classes3.dex */
         public class BulletinWindowLayout extends FrameLayout {
             public BulletinWindowLayout(Context context) {
                 super(context);
@@ -324,7 +226,7 @@ public class Bulletin {
             }
         }
 
-        private BulletinWindow(Context context, Delegate delegate) {
+        private BulletinWindow(Context context, final Delegate delegate) {
             super(context);
             BulletinWindowLayout bulletinWindowLayout = new BulletinWindowLayout(context);
             this.container = bulletinWindowLayout;
@@ -344,12 +246,6 @@ public class Bulletin {
                 bulletinWindowLayout.setSystemUiVisibility(i >= 30 ? 1792 : 1280);
             }
             Bulletin.addDelegate(bulletinWindowLayout, new Delegate() { // from class: org.telegram.ui.Components.Bulletin.BulletinWindow.1
-                final /* synthetic */ Delegate val$delegate;
-
-                1(Delegate delegate2) {
-                    r2 = delegate2;
-                }
-
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public /* synthetic */ boolean allowLayoutChanges() {
                     return Delegate.-CC.$default$allowLayoutChanges(this);
@@ -362,13 +258,13 @@ public class Bulletin {
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public boolean clipWithGradient(int i2) {
-                    Delegate delegate2 = r2;
+                    Delegate delegate2 = delegate;
                     return delegate2 != null && delegate2.clipWithGradient(i2);
                 }
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public int getBottomOffset(int i2) {
-                    Delegate delegate2 = r2;
+                    Delegate delegate2 = delegate;
                     if (delegate2 == null) {
                         return 0;
                     }
@@ -377,7 +273,7 @@ public class Bulletin {
 
                 @Override // org.telegram.ui.Components.Bulletin.Delegate
                 public int getTopOffset(int i2) {
-                    Delegate delegate2 = r2;
+                    Delegate delegate2 = delegate;
                     return delegate2 == null ? AndroidUtilities.statusBarHeight : delegate2.getTopOffset(i2);
                 }
 
@@ -439,6 +335,7 @@ public class Bulletin {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ WindowInsets lambda$new$0(View view, WindowInsets windowInsets) {
             WindowInsets consumeSystemWindowInsets;
             WindowInsets windowInsets2;
@@ -468,7 +365,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class Button extends FrameLayout implements Layout.Callback {
         public Button(Context context) {
             super(context);
@@ -499,7 +395,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ButtonLayout extends Layout {
         private Button button;
         private int childrenMeasuredWidth;
@@ -530,7 +425,7 @@ public class Bulletin {
         }
 
         @Override // android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             this.childrenMeasuredWidth = 0;
             if (this.wrapWidth) {
                 i = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), Integer.MIN_VALUE);
@@ -567,10 +462,8 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Delegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$allowLayoutChanges(Delegate delegate) {
                 return true;
@@ -619,7 +512,6 @@ public class Bulletin {
         void onShow(Bulletin bulletin);
     }
 
-    /* loaded from: classes3.dex */
     public static class EmptyBulletin extends Bulletin {
         public EmptyBulletin() {
             super();
@@ -631,38 +523,9 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class Layout extends FrameLayout {
-        public static final FloatPropertyCompat IN_OUT_OFFSET_Y = new FloatPropertyCompat("offsetY") { // from class: org.telegram.ui.Components.Bulletin.Layout.1
-            1(String str) {
-                super(str);
-            }
-
-            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
-            public float getValue(Layout layout) {
-                return layout.inOutOffset;
-            }
-
-            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
-            public void setValue(Layout layout, float f) {
-                layout.setInOutOffset(f);
-            }
-        };
-        public static final Property IN_OUT_OFFSET_Y2 = new AnimationProperties.FloatProperty("offsetY") { // from class: org.telegram.ui.Components.Bulletin.Layout.2
-            2(String str) {
-                super(str);
-            }
-
-            @Override // android.util.Property
-            public Float get(Layout layout) {
-                return Float.valueOf(layout.inOutOffset);
-            }
-
-            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-            public void setValue(Layout layout, float f) {
-                layout.setInOutOffset(f);
-            }
-        };
+        public static final FloatPropertyCompat IN_OUT_OFFSET_Y;
+        public static final Property IN_OUT_OFFSET_Y2;
         Drawable background;
         protected Bulletin bulletin;
         private final List callbacks;
@@ -678,44 +541,8 @@ public class Bulletin {
         private int wideScreenGravity;
         private int wideScreenWidth;
 
-        /* loaded from: classes3.dex */
-        class 1 extends FloatPropertyCompat {
-            1(String str) {
-                super(str);
-            }
-
-            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
-            public float getValue(Layout layout) {
-                return layout.inOutOffset;
-            }
-
-            @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
-            public void setValue(Layout layout, float f) {
-                layout.setInOutOffset(f);
-            }
-        }
-
-        /* loaded from: classes3.dex */
-        class 2 extends AnimationProperties.FloatProperty {
-            2(String str) {
-                super(str);
-            }
-
-            @Override // android.util.Property
-            public Float get(Layout layout) {
-                return Float.valueOf(layout.inOutOffset);
-            }
-
-            @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
-            public void setValue(Layout layout, float f) {
-                layout.setInOutOffset(f);
-            }
-        }
-
-        /* loaded from: classes3.dex */
         public interface Callback {
 
-            /* loaded from: classes3.dex */
             public abstract /* synthetic */ class -CC {
                 public static void $default$onAttach(Callback callback, Layout layout, Bulletin bulletin) {
                 }
@@ -753,74 +580,21 @@ public class Bulletin {
             void onShow(Layout layout);
         }
 
-        /* loaded from: classes3.dex */
         public static class DefaultTransition implements Transition {
             long duration = 255;
 
-            /* loaded from: classes3.dex */
-            class 1 extends AnimatorListenerAdapter {
-                final /* synthetic */ Runnable val$endAction;
-                final /* synthetic */ Runnable val$startAction;
-
-                1(Runnable runnable, Runnable runnable2) {
-                    r2 = runnable;
-                    r3 = runnable2;
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    Runnable runnable = r3;
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationStart(Animator animator) {
-                    Runnable runnable = r2;
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                }
-            }
-
-            /* loaded from: classes3.dex */
-            class 2 extends AnimatorListenerAdapter {
-                final /* synthetic */ Runnable val$endAction;
-                final /* synthetic */ Runnable val$startAction;
-
-                2(Runnable runnable, Runnable runnable2) {
-                    r2 = runnable;
-                    r3 = runnable2;
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    Runnable runnable = r3;
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationStart(Animator animator) {
-                    Runnable runnable = r2;
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                }
-            }
-
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$animateEnter$0(Consumer consumer, Layout layout, ValueAnimator valueAnimator) {
                 consumer.accept(Float.valueOf(layout.getTranslationY()));
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$animateExit$1(Consumer consumer, Layout layout, ValueAnimator valueAnimator) {
                 consumer.accept(Float.valueOf(layout.getTranslationY()));
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Layout.Transition
-            public void animateEnter(final Layout layout, Runnable runnable, Runnable runnable2, final Consumer consumer, int i) {
+            public void animateEnter(final Layout layout, final Runnable runnable, final Runnable runnable2, final Consumer consumer, int i) {
                 layout.setInOutOffset(layout.getMeasuredHeight());
                 if (consumer != null) {
                     consumer.accept(Float.valueOf(layout.getTranslationY()));
@@ -830,17 +604,9 @@ public class Bulletin {
                 ofFloat.setInterpolator(Easings.easeOutQuad);
                 if (runnable != null || runnable2 != null) {
                     ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Bulletin.Layout.DefaultTransition.1
-                        final /* synthetic */ Runnable val$endAction;
-                        final /* synthetic */ Runnable val$startAction;
-
-                        1(Runnable runnable3, Runnable runnable22) {
-                            r2 = runnable3;
-                            r3 = runnable22;
-                        }
-
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
-                            Runnable runnable3 = r3;
+                            Runnable runnable3 = runnable2;
                             if (runnable3 != null) {
                                 runnable3.run();
                             }
@@ -848,7 +614,7 @@ public class Bulletin {
 
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationStart(Animator animator) {
-                            Runnable runnable3 = r2;
+                            Runnable runnable3 = runnable;
                             if (runnable3 != null) {
                                 runnable3.run();
                             }
@@ -867,23 +633,15 @@ public class Bulletin {
             }
 
             @Override // org.telegram.ui.Components.Bulletin.Layout.Transition
-            public void animateExit(final Layout layout, Runnable runnable, Runnable runnable2, final Consumer consumer, int i) {
+            public void animateExit(final Layout layout, final Runnable runnable, final Runnable runnable2, final Consumer consumer, int i) {
                 ObjectAnimator ofFloat = ObjectAnimator.ofFloat(layout, (Property<Layout, Float>) Layout.IN_OUT_OFFSET_Y2, layout.getHeight());
                 ofFloat.setDuration(175L);
                 ofFloat.setInterpolator(Easings.easeInQuad);
                 if (runnable != null || runnable2 != null) {
                     ofFloat.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Bulletin.Layout.DefaultTransition.2
-                        final /* synthetic */ Runnable val$endAction;
-                        final /* synthetic */ Runnable val$startAction;
-
-                        2(Runnable runnable3, Runnable runnable22) {
-                            r2 = runnable3;
-                            r3 = runnable22;
-                        }
-
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
-                            Runnable runnable3 = r3;
+                            Runnable runnable3 = runnable2;
                             if (runnable3 != null) {
                                 runnable3.run();
                             }
@@ -891,7 +649,7 @@ public class Bulletin {
 
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationStart(Animator animator) {
-                            Runnable runnable3 = r2;
+                            Runnable runnable3 = runnable;
                             if (runnable3 != null) {
                                 runnable3.run();
                             }
@@ -910,8 +668,8 @@ public class Bulletin {
             }
         }
 
-        /* loaded from: classes3.dex */
         public static class SpringTransition implements Transition {
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$animateEnter$0(Layout layout, Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 layout.setInOutOffset(0.0f);
                 if (z) {
@@ -920,10 +678,12 @@ public class Bulletin {
                 runnable.run();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$animateEnter$1(Consumer consumer, Layout layout, DynamicAnimation dynamicAnimation, float f, float f2) {
                 consumer.accept(Float.valueOf(layout.getTranslationY()));
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$animateExit$2(Runnable runnable, DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 if (z) {
                     return;
@@ -931,6 +691,7 @@ public class Bulletin {
                 runnable.run();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$animateExit$3(Consumer consumer, Layout layout, DynamicAnimation dynamicAnimation, float f, float f2) {
                 consumer.accept(Float.valueOf(layout.getTranslationY()));
             }
@@ -994,11 +755,36 @@ public class Bulletin {
             }
         }
 
-        /* loaded from: classes3.dex */
         public interface Transition {
             void animateEnter(Layout layout, Runnable runnable, Runnable runnable2, Consumer consumer, int i);
 
             void animateExit(Layout layout, Runnable runnable, Runnable runnable2, Consumer consumer, int i);
+        }
+
+        static {
+            String str = "offsetY";
+            IN_OUT_OFFSET_Y = new FloatPropertyCompat(str) { // from class: org.telegram.ui.Components.Bulletin.Layout.1
+                @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
+                public float getValue(Layout layout) {
+                    return layout.inOutOffset;
+                }
+
+                @Override // androidx.dynamicanimation.animation.FloatPropertyCompat
+                public void setValue(Layout layout, float f) {
+                    layout.setInOutOffset(f);
+                }
+            };
+            IN_OUT_OFFSET_Y2 = new AnimationProperties.FloatProperty(str) { // from class: org.telegram.ui.Components.Bulletin.Layout.2
+                @Override // android.util.Property
+                public Float get(Layout layout) {
+                    return Float.valueOf(layout.inOutOffset);
+                }
+
+                @Override // org.telegram.ui.Components.AnimationProperties.FloatProperty
+                public void setValue(Layout layout, float f) {
+                    layout.setInOutOffset(f);
+                }
+            };
         }
 
         public Layout(Context context, Theme.ResourcesProvider resourcesProvider) {
@@ -1015,6 +801,7 @@ public class Bulletin {
             ScaleStateListAnimator.apply(this, 0.02f, 1.5f);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public boolean isNeedSwipeAlphaAnimation(boolean z) {
             if (!isWideScreen() || this.wideScreenWidth == -1) {
                 return false;
@@ -1036,11 +823,13 @@ public class Bulletin {
             return true;
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setInOutOffset(float f) {
             this.inOutOffset = f;
             updatePosition();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void setWideScreenParams(int i, int i2) {
             boolean z;
             boolean z2 = true;
@@ -1170,7 +959,7 @@ public class Bulletin {
             return getMeasuredHeight();
         }
 
-        public int getThemedColor(int i) {
+        protected int getThemedColor(int i) {
             return Theme.getColor(i, this.resourcesProvider);
         }
 
@@ -1200,28 +989,28 @@ public class Bulletin {
             }
         }
 
-        public void onEnterTransitionEnd() {
+        protected void onEnterTransitionEnd() {
             int size = this.callbacks.size();
             for (int i = 0; i < size; i++) {
                 ((Callback) this.callbacks.get(i)).onEnterTransitionEnd(this);
             }
         }
 
-        public void onEnterTransitionStart() {
+        protected void onEnterTransitionStart() {
             int size = this.callbacks.size();
             for (int i = 0; i < size; i++) {
                 ((Callback) this.callbacks.get(i)).onEnterTransitionStart(this);
             }
         }
 
-        public void onExitTransitionEnd() {
+        protected void onExitTransitionEnd() {
             int size = this.callbacks.size();
             for (int i = 0; i < size; i++) {
                 ((Callback) this.callbacks.get(i)).onExitTransitionEnd(this);
             }
         }
 
-        public void onExitTransitionStart() {
+        protected void onExitTransitionStart() {
             int size = this.callbacks.size();
             for (int i = 0; i < size; i++) {
                 ((Callback) this.callbacks.get(i)).onExitTransitionStart(this);
@@ -1277,12 +1066,10 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface LoadingLayout {
         void onTextLoaded(CharSequence charSequence);
     }
 
-    /* loaded from: classes3.dex */
     public static class LoadingLottieLayout extends LottieLayout implements LoadingLayout {
         public LinkSpanDrawable.LinksTextView textLoadingView;
 
@@ -1318,25 +1105,10 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LottieLayout extends ButtonLayout {
         public RLottieImageView imageView;
         private int textColor;
         public TextView textView;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 extends LinkSpanDrawable.LinksTextView {
-            1(Context context) {
-                super(context);
-                setDisablePaddingsOffset(true);
-            }
-
-            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
-            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
-            }
-        }
 
         public LottieLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -1344,9 +1116,8 @@ public class Bulletin {
             this.imageView = rLottieImageView;
             rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
             addView(this.imageView, LayoutHelper.createFrameRelatively(56.0f, 48.0f, 8388627));
-            1 r9 = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.LottieLayout.1
-                1(Context context2) {
-                    super(context2);
+            LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.LottieLayout.1
+                {
                     setDisablePaddingsOffset(true);
                 }
 
@@ -1355,8 +1126,8 @@ public class Bulletin {
                     super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
                 }
             };
-            this.textView = r9;
-            NotificationCenter.listenEmojiLoading(r9);
+            this.textView = linksTextView;
+            NotificationCenter.listenEmojiLoading(linksTextView);
             this.textView.setSingleLine();
             this.textView.setTypeface(Typeface.SANS_SERIF);
             this.textView.setTextSize(1, 15.0f);
@@ -1414,7 +1185,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LottieLayoutWithReactions extends LottieLayout implements NotificationCenter.NotificationCenterDelegate {
         private Bulletin bulletin;
         private final BaseFragment fragment;
@@ -1422,12 +1192,12 @@ public class Bulletin {
         private SparseLongArray newMessagesByIds;
         private ReactionsContainerLayout reactionsContainerLayout;
 
-        /* loaded from: classes3.dex */
-        public class 1 extends ReactionsContainerLayout {
+        class 1 extends ReactionsContainerLayout {
             1(int i, BaseFragment baseFragment, Context context, int i2, Theme.ResourcesProvider resourcesProvider) {
                 super(i, baseFragment, context, i2, resourcesProvider);
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onShownCustomEmojiReactionDialog$0(View view) {
                 LottieLayoutWithReactions.this.hideReactionsDialog();
                 Bulletin.hideVisible();
@@ -1466,11 +1236,11 @@ public class Bulletin {
             }
         }
 
-        /* loaded from: classes3.dex */
-        public class 2 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+        class 2 implements ReactionsContainerLayout.ReactionsContainerDelegate {
             2() {
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$showTaggedReactionToast$0(int i, int i2, BaseFragment baseFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("user_id", UserConfig.getInstance(i).getClientUserId());
@@ -1478,6 +1248,7 @@ public class Bulletin {
                 baseFragment.presentFragment(new ChatActivity(bundle));
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$showTaggedReactionToast$1(ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean z, final int i, final int i2) {
                 TLRPC.Document findDocument;
                 final BaseFragment lastFragment = LaunchActivity.getLastFragment();
@@ -1618,7 +1389,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class MultiLineLayout extends ButtonLayout {
         public final BackupImageView imageView;
         public final TextView textView;
@@ -1644,7 +1414,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class ParentLayout extends FrameLayout {
         private final GestureDetector gestureDetector;
         private boolean hideAnimationRunning;
@@ -1655,28 +1424,31 @@ public class Bulletin {
         private final android.graphics.Rect rect;
         private float translationX;
 
-        /* loaded from: classes3.dex */
-        public class 1 extends GestureDetector.SimpleOnGestureListener {
+        class 1 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Layout val$layout;
 
             1(Layout layout) {
                 this.val$layout = layout;
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onFling$0(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 ParentLayout.this.onHide();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$onFling$1(Layout layout, DynamicAnimation dynamicAnimation, float f, float f2) {
                 if (Math.abs(f) > layout.getWidth()) {
                     dynamicAnimation.cancel();
                 }
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onFling$2(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
                 ParentLayout.this.onHide();
             }
 
+            /* JADX INFO: Access modifiers changed from: private */
             public static /* synthetic */ void lambda$onFling$3(DynamicAnimation dynamicAnimation, float f, float f2) {
                 if (f <= 0.0f) {
                     dynamicAnimation.cancel();
@@ -1777,6 +1549,7 @@ public class Bulletin {
             return this.rect.contains((int) f, (int) f2);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onTouchEvent$0(float f) {
             if (this.layout.getTranslationX() == f) {
                 onHide();
@@ -1825,7 +1598,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SimpleLayout extends ButtonLayout {
         public final ImageView imageView;
         public final LinkSpanDrawable.LinksTextView textView;
@@ -1853,7 +1625,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TimerView extends View {
         private long lastUpdateTime;
         private int prevSeconds;
@@ -1887,7 +1658,7 @@ public class Bulletin {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            int ceil = this.timeLeft > 0 ? (int) Math.ceil(((float) r0) / 1000.0f) : 0;
+            int ceil = this.timeLeft > 0 ? (int) Math.ceil(r0 / 1000.0f) : 0;
             this.rect.set(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), getMeasuredWidth() - AndroidUtilities.dp(1.0f), getMeasuredHeight() - AndroidUtilities.dp(1.0f));
             if (this.prevSeconds != ceil) {
                 this.prevSeconds = ceil;
@@ -1936,7 +1707,7 @@ public class Bulletin {
                 }
                 canvas.restore();
             }
-            canvas.drawArc(this.rect, -90.0f, (((float) Math.max(0L, this.timeLeft)) / 5000.0f) * (-360.0f), false, this.progressPaint);
+            canvas.drawArc(this.rect, -90.0f, (Math.max(0L, this.timeLeft) / 5000.0f) * (-360.0f), false, this.progressPaint);
             long j = this.lastUpdateTime;
             long currentTimeMillis = System.currentTimeMillis();
             if (j != 0) {
@@ -1952,7 +1723,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TwoLineAnimatedLottieLayout extends ButtonLayout {
         public final RLottieImageView imageView;
         private final LinearLayout linearLayout;
@@ -2015,7 +1785,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TwoLineLayout extends ButtonLayout {
         public final BackupImageView imageView;
         private final LinearLayout linearLayout;
@@ -2056,7 +1825,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TwoLineLottieLayout extends ButtonLayout {
         public final RLottieImageView imageView;
         private final LinearLayout linearLayout;
@@ -2128,7 +1896,6 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static final class UndoButton extends Button {
         private Bulletin bulletin;
         private Runnable delayedAction;
@@ -2179,6 +1946,7 @@ public class Bulletin {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
             undo();
         }
@@ -2236,38 +2004,11 @@ public class Bulletin {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class UsersLayout extends ButtonLayout {
         public AvatarsImageView avatarsImageView;
         LinearLayout linearLayout;
         public TextView subtitleView;
         public TextView textView;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 extends LinkSpanDrawable.LinksTextView {
-            1(Context context) {
-                super(context);
-            }
-
-            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
-            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
-            }
-        }
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 2 extends LinkSpanDrawable.LinksTextView {
-            2(Context context) {
-                super(context);
-            }
-
-            @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
-            public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
-            }
-        }
 
         public UsersLayout(Context context, boolean z, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -2281,18 +2022,14 @@ public class Bulletin {
                 this.linearLayout = linearLayout;
                 linearLayout.setOrientation(1);
                 addView(this.linearLayout, LayoutHelper.createFrameRelatively(-1.0f, -2.0f, 8388627, 76.0f, 6.0f, 12.0f, 6.0f));
-                2 r11 = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.2
-                    2(Context context2) {
-                        super(context2);
-                    }
-
+                LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.2
                     @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                     public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                         super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
                     }
                 };
-                this.textView = r11;
-                NotificationCenter.listenEmojiLoading(r11);
+                this.textView = linksTextView;
+                NotificationCenter.listenEmojiLoading(linksTextView);
                 TextView textView = this.textView;
                 Typeface typeface = Typeface.SANS_SERIF;
                 textView.setTypeface(typeface);
@@ -2303,9 +2040,9 @@ public class Bulletin {
                 textView2.setEllipsize(truncateAt);
                 this.textView.setMaxLines(1);
                 this.linearLayout.addView(this.textView);
-                LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context2);
-                this.subtitleView = linksTextView;
-                linksTextView.setTypeface(typeface);
+                LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context);
+                this.subtitleView = linksTextView2;
+                linksTextView2.setTypeface(typeface);
                 this.subtitleView.setTextSize(1, 12.0f);
                 this.subtitleView.setEllipsize(truncateAt);
                 this.subtitleView.setSingleLine(false);
@@ -2313,18 +2050,14 @@ public class Bulletin {
                 this.subtitleView.setLinkTextColor(getThemedColor(Theme.key_undo_cancelColor));
                 this.linearLayout.addView(this.subtitleView, LayoutHelper.createLinear(-2, -2, 0, 0, 0, 0, 0));
             } else {
-                1 r112 = new LinkSpanDrawable.LinksTextView(context2) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.1
-                    1(Context context2) {
-                        super(context2);
-                    }
-
+                LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.1
                     @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                     public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
                         super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
                     }
                 };
-                this.textView = r112;
-                NotificationCenter.listenEmojiLoading(r112);
+                this.textView = linksTextView3;
+                NotificationCenter.listenEmojiLoading(linksTextView3);
                 this.textView.setTypeface(Typeface.SANS_SERIF);
                 this.textView.setTextSize(1, 15.0f);
                 this.textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -2371,7 +2104,7 @@ public class Bulletin {
         this.containerLayout = null;
     }
 
-    private Bulletin(BaseFragment baseFragment, FrameLayout frameLayout, Layout layout, int i) {
+    private Bulletin(BaseFragment baseFragment, final FrameLayout frameLayout, Layout layout, int i) {
         this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
@@ -2383,14 +2116,6 @@ public class Bulletin {
         this.layout = layout;
         this.loaded = true ^ (layout instanceof LoadingLayout);
         this.parentLayout = new ParentLayout(layout) { // from class: org.telegram.ui.Components.Bulletin.1
-            final /* synthetic */ FrameLayout val$containerLayout;
-
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            1(Layout layout2, FrameLayout frameLayout2) {
-                super(layout2);
-                r3 = frameLayout2;
-            }
-
             @Override // org.telegram.ui.Components.Bulletin.ParentLayout
             protected void onHide() {
                 Bulletin.this.hide();
@@ -2399,22 +2124,14 @@ public class Bulletin {
             @Override // org.telegram.ui.Components.Bulletin.ParentLayout
             protected void onPressedStateChanged(boolean z) {
                 Bulletin.this.setCanHide(!z);
-                if (r3.getParent() != null) {
-                    r3.getParent().requestDisallowInterceptTouchEvent(z);
+                if (frameLayout.getParent() != null) {
+                    frameLayout.getParent().requestDisallowInterceptTouchEvent(z);
                 }
             }
         };
         this.containerFragment = baseFragment;
-        this.containerLayout = frameLayout2;
+        this.containerLayout = frameLayout;
         this.duration = i;
-    }
-
-    /* synthetic */ Bulletin(1 r1) {
-        this();
-    }
-
-    static /* synthetic */ boolean access$800() {
-        return isTransitionsEnabled();
     }
 
     public static void addDelegate(FrameLayout frameLayout, Delegate delegate) {
@@ -2425,6 +2142,7 @@ public class Bulletin {
         fragmentDelegates.put(baseFragment, delegate);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void ensureLayoutTransitionCreated() {
         Layout layout = this.layout;
         if (layout == null || this.layoutTransition != null) {
@@ -2444,6 +2162,7 @@ public class Bulletin {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static Delegate findDelegate(BaseFragment baseFragment, FrameLayout frameLayout) {
         Delegate delegate = (Delegate) fragmentDelegates.get(baseFragment);
         if (delegate != null) {
@@ -2486,10 +2205,12 @@ public class Bulletin {
         bulletin.hide();
     }
 
-    private static boolean isTransitionsEnabled() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public static boolean isTransitionsEnabled() {
         return MessagesController.getGlobalMainSettings().getBoolean("view_animations", true);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hide$3() {
         Delegate delegate = this.currentDelegate;
         if (delegate != null && !this.layout.top) {
@@ -2509,6 +2230,7 @@ public class Bulletin {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hide$4(Float f) {
         Delegate delegate = this.currentDelegate;
         if (delegate != null) {
@@ -2519,22 +2241,26 @@ public class Bulletin {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$hide$5() {
         this.containerLayout.removeView(this.parentLayout);
         this.containerLayout.removeOnLayoutChangeListener(this.containerLayoutListener);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$0(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.lastBottomOffset = (int) f;
         updatePosition();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$1(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         if (this.bottomOffsetSpring == dynamicAnimation) {
             this.bottomOffsetSpring = null;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$show$2(boolean z, View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
         Delegate delegate = this.currentDelegate;
         if ((delegate == null || delegate.allowLayoutChanges()) && !z) {
@@ -2767,9 +2493,6 @@ public class Bulletin {
             frameLayout.addOnLayoutChangeListener(onLayoutChangeListener);
             this.layout.addOnLayoutChangeListener(new 2(z));
             this.layout.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.Bulletin.3
-                3() {
-                }
-
                 @Override // android.view.View.OnAttachStateChangeListener
                 public void onViewAttachedToWindow(View view) {
                 }

@@ -136,33 +136,12 @@ public class CameraScanActivity extends BaseFragment {
     private final PointF[] tmpPoints = new PointF[4];
     private final PointF[] tmp2Points = new PointF[4];
 
-    /* loaded from: classes4.dex */
-    public class 1 extends BottomSheet {
+    class 1 extends BottomSheet {
         CameraScanActivity fragment;
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
         final /* synthetic */ CameraScanActivityDelegate val$cameraDelegate;
         final /* synthetic */ boolean val$gallery;
         final /* synthetic */ int val$type;
-
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends CameraScanActivity {
-            1(int i) {
-                super(i);
-            }
-
-            @Override // org.telegram.ui.ActionBar.BaseFragment
-            /* renamed from: finishFragment */
-            public void lambda$onBackPressed$321() {
-                setFinishing(true);
-                1.this.dismiss();
-            }
-
-            @Override // org.telegram.ui.ActionBar.BaseFragment
-            public void removeSelfFromStack() {
-                1.this.dismiss();
-            }
-        }
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         1(Context context, boolean z, INavigationLayout[] iNavigationLayoutArr, int i, boolean z2, CameraScanActivityDelegate cameraScanActivityDelegate) {
@@ -172,11 +151,7 @@ public class CameraScanActivity extends BaseFragment {
             this.val$gallery = z2;
             this.val$cameraDelegate = cameraScanActivityDelegate;
             iNavigationLayoutArr[0].setFragmentStack(new ArrayList());
-            1 r3 = new CameraScanActivity(i) { // from class: org.telegram.ui.CameraScanActivity.1.1
-                1(int i2) {
-                    super(i2);
-                }
-
+            CameraScanActivity cameraScanActivity = new CameraScanActivity(i) { // from class: org.telegram.ui.CameraScanActivity.1.1
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 /* renamed from: finishFragment */
                 public void lambda$onBackPressed$321() {
@@ -189,9 +164,9 @@ public class CameraScanActivity extends BaseFragment {
                     1.this.dismiss();
                 }
             };
-            this.fragment = r3;
-            r3.shownAsBottomSheet = true;
-            ((CameraScanActivity) r3).needGalleryButton = z2;
+            this.fragment = cameraScanActivity;
+            cameraScanActivity.shownAsBottomSheet = true;
+            cameraScanActivity.needGalleryButton = z2;
             iNavigationLayoutArr[0].addFragmentToStack(this.fragment);
             iNavigationLayoutArr[0].showLastFragment();
             ViewGroup view = iNavigationLayoutArr[0].getView();
@@ -212,13 +187,13 @@ public class CameraScanActivity extends BaseFragment {
             });
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(DialogInterface dialogInterface) {
             this.fragment.onFragmentDestroy();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.BottomSheet
-        public boolean canDismissWithSwipe() {
+        protected boolean canDismissWithSwipe() {
             return false;
         }
 
@@ -240,344 +215,11 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
-    class 2 extends ActionBar.ActionBarMenuOnItemClick {
-        2() {
-        }
-
-        @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-        public void onItemClick(int i) {
-            if (i == -1) {
-                CameraScanActivity.this.lambda$onBackPressed$321();
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 3 extends ViewGroup {
-        Path path = new Path();
-
-        3(Context context) {
-            super(context);
-            this.path = new Path();
-        }
-
-        private RectF aroundPoint(int i, int i2, int i3) {
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set(i - i3, i2 - i3, i + i3, i2 + i3);
-            return rectF;
-        }
-
-        @Override // android.view.ViewGroup
-        protected boolean drawChild(Canvas canvas, View view, long j) {
-            boolean drawChild = super.drawChild(canvas, view, j);
-            if (!CameraScanActivity.this.isQr() || view != CameraScanActivity.this.cameraView) {
-                return drawChild;
-            }
-            RectF bounds = CameraScanActivity.this.getBounds();
-            int width = (int) (view.getWidth() * bounds.width());
-            int height = (int) (view.getHeight() * bounds.height());
-            int width2 = (int) (view.getWidth() * bounds.centerX());
-            int height2 = (int) (view.getHeight() * bounds.centerY());
-            int i = (int) (width * ((CameraScanActivity.this.qrAppearingValue * 0.5f) + 0.5f));
-            int i2 = (int) (height * ((CameraScanActivity.this.qrAppearingValue * 0.5f) + 0.5f));
-            int i3 = width2 - (i / 2);
-            int i4 = height2 - (i2 / 2);
-            CameraScanActivity.this.paint.setAlpha((int) ((1.0f - ((1.0f - CameraScanActivity.this.backShadowAlpha) * Math.min(1.0f, CameraScanActivity.this.qrAppearingValue))) * 255.0f));
-            float f = i4;
-            canvas.drawRect(0.0f, 0.0f, view.getMeasuredWidth(), f, CameraScanActivity.this.paint);
-            int i5 = i4 + i2;
-            float f2 = i5;
-            canvas.drawRect(0.0f, f2, view.getMeasuredWidth(), view.getMeasuredHeight(), CameraScanActivity.this.paint);
-            float f3 = i3;
-            canvas.drawRect(0.0f, f, f3, f2, CameraScanActivity.this.paint);
-            int i6 = i3 + i;
-            float f4 = i6;
-            canvas.drawRect(f4, f, view.getMeasuredWidth(), f2, CameraScanActivity.this.paint);
-            CameraScanActivity.this.paint.setAlpha((int) (Math.max(0.0f, 1.0f - CameraScanActivity.this.qrAppearingValue) * 255.0f));
-            canvas.drawRect(f3, f, f4, f2, CameraScanActivity.this.paint);
-            int lerp = AndroidUtilities.lerp(0, AndroidUtilities.dp(4.0f), Math.min(1.0f, CameraScanActivity.this.qrAppearingValue * 20.0f));
-            int i7 = lerp / 2;
-            int lerp2 = AndroidUtilities.lerp(Math.min(i, i2), AndroidUtilities.dp(20.0f), Math.min(1.2f, (float) Math.pow(CameraScanActivity.this.qrAppearingValue, 1.7999999523162842d)));
-            CameraScanActivity.this.cornerPaint.setAlpha((int) (Math.min(1.0f, CameraScanActivity.this.qrAppearingValue) * 255.0f));
-            this.path.reset();
-            int i8 = i4 + lerp2;
-            this.path.arcTo(aroundPoint(i3, i8, i7), 0.0f, 180.0f);
-            float f5 = lerp * 1.5f;
-            int i9 = (int) (f3 + f5);
-            int i10 = (int) (f + f5);
-            int i11 = lerp * 2;
-            this.path.arcTo(aroundPoint(i9, i10, i11), 180.0f, 90.0f);
-            int i12 = i3 + lerp2;
-            this.path.arcTo(aroundPoint(i12, i4, i7), 270.0f, 180.0f);
-            this.path.lineTo(i3 + i7, i4 + i7);
-            this.path.arcTo(aroundPoint(i9, i10, lerp), 270.0f, -90.0f);
-            this.path.close();
-            canvas.drawPath(this.path, CameraScanActivity.this.cornerPaint);
-            this.path.reset();
-            this.path.arcTo(aroundPoint(i6, i8, i7), 180.0f, -180.0f);
-            int i13 = (int) (f4 - f5);
-            this.path.arcTo(aroundPoint(i13, i10, i11), 0.0f, -90.0f);
-            int i14 = i6 - lerp2;
-            this.path.arcTo(aroundPoint(i14, i4, i7), 270.0f, -180.0f);
-            this.path.arcTo(aroundPoint(i13, i10, lerp), 270.0f, 90.0f);
-            this.path.close();
-            canvas.drawPath(this.path, CameraScanActivity.this.cornerPaint);
-            this.path.reset();
-            int i15 = i5 - lerp2;
-            this.path.arcTo(aroundPoint(i3, i15, i7), 0.0f, -180.0f);
-            int i16 = (int) (f2 - f5);
-            this.path.arcTo(aroundPoint(i9, i16, i11), 180.0f, -90.0f);
-            this.path.arcTo(aroundPoint(i12, i5, i7), 90.0f, -180.0f);
-            this.path.arcTo(aroundPoint(i9, i16, lerp), 90.0f, 90.0f);
-            this.path.close();
-            canvas.drawPath(this.path, CameraScanActivity.this.cornerPaint);
-            this.path.reset();
-            this.path.arcTo(aroundPoint(i6, i15, i7), 180.0f, 180.0f);
-            this.path.arcTo(aroundPoint(i13, i16, i11), 0.0f, 90.0f);
-            this.path.arcTo(aroundPoint(i14, i5, i7), 90.0f, 180.0f);
-            this.path.arcTo(aroundPoint(i13, i16, lerp), 90.0f, -90.0f);
-            this.path.close();
-            canvas.drawPath(this.path, CameraScanActivity.this.cornerPaint);
-            return drawChild;
-        }
-
-        @Override // android.view.ViewGroup, android.view.View
-        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
-            int measuredHeight;
-            float f;
-            int i5 = i3 - i;
-            int i6 = i4 - i2;
-            if (CameraScanActivity.this.currentType == 0) {
-                if (CameraScanActivity.this.cameraView != null) {
-                    CameraScanActivity.this.cameraView.layout(0, 0, CameraScanActivity.this.cameraView.getMeasuredWidth(), CameraScanActivity.this.cameraView.getMeasuredHeight());
-                }
-                CameraScanActivity.this.recognizedMrzView.setTextSize(0, i6 / 22);
-                CameraScanActivity.this.recognizedMrzView.setPadding(0, 0, 0, i6 / 15);
-                int i7 = (int) (i6 * 0.65f);
-                CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), i7, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + i7);
-            } else {
-                ((BaseFragment) CameraScanActivity.this).actionBar.layout(0, 0, ((BaseFragment) CameraScanActivity.this).actionBar.getMeasuredWidth(), ((BaseFragment) CameraScanActivity.this).actionBar.getMeasuredHeight());
-                if (CameraScanActivity.this.cameraView != null) {
-                    CameraScanActivity.this.cameraView.layout(0, 0, CameraScanActivity.this.cameraView.getMeasuredWidth(), CameraScanActivity.this.cameraView.getMeasuredHeight());
-                }
-                int min = (int) (Math.min(i5, i6) / 1.5f);
-                if (CameraScanActivity.this.currentType == 1) {
-                    measuredHeight = ((i6 - min) / 2) - CameraScanActivity.this.titleTextView.getMeasuredHeight();
-                    f = 30.0f;
-                } else {
-                    measuredHeight = ((i6 - min) / 2) - CameraScanActivity.this.titleTextView.getMeasuredHeight();
-                    f = 64.0f;
-                }
-                int dp = measuredHeight - AndroidUtilities.dp(f);
-                CameraScanActivity.this.titleTextView.layout(AndroidUtilities.dp(36.0f), dp, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.titleTextView.getMeasuredWidth(), CameraScanActivity.this.titleTextView.getMeasuredHeight() + dp);
-                if (CameraScanActivity.this.currentType == 3) {
-                    int measuredHeight2 = dp + CameraScanActivity.this.titleTextView.getMeasuredHeight() + AndroidUtilities.dp(8.0f);
-                    CameraScanActivity.this.descriptionText.layout(AndroidUtilities.dp(36.0f), measuredHeight2, AndroidUtilities.dp(36.0f) + CameraScanActivity.this.descriptionText.getMeasuredWidth(), CameraScanActivity.this.descriptionText.getMeasuredHeight() + measuredHeight2);
-                }
-                CameraScanActivity.this.recognizedMrzView.layout(0, getMeasuredHeight() - CameraScanActivity.this.recognizedMrzView.getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight());
-                int dp2 = CameraScanActivity.this.needGalleryButton ? (i5 / 2) + AndroidUtilities.dp(35.0f) : (i5 / 2) - (CameraScanActivity.this.flashButton.getMeasuredWidth() / 2);
-                int dp3 = ((i6 - min) / 2) + min + AndroidUtilities.dp(80.0f);
-                CameraScanActivity.this.flashButton.layout(dp2, dp3, CameraScanActivity.this.flashButton.getMeasuredWidth() + dp2, CameraScanActivity.this.flashButton.getMeasuredHeight() + dp3);
-                if (CameraScanActivity.this.galleryButton != null) {
-                    int dp4 = ((i5 / 2) - AndroidUtilities.dp(35.0f)) - CameraScanActivity.this.galleryButton.getMeasuredWidth();
-                    CameraScanActivity.this.galleryButton.layout(dp4, dp3, CameraScanActivity.this.galleryButton.getMeasuredWidth() + dp4, CameraScanActivity.this.galleryButton.getMeasuredHeight() + dp3);
-                }
-            }
-            if (CameraScanActivity.this.currentType != 3) {
-                int i8 = (int) (i6 * 0.74f);
-                int i9 = (int) (i5 * 0.05f);
-                CameraScanActivity.this.descriptionText.layout(i9, i8, CameraScanActivity.this.descriptionText.getMeasuredWidth() + i9, CameraScanActivity.this.descriptionText.getMeasuredHeight() + i8);
-            }
-            CameraScanActivity.this.updateNormalBounds();
-        }
-
-        @Override // android.view.View
-        protected void onMeasure(int i, int i2) {
-            TextView textView;
-            int i3;
-            int size = View.MeasureSpec.getSize(i);
-            int size2 = View.MeasureSpec.getSize(i2);
-            ((BaseFragment) CameraScanActivity.this).actionBar.measure(i, i2);
-            if (CameraScanActivity.this.currentType != 0) {
-                if (CameraScanActivity.this.cameraView != null) {
-                    CameraScanActivity.this.cameraView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 1073741824));
-                }
-                CameraScanActivity.this.recognizedMrzView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-                if (CameraScanActivity.this.galleryButton != null) {
-                    CameraScanActivity.this.galleryButton.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824));
-                }
-                CameraScanActivity.this.flashButton.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824));
-            } else if (CameraScanActivity.this.cameraView != null) {
-                CameraScanActivity.this.cameraView.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size * 0.704f), 1073741824));
-            }
-            CameraScanActivity.this.titleTextView.measure(View.MeasureSpec.makeMeasureSpec(size - AndroidUtilities.dp(72.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-            if (CameraScanActivity.this.currentType == 3) {
-                textView = CameraScanActivity.this.descriptionText;
-                i3 = size - AndroidUtilities.dp(72.0f);
-            } else {
-                textView = CameraScanActivity.this.descriptionText;
-                i3 = (int) (size * 0.9f);
-            }
-            textView.measure(View.MeasureSpec.makeMeasureSpec(i3, 1073741824), View.MeasureSpec.makeMeasureSpec(size2, 0));
-            setMeasuredDimension(size, size2);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    class 4 extends TextView {
-        LinkSpanDrawable.LinkCollector links = new LinkSpanDrawable.LinkCollector(this);
-        private LinkSpanDrawable pressedLink;
-        LinkPath textPath;
-        final /* synthetic */ Paint val$selectionPaint;
-
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-        4(Context context, Paint paint) {
-            super(context);
-            r3 = paint;
-            this.links = new LinkSpanDrawable.LinkCollector(this);
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onDraw(Canvas canvas) {
-            LinkPath linkPath = this.textPath;
-            if (linkPath != null) {
-                canvas.drawPath(linkPath, r3);
-            }
-            if (this.links.draw(canvas)) {
-                invalidate();
-            }
-            super.onDraw(canvas);
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        protected void onMeasure(int i, int i2) {
-            super.onMeasure(i, i2);
-            if (getText() instanceof Spanned) {
-                Spanned spanned = (Spanned) getText();
-                URLSpanNoUnderline[] uRLSpanNoUnderlineArr = (URLSpanNoUnderline[]) spanned.getSpans(0, spanned.length(), URLSpanNoUnderline.class);
-                if (uRLSpanNoUnderlineArr == null || uRLSpanNoUnderlineArr.length <= 0) {
-                    return;
-                }
-                LinkPath linkPath = new LinkPath(true);
-                this.textPath = linkPath;
-                linkPath.setAllowReset(false);
-                for (int i3 = 0; i3 < uRLSpanNoUnderlineArr.length; i3++) {
-                    int spanStart = spanned.getSpanStart(uRLSpanNoUnderlineArr[i3]);
-                    int spanEnd = spanned.getSpanEnd(uRLSpanNoUnderlineArr[i3]);
-                    this.textPath.setCurrentLayout(getLayout(), spanStart, 0.0f);
-                    int i4 = getText() != null ? getPaint().baselineShift : 0;
-                    this.textPath.setBaselineShift(i4 != 0 ? i4 + AndroidUtilities.dp(i4 > 0 ? 5.0f : -2.0f) : 0);
-                    getLayout().getSelectionPath(spanStart, spanEnd, this.textPath);
-                }
-                this.textPath.setAllowReset(true);
-            }
-        }
-
-        @Override // android.widget.TextView, android.view.View
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            Layout layout = getLayout();
-            float f = 0;
-            int x = (int) (motionEvent.getX() - f);
-            int y = (int) (motionEvent.getY() - f);
-            if (motionEvent.getAction() == 0 || motionEvent.getAction() == 1) {
-                int lineForVertical = layout.getLineForVertical(y);
-                float f2 = x;
-                int offsetForHorizontal = layout.getOffsetForHorizontal(lineForVertical, f2);
-                float lineLeft = layout.getLineLeft(lineForVertical);
-                if (lineLeft <= f2 && lineLeft + layout.getLineWidth(lineForVertical) >= f2 && y >= 0 && y <= layout.getHeight()) {
-                    Spannable spannable = (Spannable) layout.getText();
-                    ClickableSpan[] clickableSpanArr = (ClickableSpan[]) spannable.getSpans(offsetForHorizontal, offsetForHorizontal, ClickableSpan.class);
-                    if (clickableSpanArr.length != 0) {
-                        this.links.clear();
-                        if (motionEvent.getAction() == 0) {
-                            LinkSpanDrawable linkSpanDrawable = new LinkSpanDrawable(clickableSpanArr[0], null, motionEvent.getX(), motionEvent.getY());
-                            this.pressedLink = linkSpanDrawable;
-                            linkSpanDrawable.setColor(771751935);
-                            this.links.addLink(this.pressedLink);
-                            int spanStart = spannable.getSpanStart(this.pressedLink.getSpan());
-                            int spanEnd = spannable.getSpanEnd(this.pressedLink.getSpan());
-                            LinkPath obtainNewPath = this.pressedLink.obtainNewPath();
-                            obtainNewPath.setCurrentLayout(layout, spanStart, f);
-                            layout.getSelectionPath(spanStart, spanEnd, obtainNewPath);
-                        } else if (motionEvent.getAction() == 1) {
-                            LinkSpanDrawable linkSpanDrawable2 = this.pressedLink;
-                            if (linkSpanDrawable2 != null) {
-                                CharacterStyle span = linkSpanDrawable2.getSpan();
-                                ClickableSpan clickableSpan = clickableSpanArr[0];
-                                if (span == clickableSpan) {
-                                    clickableSpan.onClick(this);
-                                }
-                            }
-                            this.pressedLink = null;
-                        }
-                        return true;
-                    }
-                }
-            }
-            if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                this.links.clear();
-                this.pressedLink = null;
-            }
-            return super.onTouchEvent(motionEvent);
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 5 implements PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate {
-        5() {
-        }
-
-        @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
-        public void didSelectPhotos(ArrayList arrayList, boolean z, int i) {
-            try {
-                if (arrayList.isEmpty()) {
-                    return;
-                }
-                SendMessagesHelper.SendingMediaInfo sendingMediaInfo = (SendMessagesHelper.SendingMediaInfo) arrayList.get(0);
-                if (sendingMediaInfo.path != null) {
-                    Point realScreenSize = AndroidUtilities.getRealScreenSize();
-                    QrResult tryReadQr = CameraScanActivity.this.tryReadQr(null, null, 0, 0, 0, ImageLoader.loadBitmap(sendingMediaInfo.path, null, realScreenSize.x, realScreenSize.y, true));
-                    if (tryReadQr != null) {
-                        if (CameraScanActivity.this.delegate != null) {
-                            CameraScanActivity.this.delegate.didFindQr(tryReadQr.text);
-                        }
-                        CameraScanActivity.this.removeSelfFromStack();
-                    }
-                }
-            } catch (Throwable th) {
-                FileLog.e(th);
-            }
-        }
-
-        @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
-        public void startPhotoSelectActivity() {
-            try {
-                Intent intent = new Intent("android.intent.action.PICK");
-                intent.setType("image/*");
-                CameraScanActivity.this.getParentActivity().startActivityForResult(intent, 11);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 6 extends AnimatorListenerAdapter {
-        6() {
-        }
-
-        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-        public void onAnimationEnd(Animator animator) {
-            CameraScanActivity.this.flashAnimator = null;
-        }
-    }
-
-    /* loaded from: classes4.dex */
-    public class 7 implements Runnable {
+    class 7 implements Runnable {
         7() {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$0() {
             try {
                 CameraScanActivity.this.cameraView.focusToPoint(CameraScanActivity.this.cameraView.getWidth() / 2, CameraScanActivity.this.cameraView.getHeight() / 2, false);
@@ -603,10 +245,8 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface CameraScanActivityDelegate {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$didFindMrzInfo(CameraScanActivityDelegate cameraScanActivityDelegate, MrzRecognizer.Result result) {
             }
@@ -637,8 +277,8 @@ public class CameraScanActivity extends BaseFragment {
         boolean processQr(String str, Runnable runnable);
     }
 
-    /* loaded from: classes4.dex */
-    public class QrResult {
+    /* JADX INFO: Access modifiers changed from: private */
+    class QrResult {
         RectF bounds;
         PointF[] cornerPoints;
         String text;
@@ -692,6 +332,7 @@ public class CameraScanActivity extends BaseFragment {
         return new ColorMatrix(new float[]{85.0f, 85.0f, 85.0f, 0.0f, f, 85.0f, 85.0f, 85.0f, 0.0f, f, 85.0f, 85.0f, 85.0f, 0.0f, f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f});
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public RectF getBounds() {
         RectF recognizedBounds = getRecognizedBounds();
         if (this.useRecognizedBounds < 1.0f) {
@@ -704,7 +345,7 @@ public class CameraScanActivity extends BaseFragment {
     }
 
     private RectF getRecognizedBounds() {
-        float min = Math.min(1.0f, Math.max(0.0f, ((float) (SystemClock.elapsedRealtime() - this.lastBoundsUpdate)) / 75.0f));
+        float min = Math.min(1.0f, Math.max(0.0f, (SystemClock.elapsedRealtime() - this.lastBoundsUpdate) / 75.0f));
         if (min < 1.0f) {
             this.fragmentView.invalidate();
         }
@@ -715,6 +356,7 @@ public class CameraScanActivity extends BaseFragment {
         return rectF3;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void initCameraView() {
         TextView textView;
         if (this.fragmentView == null) {
@@ -752,15 +394,18 @@ public class CameraScanActivity extends BaseFragment {
         return createBitmap;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isQr() {
         int i = this.currentType;
         return i == 1 || i == 2 || i == 3;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ boolean lambda$createView$1(View view, MotionEvent motionEvent) {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$2(View view) {
         int checkSelfPermission;
         int checkSelfPermission2;
@@ -786,9 +431,6 @@ public class CameraScanActivity extends BaseFragment {
         photoAlbumPickerActivity.setMaxSelectedPhotos(1, false);
         photoAlbumPickerActivity.setAllowSearchImages(false);
         photoAlbumPickerActivity.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() { // from class: org.telegram.ui.CameraScanActivity.5
-            5() {
-            }
-
             @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
             public void didSelectPhotos(ArrayList arrayList, boolean z, int i2) {
                 try {
@@ -825,10 +467,12 @@ public class CameraScanActivity extends BaseFragment {
         presentFragment(photoAlbumPickerActivity);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(ValueAnimator valueAnimator) {
         this.flashButton.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$4(View view) {
         CameraSessionWrapper cameraSession;
         String str;
@@ -854,9 +498,6 @@ public class CameraScanActivity extends BaseFragment {
         this.flashAnimator.setDuration(200L);
         this.flashAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.flashAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.CameraScanActivity.6
-            6() {
-            }
-
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
                 CameraScanActivity.this.flashAnimator = null;
@@ -873,11 +514,13 @@ public class CameraScanActivity extends BaseFragment {
         cameraSession.setCurrentFlashMode(str);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initCameraView$7(DynamicAnimation dynamicAnimation, float f, float f2) {
         this.qrAppearingValue = f / 500.0f;
         this.fragmentView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initCameraView$8(DynamicAnimation dynamicAnimation, boolean z, float f, float f2) {
         SpringAnimation springAnimation = this.qrAppearing;
         if (springAnimation != null) {
@@ -886,6 +529,7 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initCameraView$9() {
         startRecognizing();
         if (isQr()) {
@@ -915,11 +559,13 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.qrReader = new QRCodeReader();
         this.visionQrReader = new BarcodeDetector.Builder(ApplicationLoader.applicationContext).setBarcodeFormats(256).build();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onNoQrFound$10() {
         if (this.recognizedMrzView.getTag() != null) {
             this.recognizedMrzView.setTag(null);
@@ -927,6 +573,7 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$11(MrzRecognizer.Result result) {
         this.recognizedMrzView.setText(result.rawMRZ);
         this.recognizedMrzView.animate().setDuration(200L).alpha(1.0f).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
@@ -942,6 +589,7 @@ public class CameraScanActivity extends BaseFragment {
         }, 1200L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$12() {
         CameraScanActivityDelegate cameraScanActivityDelegate = this.delegate;
         if (cameraScanActivityDelegate != null) {
@@ -950,6 +598,7 @@ public class CameraScanActivity extends BaseFragment {
         lambda$onBackPressed$321();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$13() {
         CameraView cameraView = this.cameraView;
         if (cameraView != null && cameraView.getCameraSession() != null) {
@@ -963,10 +612,12 @@ public class CameraScanActivity extends BaseFragment {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$14(QrResult qrResult) {
         updateRecognizedBounds(qrResult.bounds, qrResult.cornerPoints);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$15(String str) {
         CameraScanActivityDelegate cameraScanActivityDelegate = this.delegate;
         if (cameraScanActivityDelegate != null) {
@@ -977,6 +628,7 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$16() {
         if (isFinishing()) {
             return;
@@ -990,6 +642,7 @@ public class CameraScanActivity extends BaseFragment {
         AndroidUtilities.runOnUIThread(new CameraScanActivity$$ExternalSyntheticLambda10(this), 500L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processShot$17() {
         CameraView cameraView = this.cameraView;
         if (cameraView != null) {
@@ -997,6 +650,7 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateRecognized$5(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.recognizedT = floatValue;
@@ -1009,6 +663,7 @@ public class CameraScanActivity extends BaseFragment {
         this.fragmentView.invalidate();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateRecognized$6(DynamicAnimation dynamicAnimation, float f, float f2) {
         float f3 = f / 500.0f;
         if (!this.recognized) {
@@ -1076,6 +731,7 @@ public class CameraScanActivity extends BaseFragment {
         return pointFArr;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public QrResult tryReadQr(byte[] bArr, Size size, int i, int i2, int i3, Bitmap bitmap) {
         int i4;
         String str;
@@ -1086,6 +742,7 @@ public class CameraScanActivity extends BaseFragment {
         String str2;
         float f;
         float f2;
+        1 r10 = null;
         try {
             RectF rectF = new RectF();
             BarcodeDetector barcodeDetector = this.visionQrReader;
@@ -1252,7 +909,7 @@ public class CameraScanActivity extends BaseFragment {
                 onNoQrFound();
                 return null;
             }
-            QrResult qrResult = new QrResult(this, null);
+            QrResult qrResult = new QrResult(this, r10);
             if (rectF != null) {
                 float dp = AndroidUtilities.dp(25.0f);
                 float dp2 = AndroidUtilities.dp(15.0f);
@@ -1271,6 +928,7 @@ public class CameraScanActivity extends BaseFragment {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateNormalBounds() {
         if (this.normalBounds == null) {
             this.normalBounds = new RectF();
@@ -1282,6 +940,7 @@ public class CameraScanActivity extends BaseFragment {
         this.normalBounds.set(((max - min) / 2.0f) / f, ((r1 - min) / 2.0f) / max2, ((max + min) / 2.0f) / f, ((r1 + min) / 2.0f) / max2);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updateRecognized() {
         float f = this.recognizedT;
         float f2 = this.recognized ? 1.0f : 0.0f;
@@ -1299,7 +958,7 @@ public class CameraScanActivity extends BaseFragment {
                     CameraScanActivity.this.lambda$updateRecognized$5(valueAnimator2);
                 }
             });
-            this.recognizedAnimator.setDuration(Math.abs(this.recognizedT - this.newRecognizedT) * 300.0f);
+            this.recognizedAnimator.setDuration((long) (Math.abs(this.recognizedT - this.newRecognizedT) * 300.0f));
             this.recognizedAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.recognizedAnimator.start();
             SpringAnimation springAnimation = this.useRecognizedBoundsAnimator;
@@ -1354,7 +1013,7 @@ public class CameraScanActivity extends BaseFragment {
             if (rectF2 != null) {
                 long j2 = elapsedRealtime - j;
                 if (j2 < 75) {
-                    float min = Math.min(1.0f, Math.max(0.0f, ((float) j2) / 75.0f));
+                    float min = Math.min(1.0f, Math.max(0.0f, j2 / 75.0f));
                     RectF rectF3 = this.fromBounds;
                     AndroidUtilities.lerp(rectF3, this.bounds, min, rectF3);
                     for (int i2 = 0; i2 < 4; i2++) {
@@ -1406,9 +1065,6 @@ public class CameraScanActivity extends BaseFragment {
             this.actionBar.showActionModeTop();
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.CameraScanActivity.2
-            2() {
-            }
-
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
@@ -1419,13 +1075,8 @@ public class CameraScanActivity extends BaseFragment {
         this.paint.setColor(2130706432);
         this.cornerPaint.setColor(-1);
         this.cornerPaint.setStyle(Paint.Style.FILL);
-        3 r2 = new ViewGroup(context) { // from class: org.telegram.ui.CameraScanActivity.3
+        ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.CameraScanActivity.3
             Path path = new Path();
-
-            3(Context context2) {
-                super(context2);
-                this.path = new Path();
-            }
 
             private RectF aroundPoint(int i, int i2, int i3) {
                 RectF rectF = AndroidUtilities.rectTmp;
@@ -1588,7 +1239,7 @@ public class CameraScanActivity extends BaseFragment {
                 setMeasuredDimension(size, size2);
             }
         };
-        r2.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda0
+        viewGroup.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$1;
@@ -1596,7 +1247,7 @@ public class CameraScanActivity extends BaseFragment {
                 return lambda$createView$1;
             }
         });
-        this.fragmentView = r2;
+        this.fragmentView = viewGroup;
         if (isQr()) {
             this.fragmentView.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
@@ -1618,34 +1269,26 @@ public class CameraScanActivity extends BaseFragment {
             this.actionBar.setTitleColor(-1);
             this.actionBar.setItemsColor(-1, false);
             this.actionBar.setItemsBackgroundColor(587202559, false);
-            r2.setBackgroundColor(-16777216);
-            r2.addView(this.actionBar);
+            viewGroup.setBackgroundColor(-16777216);
+            viewGroup.addView(this.actionBar);
         }
         int i2 = this.currentType;
         if (i2 == 2 || i2 == 3) {
             this.actionBar.setTitle(LocaleController.getString(R.string.AuthAnotherClientScan));
         }
-        Paint paint = new Paint(1);
+        final Paint paint = new Paint(1);
         paint.setPathEffect(LinkPath.getRoundedEffect());
         paint.setColor(ColorUtils.setAlphaComponent(-1, 40));
-        4 r10 = new TextView(context2) { // from class: org.telegram.ui.CameraScanActivity.4
+        TextView textView = new TextView(context) { // from class: org.telegram.ui.CameraScanActivity.4
             LinkSpanDrawable.LinkCollector links = new LinkSpanDrawable.LinkCollector(this);
             private LinkSpanDrawable pressedLink;
             LinkPath textPath;
-            final /* synthetic */ Paint val$selectionPaint;
-
-            /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-            4(Context context2, Paint paint2) {
-                super(context2);
-                r3 = paint2;
-                this.links = new LinkSpanDrawable.LinkCollector(this);
-            }
 
             @Override // android.widget.TextView, android.view.View
             protected void onDraw(Canvas canvas) {
                 LinkPath linkPath = this.textPath;
                 if (linkPath != null) {
-                    canvas.drawPath(linkPath, r3);
+                    canvas.drawPath(linkPath, paint);
                 }
                 if (this.links.draw(canvas)) {
                     invalidate();
@@ -1654,8 +1297,8 @@ public class CameraScanActivity extends BaseFragment {
             }
 
             @Override // android.widget.TextView, android.view.View
-            protected void onMeasure(int i3, int i22) {
-                super.onMeasure(i3, i22);
+            protected void onMeasure(int i3, int i4) {
+                super.onMeasure(i3, i4);
                 if (getText() instanceof Spanned) {
                     Spanned spanned = (Spanned) getText();
                     URLSpanNoUnderline[] uRLSpanNoUnderlineArr = (URLSpanNoUnderline[]) spanned.getSpans(0, spanned.length(), URLSpanNoUnderline.class);
@@ -1665,12 +1308,12 @@ public class CameraScanActivity extends BaseFragment {
                     LinkPath linkPath = new LinkPath(true);
                     this.textPath = linkPath;
                     linkPath.setAllowReset(false);
-                    for (int i32 = 0; i32 < uRLSpanNoUnderlineArr.length; i32++) {
-                        int spanStart = spanned.getSpanStart(uRLSpanNoUnderlineArr[i32]);
-                        int spanEnd = spanned.getSpanEnd(uRLSpanNoUnderlineArr[i32]);
+                    for (int i5 = 0; i5 < uRLSpanNoUnderlineArr.length; i5++) {
+                        int spanStart = spanned.getSpanStart(uRLSpanNoUnderlineArr[i5]);
+                        int spanEnd = spanned.getSpanEnd(uRLSpanNoUnderlineArr[i5]);
                         this.textPath.setCurrentLayout(getLayout(), spanStart, 0.0f);
-                        int i4 = getText() != null ? getPaint().baselineShift : 0;
-                        this.textPath.setBaselineShift(i4 != 0 ? i4 + AndroidUtilities.dp(i4 > 0 ? 5.0f : -2.0f) : 0);
+                        int i6 = getText() != null ? getPaint().baselineShift : 0;
+                        this.textPath.setBaselineShift(i6 != 0 ? i6 + AndroidUtilities.dp(i6 > 0 ? 5.0f : -2.0f) : 0);
                         getLayout().getSelectionPath(spanStart, spanEnd, this.textPath);
                     }
                     this.textPath.setAllowReset(true);
@@ -1725,19 +1368,19 @@ public class CameraScanActivity extends BaseFragment {
                 return super.onTouchEvent(motionEvent);
             }
         };
-        this.titleTextView = r10;
-        r10.setGravity(1);
+        this.titleTextView = textView;
+        textView.setGravity(1);
         this.titleTextView.setTextSize(1, 24.0f);
-        r2.addView(this.titleTextView);
-        TextView textView = new TextView(context2);
-        this.descriptionText = textView;
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
+        viewGroup.addView(this.titleTextView);
+        TextView textView2 = new TextView(context);
+        this.descriptionText = textView2;
+        textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
         this.descriptionText.setGravity(1);
         this.descriptionText.setTextSize(1, 16.0f);
-        r2.addView(this.descriptionText);
-        TextView textView2 = new TextView(context2);
-        this.recognizedMrzView = textView2;
-        textView2.setTextColor(-1);
+        viewGroup.addView(this.descriptionText);
+        TextView textView3 = new TextView(context);
+        this.recognizedMrzView = textView3;
+        textView3.setTextColor(-1);
         this.recognizedMrzView.setGravity(81);
         this.recognizedMrzView.setAlpha(0.0f);
         int i3 = this.currentType;
@@ -1785,14 +1428,14 @@ public class CameraScanActivity extends BaseFragment {
             if (!this.needGalleryButton) {
                 this.recognizedMrzView.setText(LocaleController.getString(R.string.AuthAnotherClientNotFound));
             }
-            r2.addView(this.recognizedMrzView);
+            viewGroup.addView(this.recognizedMrzView);
             if (this.needGalleryButton) {
-                ImageView imageView = new ImageView(context2);
+                ImageView imageView = new ImageView(context);
                 this.galleryButton = imageView;
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
                 this.galleryButton.setImageResource(R.drawable.qr_gallery);
                 this.galleryButton.setBackgroundDrawable(Theme.createSelectorDrawableFromDrawables(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559), Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 1157627903)));
-                r2.addView(this.galleryButton);
+                viewGroup.addView(this.galleryButton);
                 this.galleryButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -1800,12 +1443,12 @@ public class CameraScanActivity extends BaseFragment {
                     }
                 });
             }
-            ImageView imageView2 = new ImageView(context2);
+            ImageView imageView2 = new ImageView(context);
             this.flashButton = imageView2;
             imageView2.setScaleType(ImageView.ScaleType.CENTER);
             this.flashButton.setImageResource(R.drawable.qr_flashlight);
             this.flashButton.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559));
-            r2.addView(this.flashButton);
+            viewGroup.addView(this.flashButton);
             this.flashButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -1966,7 +1609,7 @@ public class CameraScanActivity extends BaseFragment {
                         public final void run() {
                             CameraScanActivity.this.lambda$processShot$17();
                         }
-                    }, Math.max(16L, (1000 / this.sps) - this.averageProcessTime));
+                    }, Math.max(16L, (1000 / this.sps) - ((long) this.averageProcessTime)));
                 }
             }
         } catch (Throwable unused) {
@@ -1975,10 +1618,10 @@ public class CameraScanActivity extends BaseFragment {
         long elapsedRealtime2 = SystemClock.elapsedRealtime() - elapsedRealtime;
         float f = this.averageProcessTime;
         long j = this.processTimesCount;
-        float f2 = (f * ((float) j)) + ((float) elapsedRealtime2);
+        float f2 = (f * j) + elapsedRealtime2;
         long j2 = j + 1;
         this.processTimesCount = j2;
-        this.averageProcessTime = f2 / ((float) j2);
+        this.averageProcessTime = f2 / j2;
         this.processTimesCount = Math.max(j2, 30L);
         if (this.recognized) {
             return;

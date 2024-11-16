@@ -57,13 +57,12 @@ final class zzgd implements zzgp {
         return zzhhVar.zzd(zzhhVar.zza(obj));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:106:0x033b  */
     /* JADX WARN: Removed duplicated region for block: B:124:0x0399  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static zzgd zza(Class cls, zzfx zzfxVar, zzge zzgeVar, zzfj zzfjVar, zzhh zzhhVar, zzee zzeeVar, zzfs zzfsVar) {
+    static zzgd zza(Class cls, zzfx zzfxVar, zzge zzgeVar, zzfj zzfjVar, zzhh zzhhVar, zzee zzeeVar, zzfs zzfsVar) {
         int i;
         int charAt;
         int charAt2;
@@ -720,7 +719,6 @@ final class zzgd implements zzgp {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:31:0x0082. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:230:0x0423  */
     /* JADX WARN: Removed duplicated region for block: B:8:0x0031  */
     /*
@@ -1252,7 +1250,6 @@ final class zzgd implements zzgp {
     
         if (r3 != null) goto L69;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x001b. Please report as an issue. */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1528,8 +1525,6 @@ final class zzgd implements zzgp {
         return this.zzh ? (hashCode * 53) + this.zzr.zza(obj).hashCode() : hashCode;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:25:0x0065. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:306:0x052c. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:10:0x003b  */
     /* JADX WARN: Removed duplicated region for block: B:269:0x04c3  */
     /* JADX WARN: Removed duplicated region for block: B:291:0x0502  */
@@ -2461,7 +2456,6 @@ final class zzgd implements zzgp {
     
         if (com.google.android.gms.internal.mlkit_language_id.zzgr.zza(com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r10, r6), com.google.android.gms.internal.mlkit_language_id.zzhn.zzf(r11, r6)) != false) goto L104;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:5:0x0017. Please report as an issue. */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2685,7 +2679,6 @@ final class zzgd implements zzgp {
         }
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:5:0x001b. Please report as an issue. */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     public final void zzb(Object obj, Object obj2) {
         obj2.getClass();
@@ -3113,8 +3106,6 @@ final class zzgd implements zzgp {
     
         r3 = com.google.android.gms.internal.mlkit_language_id.zzea.zzb(r3, (java.lang.String) r4);
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:11:0x003f. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:232:0x03b8. Please report as an issue. */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     /*
         Code decompiled incorrectly, please refer to instructions dump.

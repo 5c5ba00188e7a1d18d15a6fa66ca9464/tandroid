@@ -39,7 +39,6 @@ public class CreateRtmpStreamBottomSheet extends BottomSheetWithRecyclerListView
     private String rtmpUrl;
     private TLRPC.InputPeer selectAfterDismiss;
 
-    /* loaded from: classes3.dex */
     public static class TextDetailCellFactory extends UItem.UItemFactory {
         static {
             UItem.UItemFactory.setup(new TextDetailCellFactory());
@@ -88,9 +87,7 @@ public class CreateRtmpStreamBottomSheet extends BottomSheetWithRecyclerListView
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class TopCell extends LinearLayout {
+    private static class TopCell extends LinearLayout {
         public TopCell(Context context) {
             super(context);
             setOrientation(1);

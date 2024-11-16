@@ -38,7 +38,6 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
     private int referenceCount;
     private final UUID uuid;
 
-    /* loaded from: classes.dex */
     private static class Api31 {
         public static boolean requiresSecureDecoder(MediaDrm mediaDrm, String str) {
             boolean requiresSecureDecoder;

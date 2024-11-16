@@ -63,9 +63,8 @@ public abstract class RoundVideoRecorder extends FrameLayout {
         CameraView cameraView = new CameraView(context, true, false) { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder.1
             private final Path circlePath = new Path();
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.camera.CameraView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 canvas.save();
                 this.circlePath.rewind();
                 this.circlePath.addCircle(getWidth() / 2.0f, getHeight() / 2.0f, Math.min(getWidth() / 2.0f, getHeight() / 2.0f), Path.Direction.CW);
@@ -292,7 +291,7 @@ public abstract class RoundVideoRecorder extends FrameLayout {
             canvas.restore();
         }
         if (this.recordingStarted > 0) {
-            float clamp = Utilities.clamp(((float) sinceRecording()) / 59500.0f, 1.0f, 0.0f);
+            float clamp = Utilities.clamp(sinceRecording() / 59500.0f, 1.0f, 0.0f);
             this.progressPaint.setStrokeWidth(AndroidUtilities.dp(3.33f));
             this.progressPaint.setColor(Theme.multAlpha(-1090519041, this.alpha));
             this.progressPaint.setShadowLayer(AndroidUtilities.dp(1.0f), 0.0f, AndroidUtilities.dp(0.33f), Theme.multAlpha(536870912, this.alpha));

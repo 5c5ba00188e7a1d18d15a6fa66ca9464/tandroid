@@ -23,7 +23,6 @@ public class SuperRippleFallback extends ISuperRipple {
     private final Path outlineProviderPath;
     public final float[] radii;
 
-    /* loaded from: classes4.dex */
     public static class Effect {
         public final ValueAnimator animator;
         public final float cx;

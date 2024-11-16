@@ -20,7 +20,6 @@ public final class ContactsLoadingObserver {
     private final Runnable releaseRunnable;
     private boolean released;
 
-    /* loaded from: classes3.dex */
     public interface Callback {
         void onResult(boolean z);
     }

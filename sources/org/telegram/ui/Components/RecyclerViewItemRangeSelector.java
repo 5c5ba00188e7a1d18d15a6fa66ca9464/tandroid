@@ -45,7 +45,6 @@ public class RecyclerViewItemRangeSelector implements RecyclerView.OnItemTouchLi
         }
     };
 
-    /* loaded from: classes3.dex */
     public interface RecyclerViewItemRangeSelectorDelegate {
         boolean isIndexSelectable(int i);
 

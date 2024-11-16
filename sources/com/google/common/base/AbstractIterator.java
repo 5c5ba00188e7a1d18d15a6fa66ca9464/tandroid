@@ -8,9 +8,7 @@ abstract class AbstractIterator implements Iterator {
     private Object next;
     private State state = State.NOT_READY;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$common$base$AbstractIterator$State;
 
         static {
@@ -27,13 +25,14 @@ abstract class AbstractIterator implements Iterator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public enum State {
+    private enum State {
         READY,
         NOT_READY,
         DONE,
         FAILED
+    }
+
+    protected AbstractIterator() {
     }
 
     private boolean tryToComputeNext() {
@@ -48,8 +47,7 @@ abstract class AbstractIterator implements Iterator {
 
     protected abstract Object computeNext();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Object endOfData() {
+    protected final Object endOfData() {
         this.state = State.DONE;
         return null;
     }

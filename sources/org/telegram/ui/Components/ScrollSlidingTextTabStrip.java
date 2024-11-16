@@ -62,10 +62,8 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     private int unactiveTextColorKey;
     private boolean useSameWidth;
 
-    /* loaded from: classes3.dex */
     public interface ScrollSlidingTabStripDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onSamePageSelected(ScrollSlidingTabStripDelegate scrollSlidingTabStripDelegate) {
             }
@@ -103,10 +101,9 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
                     if (elapsedRealtime > 17) {
                         elapsedRealtime = 17;
                     }
+                    ScrollSlidingTextTabStrip.access$216(ScrollSlidingTextTabStrip.this, elapsedRealtime / r2.animationDuration);
                     ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = ScrollSlidingTextTabStrip.this;
-                    ScrollSlidingTextTabStrip.access$216(scrollSlidingTextTabStrip, ((float) elapsedRealtime) / ((float) scrollSlidingTextTabStrip.animationDuration));
-                    ScrollSlidingTextTabStrip scrollSlidingTextTabStrip2 = ScrollSlidingTextTabStrip.this;
-                    scrollSlidingTextTabStrip2.setAnimationIdicatorProgress(scrollSlidingTextTabStrip2.interpolator.getInterpolation(ScrollSlidingTextTabStrip.this.animationTime));
+                    scrollSlidingTextTabStrip.setAnimationIdicatorProgress(scrollSlidingTextTabStrip.interpolator.getInterpolation(ScrollSlidingTextTabStrip.this.animationTime));
                     if (ScrollSlidingTextTabStrip.this.animationTime > 1.0f) {
                         ScrollSlidingTextTabStrip.this.animationTime = 1.0f;
                     }

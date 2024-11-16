@@ -6,8 +6,7 @@ import java.lang.ref.WeakReference;
 final class zaar extends com.google.android.gms.signin.internal.zac {
     private final WeakReference zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaar(zaaw zaawVar) {
+    zaar(zaaw zaawVar) {
         this.zaa = new WeakReference(zaawVar);
     }
 

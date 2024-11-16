@@ -17,8 +17,7 @@ final class T extends CountedCompleter {
         this.c = t.c;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public T(b bVar, j$.util.Q q, e2 e2Var) {
+    T(b bVar, j$.util.Q q, e2 e2Var) {
         super(null);
         this.b = e2Var;
         this.c = bVar;

@@ -11,8 +11,7 @@ public final class zadc {
     final Set zab = Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap()));
     private final zadb zac = new zadb(this);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zaa(BasePendingResult basePendingResult) {
+    final void zaa(BasePendingResult basePendingResult) {
         this.zab.add(basePendingResult);
         basePendingResult.zan(this.zac);
     }

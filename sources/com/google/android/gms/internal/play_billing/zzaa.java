@@ -6,8 +6,7 @@ final class zzaa extends zzu {
     final transient Object[] zzb;
     private final transient int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaa(Object[] objArr, int i) {
+    zzaa(Object[] objArr, int i) {
         this.zzb = objArr;
         this.zzc = i;
     }

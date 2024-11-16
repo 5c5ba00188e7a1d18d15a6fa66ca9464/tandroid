@@ -97,13 +97,11 @@ public final class zztl {
         return this.zzk.get(zzobVar) == null || j - ((Long) this.zzk.get(zzobVar)).longValue() > TimeUnit.SECONDS.toMillis(30L);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zzb() {
+    final /* synthetic */ String zzb() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzc(zzta zztaVar, zzob zzobVar, String str) {
+    final /* synthetic */ void zzc(zzta zztaVar, zzob zzobVar, String str) {
         zztaVar.zzb(zzobVar);
         String zzd = zztaVar.zzd();
         zzsa zzsaVar = new zzsa();
@@ -141,8 +139,7 @@ public final class zztl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzg(zzob zzobVar, com.google.mlkit.vision.segmentation.subject.internal.zzh zzhVar) {
+    final /* synthetic */ void zzg(zzob zzobVar, com.google.mlkit.vision.segmentation.subject.internal.zzh zzhVar) {
         zzba zzbaVar = (zzba) this.zzl.get(zzobVar);
         if (zzbaVar != null) {
             for (Object obj : zzbaVar.zzo()) {
@@ -175,8 +172,7 @@ public final class zztl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzh(final zzob zzobVar, Object obj, long j, final com.google.mlkit.vision.segmentation.subject.internal.zzh zzhVar) {
+    final /* synthetic */ void zzh(final zzob zzobVar, Object obj, long j, final com.google.mlkit.vision.segmentation.subject.internal.zzh zzhVar) {
         if (!this.zzl.containsKey(zzobVar)) {
             this.zzl.put(zzobVar, zzz.zzp());
         }

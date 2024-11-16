@@ -17,7 +17,6 @@ public abstract class NestedSizeNotifierLayout extends SizeNotifierFrameLayout i
     private NestedScrollingParentHelper nestedScrollingParentHelper;
     View targetListView;
 
-    /* loaded from: classes3.dex */
     public interface ChildLayout {
         void addOnLayoutChangeListener(View.OnLayoutChangeListener onLayoutChangeListener);
 
@@ -55,9 +54,8 @@ public abstract class NestedSizeNotifierLayout extends SizeNotifierFrameLayout i
         return childLayout != null && childLayout.getTop() == this.maxTop;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
         ChildLayout childLayout = this.childLayout;
@@ -66,9 +64,8 @@ public abstract class NestedSizeNotifierLayout extends SizeNotifierFrameLayout i
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attached = false;
         ChildLayout childLayout = this.childLayout;
@@ -82,9 +79,8 @@ public abstract class NestedSizeNotifierLayout extends SizeNotifierFrameLayout i
         updateMaxTop();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         updateMaxTop();
     }

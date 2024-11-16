@@ -6,8 +6,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class zzh extends zza implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzh(IBinder iBinder) {
+    zzh(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.safetynet.internal.ISafetyNetService");
     }
 

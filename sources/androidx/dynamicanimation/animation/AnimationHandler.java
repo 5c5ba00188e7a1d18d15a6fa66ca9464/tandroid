@@ -5,9 +5,8 @@ import android.view.Choreographer;
 import androidx.collection.SimpleArrayMap;
 import java.util.ArrayList;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AnimationHandler {
+class AnimationHandler {
     public static final ThreadLocal sAnimatorHandler = new ThreadLocal();
     private AnimationFrameCallbackProvider mProvider;
     private final SimpleArrayMap mDelayedCallbackStartTime = new SimpleArrayMap();
@@ -16,9 +15,7 @@ public class AnimationHandler {
     long mCurrentFrameTime = 0;
     private boolean mListDirty = false;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class AnimationCallbackDispatcher {
+    class AnimationCallbackDispatcher {
         AnimationCallbackDispatcher() {
         }
 
@@ -32,15 +29,11 @@ public class AnimationHandler {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface AnimationFrameCallback {
+    interface AnimationFrameCallback {
         boolean doAnimationFrame(long j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class AnimationFrameCallbackProvider {
+    static abstract class AnimationFrameCallbackProvider {
         final AnimationCallbackDispatcher mDispatcher;
 
         AnimationFrameCallbackProvider(AnimationCallbackDispatcher animationCallbackDispatcher) {
@@ -50,9 +43,7 @@ public class AnimationHandler {
         abstract void postFrameCallback();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FrameCallbackProvider16 extends AnimationFrameCallbackProvider {
+    private static class FrameCallbackProvider16 extends AnimationFrameCallbackProvider {
         private final Choreographer mChoreographer;
         private final Choreographer.FrameCallback mChoreographerCallback;
 

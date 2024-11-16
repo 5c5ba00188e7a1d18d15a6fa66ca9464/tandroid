@@ -213,7 +213,6 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             giveawayCell.setAvatarPadding(5);
         }
 
-        /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0004. Please report as an issue. */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View shadowSectionCell;
@@ -371,9 +370,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
     private int limitGifts = 5;
     private int limitBoosts = 5;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 5 extends FrameLayout {
+    class 5 extends FrameLayout {
         private final HeaderButtonView buttonView1;
         private final HeaderButtonView buttonView2;
         private final HeaderButtonView buttonView3;
@@ -381,11 +378,11 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         5(Context context) {
             super(context);
             setWillNotDraw(false);
-            HeaderButtonView headerButtonView = new HeaderButtonView(getContext());
+            HeaderButtonView headerButtonView = BoostsActivity.this.new HeaderButtonView(getContext());
             this.buttonView1 = headerButtonView;
-            HeaderButtonView headerButtonView2 = new HeaderButtonView(getContext());
+            HeaderButtonView headerButtonView2 = BoostsActivity.this.new HeaderButtonView(getContext());
             this.buttonView2 = headerButtonView2;
-            HeaderButtonView headerButtonView3 = new HeaderButtonView(getContext());
+            HeaderButtonView headerButtonView3 = BoostsActivity.this.new HeaderButtonView(getContext());
             this.buttonView3 = headerButtonView3;
             headerButtonView.setTextAndIcon(LocaleController.getString(R.string.BoostBtn), R.drawable.filled_boost_plus);
             headerButtonView2.setTextAndIcon(LocaleController.getString(R.string.GiveawayBtn), R.drawable.filled_gift_premium);
@@ -454,7 +451,6 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         }
     }
 
-    /* loaded from: classes4.dex */
     private class HeaderButtonView extends FrameLayout {
         private final ImageView imageView;
         private final RectF rect;
@@ -492,9 +488,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ItemInternal extends AdapterWithDiffUtils.Item {
+    private class ItemInternal extends AdapterWithDiffUtils.Item {
         TL_stories.Boost booster;
         boolean isLast;
         TL_stories.PrepaidGiveaway prepaidGiveaway;

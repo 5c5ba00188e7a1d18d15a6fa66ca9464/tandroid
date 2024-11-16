@@ -6,7 +6,6 @@ public final class StorageMetrics {
     private final long current_cache_size_bytes_;
     private final long max_cache_size_bytes_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private long current_cache_size_bytes_ = 0;
         private long max_cache_size_bytes_ = 0;

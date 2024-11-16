@@ -90,7 +90,6 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
     private final ViewPagerFixed viewPager;
     private int visibleHeight;
 
-    /* loaded from: classes5.dex */
     public class BotPreviewsEditLangContainer extends FrameLayout {
         private final StoriesAdapter adapter;
         private boolean allowStoriesSingleColumn;
@@ -127,7 +126,6 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         private final GridLayoutManager supportingLayoutManager;
         private final SharedMediaLayout.InternalListView supportingListView;
 
-        /* loaded from: classes5.dex */
         public class FooterView extends LinearLayout {
             private final ButtonWithCounterView button2View;
             private final ButtonWithCounterView buttonView;
@@ -147,9 +145,8 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 textView.setTextAlignment(4);
                 addView(textView, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 19.0f));
                 ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.FooterView.1
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Stories.recorder.ButtonWithCounterView, android.widget.FrameLayout, android.view.View
-                    public void onMeasure(int i2, int i3) {
+                    protected void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, i3);
                     }
                 };
@@ -218,7 +215,6 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             }
         }
 
-        /* loaded from: classes5.dex */
         public class StoriesAdapter extends RecyclerListView.FastScrollAdapter {
             public boolean applyingReorder;
             private final Context context;
@@ -326,7 +322,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
             public StoriesAdapter makeSupporting() {
                 BotPreviewsEditLangContainer botPreviewsEditLangContainer = BotPreviewsEditLangContainer.this;
-                StoriesAdapter storiesAdapter = new StoriesAdapter(botPreviewsEditLangContainer.getContext());
+                StoriesAdapter storiesAdapter = botPreviewsEditLangContainer.new StoriesAdapter(botPreviewsEditLangContainer.getContext());
                 this.supportingAdapter = storiesAdapter;
                 return storiesAdapter;
             }
@@ -507,16 +503,14 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
             ExtendedGridLayoutManager extendedGridLayoutManager = new ExtendedGridLayoutManager(context, 100) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.1
                 private final Size size = new Size();
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearLayoutManager
-                public void calculateExtraLayoutSpace(RecyclerView.State state, int[] iArr) {
+                protected void calculateExtraLayoutSpace(RecyclerView.State state, int[] iArr) {
                     super.calculateExtraLayoutSpace(state, iArr);
                     iArr[1] = Math.max(iArr[1], SharedPhotoVideoCell.getItemSize(1) * 2);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.ExtendedGridLayoutManager
-                public int getFlowItemCount() {
+                protected int getFlowItemCount() {
                     return 0;
                 }
 
@@ -576,9 +570,8 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                     return i;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SharedMediaLayout.SharedMediaListView, org.telegram.ui.Components.BlurredRecyclerView, org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     super.dispatchDraw(canvas);
                     float listBottom = getListBottom(this);
                     if (BotPreviewsEditLangContainer.this.columnsAnimation) {
@@ -742,9 +735,8 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                     return 27;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.FlickerLoadingView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     this.backgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite, BotPreviewsEditContainer.this.resourcesProvider));
                     canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.backgroundPaint);
                     super.onDraw(canvas);
@@ -1280,21 +1272,18 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class ChooseLanguageSheet extends BottomSheetWithRecyclerListView {
+    static class ChooseLanguageSheet extends BottomSheetWithRecyclerListView {
         private UniversalAdapter adapter;
         private final int currentAccount;
         private FrameLayout searchContainer;
         private ImageView searchImageView;
         private final CharSequence title;
 
-        /* loaded from: classes5.dex */
         public static class LanguageView extends LinearLayout {
             private boolean needDivider;
             private final TextView subtitle;
             private final TextView title;
 
-            /* loaded from: classes5.dex */
             public static class Factory extends UItem.UItemFactory {
                 static {
                     UItem.UItemFactory.setup(new Factory());
@@ -1457,18 +1446,16 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
         ViewPagerFixed viewPagerFixed = new ViewPagerFixed(context) { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.1
             private String lastLang;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public boolean canScroll(MotionEvent motionEvent) {
+            protected boolean canScroll(MotionEvent motionEvent) {
                 if (BotPreviewsEditContainer.this.isActionModeShowed()) {
                     return false;
                 }
                 return super.canScroll(motionEvent);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z) {
+            protected void onTabAnimationUpdate(boolean z) {
                 String currentLang = BotPreviewsEditContainer.this.getCurrentLang();
                 if (TextUtils.equals(this.lastLang, currentLang)) {
                     return;
@@ -1487,9 +1474,8 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
                 BotPreviewsEditContainer.this.onSelectedTabChanged();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabScrollEnd(int i) {
+            protected void onTabScrollEnd(int i) {
                 super.onTabScrollEnd(i);
                 String currentLang = BotPreviewsEditContainer.this.getCurrentLang();
                 if (TextUtils.equals(this.lastLang, currentLang)) {
@@ -1513,7 +1499,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i) {
-                return new BotPreviewsEditLangContainer(context);
+                return BotPreviewsEditContainer.this.new BotPreviewsEditLangContainer(context);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
@@ -1819,7 +1805,7 @@ public abstract class BotPreviewsEditContainer extends FrameLayout implements No
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
             public /* synthetic */ void doOnIdle(Runnable runnable) {
-                ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$doOnIdle(this, runnable);
+                runnable.run();
             }
 
             @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate

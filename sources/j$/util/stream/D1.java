@@ -10,9 +10,8 @@ final class D1 extends t0 {
     final /* synthetic */ Supplier j;
     final /* synthetic */ Collector k;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public D1(T2 t2, j$.util.function.f fVar, BiConsumer biConsumer, Supplier supplier, Collector collector) {
+    D1(T2 t2, j$.util.function.f fVar, BiConsumer biConsumer, Supplier supplier, Collector collector) {
         super(t2);
         this.h = fVar;
         this.i = biConsumer;

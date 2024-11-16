@@ -54,10 +54,10 @@ public abstract class GridLayoutManagerFixed extends GridLayoutManager {
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r12v0 */
-    /* JADX WARN: Type inference failed for: r12v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v5 */
     @Override // androidx.recyclerview.widget.GridLayoutManager, androidx.recyclerview.widget.LinearLayoutManager
     /*
@@ -250,9 +250,8 @@ public abstract class GridLayoutManagerFixed extends GridLayoutManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.GridLayoutManager
-    public void measureChild(View view, int i, boolean z) {
+    protected void measureChild(View view, int i, boolean z) {
         GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) view.getLayoutParams();
         Rect rect = layoutParams.mDecorInsets;
         int i2 = rect.top + rect.bottom + ((ViewGroup.MarginLayoutParams) layoutParams).topMargin + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;

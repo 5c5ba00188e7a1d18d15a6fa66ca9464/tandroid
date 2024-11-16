@@ -5,15 +5,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class L2 extends N2 implements j$.util.function.W {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public L2() {
+class L2 extends N2 implements j$.util.function.W {
+    L2() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public L2(int i) {
+    L2(int i) {
         super(i);
     }
 
@@ -67,9 +64,8 @@ public class L2 extends N2 implements j$.util.function.W {
         return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(jArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(jArr, NotificationCenter.storyQualityUpdate)));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.N2
-    public final void u(Object obj, int i, int i2, Object obj2) {
+    protected final void u(Object obj, int i, int i2, Object obj2) {
         long[] jArr = (long[]) obj;
         j$.util.function.W w = (j$.util.function.W) obj2;
         while (i < i2) {
@@ -78,14 +74,13 @@ public class L2 extends N2 implements j$.util.function.W {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.N2
-    public final int v(Object obj) {
+    protected final int v(Object obj) {
         return ((long[]) obj).length;
     }
 
     @Override // j$.util.stream.N2
     protected final Object[] y() {
-        return new long[8];
+        return new long[8][];
     }
 }

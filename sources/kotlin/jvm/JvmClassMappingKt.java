@@ -13,6 +13,13 @@ public abstract class JvmClassMappingKt {
         return jClass;
     }
 
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue
+    java.lang.NullPointerException
+    	at jadx.core.dex.visitors.regions.SwitchOverStringVisitor.restoreSwitchOverString(SwitchOverStringVisitor.java:109)
+    	at jadx.core.dex.visitors.regions.SwitchOverStringVisitor.visitRegion(SwitchOverStringVisitor.java:66)
+    	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:77)
+    	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:82)
+     */
     public static final Class getJavaObjectType(KClass kClass) {
         Intrinsics.checkNotNullParameter(kClass, "<this>");
         Class jClass = ((ClassBasedDeclarationContainer) kClass).getJClass();

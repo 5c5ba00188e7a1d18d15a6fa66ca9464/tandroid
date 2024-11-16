@@ -59,7 +59,6 @@ public class zzml {
         final zzmo zzmoVar3 = zzmo.zzf;
         final String str = "STRING";
         zzml zzmlVar9 = new zzml(str, i3, zzmoVar3, i) { // from class: com.google.android.gms.internal.vision.zzmk
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i4 = 2;
                 int i5 = 8;
@@ -70,7 +69,6 @@ public class zzml {
         final String str2 = "GROUP";
         final int i4 = 9;
         zzml zzmlVar10 = new zzml(str2, i4, zzmoVar4, i2) { // from class: com.google.android.gms.internal.vision.zzmn
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i5 = 3;
                 int i6 = 9;
@@ -81,7 +79,6 @@ public class zzml {
         final int i5 = 10;
         final int i6 = 2;
         zzml zzmlVar11 = new zzml(str3, i5, zzmoVar4, i6) { // from class: com.google.android.gms.internal.vision.zzmm
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i7 = 2;
                 int i8 = 10;
@@ -92,7 +89,6 @@ public class zzml {
         final zzmo zzmoVar5 = zzmo.zzg;
         final String str4 = "BYTES";
         zzml zzmlVar12 = new zzml(str4, i7, zzmoVar5, i6) { // from class: com.google.android.gms.internal.vision.zzmp
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 int i8 = 2;
                 int i9 = 11;

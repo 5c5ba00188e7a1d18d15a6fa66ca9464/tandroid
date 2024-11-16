@@ -87,9 +87,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     private int stickersEndRow;
     private int stickersStartRow;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 implements StickersAlert.StickersAlertCustomButtonDelegate {
+    class 4 implements StickersAlert.StickersAlertCustomButtonDelegate {
         final /* synthetic */ boolean val$isSelected;
         final /* synthetic */ TLRPC.TL_messages_stickerSet val$stickerSet;
 
@@ -192,8 +190,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class AddEmojiCell extends LinearLayout {
+    class AddEmojiCell extends LinearLayout {
         private final EditTextCaption editText;
         private Runnable lastCallback;
         private String lastQuery;
@@ -201,9 +198,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         private int reqId;
         private final TextWatcher textWatcher;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements TextWatcher {
+        class 1 implements TextWatcher {
             1() {
             }
 
@@ -333,8 +328,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private final Context mContext;
 
         public ListAdapter(Context context) {
@@ -468,7 +462,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                 } else if (i != 5) {
                     stickerSetCell = new HeaderCell(this.mContext);
                 } else {
-                    GroupStickersActivity.this.addEmojiCell = new AddEmojiCell(this.mContext);
+                    GroupStickersActivity.this.addEmojiCell = GroupStickersActivity.this.new AddEmojiCell(this.mContext);
                     stickerSetCell = GroupStickersActivity.this.addEmojiCell;
                 }
                 stickerSetCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
@@ -482,8 +476,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private Runnable lastCallback;
         private String lastQuery;
         private Context mContext;

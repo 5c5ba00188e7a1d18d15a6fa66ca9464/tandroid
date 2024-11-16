@@ -5,7 +5,6 @@ public final class GlobalMetrics {
     private static final GlobalMetrics DEFAULT_INSTANCE = new Builder().build();
     private final StorageMetrics storage_metrics_;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private StorageMetrics storage_metrics_ = null;
 

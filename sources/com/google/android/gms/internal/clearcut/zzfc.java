@@ -7,8 +7,7 @@ final class zzfc implements Iterator {
     private final /* synthetic */ zzfa zzpe;
     private Iterator zzpf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzfc(zzfa zzfaVar) {
+    zzfc(zzfa zzfaVar) {
         zzcx zzcxVar;
         this.zzpe = zzfaVar;
         zzcxVar = zzfaVar.zzpb;

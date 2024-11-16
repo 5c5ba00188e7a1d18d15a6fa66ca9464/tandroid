@@ -18,9 +18,7 @@ public abstract class AsyncTaskLoader extends Loader {
     volatile LoadTask mTask;
     long mUpdateThrottle;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public final class LoadTask extends ModernAsyncTask implements Runnable {
+    final class LoadTask extends ModernAsyncTask implements Runnable {
         private final CountDownLatch mDone = new CountDownLatch(1);
         boolean waiting;
 
@@ -176,9 +174,8 @@ public abstract class AsyncTaskLoader extends Loader {
     public void onCanceled(Object obj) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.loader.content.Loader
-    public void onForceLoad() {
+    protected void onForceLoad() {
         super.onForceLoad();
         cancelLoad();
         this.mTask = new LoadTask();

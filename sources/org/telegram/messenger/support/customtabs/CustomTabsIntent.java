@@ -16,7 +16,6 @@ public final class CustomTabsIntent {
     public final Intent intent;
     public final Bundle startAnimationBundle;
 
-    /* loaded from: classes3.dex */
     public static final class Builder {
         private ArrayList mActionButtons;
         private boolean mInstantAppsEnabled;

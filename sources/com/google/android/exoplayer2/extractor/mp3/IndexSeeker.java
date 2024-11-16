@@ -67,8 +67,7 @@ final class IndexSeeker implements Seeker {
         this.positions.add(j2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setDurationUs(long j) {
+    void setDurationUs(long j) {
         this.durationUs = j;
     }
 }

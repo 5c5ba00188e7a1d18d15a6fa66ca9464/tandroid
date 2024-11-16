@@ -42,8 +42,7 @@ public final class ConstructorConstructor {
         this.reflectionFilters = list;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String checkInstantiable(Class cls) {
+    static String checkInstantiable(Class cls) {
         StringBuilder sb;
         String createUrl;
         int modifiers = cls.getModifiers();

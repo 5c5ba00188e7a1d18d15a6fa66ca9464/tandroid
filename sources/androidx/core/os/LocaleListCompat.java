@@ -10,7 +10,6 @@ public final class LocaleListCompat {
     private static final LocaleListCompat sEmptyLocaleList = create(new Locale[0]);
     private final LocaleListInterface mImpl;
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         private static final Locale[] PSEUDO_LOCALE = {new Locale("en", "XA"), new Locale("ar", "XB")};
 
@@ -43,9 +42,7 @@ public final class LocaleListCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static LocaleList createLocaleList(Locale... localeArr) {
             return new LocaleList(localeArr);
         }
@@ -67,8 +64,7 @@ public final class LocaleListCompat {
         return Build.VERSION.SDK_INT >= 24 ? wrap(Api24Impl.createLocaleList(localeArr)) : new LocaleListCompat(new LocaleListCompatWrapper(localeArr));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Locale forLanguageTagCompat(String str) {
+    static Locale forLanguageTagCompat(String str) {
         if (str.contains("-")) {
             String[] split = str.split("-", -1);
             if (split.length > 2) {

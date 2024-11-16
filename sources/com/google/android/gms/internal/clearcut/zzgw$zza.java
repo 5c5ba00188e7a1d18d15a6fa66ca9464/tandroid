@@ -9,7 +9,6 @@ public final class zzgw$zza extends zzcg implements zzdq {
     private static final zzgw$zza zzbir;
     private zzcn zzbiq = zzcg.zzbb();
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzcg.zza implements zzdq {
         private zza() {
             super(zzgw$zza.zzbir);
@@ -20,7 +19,6 @@ public final class zzgw$zza extends zzcg implements zzdq {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class zzb extends zzcg implements zzdq {
         private static volatile zzdz zzbg;
         private static final zzb zzbiv;
@@ -30,7 +28,6 @@ public final class zzgw$zza extends zzcg implements zzdq {
         private long zzbiu;
         private int zzya;
 
-        /* loaded from: classes.dex */
         public static final class zza extends zzcg.zza implements zzdq {
             private zza() {
                 super(zzb.zzbiv);
@@ -95,10 +92,9 @@ public final class zzgw$zza extends zzcg implements zzdq {
             return this.zzya;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
+        /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzcg$zzb, com.google.android.gms.internal.clearcut.zzdz] */
         @Override // com.google.android.gms.internal.clearcut.zzcg
-        public final Object zza(int i, Object obj, Object obj2) {
+        protected final Object zza(int i, Object obj, Object obj2) {
             zzgx zzgxVar = null;
             switch (zzgx.zzba[i - 1]) {
                 case 1:
@@ -170,10 +166,9 @@ public final class zzgw$zza extends zzcg implements zzdq {
         return (zzgw$zza) zzcg.zzb(zzbir, bArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz, com.google.android.gms.internal.clearcut.zzcg$zzb] */
+    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzcg$zzb, com.google.android.gms.internal.clearcut.zzdz] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzgx zzgxVar = null;
         switch (zzgx.zzba[i - 1]) {
             case 1:

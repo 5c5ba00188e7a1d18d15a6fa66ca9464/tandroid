@@ -222,9 +222,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
     private TextView zoomOutText;
     private boolean zoomOutVisible;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 22 implements EmojiView.EmojiViewDelegate {
+    class 22 implements EmojiView.EmojiViewDelegate {
         int innerTextChange;
 
         22() {
@@ -427,7 +425,6 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         }
     }
 
-    /* loaded from: classes3.dex */
     public class PopupButton extends LinearLayout {
         ImageView checkView;
         ImageView image2View;
@@ -574,9 +571,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class StickerPosition {
+    private static class StickerPosition {
         private float angle;
         private Point position;
         private float scale;
@@ -854,13 +849,13 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                 if (i4 != 0) {
                     float f3 = this.stickyXAlpha;
                     if (f3 != 1.0f) {
-                        max = Math.min(1.0f, f3 + (((float) min) / 150.0f));
+                        max = Math.min(1.0f, f3 + (min / 150.0f));
                         this.stickyXAlpha = max;
                         invalidate();
                         if (i5 != 0) {
                             float f4 = this.stickyYAlpha;
                             if (f4 != 1.0f) {
-                                max2 = Math.min(1.0f, f4 + (((float) min) / 150.0f));
+                                max2 = Math.min(1.0f, f4 + (min / 150.0f));
                                 this.stickyYAlpha = max2;
                                 invalidate();
                                 f = this.stickyYAlpha;
@@ -882,7 +877,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                         if (i5 == 0) {
                             float f5 = this.stickyYAlpha;
                             if (f5 != 0.0f) {
-                                max2 = Math.max(0.0f, f5 - (((float) min) / 150.0f));
+                                max2 = Math.max(0.0f, f5 - (min / 150.0f));
                                 this.stickyYAlpha = max2;
                                 invalidate();
                             }
@@ -898,7 +893,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                 if (i4 == 0) {
                     float f6 = this.stickyXAlpha;
                     if (f6 != 0.0f) {
-                        max = Math.max(0.0f, f6 - (((float) min) / 150.0f));
+                        max = Math.max(0.0f, f6 - (min / 150.0f));
                         this.stickyXAlpha = max;
                         invalidate();
                     }
@@ -3867,9 +3862,8 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         this.destroyed = false;
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.customTypefacesLoaded);
@@ -3928,9 +3922,8 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         showColorList(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         this.destroyed = true;
         super.onDetachedFromWindow();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.customTypefacesLoaded);
@@ -4011,9 +4004,8 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         return PersistColorPalette.getInstance(this.currentAccount);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto, org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         int i5 = i3 - i;
         int i6 = i4 - i2;

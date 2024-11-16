@@ -14,7 +14,6 @@ public final class EmojiEditTextHelper {
     private int mMaxEmojiCount = ConnectionsManager.DEFAULT_DATACENTER_ID;
     private int mEmojiReplaceStrategy = 0;
 
-    /* loaded from: classes.dex */
     static class HelperInternal {
         HelperInternal() {
         }
@@ -26,7 +25,6 @@ public final class EmojiEditTextHelper {
         abstract void setEnabled(boolean z);
     }
 
-    /* loaded from: classes.dex */
     private static class HelperInternal19 extends HelperInternal {
         private final EditText mEditText;
         private final EmojiTextWatcher mTextWatcher;

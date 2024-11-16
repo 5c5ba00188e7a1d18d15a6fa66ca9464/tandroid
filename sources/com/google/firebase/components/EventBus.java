@@ -14,15 +14,13 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class EventBus implements Subscriber, Publisher {
+class EventBus implements Subscriber, Publisher {
     private final Executor defaultExecutor;
     private final Map handlerMap = new HashMap();
     private Queue pendingEvents = new ArrayDeque();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EventBus(Executor executor) {
+    EventBus(Executor executor) {
         this.defaultExecutor = executor;
     }
 
@@ -35,8 +33,7 @@ public class EventBus implements Subscriber, Publisher {
         ((EventHandler) entry.getKey()).handle(event);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void enablePublishingAndFlushPending() {
+    void enablePublishingAndFlushPending() {
         Queue queue;
         synchronized (this) {
             try {

@@ -37,28 +37,23 @@ public abstract class BaseMediaSource implements MediaSource {
         this.eventDispatcher.addEventListener(handler, mediaSourceEventListener);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId) {
+    protected final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId) {
         return this.drmEventDispatcher.withParameters(i, mediaPeriodId);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
+    protected final DrmSessionEventListener.EventDispatcher createDrmEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
         return this.drmEventDispatcher.withParameters(0, mediaPeriodId);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaSourceEventListener.EventDispatcher createEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
+    protected final MediaSourceEventListener.EventDispatcher createEventDispatcher(int i, MediaSource.MediaPeriodId mediaPeriodId, long j) {
         return this.eventDispatcher.withParameters(i, mediaPeriodId, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
+    protected final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId) {
         return this.eventDispatcher.withParameters(0, mediaPeriodId, 0L);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId, long j) {
+    protected final MediaSourceEventListener.EventDispatcher createEventDispatcher(MediaSource.MediaPeriodId mediaPeriodId, long j) {
         Assertions.checkNotNull(mediaPeriodId);
         return this.eventDispatcher.withParameters(0, mediaPeriodId, j);
     }
@@ -93,13 +88,11 @@ public abstract class BaseMediaSource implements MediaSource {
         return MediaSource.-CC.$default$getInitialTimeline(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final PlayerId getPlayerId() {
+    protected final PlayerId getPlayerId() {
         return (PlayerId) Assertions.checkStateNotNull(this.playerId);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean isEnabled() {
+    protected final boolean isEnabled() {
         return !this.enabledMediaSourceCallers.isEmpty();
     }
 
@@ -128,8 +121,7 @@ public abstract class BaseMediaSource implements MediaSource {
 
     protected abstract void prepareSourceInternal(TransferListener transferListener);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void refreshSourceInfo(Timeline timeline) {
+    protected final void refreshSourceInfo(Timeline timeline) {
         this.timeline = timeline;
         Iterator it = this.mediaSourceCallers.iterator();
         while (it.hasNext()) {

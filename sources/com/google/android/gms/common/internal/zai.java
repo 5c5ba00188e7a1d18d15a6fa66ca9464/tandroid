@@ -8,8 +8,7 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 final class zai implements BaseGmsClient.BaseOnConnectionFailedListener {
     final /* synthetic */ OnConnectionFailedListener zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zai(OnConnectionFailedListener onConnectionFailedListener) {
+    zai(OnConnectionFailedListener onConnectionFailedListener) {
         this.zaa = onConnectionFailedListener;
     }
 

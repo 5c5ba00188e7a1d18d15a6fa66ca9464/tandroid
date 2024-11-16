@@ -17,13 +17,10 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class Maps {
 
-    /* loaded from: classes.dex */
     abstract class 1 extends TransformedIterator {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public enum EntryFunction implements Function {
+    private enum EntryFunction implements Function {
         KEY { // from class: com.google.common.collect.Maps.EntryFunction.1
             @Override // com.google.common.base.Function
             public Object apply(Map.Entry entry) {
@@ -42,9 +39,10 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class EntrySet extends Sets.ImprovedAbstractSet {
+    static abstract class EntrySet extends Sets.ImprovedAbstractSet {
+        EntrySet() {
+        }
+
         @Override // java.util.AbstractCollection, java.util.Collection, java.util.Set
         public void clear() {
             map().clear();
@@ -90,13 +88,10 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class KeySet extends Sets.ImprovedAbstractSet {
+    static class KeySet extends Sets.ImprovedAbstractSet {
         final Map map;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public KeySet(Map map) {
+        KeySet(Map map) {
             this.map = (Map) Preconditions.checkNotNull(map);
         }
 
@@ -110,8 +105,7 @@ public abstract class Maps {
             return map().isEmpty();
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Map map() {
+        Map map() {
             return this.map;
         }
 
@@ -121,9 +115,7 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Values extends AbstractCollection {
+    static class Values extends AbstractCollection {
         final Map map;
 
         Values(Map map) {
@@ -205,11 +197,12 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class ViewCachingAbstractMap extends AbstractMap {
+    static abstract class ViewCachingAbstractMap extends AbstractMap {
         private transient Set entrySet;
         private transient Collection values;
+
+        ViewCachingAbstractMap() {
+        }
 
         abstract Set createEntrySet();
 
@@ -240,8 +233,7 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int capacity(int i) {
+    static int capacity(int i) {
         if (i >= 3) {
             return i < 1073741824 ? (int) ((i / 0.75f) + 1.0f) : ConnectionsManager.DEFAULT_DATACENTER_ID;
         }
@@ -249,13 +241,11 @@ public abstract class Maps {
         return i + 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean containsValueImpl(Map map, Object obj) {
+    static boolean containsValueImpl(Map map, Object obj) {
         return Iterators.contains(valueIterator(map.entrySet().iterator()), obj);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean equalsImpl(Map map, Object obj) {
+    static boolean equalsImpl(Map map, Object obj) {
         if (map == obj) {
             return true;
         }
@@ -273,8 +263,7 @@ public abstract class Maps {
         return new IdentityHashMap();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean safeContainsKey(Map map, Object obj) {
+    static boolean safeContainsKey(Map map, Object obj) {
         Preconditions.checkNotNull(map);
         try {
             return map.containsKey(obj);
@@ -283,8 +272,7 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object safeGet(Map map, Object obj) {
+    static Object safeGet(Map map, Object obj) {
         Preconditions.checkNotNull(map);
         try {
             return map.get(obj);
@@ -293,8 +281,7 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object safeRemove(Map map, Object obj) {
+    static Object safeRemove(Map map, Object obj) {
         Preconditions.checkNotNull(map);
         try {
             return map.remove(obj);
@@ -303,8 +290,7 @@ public abstract class Maps {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String toStringImpl(Map map) {
+    static String toStringImpl(Map map) {
         StringBuilder newStringBuilderForCollection = Collections2.newStringBuilderForCollection(map.size());
         newStringBuilderForCollection.append('{');
         boolean z = true;
@@ -321,8 +307,7 @@ public abstract class Maps {
         return newStringBuilderForCollection.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Function valueFunction() {
+    static Function valueFunction() {
         return EntryFunction.VALUE;
     }
 

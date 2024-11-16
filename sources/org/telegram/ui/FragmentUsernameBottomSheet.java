@@ -55,7 +55,7 @@ public abstract class FragmentUsernameBottomSheet {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r10v2, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r10v2, types: [android.view.View, android.view.ViewGroup, android.widget.LinearLayout] */
     /* JADX WARN: Type inference failed for: r11v13, types: [android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r8v0, types: [org.telegram.ui.ActionBar.BottomSheet] */
     public static void open(final Context context, final int i, String str, TLObject tLObject, final TL_fragment.TL_collectibleInfo tL_collectibleInfo, final Theme.ResourcesProvider resourcesProvider) {

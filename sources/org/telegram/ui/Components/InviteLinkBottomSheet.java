@@ -122,12 +122,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
     boolean usersLoading;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    class Adapter extends RecyclerListView.SelectionAdapter {
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 2 implements LinkActionView.Delegate {
+        class 2 implements LinkActionView.Delegate {
             2() {
             }
 
@@ -560,7 +557,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
             Context context = viewGroup.getContext();
             switch (i) {
                 case 1:
-                    view = new RevenueUserCell(context);
+                    view = InviteLinkBottomSheet.this.new RevenueUserCell(context);
                     break;
                 case 2:
                     view = new ShadowSectionCell(context, 12, Theme.getColor(Theme.key_windowBackgroundGray));
@@ -581,7 +578,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     view = linkActionView;
                     break;
                 case 4:
-                    View timerPrivacyCell = new TimerPrivacyCell(context);
+                    View timerPrivacyCell = InviteLinkBottomSheet.this.new TimerPrivacyCell(context);
                     CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     combinedDrawable.setFullsize(true);
                     timerPrivacyCell.setBackground(combinedDrawable);
@@ -611,10 +608,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     view = shadowSectionCell;
                     break;
                 case 8:
-                    view = new EmptyHintRow(context);
+                    view = InviteLinkBottomSheet.this.new EmptyHintRow(context);
                     break;
                 case 9:
-                    view = new RevenueCell(context);
+                    view = InviteLinkBottomSheet.this.new RevenueCell(context);
                     break;
                 default:
                     view = new GraySectionCell(context, ((BottomSheet) InviteLinkBottomSheet.this).resourcesProvider);
@@ -625,9 +622,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class EmptyHintRow extends FrameLayout {
+    private class EmptyHintRow extends FrameLayout {
         TextView textView;
 
         public EmptyHintRow(Context context) {
@@ -646,7 +641,6 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface InviteDelegate {
         void linkRevoked(TLRPC.TL_chatInviteExported tL_chatInviteExported);
 
@@ -657,9 +651,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         void permanentLinkReplaced(TLRPC.TL_chatInviteExported tL_chatInviteExported, TLRPC.TL_chatInviteExported tL_chatInviteExported2);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class RevenueCell extends FrameLayout {
+    private class RevenueCell extends FrameLayout {
         public final ImageView imageView;
         public final TextView subtitleView;
         public final TextView titleView;
@@ -752,9 +744,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class RevenueUserCell extends UserCell {
+    private class RevenueUserCell extends UserCell {
         public final LinearLayout layout;
         public final TextView periodView;
         public final TextView priceView;
@@ -795,9 +785,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TimerPrivacyCell extends TextInfoPrivacyCell {
+    private class TimerPrivacyCell extends TextInfoPrivacyCell {
         boolean timer;
         Runnable timerRunnable;
 
@@ -998,9 +986,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.2
             int lastH;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 if (this.lastH != View.MeasureSpec.getSize(i3)) {
                     this.lastH = View.MeasureSpec.getSize(i3);
                     InviteLinkBottomSheet.this.ignoreLayout = true;
@@ -1673,9 +1660,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.adapter.notifyDataSetChanged();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

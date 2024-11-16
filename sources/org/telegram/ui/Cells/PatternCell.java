@@ -50,7 +50,6 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     private RadialProgress2 radialProgress;
     private RectF rect;
 
-    /* loaded from: classes4.dex */
     public interface PatternCellDelegate {
         int getBackgroundColor();
 
@@ -152,14 +151,12 @@ public class PatternCell extends BackupImageView implements DownloadController.F
         super.invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         updateSelected(false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:17:0x00f4  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0142  */
     /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
@@ -168,7 +165,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         ImageReceiver imageReceiver;
         MotionBackgroundDrawable motionBackgroundDrawable;
         BlendMode blendMode;
@@ -271,7 +268,7 @@ public class PatternCell extends BackupImageView implements DownloadController.F
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener
     public void onProgressDownload(String str, long j, long j2) {
-        this.radialProgress.setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        this.radialProgress.setProgress(Math.min(1.0f, j / j2), true);
         TLRPC.TL_wallPaper selectedPattern = this.delegate.getSelectedPattern();
         TLRPC.TL_wallPaper tL_wallPaper = this.currentPattern;
         if ((!(tL_wallPaper == null && selectedPattern == null) && (selectedPattern == null || tL_wallPaper == null || tL_wallPaper.id != selectedPattern.id)) || this.radialProgress.getIcon() == 10) {

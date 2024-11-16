@@ -4,6 +4,9 @@ package org.webrtc;
 class FramerateBitrateAdjuster extends BaseBitrateAdjuster {
     private static final int INITIAL_FPS = 30;
 
+    FramerateBitrateAdjuster() {
+    }
+
     @Override // org.webrtc.BaseBitrateAdjuster, org.webrtc.BitrateAdjuster
     public int getCodecConfigFramerate() {
         return 30;

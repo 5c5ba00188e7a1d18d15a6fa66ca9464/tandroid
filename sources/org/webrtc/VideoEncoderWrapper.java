@@ -2,9 +2,8 @@ package org.webrtc;
 
 import org.webrtc.VideoEncoder;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes5.dex */
-public class VideoEncoderWrapper {
+class VideoEncoderWrapper {
     VideoEncoderWrapper() {
     }
 

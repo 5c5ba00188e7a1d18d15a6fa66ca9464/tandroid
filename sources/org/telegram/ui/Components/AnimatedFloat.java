@@ -137,7 +137,7 @@ public class AnimatedFloat {
 
     public float getTransitionProgress() {
         if (this.transition) {
-            return MathUtils.clamp(((float) ((SystemClock.elapsedRealtime() - this.transitionStart) - this.transitionDelay)) / ((float) this.transitionDuration), 0.0f, 1.0f);
+            return MathUtils.clamp(((SystemClock.elapsedRealtime() - this.transitionStart) - this.transitionDelay) / this.transitionDuration, 0.0f, 1.0f);
         }
         return 0.0f;
     }
@@ -169,7 +169,7 @@ public class AnimatedFloat {
         }
         if (this.transition) {
             long elapsedRealtime = SystemClock.elapsedRealtime();
-            float clamp = MathUtils.clamp(((float) ((elapsedRealtime - this.transitionStart) - this.transitionDelay)) / ((float) this.transitionDuration), 0.0f, 1.0f);
+            float clamp = MathUtils.clamp(((elapsedRealtime - this.transitionStart) - this.transitionDelay) / this.transitionDuration, 0.0f, 1.0f);
             if (elapsedRealtime - this.transitionStart >= this.transitionDelay) {
                 TimeInterpolator timeInterpolator = this.transitionInterpolator;
                 this.value = timeInterpolator == null ? AndroidUtilities.lerp(this.startValue, this.targetValue, clamp) : AndroidUtilities.lerp(this.startValue, this.targetValue, timeInterpolator.getInterpolation(clamp));

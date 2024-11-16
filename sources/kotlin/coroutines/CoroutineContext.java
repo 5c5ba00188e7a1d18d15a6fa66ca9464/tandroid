@@ -8,7 +8,6 @@ import kotlin.jvm.internal.Intrinsics;
 /* loaded from: classes.dex */
 public interface CoroutineContext {
 
-    /* loaded from: classes.dex */
     public static final class DefaultImpls {
         public static CoroutineContext plus(CoroutineContext coroutineContext, CoroutineContext context) {
             Intrinsics.checkNotNullParameter(context, "context");
@@ -40,10 +39,8 @@ public interface CoroutineContext {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Element extends CoroutineContext {
 
-        /* loaded from: classes.dex */
         public static final class DefaultImpls {
             public static Object fold(Element element, Object obj, Function2 operation) {
                 Intrinsics.checkNotNullParameter(operation, "operation");
@@ -76,7 +73,6 @@ public interface CoroutineContext {
         Key getKey();
     }
 
-    /* loaded from: classes.dex */
     public interface Key {
     }
 

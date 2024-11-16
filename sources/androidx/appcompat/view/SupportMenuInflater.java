@@ -40,9 +40,7 @@ public class SupportMenuInflater extends MenuInflater {
     Context mContext;
     private Object mRealOwner;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class InflatedOnMenuItemClickListener implements MenuItem.OnMenuItemClickListener {
+    private static class InflatedOnMenuItemClickListener implements MenuItem.OnMenuItemClickListener {
         private static final Class[] PARAM_TYPES = {MenuItem.class};
         private Method mMethod;
         private Object mRealOwner;
@@ -73,9 +71,7 @@ public class SupportMenuInflater extends MenuInflater {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class MenuState {
+    private class MenuState {
         private int groupCategory;
         private int groupCheckable;
         private boolean groupEnabled;

@@ -16,8 +16,10 @@ import android.widget.PopupWindow;
 public abstract class MenuPopup implements ShowableListMenu, MenuPresenter, AdapterView.OnItemClickListener {
     private Rect mEpicenterBounds;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static int measureIndividualMenuWidth(ListAdapter listAdapter, ViewGroup viewGroup, Context context, int i) {
+    MenuPopup() {
+    }
+
+    protected static int measureIndividualMenuWidth(ListAdapter listAdapter, ViewGroup viewGroup, Context context, int i) {
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, 0);
         int makeMeasureSpec2 = View.MeasureSpec.makeMeasureSpec(0, 0);
         int count = listAdapter.getCount();
@@ -46,8 +48,7 @@ public abstract class MenuPopup implements ShowableListMenu, MenuPresenter, Adap
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static boolean shouldPreserveIconSpacing(MenuBuilder menuBuilder) {
+    protected static boolean shouldPreserveIconSpacing(MenuBuilder menuBuilder) {
         int size = menuBuilder.size();
         for (int i = 0; i < size; i++) {
             MenuItem item = menuBuilder.getItem(i);
@@ -58,8 +59,7 @@ public abstract class MenuPopup implements ShowableListMenu, MenuPresenter, Adap
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static MenuAdapter toMenuAdapter(ListAdapter listAdapter) {
+    protected static MenuAdapter toMenuAdapter(ListAdapter listAdapter) {
         return listAdapter instanceof HeaderViewListAdapter ? (MenuAdapter) ((HeaderViewListAdapter) listAdapter).getWrappedAdapter() : (MenuAdapter) listAdapter;
     }
 

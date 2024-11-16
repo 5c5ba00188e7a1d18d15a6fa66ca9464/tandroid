@@ -407,7 +407,7 @@ public class Input {
         fArr[0] = x;
         fArr[1] = height;
         this.invertMatrix.mapPoints(fArr);
-        float currentTimeMillis = (float) (System.currentTimeMillis() - this.lastVelocityUpdate);
+        float currentTimeMillis = System.currentTimeMillis() - this.lastVelocityUpdate;
         this.velocity = androidx.core.math.MathUtils.clamp(this.velocity - (currentTimeMillis / 125.0f), 0.6f, 1.0f);
         if (this.renderView.getCurrentBrush() != null && (this.renderView.getCurrentBrush() instanceof Brush.Arrow)) {
             this.velocity = 1.0f - this.velocity;

@@ -71,8 +71,7 @@ final class WebRtcAudioUtils {
         return i != 12 ? i != 16 ? "INVALID" : "IN_MONO" : "IN_STEREO";
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String deviceTypeToString(int i) {
+    static String deviceTypeToString(int i) {
         switch (i) {
             case 1:
                 return "TYPE_BUILTIN_EARPIECE";
@@ -194,8 +193,7 @@ final class WebRtcAudioUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void logAudioState(String str, Context context, AudioManager audioManager) {
+    static void logAudioState(String str, Context context, AudioManager audioManager) {
         logDeviceInfo(str);
         logAudioStateBasic(str, context, audioManager);
         logAudioStateVolume(str, audioManager);
@@ -240,8 +238,7 @@ final class WebRtcAudioUtils {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String modeToString(int i) {
+    static String modeToString(int i) {
         return i != 0 ? i != 1 ? i != 2 ? i != 3 ? "MODE_INVALID" : "MODE_IN_COMMUNICATION" : "MODE_IN_CALL" : "MODE_RINGTONE" : "MODE_NORMAL";
     }
 

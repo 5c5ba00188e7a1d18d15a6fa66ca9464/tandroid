@@ -81,7 +81,6 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     private HashMap selectedContacts = new HashMap();
     private ArrayList allSpans = new ArrayList();
 
-    /* loaded from: classes4.dex */
     public class InviteAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
         private ArrayList searchResult = new ArrayList();
@@ -89,9 +88,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         private Timer searchTimer;
         private boolean searching;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends TimerTask {
+        class 1 extends TimerTask {
             final /* synthetic */ String val$query;
 
             1(String str) {
@@ -309,9 +306,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SpansContainer extends ViewGroup {
+    private class SpansContainer extends ViewGroup {
         private View addingSpan;
         private boolean animationStarted;
         private ArrayList animators;

@@ -2,24 +2,21 @@ package j$.util.concurrent;
 
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class k implements Map.Entry {
+class k implements Map.Entry {
     final int a;
     final Object b;
     volatile Object c;
     volatile k d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public k(int i, Object obj, Object obj2, k kVar) {
+    k(int i, Object obj, Object obj2, k kVar) {
         this.a = i;
         this.b = obj;
         this.c = obj2;
         this.d = kVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public k a(Object obj, int i) {
+    k a(Object obj, int i) {
         Object obj2;
         if (obj == null) {
             return null;

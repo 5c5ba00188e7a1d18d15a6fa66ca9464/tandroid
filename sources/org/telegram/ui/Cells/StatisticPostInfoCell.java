@@ -59,9 +59,8 @@ public abstract class StatisticPostInfoCell extends FrameLayout {
         this.chat = chatFull;
         this.resourcesProvider = resourcesProvider;
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.StatisticPostInfoCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 if (StatisticPostInfoCell.this.postInfo == null || !StatisticPostInfoCell.this.postInfo.isStory()) {
                     super.onDraw(canvas);
                     return;

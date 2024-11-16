@@ -26,9 +26,7 @@ public final class AudioCapabilities {
     private static final AudioCapabilities EXTERNAL_SURROUND_SOUND_CAPABILITIES = new AudioCapabilities(new int[]{2, 5, 6}, 8);
     private static final ImmutableMap ALL_SURROUND_ENCODINGS_AND_MAX_CHANNELS = new ImmutableMap.Builder().put(5, 6).put(17, 6).put(7, 6).put(18, 6).put(6, 8).put(8, 8).put(14, 8).buildOrThrow();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api29 {
+    private static final class Api29 {
         private static final android.media.AudioAttributes DEFAULT_AUDIO_ATTRIBUTES;
 
         static {

@@ -14,7 +14,6 @@ import java.util.Set;
 /* loaded from: classes.dex */
 public abstract class SchedulerConfig {
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private Clock clock;
         private Map values = new HashMap();
@@ -42,10 +41,8 @@ public abstract class SchedulerConfig {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ConfigValue {
 
-        /* loaded from: classes.dex */
         public static abstract class Builder {
             public abstract ConfigValue build();
 
@@ -60,17 +57,13 @@ public abstract class SchedulerConfig {
             return new AutoValue_SchedulerConfig_ConfigValue.Builder().setFlags(Collections.emptySet());
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public abstract long getDelta();
+        abstract long getDelta();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public abstract Set getFlags();
+        abstract Set getFlags();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public abstract long getMaxAllowedDelay();
+        abstract long getMaxAllowedDelay();
     }
 
-    /* loaded from: classes.dex */
     public enum Flag {
         NETWORK_UNMETERED,
         DEVICE_IDLE,
@@ -122,8 +115,7 @@ public abstract class SchedulerConfig {
         return builder;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract Clock getClock();
+    abstract Clock getClock();
 
     public long getScheduleDelay(Priority priority, long j, int i) {
         long time = j - getClock().getTime();
@@ -131,6 +123,5 @@ public abstract class SchedulerConfig {
         return Math.min(Math.max(adjustedExponentialBackoff(i, configValue.getDelta()), time), configValue.getMaxAllowedDelay());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract Map getValues();
+    abstract Map getValues();
 }

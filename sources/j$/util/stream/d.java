@@ -7,13 +7,11 @@ abstract class d {
     protected int c;
     protected long[] d;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public d() {
+    protected d() {
         this.a = 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public d(int i) {
+    protected d(int i) {
         if (i >= 0) {
             this.a = Math.max(4, 32 - Integer.numberOfLeadingZeros(i - 1));
         } else {

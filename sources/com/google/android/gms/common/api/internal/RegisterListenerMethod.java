@@ -12,8 +12,7 @@ public abstract class RegisterListenerMethod {
     private final boolean zac;
     private final int zad;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public RegisterListenerMethod(ListenerHolder listenerHolder, Feature[] featureArr, boolean z, int i) {
+    protected RegisterListenerMethod(ListenerHolder listenerHolder, Feature[] featureArr, boolean z, int i) {
         this.zaa = listenerHolder;
         this.zab = featureArr;
         this.zac = z;
@@ -32,8 +31,7 @@ public abstract class RegisterListenerMethod {
         return this.zab;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void registerListener(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource);
+    protected abstract void registerListener(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource);
 
     public final int zaa() {
         return this.zad;

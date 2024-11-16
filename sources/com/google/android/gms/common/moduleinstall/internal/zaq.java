@@ -9,6 +9,9 @@ import com.google.android.gms.common.internal.ClientSettings;
 
 /* loaded from: classes.dex */
 final class zaq extends Api.AbstractClientBuilder {
+    zaq() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, ConnectionCallbacks connectionCallbacks, OnConnectionFailedListener onConnectionFailedListener) {
         return new zaz(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener);

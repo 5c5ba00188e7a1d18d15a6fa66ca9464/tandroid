@@ -7,7 +7,6 @@ import android.os.IInterface;
 /* loaded from: classes.dex */
 public interface IAccountAccessor extends IInterface {
 
-    /* loaded from: classes.dex */
     public static abstract class Stub extends com.google.android.gms.internal.common.zzb implements IAccountAccessor {
         public static IAccountAccessor asInterface(IBinder iBinder) {
             if (iBinder == null) {

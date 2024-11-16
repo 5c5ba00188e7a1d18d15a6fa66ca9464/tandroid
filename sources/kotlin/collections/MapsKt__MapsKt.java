@@ -18,9 +18,14 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
     }
 
     public static final Map optimizeReadOnlyMap(Map map) {
+        Map emptyMap;
         Intrinsics.checkNotNullParameter(map, "<this>");
         int size = map.size();
-        return size != 0 ? size != 1 ? map : MapsKt__MapsJVMKt.toSingletonMap(map) : MapsKt.emptyMap();
+        if (size != 0) {
+            return size != 1 ? map : MapsKt__MapsJVMKt.toSingletonMap(map);
+        }
+        emptyMap = emptyMap();
+        return emptyMap;
     }
 
     public static final void putAll(Map map, Iterable pairs) {
@@ -34,6 +39,8 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
     }
 
     public static Map toMap(Iterable iterable) {
+        Map emptyMap;
+        int mapCapacity;
         Intrinsics.checkNotNullParameter(iterable, "<this>");
         if (!(iterable instanceof Collection)) {
             return optimizeReadOnlyMap(toMap(iterable, new LinkedHashMap()));
@@ -41,12 +48,14 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
         Collection collection = (Collection) iterable;
         int size = collection.size();
         if (size == 0) {
-            return MapsKt.emptyMap();
+            emptyMap = emptyMap();
+            return emptyMap;
         }
-        if (size != 1) {
-            return toMap(iterable, new LinkedHashMap(MapsKt.mapCapacity(collection.size())));
+        if (size == 1) {
+            return MapsKt__MapsJVMKt.mapOf((Pair) (iterable instanceof List ? ((List) iterable).get(0) : iterable.iterator().next()));
         }
-        return MapsKt__MapsJVMKt.mapOf((Pair) (iterable instanceof List ? ((List) iterable).get(0) : iterable.iterator().next()));
+        mapCapacity = MapsKt__MapsJVMKt.mapCapacity(collection.size());
+        return toMap(iterable, new LinkedHashMap(mapCapacity));
     }
 
     public static final Map toMap(Iterable iterable, Map destination) {
@@ -57,9 +66,14 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
     }
 
     public static Map toMap(Map map) {
+        Map emptyMap;
         Intrinsics.checkNotNullParameter(map, "<this>");
         int size = map.size();
-        return size != 0 ? size != 1 ? toMutableMap(map) : MapsKt__MapsJVMKt.toSingletonMap(map) : MapsKt.emptyMap();
+        if (size != 0) {
+            return size != 1 ? toMutableMap(map) : MapsKt__MapsJVMKt.toSingletonMap(map);
+        }
+        emptyMap = emptyMap();
+        return emptyMap;
     }
 
     public static final Map toMutableMap(Map map) {

@@ -9,8 +9,7 @@ final class zzc implements Callable {
     private final /* synthetic */ String zzp;
     private final /* synthetic */ Boolean zzq;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(SharedPreferences sharedPreferences, String str, Boolean bool) {
+    zzc(SharedPreferences sharedPreferences, String str, Boolean bool) {
         this.zzo = sharedPreferences;
         this.zzp = str;
         this.zzq = bool;

@@ -14,9 +14,8 @@ import java.io.EOFException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class SampleDataQueue {
+class SampleDataQueue {
     private final int allocationLength;
     private final Allocator allocator;
     private AllocationNode firstAllocationNode;
@@ -25,9 +24,7 @@ public class SampleDataQueue {
     private long totalBytesWritten;
     private AllocationNode writeAllocationNode;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class AllocationNode implements Allocator.AllocationNode {
+    private static final class AllocationNode implements Allocator.AllocationNode {
         public Allocation allocation;
         public long endPosition;
         public AllocationNode next;

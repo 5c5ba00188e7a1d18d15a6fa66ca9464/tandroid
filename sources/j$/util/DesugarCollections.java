@@ -66,8 +66,7 @@ public class DesugarCollections {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean c(Collection collection, Predicate predicate) {
+    static boolean c(Collection collection, Predicate predicate) {
         boolean removeIf;
         Field field = c;
         if (field == null) {
@@ -87,8 +86,7 @@ public class DesugarCollections {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void d(List list, Comparator comparator) {
+    static void d(List list, Comparator comparator) {
         Field field = c;
         if (field == null) {
             try {

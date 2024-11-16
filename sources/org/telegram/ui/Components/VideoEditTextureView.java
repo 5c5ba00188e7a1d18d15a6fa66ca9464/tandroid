@@ -23,7 +23,6 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
     private int videoWidth;
     private Rect viewRect;
 
-    /* loaded from: classes3.dex */
     public interface VideoEditTextureViewDelegate {
         void onEGLThreadAvailable(FilterGLThread filterGLThread);
     }

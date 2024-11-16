@@ -11,7 +11,6 @@ public abstract class TextDirectionHeuristicsCompat {
     public static final TextDirectionHeuristicCompat LTR = new TextDirectionHeuristicInternal(null, false);
     public static final TextDirectionHeuristicCompat RTL = new TextDirectionHeuristicInternal(null, true);
 
-    /* loaded from: classes.dex */
     private static class AnyStrong implements TextDirectionAlgorithm {
         static final AnyStrong INSTANCE_RTL = new AnyStrong(true);
         private final boolean mLookForRtl;
@@ -46,7 +45,6 @@ public abstract class TextDirectionHeuristicsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class FirstStrong implements TextDirectionAlgorithm {
         static final FirstStrong INSTANCE = new FirstStrong();
 
@@ -65,13 +63,10 @@ public abstract class TextDirectionHeuristicsCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface TextDirectionAlgorithm {
+    private interface TextDirectionAlgorithm {
         int checkRtl(CharSequence charSequence, int i, int i2);
     }
 
-    /* loaded from: classes.dex */
     private static abstract class TextDirectionHeuristicImpl implements TextDirectionHeuristicCompat {
         private final TextDirectionAlgorithm mAlgorithm;
 
@@ -101,7 +96,6 @@ public abstract class TextDirectionHeuristicsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class TextDirectionHeuristicInternal extends TextDirectionHeuristicImpl {
         private final boolean mDefaultIsRtl;
 
@@ -116,7 +110,6 @@ public abstract class TextDirectionHeuristicsCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class TextDirectionHeuristicLocale extends TextDirectionHeuristicImpl {
         static final TextDirectionHeuristicLocale INSTANCE = new TextDirectionHeuristicLocale();
 

@@ -128,9 +128,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     private static float[] radii = new float[8];
     private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(8, new ThreadPoolExecutor.DiscardPolicy());
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 implements Runnable {
+    class 2 implements Runnable {
         2() {
         }
 
@@ -166,7 +164,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             if (animatedFileDrawable.generatingCache || animatedFileDrawable.cacheGenRunnable != null) {
                 return;
             }
-            animatedFileDrawable.startTime = (float) System.currentTimeMillis();
+            animatedFileDrawable.startTime = System.currentTimeMillis();
             if (RLottieDrawable.lottieCacheGenerateQueue == null) {
                 RLottieDrawable.createCacheGenQueue();
             }
@@ -977,7 +975,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             return 0.0f;
         }
         if (this.pendingSeekToUI >= 0) {
-            return ((float) this.pendingSeekToUI) / this.metaData[4];
+            return this.pendingSeekToUI / this.metaData[4];
         }
         int[] iArr = this.metaData;
         return iArr[3] / iArr[4];
@@ -1179,7 +1177,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     public long getStartTime() {
-        return this.startTime * 1000.0f;
+        return (long) (this.startTime * 1000.0f);
     }
 
     public boolean hasBitmap() {
@@ -1427,8 +1425,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     public void setStartEndTime(long j, long j2) {
-        this.startTime = ((float) j) / 1000.0f;
-        this.endTime = ((float) j2) / 1000.0f;
+        this.startTime = j / 1000.0f;
+        this.endTime = j2 / 1000.0f;
         if (getCurrentProgressMs() < j) {
             seekTo(j, true);
         }

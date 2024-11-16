@@ -12,7 +12,6 @@ public final class ModuleInstallRequest {
     private final Executor zac;
     private final boolean zad;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final List zaa = new ArrayList();
         private boolean zab = true;

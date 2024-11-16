@@ -10,8 +10,7 @@ public final class zzrz {
     private final Boolean zzd;
     private final Boolean zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzrz(zzrx zzrxVar, zzry zzryVar) {
+    /* synthetic */ zzrz(zzrx zzrxVar, zzry zzryVar) {
         Boolean bool;
         Boolean bool2;
         Boolean bool3;

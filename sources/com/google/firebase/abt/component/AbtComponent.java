@@ -12,8 +12,7 @@ public class AbtComponent {
     private final Provider analyticsConnector;
     private final Context appContext;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbtComponent(Context context, Provider provider) {
+    protected AbtComponent(Context context, Provider provider) {
         this.appContext = context;
         this.analyticsConnector = provider;
     }

@@ -19,8 +19,7 @@ public final class zzfb extends zzcb implements zzdg {
     private zzfb() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzA(zzfb zzfbVar, int i) {
+    static /* synthetic */ void zzA(zzfb zzfbVar, int i) {
         zzfbVar.zzg = i - 1;
         zzfbVar.zzd |= 1;
     }
@@ -33,8 +32,7 @@ public final class zzfb extends zzcb implements zzdg {
         return (zzfb) zzcb.zzj(zzb, bArr, zzbnVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ void zzy(zzfb zzfbVar, zzfj zzfjVar) {
+    static /* synthetic */ void zzy(zzfb zzfbVar, zzfj zzfjVar) {
         zzfjVar.getClass();
         zzfbVar.zzh = zzfjVar;
         zzfbVar.zzd |= 2;

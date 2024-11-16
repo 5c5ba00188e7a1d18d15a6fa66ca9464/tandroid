@@ -12,10 +12,8 @@ import com.google.android.aidl.Codecs;
 /* loaded from: classes.dex */
 public interface ISearchActionVerificationService extends IInterface {
 
-    /* loaded from: classes.dex */
     public static abstract class Stub extends BaseStub implements ISearchActionVerificationService {
 
-        /* loaded from: classes.dex */
         public static class Proxy extends BaseProxy implements ISearchActionVerificationService {
             Proxy(IBinder iBinder) {
                 super(iBinder, "com.google.android.search.verification.api.ISearchActionVerificationService");

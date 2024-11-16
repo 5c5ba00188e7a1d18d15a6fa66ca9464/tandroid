@@ -54,9 +54,7 @@ class HlsChunkSource {
     private byte[] scratchSpace = Util.EMPTY_BYTE_ARRAY;
     private long liveEdgeInPeriodTimeUs = -9223372036854775807L;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class EncryptionKeyChunk extends DataChunk {
+    private static final class EncryptionKeyChunk extends DataChunk {
         private byte[] result;
 
         public EncryptionKeyChunk(DataSource dataSource, DataSpec dataSpec, Format format, int i, Object obj, byte[] bArr) {
@@ -73,7 +71,6 @@ class HlsChunkSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class HlsChunkHolder {
         public Chunk chunk;
         public boolean endOfStream;
@@ -90,9 +87,7 @@ class HlsChunkSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class HlsMediaPlaylistSegmentIterator extends BaseMediaChunkIterator {
+    static final class HlsMediaPlaylistSegmentIterator extends BaseMediaChunkIterator {
         private final String playlistBaseUri;
         private final List segmentBases;
         private final long startOfPlaylistInPeriodUs;
@@ -118,7 +113,6 @@ class HlsChunkSource {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class InitializationTrackSelection extends BaseTrackSelection {
         private int selectedIndex;
 
@@ -157,9 +151,7 @@ class HlsChunkSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class SegmentBaseHolder {
+    static final class SegmentBaseHolder {
         public final boolean isPreload;
         public final long mediaSequence;
         public final int partIndex;

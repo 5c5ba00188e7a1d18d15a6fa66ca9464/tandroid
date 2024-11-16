@@ -43,9 +43,7 @@ public class VoIPNotificationsLayout extends LinearLayout {
     HashMap viewsByTag;
     boolean wasChanged;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class NotificationView extends FrameLayout {
+    private static class NotificationView extends FrameLayout {
         private final VoIPBackgroundProvider backgroundProvider;
         private final RectF bgRect;
         ImageView iconView;

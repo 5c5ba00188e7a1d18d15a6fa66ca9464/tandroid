@@ -142,9 +142,8 @@ public class TextCell extends FrameLayout {
         return spannableStringBuilder;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         if (this.drawLoading || this.drawLoadingProgress != 0.0f) {
             if (this.paint == null) {
                 Paint paint = new Paint(1);
@@ -331,9 +330,8 @@ public class TextCell extends FrameLayout {
         accessibilityNodeInfo.addAction(16);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         int dp;
         int i5 = i4 - i2;
         int i6 = i3 - i;
@@ -387,9 +385,8 @@ public class TextCell extends FrameLayout {
         r7.layout(dp7, measuredHeight2, r7.getMeasuredWidth() + dp7, this.checkBox.getMeasuredHeight() + measuredHeight2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         CharSequence charSequence;
         int size = View.MeasureSpec.getSize(i);
         int dp = AndroidUtilities.dp(this.heightDp);

@@ -466,18 +466,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 this.limit.setGravity(5);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 this.limit.setTextColor(this.limitColor.set(Theme.getColor(this.limitCount < 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, LocationActivity.this.getResourceProvider())));
                 this.limit.setBounds(getScrollX(), 0, getScrollX() + getWidth(), getHeight());
                 this.limit.draw(canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            protected void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 super.onTextChanged(charSequence, i2, i3, i4);
                 if (this.limit != null) {
                     this.limitCount = 96 - charSequence.length();
@@ -562,9 +560,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.Components.BackupImageView
             protected ImageReceiver createImageReciever() {
                 return new ImageReceiver(this) { // from class: org.telegram.ui.Business.LocationActivity.5.1
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.messenger.ImageReceiver
-                    public boolean setImageBitmapByKey(Drawable drawable, String str, int i4, boolean z, int i5) {
+                    protected boolean setImageBitmapByKey(Drawable drawable, String str, int i4, boolean z, int i5) {
                         if (drawable != null && i4 != 1) {
                             LocationActivity.this.mapMarker.animate().alpha(1.0f).translationY(0.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT_BACK).setDuration(250L).start();
                         }

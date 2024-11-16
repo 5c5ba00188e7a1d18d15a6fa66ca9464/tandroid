@@ -8,8 +8,7 @@ import java.util.Map;
 public abstract class zzsb implements Closeable {
     private static final Map zza = new HashMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza() {
+    static void zza() {
         zza.clear();
     }
 }

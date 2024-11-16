@@ -55,8 +55,7 @@ enum DataMask {
 
     abstract boolean isMasked(int i, int i2);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void unmaskBitMatrix(BitMatrix bitMatrix, int i) {
+    final void unmaskBitMatrix(BitMatrix bitMatrix, int i) {
         for (int i2 = 0; i2 < i; i2++) {
             for (int i3 = 0; i3 < i; i3++) {
                 if (isMasked(i2, i3)) {

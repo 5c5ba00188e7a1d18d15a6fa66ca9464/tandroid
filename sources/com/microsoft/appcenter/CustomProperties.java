@@ -62,8 +62,7 @@ public class CustomProperties {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Map getProperties() {
+    synchronized Map getProperties() {
         return new HashMap(this.mProperties);
     }
 

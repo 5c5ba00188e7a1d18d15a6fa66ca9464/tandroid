@@ -10,9 +10,8 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzlh extends AbstractMap {
+abstract class zzlh extends AbstractMap {
     private final int zza;
     private List zzb;
     private Map zzc;
@@ -28,8 +27,7 @@ public abstract class zzlh extends AbstractMap {
         this.zzf = Collections.emptyMap();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzlh(int i, zzlg zzlgVar) {
+    /* synthetic */ zzlh(int i, zzlg zzlgVar) {
         this(i);
     }
 
@@ -64,8 +62,7 @@ public abstract class zzlh extends AbstractMap {
         return -i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzlh zza(int i) {
+    static zzlh zza(int i) {
         return new zzlg(i);
     }
 
@@ -239,8 +236,7 @@ public abstract class zzlh extends AbstractMap {
         return this.zzc.isEmpty() ? zzll.zza() : this.zzc.entrySet();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Set zze() {
+    final Set zze() {
         if (this.zzg == null) {
             this.zzg = new zzli(this, null);
         }

@@ -11,7 +11,6 @@ import androidx.core.util.Preconditions;
 /* loaded from: classes.dex */
 public abstract class FontsContractCompat {
 
-    /* loaded from: classes.dex */
     public static class FontFamilyResult {
         private final FontInfo[] mFonts;
         private final int mStatusCode;
@@ -21,8 +20,7 @@ public abstract class FontsContractCompat {
             this.mFonts = fontInfoArr;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public static FontFamilyResult create(int i, FontInfo[] fontInfoArr) {
+        static FontFamilyResult create(int i, FontInfo[] fontInfoArr) {
             return new FontFamilyResult(i, fontInfoArr);
         }
 
@@ -35,7 +33,6 @@ public abstract class FontsContractCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class FontInfo {
         private final boolean mItalic;
         private final int mResultCode;
@@ -51,8 +48,7 @@ public abstract class FontsContractCompat {
             this.mResultCode = i3;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public static FontInfo create(Uri uri, int i, int i2, boolean z, int i3) {
+        static FontInfo create(Uri uri, int i, int i2, boolean z, int i3) {
             return new FontInfo(uri, i, i2, z, i3);
         }
 
@@ -77,7 +73,6 @@ public abstract class FontsContractCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class FontRequestCallback {
         public abstract void onTypefaceRequestFailed(int i);
 

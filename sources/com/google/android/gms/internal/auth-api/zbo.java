@@ -21,9 +21,8 @@ public final class zbo extends GmsClient {
         this.zba = new Auth.AuthCredentialsOptions(builder);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -41,9 +40,8 @@ public final class zbo extends GmsClient {
         return 12800000;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.auth.api.credentials.internal.ICredentialsService";
     }
 

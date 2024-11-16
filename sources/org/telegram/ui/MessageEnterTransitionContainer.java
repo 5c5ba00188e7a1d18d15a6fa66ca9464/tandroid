@@ -13,7 +13,6 @@ public class MessageEnterTransitionContainer extends View {
     private final ViewGroup parent;
     private ArrayList transitions;
 
-    /* loaded from: classes4.dex */
     public interface Transition {
         void onDraw(Canvas canvas);
     }
@@ -49,8 +48,7 @@ public class MessageEnterTransitionContainer extends View {
         setVisibility(8);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void addTransition(Transition transition) {
+    void addTransition(Transition transition) {
         this.transitions.add(transition);
         checkVisibility();
         this.parent.invalidate();
@@ -70,8 +68,7 @@ public class MessageEnterTransitionContainer extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void removeTransition(Transition transition) {
+    void removeTransition(Transition transition) {
         this.transitions.remove(transition);
         checkVisibility();
         this.parent.invalidate();

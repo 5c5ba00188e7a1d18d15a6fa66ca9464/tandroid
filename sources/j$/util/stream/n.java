@@ -5,8 +5,7 @@ final class n extends a2 {
     boolean b;
     Object c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public n(e2 e2Var) {
+    n(e2 e2Var) {
         super(e2Var);
     }
 

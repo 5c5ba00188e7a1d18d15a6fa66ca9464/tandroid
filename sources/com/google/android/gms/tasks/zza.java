@@ -4,8 +4,7 @@ package com.google.android.gms.tasks;
 final class zza implements OnSuccessListener {
     final /* synthetic */ OnTokenCanceledListener zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(zzb zzbVar, OnTokenCanceledListener onTokenCanceledListener) {
+    zza(zzb zzbVar, OnTokenCanceledListener onTokenCanceledListener) {
         this.zza = onTokenCanceledListener;
     }
 

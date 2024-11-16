@@ -7,7 +7,6 @@ import org.json.JSONObject;
 /* loaded from: classes.dex */
 abstract class ErrorParser {
 
-    /* loaded from: classes.dex */
     static class StripeError {
         public String charge;
         public String code;
@@ -20,8 +19,7 @@ abstract class ErrorParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static StripeError parseError(String str) {
+    static StripeError parseError(String str) {
         StripeError stripeError = new StripeError();
         try {
             JSONObject jSONObject = new JSONObject(str).getJSONObject("error");

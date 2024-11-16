@@ -6,8 +6,7 @@ public final class zzdy {
     private final Integer zzb;
     private final zznc zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzdy(zzdt zzdtVar, zzdx zzdxVar) {
+    /* synthetic */ zzdy(zzdt zzdtVar, zzdx zzdxVar) {
         zzdw zzdwVar;
         Integer num;
         zznc zzncVar;

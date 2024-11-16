@@ -8,14 +8,12 @@ import java.util.List;
 final class zzcp extends zzct {
     private static final Class zza = Collections.unmodifiableList(Collections.emptyList()).getClass();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzcp(zzco zzcoVar) {
+    /* synthetic */ zzcp(zzco zzcoVar) {
         super(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzct
-    public final void zza(Object obj, long j) {
+    final void zza(Object obj, long j) {
         Object unmodifiableList;
         List list = (List) zzeq.zzf(obj, j);
         if (list instanceof zzcn) {
@@ -37,7 +35,6 @@ final class zzcp extends zzct {
         zzeq.zzs(obj, j, unmodifiableList);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:12:0x009c  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0094 A[ADDED_TO_REGION] */
@@ -45,7 +42,7 @@ final class zzcp extends zzct {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final void zzb(Object obj, Object obj2, long j) {
+    final void zzb(Object obj, Object obj2, long j) {
         zzcm zzcmVar;
         int size;
         List list = (List) zzeq.zzf(obj2, j);

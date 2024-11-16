@@ -32,9 +32,8 @@ public class TopViewCell extends LinearLayout {
         });
         addView(backupImageView, LayoutHelper.createLinear(90, 90, 17, 0, 9, 0, 9));
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.TopViewCell.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
-            public void onMeasure(int i, int i2) {
+            protected void onMeasure(int i, int i2) {
                 int size = View.MeasureSpec.getSize(i);
                 if (TopViewCell.this.maxWidth > 0 && TopViewCell.this.maxWidth < size) {
                     size = TopViewCell.this.maxWidth;

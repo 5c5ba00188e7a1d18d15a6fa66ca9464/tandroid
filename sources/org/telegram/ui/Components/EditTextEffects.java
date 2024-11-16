@@ -286,8 +286,7 @@ public abstract class EditTextEffects extends EditText {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void invalidateSpoilers() {
+    protected void invalidateSpoilers() {
         AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans;
         AnimatedEmojiSpan.EmojiGroupedSpans emojiGroupedSpans2;
         List<SpoilerEffect> list = this.spoilers;
@@ -313,25 +312,22 @@ public abstract class EditTextEffects extends EditText {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         updateAnimatedEmoji(true);
         invalidateQuotes(false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         removeCallbacks(this.spoilerTimeout);
         AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         canvas.save();
         if (this.clipToPadding && getScrollY() != 0) {
             canvas.clipRect(-AndroidUtilities.dp(3.0f), (getScrollY() - super.getExtendedPaddingTop()) - this.offsetY, getMeasuredWidth(), ((getMeasuredHeight() + getScrollY()) + super.getExtendedPaddingBottom()) - this.offsetY);
@@ -400,16 +396,14 @@ public abstract class EditTextEffects extends EditText {
         canvas.restore();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         invalidateQuotes(false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView
-    public void onSelectionChanged(int i, int i2) {
+    protected void onSelectionChanged(int i, int i2) {
         super.onSelectionChanged(i, i2);
         if (this.suppressOnTextChanged) {
             return;
@@ -419,14 +413,12 @@ public abstract class EditTextEffects extends EditText {
         checkSpoilerTimeout();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
+    protected void onSizeChanged(int i, int i2, int i3, int i4) {
         super.onSizeChanged(i, i2, i3, i4);
         invalidateEffects();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:14:0x0047, code lost:
     
         r7 = r7 - r6;
@@ -438,7 +430,7 @@ public abstract class EditTextEffects extends EditText {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         if (!this.suppressOnTextChanged) {
             invalidateEffects();
@@ -472,8 +464,7 @@ public abstract class EditTextEffects extends EditText {
         AnimatedEmojiSpan.release(this, this.animatedEmojiDrawables);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void resetFontMetricsCache() {
+    protected void resetFontMetricsCache() {
         float textSize = getTextSize();
         setTextSize(0, 1.0f + textSize);
         setTextSize(0, textSize);

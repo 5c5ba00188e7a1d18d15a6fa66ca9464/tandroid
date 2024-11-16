@@ -40,7 +40,6 @@ public class RoundView extends EntityView {
     private FrameLayout.LayoutParams textureViewParams;
     public Bitmap thumbBitmap;
 
-    /* loaded from: classes3.dex */
     public class RoundViewSelectionView extends EntityView.SelectionView {
         private final RectF arcRect;
 
@@ -266,9 +265,8 @@ public class RoundView extends EntityView {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
+    protected void updatePosition() {
         Size size = this.baseSize;
         float f = size.width / 2.0f;
         float f2 = size.height / 2.0f;

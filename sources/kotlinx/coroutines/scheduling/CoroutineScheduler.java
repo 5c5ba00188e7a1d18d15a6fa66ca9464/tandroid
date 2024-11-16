@@ -36,7 +36,6 @@ public final class CoroutineScheduler implements Executor, Closeable {
     static final /* synthetic */ AtomicLongFieldUpdater controlState$FU = AtomicLongFieldUpdater.newUpdater(CoroutineScheduler.class, "controlState");
     private static final /* synthetic */ AtomicIntegerFieldUpdater _isTerminated$FU = AtomicIntegerFieldUpdater.newUpdater(CoroutineScheduler.class, "_isTerminated");
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }
@@ -46,7 +45,6 @@ public final class CoroutineScheduler implements Executor, Closeable {
         }
     }
 
-    /* loaded from: classes.dex */
     public /* synthetic */ class WhenMappings {
         public static final /* synthetic */ int[] $EnumSwitchMapping$0;
 
@@ -61,7 +59,6 @@ public final class CoroutineScheduler implements Executor, Closeable {
         }
     }
 
-    /* loaded from: classes.dex */
     public final class Worker extends Thread {
         static final /* synthetic */ AtomicIntegerFieldUpdater workerCtl$FU = AtomicIntegerFieldUpdater.newUpdater(Worker.class, "workerCtl");
         private volatile int indexInArray;
@@ -359,7 +356,6 @@ public final class CoroutineScheduler implements Executor, Closeable {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum WorkerState {
         CPU_ACQUIRED,
         BLOCKING,
@@ -570,7 +566,7 @@ public final class CoroutineScheduler implements Executor, Closeable {
         dispatch$default(this, runnable, null, false, 6, null);
     }
 
-    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     public final boolean isTerminated() {
         return this._isTerminated;
     }

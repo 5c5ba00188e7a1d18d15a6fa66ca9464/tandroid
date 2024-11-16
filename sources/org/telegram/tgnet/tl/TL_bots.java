@@ -10,7 +10,6 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class TL_bots {
 
-    /* loaded from: classes3.dex */
     public static abstract class BotInfo extends TLObject {
         public botAppSettings app_settings;
         public ArrayList<TLRPC.TL_botCommand> commands = new ArrayList<>();
@@ -65,7 +64,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class BotMenuButton extends TLObject {
         public static BotMenuButton TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
             BotMenuButton tL_botMenuButtonDefault = i != -944407322 ? i != 1113113093 ? i != 1966318984 ? null : new TL_botMenuButtonDefault() : new TL_botMenuButtonCommands() : new TL_botMenuButton();
@@ -79,7 +77,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo extends BotInfo {
         public static final int constructor = 912290611;
 
@@ -166,7 +163,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfoEmpty_layer48 extends TL_botInfo {
         public static final int constructor = -1154598962;
 
@@ -176,7 +172,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo_layer131 extends TL_botInfo {
         public static final int constructor = -1729618630;
 
@@ -215,7 +210,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo_layer139 extends BotInfo {
         public static final int constructor = 460632885;
 
@@ -254,7 +248,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo_layer140 extends TL_botInfo {
         public static final int constructor = -468280483;
 
@@ -295,7 +288,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo_layer185 extends TL_botInfo {
         public static final int constructor = -1892676777;
 
@@ -370,7 +362,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo_layer192 extends TL_botInfo {
         public static final int constructor = -2109505932;
 
@@ -451,7 +442,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botInfo_layer48 extends TL_botInfo {
         public static final int constructor = 164583517;
 
@@ -494,7 +484,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botMenuButton extends BotMenuButton {
         public static final int constructor = -944407322;
         public String text;
@@ -514,7 +503,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botMenuButtonCommands extends BotMenuButton {
         public static final int constructor = 1113113093;
 
@@ -524,7 +512,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_botMenuButtonDefault extends BotMenuButton {
         public static final int constructor = 1966318984;
 
@@ -534,7 +521,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TL_updateBotMenuButton extends TLRPC.Update {
         public static final int constructor = 347625491;
         public long bot_id;
@@ -554,7 +540,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class addPreviewMedia extends TLObject {
         public static final int constructor = 397326170;
         public TLRPC.InputUser bot;
@@ -575,7 +560,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class allowSendMessage extends TLObject {
         public static final int constructor = -248323089;
         public TLRPC.InputUser bot;
@@ -592,7 +576,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class botAppSettings extends TLObject {
         public static final int constructor = -912582320;
         public int background_color;
@@ -660,7 +643,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class botPreviewMedia extends TLObject {
         public static final int constructor = 602479523;
         public int date;
@@ -692,7 +674,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class canSendMessage extends TLObject {
         public static final int constructor = 324662502;
         public TLRPC.InputUser bot;
@@ -709,7 +690,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class checkDownloadFileParams extends TLObject {
         public static final int constructor = 1342666121;
         public TLRPC.InputUser bot;
@@ -730,7 +710,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class deletePreviewMedia extends TLObject {
         public static final int constructor = 755054003;
         public TLRPC.InputUser bot;
@@ -756,7 +735,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class editPreviewMedia extends TLObject {
         public static final int constructor = -2061148049;
         public TLRPC.InputUser bot;
@@ -779,7 +757,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getBotInfo extends TLObject {
         public static final int constructor = -589753091;
         public TLRPC.InputUser bot;
@@ -802,7 +779,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getBotMenuButton extends TLObject {
         public static final int constructor = -1671369944;
         public TLRPC.InputUser user_id;
@@ -819,7 +795,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getPopularAppBots extends TLObject {
         public static final int constructor = -1034878574;
         public int limit;
@@ -838,7 +813,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getPreviewInfo extends TLObject {
         public static final int constructor = 1111143341;
         public TLRPC.InputUser bot;
@@ -857,7 +831,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getPreviewMedias extends TLObject {
         public static final int constructor = -1566222003;
         public TLRPC.InputUser bot;
@@ -879,7 +852,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class invokeWebViewCustomMethod extends TLObject {
         public static final int constructor = 142591463;
         public TLRPC.InputUser bot;
@@ -900,7 +872,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class popularAppBots extends TLObject {
         public static final int constructor = 428978491;
         public int flags;
@@ -959,7 +930,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class previewInfo extends TLObject {
         public static final int constructor = 212278628;
         public ArrayList<botPreviewMedia> media = new ArrayList<>();
@@ -1025,7 +995,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class reorderPreviewMedias extends TLObject {
         public static final int constructor = -1238895702;
         public TLRPC.InputUser bot;
@@ -1051,7 +1020,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class reorderUsernames extends TLObject {
         public static final int constructor = -1760972350;
         public TLRPC.InputUser bot;
@@ -1075,7 +1043,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class setBotInfo extends TLObject {
         public static final int constructor = 282013987;
         public String about;
@@ -1110,7 +1077,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class setBotMenuButton extends TLObject {
         public static final int constructor = 1157944655;
         public BotMenuButton button;
@@ -1129,7 +1095,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class toggleUserEmojiStatusPermission extends TLObject {
         public static final int constructor = 115237778;
         public TLRPC.InputUser bot;
@@ -1148,7 +1113,6 @@ public class TL_bots {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class toggleUsername extends TLObject {
         public static final int constructor = 87861619;
         public boolean active;

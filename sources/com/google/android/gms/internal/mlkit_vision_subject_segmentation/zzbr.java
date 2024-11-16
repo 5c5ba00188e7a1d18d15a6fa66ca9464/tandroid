@@ -5,6 +5,9 @@ import java.util.Collection;
 
 /* loaded from: classes.dex */
 abstract class zzbr extends AbstractSet {
+    zzbr() {
+    }
+
     @Override // java.util.AbstractSet, java.util.AbstractCollection, java.util.Collection, java.util.Set
     public boolean removeAll(Collection collection) {
         return zzbs.zzb(this, collection);

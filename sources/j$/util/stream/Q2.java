@@ -7,13 +7,11 @@ import java.util.Map;
 final class Q2 {
     final Map a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Q2(EnumMap enumMap) {
+    Q2(EnumMap enumMap) {
         this.a = enumMap;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void a(R2 r2) {
+    final void a(R2 r2) {
         this.a.put(r2, 1);
     }
 }

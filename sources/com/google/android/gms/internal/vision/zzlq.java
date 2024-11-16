@@ -2,8 +2,7 @@ package com.google.android.gms.internal.vision;
 
 /* loaded from: classes.dex */
 abstract class zzlq {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String zza(zzht zzhtVar) {
+    static String zza(zzht zzhtVar) {
         String str;
         zzlt zzltVar = new zzlt(zzhtVar);
         StringBuilder sb = new StringBuilder(zzltVar.zza());

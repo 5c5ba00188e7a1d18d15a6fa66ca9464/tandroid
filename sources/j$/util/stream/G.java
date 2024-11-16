@@ -2,6 +2,9 @@ package j$.util.stream;
 
 /* loaded from: classes2.dex */
 final class G extends K implements b2 {
+    G() {
+    }
+
     @Override // j$.util.stream.K, j$.util.stream.e2, j$.util.function.n
     public final void accept(double d) {
         r(Double.valueOf(d));

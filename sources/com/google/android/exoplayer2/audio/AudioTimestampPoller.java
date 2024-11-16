@@ -13,9 +13,7 @@ final class AudioTimestampPoller {
     private long sampleIntervalUs;
     private int state;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class AudioTimestampV19 {
+    private static final class AudioTimestampV19 {
         private final AudioTimestamp audioTimestamp = new AudioTimestamp();
         private final AudioTrack audioTrack;
         private long lastTimestampPositionFrames;

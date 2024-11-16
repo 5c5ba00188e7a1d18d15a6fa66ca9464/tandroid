@@ -5,6 +5,9 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class AbstractMapEntry implements Map.Entry {
+    AbstractMapEntry() {
+    }
+
     @Override // java.util.Map.Entry
     public boolean equals(Object obj) {
         if (!(obj instanceof Map.Entry)) {

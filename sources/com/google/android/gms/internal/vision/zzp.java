@@ -7,8 +7,7 @@ import com.google.android.gms.dynamic.IObjectWrapper;
 
 /* loaded from: classes.dex */
 public final class zzp extends zzb implements zzn {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzp(IBinder iBinder) {
+    zzp(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.vision.barcode.internal.client.INativeBarcodeDetectorCreator");
     }
 

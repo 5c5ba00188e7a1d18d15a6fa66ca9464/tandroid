@@ -8,10 +8,8 @@ import android.os.Parcel;
 /* loaded from: classes3.dex */
 public interface ICustomTabsService extends IInterface {
 
-    /* loaded from: classes3.dex */
     public static abstract class Stub extends Binder implements ICustomTabsService {
 
-        /* loaded from: classes3.dex */
         private static class Proxy implements ICustomTabsService {
             private IBinder mRemote;
 

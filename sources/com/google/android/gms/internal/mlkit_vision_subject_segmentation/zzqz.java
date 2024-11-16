@@ -5,8 +5,7 @@ public final class zzqz {
     private final zzoa zza;
     private final zzrz zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzqz(zzqx zzqxVar, zzqy zzqyVar) {
+    /* synthetic */ zzqz(zzqx zzqxVar, zzqy zzqyVar) {
         zzoa zzoaVar;
         zzrz zzrzVar;
         zzoaVar = zzqxVar.zza;

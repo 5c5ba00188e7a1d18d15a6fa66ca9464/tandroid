@@ -8,7 +8,6 @@ import kotlin.jvm.internal.Intrinsics;
 public abstract class Result implements Serializable {
     public static final Companion Companion = new Companion(null);
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }
@@ -18,7 +17,6 @@ public abstract class Result implements Serializable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Failure implements Serializable {
         public final Throwable exception;
 

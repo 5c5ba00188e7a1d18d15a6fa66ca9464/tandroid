@@ -12,9 +12,7 @@ import androidx.lifecycle.Lifecycle;
 public class ReportFragment extends Fragment {
     private ActivityInitializationListener mProcessListener;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface ActivityInitializationListener {
+    interface ActivityInitializationListener {
         void onCreate();
 
         void onResume();
@@ -22,7 +20,6 @@ public class ReportFragment extends Fragment {
         void onStart();
     }
 
-    /* loaded from: classes.dex */
     static class LifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
         LifecycleCallbacks() {
         }
@@ -124,8 +121,7 @@ public class ReportFragment extends Fragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ReportFragment get(Activity activity) {
+    static ReportFragment get(Activity activity) {
         return (ReportFragment) activity.getFragmentManager().findFragmentByTag("androidx.lifecycle.LifecycleDispatcher.report_fragment_tag");
     }
 
@@ -180,8 +176,7 @@ public class ReportFragment extends Fragment {
         dispatch(Lifecycle.Event.ON_STOP);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setProcessListener(ActivityInitializationListener activityInitializationListener) {
+    void setProcessListener(ActivityInitializationListener activityInitializationListener) {
         this.mProcessListener = activityInitializationListener;
     }
 }

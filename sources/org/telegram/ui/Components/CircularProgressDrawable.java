@@ -67,7 +67,7 @@ public class CircularProgressDrawable extends Drawable {
     }
 
     private void updateSegment() {
-        getSegments((float) ((SystemClock.elapsedRealtime() - this.start) % 5400), this.segment);
+        getSegments((SystemClock.elapsedRealtime() - this.start) % 5400, this.segment);
     }
 
     @Override // android.graphics.drawable.Drawable

@@ -81,9 +81,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     private static Set loadedIconsType = new HashSet();
     static int loadedCategoryIcons = 0;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private int lastItemCount;
 
         private Adapter() {
@@ -144,7 +142,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
                 };
             } else {
                 StickerCategoriesListView stickerCategoriesListView = StickerCategoriesListView.this;
-                categoryButton = new CategoryButton(stickerCategoriesListView.getContext());
+                categoryButton = stickerCategoriesListView.new CategoryButton(stickerCategoriesListView.getContext());
             }
             return new RecyclerListView.Holder(categoryButton);
         }
@@ -160,8 +158,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CategoryButton extends RLottieImageView {
+    class CategoryButton extends RLottieImageView {
         ValueAnimator backAnimator;
         private int imageColor;
         private int index;
@@ -425,7 +422,6 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class EmojiCategory {
         public boolean animated;
         public long documentId;
@@ -453,8 +449,7 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class EmojiGroupFetcher extends CacheFetcher {
+    static class EmojiGroupFetcher extends CacheFetcher {
         private EmojiGroupFetcher() {
         }
 
@@ -619,8 +614,8 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
         }
     }
 
-    /* loaded from: classes3.dex */
-    private static class EmojiSearch extends CacheFetcher {
+    /* JADX INFO: Access modifiers changed from: private */
+    static class EmojiSearch extends CacheFetcher {
         private EmojiSearch() {
         }
 
@@ -931,9 +926,8 @@ public abstract class StickerCategoriesListView extends RecyclerListView {
 
     protected abstract boolean isTabIconsAnimationEnabled(boolean z);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         updateCategoriesShown(this.categoriesShouldShow, false);
     }

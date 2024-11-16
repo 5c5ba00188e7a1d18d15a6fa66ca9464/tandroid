@@ -74,7 +74,9 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
                     openFileDescriptor = contentResolver.openFileDescriptor(fontInfo.getUri(), "r", cancellationSignal);
                 } catch (IOException unused) {
                 }
-                if (openFileDescriptor != null) {
+                if (openFileDescriptor == null) {
+                    i2 = openFileDescriptor == null ? i2 + 1 : 0;
+                } else {
                     try {
                         Font build = new Font.Builder(openFileDescriptor).setWeight(fontInfo.getWeight()).setSlant(fontInfo.isItalic() ? 1 : 0).setTtcIndex(fontInfo.getTtcIndex()).build();
                         if (builder == null) {
@@ -89,10 +91,7 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
                             th.addSuppressed(th2);
                         }
                         throw th;
-                        break;
                     }
-                } else {
-                    i2 = openFileDescriptor == null ? i2 + 1 : 0;
                 }
                 openFileDescriptor.close();
             }
@@ -106,9 +105,8 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
-    public Typeface createFromInputStream(Context context, InputStream inputStream) {
+    protected Typeface createFromInputStream(Context context, InputStream inputStream) {
         throw new RuntimeException("Do not use this function in API 29 or later.");
     }
 
@@ -122,9 +120,8 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
-    public FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
+    protected FontsContractCompat.FontInfo findBestInfo(FontsContractCompat.FontInfo[] fontInfoArr, int i) {
         throw new RuntimeException("Do not use this function in API 29 or later.");
     }
 }

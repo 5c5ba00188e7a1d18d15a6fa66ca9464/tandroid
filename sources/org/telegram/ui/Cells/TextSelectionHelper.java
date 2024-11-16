@@ -345,9 +345,7 @@ public abstract class TextSelectionHelper {
     private int longpressDelay = ViewConfiguration.getLongPressTimeout();
     private int touchSlop = ViewConfiguration.get(ApplicationLoader.applicationContext).getScaledTouchSlop();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 implements ActionMode.Callback {
+    class 4 implements ActionMode.Callback {
         private String translateFromLanguage = null;
 
         4() {
@@ -478,12 +476,10 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface ArticleSelectableView extends SelectableView {
         void fillTextLayoutBlocks(ArrayList arrayList);
     }
 
-    /* loaded from: classes4.dex */
     public static class ArticleTextSelectionHelper extends TextSelectionHelper {
         int endViewOffset;
         public LinearLayoutManager layoutManager;
@@ -571,18 +567,11 @@ public abstract class TextSelectionHelper {
             return size;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:0:?, code lost:
-        
-            r4 = r4;
-         */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         private int getAdapterPosition(ArticleSelectableView articleSelectableView) {
-            Object obj;
             View view;
             ViewParent parent;
             ViewGroup viewGroup;
+            Object obj = articleSelectableView;
             while (true) {
                 view = (View) obj;
                 parent = view.getParent();
@@ -1294,7 +1283,6 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class Callback {
         public abstract void onStateChanged(boolean z);
 
@@ -1302,7 +1290,6 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ChatListTextSelectionHelper extends TextSelectionHelper {
         public static int TYPE_CAPTION = 1;
         public static int TYPE_DESCRIPTION = 2;
@@ -1905,11 +1892,9 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class IgnoreCopySpannable {
     }
 
-    /* loaded from: classes4.dex */
     public static class LayoutBlock {
         public int charOffset;
         public Layout layout;
@@ -1917,12 +1902,10 @@ public abstract class TextSelectionHelper {
         public float yOffset;
     }
 
-    /* loaded from: classes4.dex */
     public interface OnTranslateListener {
         void run(CharSequence charSequence, String str, String str2, Runnable runnable);
     }
 
-    /* loaded from: classes4.dex */
     private static class PathCopyTo extends Path {
         private Path destination;
 
@@ -1941,7 +1924,6 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     private static class PathWithSavedBottom extends Path {
         float lastBottom;
 
@@ -1964,9 +1946,7 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ScalablePath extends Path {
+    private static class ScalablePath extends Path {
         private static ArrayList recycled;
         float lastBottom;
         private ArrayList rects;
@@ -2004,7 +1984,6 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface SelectableView {
         int getBottom();
 
@@ -2019,14 +1998,12 @@ public abstract class TextSelectionHelper {
         void invalidate();
     }
 
-    /* loaded from: classes4.dex */
     public interface SimpleSelectabeleView extends SelectableView {
         Layout getStaticTextLayout();
 
         CharSequence getText();
     }
 
-    /* loaded from: classes4.dex */
     public static class SimpleTextSelectionHelper extends TextSelectionHelper {
         SimpleSelectabeleView selectabeleView;
 
@@ -2134,7 +2111,6 @@ public abstract class TextSelectionHelper {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface TextLayoutBlock {
         StaticLayout getLayout();
 
@@ -2147,7 +2123,6 @@ public abstract class TextSelectionHelper {
         int getY();
     }
 
-    /* loaded from: classes4.dex */
     public class TextSelectionOverlay extends View {
         float cancelPressedX;
         float cancelPressedY;
@@ -3675,7 +3650,7 @@ public abstract class TextSelectionHelper {
                 TextSelectionHelper.this.lambda$showHandleViews$0(valueAnimator2);
             }
         });
-        this.handleViewAnimator.setDuration(Math.abs(1.0f - this.handleViewProgress) * 250.0f);
+        this.handleViewAnimator.setDuration((long) (Math.abs(1.0f - this.handleViewProgress) * 250.0f));
         this.handleViewAnimator.start();
     }
 

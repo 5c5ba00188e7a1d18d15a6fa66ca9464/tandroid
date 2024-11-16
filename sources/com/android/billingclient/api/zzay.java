@@ -10,14 +10,12 @@ import com.google.android.datatransport.runtime.TransportRuntime;
 import com.google.android.gms.internal.play_billing.zzb;
 import com.google.android.gms.internal.play_billing.zzfz;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzay {
+final class zzay {
     private boolean zza;
     private Transport zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzay(Context context) {
+    zzay(Context context) {
         try {
             TransportRuntime.initialize(context);
             this.zzb = TransportRuntime.getInstance().newFactory(CCTDestination.INSTANCE).getTransport("PLAY_BILLING_LIBRARY", zzfz.class, Encoding.of("proto"), new Transformer() { // from class: com.android.billingclient.api.zzax

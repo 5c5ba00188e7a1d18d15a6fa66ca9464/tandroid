@@ -176,13 +176,13 @@ public final /* synthetic */ class j0 implements java.util.stream.LongStream {
         return this.a.G(j$.util.function.Z.a(longPredicate));
     }
 
-    /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
+    /* JADX WARN: Type inference failed for: r2v2, types: [java.util.stream.BaseStream, java.util.stream.LongStream] */
     @Override // java.util.stream.BaseStream
     public final /* synthetic */ java.util.stream.LongStream onClose(Runnable runnable) {
         return g.i0(this.a.onClose(runnable));
     }
 
-    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.LongStream] */
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public final /* synthetic */ java.util.stream.LongStream parallel() {
         return g.i0(this.a.parallel());
@@ -208,7 +208,7 @@ public final /* synthetic */ class j0 implements java.util.stream.LongStream {
         return j$.util.a.z(this.a.h(j$.util.function.P.a(longBinaryOperator)));
     }
 
-    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.LongStream] */
     @Override // java.util.stream.LongStream, java.util.stream.BaseStream
     public final /* synthetic */ java.util.stream.LongStream sequential() {
         return g.i0(this.a.sequential());
@@ -255,7 +255,7 @@ public final /* synthetic */ class j0 implements java.util.stream.LongStream {
         return this.a.toArray();
     }
 
-    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.LongStream, java.util.stream.BaseStream] */
+    /* JADX WARN: Type inference failed for: r0v2, types: [java.util.stream.BaseStream, java.util.stream.LongStream] */
     @Override // java.util.stream.BaseStream
     public final /* synthetic */ java.util.stream.LongStream unordered() {
         return g.i0(this.a.unordered());

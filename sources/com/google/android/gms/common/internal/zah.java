@@ -8,8 +8,7 @@ import com.google.android.gms.common.internal.BaseGmsClient;
 final class zah implements BaseGmsClient.BaseConnectionCallbacks {
     final /* synthetic */ ConnectionCallbacks zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zah(ConnectionCallbacks connectionCallbacks) {
+    zah(ConnectionCallbacks connectionCallbacks) {
         this.zaa = connectionCallbacks;
     }
 

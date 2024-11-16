@@ -18,6 +18,9 @@ final class PsDurationReader {
     private long durationUs = -9223372036854775807L;
     private final ParsableByteArray packetBuffer = new ParsableByteArray();
 
+    PsDurationReader() {
+    }
+
     private static boolean checkMarkerBits(byte[] bArr) {
         return (bArr[0] & 196) == 68 && (bArr[2] & 4) == 4 && (bArr[4] & 4) == 4 && (bArr[5] & 1) == 1 && (bArr[8] & 3) == 3;
     }

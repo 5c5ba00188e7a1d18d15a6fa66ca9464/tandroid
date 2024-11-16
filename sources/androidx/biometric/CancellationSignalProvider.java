@@ -19,7 +19,6 @@ class CancellationSignalProvider {
         }
     };
 
-    /* loaded from: classes.dex */
     private static class Api16Impl {
         static void cancel(CancellationSignal cancellationSignal) {
             cancellationSignal.cancel();
@@ -30,15 +29,16 @@ class CancellationSignalProvider {
         }
     }
 
-    /* loaded from: classes.dex */
     interface Injector {
         CancellationSignal getBiometricCancellationSignal();
 
         androidx.core.os.CancellationSignal getFingerprintCancellationSignal();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void cancel() {
+    CancellationSignalProvider() {
+    }
+
+    void cancel() {
         CancellationSignal cancellationSignal = this.mBiometricCancellationSignal;
         if (cancellationSignal != null) {
             try {
@@ -59,16 +59,14 @@ class CancellationSignalProvider {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CancellationSignal getBiometricCancellationSignal() {
+    CancellationSignal getBiometricCancellationSignal() {
         if (this.mBiometricCancellationSignal == null) {
             this.mBiometricCancellationSignal = this.mInjector.getBiometricCancellationSignal();
         }
         return this.mBiometricCancellationSignal;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public androidx.core.os.CancellationSignal getFingerprintCancellationSignal() {
+    androidx.core.os.CancellationSignal getFingerprintCancellationSignal() {
         if (this.mFingerprintCancellationSignal == null) {
             this.mFingerprintCancellationSignal = this.mInjector.getFingerprintCancellationSignal();
         }

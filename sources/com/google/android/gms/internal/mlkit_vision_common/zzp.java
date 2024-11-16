@@ -10,13 +10,14 @@ import java.util.RandomAccess;
 public abstract class zzp extends zzl implements List, RandomAccess {
     private static final zzac zza = new zzn(zzu.zza, 0);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzp zzg(Object[] objArr) {
+    zzp() {
+    }
+
+    static zzp zzg(Object[] objArr) {
         return zzh(objArr, objArr.length);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzp zzh(Object[] objArr, int i) {
+    static zzp zzh(Object[] objArr, int i) {
         return i == 0 ? zzu.zza : new zzu(objArr, i);
     }
 
@@ -130,9 +131,8 @@ public abstract class zzp extends zzl implements List, RandomAccess {
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_common.zzl
-    public int zza(Object[] objArr, int i) {
+    int zza(Object[] objArr, int i) {
         int size = size();
         for (int i2 = 0; i2 < size; i2++) {
             objArr[i2] = get(i2);

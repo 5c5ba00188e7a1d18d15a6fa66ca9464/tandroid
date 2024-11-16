@@ -13,9 +13,8 @@ import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zacd implements OnCompleteListener {
+final class zacd implements OnCompleteListener {
     private final GoogleApiManager zaa;
     private final int zab;
     private final ApiKey zac;
@@ -30,8 +29,7 @@ public final class zacd implements OnCompleteListener {
         this.zae = j2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zacd zaa(GoogleApiManager googleApiManager, int i, ApiKey apiKey) {
+    static zacd zaa(GoogleApiManager googleApiManager, int i, ApiKey apiKey) {
         boolean z;
         if (!googleApiManager.zaF()) {
             return null;

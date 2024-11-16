@@ -33,7 +33,6 @@ public class CropRotationWheel extends FrameLayout {
     private RectF tempRect;
     private Paint whitePaint;
 
-    /* loaded from: classes3.dex */
     public interface RotationWheelListener {
         void aspectRatioPressed();
 

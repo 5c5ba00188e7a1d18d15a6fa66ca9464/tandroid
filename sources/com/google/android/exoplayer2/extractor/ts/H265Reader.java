@@ -30,9 +30,7 @@ public final class H265Reader implements ElementaryStreamReader {
     private long pesTimeUs = -9223372036854775807L;
     private final ParsableByteArray seiWrapper = new ParsableByteArray();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SampleReader {
+    private static final class SampleReader {
         private boolean isFirstPrefixNalUnit;
         private boolean isFirstSlice;
         private boolean lookingForFirstSliceFlag;

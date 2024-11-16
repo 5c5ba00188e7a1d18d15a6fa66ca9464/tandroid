@@ -17,7 +17,6 @@ public class DefaultAudioTrackBufferSizeProvider implements DefaultAudioSink.Aud
     protected final int passthroughBufferDurationUs;
     protected final int pcmBufferMultiplicationFactor;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private int minPcmBufferDurationUs = 250000;
         private int maxPcmBufferDurationUs = MediaController.VIDEO_BITRATE_360;

@@ -5,6 +5,9 @@ import java.util.Map;
 
 /* loaded from: classes2.dex */
 final class t implements Comparator {
+    t() {
+    }
+
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
         return ((String) ((Map.Entry) obj2).getKey()).length() - ((String) ((Map.Entry) obj).getKey()).length();

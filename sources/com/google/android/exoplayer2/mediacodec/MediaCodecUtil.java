@@ -31,9 +31,7 @@ public abstract class MediaCodecUtil {
     private static final HashMap decoderInfosCache = new HashMap();
     private static int maxH264DecodableFrameSize = -1;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CodecKey {
+    private static final class CodecKey {
         public final String mimeType;
         public final boolean secure;
         public final boolean tunneling;
@@ -60,16 +58,13 @@ public abstract class MediaCodecUtil {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DecoderQueryException extends Exception {
         private DecoderQueryException(Throwable th) {
             super("Failed to query underlying media codecs", th);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface MediaCodecListCompat {
+    private interface MediaCodecListCompat {
         int getCodecCount();
 
         android.media.MediaCodecInfo getCodecInfoAt(int i);
@@ -81,9 +76,7 @@ public abstract class MediaCodecUtil {
         boolean secureDecodersExplicit();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaCodecListCompatV16 implements MediaCodecListCompat {
+    private static final class MediaCodecListCompatV16 implements MediaCodecListCompat {
         private MediaCodecListCompatV16() {
         }
 
@@ -113,9 +106,7 @@ public abstract class MediaCodecUtil {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class MediaCodecListCompatV21 implements MediaCodecListCompat {
+    private static final class MediaCodecListCompatV21 implements MediaCodecListCompat {
         private final int codecKind;
         private android.media.MediaCodecInfo[] mediaCodecInfos;
 
@@ -162,8 +153,7 @@ public abstract class MediaCodecUtil {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface ScoreProvider {
+    interface ScoreProvider {
         int getScore(Object obj);
     }
 
@@ -371,121 +361,40 @@ public abstract class MediaCodecUtil {
         if (str == null) {
             return null;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 1537:
-                if (str.equals("01")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 1538:
-                if (str.equals("02")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 1539:
-                if (str.equals("03")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1540:
-                if (str.equals("04")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 1541:
-                if (str.equals("05")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 1542:
-                if (str.equals("06")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 1543:
-                if (str.equals("07")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 1544:
-                if (str.equals("08")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 1545:
-                if (str.equals("09")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 1567:
-                if (str.equals("10")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 1568:
-                if (str.equals("11")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 1569:
-                if (str.equals("12")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 1570:
-                if (str.equals("13")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "01":
                 return 1;
-            case 1:
+            case "02":
                 return 2;
-            case 2:
+            case "03":
                 return 4;
-            case 3:
+            case "04":
                 return 8;
-            case 4:
+            case "05":
                 i = 16;
                 break;
-            case 5:
+            case "06":
                 i = 32;
                 break;
-            case 6:
+            case "07":
                 i = 64;
                 break;
-            case 7:
+            case "08":
                 i = 128;
                 break;
-            case '\b':
+            case "09":
                 i = 256;
                 break;
-            case '\t':
+            case "10":
                 i = 512;
                 break;
-            case '\n':
+            case "11":
                 i = 1024;
                 break;
-            case 11:
+            case "12":
                 i = 2048;
                 break;
-            case '\f':
+            case "13":
                 i = LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                 break;
             default:
@@ -499,94 +408,31 @@ public abstract class MediaCodecUtil {
         if (str == null) {
             return null;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 1536:
-                if (str.equals("00")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 1537:
-                if (str.equals("01")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 1538:
-                if (str.equals("02")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1539:
-                if (str.equals("03")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 1540:
-                if (str.equals("04")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 1541:
-                if (str.equals("05")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 1542:
-                if (str.equals("06")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 1543:
-                if (str.equals("07")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 1544:
-                if (str.equals("08")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 1545:
-                if (str.equals("09")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "00":
                 return 1;
-            case 1:
+            case "01":
                 return 2;
-            case 2:
+            case "02":
                 return 4;
-            case 3:
+            case "03":
                 return 8;
-            case 4:
+            case "04":
                 i = 16;
                 break;
-            case 5:
+            case "05":
                 i = 32;
                 break;
-            case 6:
+            case "06":
                 i = 64;
                 break;
-            case 7:
+            case "07":
                 i = 128;
                 break;
-            case '\b':
+            case "08":
                 i = 256;
                 break;
-            case '\t':
+            case "09":
                 i = 512;
                 break;
             default:
@@ -1147,245 +993,87 @@ public abstract class MediaCodecUtil {
     }
 
     private static Integer hevcCodecStringToProfileLevel(String str) {
+        int i;
         if (str == null) {
             return null;
         }
-        int i = 16;
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 70821:
-                if (str.equals("H30")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 70914:
-                if (str.equals("H60")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 70917:
-                if (str.equals("H63")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 71007:
-                if (str.equals("H90")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 71010:
-                if (str.equals("H93")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 74665:
-                if (str.equals("L30")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 74758:
-                if (str.equals("L60")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 74761:
-                if (str.equals("L63")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 74851:
-                if (str.equals("L90")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 74854:
-                if (str.equals("L93")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 2193639:
-                if (str.equals("H120")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 2193642:
-                if (str.equals("H123")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 2193732:
-                if (str.equals("H150")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 2193735:
-                if (str.equals("H153")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case 2193738:
-                if (str.equals("H156")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case 2193825:
-                if (str.equals("H180")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case 2193828:
-                if (str.equals("H183")) {
-                    c = 16;
-                    break;
-                }
-                break;
-            case 2193831:
-                if (str.equals("H186")) {
-                    c = 17;
-                    break;
-                }
-                break;
-            case 2312803:
-                if (str.equals("L120")) {
-                    c = 18;
-                    break;
-                }
-                break;
-            case 2312806:
-                if (str.equals("L123")) {
-                    c = 19;
-                    break;
-                }
-                break;
-            case 2312896:
-                if (str.equals("L150")) {
-                    c = 20;
-                    break;
-                }
-                break;
-            case 2312899:
-                if (str.equals("L153")) {
-                    c = 21;
-                    break;
-                }
-                break;
-            case 2312902:
-                if (str.equals("L156")) {
-                    c = 22;
-                    break;
-                }
-                break;
-            case 2312989:
-                if (str.equals("L180")) {
-                    c = 23;
-                    break;
-                }
-                break;
-            case 2312992:
-                if (str.equals("L183")) {
-                    c = 24;
-                    break;
-                }
-                break;
-            case 2312995:
-                if (str.equals("L186")) {
-                    c = 25;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        i = 16;
+        switch (str) {
+            case "H30":
                 i = 2;
                 break;
-            case 1:
+            case "H60":
                 i = 8;
                 break;
-            case 2:
+            case "H63":
                 i = 32;
                 break;
-            case 3:
+            case "H90":
                 i = 128;
                 break;
-            case 4:
+            case "H93":
                 i = 512;
                 break;
-            case 5:
+            case "L30":
                 i = 1;
                 break;
-            case 6:
+            case "L60":
                 i = 4;
                 break;
-            case 7:
+            case "L63":
                 break;
-            case '\b':
+            case "L90":
                 i = 64;
                 break;
-            case '\t':
+            case "L93":
                 i = 256;
                 break;
-            case '\n':
+            case "H120":
                 i = 2048;
                 break;
-            case 11:
+            case "H123":
                 i = LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                 break;
-            case '\f':
+            case "H150":
                 i = 32768;
                 break;
-            case '\r':
+            case "H153":
                 i = 131072;
                 break;
-            case 14:
+            case "H156":
                 i = 524288;
                 break;
-            case 15:
+            case "H180":
                 i = 2097152;
                 break;
-            case 16:
+            case "H183":
                 i = 8388608;
                 break;
-            case 17:
+            case "H186":
                 i = ConnectionsManager.FileTypeVideo;
                 break;
-            case 18:
+            case "L120":
                 i = 1024;
                 break;
-            case 19:
+            case "L123":
                 i = LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
                 break;
-            case 20:
+            case "L150":
                 i = LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                 break;
-            case 21:
+            case "L153":
                 i = 65536;
                 break;
-            case 22:
+            case "L156":
                 i = 262144;
                 break;
-            case 23:
+            case "L180":
                 i = FileLoaderPriorityQueue.PRIORITY_VALUE_MAX;
                 break;
-            case 24:
+            case "L183":
                 i = 4194304;
                 break;
-            case 25:
+            case "L186":
                 i = ConnectionsManager.FileTypePhoto;
                 break;
             default:

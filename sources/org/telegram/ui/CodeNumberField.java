@@ -248,17 +248,15 @@ public abstract class CodeNumberField extends EditTextBoldCursor {
         return this.successScaleProgress;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, org.telegram.ui.Components.EditTextEffects, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.focusedSpringAnimation.cancel();
         this.errorSpringAnimation.cancel();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-    public void onFocusChanged(boolean z, int i, Rect rect) {
+    protected void onFocusChanged(boolean z, int i, Rect rect) {
         super.onFocusChanged(z, i, rect);
         if (isFocused()) {
             return;

@@ -52,7 +52,7 @@ public class TypingDotsDrawable extends StatusDrawable {
         }
         for (int i = 0; i < 3; i++) {
             float[] fArr = this.elapsedTimes;
-            float f = fArr[i] + ((float) j);
+            float f = fArr[i] + j;
             fArr[i] = f;
             float[] fArr2 = this.startTimes;
             float f2 = f - fArr2[i];

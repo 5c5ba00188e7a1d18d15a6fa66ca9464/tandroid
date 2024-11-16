@@ -9,7 +9,6 @@ import java.nio.ByteOrder;
 public interface AudioProcessor {
     public static final ByteBuffer EMPTY_BUFFER = ByteBuffer.allocateDirect(0).order(ByteOrder.nativeOrder());
 
-    /* loaded from: classes.dex */
     public static final class AudioFormat {
         public static final AudioFormat NOT_SET = new AudioFormat(-1, -1, -1);
         public final int bytesPerFrame;
@@ -44,7 +43,6 @@ public interface AudioProcessor {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class UnhandledAudioFormatException extends Exception {
         public UnhandledAudioFormatException(AudioFormat audioFormat) {
             super("Unhandled format: " + audioFormat);

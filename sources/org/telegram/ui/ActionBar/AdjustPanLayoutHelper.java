@@ -316,16 +316,13 @@ public abstract class AdjustPanLayoutHelper {
         view2.setWindowInsetsAnimationCallback(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onPanTranslationUpdate(float f, float f2, boolean z) {
+    protected void onPanTranslationUpdate(float f, float f2, boolean z) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTransitionEnd() {
+    protected void onTransitionEnd() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTransitionStart(boolean z, int i) {
+    protected void onTransitionStart(boolean z, int i) {
     }
 
     protected void onTransitionStart(boolean z, int i, int i2) {

@@ -15,20 +15,17 @@ public final /* synthetic */ class U implements j$.util.function.F {
         switch (this.a) {
             case 0:
                 this.b.accept(i);
-                return;
+                break;
             default:
                 ((W) this.b).a.accept(i);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.F
     public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.c(this, f);
-            default:
-                return j$.com.android.tools.r8.a.c(this, f);
         }
+        return j$.com.android.tools.r8.a.c(this, f);
     }
 }

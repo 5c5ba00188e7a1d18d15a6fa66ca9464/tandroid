@@ -11,7 +11,6 @@ public class LanguageIdentificationOptions {
     private final Float zzb;
     private final Executor zzc;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private Float zza;
         private Executor zzb;
@@ -40,8 +39,7 @@ public class LanguageIdentificationOptions {
         return Objects.hashCode(this.zzb);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzy$zzai zza() {
+    final zzy$zzai zza() {
         return this.zzb == null ? zzy$zzai.zzb() : (zzy$zzai) ((zzeo) zzy$zzai.zza().zza(this.zzb.floatValue()).zzg());
     }
 

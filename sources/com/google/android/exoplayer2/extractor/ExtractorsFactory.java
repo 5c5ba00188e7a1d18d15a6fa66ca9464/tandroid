@@ -20,7 +20,6 @@ public interface ExtractorsFactory {
         }
     };
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         static {
             ExtractorsFactory extractorsFactory = ExtractorsFactory.EMPTY;

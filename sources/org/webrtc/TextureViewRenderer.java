@@ -46,7 +46,6 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
     private final RendererCommon.VideoLayoutMeasure videoLayoutMeasure;
     private int videoWidth;
 
-    /* loaded from: classes5.dex */
     public static class TextureEglRenderer extends EglRenderer implements TextureView.SurfaceTextureListener {
         private static final String TAG = "TextureEglRenderer";
         private int frameRotation;

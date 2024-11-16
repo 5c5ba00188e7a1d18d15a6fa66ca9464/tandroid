@@ -2,8 +2,7 @@ package com.google.zxing.qrcode.encoder;
 
 /* loaded from: classes.dex */
 abstract class MaskUtil {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int applyMaskPenaltyRule1(ByteMatrix byteMatrix) {
+    static int applyMaskPenaltyRule1(ByteMatrix byteMatrix) {
         return applyMaskPenaltyRule1Internal(byteMatrix, true) + applyMaskPenaltyRule1Internal(byteMatrix, false);
     }
 
@@ -34,8 +33,7 @@ abstract class MaskUtil {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int applyMaskPenaltyRule2(ByteMatrix byteMatrix) {
+    static int applyMaskPenaltyRule2(ByteMatrix byteMatrix) {
         byte[][] array = byteMatrix.getArray();
         int width = byteMatrix.getWidth();
         int height = byteMatrix.getHeight();
@@ -58,8 +56,7 @@ abstract class MaskUtil {
         return i * 3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int applyMaskPenaltyRule3(ByteMatrix byteMatrix) {
+    static int applyMaskPenaltyRule3(ByteMatrix byteMatrix) {
         byte[][] array = byteMatrix.getArray();
         int width = byteMatrix.getWidth();
         int height = byteMatrix.getHeight();
@@ -80,8 +77,7 @@ abstract class MaskUtil {
         return i * 40;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int applyMaskPenaltyRule4(ByteMatrix byteMatrix) {
+    static int applyMaskPenaltyRule4(ByteMatrix byteMatrix) {
         byte[][] array = byteMatrix.getArray();
         int width = byteMatrix.getWidth();
         int height = byteMatrix.getHeight();
@@ -98,15 +94,13 @@ abstract class MaskUtil {
         return ((Math.abs((i * 2) - height2) * 10) / height2) * 10;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0001. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:10:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0046 A[ORIG_RETURN, RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static boolean getDataMaskBit(int i, int i2, int i3) {
+    static boolean getDataMaskBit(int i, int i2, int i3) {
         int i4;
         int i5;
         switch (i) {

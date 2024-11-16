@@ -98,7 +98,6 @@ public abstract class DrawingInBackgroundThreadDrawable implements NotificationC
         }
     };
 
-    /* loaded from: classes3.dex */
     public static class DispatchQueuePool {
         int pointer;
         public final DispatchQueue[] pool;

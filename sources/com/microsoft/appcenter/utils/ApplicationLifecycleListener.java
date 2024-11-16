@@ -24,7 +24,6 @@ public class ApplicationLifecycleListener implements Application.ActivityLifecyc
         }
     };
 
-    /* loaded from: classes.dex */
     public interface ApplicationLifecycleCallbacks {
         void onApplicationEnterBackground();
 

@@ -96,14 +96,11 @@ public class MessagesStorage extends BaseController {
     private static volatile MessagesStorage[] Instance = new MessagesStorage[4];
     private static final Object[] lockObjects = new Object[4];
 
-    /* loaded from: classes3.dex */
     public interface BooleanCallback {
         void run(boolean z);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Hole {
+    private static class Hole {
         public int end;
         public int start;
         public int type;
@@ -120,19 +117,15 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface IntCallback {
         void run(int i);
     }
 
-    /* loaded from: classes3.dex */
     public interface LongCallback {
         void run(long j);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ReadDialog {
+    private static class ReadDialog {
         public int date;
         public int lastMid;
         public int unreadCount;
@@ -141,9 +134,7 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SavedReactionsUpdate {
+    private class SavedReactionsUpdate {
         TLRPC.TL_messageReactions last;
         TLRPC.TL_messageReactions old;
         long topic_id;
@@ -155,12 +146,10 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface StringCallback {
         void run(String str);
     }
 
-    /* loaded from: classes3.dex */
     public static class TopicKey {
         public long dialogId;
         public long topicId;
@@ -344,8 +333,7 @@ public class MessagesStorage extends BaseController {
         arrayList2.add(Long.valueOf(j));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void addReplyMessages(TLRPC.Message message, LongSparseArray longSparseArray, LongSparseArray longSparseArray2) {
+    protected static void addReplyMessages(TLRPC.Message message, LongSparseArray longSparseArray, LongSparseArray longSparseArray2) {
         int i = message.reply_to.reply_to_msg_id;
         long replyToDialogId = (message.flags & 1073741824) != 0 ? message.quick_reply_shortcut_id : MessageObject.getReplyToDialogId(message);
         SparseArray sparseArray = (SparseArray) longSparseArray.get(replyToDialogId);
@@ -2102,25 +2090,43 @@ public class MessagesStorage extends BaseController {
 
     private void doneHolesInTable(String str, long j, int i, long j2) {
         SQLiteDatabase sQLiteDatabase;
+        StringBuilder sb;
         String format;
         SQLiteDatabase sQLiteDatabase2;
         String str2;
+        StringBuilder sb2;
         int i2 = 2;
         if (j2 != 0) {
             sQLiteDatabase = this.database;
             Locale locale = Locale.US;
             if (i == 0) {
-                format = String.format(locale, "DELETE FROM " + str + " WHERE uid = %d AND topic_id = %d", Long.valueOf(j), Long.valueOf(j2));
+                sb2 = new StringBuilder();
+                sb2.append("DELETE FROM ");
+                sb2.append(str);
+                sb2.append(" WHERE uid = %d AND topic_id = %d");
+                format = String.format(locale, sb2.toString(), Long.valueOf(j), Long.valueOf(j2));
             } else {
-                format = String.format(locale, "DELETE FROM " + str + " WHERE uid = %d AND topic_id = %d AND start = 0", Long.valueOf(j), Long.valueOf(j2));
+                sb2 = new StringBuilder();
+                sb2.append("DELETE FROM ");
+                sb2.append(str);
+                sb2.append(" WHERE uid = %d AND topic_id = %d AND start = 0");
+                format = String.format(locale, sb2.toString(), Long.valueOf(j), Long.valueOf(j2));
             }
         } else {
             sQLiteDatabase = this.database;
             Locale locale2 = Locale.US;
             if (i == 0) {
-                format = String.format(locale2, "DELETE FROM " + str + " WHERE uid = %d", Long.valueOf(j));
+                sb = new StringBuilder();
+                sb.append("DELETE FROM ");
+                sb.append(str);
+                sb.append(" WHERE uid = %d");
+                format = String.format(locale2, sb.toString(), Long.valueOf(j));
             } else {
-                format = String.format(locale2, "DELETE FROM " + str + " WHERE uid = %d AND start = 0", Long.valueOf(j));
+                sb = new StringBuilder();
+                sb.append("DELETE FROM ");
+                sb.append(str);
+                sb.append(" WHERE uid = %d AND start = 0");
+                format = String.format(locale2, sb.toString(), Long.valueOf(j));
             }
         }
         sQLiteDatabase.executeFast(format).stepThis().dispose();
@@ -3874,13 +3880,13 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:97:0x0606  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x060b  */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v6 */
     /* JADX WARN: Type inference failed for: r12v41 */
-    /* JADX WARN: Type inference failed for: r12v42, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v42, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v44 */
     /* JADX WARN: Type inference failed for: r15v42, types: [org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.NativeByteBuffer] */
-    /* JADX WARN: Type inference failed for: r27v0, types: [org.telegram.messenger.MessagesStorage, org.telegram.messenger.BaseController] */
+    /* JADX WARN: Type inference failed for: r27v0, types: [org.telegram.messenger.BaseController, org.telegram.messenger.MessagesStorage] */
     /* JADX WARN: Type inference failed for: r3v12, types: [org.telegram.SQLite.SQLiteCursor] */
     /* JADX WARN: Type inference failed for: r3v13 */
     /* JADX WARN: Type inference failed for: r3v14, types: [org.telegram.SQLite.SQLiteCursor] */
@@ -4742,7 +4748,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:43:0x00ca  */
     /* JADX WARN: Removed duplicated region for block: B:59:0x0101  */
     /* JADX WARN: Type inference failed for: r13v0 */
-    /* JADX WARN: Type inference failed for: r13v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v6 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5756,7 +5762,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(12:1|(6:2|3|4|(24:9|10|(1:12)(1:369)|13|14|16|17|18|19|20|21|(36:25|26|27|(5:185|186|(2:188|(1:190)(1:191))|192|(3:194|195|97)(1:(1:197)))(1:29)|30|(3:32|33|(28:35|36|(1:38)(1:182)|39|(1:41)(1:181)|42|(1:44)(1:180)|45|46|(3:48|49|(1:51))|52|53|54|(1:56)|57|58|(1:60)|61|62|(2:64|(10:66|(1:68)|69|70|71|72|(11:76|(3:166|167|(1:169))|78|79|(3:146|147|(12:149|150|151|152|153|154|(1:156)|82|83|(4:136|137|138|86)|85|86))|81|82|83|(0)|85|86)|174|85|86)(1:178))(1:179)|87|(3:110|111|(1:113))|89|(2:91|(1:93)(4:98|95|96|97))(2:99|(3:101|(1:103)|104)(2:105|(2:107|(1:109))))|94|95|96|97))(1:184)|183|36|(0)(0)|39|(0)(0)|42|(0)(0)|45|46|(0)|52|53|54|(0)|57|58|(0)|61|62|(0)(0)|87|(0)|89|(0)(0)|94|95|96|97|22|23)|208|209|210|211|212|213|(11:215|(6:218|219|220|(2:222|223)(1:225)|224|216)|231|232|233|234|235|236|(7:239|(2:240|(4:242|(3:244|245|(1:249))(1:317)|247|248)(2:318|319))|(4:252|253|(11:255|256|(1:258)|259|260|261|262|(2:266|(7:276|277|(2:281|(6:283|284|285|286|288|(1:290)))|306|286|288|(0))(1:272))|273|274|275)(2:312|313)|296)|297|298|275|237)|320|321)(1:334)|322|323|5|6|7)|375|376)|(14:377|378|379|(7:452|453|(5:456|(2:460|(4:462|(2:464|465)|466|(1:468))(4:469|(2:471|465)|466|(0)))|458|459|454)|472|473|(9:475|476|477|478|479|(3:483|480|481)|484|485|486)(1:495)|487)(1:381)|382|383|384|(5:439|440|441|442|443)(1:386)|387|388|(1:390)|391|(1:393)|394)|(5:396|(4:399|(4:402|(2:406|407)|408|400)|411|397)|412|413|(9:415|416|417|418|419|420|(1:422)|122|123))|436|417|418|419|420|(0)|122|123) */
+    /* JADX WARN: Can't wrap try/catch for region: R(13:0|1|(6:2|3|4|(24:9|10|(1:12)(1:369)|13|14|16|17|18|19|20|21|(36:25|26|27|(5:185|186|(2:188|(1:190)(1:191))|192|(3:194|195|97)(1:(1:197)))(1:29)|30|(3:32|33|(28:35|36|(1:38)(1:182)|39|(1:41)(1:181)|42|(1:44)(1:180)|45|46|(3:48|49|(1:51))|52|53|54|(1:56)|57|58|(1:60)|61|62|(2:64|(10:66|(1:68)|69|70|71|72|(11:76|(3:166|167|(1:169))|78|79|(3:146|147|(12:149|150|151|152|153|154|(1:156)|82|83|(4:136|137|138|86)|85|86))|81|82|83|(0)|85|86)|174|85|86)(1:178))(1:179)|87|(3:110|111|(1:113))|89|(2:91|(1:93)(4:98|95|96|97))(2:99|(3:101|(1:103)|104)(2:105|(2:107|(1:109))))|94|95|96|97))(1:184)|183|36|(0)(0)|39|(0)(0)|42|(0)(0)|45|46|(0)|52|53|54|(0)|57|58|(0)|61|62|(0)(0)|87|(0)|89|(0)(0)|94|95|96|97|22|23)|208|209|210|211|212|213|(11:215|(6:218|219|220|(2:222|223)(1:225)|224|216)|231|232|233|234|235|236|(7:239|(2:240|(4:242|(3:244|245|(1:249))(1:317)|247|248)(2:318|319))|(4:252|253|(11:255|256|(1:258)|259|260|261|262|(2:266|(7:276|277|(2:281|(6:283|284|285|286|288|(1:290)))|306|286|288|(0))(1:272))|273|274|275)(2:312|313)|296)|297|298|275|237)|320|321)(1:334)|322|323|5|6|7)|375|376)|(14:377|378|379|(7:452|453|(5:456|(2:460|(4:462|(2:464|465)|466|(1:468))(4:469|(2:471|465)|466|(0)))|458|459|454)|472|473|(9:475|476|477|478|479|(3:483|480|481)|484|485|486)(1:495)|487)(1:381)|382|383|384|(5:439|440|441|442|443)(1:386)|387|388|(1:390)|391|(1:393)|394)|(5:396|(4:399|(4:402|(2:406|407)|408|400)|411|397)|412|413|(9:415|416|417|418|419|420|(1:422)|122|123))|436|417|418|419|420|(0)|122|123) */
     /* JADX WARN: Code restructure failed: missing block: B:170:0x024a, code lost:
     
         if ((r2 instanceof org.telegram.tgnet.TLRPC.TL_messageActionGameScore) == false) goto L98;
@@ -8533,8 +8539,6 @@ public class MessagesStorage extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:10:0x0023. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:11:0x0026. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:35:0x00bd A[Catch: Exception -> 0x0043, TryCatch #0 {Exception -> 0x0043, blocks: (B:3:0x0002, B:4:0x000d, B:6:0x0013, B:9:0x001e, B:10:0x0023, B:11:0x0026, B:13:0x0351, B:16:0x002b, B:18:0x003d, B:21:0x004b, B:22:0x0324, B:24:0x0056, B:25:0x0069, B:26:0x007c, B:27:0x034e, B:28:0x0099, B:30:0x00a7, B:33:0x00b2, B:35:0x00bd, B:37:0x00cf, B:39:0x00d5, B:41:0x00db, B:42:0x00e3, B:43:0x00f3, B:44:0x0102, B:45:0x014a, B:48:0x015d, B:49:0x0168, B:51:0x0178, B:53:0x0186, B:54:0x0191, B:56:0x01a1, B:58:0x01af, B:59:0x01ba, B:60:0x01cb, B:62:0x01f2, B:64:0x0205, B:65:0x020d, B:66:0x0218, B:67:0x022f, B:69:0x023e, B:71:0x024c, B:73:0x0247, B:74:0x0257, B:75:0x0275, B:76:0x0290, B:77:0x02b1, B:79:0x02e9, B:82:0x02f9, B:85:0x0303, B:88:0x030d, B:89:0x0313, B:90:0x0328, B:91:0x033d, B:93:0x0347, B:96:0x0356), top: B:2:0x0002 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9223,7 +9227,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Type inference failed for: r6v25, types: [org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.NativeByteBuffer] */
     /* JADX WARN: Type inference failed for: r7v11 */
     /* JADX WARN: Type inference failed for: r7v8 */
-    /* JADX WARN: Type inference failed for: r7v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v9, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -11959,7 +11963,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Type inference failed for: r1v36 */
     /* JADX WARN: Type inference failed for: r1v37 */
     /* JADX WARN: Type inference failed for: r1v4 */
-    /* JADX WARN: Type inference failed for: r49v0, types: [org.telegram.messenger.MessagesStorage, org.telegram.messenger.BaseController] */
+    /* JADX WARN: Type inference failed for: r49v0, types: [org.telegram.messenger.BaseController, org.telegram.messenger.MessagesStorage] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -17367,7 +17371,7 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(33:1|2|3|4|(1:6)(1:155)|7|(1:9)(1:154)|10|11|12|(1:14)(2:145|(1:147)(21:148|16|(3:18|(1:20)(1:22)|21)|23|(1:25)(1:144)|26|28|29|30|(7:34|(3:89|90|(5:95|(1:113)(5:97|(3:99|(1:101)|111)(1:112)|102|(2:106|(1:108))|111)|109|110|56))(10:37|38|39|40|41|42|(4:45|(2:47|48)(1:50)|49|43)|51|52|53)|54|55|56|31|32)|114|115|(1:117)|118|119|(1:121)|122|(1:124)(1:131)|125|126|(3:128|69|70)(1:129)))|15|16|(0)|23|(0)(0)|26|28|29|30|(2:31|32)|114|115|(0)|118|119|(0)|122|(0)(0)|125|126|(0)(0)|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(34:0|1|2|3|4|(1:6)(1:155)|7|(1:9)(1:154)|10|11|12|(1:14)(2:145|(1:147)(21:148|16|(3:18|(1:20)(1:22)|21)|23|(1:25)(1:144)|26|28|29|30|(7:34|(3:89|90|(5:95|(1:113)(5:97|(3:99|(1:101)|111)(1:112)|102|(2:106|(1:108))|111)|109|110|56))(10:37|38|39|40|41|42|(4:45|(2:47|48)(1:50)|49|43)|51|52|53)|54|55|56|31|32)|114|115|(1:117)|118|119|(1:121)|122|(1:124)(1:131)|125|126|(3:128|69|70)(1:129)))|15|16|(0)|23|(0)(0)|26|28|29|30|(2:31|32)|114|115|(0)|118|119|(0)|122|(0)(0)|125|126|(0)(0)|(1:(0))) */
     /* JADX WARN: Code restructure failed: missing block: B:138:0x0261, code lost:
     
         r0 = e;
@@ -19291,7 +19295,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:59:0x01d6  */
     /* JADX WARN: Type inference failed for: r14v16 */
     /* JADX WARN: Type inference failed for: r14v7 */
-    /* JADX WARN: Type inference failed for: r14v8, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r14v8, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -19965,10 +19969,10 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Type inference failed for: r20v0, types: [java.util.HashMap] */
     /* JADX WARN: Type inference failed for: r6v15, types: [org.telegram.SQLite.SQLiteCursor] */
     /* JADX WARN: Type inference failed for: r9v14 */
-    /* JADX WARN: Type inference failed for: r9v16, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v16, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v17 */
     /* JADX WARN: Type inference failed for: r9v4 */
-    /* JADX WARN: Type inference failed for: r9v7, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v7, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v9 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -20901,9 +20905,9 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45) */
-    /* JADX WARN: Can't wrap try/catch for region: R(41:1|(3:2|3|(3:5|6|7))|(3:308|309|(40:311|312|313|314|10|11|12|13|(3:15|(4:19|20|16|17)|21)(2:221|(41:223|224|225|226|(9:229|230|(2:264|265)(1:232)|233|(1:235)(1:263)|(4:237|238|239|(1:241))(1:262)|(4:244|(1:246)|247|248)|249|227)|272|273|274|(4:278|279|275|276)|280|281|23|(3:206|207|(1:209))|(2:30|(3:33|34|31))|58|59|60|61|62|63|64|65|(8:69|70|71|72|73|74|66|67)|86|87|88|89|90|91|92|(5:94|95|96|97|(10:99|100|101|(3:129|130|(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45))|103|104|(0)(0)|119|44|45))(1:169)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|22|23|(0)|(4:26|28|30|(1:31))|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|9|10|11|12|13|(0)(0)|22|23|(0)|(0)|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45|(1:(0))) */
-    /* JADX WARN: Can't wrap try/catch for region: R(43:1|2|3|(3:5|6|7)|(3:308|309|(40:311|312|313|314|10|11|12|13|(3:15|(4:19|20|16|17)|21)(2:221|(41:223|224|225|226|(9:229|230|(2:264|265)(1:232)|233|(1:235)(1:263)|(4:237|238|239|(1:241))(1:262)|(4:244|(1:246)|247|248)|249|227)|272|273|274|(4:278|279|275|276)|280|281|23|(3:206|207|(1:209))|(2:30|(3:33|34|31))|58|59|60|61|62|63|64|65|(8:69|70|71|72|73|74|66|67)|86|87|88|89|90|91|92|(5:94|95|96|97|(10:99|100|101|(3:129|130|(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45))|103|104|(0)(0)|119|44|45))(1:169)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|22|23|(0)|(4:26|28|30|(1:31))|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|9|10|11|12|13|(0)(0)|22|23|(0)|(0)|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45|(1:(0))) */
-    /* JADX WARN: Can't wrap try/catch for region: R(45:1|2|3|5|6|7|(3:308|309|(40:311|312|313|314|10|11|12|13|(3:15|(4:19|20|16|17)|21)(2:221|(41:223|224|225|226|(9:229|230|(2:264|265)(1:232)|233|(1:235)(1:263)|(4:237|238|239|(1:241))(1:262)|(4:244|(1:246)|247|248)|249|227)|272|273|274|(4:278|279|275|276)|280|281|23|(3:206|207|(1:209))|(2:30|(3:33|34|31))|58|59|60|61|62|63|64|65|(8:69|70|71|72|73|74|66|67)|86|87|88|89|90|91|92|(5:94|95|96|97|(10:99|100|101|(3:129|130|(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45))|103|104|(0)(0)|119|44|45))(1:169)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|22|23|(0)|(4:26|28|30|(1:31))|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|9|10|11|12|13|(0)(0)|22|23|(0)|(0)|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(42:0|1|(3:2|3|(3:5|6|7))|(3:308|309|(40:311|312|313|314|10|11|12|13|(3:15|(4:19|20|16|17)|21)(2:221|(41:223|224|225|226|(9:229|230|(2:264|265)(1:232)|233|(1:235)(1:263)|(4:237|238|239|(1:241))(1:262)|(4:244|(1:246)|247|248)|249|227)|272|273|274|(4:278|279|275|276)|280|281|23|(3:206|207|(1:209))|(2:30|(3:33|34|31))|58|59|60|61|62|63|64|65|(8:69|70|71|72|73|74|66|67)|86|87|88|89|90|91|92|(5:94|95|96|97|(10:99|100|101|(3:129|130|(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45))|103|104|(0)(0)|119|44|45))(1:169)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|22|23|(0)|(4:26|28|30|(1:31))|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|9|10|11|12|13|(0)(0)|22|23|(0)|(0)|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(44:0|1|2|3|(3:5|6|7)|(3:308|309|(40:311|312|313|314|10|11|12|13|(3:15|(4:19|20|16|17)|21)(2:221|(41:223|224|225|226|(9:229|230|(2:264|265)(1:232)|233|(1:235)(1:263)|(4:237|238|239|(1:241))(1:262)|(4:244|(1:246)|247|248)|249|227)|272|273|274|(4:278|279|275|276)|280|281|23|(3:206|207|(1:209))|(2:30|(3:33|34|31))|58|59|60|61|62|63|64|65|(8:69|70|71|72|73|74|66|67)|86|87|88|89|90|91|92|(5:94|95|96|97|(10:99|100|101|(3:129|130|(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45))|103|104|(0)(0)|119|44|45))(1:169)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|22|23|(0)|(4:26|28|30|(1:31))|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|9|10|11|12|13|(0)(0)|22|23|(0)|(0)|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45|(1:(0))) */
+    /* JADX WARN: Can't wrap try/catch for region: R(46:0|1|2|3|5|6|7|(3:308|309|(40:311|312|313|314|10|11|12|13|(3:15|(4:19|20|16|17)|21)(2:221|(41:223|224|225|226|(9:229|230|(2:264|265)(1:232)|233|(1:235)(1:263)|(4:237|238|239|(1:241))(1:262)|(4:244|(1:246)|247|248)|249|227)|272|273|274|(4:278|279|275|276)|280|281|23|(3:206|207|(1:209))|(2:30|(3:33|34|31))|58|59|60|61|62|63|64|65|(8:69|70|71|72|73|74|66|67)|86|87|88|89|90|91|92|(5:94|95|96|97|(10:99|100|101|(3:129|130|(11:132|(3:145|146|(6:148|104|(6:106|(1:108)(1:126)|109|110|111|(3:113|(2:115|116)|118))(1:128)|119|44|45))(1:134)|135|136|137|138|104|(0)(0)|119|44|45))|103|104|(0)(0)|119|44|45))(1:169)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|22|23|(0)|(4:26|28|30|(1:31))|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45))|9|10|11|12|13|(0)(0)|22|23|(0)|(0)|58|59|60|61|62|63|64|65|(2:66|67)|86|87|88|89|90|91|92|(0)(0)|162|100|101|(0)|103|104|(0)(0)|119|44|45|(1:(0))) */
     /* JADX WARN: Code restructure failed: missing block: B:140:0x030b, code lost:
     
         r0 = e;
@@ -21067,7 +21071,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:69:0x0247 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:94:0x029c A[Catch: all -> 0x0260, Exception -> 0x0267, TRY_ENTER, TRY_LEAVE, TryCatch #45 {Exception -> 0x0267, all -> 0x0260, blocks: (B:73:0x0251, B:94:0x029c), top: B:72:0x0251 }] */
     /* JADX WARN: Type inference failed for: r2v0 */
-    /* JADX WARN: Type inference failed for: r2v12, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v12, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v20 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -22593,7 +22597,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:927:0x0323 A[SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:968:0x0191 A[Catch: all -> 0x0037, Exception -> 0x003a, TRY_LEAVE, TryCatch #121 {Exception -> 0x003a, all -> 0x0037, blocks: (B:3:0x000b, B:6:0x0019, B:9:0x0027, B:48:0x0049, B:53:0x0056, B:56:0x006a, B:70:0x0083, B:73:0x009c, B:86:0x00cd, B:89:0x00dd, B:91:0x00f2, B:111:0x010c, B:119:0x0167, B:123:0x0181, B:968:0x0191, B:972:0x01a3, B:976:0x0158), top: B:2:0x000b }] */
     /* JADX WARN: Type inference failed for: r13v5 */
-    /* JADX WARN: Type inference failed for: r13v6, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v6, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v7 */
     /* renamed from: markMessagesAsDeletedInternal, reason: merged with bridge method [inline-methods] */
     /*
@@ -28120,8 +28124,8 @@ public class MessagesStorage extends BaseController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(19:1|2|(7:297|298|299|300|(3:302|304|305)(1:315)|306|(1:308))(1:4)|5|(2:283|(6:285|(1:287)(1:296)|288|289|290|291))(8:8|9|10|11|12|13|14|15)|16|(21:225|226|227|228|(10:230|231|232|233|234|(2:236|237)(1:240)|238|(4:211|212|(2:214|215)|217)|23|(2:29|(1:(18:138|139|140|141|142|143|144|145|146|147|148|149|150|151|152|95|88|89)(4:(8:115|116|117|118|119|95|88|89)(5:85|86|(6:90|91|92|93|94|95)|88|89)|102|88|89))(11:32|(1:34)(1:(1:73)(2:74|(1:76)(8:77|37|38|(1:40)(1:69)|41|42|(4:44|46|47|48)|67)))|35|36|37|38|(0)(0)|41|42|(0)|67))(1:27))|251|232|233|234|(0)(0)|238|(0)|211|212|(0)|217|23|(1:25)|29|(0)|(0)(0))(1:19)|20|(0)|211|212|(0)|217|23|(0)|29|(0)|(0)(0)|(15:(0)|(1:125)|(1:165)|(1:161)|(1:180)|(1:128)|(1:168)|(1:269)|(0)|(0)|(0)|(0)|(0)|(0)|(0))) */
     /* JADX WARN: Can't wrap try/catch for region: R(19:256|257|(15:259|233|234|(0)(0)|238|(0)|211|212|(0)|217|23|(0)|29|(0)|(0)(0))|251|232|233|234|(0)(0)|238|(0)|211|212|(0)|217|23|(0)|29|(0)|(0)(0)) */
+    /* JADX WARN: Can't wrap try/catch for region: R(20:0|1|2|(7:297|298|299|300|(3:302|304|305)(1:315)|306|(1:308))(1:4)|5|(2:283|(6:285|(1:287)(1:296)|288|289|290|291))(8:8|9|10|11|12|13|14|15)|16|(21:225|226|227|228|(10:230|231|232|233|234|(2:236|237)(1:240)|238|(4:211|212|(2:214|215)|217)|23|(2:29|(1:(18:138|139|140|141|142|143|144|145|146|147|148|149|150|151|152|95|88|89)(4:(8:115|116|117|118|119|95|88|89)(5:85|86|(6:90|91|92|93|94|95)|88|89)|102|88|89))(11:32|(1:34)(1:(1:73)(2:74|(1:76)(8:77|37|38|(1:40)(1:69)|41|42|(4:44|46|47|48)|67)))|35|36|37|38|(0)(0)|41|42|(0)|67))(1:27))|251|232|233|234|(0)(0)|238|(0)|211|212|(0)|217|23|(1:25)|29|(0)|(0)(0))(1:19)|20|(0)|211|212|(0)|217|23|(0)|29|(0)|(0)(0)|(15:(0)|(1:125)|(1:165)|(1:161)|(1:180)|(1:128)|(1:168)|(1:269)|(0)|(0)|(0)|(0)|(0)|(0)|(0))) */
     /* JADX WARN: Code restructure failed: missing block: B:124:0x0424, code lost:
     
         if (r3 != null) goto L272;
@@ -28214,7 +28218,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Type inference failed for: r11v21 */
     /* JADX WARN: Type inference failed for: r11v24 */
     /* JADX WARN: Type inference failed for: r11v25 */
-    /* JADX WARN: Type inference failed for: r11v9, types: [java.lang.Object, java.lang.Integer] */
+    /* JADX WARN: Type inference failed for: r11v9, types: [java.lang.Integer, java.lang.Object] */
     /* JADX WARN: Type inference failed for: r12v13, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r12v14, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r12v9, types: [java.lang.Object[]] */
@@ -29833,8 +29837,7 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void deletePushMessages(long j, ArrayList<Integer> arrayList) {
+    protected void deletePushMessages(long j, ArrayList<Integer> arrayList) {
         try {
             this.database.executeFast(String.format(Locale.US, "DELETE FROM unread_push_messages WHERE uid = %d AND mid IN(%s)", Long.valueOf(j), TextUtils.join(",", arrayList))).stepThis().dispose();
         } catch (Exception e) {
@@ -30057,8 +30060,7 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void executeNoException(String str) {
+    void executeNoException(String str) {
         try {
             this.database.executeFast(str).stepThis().dispose();
         } catch (Exception e) {
@@ -31052,7 +31054,6 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:48:0x016c, code lost:
     
         r11 = r20;
@@ -31062,14 +31063,14 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:51:0x0173 A[Catch: all -> 0x0136, Exception -> 0x013a, TRY_LEAVE, TryCatch #4 {Exception -> 0x013a, all -> 0x0136, blocks: (B:33:0x00ee, B:35:0x00f4, B:37:0x00fa, B:39:0x0121, B:41:0x0145, B:43:0x0152, B:45:0x0159, B:49:0x013e, B:51:0x0173), top: B:32:0x00ee }] */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0194  */
     /* JADX WARN: Type inference failed for: r10v10 */
-    /* JADX WARN: Type inference failed for: r10v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r10v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v8 */
     /* JADX WARN: Type inference failed for: r3v6 */
     /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:46:0x016e -> B:29:0x016c). Please report as a decompilation issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void loadReplyMessages(LongSparseArray longSparseArray, LongSparseArray longSparseArray2, ArrayList<Long> arrayList, ArrayList<Long> arrayList2, int i) {
+    protected void loadReplyMessages(LongSparseArray longSparseArray, LongSparseArray longSparseArray2, ArrayList<Long> arrayList, ArrayList<Long> arrayList2, int i) {
         boolean z;
         int i2;
         int i3;
@@ -31301,7 +31302,7 @@ public class MessagesStorage extends BaseController {
     /* JADX WARN: Type inference failed for: r11v32 */
     /* JADX WARN: Type inference failed for: r11v37 */
     /* JADX WARN: Type inference failed for: r11v39 */
-    /* JADX WARN: Type inference failed for: r32v0, types: [java.util.ArrayList<java.lang.Object>, java.util.ArrayList] */
+    /* JADX WARN: Type inference failed for: r32v0, types: [java.util.ArrayList, java.util.ArrayList<java.lang.Object>] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -32513,8 +32514,7 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void processLoadedFilterPeers(final TLRPC.messages_Dialogs messages_dialogs, final TLRPC.messages_Dialogs messages_dialogs2, final ArrayList<TLRPC.User> arrayList, final ArrayList<TLRPC.Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet, final Runnable runnable) {
+    protected void processLoadedFilterPeers(final TLRPC.messages_Dialogs messages_dialogs, final TLRPC.messages_Dialogs messages_dialogs2, final ArrayList<TLRPC.User> arrayList, final ArrayList<TLRPC.Chat> arrayList2, final ArrayList<MessagesController.DialogFilter> arrayList3, final SparseArray<MessagesController.DialogFilter> sparseArray, final ArrayList<Integer> arrayList4, final HashMap<Integer, HashSet<Long>> hashMap, final HashSet<Integer> hashSet, final Runnable runnable) {
         this.storageQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda51
             @Override // java.lang.Runnable
             public final void run() {

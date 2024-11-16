@@ -73,9 +73,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
     public float shownT;
     private long topicId;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         public Adapter() {
         }
 
@@ -102,7 +100,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             SearchTagsList searchTagsList = SearchTagsList.this;
-            return new RecyclerListView.Holder(new TagButton(searchTagsList.getContext()));
+            return new RecyclerListView.Holder(searchTagsList.new TagButton(searchTagsList.getContext()));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -117,8 +115,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Item {
+    static class Item {
         int count;
         String name;
         int nameHash;
@@ -149,9 +146,7 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class TagButton extends View {
+    private class TagButton extends View {
         private boolean attached;
         private boolean chosen;
         private ReactionsLayoutInBubble.VisibleReaction lastReaction;
@@ -690,24 +685,21 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
                 this.limit.setGravity(5);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 this.limit.setTextColor(this.limitColor.set(Theme.getColor(this.limitCount < 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, resourcesProvider)));
                 this.limit.setBounds(getScrollX(), 0, getScrollX() + getWidth(), getHeight());
                 this.limit.draw(canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            protected void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 super.onTextChanged(charSequence, i2, i3, i4);
                 if (this.limit != null) {
                     this.limitCount = 12 - charSequence.length();
@@ -867,9 +859,8 @@ public abstract class SearchTagsList extends BlurredFrameLayout implements Notif
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.BlurredFrameLayout, android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         canvas.save();
         if (this.showWithCut) {
             canvas.clipRect(0, 0, getWidth(), getCurrentHeight());

@@ -19,7 +19,6 @@ public abstract class EntitiesContainerView extends FrameLayout {
     private float px;
     private float py;
 
-    /* loaded from: classes3.dex */
     public interface EntitiesContainerViewDelegate {
         void onEntityDeselect();
 

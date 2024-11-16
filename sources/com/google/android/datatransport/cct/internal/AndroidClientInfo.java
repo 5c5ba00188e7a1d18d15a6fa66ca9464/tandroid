@@ -5,7 +5,6 @@ import com.google.android.datatransport.cct.internal.AutoValue_AndroidClientInfo
 /* loaded from: classes.dex */
 public abstract class AndroidClientInfo {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract AndroidClientInfo build();
 

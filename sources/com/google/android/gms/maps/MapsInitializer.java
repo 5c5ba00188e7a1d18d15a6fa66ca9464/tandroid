@@ -17,7 +17,6 @@ public abstract class MapsInitializer {
     private static boolean zzb = false;
     private static Renderer zzc = Renderer.LEGACY;
 
-    /* loaded from: classes.dex */
     public enum Renderer {
         LEGACY,
         LATEST

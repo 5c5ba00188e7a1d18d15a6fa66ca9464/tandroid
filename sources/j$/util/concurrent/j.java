@@ -2,15 +2,13 @@ package j$.util.concurrent;
 
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class j implements Map.Entry {
+final class j implements Map.Entry {
     final Object a;
     Object b;
     final ConcurrentHashMap c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public j(Object obj, Object obj2, ConcurrentHashMap concurrentHashMap) {
+    j(Object obj, Object obj2, ConcurrentHashMap concurrentHashMap) {
         this.a = obj;
         this.b = obj2;
         this.c = concurrentHashMap;

@@ -99,8 +99,8 @@ public class PieChartView extends StackLinearChartView {
         while (i3 <= i2) {
             for (int i6 = 0; i6 < size; i6++) {
                 float[] fArr = this.values;
-                fArr[i6] = fArr[i6] + ((float) ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3]);
-                this.sum += (float) ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3];
+                fArr[i6] = fArr[i6] + ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3];
+                this.sum += ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3];
                 if (this.isEmpty && ((PieChartViewData) this.lines.get(i6)).enabled && ((ChartData.Line) ((StackLinearChartData) this.chartData).lines.get(i6)).y[i3] > 0) {
                     this.isEmpty = false;
                 }
@@ -149,14 +149,12 @@ public class PieChartView extends StackLinearChartView {
         return new PieChartViewData(line);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawBottomLine(Canvas canvas) {
+    protected void drawBottomLine(Canvas canvas) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawBottomSignature(Canvas canvas) {
+    void drawBottomSignature(Canvas canvas) {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:20:0x0060  */
@@ -398,9 +396,8 @@ public class PieChartView extends StackLinearChartView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
+    protected void drawHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
@@ -430,7 +427,7 @@ public class PieChartView extends StackLinearChartView {
                     boolean z2 = lineViewData.enabled;
                     if (z2 || lineViewData.alpha != 0.0f) {
                         i2 = i5;
-                        float f7 = ((float) lineViewData.line.y[i4]) * lineViewData.alpha;
+                        float f7 = lineViewData.line.y[i4] * lineViewData.alpha;
                         f6 += f7;
                         if (f7 > 0.0f) {
                             i6++;
@@ -480,11 +477,10 @@ public class PieChartView extends StackLinearChartView {
                             if (f6 != f5) {
                                 i = i7;
                                 if (z) {
-                                    float f11 = ((float) jArr[i4]) / f6;
                                     f2 = lineViewData2.alpha;
-                                    f = f11 * f2;
+                                    f = (jArr[i4] / f6) * f2;
                                 } else {
-                                    f = ((float) jArr[i4]) / f6;
+                                    f = jArr[i4] / f6;
                                     f2 = lineViewData2.alpha;
                                 }
                                 f3 = f * f2;
@@ -529,14 +525,12 @@ public class PieChartView extends StackLinearChartView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSelection(Canvas canvas) {
+    protected void drawSelection(Canvas canvas) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
+    protected void drawSignaturesToHorizontalLines(Canvas canvas, ChartHorizontalLinesData chartHorizontalLinesData) {
     }
 
     @Override // org.telegram.ui.Charts.StackLinearChartView, org.telegram.ui.Charts.BaseChartView
@@ -562,7 +556,6 @@ public class PieChartView extends StackLinearChartView {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:11:0x003d, code lost:
     
         if (((org.telegram.ui.Charts.PieChartViewData) r5.lines.get(r0)).selectionA > 1.0f) goto L13;
@@ -583,7 +576,7 @@ public class PieChartView extends StackLinearChartView {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         float f;
         if (this.chartData != null) {
             int i = 0;
@@ -608,9 +601,8 @@ public class PieChartView extends StackLinearChartView {
         super.onDraw(canvas);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(i, i2);
         if (getMeasuredWidth() != this.oldW) {
             this.oldW = getMeasuredWidth();

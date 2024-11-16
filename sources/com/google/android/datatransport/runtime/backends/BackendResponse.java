@@ -3,7 +3,6 @@ package com.google.android.datatransport.runtime.backends;
 /* loaded from: classes.dex */
 public abstract class BackendResponse {
 
-    /* loaded from: classes.dex */
     public enum Status {
         OK,
         TRANSIENT_ERROR,

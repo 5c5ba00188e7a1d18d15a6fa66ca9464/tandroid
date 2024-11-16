@@ -8,7 +8,6 @@ public class MP3Frame {
     private final byte[] bytes;
     private final Header header;
 
-    /* loaded from: classes3.dex */
     static final class CRC16 {
         private short crc = -1;
 
@@ -38,7 +37,6 @@ public class MP3Frame {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Header {
         private final int bitrate;
         private final int channelMode;
@@ -148,8 +146,7 @@ public class MP3Frame {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MP3Frame(Header header, byte[] bArr) {
+    MP3Frame(Header header, byte[] bArr) {
         this.header = header;
         this.bytes = bArr;
     }
@@ -185,8 +182,7 @@ public class MP3Frame {
         return this.bytes.length;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isChecksumError() {
+    boolean isChecksumError() {
         if (this.header.getProtection() != 0 || this.header.getLayer() != 1) {
             return false;
         }

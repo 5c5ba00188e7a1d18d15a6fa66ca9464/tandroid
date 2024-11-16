@@ -252,8 +252,7 @@ final class zziu {
         return this.zzc ? new zzjq(this.zza.entrySet().iterator()) : this.zza.entrySet().iterator();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Iterator zze() {
+    final Iterator zze() {
         return this.zzc ? new zzjq(this.zza.zze().iterator()) : this.zza.zze().iterator();
     }
 

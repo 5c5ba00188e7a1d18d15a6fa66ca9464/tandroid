@@ -9,8 +9,7 @@ final class zace {
     final long zac;
     final int zad;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zace(MethodInvocation methodInvocation, int i, long j, int i2) {
+    zace(MethodInvocation methodInvocation, int i, long j, int i2) {
         this.zaa = methodInvocation;
         this.zab = i;
         this.zac = j;

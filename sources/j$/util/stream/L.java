@@ -7,8 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 final class L extends c {
     private final F j;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public L(F f, b bVar, j$.util.Q q) {
+    L(F f, b bVar, j$.util.Q q) {
         super(bVar, q);
         this.j = f;
     }
@@ -18,9 +17,8 @@ final class L extends c {
         this.j = l.j;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final Object a() {
+    protected final Object a() {
         b bVar = this.a;
         y3 y3Var = (y3) this.j.d.get();
         bVar.D0(this.b, y3Var);
@@ -54,9 +52,8 @@ final class L extends c {
         return obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final e d(j$.util.Q q) {
+    protected final e d(j$.util.Q q) {
         return new L(this, q);
     }
 

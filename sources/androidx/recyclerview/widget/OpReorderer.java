@@ -7,16 +7,13 @@ import java.util.List;
 class OpReorderer {
     final Callback mCallback;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface Callback {
+    interface Callback {
         AdapterHelper.UpdateOp obtainUpdateOp(int i, int i2, int i3, Object obj);
 
         void recycleUpdateOp(AdapterHelper.UpdateOp updateOp);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public OpReorderer(Callback callback) {
+    OpReorderer(Callback callback) {
         this.mCallback = callback;
     }
 
@@ -68,8 +65,7 @@ class OpReorderer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void reorderOps(List list) {
+    void reorderOps(List list) {
         while (true) {
             int lastMoveOutOfOrder = getLastMoveOutOfOrder(list);
             if (lastMoveOutOfOrder == -1) {

@@ -29,7 +29,6 @@ public final class SavedStateHandle {
     private final SavedStateRegistry.SavedStateProvider savedStateProvider;
     private final Map savedStateProviders;
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }

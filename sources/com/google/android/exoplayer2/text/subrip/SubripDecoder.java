@@ -30,6 +30,7 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
     private Cue buildCue(Spanned spanned, String str) {
         char c;
         char c2;

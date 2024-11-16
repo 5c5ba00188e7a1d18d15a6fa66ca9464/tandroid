@@ -62,9 +62,7 @@ public final class TsExtractor implements Extractor {
     private final ParsableByteArray tsPacketBuffer;
     private final SparseArray tsPayloadReaders;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class PatReader implements SectionPayloadReader {
+    private class PatReader implements SectionPayloadReader {
         private final ParsableBitArray patScratch = new ParsableBitArray(new byte[4]);
 
         public PatReader() {
@@ -84,7 +82,7 @@ public final class TsExtractor implements Extractor {
                     } else {
                         int readBits2 = this.patScratch.readBits(13);
                         if (TsExtractor.this.tsPayloadReaders.get(readBits2) == null) {
-                            TsExtractor.this.tsPayloadReaders.put(readBits2, new SectionReader(new PmtReader(readBits2)));
+                            TsExtractor.this.tsPayloadReaders.put(readBits2, new SectionReader(TsExtractor.this.new PmtReader(readBits2)));
                             TsExtractor.access$108(TsExtractor.this);
                         }
                     }
@@ -100,7 +98,6 @@ public final class TsExtractor implements Extractor {
         }
     }
 
-    /* loaded from: classes.dex */
     private class PmtReader implements SectionPayloadReader {
         private final int pid;
         private final ParsableBitArray pmtScratch = new ParsableBitArray(new byte[5]);

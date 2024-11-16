@@ -11,6 +11,9 @@ final class zzfg {
     private final ConcurrentHashMap zza = new ConcurrentHashMap(16, 0.75f, 10);
     private final ReferenceQueue zzb = new ReferenceQueue();
 
+    zzfg() {
+    }
+
     public final List zza(Throwable th, boolean z) {
         while (true) {
             Reference poll = this.zzb.poll();

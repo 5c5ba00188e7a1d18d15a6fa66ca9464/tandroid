@@ -5,7 +5,6 @@ import com.google.android.datatransport.runtime.backends.AutoValue_BackendReques
 /* loaded from: classes.dex */
 public abstract class BackendRequest {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract BackendRequest build();
 

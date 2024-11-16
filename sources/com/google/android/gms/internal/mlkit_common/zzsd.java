@@ -7,6 +7,9 @@ final class zzsd extends zzsl {
     private int zzc;
     private byte zzd;
 
+    zzsd() {
+    }
+
     @Override // com.google.android.gms.internal.mlkit_common.zzsl
     public final zzsl zza(boolean z) {
         this.zzb = true;

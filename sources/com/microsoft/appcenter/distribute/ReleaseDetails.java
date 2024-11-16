@@ -18,8 +18,7 @@ public class ReleaseDetails {
     private long size;
     private int version;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ReleaseDetails parse(String str) {
+    static ReleaseDetails parse(String str) {
         JSONObject jSONObject = new JSONObject(str);
         ReleaseDetails releaseDetails = new ReleaseDetails();
         releaseDetails.id = jSONObject.getInt("id");
@@ -53,8 +52,7 @@ public class ReleaseDetails {
         return this.id;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getMinApiLevel() {
+    int getMinApiLevel() {
         return this.minApiLevel;
     }
 

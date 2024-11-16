@@ -14,9 +14,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class JsonValueObjectEncoderContext implements ObjectEncoderContext, ValueEncoderContext {
+final class JsonValueObjectEncoderContext implements ObjectEncoderContext, ValueEncoderContext {
     private final ObjectEncoder fallbackEncoder;
     private final boolean ignoreNullValues;
     private final JsonWriter jsonWriter;
@@ -25,8 +24,7 @@ public final class JsonValueObjectEncoderContext implements ObjectEncoderContext
     private JsonValueObjectEncoderContext childContext = null;
     private boolean active = true;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public JsonValueObjectEncoderContext(Writer writer, Map map, Map map2, ObjectEncoder objectEncoder, boolean z) {
+    JsonValueObjectEncoderContext(Writer writer, Map map, Map map2, ObjectEncoder objectEncoder, boolean z) {
         this.jsonWriter = new JsonWriter(writer);
         this.objectEncoders = map;
         this.valueEncoders = map2;
@@ -97,8 +95,7 @@ public final class JsonValueObjectEncoderContext implements ObjectEncoderContext
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public JsonValueObjectEncoderContext add(Object obj, boolean z) {
+    JsonValueObjectEncoderContext add(Object obj, boolean z) {
         int i = 0;
         if (z && cannotBeInline(obj)) {
             throw new EncodingException(String.format("%s cannot be encoded inline", obj == null ? null : obj.getClass()));
@@ -233,8 +230,7 @@ public final class JsonValueObjectEncoderContext implements ObjectEncoderContext
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void close() {
+    void close() {
         maybeUnNest();
         this.jsonWriter.flush();
     }

@@ -8,15 +8,12 @@ import android.widget.EdgeEffect;
 /* loaded from: classes.dex */
 public abstract class EdgeEffectCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static void onPull(EdgeEffect edgeEffect, float f, float f2) {
             edgeEffect.onPull(f, f2);
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Api31Impl {
         public static EdgeEffect create(Context context, AttributeSet attributeSet) {
             try {

@@ -27,7 +27,6 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
         throw new c("Unable to obtain LocalDate from TemporalAccessor: " + kVar + " of type " + kVar.getClass().getName());
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0010. Please report as an issue. */
     private int i(j$.time.temporal.l lVar) {
         int i;
         int k;
@@ -211,8 +210,7 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int g(LocalDate localDate) {
+    final int g(LocalDate localDate) {
         int i = this.a - localDate.a;
         if (i != 0) {
             return i;

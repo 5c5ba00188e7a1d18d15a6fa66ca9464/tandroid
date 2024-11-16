@@ -69,7 +69,6 @@ public class QuoteSpan implements LeadingMarginSpan {
     public int start;
     public final QuoteStyleSpan styleSpan;
 
-    /* loaded from: classes3.dex */
     public static class Block {
         public final int bottom;
         public RectF collapseButtonBounds;
@@ -265,7 +264,6 @@ public class QuoteSpan implements LeadingMarginSpan {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ExpandDrawable extends Drawable {
         private int alpha;
         private final AnimatedFloat animatedState;
@@ -351,14 +349,12 @@ public class QuoteSpan implements LeadingMarginSpan {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class QuoteButtonNewLineSpan extends CharacterStyle {
         @Override // android.text.style.CharacterStyle
         public void updateDrawState(TextPaint textPaint) {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class QuoteCollapsedPart extends CharacterStyle {
         private final QuoteSpan span;
 
@@ -372,7 +368,6 @@ public class QuoteSpan implements LeadingMarginSpan {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class QuoteStyleSpan extends MetricAffectingSpan implements LineHeightSpan {
         public QuoteSpan span;
 

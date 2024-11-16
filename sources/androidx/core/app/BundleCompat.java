@@ -6,7 +6,6 @@ import android.os.IBinder;
 /* loaded from: classes.dex */
 public abstract class BundleCompat {
 
-    /* loaded from: classes.dex */
     static class Api18Impl {
         static IBinder getBinder(Bundle bundle, String str) {
             return bundle.getBinder(str);

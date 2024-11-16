@@ -200,9 +200,7 @@ abstract class CameraCapturer implements CameraVideoCapturer {
     private final Object stateLock = new Object();
     private SwitchState switchState = SwitchState.IDLE;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public enum SwitchState {
+    enum SwitchState {
         IDLE,
         PENDING,
         IN_PROGRESS

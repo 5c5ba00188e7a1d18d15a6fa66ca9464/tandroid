@@ -80,9 +80,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     int topGlobalOffset;
     ViewPager viewPager;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 5 implements ViewPager.OnPageChangeListener {
+    class 5 implements ViewPager.OnPageChangeListener {
         final /* synthetic */ BottomPagesView val$bottomPages;
 
         5(BottomPagesView bottomPagesView) {
@@ -273,9 +271,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ViewPage extends LinearLayout {
+    private class ViewPage extends LinearLayout {
         TextView description;
         public int position;
         TextView title;
@@ -603,9 +599,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.viewpager.widget.ViewPager, android.view.View
-            public void onMeasure(int i4, int i5) {
+            protected void onMeasure(int i4, int i5) {
                 int dp = AndroidUtilities.dp(100.0f);
                 if (getChildCount() > 0) {
                     getChildAt(0).measure(i4, View.MeasureSpec.makeMeasureSpec(0, 0));
@@ -639,7 +634,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             @Override // androidx.viewpager.widget.PagerAdapter
             public Object instantiateItem(ViewGroup viewGroup, int i4) {
                 PremiumFeatureBottomSheet premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
-                ViewPage viewPage = new ViewPage(premiumFeatureBottomSheet.getContext(), i4);
+                ViewPage viewPage = premiumFeatureBottomSheet.new ViewPage(premiumFeatureBottomSheet.getContext(), i4);
                 viewGroup.addView(viewPage);
                 viewPage.position = i4;
                 viewPage.setFeatureDate((PremiumPreviewFragment.PremiumFeatureData) PremiumFeatureBottomSheet.this.premiumFeatures.get(i4));
@@ -878,9 +873,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         AndroidUtilities.setLightStatusBar(window, isLightStatusBar);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         for (int i = 0; i < this.viewPager.getChildCount(); i++) {
             ViewPage viewPage = (ViewPage) this.viewPager.getChildAt(i);
             if (viewPage.position == this.selectedPosition) {
@@ -1000,9 +994,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         return featuresPageView;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         ActionBar actionBar;
         int i;
         super.onCreate(bundle);
@@ -1060,9 +1053,8 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         this.actionBar.requestLayout();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean onCustomOpenAnimation() {
+    protected boolean onCustomOpenAnimation() {
         if (this.viewPager.getChildCount() > 0) {
             View view = ((ViewPage) this.viewPager.getChildAt(0)).topView;
             if (view instanceof PremiumAppIconsPreviewView) {

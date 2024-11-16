@@ -41,7 +41,6 @@ final class AudioTrackPositionTracker {
     private long stopPlaybackHeadPosition;
     private long stopTimestampUs;
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onInvalidLatency(long j);
 

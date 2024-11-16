@@ -32,8 +32,7 @@ public class SlidingPercentile {
     private int currentSortOrder = -1;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Sample {
+    static class Sample {
         public int index;
         public float value;
         public int weight;

@@ -27,7 +27,6 @@ public class ActionBarContainer extends FrameLayout {
     Drawable mStackedBackground;
     private View mTabContainer;
 
-    /* loaded from: classes.dex */
     private static class Api21Impl {
         public static void invalidateOutline(ActionBarContainer actionBarContainer) {
             actionBarContainer.invalidateOutline();

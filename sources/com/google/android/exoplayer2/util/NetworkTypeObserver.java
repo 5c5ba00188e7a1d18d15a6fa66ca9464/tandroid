@@ -24,12 +24,9 @@ public final class NetworkTypeObserver {
     private final Object networkTypeLock = new Object();
     private int networkType = 0;
 
-    /* loaded from: classes.dex */
     private static final class Api31 {
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static final class DisplayInfoCallback extends TelephonyCallback implements TelephonyCallback.DisplayInfoListener {
+        private static final class DisplayInfoCallback extends TelephonyCallback implements TelephonyCallback.DisplayInfoListener {
             private final NetworkTypeObserver instance;
 
             public DisplayInfoCallback(NetworkTypeObserver networkTypeObserver) {
@@ -58,12 +55,10 @@ public final class NetworkTypeObserver {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onNetworkTypeChanged(int i);
     }
 
-    /* loaded from: classes.dex */
     private final class Receiver extends BroadcastReceiver {
         private Receiver() {
         }

@@ -7,8 +7,7 @@ abstract class zzo extends zzai {
     private final int zza;
     private int zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzo(int i, int i2) {
+    protected zzo(int i, int i2) {
         zzm.zzb(i2, i, "index");
         this.zza = i;
         this.zzb = i2;

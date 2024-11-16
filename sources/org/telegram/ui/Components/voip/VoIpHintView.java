@@ -23,9 +23,8 @@ public class VoIpHintView extends HintView2 {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Stories.recorder.HintView2, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         this.backgroundProvider.setDarkTranslation(getX(), getY());
         super.dispatchDraw(canvas);
     }

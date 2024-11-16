@@ -6,18 +6,16 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.play.integrity.internal.n;
 import com.google.android.play.integrity.internal.t;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class af extends t {
+final class af extends t {
     final /* synthetic */ byte[] a;
     final /* synthetic */ Long b;
     final /* synthetic */ TaskCompletionSource c;
     final /* synthetic */ IntegrityTokenRequest d;
     final /* synthetic */ aj e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public af(aj ajVar, TaskCompletionSource taskCompletionSource, byte[] bArr, Long l, Parcelable parcelable, TaskCompletionSource taskCompletionSource2, IntegrityTokenRequest integrityTokenRequest) {
+    af(aj ajVar, TaskCompletionSource taskCompletionSource, byte[] bArr, Long l, Parcelable parcelable, TaskCompletionSource taskCompletionSource2, IntegrityTokenRequest integrityTokenRequest) {
         super(taskCompletionSource);
         this.e = ajVar;
         this.a = bArr;

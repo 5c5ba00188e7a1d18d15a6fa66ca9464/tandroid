@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class FragmentState implements Parcelable {
+final class FragmentState implements Parcelable {
     public static final Parcelable.Creator<FragmentState> CREATOR = new Parcelable.Creator() { // from class: androidx.fragment.app.FragmentState.1
         @Override // android.os.Parcelable.Creator
         public FragmentState createFromParcel(Parcel parcel) {
@@ -48,8 +47,7 @@ public final class FragmentState implements Parcelable {
         this.mMaxLifecycleState = parcel.readInt();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentState(Fragment fragment) {
+    FragmentState(Fragment fragment) {
         this.mClassName = fragment.getClass().getName();
         this.mWho = fragment.mWho;
         this.mFromLayout = fragment.mFromLayout;

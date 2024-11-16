@@ -22,24 +22,24 @@ public final class zzfj extends zzcb implements zzdg {
         return (zzfh) zzb.zzg();
     }
 
-    public static /* synthetic */ void zzx(zzfj zzfjVar, int i) {
+    static /* synthetic */ void zzx(zzfj zzfjVar, int i) {
         zzfjVar.zzd |= 1;
         zzfjVar.zze = i;
     }
 
-    public static /* synthetic */ void zzy(zzfj zzfjVar, String str) {
+    static /* synthetic */ void zzy(zzfj zzfjVar, String str) {
         str.getClass();
         zzfjVar.zzd |= 2;
         zzfjVar.zzf = str;
     }
 
-    public static /* synthetic */ void zzz(zzfj zzfjVar, int i) {
+    static /* synthetic */ void zzz(zzfj zzfjVar, int i) {
         zzfjVar.zzg = i - 1;
         zzfjVar.zzd |= 4;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzcb
-    public final Object zzu(int i, Object obj, Object obj2) {
+    protected final Object zzu(int i, Object obj, Object obj2) {
         int i2 = i - 1;
         if (i2 == 0) {
             return (byte) 1;
@@ -50,8 +50,9 @@ public final class zzfj extends zzcb implements zzdg {
         if (i2 == 3) {
             return new zzfj();
         }
+        zzfg zzfgVar = null;
         if (i2 == 4) {
-            return new zzfh(null);
+            return new zzfh(zzfgVar);
         }
         if (i2 != 5) {
             return null;

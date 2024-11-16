@@ -20,9 +20,8 @@ public final class zzaf extends GmsClient {
         this.zze = context;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* bridge */ /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -35,9 +34,8 @@ public final class zzaf extends GmsClient {
         return 12200000;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.safetynet.internal.ISafetyNetService";
     }
 
@@ -51,8 +49,7 @@ public final class zzaf extends GmsClient {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final String zzp(String str) {
+    protected final String zzp(String str) {
         ApplicationInfo applicationInfo;
         Bundle bundle;
         try {

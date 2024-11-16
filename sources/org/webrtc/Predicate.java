@@ -3,7 +3,6 @@ package org.webrtc;
 /* loaded from: classes5.dex */
 public interface Predicate<T> {
 
-    /* loaded from: classes5.dex */
     public abstract /* synthetic */ class -CC {
         public static Predicate $default$and(final Predicate predicate, final Predicate predicate2) {
             return new Predicate() { // from class: org.webrtc.Predicate.2

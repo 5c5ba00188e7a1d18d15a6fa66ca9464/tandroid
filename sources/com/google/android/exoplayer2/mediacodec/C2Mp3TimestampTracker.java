@@ -13,6 +13,9 @@ final class C2Mp3TimestampTracker {
     private long processedFrames;
     private boolean seenInvalidMpegAudioHeader;
 
+    C2Mp3TimestampTracker() {
+    }
+
     private long getBufferTimestampUs(long j) {
         return this.anchorTimestampUs + Math.max(0L, ((this.processedFrames - 529) * 1000000) / j);
     }

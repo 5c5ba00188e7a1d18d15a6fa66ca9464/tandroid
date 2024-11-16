@@ -173,9 +173,8 @@ public class BackupImageView extends View {
         return this.imageReceiver.getRoundRadius();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
         if (this.applyAttach) {
@@ -190,9 +189,8 @@ public class BackupImageView extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attached = false;
         if (this.applyAttach) {
@@ -207,14 +205,13 @@ public class BackupImageView extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:19:0x0092  */
     /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         ImageReceiver imageReceiver;
         float width;
         int height;

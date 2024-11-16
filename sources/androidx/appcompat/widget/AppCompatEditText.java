@@ -34,9 +34,7 @@ public class AppCompatEditText extends EditText implements TintableBackgroundVie
     private final AppCompatTextClassifierHelper mTextClassifierHelper;
     private final AppCompatTextHelper mTextHelper;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class SuperCaller {
+    class SuperCaller {
         SuperCaller() {
         }
 

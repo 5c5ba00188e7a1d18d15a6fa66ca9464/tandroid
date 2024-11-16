@@ -8,8 +8,7 @@ final class LogWriter extends Writer {
     private StringBuilder mBuilder = new StringBuilder(128);
     private final String mTag;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LogWriter(String str) {
+    LogWriter(String str) {
         this.mTag = str;
     }
 

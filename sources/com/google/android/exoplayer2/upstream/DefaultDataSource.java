@@ -26,7 +26,6 @@ public final class DefaultDataSource implements DataSource {
     private final List transferListeners = new ArrayList();
     private DataSource udpDataSource;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements DataSource.Factory {
         private final DataSource.Factory baseDataSourceFactory;
         private final Context context;

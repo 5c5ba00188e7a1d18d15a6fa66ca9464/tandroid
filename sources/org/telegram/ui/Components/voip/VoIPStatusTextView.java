@@ -33,9 +33,7 @@ public class VoIPStatusTextView extends FrameLayout {
     boolean timerShowing;
     VoIPTimerView timerView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends AnimatorListenerAdapter {
+    class 2 extends AnimatorListenerAdapter {
         final /* synthetic */ View val$in;
         final /* synthetic */ Runnable val$onEnd;
         final /* synthetic */ View val$out;

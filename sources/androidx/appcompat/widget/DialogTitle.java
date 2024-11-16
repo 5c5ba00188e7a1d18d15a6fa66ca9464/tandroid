@@ -13,9 +13,8 @@ public class DialogTitle extends AppCompatTextView {
         super(context, attributeSet);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.AppCompatTextView, android.widget.TextView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         int lineCount;
         super.onMeasure(i, i2);
         Layout layout = getLayout();

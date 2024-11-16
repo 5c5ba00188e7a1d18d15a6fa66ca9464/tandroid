@@ -119,9 +119,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 4 extends ActionBar.ActionBarMenuOnItemClick {
+    class 4 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ ActionBarMenuSubItem val$switchItem;
 
         4(ActionBarMenuSubItem actionBarMenuSubItem) {
@@ -164,9 +162,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 extends CodeFieldContainer {
+    class 8 extends CodeFieldContainer {
         8(Context context) {
             super(context);
         }
@@ -191,9 +187,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -349,8 +343,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class RLottieImageHolderView extends FrameLayout {
+    static final class RLottieImageHolderView extends FrameLayout {
         private RLottieImageView imageView;
 
         private RLottieImageHolderView(Context context) {
@@ -1172,9 +1165,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             frameLayout = scrollView;
         }
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.PasscodeActivity.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z2, int i5, int i6, int i7, int i8) {
+            protected void onLayout(boolean z2, int i5, int i6, int i7, int i8) {
                 View view;
                 int measuredWidth;
                 int measuredHeight;

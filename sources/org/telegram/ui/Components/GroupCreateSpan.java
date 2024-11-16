@@ -395,13 +395,13 @@ public class GroupCreateSpan extends View {
                 currentTimeMillis = 17;
             }
             if (this.deleting) {
-                float f = this.progress + (((float) currentTimeMillis) / 120.0f);
+                float f = this.progress + (currentTimeMillis / 120.0f);
                 this.progress = f;
                 if (f >= 1.0f) {
                     this.progress = 1.0f;
                 }
             } else {
-                float f2 = this.progress - (((float) currentTimeMillis) / 120.0f);
+                float f2 = this.progress - (currentTimeMillis / 120.0f);
                 this.progress = f2;
                 if (f2 < 0.0f) {
                     this.progress = 0.0f;

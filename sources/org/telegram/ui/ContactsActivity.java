@@ -144,9 +144,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     Runnable sortContactsRunnable;
     private ActionBarMenuItem sortItem;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 implements RecyclerListView.OnItemLongClickListener {
+    class 8 implements RecyclerListView.OnItemLongClickListener {
         8() {
         }
 
@@ -276,7 +274,6 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface ContactsActivityDelegate {
         void didSelectContact(TLRPC.User user, String str, ContactsActivity contactsActivity);
     }
@@ -785,7 +782,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             animatorSet2.cancel();
         }
         this.bounceIconAnimator = new AnimatorSet();
-        float duration = (float) this.floatingButton.getAnimatedDrawable().getDuration();
+        float duration = this.floatingButton.getAnimatedDrawable().getDuration();
         long j2 = 0;
         if (z2) {
             for (int i3 = 0; i3 < 6; i3++) {
@@ -797,7 +794,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     RLottieImageView rLottieImageView3 = this.floatingButton;
                     Property property2 = View.SCALE_Y;
                     animatorSet3.playTogether(ofFloat, ObjectAnimator.ofFloat(rLottieImageView3, (Property<RLottieImageView, Float>) property2, 1.0f, 0.9f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property, 1.0f, 0.9f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property2, 1.0f, 0.9f));
-                    animatorSet3.setDuration(0.12765957f * duration);
+                    animatorSet3.setDuration((long) (0.12765957f * duration));
                     cubicBezierInterpolator2 = CubicBezierInterpolator.EASE_OUT;
                 } else {
                     if (i3 == 1) {
@@ -807,7 +804,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         RLottieImageView rLottieImageView5 = this.floatingButton;
                         Property property4 = View.SCALE_Y;
                         animatorSet3.playTogether(ofFloat2, ObjectAnimator.ofFloat(rLottieImageView5, (Property<RLottieImageView, Float>) property4, 0.9f, 1.06f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property3, 0.9f, 1.06f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property4, 0.9f, 1.06f));
-                        j = 0.3617021f * duration;
+                        j = (long) (0.3617021f * duration);
                     } else if (i3 == 2) {
                         RLottieImageView rLottieImageView6 = this.floatingButton;
                         Property property5 = View.SCALE_X;
@@ -815,7 +812,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         RLottieImageView rLottieImageView7 = this.floatingButton;
                         Property property6 = View.SCALE_Y;
                         animatorSet3.playTogether(ofFloat3, ObjectAnimator.ofFloat(rLottieImageView7, (Property<RLottieImageView, Float>) property6, 1.06f, 0.9f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property5, 1.06f, 0.9f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property6, 1.06f, 0.9f));
-                        animatorSet3.setDuration(0.21276596f * duration);
+                        animatorSet3.setDuration((long) (0.21276596f * duration));
                         animatorSet3.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
                         animatorSet3.setStartDelay(j2);
                         j2 += animatorSet3.getDuration();
@@ -845,11 +842,11 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                                 RLottieImageView rLottieImageView12 = this.floatingButton;
                                 Property property11 = View.SCALE_Y;
                                 animatorSet3.playTogether(ofFloat6, ObjectAnimator.ofFloat(rLottieImageView12, (Property<RLottieImageView, Float>) property11, 0.98f, 1.0f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property9, 0.98f, 1.0f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property11, 0.98f, 1.0f));
-                                animatorSet3.setDuration(0.08510638f * duration);
+                                animatorSet3.setDuration((long) (0.08510638f * duration));
                                 cubicBezierInterpolator2 = CubicBezierInterpolator.EASE_IN;
                             }
                         }
-                        j = duration * 0.10638298f;
+                        j = (long) (duration * 0.10638298f);
                     }
                     animatorSet3.setDuration(j);
                     cubicBezierInterpolator2 = CubicBezierInterpolator.EASE_BOTH;
@@ -869,7 +866,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     RLottieImageView rLottieImageView14 = this.floatingButton;
                     Property property13 = View.SCALE_Y;
                     animatorSet4.playTogether(ofFloat7, ObjectAnimator.ofFloat(rLottieImageView14, (Property<RLottieImageView, Float>) property13, 1.0f, 0.9f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property12, 1.0f, 0.9f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property13, 1.0f, 0.9f));
-                    animatorSet4.setDuration(0.19444445f * duration);
+                    animatorSet4.setDuration((long) (0.19444445f * duration));
                     cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT;
                 } else {
                     if (i4 == 1) {
@@ -887,7 +884,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         RLottieImageView rLottieImageView18 = this.floatingButton;
                         Property property17 = View.SCALE_Y;
                         animatorSet4.playTogether(ofFloat9, ObjectAnimator.ofFloat(rLottieImageView18, (Property<RLottieImageView, Float>) property17, 1.06f, 0.92f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property16, 1.06f, 0.92f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property17, 1.06f, 0.92f));
-                        animatorSet4.setDuration(0.19444445f * duration);
+                        animatorSet4.setDuration((long) (0.19444445f * duration));
                         animatorSet4.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
                         animatorSet4.setStartDelay(j2);
                         j2 += animatorSet4.getDuration();
@@ -907,13 +904,13 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         RLottieImageView rLottieImageView22 = this.floatingButton;
                         Property property21 = View.SCALE_Y;
                         animatorSet4.playTogether(ofFloat11, ObjectAnimator.ofFloat(rLottieImageView22, (Property<RLottieImageView, Float>) property21, 1.02f, 1.0f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property20, 1.02f, 1.0f), ObjectAnimator.ofFloat(view, (Property<View, Float>) property21, 1.02f, 1.0f));
-                        animatorSet4.setDuration(duration * 0.10638298f);
+                        animatorSet4.setDuration((long) (duration * 0.10638298f));
                         animatorSet4.setInterpolator(CubicBezierInterpolator.EASE_IN);
                         animatorSet4.setStartDelay(j2);
                         j2 += animatorSet4.getDuration();
                         this.bounceIconAnimator.playTogether(animatorSet4);
                     }
-                    animatorSet4.setDuration(f * duration);
+                    animatorSet4.setDuration((long) (f * duration));
                     cubicBezierInterpolator = CubicBezierInterpolator.EASE_BOTH;
                 }
                 animatorSet4.setInterpolator(cubicBezierInterpolator);
@@ -1551,8 +1548,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public RecyclerListView getListView() {
+    protected RecyclerListView getListView() {
         return this.listView;
     }
 
@@ -1743,9 +1739,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         return animatorSet;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onDialogDismiss(Dialog dialog) {
+    protected void onDialogDismiss(Dialog dialog) {
         super.onDialogDismiss(dialog);
         AlertDialog alertDialog = this.permissionDialog;
         if (alertDialog == null || dialog != alertDialog || getParentActivity() == null || !this.askAboutContacts) {

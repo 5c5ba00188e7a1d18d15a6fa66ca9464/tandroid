@@ -27,7 +27,6 @@ public class OverlayActionBarLayoutDialog extends Dialog implements INavigationL
     private PasscodeView passcodeView;
     private Theme.ResourcesProvider resourcesProvider;
 
-    /* loaded from: classes3.dex */
     private final class EmptyFragment extends BaseFragment {
         private EmptyFragment() {
         }

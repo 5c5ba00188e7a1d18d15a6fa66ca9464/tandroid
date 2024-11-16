@@ -12,20 +12,16 @@ import java.util.Set;
 public class MultiFlavorDetectorCreator {
     private final Map zza = new HashMap();
 
-    /* loaded from: classes.dex */
     public interface DetectorCreator {
         MultiFlavorDetector create(DetectorOptions detectorOptions);
     }
 
-    /* loaded from: classes.dex */
     public interface DetectorOptions {
     }
 
-    /* loaded from: classes.dex */
     public interface MultiFlavorDetector {
     }
 
-    /* loaded from: classes.dex */
     public static class Registration {
         private final Class zza;
         private final Provider zzb;
@@ -50,8 +46,7 @@ public class MultiFlavorDetectorCreator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public MultiFlavorDetectorCreator(Set set) {
+    MultiFlavorDetectorCreator(Set set) {
         HashMap hashMap = new HashMap();
         Iterator it = set.iterator();
         while (it.hasNext()) {

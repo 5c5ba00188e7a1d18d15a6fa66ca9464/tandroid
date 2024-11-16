@@ -2,9 +2,11 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class r1 extends O2 implements F0, x0 {
+final class r1 extends O2 implements F0, x0 {
+    r1() {
+    }
+
     @Override // j$.util.stream.F0
     public final F0 a(int i) {
         throw new IndexOutOfBoundsException();

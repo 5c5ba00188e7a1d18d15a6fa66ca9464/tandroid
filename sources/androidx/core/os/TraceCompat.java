@@ -13,7 +13,6 @@ public abstract class TraceCompat {
     private static Method sTraceCounterMethod;
     private static long sTraceTagApp;
 
-    /* loaded from: classes.dex */
     static class Api18Impl {
         static void beginSection(String str) {
             Trace.beginSection(str);

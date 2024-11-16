@@ -7,7 +7,6 @@ import java.util.concurrent.Executor;
 class SafeLoggingExecutor implements Executor {
     private final Executor delegate;
 
-    /* loaded from: classes.dex */
     static class SafeLoggingRunnable implements Runnable {
         private final Runnable delegate;
 
@@ -25,8 +24,7 @@ class SafeLoggingExecutor implements Executor {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SafeLoggingExecutor(Executor executor) {
+    SafeLoggingExecutor(Executor executor) {
         this.delegate = executor;
     }
 

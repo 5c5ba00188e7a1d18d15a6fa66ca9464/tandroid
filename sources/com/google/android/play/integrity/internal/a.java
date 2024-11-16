@@ -9,14 +9,12 @@ public abstract class a implements IInterface {
     private final IBinder a;
     private final String b;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public a(IBinder iBinder, String str) {
+    protected a(IBinder iBinder, String str) {
         this.a = iBinder;
         this.b = str;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel a() {
+    protected final Parcel a() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.b);
         return obtain;
@@ -27,8 +25,7 @@ public abstract class a implements IInterface {
         return this.a;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void b(int i, Parcel parcel) {
+    protected final void b(int i, Parcel parcel) {
         try {
             this.a.transact(i, parcel, null, 1);
         } finally {

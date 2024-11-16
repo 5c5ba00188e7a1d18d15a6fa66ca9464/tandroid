@@ -9,8 +9,7 @@ import androidx.emoji2.text.EmojiCompat;
 class EmojiTransformationMethod implements TransformationMethod {
     private final TransformationMethod mTransformationMethod;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public EmojiTransformationMethod(TransformationMethod transformationMethod) {
+    EmojiTransformationMethod(TransformationMethod transformationMethod) {
         this.mTransformationMethod = transformationMethod;
     }
 

@@ -14,7 +14,6 @@ public final class KotlinVersion implements Comparable {
     public static final Companion Companion = new Companion(null);
     public static final KotlinVersion CURRENT = KotlinVersionCurrentValue.get();
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }

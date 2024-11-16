@@ -365,9 +365,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
     private float viewsThumbScale;
     private boolean wasBigScreen;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 17 extends ChatActivityEnterView {
+    class 17 extends ChatActivityEnterView {
         private int chatActivityEnterViewAnimateFromTop;
         int lastContentViewHeight;
         private Animator messageEditTextAnimator;
@@ -556,9 +554,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 18 implements ChatActivityEnterView.ChatActivityEnterViewDelegate {
+    class 18 implements ChatActivityEnterView.ChatActivityEnterViewDelegate {
         18() {
         }
 
@@ -809,9 +805,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 35 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+    class 35 implements ReactionsContainerLayout.ReactionsContainerDelegate {
         35() {
         }
 
@@ -940,9 +934,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 37 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+    class 37 implements ReactionsContainerLayout.ReactionsContainerDelegate {
         37() {
         }
 
@@ -1097,9 +1089,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 4 extends HwFrameLayout {
+    class 4 extends HwFrameLayout {
         boolean drawOverlayed;
         final CellFlickerDrawable loadingDrawable;
         final AnimatedFloat loadingDrawableAlpha;
@@ -1165,10 +1155,10 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
                             PeerStoriesView.access$2714(peerStoriesView3, currentTimeMillis - peerStoriesView3.lastDrawTime);
                         }
                         PeerStoriesView.this.lastDrawTime = currentTimeMillis;
-                        clamp = Utilities.clamp(((float) PeerStoriesView.this.currentImageTime) / 10000.0f, 1.0f, 0.0f);
+                        clamp = Utilities.clamp(PeerStoriesView.this.currentImageTime / 10000.0f, 1.0f, 0.0f);
                     }
                 }
-                clamp = Utilities.clamp(((float) PeerStoriesView.this.currentImageTime) / 10000.0f, 1.0f, 0.0f);
+                clamp = Utilities.clamp(PeerStoriesView.this.currentImageTime / 10000.0f, 1.0f, 0.0f);
                 float f3 = clamp;
                 peerStoriesView = PeerStoriesView.this;
                 videoPlayerSharedScope = peerStoriesView.playerSharedScope;
@@ -1627,9 +1617,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 5 extends StoryCaptionView {
+    class 5 extends StoryCaptionView {
         final /* synthetic */ Theme.ResourcesProvider val$resourcesProvider;
         final /* synthetic */ StoryViewer val$storyViewer;
 
@@ -1887,9 +1875,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 8 extends CustomPopupMenu {
+    class 8 extends CustomPopupMenu {
         private boolean edit;
         final /* synthetic */ boolean val$canEditStory;
         final /* synthetic */ Context val$context;
@@ -3030,7 +3016,6 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface Delegate {
         int getKeyboardHeight();
 
@@ -3085,7 +3070,6 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         void switchToNextAndRemoveCurrentPeer();
     }
 
-    /* loaded from: classes5.dex */
     public static class PeerHeaderView extends FrameLayout {
         public BackupImageView backupImageView;
         private float progressToUploading;
@@ -3103,9 +3087,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             this.subtitleView = new TextView[2];
             this.storyItemHolder = storyItemHolder;
             BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Stories.PeerStoriesView.PeerHeaderView.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     if (this.imageReceiver.getVisible()) {
                         RectF rectF = AndroidUtilities.rectTmp;
                         rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
@@ -3119,9 +3102,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             addView(this.backupImageView, LayoutHelper.createFrame(32, 32.0f, 0, 12.0f, 2.0f, 0.0f, 0.0f));
             setClipChildren(false);
             SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Stories.PeerStoriesView.PeerHeaderView.2
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-                public void onMeasure(int i, int i2) {
+                protected void onMeasure(int i, int i2) {
                     super.onMeasure(i, i2);
                     setPivotY(getMeasuredHeight() / 2.0f);
                 }
@@ -3281,7 +3263,6 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class SharedResources {
         public final Paint barPaint;
         private final Drawable bottomOverlayGradient;
@@ -3303,8 +3284,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         private final RectF finalRect = new RectF();
         private final Paint dimPaint = new Paint();
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public SharedResources(Context context) {
+        SharedResources(Context context) {
             this.shareDrawable = ContextCompat.getDrawable(context, R.drawable.media_share);
             this.likeDrawable = ContextCompat.getDrawable(context, R.drawable.media_like);
             this.repostDrawable = ContextCompat.getDrawable(context, R.drawable.media_repost);
@@ -3354,7 +3334,6 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* loaded from: classes5.dex */
     public class StoryItemHolder {
         public CharSequence caption;
         public boolean captionTranslated;
@@ -3578,8 +3557,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             return this.reply;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean hasSound() {
+        boolean hasSound() {
             TLRPC.MessageMedia messageMedia;
             TLRPC.Document document;
             if (!this.isVideo) {
@@ -3601,8 +3579,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean isVideo() {
+        boolean isVideo() {
             return this.isVideo;
         }
 
@@ -3688,7 +3665,6 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class VideoPlayerSharedScope {
         boolean firstFrameRendered;
         StoryViewer.VideoPlayerHolder player;
@@ -3773,9 +3749,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         this.storyItems = new ArrayList();
         this.uploadingStories = new ArrayList();
         ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Stories.PeerStoriesView.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
                 boolean imageBitmapByKey = super.setImageBitmapByKey(drawable, str, i, z, i2);
                 if (i == 1 && PeerStoriesView.this.onImageReceiverThumbLoaded != null) {
                     PeerStoriesView.this.onImageReceiverThumbLoaded.run();
@@ -6484,9 +6459,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
                 PeerStoriesView.this.shareAlert = null;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ShareAlert
-            public void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
+            protected void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
                 Bulletin createSimpleBulletin;
                 super.onSend(longSparseArray, i, tL_forumTopic);
                 PeerStoriesView peerStoriesView = PeerStoriesView.this;
@@ -6750,7 +6724,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
     /* JADX WARN: Removed duplicated region for block: B:89:0x0879  */
     /* JADX WARN: Removed duplicated region for block: B:94:0x088e  */
     /* JADX WARN: Type inference failed for: r2v3 */
-    /* JADX WARN: Type inference failed for: r2v4, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v4, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v88 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -9208,7 +9182,6 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:26:0x0109, code lost:
     
         if (r9.reactionEffectImageReceiver.getLottieAnimation().isLastFrame() != false) goto L34;
@@ -9217,7 +9190,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable;
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2;
         updateViewOffsets();
@@ -9516,9 +9489,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attachedToWindow = true;
         this.imageReceiver.onAttachedToWindow();
@@ -9543,9 +9515,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.attachedToWindow = false;
         this.imageReceiver.onDetachedFromWindow();
@@ -9580,9 +9551,8 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
         this.sharedResources.topOverlayGradient.setBounds(0, 0, getMeasuredWidth(), AndroidUtilities.dp(72.0f));
     }

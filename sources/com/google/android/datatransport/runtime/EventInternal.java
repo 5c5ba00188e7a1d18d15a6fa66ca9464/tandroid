@@ -8,7 +8,6 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public abstract class EventInternal {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public final Builder addMetadata(String str, int i) {
             getAutoMetadata().put(str, String.valueOf(i));
@@ -51,8 +50,7 @@ public abstract class EventInternal {
         return str2 == null ? "" : str2;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Map getAutoMetadata();
+    protected abstract Map getAutoMetadata();
 
     public abstract Integer getCode();
 

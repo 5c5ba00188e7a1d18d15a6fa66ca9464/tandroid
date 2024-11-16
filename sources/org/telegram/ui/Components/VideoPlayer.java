@@ -152,191 +152,23 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public static final HashSet activePlayers = new HashSet();
     static int playerCounter = 0;
 
-    /* loaded from: classes3.dex */
-    public class 1 implements Player.Listener {
-        1() {
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onAudioAttributesChanged(AudioAttributes audioAttributes) {
-            Player.Listener.-CC.$default$onAudioAttributesChanged(this, audioAttributes);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onAvailableCommandsChanged(Player.Commands commands) {
-            Player.Listener.-CC.$default$onAvailableCommandsChanged(this, commands);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onCues(CueGroup cueGroup) {
-            Player.Listener.-CC.$default$onCues(this, cueGroup);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onCues(List list) {
-            Player.Listener.-CC.$default$onCues(this, list);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onDeviceInfoChanged(DeviceInfo deviceInfo) {
-            Player.Listener.-CC.$default$onDeviceInfoChanged(this, deviceInfo);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onDeviceVolumeChanged(int i, boolean z) {
-            Player.Listener.-CC.$default$onDeviceVolumeChanged(this, i, z);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onEvents(Player player, Player.Events events) {
-            Player.Listener.-CC.$default$onEvents(this, player, events);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onIsLoadingChanged(boolean z) {
-            Player.Listener.-CC.$default$onIsLoadingChanged(this, z);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onIsPlayingChanged(boolean z) {
-            Player.Listener.-CC.$default$onIsPlayingChanged(this, z);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onLoadingChanged(boolean z) {
-            Player.Listener.-CC.$default$onLoadingChanged(this, z);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onMediaItemTransition(MediaItem mediaItem, int i) {
-            Player.Listener.-CC.$default$onMediaItemTransition(this, mediaItem, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onMediaMetadataChanged(MediaMetadata mediaMetadata) {
-            Player.Listener.-CC.$default$onMediaMetadataChanged(this, mediaMetadata);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onMetadata(Metadata metadata) {
-            Player.Listener.-CC.$default$onMetadata(this, metadata);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPlayWhenReadyChanged(boolean z, int i) {
-            Player.Listener.-CC.$default$onPlayWhenReadyChanged(this, z, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-            Player.Listener.-CC.$default$onPlaybackParametersChanged(this, playbackParameters);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPlaybackStateChanged(int i) {
-            Player.Listener.-CC.$default$onPlaybackStateChanged(this, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPlaybackSuppressionReasonChanged(int i) {
-            Player.Listener.-CC.$default$onPlaybackSuppressionReasonChanged(this, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPlayerError(PlaybackException playbackException) {
-            Player.Listener.-CC.$default$onPlayerError(this, playbackException);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPlayerErrorChanged(PlaybackException playbackException) {
-            Player.Listener.-CC.$default$onPlayerErrorChanged(this, playbackException);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public void onPlayerStateChanged(boolean z, int i) {
-            if (VideoPlayer.this.audioPlayerReady || i != 3) {
-                return;
-            }
-            VideoPlayer.this.audioPlayerReady = true;
-            VideoPlayer.this.checkPlayersReady();
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPositionDiscontinuity(int i) {
-            Player.Listener.-CC.$default$onPositionDiscontinuity(this, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onPositionDiscontinuity(Player.PositionInfo positionInfo, Player.PositionInfo positionInfo2, int i) {
-            Player.Listener.-CC.$default$onPositionDiscontinuity(this, positionInfo, positionInfo2, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onRenderedFirstFrame() {
-            Player.Listener.-CC.$default$onRenderedFirstFrame(this);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onRepeatModeChanged(int i) {
-            Player.Listener.-CC.$default$onRepeatModeChanged(this, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onSeekProcessed() {
-            Player.Listener.-CC.$default$onSeekProcessed(this);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onSkipSilenceEnabledChanged(boolean z) {
-            Player.Listener.-CC.$default$onSkipSilenceEnabledChanged(this, z);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onSurfaceSizeChanged(int i, int i2) {
-            Player.Listener.-CC.$default$onSurfaceSizeChanged(this, i, i2);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onTimelineChanged(Timeline timeline, int i) {
-            Player.Listener.-CC.$default$onTimelineChanged(this, timeline, i);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onTracksChanged(Tracks tracks) {
-            Player.Listener.-CC.$default$onTracksChanged(this, tracks);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onVideoSizeChanged(VideoSize videoSize) {
-            Player.Listener.-CC.$default$onVideoSizeChanged(this, videoSize);
-        }
-
-        @Override // com.google.android.exoplayer2.Player.Listener
-        public /* synthetic */ void onVolumeChanged(float f) {
-            Player.Listener.-CC.$default$onVolumeChanged(this, f);
-        }
-    }
-
-    /* loaded from: classes3.dex */
     public interface AudioVisualizerDelegate {
         boolean needUpdate();
 
         void onVisualizerUpdate(boolean z, boolean z2, float[] fArr);
     }
 
-    /* loaded from: classes3.dex */
-    public class AudioVisualizerRenderersFactory extends DefaultRenderersFactory {
+    private class AudioVisualizerRenderersFactory extends DefaultRenderersFactory {
         public AudioVisualizerRenderersFactory(Context context) {
             super(context);
         }
 
         @Override // com.google.android.exoplayer2.DefaultRenderersFactory
         protected AudioSink buildAudioSink(Context context, boolean z, boolean z2, boolean z3) {
-            return new DefaultAudioSink.Builder().setAudioCapabilities(AudioCapabilities.getCapabilities(context)).setEnableFloatOutput(z).setEnableAudioTrackPlaybackParams(z2).setAudioProcessors(new AudioProcessor[]{new TeeAudioProcessor(new VisualizerBufferSink())}).setOffloadMode(z3 ? 1 : 0).build();
+            return new DefaultAudioSink.Builder().setAudioCapabilities(AudioCapabilities.getCapabilities(context)).setEnableFloatOutput(z).setEnableAudioTrackPlaybackParams(z2).setAudioProcessors(new AudioProcessor[]{new TeeAudioProcessor(VideoPlayer.this.new VisualizerBufferSink())}).setOffloadMode(z3 ? 1 : 0).build();
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Quality {
         public int height;
         public boolean original;
@@ -554,10 +386,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface VideoPlayerDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onRenderedFirstFrame(VideoPlayerDelegate videoPlayerDelegate, AnalyticsListener.EventTime eventTime) {
             }
@@ -588,7 +418,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         void onVideoSizeChanged(int i, int i2, int i3, float f);
     }
 
-    /* loaded from: classes3.dex */
     public static class VideoUri {
         public double bitrate;
         public String codec;
@@ -729,8 +558,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         }
     }
 
-    /* loaded from: classes3.dex */
-    public class VisualizerBufferSink implements TeeAudioProcessor.AudioBufferSink {
+    /* JADX INFO: Access modifiers changed from: private */
+    class VisualizerBufferSink implements TeeAudioProcessor.AudioBufferSink {
         ByteBuffer byteBuffer;
         long lastUpdateTime;
         private final int BUFFER_SIZE = 1024;
@@ -745,11 +574,13 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             allocateDirect.position(0);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$handleBuffer$0() {
             VideoPlayer.this.audioUpdateHandler.removeCallbacksAndMessages(null);
             VideoPlayer.this.audioVisualizerDelegate.onVisualizerUpdate(false, true, null);
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$handleBuffer$1(float[] fArr) {
             VideoPlayer.this.audioVisualizerDelegate.onVisualizerUpdate(true, true, fArr);
         }
@@ -875,6 +706,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         playerCounter++;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void checkPlayersReady() {
         if (this.audioPlayerReady && this.videoPlayerReady && this.mixedPlayWhenReady) {
             play();
@@ -912,9 +744,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             SimpleExoPlayer buildSimpleExoPlayer = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setTrackSelector(this.trackSelector).setLoadControl(defaultLoadControl).buildSimpleExoPlayer();
             this.audioPlayer = buildSimpleExoPlayer;
             buildSimpleExoPlayer.addListener(new Player.Listener() { // from class: org.telegram.ui.Components.VideoPlayer.1
-                1() {
-                }
-
                 @Override // com.google.android.exoplayer2.Player.Listener
                 public /* synthetic */ void onAudioAttributesChanged(AudioAttributes audioAttributes) {
                     Player.Listener.-CC.$default$onAudioAttributesChanged(this, audioAttributes);
@@ -1314,6 +1143,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         return getSavedQuality(arrayList, messageObject.getDialogId(), messageObject.getId());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPlayerError$0() {
         ExoPlayer exoPlayer = this.player;
         if (exoPlayer != null) {
@@ -1331,6 +1161,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onPlayerError$1(PlaybackException playbackException) {
         Throwable cause = playbackException.getCause();
         if ((cause instanceof MediaCodecDecoderException) && (cause.toString().contains("av1") || cause.toString().contains("av01"))) {
@@ -1402,41 +1233,21 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     private MediaSource mediaSourceFromUri(Uri uri, String str) {
-        MediaItem build = new MediaItem.Builder().setUri(uri).build();
+        MediaItem build;
+        build = new MediaItem.Builder().setUri(uri).build();
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 3680:
-                if (str.equals("ss")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 103407:
-                if (str.equals("hls")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3075986:
-                if (str.equals("dash")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "ss":
                 if (this.ssMediaSourceFactory == null) {
                     this.ssMediaSourceFactory = new SsMediaSource.Factory(this.mediaDataSourceFactory);
                 }
                 return this.ssMediaSourceFactory.createMediaSource(build);
-            case 1:
+            case "hls":
                 if (this.hlsMediaSourceFactory == null) {
                     this.hlsMediaSourceFactory = new HlsMediaSource.Factory(this.mediaDataSourceFactory);
                 }
                 return this.hlsMediaSourceFactory.createMediaSource(build);
-            case 2:
+            case "dash":
                 if (this.dashMediaSourceFactory == null) {
                     this.dashMediaSourceFactory = new DashMediaSource.Factory(this.mediaDataSourceFactory);
                 }
@@ -1606,70 +1417,19 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         if (str == null) {
             return null;
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 96924:
-                if (str.equals("av1")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 96974:
-                if (str.equals("avc")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 116926:
-                if (str.equals("vp8")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 116927:
-                if (str.equals("vp9")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 3004662:
-                if (str.equals("av01")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case 3148040:
-                if (str.equals("h264")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case 3148041:
-                if (str.equals("h265")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 3199082:
-                if (str.equals("hevc")) {
-                    c = 7;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 4:
+        switch (str) {
+            case "av1":
+            case "av01":
                 return "video/av01";
-            case 1:
-            case 5:
+            case "avc":
+            case "h264":
                 return MediaController.VIDEO_MIME_TYPE;
-            case 2:
+            case "vp8":
                 return "video/x-vnd.on2.vp8";
-            case 3:
+            case "vp9":
                 return "video/x-vnd.on2.vp9";
-            case 6:
-            case 7:
+            case "h265":
+            case "hevc":
                 return "video/hevc";
             default:
                 return "video/" + str;

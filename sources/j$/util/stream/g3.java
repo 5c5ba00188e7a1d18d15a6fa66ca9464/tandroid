@@ -53,10 +53,10 @@ public final /* synthetic */ class g3 implements d2 {
         switch (this.a) {
             case 0:
                 ((L2) this.b).accept(j);
-                return;
+                break;
             default:
                 this.b.accept(j);
-                return;
+                break;
         }
     }
 
@@ -66,31 +66,25 @@ public final /* synthetic */ class g3 implements d2 {
         switch (this.a) {
             case 0:
                 j((Long) obj);
-                return;
+                break;
             default:
                 j((Long) obj);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.Consumer
     public final /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
         }
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.W
     public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.d(this, w);
-            default:
-                return j$.com.android.tools.r8.a.d(this, w);
         }
+        return j$.com.android.tools.r8.a.d(this, w);
     }
 
     @Override // j$.util.stream.d2
@@ -98,10 +92,10 @@ public final /* synthetic */ class g3 implements d2 {
         switch (this.a) {
             case 0:
                 t0.i(this, l);
-                return;
+                break;
             default:
                 t0.i(this, l);
-                return;
+                break;
         }
     }
 
@@ -118,10 +112,7 @@ public final /* synthetic */ class g3 implements d2 {
     @Override // j$.util.stream.e2
     public final /* synthetic */ boolean q() {
         switch (this.a) {
-            case 0:
-                return false;
-            default:
-                return false;
         }
+        return false;
     }
 }

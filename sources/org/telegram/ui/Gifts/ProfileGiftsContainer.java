@@ -49,7 +49,6 @@ public abstract class ProfileGiftsContainer extends FrameLayout implements Notif
     private final long userId;
     private int visibleHeight;
 
-    /* loaded from: classes3.dex */
     public static class TextFactory extends UItem.UItemFactory {
         static {
             UItem.UItemFactory.setup(new TextFactory());
@@ -81,9 +80,8 @@ public abstract class ProfileGiftsContainer extends FrameLayout implements Notif
         @Override // org.telegram.ui.Components.UItem.UItemFactory
         public LinkSpanDrawable.LinksTextView createView(Context context, int i, int i2, Theme.ResourcesProvider resourcesProvider) {
             return new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Gifts.ProfileGiftsContainer.TextFactory.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView, android.view.View
-                public void onMeasure(int i3, int i4) {
+                protected void onMeasure(int i3, int i4) {
                     super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3), 1073741824), i4);
                 }
             };

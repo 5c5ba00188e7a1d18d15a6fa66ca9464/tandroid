@@ -35,9 +35,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.json.JSONException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class BillingClientImpl extends BillingClient {
+class BillingClientImpl extends BillingClient {
     private volatile int zza;
     private final String zzb;
     private final Handler zzc;
@@ -73,13 +72,11 @@ public class BillingClientImpl extends BillingClient {
         initialize(context, purchasesUpdatedListener, zzbeVar, alternativeBillingListener, str, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public BillingClientImpl(String str, zzbe zzbeVar, Context context, PurchasesUpdatedListener purchasesUpdatedListener, AlternativeBillingListener alternativeBillingListener, zzar zzarVar) {
+    BillingClientImpl(String str, zzbe zzbeVar, Context context, PurchasesUpdatedListener purchasesUpdatedListener, AlternativeBillingListener alternativeBillingListener, zzar zzarVar) {
         this(context, zzbeVar, purchasesUpdatedListener, zzR(), null, alternativeBillingListener, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public BillingClientImpl(String str, zzbe zzbeVar, Context context, zzaz zzazVar, zzar zzarVar) {
+    BillingClientImpl(String str, zzbe zzbeVar, Context context, zzaz zzazVar, zzar zzarVar) {
         this.zza = 0;
         this.zzc = new Handler(Looper.getMainLooper());
         this.zzk = 0;
@@ -111,8 +108,7 @@ public class BillingClientImpl extends BillingClient {
         this.zzy = alternativeBillingListener != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ zzbj zzN(BillingClientImpl billingClientImpl, String str, int i) {
+    static /* synthetic */ zzbj zzN(BillingClientImpl billingClientImpl, String str, int i) {
         zzb.zzi("BillingClient", "Querying owned items, item type: ".concat(String.valueOf(str)));
         ArrayList arrayList = new ArrayList();
         boolean z = true;
@@ -794,8 +790,7 @@ public class BillingClientImpl extends BillingClient {
         billingClientStateListener.onBillingSetupFinished(billingResult3);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzH(BillingResult billingResult) {
+    final /* synthetic */ void zzH(BillingResult billingResult) {
         if (this.zzd.zzc() != null) {
             this.zzd.zzc().onPurchasesUpdated(billingResult, null);
         } else {
@@ -804,42 +799,36 @@ public class BillingClientImpl extends BillingClient {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzI(ConsumeResponseListener consumeResponseListener, ConsumeParams consumeParams) {
+    final /* synthetic */ void zzI(ConsumeResponseListener consumeResponseListener, ConsumeParams consumeParams) {
         zzar zzarVar = this.zzf;
         BillingResult billingResult = zzat.zzn;
         zzarVar.zza(zzaq.zza(24, 4, billingResult));
         consumeResponseListener.onConsumeResponse(billingResult, consumeParams.getPurchaseToken());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzJ(ProductDetailsResponseListener productDetailsResponseListener) {
+    final /* synthetic */ void zzJ(ProductDetailsResponseListener productDetailsResponseListener) {
         zzar zzarVar = this.zzf;
         BillingResult billingResult = zzat.zzn;
         zzarVar.zza(zzaq.zza(24, 7, billingResult));
         productDetailsResponseListener.onProductDetailsResponse(billingResult, new ArrayList());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzL(PurchasesResponseListener purchasesResponseListener) {
+    final /* synthetic */ void zzL(PurchasesResponseListener purchasesResponseListener) {
         zzar zzarVar = this.zzf;
         BillingResult billingResult = zzat.zzn;
         zzarVar.zza(zzaq.zza(24, 9, billingResult));
         purchasesResponseListener.onQueryPurchasesResponse(billingResult, com.google.android.gms.internal.play_billing.zzu.zzk());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Bundle zzc(int i, String str, String str2, BillingFlowParams billingFlowParams, Bundle bundle) {
+    final /* synthetic */ Bundle zzc(int i, String str, String str2, BillingFlowParams billingFlowParams, Bundle bundle) {
         return this.zzg.zzg(i, this.zze.getPackageName(), str, str2, null, bundle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Bundle zzd(String str, String str2) {
+    final /* synthetic */ Bundle zzd(String str, String str2) {
         return this.zzg.zzf(3, this.zze.getPackageName(), str, str2, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Object zzk(ConsumeParams consumeParams, ConsumeResponseListener consumeResponseListener) {
+    final /* synthetic */ Object zzk(ConsumeParams consumeParams, ConsumeResponseListener consumeResponseListener) {
         int zza;
         String str;
         String purchaseToken = consumeParams.getPurchaseToken();
@@ -883,7 +872,6 @@ public class BillingClientImpl extends BillingClient {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:65:0x0124, code lost:
     
         r0.zza(r2);
@@ -892,7 +880,7 @@ public class BillingClientImpl extends BillingClient {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final /* synthetic */ Object zzl(QueryProductDetailsParams queryProductDetailsParams, ProductDetailsResponseListener productDetailsResponseListener) {
+    final /* synthetic */ Object zzl(QueryProductDetailsParams queryProductDetailsParams, ProductDetailsResponseListener productDetailsResponseListener) {
         String str;
         int i;
         int i2;

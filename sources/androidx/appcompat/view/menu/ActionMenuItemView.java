@@ -33,7 +33,6 @@ public class ActionMenuItemView extends AppCompatTextView implements MenuView.It
     private int mSavedPaddingLeft;
     private CharSequence mTitle;
 
-    /* loaded from: classes.dex */
     private class ActionMenuItemForwardingListener extends ForwardingListener {
         public ActionMenuItemForwardingListener() {
             super(ActionMenuItemView.this);
@@ -57,7 +56,6 @@ public class ActionMenuItemView extends AppCompatTextView implements MenuView.It
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class PopupCallback {
         public abstract ShowableListMenu getPopup();
     }
@@ -158,9 +156,8 @@ public class ActionMenuItemView extends AppCompatTextView implements MenuView.It
         updateTextButtonVisibility();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.widget.AppCompatTextView, android.widget.TextView, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         int i3;
         boolean hasText = hasText();
         if (hasText && (i3 = this.mSavedPaddingLeft) >= 0) {

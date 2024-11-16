@@ -15,7 +15,6 @@ import java.util.Locale;
 /* loaded from: classes.dex */
 public abstract class PrecomputedTextCompat implements Spannable {
 
-    /* loaded from: classes.dex */
     public static final class Params {
         private final int mBreakStrategy;
         private final int mHyphenationFrequency;
@@ -23,7 +22,6 @@ public abstract class PrecomputedTextCompat implements Spannable {
         private final TextDirectionHeuristic mTextDir;
         final PrecomputedText.Params mWrapped;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private int mBreakStrategy;
             private int mHyphenationFrequency;

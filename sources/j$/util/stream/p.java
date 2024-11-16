@@ -5,11 +5,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class p extends V1 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public p(b bVar, int i) {
+final class p extends V1 {
+    p(b bVar, int i) {
         super(bVar, i, 0);
     }
 
@@ -44,9 +42,8 @@ public final class p extends V1 {
         return S2.DISTINCT.d(bVar.s0()) ? bVar.F0(q) : S2.ORDERED.d(bVar.s0()) ? G0(bVar, q).spliterator() : new b3(bVar.F0(q));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final e2 z0(int i, e2 e2Var) {
+    final e2 z0(int i, e2 e2Var) {
         e2Var.getClass();
         return S2.DISTINCT.d(i) ? e2Var : S2.SORTED.d(i) ? new n(e2Var) : new o(e2Var);
     }

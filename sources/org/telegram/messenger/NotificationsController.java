@@ -157,9 +157,7 @@ public class NotificationsController extends BaseController {
     private static final DispatchQueue notificationsQueue = new DispatchQueue("notificationsQueue");
     public static long globalSecretChatId = DialogObject.makeEncryptedDialogId(1);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1NotificationHolder {
+    class 1NotificationHolder {
         TLRPC.Chat chat;
         long dialogId;
         int id;
@@ -213,9 +211,7 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class DialogKey {
+    private static class DialogKey {
         final long dialogId;
         final boolean story;
         final long topicId;
@@ -227,7 +223,6 @@ public class NotificationsController extends BaseController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StoryNotification {
         public long date;
         final HashMap<Integer, Pair<Long, Long>> dateByIds;
@@ -6608,7 +6603,7 @@ public class NotificationsController extends BaseController {
     /* JADX WARN: Removed duplicated region for block: B:863:0x0223 A[EDGE_INSN: B:863:0x0223->B:812:0x0223 BREAK  A[LOOP:2: B:55:0x0203->B:65:0x1519], SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:864:0x01cb  */
     /* JADX WARN: Type inference failed for: r9v10 */
-    /* JADX WARN: Type inference failed for: r9v11, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r9v11, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r9v13 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11580,8 +11575,7 @@ public class NotificationsController extends BaseController {
         this.channelGroupsCreated = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void forceShowPopupForReply() {
+    protected void forceShowPopupForReply() {
         notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda74
             @Override // java.lang.Runnable
             public final void run() {
@@ -11917,8 +11911,7 @@ public class NotificationsController extends BaseController {
         processDialogsUpdateRead(longSparseIntArray);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void repeatNotificationMaybe() {
+    protected void repeatNotificationMaybe() {
         notificationsQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsController$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {

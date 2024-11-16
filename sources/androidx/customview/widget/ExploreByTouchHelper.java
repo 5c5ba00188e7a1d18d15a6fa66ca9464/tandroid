@@ -35,7 +35,6 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     int mKeyboardFocusedVirtualViewId = Integer.MIN_VALUE;
     private int mHoveredVirtualViewId = Integer.MIN_VALUE;
 
-    /* loaded from: classes.dex */
     private class MyNodeProvider extends AccessibilityNodeProviderCompat {
         MyNodeProvider() {
         }

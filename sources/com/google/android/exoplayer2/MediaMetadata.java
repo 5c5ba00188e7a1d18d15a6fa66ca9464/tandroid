@@ -88,7 +88,6 @@ public final class MediaMetadata implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private CharSequence albumArtist;
         private CharSequence albumTitle;

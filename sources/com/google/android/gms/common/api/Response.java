@@ -7,13 +7,11 @@ public abstract class Response {
     public Response() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Response(Result result) {
+    protected Response(Result result) {
         this.zza = result;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Result getResult() {
+    protected Result getResult() {
         return this.zza;
     }
 

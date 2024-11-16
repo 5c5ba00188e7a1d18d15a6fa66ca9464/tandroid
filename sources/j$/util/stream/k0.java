@@ -25,31 +25,26 @@ public final /* synthetic */ class k0 implements Supplier, Consumer {
         switch (this.a) {
             case 4:
                 ((b3) this.b).f((Consumer) this.c, obj);
-                return;
+                break;
             case 5:
-                if (obj == null) {
-                    ((AtomicBoolean) this.b).set(true);
-                    return;
-                } else {
+                if (obj != null) {
                     ((ConcurrentHashMap) this.c).putIfAbsent(obj, Boolean.TRUE);
-                    return;
+                    break;
+                } else {
+                    ((AtomicBoolean) this.b).set(true);
+                    break;
                 }
             default:
                 ((BiConsumer) this.b).accept(this.c, obj);
-                return;
+                break;
         }
     }
 
     @Override // j$.util.function.Consumer
     public /* synthetic */ Consumer andThen(Consumer consumer) {
         switch (this.a) {
-            case 4:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            case 5:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
         }
+        return Consumer.-CC.$default$andThen(this, consumer);
     }
 
     @Override // j$.util.function.Supplier

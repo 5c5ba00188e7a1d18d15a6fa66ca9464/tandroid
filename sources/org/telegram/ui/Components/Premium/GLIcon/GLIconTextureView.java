@@ -67,9 +67,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
     ValueAnimator.AnimatorUpdateListener xUpdater2;
     ValueAnimator.AnimatorUpdateListener yUpdater;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements GestureDetector.OnGestureListener {
+    class 1 implements GestureDetector.OnGestureListener {
         1() {
         }
 
@@ -183,9 +181,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class RenderThread extends Thread {
+    private class RenderThread extends Thread {
         private RenderThread() {
         }
 
@@ -222,7 +218,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
                     try {
                         if (!GLIconTextureView.this.shouldSleep()) {
                             long currentTimeMillis2 = System.currentTimeMillis();
-                            GLIconTextureView.this.drawSingleFrame(((float) (currentTimeMillis2 - currentTimeMillis)) / 1000.0f);
+                            GLIconTextureView.this.drawSingleFrame((currentTimeMillis2 - currentTimeMillis) / 1000.0f);
                             if (!GLIconTextureView.this.ready) {
                                 GLIconTextureView.this.ready = true;
                                 AndroidUtilities.runOnUIThread(GLIconTextureView.this.readyListener);
@@ -599,18 +595,16 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         return this.paused;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.TextureView, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         this.attached = true;
         this.rendererChanged = true;
         scheduleIdleAnimation(this.idleDelay);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         cancelAnimatons();
         GLIconRenderer gLIconRenderer = this.mRenderer;

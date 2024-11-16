@@ -153,7 +153,6 @@ public class CameraSession {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:32:0x00bc, code lost:
     
         if (((360 - r7.displayOrientation) % 360) == r3) goto L41;
@@ -167,7 +166,7 @@ public class CameraSession {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void configurePhotoCamera() {
+    protected void configurePhotoCamera() {
         Camera camera;
         Camera.Parameters parameters;
         String str;
@@ -245,8 +244,7 @@ public class CameraSession {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void configureRecorder(int i, MediaRecorder mediaRecorder) {
+    protected void configureRecorder(int i, MediaRecorder mediaRecorder) {
         int i2;
         CamcorderProfile camcorderProfile;
         updateCameraInfo();
@@ -275,7 +273,6 @@ public class CameraSession {
         this.isVideo = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:35:0x00e8, code lost:
     
         if (((360 - r7.displayOrientation) % 360) == r4) goto L42;
@@ -287,7 +284,7 @@ public class CameraSession {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean configureRoundCamera(boolean z) {
+    protected boolean configureRoundCamera(boolean z) {
         Camera.Parameters parameters;
         int i;
         boolean z2;

@@ -10,8 +10,7 @@ final class aa extends t {
     final /* synthetic */ IBinder a;
     final /* synthetic */ ad b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public aa(ad adVar, IBinder iBinder) {
+    aa(ad adVar, IBinder iBinder) {
         this.b = adVar;
         this.a = iBinder;
     }

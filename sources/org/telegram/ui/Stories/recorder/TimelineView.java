@@ -153,8 +153,8 @@ public class TimelineView extends View {
     private final WaveformPath waveformPath;
     final float[] waveformRadii;
 
-    /* loaded from: classes5.dex */
-    public class AudioWaveformLoader {
+    /* JADX INFO: Access modifiers changed from: private */
+    class AudioWaveformLoader {
         private final int count;
         private final short[] data;
         private long duration;
@@ -195,7 +195,7 @@ public class TimelineView extends View {
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            int round = Math.round(((((float) (this.duration * 1000)) / ((float) Math.min(TimelineView.this.hasVideo ? TimelineView.this.videoDuration : TimelineView.this.hasRound ? TimelineView.this.roundDuration : this.duration * 1000, 120000L))) * i) / Math.round(AndroidUtilities.dpf2(3.3333f)));
+            int round = Math.round((((this.duration * 1000) / Math.min(TimelineView.this.hasVideo ? TimelineView.this.videoDuration : TimelineView.this.hasRound ? TimelineView.this.roundDuration : this.duration * 1000, 120000L)) * i) / Math.round(AndroidUtilities.dpf2(3.3333f)));
             this.count = round;
             this.data = new short[round];
             if (this.duration <= 0 || this.inputFormat == null) {
@@ -213,7 +213,8 @@ public class TimelineView extends View {
             }
         }
 
-        /* renamed from: receiveData */
+        /* JADX INFO: Access modifiers changed from: private */
+        /* renamed from: receiveData, reason: merged with bridge method [inline-methods] */
         public void lambda$run$0(short[] sArr, int i) {
             for (int i2 = 0; i2 < i; i2++) {
                 int i3 = this.loaded + i2;
@@ -232,6 +233,7 @@ public class TimelineView extends View {
             TimelineView.this.invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Code restructure failed: missing block: B:94:0x015d, code lost:
         
             r3 = r16;
@@ -245,7 +247,7 @@ public class TimelineView extends View {
             int i2;
             short s;
             try {
-                int round = Math.round((((float) (this.duration * this.inputFormat.getInteger("sample-rate"))) / this.count) / 5.0f);
+                int round = Math.round(((this.duration * this.inputFormat.getInteger("sample-rate")) / this.count) / 5.0f);
                 MediaCodec createDecoderByType = MediaCodec.createDecoderByType(this.inputFormat.getString("mime"));
                 if (createDecoderByType == null) {
                     return;
@@ -397,10 +399,8 @@ public class TimelineView extends View {
         }
     }
 
-    /* loaded from: classes5.dex */
-    public interface TimelineDelegate {
+    interface TimelineDelegate {
 
-        /* loaded from: classes5.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onAudioLeftChange(TimelineDelegate timelineDelegate, float f) {
             }
@@ -481,8 +481,8 @@ public class TimelineView extends View {
         void onVideoVolumeChange(float f);
     }
 
-    /* loaded from: classes5.dex */
-    public class VideoThumbsLoader {
+    /* JADX INFO: Access modifiers changed from: private */
+    class VideoThumbsLoader {
         private Path clipPath;
         private final int count;
         private boolean destroyed;
@@ -497,7 +497,6 @@ public class TimelineView extends View {
         private boolean loading = false;
         private final Paint bitmapPaint = new Paint(3);
 
-        /* loaded from: classes5.dex */
         public class BitmapFrame {
             private final AnimatedFloat alpha;
             public Bitmap bitmap;
@@ -514,7 +513,7 @@ public class TimelineView extends View {
 
         /* JADX WARN: Code restructure failed: missing block: B:20:0x007a, code lost:
         
-            if (r0 != 270) goto L74;
+            if (r0 != 270) goto L26;
          */
         /* JADX WARN: Removed duplicated region for block: B:22:0x008a  */
         /* JADX WARN: Removed duplicated region for block: B:25:0x0096  */
@@ -557,9 +556,9 @@ public class TimelineView extends View {
                     float clamp = Utilities.clamp((r5 != 0 || i3 == 0) ? 1.0f : r5 / i3, 1.3333334f, 0.5625f);
                     this.frameHeight = Math.max(1, i2);
                     this.frameWidth = Math.max(1, (int) Math.ceil(i2 * clamp));
-                    int ceil = (int) Math.ceil(((((float) Math.max(j4, j)) / ((float) j)) * i) / r0);
+                    int ceil = (int) Math.ceil(((Math.max(j4, j) / j) * i) / r0);
                     this.count = ceil;
-                    long j5 = ((float) j4) / ceil;
+                    long j5 = (long) (j4 / ceil);
                     this.frameIterator = j5;
                     this.nextFrame = -j5;
                     if (j2 != -1) {
@@ -584,9 +583,9 @@ public class TimelineView extends View {
                 float clamp2 = Utilities.clamp((r5 != 0 || i3 == 0) ? 1.0f : r5 / i3, 1.3333334f, 0.5625f);
                 this.frameHeight = Math.max(1, i2);
                 this.frameWidth = Math.max(1, (int) Math.ceil(i2 * clamp2));
-                int ceil2 = (int) Math.ceil(((((float) Math.max(j4, j)) / ((float) j)) * i) / r0);
+                int ceil2 = (int) Math.ceil(((Math.max(j4, j) / j) * i) / r0);
                 this.count = ceil2;
-                long j52 = ((float) j4) / ceil2;
+                long j52 = (long) (j4 / ceil2);
                 this.frameIterator = j52;
                 this.nextFrame = -j52;
                 if (j2 != -1) {
@@ -605,9 +604,9 @@ public class TimelineView extends View {
             float clamp22 = Utilities.clamp((r5 != 0 || i3 == 0) ? 1.0f : r5 / i3, 1.3333334f, 0.5625f);
             this.frameHeight = Math.max(1, i2);
             this.frameWidth = Math.max(1, (int) Math.ceil(i2 * clamp22));
-            int ceil22 = (int) Math.ceil(((((float) Math.max(j4, j)) / ((float) j)) * i) / r0);
+            int ceil22 = (int) Math.ceil(((Math.max(j4, j) / j) * i) / r0);
             this.count = ceil22;
-            long j522 = ((float) j4) / ceil22;
+            long j522 = (long) (j4 / ceil22);
             this.frameIterator = j522;
             this.nextFrame = -j522;
             if (j2 != -1) {
@@ -615,7 +614,8 @@ public class TimelineView extends View {
             load();
         }
 
-        /* renamed from: receiveFrame */
+        /* JADX INFO: Access modifiers changed from: private */
+        /* renamed from: receiveFrame, reason: merged with bridge method [inline-methods] */
         public void lambda$retrieveFrame$0(Bitmap bitmap) {
             if (!this.loading || this.destroyed) {
                 return;
@@ -625,6 +625,7 @@ public class TimelineView extends View {
             TimelineView.this.invalidate();
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         public void retrieveFrame() {
             MediaMetadataRetriever mediaMetadataRetriever = this.metadataRetriever;
             if (mediaMetadataRetriever == null) {
@@ -703,9 +704,7 @@ public class TimelineView extends View {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class WaveformPath extends Path {
+    class WaveformPath extends Path {
         private float lastAnimatedLoaded;
         private float lastAudioHeight;
         private float lastAudioSelected;
@@ -855,8 +854,8 @@ public class TimelineView extends View {
     private int detectHandle(MotionEvent motionEvent) {
         float x = motionEvent.getX();
         float y = motionEvent.getY();
-        float min = (float) Math.min(getBaseDuration(), 120000L);
-        float clamp = this.px + this.ph + (this.sw * (((float) ((Utilities.clamp(this.progress, getBaseDuration(), 0L) + (!this.hasVideo ? this.audioOffset : 0L)) - this.scroll)) / min));
+        float min = Math.min(getBaseDuration(), 120000L);
+        float clamp = this.px + this.ph + (this.sw * (((Utilities.clamp(this.progress, getBaseDuration(), 0L) + (!this.hasVideo ? this.audioOffset : 0L)) - this.scroll) / min));
         boolean z = false;
         if (!this.isCover && x >= clamp - AndroidUtilities.dp(12.0f) && x <= clamp + AndroidUtilities.dp(12.0f)) {
             return 0;
@@ -871,8 +870,8 @@ public class TimelineView extends View {
             }
             float f = this.px + this.ph;
             float f2 = this.videoLeft;
-            float f3 = (float) this.videoDuration;
-            float f4 = (float) this.scroll;
+            float f3 = this.videoDuration;
+            float f4 = this.scroll;
             float f5 = this.sw;
             float f6 = ((((f2 * f3) - f4) / min) * f5) + f;
             float f7 = f + ((((this.videoRight * f3) - f4) / min) * f5);
@@ -887,10 +886,10 @@ public class TimelineView extends View {
             }
         } else if (z) {
             float f8 = this.px + this.ph;
-            float f9 = (float) this.roundOffset;
+            float f9 = this.roundOffset;
             float f10 = this.roundLeft;
-            float f11 = (float) this.roundDuration;
-            float f12 = (float) this.scroll;
+            float f11 = this.roundDuration;
+            float f12 = this.scroll;
             float f13 = this.sw;
             float f14 = (((((f10 * f11) + f9) - f12) / min) * f13) + f8;
             float f15 = f8 + ((((f9 + (this.roundRight * f11)) - f12) / min) * f13);
@@ -908,8 +907,8 @@ public class TimelineView extends View {
                 long j = this.roundOffset;
                 long j2 = this.scroll;
                 float f17 = this.sw;
-                float f18 = ((((float) (j - j2)) / min) * f17) + f16;
-                f15 = f16 + ((((float) ((j + this.roundDuration) - j2)) / min) * f17);
+                float f18 = (((j - j2) / min) * f17) + f16;
+                f15 = f16 + ((((j + this.roundDuration) - j2) / min) * f17);
                 f14 = f18;
             }
             if (x >= f14 && x <= f15) {
@@ -917,10 +916,10 @@ public class TimelineView extends View {
             }
         } else if (this.hasAudio) {
             float f19 = this.px + this.ph;
-            float f20 = (float) this.audioOffset;
+            float f20 = this.audioOffset;
             float f21 = this.audioLeft;
-            float f22 = (float) this.audioDuration;
-            float f23 = (float) this.scroll;
+            float f22 = this.audioDuration;
+            float f23 = this.scroll;
             float f24 = this.sw;
             float f25 = (((((f21 * f22) + f20) - f23) / min) * f24) + f19;
             float f26 = f19 + ((((f20 + (this.audioRight * f22)) - f23) / min) * f24);
@@ -938,8 +937,8 @@ public class TimelineView extends View {
                 long j3 = this.audioOffset;
                 long j4 = this.scroll;
                 float f28 = this.sw;
-                float f29 = ((((float) (j3 - j4)) / min) * f28) + f27;
-                f26 = ((((float) ((j3 + this.audioDuration) - j4)) / min) * f28) + f27;
+                float f29 = (((j3 - j4) / min) * f28) + f27;
+                f26 = ((((j3 + this.audioDuration) - j4) / min) * f28) + f27;
                 f25 = f29;
             }
             if (x >= f25 && x <= f26) {
@@ -953,7 +952,7 @@ public class TimelineView extends View {
         if (this.isCover) {
             return;
         }
-        float clamp = this.px + this.ph + (this.sw * (((float) ((Utilities.clamp(j, getBaseDuration(), 0L) + (!this.hasVideo ? this.audioOffset : 0L)) - this.scroll)) / ((float) Math.min(getBaseDuration(), 120000L))));
+        float clamp = this.px + this.ph + (this.sw * (((Utilities.clamp(j, getBaseDuration(), 0L) + (!this.hasVideo ? this.audioOffset : 0L)) - this.scroll) / Math.min(getBaseDuration(), 120000L)));
         float f4 = (((f + f2) / 2.0f) / 2.0f) * (1.0f - f3);
         float f5 = f + f4;
         float f6 = f2 - f4;
@@ -1036,6 +1035,7 @@ public class TimelineView extends View {
         return 112;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(Float f) {
         this.audioVolume = f.floatValue();
         TimelineDelegate timelineDelegate = this.delegate;
@@ -1044,6 +1044,7 @@ public class TimelineView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1() {
         TimelineDelegate timelineDelegate = this.delegate;
         if (timelineDelegate != null) {
@@ -1051,6 +1052,7 @@ public class TimelineView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Float f) {
         this.roundVolume = f.floatValue();
         TimelineDelegate timelineDelegate = this.delegate;
@@ -1059,6 +1061,7 @@ public class TimelineView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3() {
         TimelineDelegate timelineDelegate = this.delegate;
         if (timelineDelegate != null) {
@@ -1066,6 +1069,7 @@ public class TimelineView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(Float f) {
         this.videoVolume = f.floatValue();
         TimelineDelegate timelineDelegate = this.delegate;
@@ -1074,6 +1078,7 @@ public class TimelineView extends View {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(ViewGroup viewGroup, Theme.ResourcesProvider resourcesProvider, BlurringShader.BlurManager blurManager, View view) {
         int i;
         int i2;
@@ -1100,7 +1105,7 @@ public class TimelineView extends View {
                 int i5 = this.w;
                 int i6 = this.px;
                 int i7 = this.ph;
-                min = Math.min((i5 - i6) - i7, i6 + i7 + (((((float) (this.audioOffset - this.scroll)) + (AndroidUtilities.lerp(this.audioRight, 1.0f, this.audioSelectedT.get()) * ((float) this.audioDuration))) / ((float) min2)) * this.sw));
+                min = Math.min((i5 - i6) - i7, i6 + i7 + ((((this.audioOffset - this.scroll) + (AndroidUtilities.lerp(this.audioRight, 1.0f, this.audioSelectedT.get()) * this.audioDuration)) / min2) * this.sw));
                 float f5 = this.h - this.py;
                 if (this.hasVideo) {
                     f3 = 4.0f;
@@ -1145,7 +1150,7 @@ public class TimelineView extends View {
                 int i8 = this.w;
                 int i9 = this.px;
                 int i10 = this.ph;
-                min = Math.min((i8 - i9) - i10, i9 + i10 + (((((float) (this.roundOffset - this.scroll)) + (AndroidUtilities.lerp(this.roundRight, 1.0f, this.roundSelectedT.get()) * ((float) this.roundDuration))) / ((float) min3)) * this.sw));
+                min = Math.min((i8 - i9) - i10, i9 + i10 + ((((this.roundOffset - this.scroll) + (AndroidUtilities.lerp(this.roundRight, 1.0f, this.roundSelectedT.get()) * this.roundDuration)) / min3) * this.sw));
                 float f6 = this.h - this.py;
                 if (this.hasVideo) {
                     f = 4.0f;
@@ -1175,6 +1180,7 @@ public class TimelineView extends View {
         i = 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setProgressAt$6(long j) {
         TimelineDelegate timelineDelegate = this.delegate;
         if (timelineDelegate != null) {
@@ -1183,7 +1189,7 @@ public class TimelineView extends View {
     }
 
     private long minAudioSelect() {
-        return Math.max(1000.0f, ((float) Math.min(this.hasVideo ? this.videoDuration : this.hasRound ? this.roundDuration : this.audioDuration, 59000L)) * 0.15f);
+        return (long) Math.max(1000.0f, Math.min(this.hasVideo ? this.videoDuration : this.hasRound ? this.roundDuration : this.audioDuration, 59000L) * 0.15f);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:48:0x012e, code lost:
@@ -1193,15 +1199,15 @@ public class TimelineView extends View {
      */
     /* JADX WARN: Code restructure failed: missing block: B:66:0x00e4, code lost:
     
-        if (r1 != null) goto L123;
+        if (r1 != null) goto L40;
      */
     /* JADX WARN: Code restructure failed: missing block: B:6:0x004a, code lost:
     
-        if (r1 != null) goto L123;
+        if (r1 != null) goto L40;
      */
     /* JADX WARN: Code restructure failed: missing block: B:74:0x012c, code lost:
     
-        if (r1 != null) goto L123;
+        if (r1 != null) goto L40;
      */
     /* JADX WARN: Removed duplicated region for block: B:42:0x024a  */
     /* JADX WARN: Removed duplicated region for block: B:43:? A[RETURN, SYNTHETIC] */
@@ -1235,11 +1241,11 @@ public class TimelineView extends View {
         boolean z = this.hasVideo;
         if (!z && !this.hasRound) {
             long j13 = this.audioOffset;
-            long clamp2 = Utilities.clamp(j13 + f, 0L, -(this.audioDuration - Math.min(getBaseDuration(), 120000L)));
+            long clamp2 = Utilities.clamp(j13 + ((long) f), 0L, -(this.audioDuration - Math.min(getBaseDuration(), 120000L)));
             this.audioOffset = clamp2;
-            float f9 = (float) (clamp2 - j13);
-            this.audioLeft = Utilities.clamp(this.audioLeft - (f9 / ((float) this.audioDuration)), 1.0f, 0.0f);
-            this.audioRight = Utilities.clamp(this.audioRight - (f9 / ((float) this.audioDuration)), 1.0f, 0.0f);
+            float f9 = clamp2 - j13;
+            this.audioLeft = Utilities.clamp(this.audioLeft - (f9 / this.audioDuration), 1.0f, 0.0f);
+            this.audioRight = Utilities.clamp(this.audioRight - (f9 / this.audioDuration), 1.0f, 0.0f);
             timelineDelegate = this.delegate;
         } else if (this.audioSelected) {
             if (z) {
@@ -1249,7 +1255,7 @@ public class TimelineView extends View {
                 f2 = this.roundLeft;
                 j = this.roundDuration;
             }
-            float f10 = f2 * ((float) j);
+            float f10 = f2 * j;
             if (z) {
                 f3 = this.videoRight;
                 j2 = this.videoDuration;
@@ -1257,7 +1263,7 @@ public class TimelineView extends View {
                 f3 = this.roundRight;
                 j2 = this.roundDuration;
             }
-            float f11 = f3 * ((float) j2);
+            float f11 = f3 * j2;
             if (z) {
                 f4 = this.videoRight - this.videoLeft;
                 j3 = this.videoDuration;
@@ -1265,25 +1271,25 @@ public class TimelineView extends View {
                 f4 = this.roundRight - this.roundLeft;
                 j3 = this.roundDuration;
             }
-            float f12 = f4 * ((float) j3);
+            float f12 = f4 * j3;
             float f13 = this.audioRight;
-            float f14 = (float) this.audioDuration;
-            long j14 = f11 - (f13 * f14);
+            float f14 = this.audioDuration;
+            long j14 = (long) (f11 - (f13 * f14));
             float f15 = this.audioLeft;
-            long j15 = f10 - (f15 * f14);
+            long j15 = (long) (f10 - (f15 * f14));
             float min = Math.min(f13 - f15, f12 / f14);
             long j16 = this.audioOffset;
-            long j17 = f;
+            long j17 = (long) f;
             long j18 = j16 + j17;
             if (j18 > j14) {
-                float clamp3 = Utilities.clamp(((f11 - ((float) j16)) - ((float) j17)) / ((float) this.audioDuration), 1.0f, min);
+                float clamp3 = Utilities.clamp(((f11 - j16) - j17) / this.audioDuration, 1.0f, min);
                 this.audioRight = clamp3;
                 float clamp4 = Utilities.clamp(clamp3 - min, 1.0f, 0.0f);
                 this.audioLeft = clamp4;
                 float f16 = this.audioRight;
-                float f17 = (float) this.audioDuration;
-                long j19 = f11 - (f16 * f17);
-                long j20 = f10 - (clamp4 * f17);
+                float f17 = this.audioDuration;
+                long j19 = (long) (f11 - (f16 * f17));
+                long j20 = (long) (f10 - (clamp4 * f17));
                 if (j19 < j20) {
                     j7 = j20;
                     j6 = j19;
@@ -1294,13 +1300,13 @@ public class TimelineView extends View {
                 this.audioOffset = Utilities.clamp(this.audioOffset + j17, j7, j6);
                 timelineDelegate = this.delegate;
             } else if (j18 < j15) {
-                float clamp5 = Utilities.clamp(((f10 - ((float) j16)) - ((float) j17)) / ((float) this.audioDuration), 1.0f - min, 0.0f);
+                float clamp5 = Utilities.clamp(((f10 - j16) - j17) / this.audioDuration, 1.0f - min, 0.0f);
                 this.audioLeft = clamp5;
                 float clamp6 = Utilities.clamp(clamp5 + min, 1.0f, 0.0f);
                 this.audioRight = clamp6;
-                float f18 = (float) this.audioDuration;
-                long j21 = f11 - (clamp6 * f18);
-                long j22 = f10 - (this.audioLeft * f18);
+                float f18 = this.audioDuration;
+                long j21 = (long) (f11 - (clamp6 * f18));
+                long j22 = (long) (f10 - (this.audioLeft * f18));
                 if (j21 < j22) {
                     j5 = j22;
                     j4 = j21;
@@ -1314,34 +1320,35 @@ public class TimelineView extends View {
                 this.audioOffset = j18;
             }
         } else {
-            long j23 = this.audioOffset + f;
-            float baseDuration = (float) getBaseDuration();
-            float f19 = (float) this.audioDuration;
-            this.audioOffset = Utilities.clamp(j23, baseDuration - (this.audioRight * f19), (-this.audioLeft) * f19);
+            long j23 = this.audioOffset + ((long) f);
+            float baseDuration = getBaseDuration();
+            float f19 = this.audioDuration;
+            this.audioOffset = Utilities.clamp(j23, (long) (baseDuration - (this.audioRight * f19)), (long) ((-this.audioLeft) * f19));
         }
         invalidate();
         TimelineDelegate timelineDelegate4 = this.delegate;
         if (timelineDelegate4 != null) {
-            timelineDelegate4.onAudioOffsetChange(this.audioOffset + (this.audioLeft * ((float) this.audioDuration)));
+            timelineDelegate4.onAudioOffsetChange(this.audioOffset + ((long) (this.audioLeft * this.audioDuration)));
         }
         boolean z2 = this.dragged;
         if (!z2 && (timelineDelegate3 = this.delegate) != null) {
             timelineDelegate3.onProgressDragChange(true);
             if (this.hasVideo) {
-                j11 = this.audioOffset + (this.audioLeft * ((float) this.audioDuration));
+                j11 = this.audioOffset + ((long) (this.audioLeft * this.audioDuration));
                 float f20 = this.videoRight;
-                f7 = (float) this.videoDuration;
-                j12 = f20 * f7;
+                f7 = this.videoDuration;
+                j12 = (long) (f20 * f7);
                 f8 = this.videoLeft;
             } else if (this.hasRound) {
-                j11 = this.audioOffset + (this.audioLeft * ((float) this.audioDuration));
+                j11 = this.audioOffset + ((long) (this.audioLeft * this.audioDuration));
                 float f21 = this.roundRight;
-                f7 = (float) this.roundDuration;
-                j12 = f21 * f7;
+                f7 = this.roundDuration;
+                j12 = (long) (f21 * f7);
                 f8 = this.roundLeft;
             } else {
                 float f22 = this.audioLeft;
-                j10 = Utilities.clamp(f22 * ((float) r6), this.audioDuration, 0L);
+                long j24 = this.audioDuration;
+                j10 = Utilities.clamp((long) (f22 * j24), j24, 0L);
                 if (this.hasVideo && Math.abs(this.progress - j10) > 400) {
                     this.loopProgressFrom = this.progress;
                     this.loopProgress.set(1.0f, true);
@@ -1349,7 +1356,7 @@ public class TimelineView extends View {
                 timelineDelegate2 = this.delegate;
                 this.progress = j10;
             }
-            j10 = Utilities.clamp(j11, j12, f8 * f7);
+            j10 = Utilities.clamp(j11, j12, (long) (f8 * f7));
             if (this.hasVideo) {
                 this.loopProgressFrom = this.progress;
                 this.loopProgress.set(1.0f, true);
@@ -1361,20 +1368,21 @@ public class TimelineView extends View {
                 return;
             }
             if (this.hasVideo) {
-                j8 = this.audioOffset + (this.audioLeft * ((float) this.audioDuration));
+                j8 = this.audioOffset + ((long) (this.audioLeft * this.audioDuration));
                 float f23 = this.videoRight;
-                f5 = (float) this.videoDuration;
-                j9 = f23 * f5;
+                f5 = this.videoDuration;
+                j9 = (long) (f23 * f5);
                 f6 = this.videoLeft;
             } else if (this.hasRound) {
-                j8 = this.audioOffset + (this.audioLeft * ((float) this.audioDuration));
+                j8 = this.audioOffset + ((long) (this.audioLeft * this.audioDuration));
                 float f24 = this.roundRight;
-                f5 = (float) this.videoDuration;
-                j9 = f24 * f5;
+                f5 = this.videoDuration;
+                j9 = (long) (f24 * f5);
                 f6 = this.roundLeft;
             } else {
                 float f25 = this.audioLeft;
-                clamp = Utilities.clamp(f25 * ((float) r5), this.audioDuration, 0L);
+                long j25 = this.audioDuration;
+                clamp = Utilities.clamp((long) (f25 * j25), j25, 0L);
                 this.progress = clamp;
                 timelineDelegate2 = this.delegate;
                 if (timelineDelegate2 != null) {
@@ -1383,7 +1391,7 @@ public class TimelineView extends View {
                     j10 = this.progress;
                 }
             }
-            clamp = Utilities.clamp(j8, j9, f6 * f5);
+            clamp = Utilities.clamp(j8, j9, (long) (f6 * f5));
             this.progress = clamp;
             timelineDelegate2 = this.delegate;
             if (timelineDelegate2 != null) {
@@ -1394,7 +1402,7 @@ public class TimelineView extends View {
 
     /* JADX WARN: Code restructure failed: missing block: B:47:0x00cf, code lost:
     
-        if (r1 != null) goto L87;
+        if (r1 != null) goto L26;
      */
     /* JADX WARN: Code restructure failed: missing block: B:48:0x0123, code lost:
     
@@ -1403,7 +1411,7 @@ public class TimelineView extends View {
      */
     /* JADX WARN: Code restructure failed: missing block: B:56:0x0121, code lost:
     
-        if (r1 != null) goto L87;
+        if (r1 != null) goto L26;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1419,11 +1427,11 @@ public class TimelineView extends View {
         long clamp2;
         if (!this.hasVideo) {
             long j5 = this.roundOffset;
-            long clamp3 = Utilities.clamp(j5 + f, 0L, -(this.roundDuration - Math.min(getBaseDuration(), 120000L)));
+            long clamp3 = Utilities.clamp(j5 + ((long) f), 0L, -(this.roundDuration - Math.min(getBaseDuration(), 120000L)));
             this.roundOffset = clamp3;
-            float f2 = (float) (clamp3 - j5);
-            this.roundLeft = Utilities.clamp(this.roundLeft - (f2 / ((float) this.roundDuration)), 1.0f, 0.0f);
-            this.roundRight = Utilities.clamp(this.roundRight - (f2 / ((float) this.roundDuration)), 1.0f, 0.0f);
+            float f2 = clamp3 - j5;
+            this.roundLeft = Utilities.clamp(this.roundLeft - (f2 / this.roundDuration), 1.0f, 0.0f);
+            this.roundRight = Utilities.clamp(this.roundRight - (f2 / this.roundDuration), 1.0f, 0.0f);
             TimelineDelegate timelineDelegate3 = this.delegate;
             if (timelineDelegate3 != null) {
                 timelineDelegate3.onAudioLeftChange(this.roundLeft);
@@ -1431,28 +1439,28 @@ public class TimelineView extends View {
             }
         } else if (this.roundSelected) {
             float f3 = this.videoRight;
-            float f4 = (float) this.videoDuration;
+            float f4 = this.videoDuration;
             float f5 = this.roundRight;
-            float f6 = (float) this.roundDuration;
-            long j6 = (f3 * f4) - (f5 * f6);
+            float f6 = this.roundDuration;
+            long j6 = (long) ((f3 * f4) - (f5 * f6));
             float f7 = this.videoLeft;
             float f8 = this.roundLeft;
-            long j7 = (f7 * f4) - (f8 * f6);
+            long j7 = (long) ((f7 * f4) - (f8 * f6));
             float min = Math.min(f5 - f8, ((f3 - f7) * f4) / f6);
             long j8 = this.roundOffset;
-            long j9 = f;
+            long j9 = (long) f;
             long j10 = j8 + j9;
             if (j10 > j6) {
-                float clamp4 = Utilities.clamp((((this.videoRight * ((float) this.videoDuration)) - ((float) j8)) - ((float) j9)) / ((float) this.roundDuration), 1.0f, min);
+                float clamp4 = Utilities.clamp((((this.videoRight * this.videoDuration) - j8) - j9) / this.roundDuration, 1.0f, min);
                 this.roundRight = clamp4;
                 float clamp5 = Utilities.clamp(clamp4 - min, 1.0f, 0.0f);
                 this.roundLeft = clamp5;
                 float f9 = this.videoRight;
-                float f10 = (float) this.videoDuration;
+                float f10 = this.videoDuration;
                 float f11 = this.roundRight;
-                float f12 = (float) this.roundDuration;
-                long j11 = (f9 * f10) - (f11 * f12);
-                long j12 = (this.videoLeft * f10) - (clamp5 * f12);
+                float f12 = this.roundDuration;
+                long j11 = (long) ((f9 * f10) - (f11 * f12));
+                long j12 = (long) ((this.videoLeft * f10) - (clamp5 * f12));
                 if (j11 < j12) {
                     j4 = j12;
                     j3 = j11;
@@ -1463,15 +1471,15 @@ public class TimelineView extends View {
                 this.roundOffset = Utilities.clamp(this.roundOffset + j9, j4, j3);
                 timelineDelegate = this.delegate;
             } else if (j10 < j7) {
-                float clamp6 = Utilities.clamp((((this.videoLeft * ((float) this.videoDuration)) - ((float) j8)) - ((float) j9)) / ((float) this.roundDuration), 1.0f - min, 0.0f);
+                float clamp6 = Utilities.clamp((((this.videoLeft * this.videoDuration) - j8) - j9) / this.roundDuration, 1.0f - min, 0.0f);
                 this.roundLeft = clamp6;
                 float clamp7 = Utilities.clamp(clamp6 + min, 1.0f, 0.0f);
                 this.roundRight = clamp7;
                 float f13 = this.videoRight;
-                float f14 = (float) this.videoDuration;
-                float f15 = (float) this.roundDuration;
-                long j13 = (f13 * f14) - (clamp7 * f15);
-                long j14 = (this.videoLeft * f14) - (this.roundLeft * f15);
+                float f14 = this.videoDuration;
+                float f15 = this.roundDuration;
+                long j13 = (long) ((f13 * f14) - (clamp7 * f15));
+                long j14 = (long) ((this.videoLeft * f14) - (this.roundLeft * f15));
                 if (j13 < j14) {
                     j2 = j13;
                     j = j14;
@@ -1485,27 +1493,28 @@ public class TimelineView extends View {
                 this.roundOffset = j10;
             }
         } else {
-            long j15 = this.roundOffset + f;
-            float baseDuration = (float) getBaseDuration();
-            float f16 = (float) this.roundDuration;
-            this.roundOffset = Utilities.clamp(j15, baseDuration - (this.roundRight * f16), (-this.roundLeft) * f16);
+            long j15 = this.roundOffset + ((long) f);
+            float baseDuration = getBaseDuration();
+            float f16 = this.roundDuration;
+            this.roundOffset = Utilities.clamp(j15, (long) (baseDuration - (this.roundRight * f16)), (long) ((-this.roundLeft) * f16));
         }
         invalidate();
         TimelineDelegate timelineDelegate4 = this.delegate;
         if (timelineDelegate4 != null) {
-            timelineDelegate4.onRoundOffsetChange(this.roundOffset + (this.roundLeft * ((float) this.roundDuration)));
+            timelineDelegate4.onRoundOffsetChange(this.roundOffset + ((long) (this.roundLeft * this.roundDuration)));
         }
         boolean z = this.dragged;
         if (z || (timelineDelegate2 = this.delegate) == null) {
             if (z || this.scrolling) {
                 if (this.hasVideo) {
-                    long j16 = this.roundOffset + (this.roundLeft * ((float) this.roundDuration));
+                    long j16 = this.roundOffset + ((long) (this.roundLeft * this.roundDuration));
                     float f17 = this.videoRight;
-                    float f18 = (float) this.videoDuration;
-                    clamp = Utilities.clamp(j16, f17 * f18, this.videoLeft * f18);
+                    float f18 = this.videoDuration;
+                    clamp = Utilities.clamp(j16, (long) (f17 * f18), (long) (this.videoLeft * f18));
                 } else {
                     float f19 = this.roundLeft;
-                    clamp = Utilities.clamp(f19 * ((float) r5), this.roundDuration, 0L);
+                    long j17 = this.roundDuration;
+                    clamp = Utilities.clamp((long) (f19 * j17), j17, 0L);
                 }
                 this.progress = clamp;
                 TimelineDelegate timelineDelegate5 = this.delegate;
@@ -1519,13 +1528,14 @@ public class TimelineView extends View {
         }
         timelineDelegate2.onProgressDragChange(true);
         if (this.hasVideo) {
-            long j17 = this.roundOffset + (this.roundLeft * ((float) this.roundDuration));
+            long j18 = this.roundOffset + ((long) (this.roundLeft * this.roundDuration));
             float f20 = this.videoRight;
-            float f21 = (float) this.videoDuration;
-            clamp2 = Utilities.clamp(j17, f20 * f21, this.videoLeft * f21);
+            float f21 = this.videoDuration;
+            clamp2 = Utilities.clamp(j18, (long) (f20 * f21), (long) (this.videoLeft * f21));
         } else {
             float f22 = this.roundLeft;
-            clamp2 = Utilities.clamp(f22 * ((float) r7), this.roundDuration, 0L);
+            long j19 = this.roundDuration;
+            clamp2 = Utilities.clamp((long) (f22 * j19), j19, 0L);
         }
         if (this.hasVideo && Math.abs(this.progress - clamp2) > 400) {
             this.loopProgressFrom = this.progress;
@@ -1540,18 +1550,18 @@ public class TimelineView extends View {
         if (!this.hasVideo && !this.hasAudio) {
             return false;
         }
-        float min = (((f - this.px) - this.ph) / this.sw) * ((float) Math.min(getBaseDuration(), 120000L));
+        float min = (((f - this.px) - this.ph) / this.sw) * Math.min(getBaseDuration(), 120000L);
         boolean z2 = this.hasVideo;
-        final long clamp = Utilities.clamp(min + ((float) (!z2 ? -this.audioOffset : 0L)) + ((float) this.scroll), (float) (z2 ? this.videoDuration : this.audioDuration), 0.0f);
+        final long clamp = (long) Utilities.clamp(min + (!z2 ? -this.audioOffset : 0L) + this.scroll, z2 ? this.videoDuration : this.audioDuration, 0.0f);
         boolean z3 = this.hasVideo;
         if (z3) {
-            float f2 = ((float) clamp) / ((float) this.videoDuration);
+            float f2 = clamp / this.videoDuration;
             if (f2 < this.videoLeft || f2 > this.videoRight) {
                 return false;
             }
         }
         if (this.hasAudio && !z3) {
-            float f3 = ((float) clamp) / ((float) this.audioDuration);
+            float f3 = clamp / this.audioDuration;
             if (f3 < this.audioLeft || f3 > this.audioRight) {
                 return false;
             }
@@ -1653,7 +1663,7 @@ public class TimelineView extends View {
         int currX = this.scroller.getCurrX();
         long min = Math.min(getBaseDuration(), 120000L);
         if (this.scrollingVideo) {
-            this.scroll = Math.max(0.0f, (((currX - this.px) - this.ph) / this.sw) * ((float) min));
+            this.scroll = (long) Math.max(0.0f, (((currX - this.px) - this.ph) / this.sw) * min);
         } else {
             if (!this.audioSelected) {
                 this.scroller.abortAnimation();
@@ -1662,7 +1672,7 @@ public class TimelineView extends View {
             int i = this.px;
             int i2 = this.ph;
             float f = this.sw;
-            float f2 = (float) min;
+            float f2 = min;
             moveAudioOffset(((((currX - i) - i2) / f) * f2) - ((((this.wasScrollX - i) - i2) / f) * f2));
         }
         invalidate();
@@ -1730,10 +1740,10 @@ public class TimelineView extends View {
             float videoHeight = getVideoHeight();
             f = f28;
             long j5 = this.videoDuration;
-            float f30 = j5 <= 0 ? 0.0f : (this.px + this.ph) - ((((float) this.scroll) / ((float) min)) * this.sw);
+            float f30 = j5 <= 0 ? 0.0f : (this.px + this.ph) - ((this.scroll / min) * this.sw);
             float f31 = this.ph;
             float f32 = f30 - f31;
-            float f33 = (j5 <= 0 ? 0.0f : ((((float) (j5 - this.scroll)) / ((float) min)) * this.sw) + this.px + r12) + f31;
+            float f33 = (j5 <= 0 ? 0.0f : (((j5 - this.scroll) / min) * this.sw) + this.px + r12) + f31;
             RectF rectF = this.videoBounds;
             float f34 = this.h - this.py;
             rectF.set(f32, f34 - videoHeight, f33, f34);
@@ -1792,9 +1802,9 @@ public class TimelineView extends View {
                 int i7 = this.ph;
                 float f35 = i6 + i7;
                 float f36 = this.videoLeft;
-                float f37 = (float) this.videoDuration;
-                float f38 = (float) this.scroll;
-                float f39 = (float) min;
+                float f37 = this.videoDuration;
+                float f38 = this.scroll;
+                float f39 = min;
                 float f40 = this.sw;
                 float f41 = (((((f36 * f37) - f38) / f39) * f40) + f35) - (f36 <= 0.0f ? i7 : 0);
                 float f42 = this.h - this.py;
@@ -1822,20 +1832,20 @@ public class TimelineView extends View {
         float roundHeight = getRoundHeight() * f46;
         if (f46 > 0.0f) {
             if (this.hasVideo) {
-                float f48 = (float) min;
-                f26 = this.px + this.ph + (((((float) (this.roundOffset - this.scroll)) + (AndroidUtilities.lerp(this.roundLeft, 0.0f, f47) * ((float) this.roundDuration))) / f48) * this.sw);
-                f25 = this.px + this.ph + (((((float) (this.roundOffset - this.scroll)) + (AndroidUtilities.lerp(this.roundRight, 1.0f, f47) * ((float) this.roundDuration))) / f48) * this.sw);
+                float f48 = min;
+                f26 = this.px + this.ph + ((((this.roundOffset - this.scroll) + (AndroidUtilities.lerp(this.roundLeft, 0.0f, f47) * this.roundDuration)) / f48) * this.sw);
+                f25 = this.px + this.ph + ((((this.roundOffset - this.scroll) + (AndroidUtilities.lerp(this.roundRight, 1.0f, f47) * this.roundDuration)) / f48) * this.sw);
                 f3 = f47;
                 f4 = f46;
             } else {
                 float f49 = this.px + this.ph;
                 long j6 = this.roundOffset - this.scroll;
-                float f50 = (float) min;
+                float f50 = min;
                 float f51 = this.sw;
-                float f52 = ((((float) j6) / f50) * f51) + f49;
+                float f52 = ((j6 / f50) * f51) + f49;
                 f3 = f47;
                 f4 = f46;
-                f25 = ((((float) (j6 + this.roundDuration)) / f50) * f51) + f49;
+                f25 = (((j6 + this.roundDuration) / f50) * f51) + f49;
                 f26 = f52;
             }
             float f53 = ((this.h - this.py) - f2) - (dp * f);
@@ -1849,12 +1859,12 @@ public class TimelineView extends View {
             VideoThumbsLoader videoThumbsLoader2 = this.roundThumbs;
             if (videoThumbsLoader2 != null) {
                 long j7 = this.roundDuration;
-                float f55 = j7 <= 0 ? 0.0f : this.px + this.ph + ((((float) (this.roundOffset - this.scroll)) / ((float) min)) * this.sw);
+                float f55 = j7 <= 0 ? 0.0f : this.px + this.ph + (((this.roundOffset - this.scroll) / min) * this.sw);
                 float f56 = this.ph;
                 float f57 = f55 - f56;
-                float f58 = (j7 <= 0 ? 0.0f : ((((float) ((this.roundOffset + j7) - this.scroll)) / ((float) min)) * this.sw) + this.px + r4) + f56;
+                float f58 = (j7 <= 0 ? 0.0f : ((((this.roundOffset + j7) - this.scroll) / min) * this.sw) + this.px + r4) + f56;
                 float frameWidth2 = videoThumbsLoader2.getFrameWidth();
-                int max3 = (int) Math.max(0.0d, Math.floor((f57 - (this.hasVideo ? (this.px + this.ph) + ((((float) (this.roundOffset - this.scroll)) / ((float) min)) * this.sw) : this.px)) / frameWidth2));
+                int max3 = (int) Math.max(0.0d, Math.floor((f57 - (this.hasVideo ? (this.px + this.ph) + (((this.roundOffset - this.scroll) / min) * this.sw) : this.px)) / frameWidth2));
                 int min3 = (int) Math.min(this.roundThumbs.count, Math.ceil((f58 - f57) / frameWidth2) + 1.0d);
                 int i8 = (int) this.roundBounds.top;
                 boolean z4 = this.roundThumbs.frames.size() >= min3;
@@ -1895,10 +1905,10 @@ public class TimelineView extends View {
             int i11 = this.ph;
             float f59 = i10 + i11;
             float f60 = this.roundLeft;
-            float f61 = (float) this.roundDuration;
-            float f62 = (float) this.scroll;
-            float f63 = (float) this.roundOffset;
-            float f64 = (float) min;
+            float f61 = this.roundDuration;
+            float f62 = this.scroll;
+            float f63 = this.roundOffset;
+            float f64 = min;
             paint = paint2;
             float f65 = this.sw;
             float f66 = ((((((f60 * f61) - f62) + f63) / f64) * f65) + f59) - (f60 <= 0.0f ? i11 : 0);
@@ -1928,16 +1938,16 @@ public class TimelineView extends View {
             Paint paint3 = this.audioBlur.getPaint(f71);
             canvas.save();
             if (this.hasVideo || this.hasRound) {
-                float f73 = (float) min;
-                lerp = this.px + this.ph + (((((float) (this.audioOffset - this.scroll)) + (AndroidUtilities.lerp(this.audioLeft, 0.0f, f72) * ((float) this.audioDuration))) / f73) * this.sw);
-                lerp2 = this.px + this.ph + (((((float) (this.audioOffset - this.scroll)) + (AndroidUtilities.lerp(this.audioRight, 1.0f, f72) * ((float) this.audioDuration))) / f73) * this.sw);
+                float f73 = min;
+                lerp = this.px + this.ph + ((((this.audioOffset - this.scroll) + (AndroidUtilities.lerp(this.audioLeft, 0.0f, f72) * this.audioDuration)) / f73) * this.sw);
+                lerp2 = this.px + this.ph + ((((this.audioOffset - this.scroll) + (AndroidUtilities.lerp(this.audioRight, 1.0f, f72) * this.audioDuration)) / f73) * this.sw);
             } else {
                 float f74 = this.px + this.ph;
                 long j8 = this.audioOffset - this.scroll;
-                float f75 = (float) min;
+                float f75 = min;
                 float f76 = this.sw;
-                lerp2 = f74 + ((((float) (j8 + this.audioDuration)) / f75) * f76);
-                lerp = ((((float) j8) / f75) * f76) + f74;
+                lerp2 = f74 + (((j8 + this.audioDuration) / f75) * f76);
+                lerp = ((j8 / f75) * f76) + f74;
             }
             float f77 = ((((this.h - this.py) - f6) - (f5 * f)) - roundHeight) - (f5 * f4);
             RectF rectF6 = this.audioBounds;
@@ -1965,16 +1975,16 @@ public class TimelineView extends View {
                 float f80 = this.waveformMax.set(this.waveform.getMaxBar(), !this.waveformIsLoaded);
                 this.waveformIsLoaded = this.waveform.getLoadedCount() > 0;
                 d2 = 0.0d;
-                this.waveformPath.check(this.px + this.ph + ((((float) (this.audioOffset - this.scroll)) / ((float) min)) * this.sw), lerp, lerp2, f72, this.waveformLoaded.set(this.waveform.getLoadedCount()), min, audioHeight, f80, f77);
+                this.waveformPath.check(this.px + this.ph + (((this.audioOffset - this.scroll) / min) * this.sw), lerp, lerp2, f72, this.waveformLoaded.set(this.waveform.getLoadedCount()), min, audioHeight, f80, f77);
                 canvas.drawPath(this.waveformPath, paint4);
             }
             if (f72 < 1.0f) {
                 int i12 = this.px;
                 float f81 = this.ph + i12;
-                float f82 = (float) (this.audioOffset - this.scroll);
+                float f82 = this.audioOffset - this.scroll;
                 float f83 = this.audioLeft;
-                float f84 = (float) this.audioDuration;
-                float f85 = (float) min;
+                float f84 = this.audioDuration;
+                float f85 = min;
                 float f86 = this.sw;
                 float f87 = ((((f83 * f84) + f82) / f85) * f86) + f81;
                 float f88 = f81 + (((f82 + (this.audioRight * f84)) / f85) * f86);
@@ -2071,22 +2081,22 @@ public class TimelineView extends View {
         float f99 = f98 - (f10 * f13);
         float f100 = ((f99 - audioHeight) * f91) + f11 + (f98 * f92) + (f94 * f29);
         float f101 = (f99 * f91) + f11 + (f97 * f92) + (f93 * f29);
-        float f102 = (float) this.audioOffset;
+        float f102 = this.audioOffset;
         float f103 = this.audioLeft;
-        float f104 = (float) this.audioDuration;
-        float f105 = (float) this.roundOffset;
+        float f104 = this.audioDuration;
+        float f105 = this.roundOffset;
         float f106 = this.roundLeft;
         float f107 = f71;
-        float f108 = (float) this.roundDuration;
+        float f108 = this.roundDuration;
         float f109 = (((f103 * f104) + f102) * f91) + f11 + (((f106 * f108) + f105) * f92);
         float f110 = this.videoLeft;
         float f111 = f13;
-        float f112 = (float) this.videoDuration;
+        float f112 = this.videoDuration;
         float f113 = ((f102 + (this.audioRight * f104)) * f91) + f11 + ((f105 + (this.roundRight * f108)) * f92) + (this.videoRight * f112 * f29);
         float f114 = this.px + this.ph;
-        float f115 = (float) this.scroll;
+        float f115 = this.scroll;
         long j9 = j;
-        float f116 = (float) j9;
+        float f116 = j9;
         float f117 = this.sw;
         float f118 = ((((f109 + ((f110 * f112) * f29)) - f115) / f116) * f117) + f114;
         float f119 = f114 + (((f113 - f115) / f116) * f117);
@@ -2114,8 +2124,8 @@ public class TimelineView extends View {
                 float f121 = this.h - this.py;
                 float f122 = this.ph + this.px;
                 float f123 = this.videoLeft;
-                float f124 = (float) this.videoDuration;
-                float f125 = (float) this.scroll;
+                float f124 = this.videoDuration;
+                float f125 = this.scroll;
                 float f126 = this.sw;
                 drawRegion(canvas, paint, f121 - f6, f121, f122 + ((((f123 * f124) - f125) / f116) * f126), f122 + ((((this.videoRight * f124) - f125) / f116) * f126), 0.8f);
             }
@@ -2126,16 +2136,16 @@ public class TimelineView extends View {
                 long j10 = this.loopProgressFrom;
                 if (j10 == -1) {
                     if (this.hasVideo) {
-                        f19 = (float) this.videoDuration;
+                        f19 = this.videoDuration;
                         f20 = this.videoRight;
                     } else if (this.hasRound) {
-                        f19 = (float) this.roundDuration;
+                        f19 = this.roundDuration;
                         f20 = this.roundRight;
                     } else {
-                        f19 = (float) this.audioDuration;
+                        f19 = this.audioDuration;
                         f20 = this.audioRight;
                     }
-                    j10 = f19 * f20;
+                    j10 = (long) (f19 * f20);
                 }
                 drawProgress(canvas, max6, dpf24, j10, f127 * f107);
             }
@@ -2145,18 +2155,17 @@ public class TimelineView extends View {
             f18 = 0.0f;
         }
         if (this.dragged) {
-            long dp3 = (AndroidUtilities.dp(32.0f) / this.sw) * f116 * (1.0f / (1000.0f / AndroidUtilities.screenRefreshRate));
+            long dp3 = (long) ((AndroidUtilities.dp(32.0f) / this.sw) * f116 * (1.0f / (1000.0f / AndroidUtilities.screenRefreshRate)));
             int i13 = this.pressHandle;
             if (i13 == 4) {
                 float f128 = this.videoLeft;
                 long j11 = this.scroll;
                 long j12 = this.videoDuration;
-                float f129 = (float) j12;
+                float f129 = j12;
                 long j13 = (f128 >= ((float) j11) / f129 ? this.videoRight > ((float) (j11 + j2)) / f129 ? 1 : 0 : -1) * dp3;
-                long clamp2 = Utilities.clamp(j11 + j13, j12 - j2, 0L);
-                this.scroll = clamp2;
+                this.scroll = Utilities.clamp(j11 + j13, j12 - j2, 0L);
                 this.progress += j13;
-                float f130 = ((float) (clamp2 - j11)) / ((float) this.videoDuration);
+                float f130 = (r0 - j11) / this.videoDuration;
                 if (f130 > f18) {
                     f23 = 1.0f;
                     max = Math.min(1.0f - this.videoRight, f130);
@@ -2178,9 +2187,9 @@ public class TimelineView extends View {
                 float f131 = this.audioLeft;
                 long j14 = this.audioOffset;
                 long j15 = -j14;
-                float f132 = (float) (j15 + 100);
+                float f132 = j15 + 100;
                 long j16 = this.audioDuration;
-                float f133 = (float) j16;
+                float f133 = j16;
                 int i14 = f131 >= f132 / f133 ? this.audioRight >= ((float) ((j15 + j2) - 100)) / f133 ? 1 : 0 : -1;
                 if (i14 == 0) {
                     return;
@@ -2188,24 +2197,24 @@ public class TimelineView extends View {
                 if (this.audioSelected && this.hasVideo) {
                     j3 = j14 - (i14 * dp3);
                     float f134 = this.videoRight;
-                    f21 = (float) this.videoDuration;
-                    j4 = (f134 * f21) - (f131 * f133);
+                    f21 = this.videoDuration;
+                    j4 = (long) ((f134 * f21) - (f131 * f133));
                     f22 = this.videoLeft;
                 } else if (this.roundSelected && this.hasRound) {
                     j3 = j14 - (i14 * dp3);
                     float f135 = this.roundRight;
-                    f21 = (float) this.roundDuration;
-                    j4 = (f135 * f21) - (f131 * f133);
+                    f21 = this.roundDuration;
+                    j4 = (long) ((f135 * f21) - (f131 * f133));
                     f22 = this.roundLeft;
                 } else {
                     clamp = Utilities.clamp(j14 - (i14 * dp3), 0L, -(j16 - Math.min(getBaseDuration(), 120000L)));
                     this.audioOffset = clamp;
-                    float f136 = ((float) (-(this.audioOffset - j14))) / ((float) this.audioDuration);
+                    float f136 = (-(this.audioOffset - j14)) / this.audioDuration;
                     float min6 = f136 <= f18 ? Math.min(1.0f - this.audioRight, f136) : Math.max(f18 - this.audioLeft, f136);
                     if (!this.hasVideo) {
-                        float f137 = (float) this.progress;
-                        float f138 = (float) this.audioDuration;
-                        this.progress = Utilities.clamp(f137 + (min6 * f138), f138, f18);
+                        float f137 = this.progress;
+                        float f138 = this.audioDuration;
+                        this.progress = (long) Utilities.clamp(f137 + (min6 * f138), f138, f18);
                     }
                     this.audioLeft = Utilities.clamp(this.audioLeft + min6, 1.0f, f18);
                     this.audioRight = Utilities.clamp(this.audioRight + min6, 1.0f, f18);
@@ -2216,9 +2225,9 @@ public class TimelineView extends View {
                         this.delegate.onProgressChange(this.progress, false);
                     }
                 }
-                clamp = Utilities.clamp(j3, j4, (f22 * f21) - (this.audioRight * f133));
+                clamp = Utilities.clamp(j3, j4, (long) ((f22 * f21) - (this.audioRight * f133)));
                 this.audioOffset = clamp;
-                float f1362 = ((float) (-(this.audioOffset - j14))) / ((float) this.audioDuration);
+                float f1362 = (-(this.audioOffset - j14)) / this.audioDuration;
                 if (f1362 <= f18) {
                 }
                 if (!this.hasVideo) {
@@ -2296,7 +2305,7 @@ public class TimelineView extends View {
 
     /* JADX WARN: Code restructure failed: missing block: B:161:0x03ac, code lost:
     
-        if (r1 != null) goto L660;
+        if (r1 != null) goto L247;
      */
     /* JADX WARN: Code restructure failed: missing block: B:162:0x0572, code lost:
     
@@ -2306,11 +2315,11 @@ public class TimelineView extends View {
      */
     /* JADX WARN: Code restructure failed: missing block: B:224:0x0570, code lost:
     
-        if (r1 != null) goto L660;
+        if (r1 != null) goto L247;
      */
     /* JADX WARN: Code restructure failed: missing block: B:312:0x06ea, code lost:
     
-        if (r1 != null) goto L750;
+        if (r1 != null) goto L337;
      */
     /* JADX WARN: Code restructure failed: missing block: B:313:0x071f, code lost:
     
@@ -2318,11 +2327,11 @@ public class TimelineView extends View {
      */
     /* JADX WARN: Code restructure failed: missing block: B:325:0x070d, code lost:
     
-        if (r1 != null) goto L750;
+        if (r1 != null) goto L337;
      */
     /* JADX WARN: Code restructure failed: missing block: B:331:0x071d, code lost:
     
-        if (r1 != null) goto L750;
+        if (r1 != null) goto L337;
      */
     /* JADX WARN: Removed duplicated region for block: B:347:0x08cc  */
     /* JADX WARN: Removed duplicated region for block: B:350:0x08d6 A[ADDED_TO_REGION] */
@@ -2439,11 +2448,11 @@ public class TimelineView extends View {
                 long min3 = Math.min(getBaseDuration(), 120000L);
                 int i14 = this.pressHandle;
                 if (i14 == 1) {
-                    this.scroll = Utilities.clamp(((float) this.scroll) - ((x / this.sw) * ((float) min3)), (float) (this.videoDuration - min3), 0.0f);
+                    this.scroll = (long) Utilities.clamp(this.scroll - ((x / this.sw) * min3), this.videoDuration - min3, 0.0f);
                     invalidate();
                 } else if (i14 == 2 || i14 == 3 || i14 == 4) {
-                    float f9 = (float) this.videoDuration;
-                    float f10 = (x / this.sw) * (((float) min3) / f9);
+                    float f9 = this.videoDuration;
+                    float f10 = (x / this.sw) * (min3 / f9);
                     if (i14 == 2) {
                         float clamp = Utilities.clamp(this.videoLeft + f10, this.videoRight - (1000.0f / f9), 0.0f);
                         this.videoLeft = clamp;
@@ -2453,10 +2462,9 @@ public class TimelineView extends View {
                         }
                         float f11 = this.videoRight;
                         float f12 = this.videoLeft;
-                        float f13 = f11 - f12;
-                        float f14 = 59000.0f / ((float) this.videoDuration);
-                        if (f13 > f14) {
-                            float min4 = Math.min(1.0f, f12 + f14);
+                        float f13 = 59000.0f / this.videoDuration;
+                        if (f11 - f12 > f13) {
+                            float min4 = Math.min(1.0f, f12 + f13);
                             this.videoRight = min4;
                             TimelineDelegate timelineDelegate6 = this.delegate;
                             if (timelineDelegate6 != null) {
@@ -2470,11 +2478,10 @@ public class TimelineView extends View {
                         if (timelineDelegate7 != null) {
                             timelineDelegate7.onVideoRightChange(clamp2);
                         }
-                        float f15 = this.videoRight;
-                        float f16 = f15 - this.videoLeft;
-                        float f17 = 59000.0f / ((float) this.videoDuration);
-                        if (f16 > f17) {
-                            float max2 = Math.max(0.0f, f15 - f17);
+                        float f14 = this.videoRight;
+                        float f15 = 59000.0f / this.videoDuration;
+                        if (f14 - this.videoLeft > f15) {
+                            float max2 = Math.max(0.0f, f14 - f15);
                             this.videoLeft = max2;
                             TimelineDelegate timelineDelegate8 = this.delegate;
                             if (timelineDelegate8 != null) {
@@ -2483,21 +2490,21 @@ public class TimelineView extends View {
                         }
                     } else if (i14 == 4) {
                         float min5 = f10 > 0.0f ? Math.min(1.0f - this.videoRight, f10) : Math.max(-this.videoLeft, f10);
-                        float f18 = this.videoLeft + min5;
-                        this.videoLeft = f18;
+                        float f16 = this.videoLeft + min5;
+                        this.videoLeft = f16;
                         this.videoRight += min5;
                         TimelineDelegate timelineDelegate9 = this.delegate;
                         if (timelineDelegate9 != null) {
-                            timelineDelegate9.onVideoLeftChange(f18);
+                            timelineDelegate9.onVideoLeftChange(f16);
                             this.delegate.onVideoRightChange(this.videoRight);
                         }
                     }
-                    float f19 = (float) this.progress;
-                    float f20 = (float) this.videoDuration;
-                    float f21 = f19 / f20;
-                    float f22 = this.videoLeft;
-                    if (f21 < f22 || f21 > this.videoRight) {
-                        long j7 = f22 * f20;
+                    float f17 = this.progress;
+                    float f18 = this.videoDuration;
+                    float f19 = f17 / f18;
+                    float f20 = this.videoLeft;
+                    if (f19 < f20 || f19 > this.videoRight) {
+                        long j7 = (long) (f20 * f18);
                         this.progress = j7;
                         TimelineDelegate timelineDelegate10 = this.delegate;
                         if (timelineDelegate10 != null) {
@@ -2516,12 +2523,12 @@ public class TimelineView extends View {
                     this.lastX = motionEvent.getX();
                 } else {
                     if (i14 == 6 || i14 == 7 || i14 == 8) {
-                        float f23 = (x / this.sw) * (((float) min3) / ((float) this.audioDuration));
+                        float f21 = (x / this.sw) * (min3 / this.audioDuration);
                         if (i14 == 6) {
-                            float minAudioSelect = this.audioRight - (((float) minAudioSelect()) / ((float) this.audioDuration));
-                            float max3 = (float) Math.max(0L, this.scroll - this.audioOffset);
-                            float f24 = (float) this.audioDuration;
-                            float f25 = max3 / f24;
+                            float minAudioSelect = this.audioRight - (minAudioSelect() / this.audioDuration);
+                            float max3 = Math.max(0L, this.scroll - this.audioOffset);
+                            float f22 = this.audioDuration;
+                            float f23 = max3 / f22;
                             boolean z6 = this.hasVideo;
                             if (z6 || this.hasRound) {
                                 if (z6) {
@@ -2531,33 +2538,33 @@ public class TimelineView extends View {
                                     f5 = this.roundLeft;
                                     j5 = this.roundDuration;
                                 }
-                                f25 = Math.max(f25, (((f5 * ((float) j5)) + ((float) this.scroll)) - ((float) this.audioOffset)) / f24);
+                                f23 = Math.max(f23, (((f5 * j5) + this.scroll) - this.audioOffset) / f22);
                             } else {
-                                f25 = Math.max(f25, this.audioRight - (59000.0f / f24));
-                                if (!this.hadDragChange && f23 < 0.0f && this.audioLeft <= this.audioRight - (59000.0f / ((float) this.audioDuration))) {
+                                f23 = Math.max(f23, this.audioRight - (59000.0f / f22));
+                                if (!this.hadDragChange && f21 < 0.0f && this.audioLeft <= this.audioRight - (59000.0f / this.audioDuration)) {
                                     this.pressHandle = 8;
                                 }
                             }
-                            float f26 = this.audioLeft;
-                            float clamp3 = Utilities.clamp(f26 + f23, minAudioSelect, f25);
+                            float f24 = this.audioLeft;
+                            float clamp3 = Utilities.clamp(f24 + f21, minAudioSelect, f23);
                             this.audioLeft = clamp3;
-                            if (Math.abs(f26 - clamp3) > 0.01f) {
+                            if (Math.abs(f24 - clamp3) > 0.01f) {
                                 this.hadDragChange = true;
                             }
                             TimelineDelegate timelineDelegate11 = this.delegate;
                             if (timelineDelegate11 != null) {
-                                timelineDelegate11.onAudioOffsetChange(this.audioOffset + (this.audioLeft * ((float) this.audioDuration)));
+                                timelineDelegate11.onAudioOffsetChange(this.audioOffset + ((long) (this.audioLeft * this.audioDuration)));
                             }
                             TimelineDelegate timelineDelegate12 = this.delegate;
                             if (timelineDelegate12 != null) {
                                 timelineDelegate12.onAudioLeftChange(this.audioLeft);
                             }
                         } else if (i14 == 7) {
-                            float min6 = Math.min(1.0f, ((float) Math.max(0L, (this.scroll - this.audioOffset) + min3)) / ((float) this.audioDuration));
-                            float f27 = this.audioLeft;
-                            float minAudioSelect2 = (float) minAudioSelect();
-                            float f28 = (float) this.audioDuration;
-                            float f29 = f27 + (minAudioSelect2 / f28);
+                            float min6 = Math.min(1.0f, Math.max(0L, (this.scroll - this.audioOffset) + min3) / this.audioDuration);
+                            float f25 = this.audioLeft;
+                            float minAudioSelect2 = minAudioSelect();
+                            float f26 = this.audioDuration;
+                            float f27 = f25 + (minAudioSelect2 / f26);
                             boolean z7 = this.hasVideo;
                             if (z7 || this.hasRound) {
                                 if (z7) {
@@ -2567,17 +2574,17 @@ public class TimelineView extends View {
                                     f4 = this.roundRight;
                                     j4 = this.roundDuration;
                                 }
-                                min6 = Math.min(min6, (((f4 * ((float) j4)) + ((float) this.scroll)) - ((float) this.audioOffset)) / f28);
+                                min6 = Math.min(min6, (((f4 * j4) + this.scroll) - this.audioOffset) / f26);
                             } else {
-                                min6 = Math.min(min6, this.audioLeft + (59000.0f / f28));
-                                if (!this.hadDragChange && f23 > 0.0f && this.audioRight >= this.audioLeft + (59000.0f / ((float) this.audioDuration))) {
+                                min6 = Math.min(min6, this.audioLeft + (59000.0f / f26));
+                                if (!this.hadDragChange && f21 > 0.0f && this.audioRight >= this.audioLeft + (59000.0f / this.audioDuration)) {
                                     this.pressHandle = 8;
                                 }
                             }
-                            float f30 = this.audioRight;
-                            float clamp4 = Utilities.clamp(f30 + f23, min6, f29);
+                            float f28 = this.audioRight;
+                            float clamp4 = Utilities.clamp(f28 + f21, min6, f27);
                             this.audioRight = clamp4;
-                            if (Math.abs(f30 - clamp4) > 0.01f) {
+                            if (Math.abs(f28 - clamp4) > 0.01f) {
                                 this.hadDragChange = true;
                             }
                             TimelineDelegate timelineDelegate13 = this.delegate;
@@ -2586,14 +2593,14 @@ public class TimelineView extends View {
                             }
                         }
                         if (this.pressHandle == 8) {
-                            float min7 = f23 > 0.0f ? Math.min(Math.max(0.0f, Math.min(1.0f, ((float) Math.max(0L, (this.scroll - this.audioOffset) + min3)) / ((float) this.audioDuration)) - this.audioRight), f23) : Math.max(Math.min(0.0f, (((float) Math.max(0L, this.scroll - this.audioOffset)) / ((float) this.audioDuration)) - this.audioLeft), f23);
-                            float f31 = this.audioLeft + min7;
-                            this.audioLeft = f31;
+                            float min7 = f21 > 0.0f ? Math.min(Math.max(0.0f, Math.min(1.0f, Math.max(0L, (this.scroll - this.audioOffset) + min3) / this.audioDuration) - this.audioRight), f21) : Math.max(Math.min(0.0f, (Math.max(0L, this.scroll - this.audioOffset) / this.audioDuration) - this.audioLeft), f21);
+                            float f29 = this.audioLeft + min7;
+                            this.audioLeft = f29;
                             this.audioRight += min7;
                             TimelineDelegate timelineDelegate14 = this.delegate;
                             if (timelineDelegate14 != null) {
-                                timelineDelegate14.onAudioLeftChange(f31);
-                                this.delegate.onAudioOffsetChange(this.audioOffset + (this.audioLeft * ((float) this.audioDuration)));
+                                timelineDelegate14.onAudioLeftChange(f29);
+                                this.delegate.onAudioOffsetChange(this.audioOffset + ((long) (this.audioLeft * this.audioDuration)));
                                 this.delegate.onAudioRightChange(this.audioRight);
                             }
                             TimelineDelegate timelineDelegate15 = this.delegate;
@@ -2602,35 +2609,35 @@ public class TimelineView extends View {
                             }
                         }
                         if (!this.hasVideo && !this.hasRound) {
-                            this.progress = this.audioLeft * ((float) this.audioDuration);
+                            this.progress = (long) (this.audioLeft * this.audioDuration);
                             timelineDelegate3 = this.delegate;
                         }
                         z4 = false;
                     } else if (i14 == 10 || i14 == 11 || i14 == 12) {
-                        float f32 = (x / this.sw) * (((float) min3) / ((float) this.roundDuration));
+                        float f30 = (x / this.sw) * (min3 / this.roundDuration);
                         if (i14 == 10) {
-                            float minAudioSelect3 = this.roundRight - (((float) minAudioSelect()) / ((float) this.roundDuration));
+                            float minAudioSelect3 = this.roundRight - (minAudioSelect() / this.roundDuration);
                             j6 = min3;
-                            float max4 = (float) Math.max(0L, this.scroll - this.roundOffset);
-                            float f33 = (float) this.roundDuration;
-                            float f34 = max4 / f33;
+                            float max4 = Math.max(0L, this.scroll - this.roundOffset);
+                            float f31 = this.roundDuration;
+                            float f32 = max4 / f31;
                             if (this.hasVideo) {
-                                max = Math.max(f34, (((this.videoLeft * ((float) this.videoDuration)) + ((float) this.scroll)) - ((float) this.roundOffset)) / f33);
+                                max = Math.max(f32, (((this.videoLeft * this.videoDuration) + this.scroll) - this.roundOffset) / f31);
                             } else {
-                                max = Math.max(f34, this.roundRight - (59000.0f / f33));
-                                if (!this.hadDragChange && f32 < 0.0f && this.roundLeft <= this.roundRight - (59000.0f / ((float) this.roundDuration))) {
+                                max = Math.max(f32, this.roundRight - (59000.0f / f31));
+                                if (!this.hadDragChange && f30 < 0.0f && this.roundLeft <= this.roundRight - (59000.0f / this.roundDuration)) {
                                     this.pressHandle = 8;
                                 }
                             }
-                            float f35 = this.roundLeft;
-                            float clamp5 = Utilities.clamp(f35 + f32, minAudioSelect3, max);
+                            float f33 = this.roundLeft;
+                            float clamp5 = Utilities.clamp(f33 + f30, minAudioSelect3, max);
                             this.roundLeft = clamp5;
-                            if (Math.abs(f35 - clamp5) > 0.01f) {
+                            if (Math.abs(f33 - clamp5) > 0.01f) {
                                 this.hadDragChange = true;
                             }
                             TimelineDelegate timelineDelegate16 = this.delegate;
                             if (timelineDelegate16 != null) {
-                                timelineDelegate16.onRoundOffsetChange(this.roundOffset + (this.roundLeft * ((float) this.roundDuration)));
+                                timelineDelegate16.onRoundOffsetChange(this.roundOffset + ((long) (this.roundLeft * this.roundDuration)));
                             }
                             TimelineDelegate timelineDelegate17 = this.delegate;
                             if (timelineDelegate17 != null) {
@@ -2639,23 +2646,23 @@ public class TimelineView extends View {
                         } else {
                             j6 = min3;
                             if (i14 == 11) {
-                                float min8 = Math.min(1.0f, ((float) Math.max(0L, (this.scroll - this.roundOffset) + j6)) / ((float) this.roundDuration));
-                                float f36 = this.roundLeft;
-                                float minAudioSelect4 = (float) minAudioSelect();
-                                float f37 = (float) this.roundDuration;
-                                float f38 = f36 + (minAudioSelect4 / f37);
+                                float min8 = Math.min(1.0f, Math.max(0L, (this.scroll - this.roundOffset) + j6) / this.roundDuration);
+                                float f34 = this.roundLeft;
+                                float minAudioSelect4 = minAudioSelect();
+                                float f35 = this.roundDuration;
+                                float f36 = f34 + (minAudioSelect4 / f35);
                                 if (this.hasVideo) {
-                                    min2 = Math.min(min8, (((this.videoRight * ((float) this.videoDuration)) + ((float) this.scroll)) - ((float) this.roundOffset)) / f37);
+                                    min2 = Math.min(min8, (((this.videoRight * this.videoDuration) + this.scroll) - this.roundOffset) / f35);
                                 } else {
-                                    min2 = Math.min(min8, this.roundLeft + (59000.0f / f37));
-                                    if (!this.hadDragChange && f32 > 0.0f && this.roundRight >= this.roundLeft + (59000.0f / ((float) this.roundDuration))) {
+                                    min2 = Math.min(min8, this.roundLeft + (59000.0f / f35));
+                                    if (!this.hadDragChange && f30 > 0.0f && this.roundRight >= this.roundLeft + (59000.0f / this.roundDuration)) {
                                         this.pressHandle = 8;
                                     }
                                 }
-                                float f39 = this.roundRight;
-                                float clamp6 = Utilities.clamp(f39 + f32, min2, f38);
+                                float f37 = this.roundRight;
+                                float clamp6 = Utilities.clamp(f37 + f30, min2, f36);
                                 this.roundRight = clamp6;
-                                if (Math.abs(f39 - clamp6) > 0.01f) {
+                                if (Math.abs(f37 - clamp6) > 0.01f) {
                                     this.hadDragChange = true;
                                 }
                                 TimelineDelegate timelineDelegate18 = this.delegate;
@@ -2665,14 +2672,14 @@ public class TimelineView extends View {
                             }
                         }
                         if (this.pressHandle == 12) {
-                            float min9 = f32 > 0.0f ? Math.min(Math.min(1.0f, ((float) Math.max(0L, (this.scroll - this.roundOffset) + j6)) / ((float) this.roundDuration)) - this.roundRight, f32) : Math.max((((float) Math.max(0L, this.scroll - this.roundOffset)) / ((float) this.roundDuration)) - this.roundLeft, f32);
-                            float f40 = this.roundLeft + min9;
-                            this.roundLeft = f40;
+                            float min9 = f30 > 0.0f ? Math.min(Math.min(1.0f, Math.max(0L, (this.scroll - this.roundOffset) + j6) / this.roundDuration) - this.roundRight, f30) : Math.max((Math.max(0L, this.scroll - this.roundOffset) / this.roundDuration) - this.roundLeft, f30);
+                            float f38 = this.roundLeft + min9;
+                            this.roundLeft = f38;
                             this.roundRight += min9;
                             TimelineDelegate timelineDelegate19 = this.delegate;
                             if (timelineDelegate19 != null) {
-                                timelineDelegate19.onRoundLeftChange(f40);
-                                this.delegate.onRoundOffsetChange(this.roundOffset + (this.roundLeft * ((float) this.roundDuration)));
+                                timelineDelegate19.onRoundLeftChange(f38);
+                                this.delegate.onRoundOffsetChange(this.roundOffset + ((long) (this.roundLeft * this.roundDuration)));
                                 this.delegate.onRoundRightChange(this.roundRight);
                             }
                             TimelineDelegate timelineDelegate20 = this.delegate;
@@ -2681,14 +2688,14 @@ public class TimelineView extends View {
                             }
                         }
                         if (!this.hasVideo) {
-                            this.progress = this.roundLeft * ((float) this.roundDuration);
+                            this.progress = (long) (this.roundLeft * this.roundDuration);
                             timelineDelegate3 = this.delegate;
                         }
                         z4 = false;
                     } else if (i14 == 5) {
-                        moveAudioOffset((x / this.sw) * ((float) min3));
+                        moveAudioOffset((x / this.sw) * min3);
                     } else if (i14 == 9) {
-                        moveRoundOffset((x / this.sw) * ((float) min3));
+                        moveRoundOffset((x / this.sw) * min3);
                     } else {
                         if (this.draggingProgress) {
                             setProgressAt(motionEvent.getX(), currentTimeMillis - this.lastTime < 350);
@@ -2727,24 +2734,24 @@ public class TimelineView extends View {
                             xVelocity = (int) this.velocityTracker.getXVelocity();
                             this.scrollingVideo = false;
                             if (Math.abs(xVelocity) > AndroidUtilities.dp(100.0f)) {
-                                min = (float) Math.min(getBaseDuration(), 120000L);
-                                i = (int) (this.px + this.ph + ((((float) this.audioOffset) / min) * this.sw));
+                                min = Math.min(getBaseDuration(), 120000L);
+                                i = (int) (this.px + this.ph + ((this.audioOffset / min) * this.sw));
                                 if (this.hasVideo) {
-                                    float f41 = this.videoRight;
-                                    f = (float) this.videoDuration;
-                                    f3 = f41 * f;
+                                    float f39 = this.videoRight;
+                                    f = this.videoDuration;
+                                    f3 = f39 * f;
                                     j3 = this.audioDuration;
-                                    j2 = f3 - ((float) 0);
+                                    j2 = (long) (f3 - 0);
                                     f2 = this.videoLeft;
-                                    j = (f2 * f) - ((float) j3);
+                                    j = (long) ((f2 * f) - j3);
                                     i2 = xVelocity;
                                 } else if (this.hasRound) {
-                                    float f42 = this.roundRight;
-                                    f = (float) this.roundDuration;
+                                    float f40 = this.roundRight;
+                                    f = this.roundDuration;
                                     j3 = this.audioDuration;
-                                    j2 = (f42 * f) - ((float) 0);
+                                    j2 = (long) ((f40 * f) - 0);
                                     f2 = this.roundLeft;
-                                    j = (f2 * f) - ((float) j3);
+                                    j = (long) ((f2 * f) - j3);
                                     i2 = xVelocity;
                                 } else {
                                     j = -(this.audioDuration - Math.min(getBaseDuration(), 120000L));
@@ -2757,16 +2764,16 @@ public class TimelineView extends View {
                             xVelocity = (int) this.velocityTracker.getXVelocity();
                             this.scrollingVideo = false;
                             if (Math.abs(xVelocity) > AndroidUtilities.dp(100.0f)) {
-                                min = (float) Math.min(getBaseDuration(), 120000L);
-                                i = (int) (this.px + this.ph + ((((float) this.roundOffset) / min) * this.sw));
+                                min = Math.min(getBaseDuration(), 120000L);
+                                i = (int) (this.px + this.ph + ((this.roundOffset / min) * this.sw));
                                 if (this.hasVideo) {
-                                    float f43 = this.videoRight;
-                                    f = (float) this.videoDuration;
-                                    f3 = f43 * f;
+                                    float f41 = this.videoRight;
+                                    f = this.videoDuration;
+                                    f3 = f41 * f;
                                     j3 = this.roundDuration;
-                                    j2 = f3 - ((float) 0);
+                                    j2 = (long) (f3 - 0);
                                     f2 = this.videoLeft;
-                                    j = (f2 * f) - ((float) j3);
+                                    j = (long) ((f2 * f) - j3);
                                     i2 = xVelocity;
                                 } else {
                                     j2 = 0;
@@ -2778,10 +2785,10 @@ public class TimelineView extends View {
                         this.scrolling = true;
                         Scroller scroller2 = this.scroller;
                         this.wasScrollX = i;
-                        float f44 = this.px + this.ph;
-                        float f45 = this.sw;
-                        i3 = (int) (((((float) j) / min) * f45) + f44);
-                        i4 = (int) (f44 + ((((float) j2) / min) * f45));
+                        float f42 = this.px + this.ph;
+                        float f43 = this.sw;
+                        i3 = (int) (((j / min) * f43) + f42);
+                        i4 = (int) (f42 + ((j2 / min) * f43));
                         i5 = 0;
                         i6 = 0;
                         i7 = 0;
@@ -2797,12 +2804,11 @@ public class TimelineView extends View {
                         if (Math.abs(xVelocity2) > AndroidUtilities.dp(100.0f)) {
                             long min10 = Math.min(this.videoDuration, 120000L);
                             i3 = this.px;
-                            float f46 = i3;
-                            float f47 = (float) min10;
-                            float f48 = ((float) this.scroll) / f47;
-                            float f49 = this.sw;
-                            int i17 = (int) ((f48 * f49) + f46);
-                            i4 = (int) (f46 + ((((float) (this.videoDuration - min10)) / f47) * f49));
+                            float f44 = i3;
+                            float f45 = min10;
+                            float f46 = this.sw;
+                            int i17 = (int) (((this.scroll / f45) * f46) + f44);
+                            i4 = (int) (f44 + (((this.videoDuration - min10) / f45) * f46));
                             this.scrolling = true;
                             Scroller scroller3 = this.scroller;
                             this.wasScrollX = i17;
@@ -2839,10 +2845,10 @@ public class TimelineView extends View {
                     }
                 } else {
                     if (this.isCover) {
-                        float f50 = this.videoRight - this.videoLeft;
-                        float x2 = (((motionEvent.getX() - this.px) - this.ph) / this.sw) * (1.0f - f50);
+                        float f47 = this.videoRight - this.videoLeft;
+                        float x2 = (((motionEvent.getX() - this.px) - this.ph) / this.sw) * (1.0f - f47);
                         this.videoLeft = x2;
-                        this.videoRight = f50 + x2;
+                        this.videoRight = f47 + x2;
                         TimelineDelegate timelineDelegate21 = this.delegate;
                         if (timelineDelegate21 != null) {
                             timelineDelegate21.onVideoLeftChange(x2);
@@ -2962,7 +2968,7 @@ public class TimelineView extends View {
         }
         if (this.hasAudio) {
             this.audioDuration = j;
-            this.audioOffset = j2 - (((float) j) * f);
+            this.audioOffset = j2 - ((long) (j * f));
             this.audioLeft = f;
             this.audioRight = f2;
             this.audioVolume = f3;
@@ -3007,15 +3013,15 @@ public class TimelineView extends View {
 
     /* JADX WARN: Code restructure failed: missing block: B:23:0x004a, code lost:
     
-        if (((float) (r4 + 240)) >= (r7 * r9.audioRight)) goto L63;
+        if ((r4 + 240) >= (r7 * r9.audioRight)) goto L30;
      */
     /* JADX WARN: Code restructure failed: missing block: B:32:0x006d, code lost:
     
-        if (((float) (r4 + 240)) >= (r6 * r9.audioRight)) goto L63;
+        if ((r4 + 240) >= (r6 * r9.audioRight)) goto L30;
      */
     /* JADX WARN: Code restructure failed: missing block: B:8:0x0023, code lost:
     
-        if (((float) (r4 + 240)) >= (r7 * r9.videoRight)) goto L63;
+        if ((r4 + 240) >= (r7 * r9.videoRight)) goto L30;
      */
     /* JADX WARN: Code restructure failed: missing block: B:9:0x006f, code lost:
     
@@ -3028,28 +3034,25 @@ public class TimelineView extends View {
     public void setProgress(long j) {
         boolean z = this.hasVideo;
         if (z) {
-            long j2 = this.progress;
-            if (j < j2) {
-                float f = (float) j;
-                float f2 = (float) this.videoDuration;
+            if (j < this.progress) {
+                float f = j;
+                float f2 = this.videoDuration;
                 if (f <= (this.videoLeft * f2) + 240.0f) {
                 }
             }
         }
         if (this.hasAudio && !this.hasRound && !z) {
-            long j3 = this.progress;
-            if (j < j3) {
-                float f3 = (float) j;
-                float f4 = (float) this.audioDuration;
+            if (j < this.progress) {
+                float f3 = j;
+                float f4 = this.audioDuration;
                 if (f3 <= (this.audioLeft * f4) + 240.0f) {
                 }
             }
         }
         if (this.hasRound && !z) {
-            long j4 = this.progress;
-            if (j < j4) {
-                float f5 = (float) j;
-                float f6 = (float) this.roundDuration;
+            if (j < this.progress) {
+                float f5 = j;
+                float f6 = this.roundDuration;
                 if (f5 <= (this.audioLeft * f6) + 240.0f) {
                 }
             }
@@ -3071,7 +3074,7 @@ public class TimelineView extends View {
         if (str != null) {
             this.roundPath = str;
             this.roundDuration = j;
-            this.roundOffset = j2 - (((float) j) * f);
+            this.roundOffset = j2 - ((long) (j * f));
             this.roundLeft = f;
             this.roundRight = f2;
             this.roundVolume = f3;
@@ -3092,7 +3095,7 @@ public class TimelineView extends View {
         }
         if (this.hasAudio && this.hasRound && !this.hasVideo) {
             this.audioLeft = 0.0f;
-            this.audioRight = Utilities.clamp(((float) j) / ((float) this.audioDuration), 1.0f, 0.0f);
+            this.audioRight = Utilities.clamp(j / this.audioDuration, 1.0f, 0.0f);
         }
         if (!z) {
             this.roundSelectedT.set(this.roundSelected, true);

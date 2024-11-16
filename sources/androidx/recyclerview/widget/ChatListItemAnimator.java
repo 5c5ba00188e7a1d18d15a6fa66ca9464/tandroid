@@ -58,9 +58,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
     HashMap groupIdToEnterDelay = new HashMap();
     private final ArrayList toBeSnapped = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class ItemHolderInfoExtended extends RecyclerView.ItemAnimator.ItemHolderInfo {
+    class ItemHolderInfoExtended extends RecyclerView.ItemAnimator.ItemHolderInfo {
         float imageHeight;
         float imageWidth;
         float imageX;
@@ -70,9 +68,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class MoveInfoExtended extends DefaultItemAnimator.MoveInfo {
+    class MoveInfoExtended extends DefaultItemAnimator.MoveInfo {
         public boolean animateBackgroundOnly;
         public boolean animateChangeGroupBackground;
         public boolean animateChangeInternal;
@@ -532,7 +528,7 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
             translationX = view.animate().translationX(0.0f);
         }
         translationX.translationY(0.0f).setDuration(getAddDuration()).start();
-        long max = (1.0f - Math.max(0.0f, Math.min(1.0f, view.getBottom() / this.recyclerListView.getMeasuredHeight()))) * 100.0f;
+        long max = (long) ((1.0f - Math.max(0.0f, Math.min(1.0f, view.getBottom() / this.recyclerListView.getMeasuredHeight()))) * 100.0f);
         if (view instanceof ChatMessageCell) {
             if (viewHolder == this.greetingsSticker) {
                 ChatGreetingsView chatGreetingsView = this.chatGreetingsView;
@@ -1176,9 +1172,8 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.DefaultItemAnimator
-    public void animateMoveImpl(RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo) {
+    protected void animateMoveImpl(RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo) {
         animateMoveImpl(viewHolder, moveInfo, false);
     }
 
@@ -1186,8 +1181,8 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r1v32 android.animation.TimeInterpolator, still in use, count: 2, list:
           (r1v32 android.animation.TimeInterpolator) from 0x0222: IF  (r1v32 android.animation.TimeInterpolator) != (null android.animation.TimeInterpolator)  -> B:12:0x021c A[HIDDEN]
           (r1v32 android.animation.TimeInterpolator) from 0x021c: PHI (r1v37 android.animation.TimeInterpolator) = (r1v32 android.animation.TimeInterpolator) binds: [B:20:0x0222] A[DONT_GENERATE, DONT_INLINE]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:125)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
@@ -1484,9 +1479,8 @@ public abstract class ChatListItemAnimator extends DefaultItemAnimator {
         this.willRemovedGroup.put(Integer.valueOf(groupedMessages.messages.get(0).getId()), groupedMessages);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.DefaultItemAnimator
-    public void onAllAnimationsDone() {
+    protected void onAllAnimationsDone() {
         super.onAllAnimationsDone();
         this.recyclerListView.setClipChildren(true);
         while (!this.runOnAnimationsEnd.isEmpty()) {

@@ -112,8 +112,7 @@ public final class FloatingToolbar {
     };
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public final class FloatingToolbarPopup {
+    final class FloatingToolbarPopup {
         private final Drawable mArrow;
         private final AnimationSet mCloseOverflowAnimation;
         private final ViewGroup mContentContainer;
@@ -174,9 +173,7 @@ public final class FloatingToolbar {
         };
         private int shiftDp = -4;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 14 implements Animation.AnimationListener {
+        class 14 implements Animation.AnimationListener {
             14() {
             }
 
@@ -208,9 +205,7 @@ public final class FloatingToolbar {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 4 extends AnimatorListenerAdapter {
+        class 4 extends AnimatorListenerAdapter {
             final /* synthetic */ FloatingToolbar val$this$0;
 
             4(FloatingToolbar floatingToolbar) {
@@ -234,9 +229,7 @@ public final class FloatingToolbar {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 5 extends AnimatorListenerAdapter {
+        class 5 extends AnimatorListenerAdapter {
             final /* synthetic */ FloatingToolbar val$this$0;
 
             5(FloatingToolbar floatingToolbar) {
@@ -259,7 +252,6 @@ public final class FloatingToolbar {
             }
         }
 
-        /* loaded from: classes4.dex */
         private final class LogAccelerateInterpolator implements Interpolator {
             private final int BASE;
             private final float LOGS_SCALE;
@@ -280,8 +272,7 @@ public final class FloatingToolbar {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public final class OverflowPanel extends ListView {
+        final class OverflowPanel extends ListView {
             private final FloatingToolbarPopup mPopup;
 
             OverflowPanel(FloatingToolbarPopup floatingToolbarPopup) {
@@ -320,9 +311,7 @@ public final class FloatingToolbar {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public final class OverflowPanelViewHelper {
+        private final class OverflowPanelViewHelper {
             private final Context mContext;
             private final int mIconTextSpacing;
             private final int mSidePadding = AndroidUtilities.dp(18.0f);

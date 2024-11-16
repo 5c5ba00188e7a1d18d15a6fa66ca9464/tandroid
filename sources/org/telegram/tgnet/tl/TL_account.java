@@ -7,7 +7,6 @@ import org.telegram.tgnet.TLRPC;
 /* loaded from: classes3.dex */
 public class TL_account {
 
-    /* loaded from: classes3.dex */
     public static class contentSettings extends TLObject {
         public static final int constructor = 1474462241;
         public int flags;
@@ -45,7 +44,6 @@ public class TL_account {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class getContentSettings extends TLObject {
         public static final int constructor = -1952756306;
 
@@ -60,7 +58,6 @@ public class TL_account {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class setContentSettings extends TLObject {
         public static final int constructor = -1250643605;
         public int flags;

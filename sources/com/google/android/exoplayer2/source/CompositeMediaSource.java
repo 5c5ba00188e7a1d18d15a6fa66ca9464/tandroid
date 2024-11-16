@@ -18,7 +18,6 @@ public abstract class CompositeMediaSource extends BaseMediaSource {
     private Handler eventHandler;
     private TransferListener mediaTransferListener;
 
-    /* loaded from: classes.dex */
     private final class ForwardingEventListener implements MediaSourceEventListener, DrmSessionEventListener {
         private DrmSessionEventListener.EventDispatcher drmEventDispatcher;
         private final Object id;
@@ -149,7 +148,6 @@ public abstract class CompositeMediaSource extends BaseMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class MediaSourceAndListener {
         public final MediaSource.MediaSourceCaller caller;
         public final ForwardingEventListener eventListener;
@@ -160,6 +158,9 @@ public abstract class CompositeMediaSource extends BaseMediaSource {
             this.caller = mediaSourceCaller;
             this.eventListener = forwardingEventListener;
         }
+    }
+
+    protected CompositeMediaSource() {
     }
 
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
@@ -198,8 +199,7 @@ public abstract class CompositeMediaSource extends BaseMediaSource {
     /* renamed from: onChildSourceInfoRefreshed, reason: merged with bridge method [inline-methods] */
     public abstract void lambda$prepareChildSource$0(Object obj, MediaSource mediaSource, Timeline timeline);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void prepareChildSource(final Object obj, MediaSource mediaSource) {
+    protected final void prepareChildSource(final Object obj, MediaSource mediaSource) {
         Assertions.checkArgument(!this.childSources.containsKey(obj));
         MediaSource.MediaSourceCaller mediaSourceCaller = new MediaSource.MediaSourceCaller() { // from class: com.google.android.exoplayer2.source.CompositeMediaSource$$ExternalSyntheticLambda0
             @Override // com.google.android.exoplayer2.source.MediaSource.MediaSourceCaller
@@ -218,16 +218,14 @@ public abstract class CompositeMediaSource extends BaseMediaSource {
         mediaSource.disable(mediaSourceCaller);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    public void prepareSourceInternal(TransferListener transferListener) {
+    protected void prepareSourceInternal(TransferListener transferListener) {
         this.mediaTransferListener = transferListener;
         this.eventHandler = Util.createHandlerForCurrentLooper();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.BaseMediaSource
-    public void releaseSourceInternal() {
+    protected void releaseSourceInternal() {
         for (MediaSourceAndListener mediaSourceAndListener : this.childSources.values()) {
             mediaSourceAndListener.mediaSource.releaseSource(mediaSourceAndListener.caller);
             mediaSourceAndListener.mediaSource.removeEventListener(mediaSourceAndListener.eventListener);

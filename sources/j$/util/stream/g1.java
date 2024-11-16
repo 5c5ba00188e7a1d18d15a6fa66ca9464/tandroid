@@ -4,8 +4,7 @@ import java.util.ArrayDeque;
 
 /* loaded from: classes2.dex */
 abstract class g1 extends i1 implements j$.util.N {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public g1(E0 e0) {
+    g1(E0 e0) {
         super(e0);
     }
 
@@ -15,24 +14,25 @@ abstract class g1 extends i1 implements j$.util.N {
         if (this.a == null) {
             return;
         }
-        if (this.d == null) {
-            j$.util.Q q = this.c;
-            if (q != null) {
-                ((j$.util.N) q).e(obj);
+        if (this.d != null) {
+            while (p(obj)) {
+            }
+            return;
+        }
+        j$.util.Q q = this.c;
+        if (q != null) {
+            ((j$.util.N) q).e(obj);
+            return;
+        }
+        ArrayDeque f = f();
+        while (true) {
+            E0 e0 = (E0) i1.b(f);
+            if (e0 == null) {
+                this.a = null;
                 return;
             }
-            ArrayDeque f = f();
-            while (true) {
-                E0 e0 = (E0) i1.b(f);
-                if (e0 == null) {
-                    this.a = null;
-                    return;
-                }
-                e0.g(obj);
-            }
+            e0.g(obj);
         }
-        do {
-        } while (p(obj));
     }
 
     @Override // j$.util.N

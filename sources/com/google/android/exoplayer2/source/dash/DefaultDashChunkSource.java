@@ -51,7 +51,6 @@ public class DefaultDashChunkSource implements DashChunkSource {
     private ExoTrackSelection trackSelection;
     private final int trackType;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements DashChunkSource.Factory {
         private final ChunkExtractor.Factory chunkExtractorFactory;
         private final DataSource.Factory dataSourceFactory;
@@ -81,9 +80,7 @@ public class DefaultDashChunkSource implements DashChunkSource {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public static final class RepresentationHolder {
+    protected static final class RepresentationHolder {
         final ChunkExtractor chunkExtractor;
         private final long periodDurationUs;
         public final Representation representation;
@@ -181,7 +178,6 @@ public class DefaultDashChunkSource implements DashChunkSource {
         }
     }
 
-    /* loaded from: classes.dex */
     protected static final class RepresentationSegmentIterator extends BaseMediaChunkIterator {
         private final long nowPeriodTimeUs;
         private final RepresentationHolder representationHolder;
@@ -412,8 +408,8 @@ public class DefaultDashChunkSource implements DashChunkSource {
           (r3v0 com.google.android.exoplayer2.source.dash.manifest.RangedUri)
           (r3v6 com.google.android.exoplayer2.source.dash.manifest.RangedUri)
          binds: [B:9:0x0014, B:4:0x0011] A[DONT_GENERATE, DONT_INLINE]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:114)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)

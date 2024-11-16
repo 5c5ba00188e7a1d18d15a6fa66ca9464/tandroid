@@ -8,8 +8,7 @@ final class zzo implements Runnable {
     final /* synthetic */ Task zza;
     final /* synthetic */ zzp zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(zzp zzpVar, Task task) {
+    zzo(zzp zzpVar, Task task) {
         this.zzb = zzpVar;
         this.zza = task;
     }

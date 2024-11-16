@@ -7,10 +7,12 @@ final class AutoValue_ClientInfo extends ClientInfo {
     private final AndroidClientInfo androidClientInfo;
     private final ClientInfo.ClientType clientType;
 
-    /* loaded from: classes.dex */
     static final class Builder extends ClientInfo.Builder {
         private AndroidClientInfo androidClientInfo;
         private ClientInfo.ClientType clientType;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.cct.internal.ClientInfo.Builder
         public ClientInfo build() {

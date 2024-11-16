@@ -10,13 +10,11 @@ import java.util.UUID;
 /* loaded from: classes.dex */
 public interface ExoMediaDrm {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$setPlayerIdForSession(ExoMediaDrm exoMediaDrm, byte[] bArr, PlayerId playerId) {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class KeyRequest {
         private final byte[] data;
         private final String licenseServerUrl;
@@ -37,17 +35,14 @@ public interface ExoMediaDrm {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnEventListener {
         void onEvent(ExoMediaDrm exoMediaDrm, byte[] bArr, int i, int i2, byte[] bArr2);
     }
 
-    /* loaded from: classes.dex */
     public interface Provider {
         ExoMediaDrm acquireExoMediaDrm(UUID uuid);
     }
 
-    /* loaded from: classes.dex */
     public static final class ProvisionRequest {
         private final byte[] data;
         private final String defaultUrl;

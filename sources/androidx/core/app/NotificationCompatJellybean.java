@@ -10,9 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class NotificationCompatJellybean {
+abstract class NotificationCompatJellybean {
     private static final Object sExtrasLock = new Object();
     private static final Object sActionsLock = new Object();
 
@@ -31,8 +30,7 @@ public abstract class NotificationCompatJellybean {
         return sparseArray;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Bundle getBundleForAction(NotificationCompat.Action action) {
+    static Bundle getBundleForAction(NotificationCompat.Action action) {
         Bundle bundle = new Bundle();
         IconCompat iconCompat = action.getIconCompat();
         bundle.putInt("icon", iconCompat != null ? iconCompat.getResId() : 0);

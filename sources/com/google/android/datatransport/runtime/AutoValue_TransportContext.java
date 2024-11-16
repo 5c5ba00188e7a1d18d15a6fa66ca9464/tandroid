@@ -10,11 +10,13 @@ final class AutoValue_TransportContext extends TransportContext {
     private final byte[] extras;
     private final Priority priority;
 
-    /* loaded from: classes.dex */
     static final class Builder extends TransportContext.Builder {
         private String backendName;
         private byte[] extras;
         private Priority priority;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.runtime.TransportContext.Builder
         public TransportContext build() {

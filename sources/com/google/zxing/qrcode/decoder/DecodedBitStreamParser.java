@@ -15,7 +15,6 @@ import org.telegram.messenger.NotificationCenter;
 abstract class DecodedBitStreamParser {
     private static final char[] ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".toCharArray();
 
-    /* loaded from: classes.dex */
     static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$com$google$zxing$qrcode$decoder$Mode;
 
@@ -65,10 +64,8 @@ abstract class DecodedBitStreamParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:8:0x0039. Please report as an issue. */
-    public static DecoderResult decode(byte[] bArr, Version version, ErrorCorrectionLevel errorCorrectionLevel, Map map) {
+    static DecoderResult decode(byte[] bArr, Version version, ErrorCorrectionLevel errorCorrectionLevel, Map map) {
         Mode mode;
         BitSource bitSource = new BitSource(bArr);
         StringBuilder sb = new StringBuilder(50);

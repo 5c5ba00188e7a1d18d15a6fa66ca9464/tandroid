@@ -20,9 +20,8 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayDeque;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class TtmlRenderUtil {
+abstract class TtmlRenderUtil {
     public static void applyStylesToSpan(Spannable spannable, int i, int i2, TtmlStyle ttmlStyle, TtmlNode ttmlNode, Map map, int i3) {
         TtmlNode findRubyTextNode;
         Object rubySpan;
@@ -99,13 +98,11 @@ public abstract class TtmlRenderUtil {
         SpanUtil.addOrReplaceSpan(spannable, absoluteSizeSpan, i, i2, 33);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String applyTextElementSpacePolicy(String str) {
+    static String applyTextElementSpacePolicy(String str) {
         return str.replaceAll("\r\n", "\n").replaceAll(" *\n *", "\n").replaceAll("\n", " ").replaceAll("[ \t\\x0B\f\r]+", " ");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void endParagraph(SpannableStringBuilder spannableStringBuilder) {
+    static void endParagraph(SpannableStringBuilder spannableStringBuilder) {
         int length = spannableStringBuilder.length() - 1;
         while (length >= 0 && spannableStringBuilder.charAt(length) == ' ') {
             length--;

@@ -6,8 +6,7 @@ public final class zzrf {
     private final Long zzb;
     private final zzrz zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzrf(zzrd zzrdVar, zzre zzreVar) {
+    /* synthetic */ zzrf(zzrd zzrdVar, zzre zzreVar) {
         zzoa zzoaVar;
         Long l;
         zzrz zzrzVar;

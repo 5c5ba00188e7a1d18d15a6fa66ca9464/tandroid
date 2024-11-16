@@ -8,7 +8,6 @@ public abstract class zzfe {
     private static final zzfd zza;
     private static final int zzb;
 
-    /* loaded from: classes.dex */
     static final class zza extends zzfd {
         zza() {
         }

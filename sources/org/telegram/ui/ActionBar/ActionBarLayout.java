@@ -158,7 +158,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private Window window;
     private boolean withShadow;
 
-    /* loaded from: classes4.dex */
     public class LayoutContainer extends FrameLayout {
         private int backgroundColor;
         private Paint backgroundPaint;
@@ -1127,7 +1126,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     j = 18;
                 }
                 ActionBarLayout.this.lastFrameTime = nanoTime;
-                ActionBarLayout.access$1316(ActionBarLayout.this, ((float) j) / ((z3 && z) ? 190.0f : 150.0f));
+                ActionBarLayout.access$1316(ActionBarLayout.this, j / ((z3 && z) ? 190.0f : 150.0f));
                 if (ActionBarLayout.this.animationProgress > 1.0f) {
                     ActionBarLayout.this.animationProgress = 1.0f;
                 }

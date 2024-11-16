@@ -101,7 +101,6 @@ public class StarsController {
     public final ArrayList birthdaySortedGifts = new ArrayList();
     public final LongSparseArray giftLists = new LongSparseArray();
 
-    /* loaded from: classes4.dex */
     public class GiftsList {
         public final long dialogId;
         public boolean endReached;
@@ -185,7 +184,6 @@ public class StarsController {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class MessageId {
         public long did;
         public int mid;
@@ -220,7 +218,6 @@ public class StarsController {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class PendingPaidReactions {
         public long amount;
         public boolean applied;
@@ -3184,12 +3181,13 @@ public class StarsController {
 
     public Runnable getStarGift(final long j, final Utilities.Callback callback) {
         final boolean[] zArr = {false};
-        final NotificationCenter.NotificationCenterDelegate[] notificationCenterDelegateArr = {new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda39
+        final NotificationCenter.NotificationCenterDelegate[] notificationCenterDelegateArr = new NotificationCenter.NotificationCenterDelegate[1];
+        notificationCenterDelegateArr[0] = new NotificationCenter.NotificationCenterDelegate() { // from class: org.telegram.ui.Stars.StarsController$$ExternalSyntheticLambda39
             @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
             public final void didReceivedNotification(int i, int i2, Object[] objArr) {
                 StarsController.this.lambda$getStarGift$106(zArr, j, notificationCenterDelegateArr, callback, i, i2, objArr);
             }
-        }};
+        };
         NotificationCenter notificationCenter = NotificationCenter.getInstance(this.currentAccount);
         NotificationCenter.NotificationCenterDelegate notificationCenterDelegate = notificationCenterDelegateArr[0];
         int i = NotificationCenter.starGiftsLoaded;

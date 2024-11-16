@@ -26,10 +26,8 @@ public class AutoDeletePopupWrapper {
     public TextView textView;
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
-    /* loaded from: classes3.dex */
     public interface Callback {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$showGlobalAutoDeleteScreen(Callback callback) {
             }
@@ -120,29 +118,35 @@ public class AutoDeletePopupWrapper {
         this.lastDismissTime = System.currentTimeMillis();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$allowExtendedHint$8() {
         this.callback.showGlobalAutoDeleteScreen();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(86400, 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(604800, 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(2678400, 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$new$4(Callback callback, boolean z, int i) {
         callback.setAutoDeleteHistory(i * 60, i == 0 ? 71 : 70);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(Context context, int i, Theme.ResourcesProvider resourcesProvider, final Callback callback, View view) {
         dismiss();
         AlertsCreator.createAutoDeleteDatePickerDialog(context, i, resourcesProvider, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Components.AutoDeletePopupWrapper$$ExternalSyntheticLambda8
@@ -153,6 +157,7 @@ public class AutoDeletePopupWrapper {
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$6(Callback callback, View view) {
         dismiss();
         callback.setAutoDeleteHistory(0, 71);
@@ -174,7 +179,7 @@ public class AutoDeletePopupWrapper {
         this.textView.setText(spannableStringBuilder);
     }
 
-    /* renamed from: updateItems */
+    /* renamed from: updateItems, reason: merged with bridge method [inline-methods] */
     public void lambda$updateItems$7(final int i) {
         ActionBarMenuSubItem actionBarMenuSubItem;
         int i2;

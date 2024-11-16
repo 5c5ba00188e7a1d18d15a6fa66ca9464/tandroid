@@ -4,6 +4,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class zzad extends AbstractCollection {
@@ -13,8 +14,7 @@ abstract class zzad extends AbstractCollection {
     final Collection zzd;
     final /* synthetic */ zzag zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzad(zzag zzagVar, Object obj, Collection collection, zzad zzadVar) {
+    zzad(zzag zzagVar, Object obj, Collection collection, zzad zzadVar) {
         this.zze = zzagVar;
         this.zza = obj;
         this.zzb = collection;
@@ -149,40 +149,42 @@ abstract class zzad extends AbstractCollection {
         return this.zzb.toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza() {
+    final void zza() {
+        Map map;
         zzad zzadVar = this.zzc;
         if (zzadVar != null) {
             zzadVar.zza();
         } else {
-            zzag.zzj(this.zze).put(this.zza, this.zzb);
+            map = this.zze.zza;
+            map.put(this.zza, this.zzb);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzb() {
-        Collection collection;
+    final void zzb() {
+        Map map;
         zzad zzadVar = this.zzc;
         if (zzadVar != null) {
             zzadVar.zzb();
             if (this.zzc.zzb != this.zzd) {
                 throw new ConcurrentModificationException();
             }
-        } else {
-            if (!this.zzb.isEmpty() || (collection = (Collection) zzag.zzj(this.zze).get(this.zza)) == null) {
-                return;
+        } else if (this.zzb.isEmpty()) {
+            map = this.zze.zza;
+            Collection collection = (Collection) map.get(this.zza);
+            if (collection != null) {
+                this.zzb = collection;
             }
-            this.zzb = collection;
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzc() {
+    final void zzc() {
+        Map map;
         zzad zzadVar = this.zzc;
         if (zzadVar != null) {
             zzadVar.zzc();
         } else if (this.zzb.isEmpty()) {
-            zzag.zzj(this.zze).remove(this.zza);
+            map = this.zze.zza;
+            map.remove(this.zza);
         }
     }
 }

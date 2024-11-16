@@ -31,7 +31,6 @@ public final class SlowMotionData implements Metadata.Entry {
     };
     public final List segments;
 
-    /* loaded from: classes.dex */
     public static final class Segment implements Parcelable {
         public static final Comparator BY_START_THEN_END_THEN_DIVISOR = new Comparator() { // from class: com.google.android.exoplayer2.metadata.mp4.SlowMotionData$Segment$$ExternalSyntheticLambda0
             @Override // java.util.Comparator

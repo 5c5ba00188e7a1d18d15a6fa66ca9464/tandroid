@@ -48,9 +48,8 @@ public class BoostPagerBottomSheet extends BottomSheet {
             private final Paint backgroundPaint = new Paint(1);
             private final boolean isTablet = AndroidUtilities.isTablet();
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public boolean canScroll(MotionEvent motionEvent) {
+            protected boolean canScroll(MotionEvent motionEvent) {
                 return BoostPagerBottomSheet.this.viewPager.getCurrentPosition() == 1;
             }
 
@@ -103,9 +102,8 @@ public class BoostPagerBottomSheet extends BottomSheet {
                 canvas.restore();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public float getAvailableTranslationX() {
+            protected float getAvailableTranslationX() {
                 return (this.isTablet || BoostPagerBottomSheet.this.isLandscapeOrientation) ? getMeasuredWidth() : super.getAvailableTranslationX();
             }
 
@@ -127,9 +125,8 @@ public class BoostPagerBottomSheet extends BottomSheet {
                 BoostPagerBottomSheet.this.viewPager.invalidate();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z3) {
+            protected void onTabAnimationUpdate(boolean z3) {
                 float positionAnimated = BoostPagerBottomSheet.this.viewPager.getPositionAnimated();
                 if (positionAnimated <= 0.0f || positionAnimated >= 1.0f) {
                     this.isScrolling = false;
@@ -305,9 +302,8 @@ public class BoostPagerBottomSheet extends BottomSheet {
         instance = boostPagerBottomSheet;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

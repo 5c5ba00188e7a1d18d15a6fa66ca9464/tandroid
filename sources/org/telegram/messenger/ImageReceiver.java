@@ -170,7 +170,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     private boolean useSharedAnimationQueue;
     private boolean videoThumbIsSame;
 
-    /* loaded from: classes3.dex */
     public static class BackgroundThreadDrawHolder {
         private AnimatedFileDrawable animation;
         public boolean animationNotReady;
@@ -253,7 +252,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class BitmapHolder {
         public Bitmap bitmap;
         public Drawable drawable;
@@ -338,7 +336,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class Decorator {
         public void onAttachedToWindow(ImageReceiver imageReceiver) {
         }
@@ -349,10 +346,8 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         protected abstract void onDraw(Canvas canvas, ImageReceiver imageReceiver);
     }
 
-    /* loaded from: classes3.dex */
     public interface ImageReceiverDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$didSetImageBitmap(ImageReceiverDelegate imageReceiverDelegate, int i, String str, Drawable drawable) {
             }
@@ -368,7 +363,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         void onAnimationReady(ImageReceiver imageReceiver);
     }
 
-    /* loaded from: classes3.dex */
     public static class ReactionLastFrame extends BitmapDrawable {
         public static final float LAST_FRAME_SCALE = 1.2f;
 
@@ -377,9 +371,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SetImageBackup {
+    private static class SetImageBackup {
         public int cacheType;
         public String ext;
         public String imageFilter;
@@ -475,7 +467,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                     if (j2 > 30 && AndroidUtilities.screenRefreshRate > 60.0f) {
                         j2 = 30;
                     }
-                    this.currentAlpha += ((float) j2) / this.crossfadeDuration;
+                    this.currentAlpha += j2 / this.crossfadeDuration;
                 } else {
                     this.currentAlpha = f + (16.0f / this.crossfadeDuration);
                 }
@@ -2398,8 +2390,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         return this.strippedLocation;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getTag(int i) {
+    protected int getTag(int i) {
         return i == 1 ? this.thumbTag : i == 3 ? this.mediaTag : this.imageTag;
     }
 
@@ -3626,7 +3617,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:113:0x00eb, code lost:
     
         if (r7.staticThumbDrawable == null) goto L176;
@@ -3654,7 +3644,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+    protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
         Drawable drawable2;
         Drawable drawable3;
         boolean z2;
@@ -4062,8 +4052,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if (this.useRoundRadius != z) {
             this.useRoundRadius = z;
             if (!z && this.emptyRoundRadius == null) {
-                this.emptyRoundRadius = r3;
-                int[] iArr = {0, 0, 0, 0};
+                this.emptyRoundRadius = new int[]{0, 0, 0, 0};
             }
             Drawable drawable = this.currentImageDrawable;
             if (drawable != null && this.imageShader == null) {
@@ -4100,8 +4089,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         this.strippedLocation = imageLocation;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setTag(int i, int i2) {
+    protected void setTag(int i, int i2) {
         if (i2 == 1) {
             this.thumbTag = i;
         } else if (i2 == 3) {

@@ -5,7 +5,6 @@ import android.os.Looper;
 /* loaded from: classes.dex */
 public interface HandlerWrapper {
 
-    /* loaded from: classes.dex */
     public interface Message {
         void sendToTarget();
     }

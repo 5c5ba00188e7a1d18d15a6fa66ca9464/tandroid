@@ -41,9 +41,7 @@ public class ShapeDetector {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Point {
+    private static class Point {
         public double x;
         public double y;
 
@@ -65,9 +63,7 @@ public class ShapeDetector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class RectD {
+    private static class RectD {
         public double bottom;
         public double left;
         public double right;
@@ -100,9 +96,7 @@ public class ShapeDetector {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Template {
+    private static class Template {
         public ArrayList points;
         public int score;
         public int shapeType;

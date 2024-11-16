@@ -22,9 +22,7 @@ public final class ClippingMediaSource extends WrappingMediaSource {
     private final long startUs;
     private final Timeline.Window window;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ClippingTimeline extends ForwardingTimeline {
+    private static final class ClippingTimeline extends ForwardingTimeline {
         private final long durationUs;
         private final long endUs;
         private final boolean isDynamic;
@@ -97,7 +95,6 @@ public final class ClippingMediaSource extends WrappingMediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class IllegalClippingException extends IOException {
         public final int reason;
 
@@ -195,9 +192,8 @@ public final class ClippingMediaSource extends WrappingMediaSource {
         refreshClippedTimeline(((ClippingTimeline) Assertions.checkNotNull(this.clippingTimeline)).timeline);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource, com.google.android.exoplayer2.source.BaseMediaSource
-    public void releaseSourceInternal() {
+    protected void releaseSourceInternal() {
         super.releaseSourceInternal();
         this.clippingError = null;
         this.clippingTimeline = null;

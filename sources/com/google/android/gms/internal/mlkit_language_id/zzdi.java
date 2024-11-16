@@ -9,6 +9,9 @@ import java.util.RandomAccess;
 abstract class zzdi extends AbstractList implements zzew {
     private boolean zza = true;
 
+    zzdi() {
+    }
+
     @Override // java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
     public boolean add(Object obj) {
         zzc();
@@ -95,8 +98,7 @@ abstract class zzdi extends AbstractList implements zzew {
         return this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzc() {
+    protected final void zzc() {
         if (!this.zza) {
             throw new UnsupportedOperationException();
         }

@@ -63,9 +63,7 @@ public class AvatarsDrawable {
     public Interpolator transitionInterpolator = CubicBezierInterpolator.DEFAULT;
     Random random = new Random();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class DrawingState {
+    private static class DrawingState {
         private int animationType;
         private AvatarDrawable avatarDrawable;
         private long id;

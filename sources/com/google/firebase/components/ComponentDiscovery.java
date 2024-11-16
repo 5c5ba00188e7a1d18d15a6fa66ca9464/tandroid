@@ -17,7 +17,6 @@ public final class ComponentDiscovery {
     private final Object context;
     private final RegistrarNameRetriever retriever;
 
-    /* loaded from: classes.dex */
     private static class MetadataRegistrarNameRetriever implements RegistrarNameRetriever {
         private final Class discoveryService;
 
@@ -61,7 +60,6 @@ public final class ComponentDiscovery {
         }
     }
 
-    /* loaded from: classes.dex */
     interface RegistrarNameRetriever {
         List retrieve(Object obj);
     }

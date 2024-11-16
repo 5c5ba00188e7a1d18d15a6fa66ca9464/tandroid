@@ -28,7 +28,6 @@ public class NumberTextView extends View {
     private TextPaint textPaint;
     private float textWidth;
 
-    /* loaded from: classes3.dex */
     public interface OnTextWidthProgressChangedListener {
     }
 

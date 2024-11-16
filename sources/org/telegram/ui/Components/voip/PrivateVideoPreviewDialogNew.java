@@ -82,9 +82,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     private FrameLayout viewPager;
     private int visibleCameraPage;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends GestureDetector.SimpleOnGestureListener {
+    class 1 extends GestureDetector.SimpleOnGestureListener {
         private boolean lockDragging;
         private boolean startDragging;
 
@@ -780,8 +778,8 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             this.titlesLayout.setScaleX(1.0f);
             this.titlesLayout.animate().alpha(0.0f).scaleX(0.8f).scaleY(0.8f).setDuration(250L).start();
             float f = 320;
-            this.positiveButton.animate().translationY(AndroidUtilities.dp(53.0f)).translationX((this.startLocationX - (AndroidUtilities.displaySize.x / 2.0f)) + AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(26.0f)).setDuration(0.6f * f).start();
-            startDelay = animate().alpha(0.0f).setDuration(0.25f * f).setStartDelay(f * 0.75f);
+            this.positiveButton.animate().translationY(AndroidUtilities.dp(53.0f)).translationX((this.startLocationX - (AndroidUtilities.displaySize.x / 2.0f)) + AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(26.0f)).setDuration((long) (0.6f * f)).start();
+            startDelay = animate().alpha(0.0f).setDuration((long) (0.25f * f)).setStartDelay((long) (f * 0.75f));
         }
         startDelay.start();
         invalidate();

@@ -59,7 +59,6 @@ public class LinkSpanDrawable {
     private final float rippleAlpha;
     private final float selectionAlpha;
 
-    /* loaded from: classes3.dex */
     public static class ClickableSmallTextView extends SimpleTextView {
         private Paint linkBackgroundPaint;
         private LinkCollector links;
@@ -90,9 +89,8 @@ public class LinkSpanDrawable {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             if (isClickable()) {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getPaddingLeft() + getTextWidth() + getPaddingRight(), getHeight());
@@ -145,7 +143,6 @@ public class LinkSpanDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LinkCollector {
         private Runnable additionalInvalidate;
         private ArrayList mLinks = new ArrayList();
@@ -452,7 +449,6 @@ public class LinkSpanDrawable {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class LinksTextView extends TextView {
         private CharacterStyle currentLinkLoading;
         private boolean disablePaddingsOffset;
@@ -468,7 +464,6 @@ public class LinkSpanDrawable {
         private Theme.ResourcesProvider resourcesProvider;
         AnimatedEmojiSpan.EmojiGroupedSpans stack;
 
-        /* loaded from: classes3.dex */
         public interface OnLinkPress {
             void run(ClickableSpan clickableSpan);
         }
@@ -548,16 +543,14 @@ public class LinkSpanDrawable {
             this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.view.View
-        public void onDetachedFromWindow() {
+        protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             AnimatedEmojiSpan.release(this, this.stack);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Can't wrap try/catch for region: R(14:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|(4:21|22|(1:57)(1:25)|26)|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
-        /* JADX WARN: Can't wrap try/catch for region: R(17:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:57)(1:25)|26|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
+        /* JADX WARN: Can't wrap try/catch for region: R(15:0|1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|(4:21|22|(1:57)(1:25)|26)|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
+        /* JADX WARN: Can't wrap try/catch for region: R(18:0|1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:57)(1:25)|26|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
         /* JADX WARN: Code restructure failed: missing block: B:43:0x00ad, code lost:
         
             r0 = e;
@@ -595,7 +588,7 @@ public class LinkSpanDrawable {
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             boolean z;
             Layout layout;
             float paddingTop;
@@ -642,9 +635,8 @@ public class LinkSpanDrawable {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.widget.TextView, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, i2);
             this.stack = AnimatedEmojiSpan.update(emojiCacheType(), this, this.stack, getLayout());
         }
@@ -776,8 +768,9 @@ public class LinkSpanDrawable {
         this.mTouchX = f;
         this.mTouchY = f2;
         long tapTimeout = ViewConfiguration.getTapTimeout();
-        this.mLongPressDuration = ViewConfiguration.getLongPressTimeout();
-        this.mDuration = Math.min(((float) tapTimeout) * 1.8f, ((float) r5) * 0.8f);
+        long longPressTimeout = ViewConfiguration.getLongPressTimeout();
+        this.mLongPressDuration = longPressTimeout;
+        this.mDuration = (long) Math.min(tapTimeout * 1.8f, longPressTimeout * 0.8f);
         this.mSupportsLongPress = false;
     }
 
@@ -844,14 +837,13 @@ public class LinkSpanDrawable {
         if (this.mStart < 0) {
             this.mStart = elapsedRealtime;
         }
-        float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(Math.min(1.0f, ((float) (elapsedRealtime - this.mStart)) / ((float) this.mDuration)));
-        long j = this.mReleaseStart;
-        float min = j < 0 ? 0.0f : Math.min(1.0f, Math.max(0.0f, ((float) ((elapsedRealtime - 75) - j)) / 100.0f));
+        float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(Math.min(1.0f, (elapsedRealtime - this.mStart) / this.mDuration));
+        float min = this.mReleaseStart < 0 ? 0.0f : Math.min(1.0f, Math.max(0.0f, ((elapsedRealtime - 75) - r12) / 100.0f));
         if (this.mSupportsLongPress) {
-            long j2 = elapsedRealtime - this.mStart;
-            long j3 = this.mDuration * 2;
-            float max = Math.max(0.0f, ((float) (j2 - j3)) / ((float) (this.mLongPressDuration - j3)));
-            f = (max > 1.0f ? 1.0f - (((float) ((elapsedRealtime - this.mStart) - this.mLongPressDuration)) / ((float) this.mDuration)) : max * 0.5f) * (1.0f - min);
+            long j = elapsedRealtime - this.mStart;
+            long j2 = this.mDuration * 2;
+            float max = Math.max(0.0f, (j - j2) / (this.mLongPressDuration - j2));
+            f = (max > 1.0f ? 1.0f - (((elapsedRealtime - this.mStart) - this.mLongPressDuration) / this.mDuration) : max * 0.5f) * (1.0f - min);
         } else {
             f = 1.0f;
         }

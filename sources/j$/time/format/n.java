@@ -2,16 +2,14 @@ package j$.time.format;
 
 import java.util.Locale;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class n implements g {
+final class n implements g {
     private final j$.time.temporal.l a;
     private final TextStyle b;
     private final v c;
     private volatile j d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public n(j$.time.temporal.a aVar, TextStyle textStyle, v vVar) {
+    n(j$.time.temporal.a aVar, TextStyle textStyle, v vVar) {
         this.a = aVar;
         this.b = textStyle;
         this.c = vVar;

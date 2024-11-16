@@ -70,16 +70,16 @@ public class ChartHorizontalLinesData {
                         long j6 = max;
                         this.valuesStr[i6] = format(0, textPaint, j5, i);
                         if (f > 0.0f) {
-                            float f3 = ((float) this.values[i6]) / f;
+                            float f3 = this.values[i6] / f;
                             if (z2) {
-                                long j7 = f3;
-                                if (f3 - ((float) j7) < 0.01f || i == 1 || i == 2) {
+                                long j7 = (long) f3;
+                                if (f3 - j7 < 0.01f || i == 1 || i == 2) {
                                     this.valuesStr2[i6] = format(1, textPaint2, j7, i);
                                 } else {
                                     this.valuesStr2[i6] = "";
                                 }
                             } else {
-                                this.valuesStr2[i6] = format(1, textPaint2, f3, i);
+                                this.valuesStr2[i6] = format(1, textPaint2, (long) f3, i);
                             }
                         }
                         i6++;
@@ -117,7 +117,7 @@ public class ChartHorizontalLinesData {
                     i2 = (int) (j9 + (j8 % 2) + 1);
                     f2 = 2.0f;
                 } else {
-                    float f4 = ((float) j8) / 5.0f;
+                    float f4 = j8 / 5.0f;
                     if (f4 > 0.0f) {
                         j3 = j2;
                         f2 = f4;
@@ -134,22 +134,22 @@ public class ChartHorizontalLinesData {
                 boolean z3 = f2 / f >= 1.0f;
                 i3 = 0;
                 while (i3 < i2) {
-                    long j10 = j3 + (i3 * f2);
+                    long j10 = j3 + ((long) (i3 * f2));
                     this.values[i3] = j10;
                     int i7 = i3;
                     this.valuesStr[i7] = format(0, textPaint, j10, i);
                     if (f > 0.0f) {
-                        float f5 = ((float) this.values[i7]) / f;
+                        float f5 = this.values[i7] / f;
                         if (z3) {
-                            long j11 = f5;
-                            if (f5 - ((float) j11) >= 0.01f && i != 1) {
+                            long j11 = (long) f5;
+                            if (f5 - j11 >= 0.01f && i != 1) {
                                 if (i != 2) {
                                     this.valuesStr2[i7] = "";
                                 }
                             }
                             this.valuesStr2[i7] = format(1, textPaint2, j11, i);
                         } else {
-                            this.valuesStr2[i7] = format(1, textPaint2, f5, i);
+                            this.valuesStr2[i7] = format(1, textPaint2, (long) f5, i);
                         }
                     }
                     i3 = i7 + 1;
@@ -175,7 +175,7 @@ public class ChartHorizontalLinesData {
         if (j > 100) {
             j = round(j);
         }
-        return ((long) Math.ceil(((float) j) / 5.0f)) * 5;
+        return ((long) Math.ceil(j / 5.0f)) * 5;
     }
 
     private static long round(long j) {

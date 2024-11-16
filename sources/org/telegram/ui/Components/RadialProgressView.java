@@ -90,7 +90,7 @@ public class RadialProgressView extends View {
     private void updateAnimation(long j) {
         float f;
         float interpolation;
-        this.radOffset = (this.radOffset + (((float) (360 * j)) / 2000.0f)) - (((int) (r0 / 360.0f)) * 360);
+        this.radOffset = (this.radOffset + ((360 * j) / 2000.0f)) - (((int) (r0 / 360.0f)) * 360);
         boolean z = this.toCircle;
         if (z) {
             float f2 = this.toCircleProgress;
@@ -118,7 +118,7 @@ public class RadialProgressView extends View {
                     }
                     this.currentCircleLength = Math.max(4.0f, this.animatedProgress * 360.0f);
                 } else if (this.toCircleProgress == 0.0f) {
-                    float f8 = this.currentProgressTime + ((float) j);
+                    float f8 = this.currentProgressTime + j;
                     this.currentProgressTime = f8;
                     if (f8 >= 500.0f) {
                         this.currentProgressTime = 500.0f;
@@ -179,9 +179,8 @@ public class RadialProgressView extends View {
         return Math.abs(this.drawingCircleLenght) >= 360.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         this.cicleRect.set((getMeasuredWidth() - this.size) / 2, (getMeasuredHeight() - this.size) / 2, r0 + r2, r1 + r2);
         RectF rectF = this.cicleRect;
         float f = this.radOffset;

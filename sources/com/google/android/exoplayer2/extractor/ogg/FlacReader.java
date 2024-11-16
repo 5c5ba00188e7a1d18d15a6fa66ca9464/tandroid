@@ -17,7 +17,6 @@ final class FlacReader extends StreamReader {
     private FlacOggSeeker flacOggSeeker;
     private FlacStreamMetadata streamMetadata;
 
-    /* loaded from: classes.dex */
     private static final class FlacOggSeeker implements OggSeeker {
         private long firstFrameOffset = -1;
         private long pendingSeekGranule = -1;
@@ -55,6 +54,9 @@ final class FlacReader extends StreamReader {
             long[] jArr = this.seekTable.pointSampleNumbers;
             this.pendingSeekGranule = jArr[Util.binarySearchFloor(jArr, j, true, true)];
         }
+    }
+
+    FlacReader() {
     }
 
     private int getFlacFrameBlockSize(ParsableByteArray parsableByteArray) {
@@ -113,9 +115,8 @@ final class FlacReader extends StreamReader {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    public void reset(boolean z) {
+    protected void reset(boolean z) {
         super.reset(z);
         if (z) {
             this.streamMetadata = null;

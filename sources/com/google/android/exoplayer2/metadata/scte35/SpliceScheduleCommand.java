@@ -22,7 +22,6 @@ public final class SpliceScheduleCommand extends SpliceCommand {
     };
     public final List events;
 
-    /* loaded from: classes.dex */
     public static final class ComponentSplice {
         public final int componentTag;
         public final long utcSpliceTime;
@@ -44,7 +43,6 @@ public final class SpliceScheduleCommand extends SpliceCommand {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Event {
         public final boolean autoReturn;
         public final int availNum;
@@ -195,8 +193,7 @@ public final class SpliceScheduleCommand extends SpliceCommand {
         this.events = Collections.unmodifiableList(list);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static SpliceScheduleCommand parseFromSection(ParsableByteArray parsableByteArray) {
+    static SpliceScheduleCommand parseFromSection(ParsableByteArray parsableByteArray) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte();
         ArrayList arrayList = new ArrayList(readUnsignedByte);
         for (int i = 0; i < readUnsignedByte; i++) {

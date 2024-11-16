@@ -4,8 +4,7 @@ package com.android.billingclient.api;
 public final class zzbc {
     private boolean zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbc(zzbb zzbbVar) {
+    /* synthetic */ zzbc(zzbb zzbbVar) {
     }
 
     public final zzbc zza() {

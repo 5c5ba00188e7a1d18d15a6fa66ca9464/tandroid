@@ -13,7 +13,6 @@ public class TextStyleSpan extends MetricAffectingSpan {
     private TextStyleRun style;
     private int textSize;
 
-    /* loaded from: classes3.dex */
     public static class TextStyleRun {
         public int end;
         public int flags;

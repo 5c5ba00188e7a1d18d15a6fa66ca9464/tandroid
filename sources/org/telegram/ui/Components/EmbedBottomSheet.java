@@ -95,9 +95,7 @@ public class EmbedBottomSheet extends BottomSheet {
     private int width;
     private final String youtubeFrame;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 5 extends WebViewClient {
+    class 5 extends WebViewClient {
         5() {
         }
 
@@ -148,8 +146,7 @@ public class EmbedBottomSheet extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class YoutubeProxy {
+    class YoutubeProxy {
         private YoutubeProxy() {
         }
 
@@ -955,9 +952,8 @@ public class EmbedBottomSheet extends BottomSheet {
         show(baseFragment, messageObject, photoViewerProvider, str, str2, str3, str4, i, i2, -1, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return (this.videoView.getVisibility() == 0 && this.videoView.isInFullscreen()) ? false : true;
     }
 

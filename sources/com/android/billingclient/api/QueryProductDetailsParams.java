@@ -8,7 +8,6 @@ import java.util.List;
 public final class QueryProductDetailsParams {
     private final com.google.android.gms.internal.play_billing.zzu zza;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private com.google.android.gms.internal.play_billing.zzu zza;
 
@@ -39,12 +38,10 @@ public final class QueryProductDetailsParams {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Product {
         private final String zza;
         private final String zzb;
 
-        /* loaded from: classes.dex */
         public static class Builder {
             private String zza;
             private String zzb;

@@ -19,8 +19,7 @@ public abstract class SimpleDecoder implements Decoder {
     private boolean released;
     private int skippedOutputBufferCount;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public SimpleDecoder(DecoderInputBuffer[] decoderInputBufferArr, DecoderOutputBuffer[] decoderOutputBufferArr) {
+    protected SimpleDecoder(DecoderInputBuffer[] decoderInputBufferArr, DecoderOutputBuffer[] decoderOutputBufferArr) {
         this.availableInputBuffers = decoderInputBufferArr;
         this.availableInputBufferCount = decoderInputBufferArr.length;
         for (int i = 0; i < this.availableInputBufferCount; i++) {
@@ -235,16 +234,14 @@ public abstract class SimpleDecoder implements Decoder {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void releaseOutputBuffer(DecoderOutputBuffer decoderOutputBuffer) {
+    protected void releaseOutputBuffer(DecoderOutputBuffer decoderOutputBuffer) {
         synchronized (this.lock) {
             releaseOutputBufferInternal(decoderOutputBuffer);
             maybeNotifyDecodeLoop();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void setInitialInputBufferSize(int i) {
+    protected final void setInitialInputBufferSize(int i) {
         Assertions.checkState(this.availableInputBufferCount == this.availableInputBuffers.length);
         for (DecoderInputBuffer decoderInputBuffer : this.availableInputBuffers) {
             decoderInputBuffer.ensureSpaceForWrite(i);

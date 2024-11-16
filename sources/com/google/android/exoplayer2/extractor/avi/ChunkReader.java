@@ -9,9 +9,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class ChunkReader {
+final class ChunkReader {
     private final int alternativeChunkId;
     private int bytesRemainingInCurrentChunk;
     private final int chunkId;

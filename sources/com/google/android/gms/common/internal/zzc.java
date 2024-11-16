@@ -16,8 +16,7 @@ public abstract class zzc {
 
     protected abstract void zza(Object obj);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void zzc();
+    protected abstract void zzc();
 
     public final void zze() {
         Object obj;

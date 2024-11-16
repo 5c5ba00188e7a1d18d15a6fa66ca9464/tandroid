@@ -9,14 +9,12 @@ import android.view.MotionEvent;
 public final class GestureDetectorCompat {
     private final GestureDetectorCompatImpl mImpl;
 
-    /* loaded from: classes.dex */
     interface GestureDetectorCompatImpl {
         boolean onTouchEvent(MotionEvent motionEvent);
 
         void setIsLongpressEnabled(boolean z);
     }
 
-    /* loaded from: classes.dex */
     static class GestureDetectorCompatImplJellybeanMr2 implements GestureDetectorCompatImpl {
         private final GestureDetector mDetector;
 

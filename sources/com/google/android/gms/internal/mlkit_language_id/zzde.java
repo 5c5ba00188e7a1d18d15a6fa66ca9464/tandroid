@@ -9,8 +9,7 @@ import java.util.List;
 public abstract class zzde implements zzfz {
     protected int zza = 0;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static void zza(Iterable iterable, List list) {
+    protected static void zza(Iterable iterable, List list) {
         zzeq.zza(iterable);
         if (iterable instanceof zzfg) {
             List zzb = ((zzfg) iterable).zzb();
@@ -62,8 +61,7 @@ public abstract class zzde implements zzfz {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(int i);
+    abstract void zza(int i);
 
     public final byte[] zzf() {
         try {
@@ -84,6 +82,5 @@ public abstract class zzde implements zzfz {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zzg();
+    abstract int zzg();
 }

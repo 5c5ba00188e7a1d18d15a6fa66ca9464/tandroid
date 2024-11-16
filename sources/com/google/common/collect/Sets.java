@@ -16,13 +16,10 @@ import java.util.SortedSet;
 /* loaded from: classes.dex */
 public abstract class Sets {
 
-    /* loaded from: classes.dex */
     abstract class 1 extends SetView {
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FilteredSet extends Collections2.FilteredCollection implements Set {
+    private static class FilteredSet extends Collections2.FilteredCollection implements Set {
         FilteredSet(Set set, Predicate predicate) {
             super(set, predicate);
         }
@@ -38,9 +35,7 @@ public abstract class Sets {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class FilteredSortedSet extends FilteredSet implements SortedSet {
+    private static class FilteredSortedSet extends FilteredSet implements SortedSet {
         FilteredSortedSet(SortedSet sortedSet, Predicate predicate) {
             super(sortedSet, predicate);
         }
@@ -83,8 +78,10 @@ public abstract class Sets {
         }
     }
 
-    /* loaded from: classes.dex */
     static abstract class ImprovedAbstractSet extends AbstractSet {
+        ImprovedAbstractSet() {
+        }
+
         @Override // java.util.AbstractSet, java.util.AbstractCollection, java.util.Collection, java.util.Set
         public boolean removeAll(Collection collection) {
             return Sets.removeAllImpl(this, collection);
@@ -96,7 +93,6 @@ public abstract class Sets {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class SetView extends AbstractSet {
         private SetView() {
         }
@@ -136,8 +132,7 @@ public abstract class Sets {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean equalsImpl(Set set, Object obj) {
+    static boolean equalsImpl(Set set, Object obj) {
         if (set == obj) {
             return true;
         }
@@ -176,8 +171,7 @@ public abstract class Sets {
         return new FilteredSortedSet((SortedSet) filteredSet.unfiltered, Predicates.and(filteredSet.predicate, predicate));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int hashCodeImpl(Set set) {
+    static int hashCodeImpl(Set set) {
         Iterator it = set.iterator();
         int i = 0;
         while (it.hasNext()) {
@@ -273,8 +267,7 @@ public abstract class Sets {
         return (!(collection instanceof Set) || collection.size() <= set.size()) ? removeAllImpl(set, collection.iterator()) : Iterators.removeAll(set.iterator(), collection);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean removeAllImpl(Set set, Iterator it) {
+    static boolean removeAllImpl(Set set, Iterator it) {
         boolean z = false;
         while (it.hasNext()) {
             z |= set.remove(it.next());

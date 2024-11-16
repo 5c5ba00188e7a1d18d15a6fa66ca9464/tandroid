@@ -6,8 +6,7 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 
 /* loaded from: classes.dex */
 final class zznz extends LazyInstanceMap {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zznz(zzny zznyVar) {
+    /* synthetic */ zznz(zzny zznyVar) {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.LazyInstanceMap

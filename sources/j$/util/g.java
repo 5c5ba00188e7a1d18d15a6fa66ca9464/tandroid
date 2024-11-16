@@ -12,17 +12,15 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class g implements java.util.Map, Serializable, Map {
+final class g implements java.util.Map, Serializable, Map {
     private final java.util.Map a;
     final Object b;
     private transient Set c;
     private transient Set d;
     private transient Collection e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public g(java.util.Map map) {
+    g(java.util.Map map) {
         map.getClass();
         this.a = map;
         this.b = this;

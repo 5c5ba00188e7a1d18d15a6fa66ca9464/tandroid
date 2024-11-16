@@ -29,18 +29,21 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AvatarDrawable;
+import org.telegram.ui.Components.ButtonBounce;
 import org.telegram.ui.Components.CanvasButton;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Premium.PremiumGradient;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.Text;
 import org.telegram.ui.Stories.StoriesUtilities;
 
 /* loaded from: classes4.dex */
@@ -48,6 +51,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
     CanvasButton actionButton;
     private StaticLayout actionLayout;
     private int actionLeft;
+    private boolean allowBotOpenButton;
     private AvatarDrawable avatarDrawable;
     public ImageReceiver avatarImage;
     public StoriesUtilities.AvatarStoryParams avatarStoryParams;
@@ -80,6 +84,12 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
     private TextPaint namePaint;
     private int nameTop;
     private int nameWidth;
+    private Utilities.Callback onOpenButtonClick;
+    private boolean openBot;
+    private final Paint openButtonBackgroundPaint;
+    private final ButtonBounce openButtonBounce;
+    private final RectF openButtonRect;
+    private Text openButtonText;
     private boolean premiumBlocked;
     private final AnimatedFloat premiumBlockedT;
     private PremiumGradient.PremiumGradientTools premiumGradient;
@@ -108,6 +118,9 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.premiumBlockedT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.avatarStoryParams = new StoriesUtilities.AvatarStoryParams(false);
         this.rect = new RectF();
+        this.openButtonBounce = new ButtonBounce(this);
+        this.openButtonBackgroundPaint = new Paint(1);
+        this.openButtonRect = new RectF();
         this.resourcesProvider = resourcesProvider;
         ImageReceiver imageReceiver = new ImageReceiver(this);
         this.avatarImage = imageReceiver;
@@ -132,6 +145,12 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             RecyclerListView recyclerListView = (RecyclerListView) getParent();
             recyclerListView.getOnItemClickListener().onItemClick(this, recyclerListView.getChildAdapterPosition(this));
         }
+    }
+
+    public ProfileSearchCell allowBotOpenButton(boolean z, Utilities.Callback callback) {
+        this.allowBotOpenButton = z;
+        this.onOpenButtonClick = callback;
+        return this;
     }
 
     public void buildLayout() {
@@ -522,8 +541,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         this.statusDrawable.detach();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0237  */
-    /* JADX WARN: Removed duplicated region for block: B:66:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0239  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -625,7 +643,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 this.avatarImage.setImageCoords(this.avatarStoryParams.originalAvatarRect);
                 this.avatarImage.draw(canvas);
                 f = this.premiumBlockedT.set(this.premiumBlocked);
-                if (f <= 0.0f) {
+                if (f > 0.0f) {
                     float centerY = this.avatarImage.getCenterY() + AndroidUtilities.dp(14.0f);
                     float centerX = this.avatarImage.getCenterX() + AndroidUtilities.dp(16.0f);
                     canvas.save();
@@ -641,19 +659,34 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                         this.lockDrawable = mutate;
                         mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
                     }
-                    this.lockDrawable.setBounds((int) (centerX - (((r5.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (centerY - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (centerX + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (centerY + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
+                    this.lockDrawable.setBounds((int) (centerX - (((r6.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (centerY - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (centerX + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (centerY + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
                     this.lockDrawable.setAlpha((int) (f * 255.0f));
                     this.lockDrawable.draw(canvas);
                     canvas.restore();
-                    return;
                 }
+                if (this.openBot || this.openButtonText == null) {
+                }
+                float dp3 = AndroidUtilities.dp(28.0f) + this.openButtonText.getCurrentWidth();
+                float dp4 = LocaleController.isRTL ? AndroidUtilities.dp(15.0f) : (getWidth() - dp3) - AndroidUtilities.dp(15.0f);
+                float dp5 = AndroidUtilities.dp(28.0f);
+                this.openButtonBackgroundPaint.setColor(Theme.getColor(Theme.key_featuredStickers_addButton));
+                this.openButtonRect.set(dp4, (getHeight() - dp5) / 2.0f, dp3 + dp4, (getHeight() + dp5) / 2.0f);
+                canvas.save();
+                float scale = this.openButtonBounce.getScale(0.06f);
+                canvas.scale(scale, scale, this.openButtonRect.centerX(), this.openButtonRect.centerY());
+                RectF rectF3 = this.openButtonRect;
+                canvas.drawRoundRect(rectF3, rectF3.height() / 2.0f, this.openButtonRect.height() / 2.0f, this.openButtonBackgroundPaint);
+                this.openButtonText.draw(canvas, dp4 + AndroidUtilities.dp(14.0f), getHeight() / 2.0f, -1, 1.0f);
+                canvas.restore();
                 return;
             }
             j = -chat.id;
         }
         StoriesUtilities.drawAvatarWithStory(j, canvas, this.avatarImage, this.avatarStoryParams);
         f = this.premiumBlockedT.set(this.premiumBlocked);
-        if (f <= 0.0f) {
+        if (f > 0.0f) {
+        }
+        if (this.openBot) {
         }
     }
 
@@ -714,8 +747,31 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(60.0f) + (this.useSeparator ? 1 : 0));
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x004a, code lost:
+    
+        if (r6.getAction() == 3) goto L18;
+     */
     @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        if (this.openBot && this.onOpenButtonClick != null && this.user != null) {
+            boolean contains = this.openButtonRect.contains(motionEvent.getX(), motionEvent.getY());
+            if (motionEvent.getAction() != 0 && motionEvent.getAction() != 2) {
+                if (motionEvent.getAction() == 1) {
+                    if (this.openButtonBounce.isPressed()) {
+                        this.onOpenButtonClick.run(this.user);
+                    }
+                }
+                this.openButtonBounce.setPressed(false);
+                return true;
+            }
+            this.openButtonBounce.setPressed(contains);
+            if (contains || this.openButtonBounce.isPressed()) {
+                return true;
+            }
+        }
         if (!(this.user == null && this.chat == null) && this.avatarStoryParams.checkOnTouchEvent(motionEvent, this)) {
             return true;
         }
@@ -734,25 +790,16 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
         checkBox2.setChecked(z, z2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x005c, code lost:
-    
-        if (org.telegram.messenger.MessagesController.getInstance(r3.currentAccount).isUserPremiumBlocked(r3.contact.user.id) != false) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x0024, code lost:
-    
-        if (org.telegram.messenger.MessagesController.getInstance(r3.currentAccount).isUserPremiumBlocked(r3.user.id) != false) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x005e, code lost:
-    
-        r4 = true;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void setData(Object obj, TLRPC.EncryptedChat encryptedChat, CharSequence charSequence, CharSequence charSequence2, boolean z, boolean z2) {
-        boolean z3;
         this.currentName = charSequence;
-        if (!(obj instanceof TLRPC.User)) {
+        if (obj instanceof TLRPC.User) {
+            TLRPC.User user = (TLRPC.User) obj;
+            this.user = user;
+            this.chat = null;
+            this.contact = null;
+            this.premiumBlocked = this.showPremiumBlocked && user != null && MessagesController.getInstance(this.currentAccount).isUserPremiumBlocked(this.user.id);
+            setOpenBotButton(this.allowBotOpenButton && this.user.bot_has_main_app);
+        } else {
             if (obj instanceof TLRPC.Chat) {
                 this.chat = (TLRPC.Chat) obj;
                 this.user = null;
@@ -763,35 +810,33 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
                 this.contact = contact;
                 this.chat = null;
                 this.user = null;
-                if (this.showPremiumBlocked) {
-                    if (contact != null) {
-                        if (contact.user != null) {
-                        }
-                    }
-                }
-                z3 = false;
+                this.premiumBlocked = this.showPremiumBlocked && contact != null && contact.user != null && MessagesController.getInstance(this.currentAccount).isUserPremiumBlocked(this.contact.user.id);
             }
-            this.encryptedChat = encryptedChat;
-            this.subLabel = charSequence2;
-            this.drawCount = z;
-            this.savedMessages = z2;
-            update(0);
+            setOpenBotButton(false);
         }
-        TLRPC.User user = (TLRPC.User) obj;
-        this.user = user;
-        this.chat = null;
-        this.contact = null;
-        if (this.showPremiumBlocked) {
-            if (user != null) {
-            }
-        }
-        z3 = false;
-        this.premiumBlocked = z3;
         this.encryptedChat = encryptedChat;
         this.subLabel = charSequence2;
         this.drawCount = z;
         this.savedMessages = z2;
         update(0);
+    }
+
+    public void setOpenBotButton(boolean z) {
+        if (this.openBot == z) {
+            return;
+        }
+        if (this.openButtonText == null) {
+            this.openButtonText = new Text(LocaleController.getString(R.string.BotOpen), 14.0f, AndroidUtilities.bold());
+        }
+        int dp = z ? AndroidUtilities.dp(28.0f) + ((int) this.openButtonText.getCurrentWidth()) + AndroidUtilities.dp(30.0f) : 0;
+        boolean z2 = LocaleController.isRTL;
+        int i = z2 ? dp : 0;
+        if (z2) {
+            dp = 0;
+        }
+        setPadding(i, 0, dp, 0);
+        this.openBot = z;
+        this.openButtonBounce.setPressed(false);
     }
 
     public void setSublabelOffset(int i, int i2) {

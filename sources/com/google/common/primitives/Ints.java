@@ -13,7 +13,6 @@ import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public abstract class Ints extends IntsMethodsForWeb {
 
-    /* loaded from: classes.dex */
     private static class IntArrayAsList extends AbstractList implements RandomAccess, Serializable {
         final int[] array;
         final int end;

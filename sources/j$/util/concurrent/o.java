@@ -1,8 +1,7 @@
 package j$.util.concurrent;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class o {
+class o {
     k[] a;
     k b = null;
     n c;
@@ -12,8 +11,7 @@ public class o {
     int g;
     final int h;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public o(k[] kVarArr, int i, int i2, int i3) {
+    o(k[] kVarArr, int i, int i2, int i3) {
         this.a = kVarArr;
         this.h = i;
         this.e = i2;
@@ -21,8 +19,7 @@ public class o {
         this.g = i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final k b() {
+    final k b() {
         k[] kVarArr;
         int length;
         int i;

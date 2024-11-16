@@ -12,6 +12,9 @@ import java.util.List;
 
 /* loaded from: classes.dex */
 class FragmentTransitionCompat21 extends FragmentTransitionImpl {
+    FragmentTransitionCompat21() {
+    }
+
     private static boolean hasSimpleTarget(Transition transition) {
         List targetNames;
         List targetTypes;

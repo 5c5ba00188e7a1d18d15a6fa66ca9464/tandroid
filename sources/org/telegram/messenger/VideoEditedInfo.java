@@ -78,7 +78,6 @@ public class VideoEditedInfo {
     public boolean tryUseHevc = false;
     public ArrayList<MediaCodecVideoConvertor.MixedSoundInfo> mixedSoundInfos = new ArrayList<>();
 
-    /* loaded from: classes3.dex */
     public static class EmojiEntity extends TLRPC.TL_messageEntityCustomEmoji {
         public String documentAbsolutePath;
         public MediaEntity entity;
@@ -108,7 +107,6 @@ public class VideoEditedInfo {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class MediaEntity {
         public static final byte TYPE_LINK = 7;
         public static final byte TYPE_LOCATION = 3;

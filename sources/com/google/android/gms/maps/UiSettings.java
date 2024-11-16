@@ -8,8 +8,7 @@ import com.google.android.gms.maps.model.RuntimeRemoteException;
 public final class UiSettings {
     private final IUiSettingsDelegate zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public UiSettings(IUiSettingsDelegate iUiSettingsDelegate) {
+    UiSettings(IUiSettingsDelegate iUiSettingsDelegate) {
         this.zza = iUiSettingsDelegate;
     }
 

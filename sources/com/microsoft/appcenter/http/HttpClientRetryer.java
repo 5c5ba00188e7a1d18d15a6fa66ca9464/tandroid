@@ -15,7 +15,6 @@ public class HttpClientRetryer extends HttpClientDecorator {
     private final Handler mHandler;
     private final Random mRandom;
 
-    /* loaded from: classes.dex */
     private class RetryableCall extends HttpClientCallDecorator {
         private int mRetryCount;
 
@@ -59,8 +58,7 @@ public class HttpClientRetryer extends HttpClientDecorator {
         RETRY_INTERVALS = new long[]{millis, timeUnit.toMillis(5L), timeUnit.toMillis(20L)};
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpClientRetryer(HttpClient httpClient) {
+    HttpClientRetryer(HttpClient httpClient) {
         this(httpClient, new Handler(Looper.getMainLooper()));
     }
 

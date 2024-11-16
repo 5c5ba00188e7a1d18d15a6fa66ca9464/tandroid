@@ -25,7 +25,6 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
     private BaseFragment parentFragment;
     private ArrayList stickerSets;
 
-    /* loaded from: classes3.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         Context context;
 

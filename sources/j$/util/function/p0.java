@@ -17,31 +17,22 @@ public final /* synthetic */ class p0 implements Predicate {
     @Override // j$.util.function.Predicate
     public final /* synthetic */ Predicate and(Predicate predicate) {
         switch (this.a) {
-            case 0:
-                return Predicate.-CC.$default$and(this, predicate);
-            default:
-                return Predicate.-CC.$default$and(this, predicate);
         }
+        return Predicate.-CC.$default$and(this, predicate);
     }
 
     @Override // j$.util.function.Predicate
     public final /* synthetic */ Predicate negate() {
         switch (this.a) {
-            case 0:
-                return Predicate.-CC.$default$negate(this);
-            default:
-                return Predicate.-CC.$default$negate(this);
         }
+        return Predicate.-CC.$default$negate(this);
     }
 
     @Override // j$.util.function.Predicate
     public final /* synthetic */ Predicate or(Predicate predicate) {
         switch (this.a) {
-            case 0:
-                return Predicate.-CC.$default$or(this, predicate);
-            default:
-                return Predicate.-CC.$default$or(this, predicate);
         }
+        return Predicate.-CC.$default$or(this, predicate);
     }
 
     @Override // j$.util.function.Predicate

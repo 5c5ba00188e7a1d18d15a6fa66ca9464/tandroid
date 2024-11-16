@@ -101,12 +101,12 @@ public class ButtonBounce {
             });
             if (this.isPressed) {
                 this.animator.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                this.animator.setDuration(this.durationPressMultiplier * 60.0f);
+                this.animator.setDuration((long) (this.durationPressMultiplier * 60.0f));
                 valueAnimator = this.animator;
                 j = 0;
             } else {
                 this.animator.setInterpolator(new OvershootInterpolator(this.overshoot));
-                this.animator.setDuration(this.durationReleaseMultiplier * 350.0f);
+                this.animator.setDuration((long) (this.durationReleaseMultiplier * 350.0f));
                 valueAnimator = this.animator;
                 j = this.releaseDelay;
             }

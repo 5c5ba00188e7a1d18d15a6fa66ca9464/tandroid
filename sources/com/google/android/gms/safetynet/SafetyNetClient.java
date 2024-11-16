@@ -11,8 +11,7 @@ import com.google.android.gms.tasks.Task;
 
 /* loaded from: classes.dex */
 public class SafetyNetClient extends GoogleApi {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SafetyNetClient(Context context) {
+    SafetyNetClient(Context context) {
         super(context, SafetyNet.API, (Api.ApiOptions) null, new ApiExceptionMapper());
     }
 

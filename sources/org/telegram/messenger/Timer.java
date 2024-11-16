@@ -9,7 +9,6 @@ public class Timer {
     public ArrayList<Task> tasks = new ArrayList<>();
     final long startTime = System.currentTimeMillis();
 
-    /* loaded from: classes3.dex */
     public class Log extends Task {
         public Log(String str) {
             super(str);
@@ -21,7 +20,6 @@ public class Timer {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class Task {
         int pad;
         final String task;

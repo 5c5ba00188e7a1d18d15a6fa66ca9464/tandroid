@@ -8,7 +8,6 @@ public final class FingerprintManagerCompat {
     static final FingerprintManagerCompatImpl IMPL;
     private Context mContext;
 
-    /* loaded from: classes3.dex */
     private static class Api23FingerprintManagerCompatImpl implements FingerprintManagerCompatImpl {
         @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.FingerprintManagerCompatImpl
         public boolean hasEnrolledFingerprints(Context context) {
@@ -21,14 +20,12 @@ public final class FingerprintManagerCompat {
         }
     }
 
-    /* loaded from: classes3.dex */
     private interface FingerprintManagerCompatImpl {
         boolean hasEnrolledFingerprints(Context context);
 
         boolean isHardwareDetected(Context context);
     }
 
-    /* loaded from: classes3.dex */
     private static class LegacyFingerprintManagerCompatImpl implements FingerprintManagerCompatImpl {
         @Override // org.telegram.messenger.support.fingerprint.FingerprintManagerCompat.FingerprintManagerCompatImpl
         public boolean hasEnrolledFingerprints(Context context) {

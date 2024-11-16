@@ -167,7 +167,7 @@ public class RadialProgress {
         boolean z2 = false;
         if (z) {
             if (this.animatedProgressValue != 1.0f) {
-                this.radOffset += ((float) (360 * j)) / 3000.0f;
+                this.radOffset += (360 * j) / 3000.0f;
                 float f = this.currentProgress;
                 float f2 = this.animationProgressStart;
                 float f3 = f - f2;
@@ -179,7 +179,7 @@ public class RadialProgress {
                         this.animationProgressStart = f;
                         this.currentProgressTime = 0L;
                     } else {
-                        this.animatedProgressValue = f2 + (f3 * decelerateInterpolator.getInterpolation(((float) j2) / 300.0f));
+                        this.animatedProgressValue = f2 + (f3 * decelerateInterpolator.getInterpolation(j2 / 300.0f));
                     }
                 }
                 invalidateParent();
@@ -188,7 +188,7 @@ public class RadialProgress {
                 if (this.animatedProgressValue < 1.0f || this.previousMiniDrawable == null) {
                     return;
                 }
-                float f4 = this.animatedAlphaValue - (((float) j) / 200.0f);
+                float f4 = this.animatedAlphaValue - (j / 200.0f);
                 this.animatedAlphaValue = f4;
                 if (f4 <= 0.0f) {
                     this.animatedAlphaValue = 0.0f;
@@ -198,14 +198,14 @@ public class RadialProgress {
                 if (this.animatedProgressValue < 1.0f || this.previousDrawable == null) {
                     return;
                 }
-                float f5 = this.animatedAlphaValue - (((float) j) / 200.0f);
+                float f5 = this.animatedAlphaValue - (j / 200.0f);
                 this.animatedAlphaValue = f5;
             }
         } else if (this.drawMiniProgress) {
             if (this.previousMiniDrawable == null) {
                 return;
             }
-            float f6 = this.animatedAlphaValue - (((float) j) / 200.0f);
+            float f6 = this.animatedAlphaValue - (j / 200.0f);
             this.animatedAlphaValue = f6;
             if (f6 <= 0.0f) {
                 this.animatedAlphaValue = 0.0f;
@@ -215,7 +215,7 @@ public class RadialProgress {
             if (this.previousDrawable == null) {
                 return;
             }
-            float f7 = this.animatedAlphaValue - (((float) j) / 200.0f);
+            float f7 = this.animatedAlphaValue - (j / 200.0f);
             this.animatedAlphaValue = f7;
         }
         invalidateParent();

@@ -49,7 +49,6 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
     private String zap;
     private Map zaq;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Set zaa;
         private boolean zab;
@@ -155,8 +154,7 @@ public class GoogleSignInOptions extends AbstractSafeParcelable implements Api.A
         zag = new zac();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GoogleSignInOptions(int i, ArrayList arrayList, Account account, boolean z, boolean z2, boolean z3, String str, String str2, ArrayList arrayList2, String str3) {
+    GoogleSignInOptions(int i, ArrayList arrayList, Account account, boolean z, boolean z2, boolean z3, String str, String str2, ArrayList arrayList2, String str3) {
         this(i, arrayList, account, z, z2, z3, str, str2, zam(arrayList2), str3);
     }
 

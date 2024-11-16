@@ -48,7 +48,6 @@ public abstract class WallpaperCell extends FrameLayout {
     private int spanCount;
     private WallpaperView[] wallpaperViews;
 
-    /* loaded from: classes4.dex */
     public class WallpaperView extends FrameLayout {
         private AnimatorSet animator;
         private CheckBox checkBox;
@@ -62,9 +61,8 @@ public abstract class WallpaperCell extends FrameLayout {
             super(context);
             setWillNotDraw(false);
             BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.WallpaperCell.WallpaperView.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     super.onDraw(canvas);
                     if ((WallpaperView.this.currentWallpaper instanceof WallpapersListActivity.ColorWallpaper) || (WallpaperView.this.currentWallpaper instanceof WallpapersListActivity.FileWallpaper)) {
                         canvas.drawLine(1.0f, 0.0f, getMeasuredWidth() - 1, 0.0f, WallpaperCell.this.framePaint);
@@ -177,7 +175,7 @@ public abstract class WallpaperCell extends FrameLayout {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r1v20, types: [org.telegram.tgnet.TLRPC$TL_wallPaper, java.lang.Object, org.telegram.tgnet.TLRPC$WallPaper] */
+        /* JADX WARN: Type inference failed for: r1v20, types: [java.lang.Object, org.telegram.tgnet.TLRPC$TL_wallPaper, org.telegram.tgnet.TLRPC$WallPaper] */
         /* JADX WARN: Type inference failed for: r8v6, types: [org.telegram.ui.Components.BackupImageView] */
         public void setWallpaper(Object obj, Object obj2, Drawable drawable, boolean z) {
             TLRPC.PhotoSize photoSize;

@@ -9,8 +9,7 @@ final class B1 extends O1 implements N1 {
     final /* synthetic */ BiFunction c;
     final /* synthetic */ j$.util.function.f d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public B1(Object obj, BiFunction biFunction, j$.util.function.f fVar) {
+    B1(Object obj, BiFunction biFunction, j$.util.function.f fVar) {
         this.b = obj;
         this.c = biFunction;
         this.d = fVar;

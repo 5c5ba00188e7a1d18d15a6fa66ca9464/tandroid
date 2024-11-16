@@ -11,8 +11,7 @@ final class o2 extends c {
     private long n;
     private volatile boolean o;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public o2(b bVar, b bVar2, j$.util.Q q, j$.util.function.I i, long j, long j2) {
+    o2(b bVar, b bVar2, j$.util.Q q, j$.util.function.I i, long j, long j2) {
         super(bVar2, q);
         this.j = bVar;
         this.k = i;
@@ -41,9 +40,8 @@ final class o2 extends c {
         return j2 >= j ? j2 : j2 + o2Var2.j(j);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final Object a() {
+    protected final Object a() {
         if (c()) {
             x0 v0 = this.j.v0(S2.SIZED.e(this.j.c) ? this.j.o0(this.b) : -1L, this.k);
             e2 z0 = this.j.z0(this.a.s0(), v0);
@@ -61,9 +59,8 @@ final class o2 extends c {
         return b;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // j$.util.stream.e
-    public final e d(j$.util.Q q) {
+    protected final e d(j$.util.Q q) {
         return new o2(this, q);
     }
 

@@ -844,8 +844,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void completeWorkflow() {
+    synchronized void completeWorkflow() {
         try {
             cancelNotification();
             SharedPreferencesManager.remove("Distribute.release_details");
@@ -868,8 +867,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void completeWorkflow(ReleaseDetails releaseDetails) {
+    synchronized void completeWorkflow(ReleaseDetails releaseDetails) {
         if (releaseDetails == this.mReleaseDetails) {
             completeWorkflow();
         }
@@ -980,14 +978,12 @@ public class Distribute extends AbstractAppCenterService {
         return "Distribute";
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
-    public int getTriggerCount() {
+    protected int getTriggerCount() {
         return 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized boolean notifyDownload(ReleaseDetails releaseDetails, Intent intent) {
+    synchronized boolean notifyDownload(ReleaseDetails releaseDetails, Intent intent) {
         Notification.Builder oldNotificationBuilder;
         try {
             if (releaseDetails != this.mReleaseDetails) {
@@ -1055,8 +1051,7 @@ public class Distribute extends AbstractAppCenterService {
         super.onStarted(context, channel, str, str2, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void resumeApp(Context context) {
+    synchronized void resumeApp(Context context) {
         if (this.mForegroundActivity == null) {
             Intent intent = new Intent(context, (Class<?>) DeepLinkActivity.class);
             intent.addFlags(268435456);
@@ -1064,8 +1059,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void resumeDownload() {
+    synchronized void resumeDownload() {
         ReleaseDownloader releaseDownloader = this.mReleaseDownloader;
         if (releaseDownloader != null) {
             releaseDownloader.resume();
@@ -1073,8 +1067,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void setDownloading(ReleaseDetails releaseDetails, long j) {
+    synchronized void setDownloading(ReleaseDetails releaseDetails, long j) {
         if (releaseDetails != this.mReleaseDetails) {
             return;
         }
@@ -1082,8 +1075,7 @@ public class Distribute extends AbstractAppCenterService {
         SharedPreferencesManager.putLong("Distribute.download_time", j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void setInstalling(ReleaseDetails releaseDetails) {
+    synchronized void setInstalling(ReleaseDetails releaseDetails) {
         try {
             if (releaseDetails != this.mReleaseDetails) {
                 return;
@@ -1106,8 +1098,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void startFromBackground(Context context) {
+    synchronized void startFromBackground(Context context) {
         if (this.mAppSecret == null) {
             AppCenterLog.debug("AppCenterDistribute", "Called before onStart, init storage");
             this.mContext = context;
@@ -1116,8 +1107,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void storeRedirectionParameters(String str, String str2, String str3) {
+    synchronized void storeRedirectionParameters(String str, String str2, String str3) {
         try {
             if (this.mContext == null) {
                 AppCenterLog.debug("AppCenterDistribute", "Redirection parameters received before onStart, keep them in memory.");
@@ -1143,8 +1133,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void storeTesterAppUpdateSetupFailedParameter(String str, String str2) {
+    synchronized void storeTesterAppUpdateSetupFailedParameter(String str, String str2) {
         try {
             if (this.mContext == null) {
                 AppCenterLog.debug("AppCenterDistribute", "Tester app update setup failed parameter received before onStart, keep it in memory.");
@@ -1161,8 +1150,7 @@ public class Distribute extends AbstractAppCenterService {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void storeUpdateSetupFailedParameter(String str, String str2) {
+    synchronized void storeUpdateSetupFailedParameter(String str, String str2) {
         try {
             if (this.mContext == null) {
                 AppCenterLog.debug("AppCenterDistribute", "Update setup failed parameter received before onStart, keep it in memory.");

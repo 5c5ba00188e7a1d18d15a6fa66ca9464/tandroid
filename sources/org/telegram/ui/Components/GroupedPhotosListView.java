@@ -58,7 +58,6 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     private boolean stopedScrolling;
     private ArrayList unusedReceivers;
 
-    /* loaded from: classes3.dex */
     public interface GroupedPhotosListViewDelegate {
         boolean forceAll();
 
@@ -319,7 +318,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
     /* JADX WARN: Removed duplicated region for block: B:138:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0265  */
     /* JADX WARN: Type inference failed for: r3v12 */
-    /* JADX WARN: Type inference failed for: r3v13, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v13, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v21 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -464,7 +463,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                 if (f < 1.0f && this.showAnimator == null) {
                     ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 1.0f);
                     this.showAnimator = ofFloat;
-                    ofFloat.setDuration((1.0f - this.drawAlpha) * 200.0f);
+                    ofFloat.setDuration((long) ((1.0f - this.drawAlpha) * 200.0f));
                     this.showAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.2
                         @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                         public void onAnimationEnd(Animator animator) {
@@ -497,7 +496,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
                     if (this.hideAnimator == null) {
                         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.drawAlpha, 0.0f);
                         this.hideAnimator = ofFloat2;
-                        ofFloat2.setDuration(this.drawAlpha * 200.0f);
+                        ofFloat2.setDuration((long) (this.drawAlpha * 200.0f));
                         this.hideAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.GroupedPhotosListView.1
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                             public void onAnimationEnd(Animator animator) {
@@ -792,7 +791,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             if (i21 >= 0) {
                 float f6 = this.moveLineProgress;
                 if (f6 > 0.0f) {
-                    float f7 = (float) j;
+                    float f7 = j;
                     float f8 = f6 - (f7 / (this.animateToItemFast ? 100.0f : 200.0f));
                     this.moveLineProgress = f8;
                     if (i21 == this.currentImage) {
@@ -848,7 +847,7 @@ public class GroupedPhotosListView extends View implements GestureDetector.OnGes
             if (this.scrolling) {
                 float f13 = this.currentItemProgress;
                 if (f13 > 0.0f) {
-                    float f14 = f13 - (((float) j) / 200.0f);
+                    float f14 = f13 - (j / 200.0f);
                     this.currentItemProgress = f14;
                     if (f14 < 0.0f) {
                         this.currentItemProgress = 0.0f;

@@ -99,7 +99,6 @@ public final class Format implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private int accessibilityChannel;
         private int averageBitrate;

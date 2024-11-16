@@ -21,7 +21,6 @@ public abstract class Representation {
     public final long revisionId;
     public final List supplementalProperties;
 
-    /* loaded from: classes.dex */
     public static class MultiSegmentRepresentation extends Representation implements DashSegmentIndex {
         final SegmentBase.MultiSegmentBase segmentBase;
 
@@ -96,7 +95,6 @@ public abstract class Representation {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SingleSegmentRepresentation extends Representation {
         private final String cacheKey;
         public final long contentLength;

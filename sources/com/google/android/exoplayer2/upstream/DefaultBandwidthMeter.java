@@ -40,7 +40,6 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
     public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_NSA = ImmutableList.of((Object) 5700000L, (Object) 3700000L, (Object) 2300000L, (Object) 1700000L, (Object) 990000L);
     public static final ImmutableList DEFAULT_INITIAL_BITRATE_ESTIMATES_5G_SA = ImmutableList.of((Object) 2800000L, (Object) 1800000L, (Object) 1400000L, (Object) 1100000L, (Object) 870000L);
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Clock clock;
         private final Context context;
@@ -1781,7 +1780,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         switch (c) {
             case 0:
             case '1':
-                return iArr;
+                break;
             case 1:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -1790,7 +1789,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 2:
             case NotificationCenter.applyGroupCallVisibleParticipants /* 166 */:
                 // fill-array-data instruction
@@ -1800,7 +1799,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 3:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -1809,7 +1808,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 4:
             case 16:
             case 25:
@@ -1823,7 +1822,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 5:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -1832,7 +1831,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 6:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -1841,7 +1840,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 7:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -1850,7 +1849,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '\b':
             case '>':
             case NotificationCenter.storiesBlocklistUpdate /* 188 */:
@@ -1861,7 +1860,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '\t':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -1870,7 +1869,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '\n':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -1879,7 +1878,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 1;
                 iArr[5] = 4;
-                return iArr;
+                break;
             case 11:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -1888,7 +1887,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 3;
                 iArr[5] = 0;
-                return iArr;
+                break;
             case '\f':
             case 'U':
                 // fill-array-data instruction
@@ -1898,7 +1897,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '\r':
             case '2':
             case 'x':
@@ -1914,7 +1913,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 14:
             case 19:
             case ':':
@@ -1925,7 +1924,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 15:
             case '^':
                 // fill-array-data instruction
@@ -1935,7 +1934,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 17:
             case 't':
                 // fill-array-data instruction
@@ -1945,7 +1944,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 18:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -1954,7 +1953,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 20:
             case '?':
             case 'S':
@@ -1966,7 +1965,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 21:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -1975,7 +1974,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 22:
             case '[':
             case NotificationCenter.didUpdateConnectionState /* 133 */:
@@ -1990,7 +1989,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 23:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -1999,7 +1998,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 24:
             case NotificationCenter.httpFileDidFailedLoad /* 132 */:
             case NotificationCenter.themeUploadedToServer /* 175 */:
@@ -2010,7 +2009,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 26:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2019,7 +2018,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 27:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2028,7 +2027,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 29:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2037,7 +2036,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 1;
                 iArr[5] = 0;
-                return iArr;
+                break;
             case 30:
             case 'v':
                 // fill-array-data instruction
@@ -2047,7 +2046,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 31:
             case 150:
             case NotificationCenter.emojiLoaded /* 231 */:
@@ -2058,7 +2057,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case ' ':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2067,7 +2066,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '!':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2076,7 +2075,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '\"':
             case ')':
                 // fill-array-data instruction
@@ -2086,7 +2085,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '#':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2095,7 +2094,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 3;
                 iArr[5] = 3;
-                return iArr;
+                break;
             case '$':
             case 'o':
                 // fill-array-data instruction
@@ -2105,7 +2104,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '%':
             case NotificationCenter.boostedChannelByUser /* 183 */:
                 // fill-array-data instruction
@@ -2115,7 +2114,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '&':
             case 'L':
                 // fill-array-data instruction
@@ -2125,7 +2124,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '\'':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2134,7 +2133,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 0;
                 iArr[5] = 3;
-                return iArr;
+                break;
             case '(':
             case '=':
                 // fill-array-data instruction
@@ -2144,7 +2143,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '*':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2153,7 +2152,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '+':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2162,7 +2161,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case ',':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2171,7 +2170,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 3;
                 iArr[5] = 1;
-                return iArr;
+                break;
             case '-':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2180,7 +2179,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '.':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2189,7 +2188,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '/':
             case 'n':
                 // fill-array-data instruction
@@ -2199,7 +2198,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '0':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2208,7 +2207,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '3':
             case 'Z':
             case '~':
@@ -2219,7 +2218,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '4':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2228,7 +2227,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '5':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2237,7 +2236,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '6':
             case NotificationCenter.openBoostForUsersDialog /* 201 */:
             case NotificationCenter.premiumFloodWaitReceived /* 207 */:
@@ -2248,7 +2247,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '7':
             case '<':
             case '\\':
@@ -2261,7 +2260,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '9':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2270,7 +2269,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case ';':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2279,7 +2278,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '@':
             case NotificationCenter.savedMessagesDialogsUpdate /* 194 */:
                 // fill-array-data instruction
@@ -2289,7 +2288,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'A':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2298,7 +2297,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'B':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2307,7 +2306,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'C':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2316,7 +2315,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'E':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2325,7 +2324,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'F':
             case NotificationCenter.timezonesUpdated /* 205 */:
                 // fill-array-data instruction
@@ -2335,7 +2334,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'G':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2344,7 +2343,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'H':
             case 'p':
             case 's':
@@ -2358,7 +2357,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'I':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2367,7 +2366,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'J':
             case NotificationCenter.didEndCall /* 168 */:
             case NotificationCenter.dialogPhotosUpdate /* 192 */:
@@ -2378,7 +2377,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'K':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2387,7 +2386,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'M':
             case 'g':
                 // fill-array-data instruction
@@ -2397,7 +2396,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'N':
             case NotificationCenter.availableEffectsUpdate /* 208 */:
                 // fill-array-data instruction
@@ -2407,7 +2406,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'O':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2416,7 +2415,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'P':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2425,7 +2424,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'Q':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2434,7 +2433,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'R':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2443,7 +2442,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'T':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2452,7 +2451,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'V':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2461,7 +2460,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'W':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2470,7 +2469,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'X':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2479,7 +2478,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 0;
-                return iArr;
+                break;
             case 'Y':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2488,7 +2487,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case ']':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2497,7 +2496,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '_':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2506,7 +2505,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '`':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2515,7 +2514,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'a':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2524,7 +2523,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 1;
-                return iArr;
+                break;
             case 'b':
             case NotificationCenter.factCheckLoaded /* 215 */:
             case NotificationCenter.didReceiveCall /* 230 */:
@@ -2535,7 +2534,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'c':
             case NotificationCenter.storiesSendAsUpdate /* 190 */:
                 // fill-array-data instruction
@@ -2545,7 +2544,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'd':
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2554,7 +2553,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'e':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2563,7 +2562,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'f':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2572,7 +2571,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'h':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2581,7 +2580,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'i':
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2590,7 +2589,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'j':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2599,7 +2598,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 4;
                 iArr[5] = 4;
-                return iArr;
+                break;
             case 'k':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2608,7 +2607,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'l':
             case NotificationCenter.fileNewChunkAvailable /* 141 */:
                 // fill-array-data instruction
@@ -2618,7 +2617,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'm':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2627,7 +2626,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'q':
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2636,7 +2635,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 4;
-                return iArr;
+                break;
             case 'r':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2645,7 +2644,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'u':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2654,7 +2653,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'y':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2663,7 +2662,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 'z':
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2672,7 +2671,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '{':
             case NotificationCenter.webViewResolved /* 219 */:
                 // fill-array-data instruction
@@ -2682,7 +2681,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case '}':
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2691,7 +2690,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.dialogTranslate /* 127 */:
             case NotificationCenter.starBalanceUpdated /* 212 */:
             case NotificationCenter.themeListUpdated /* 237 */:
@@ -2702,7 +2701,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 128:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2711,7 +2710,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2720,7 +2719,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.walletSyncProgressChanged /* 130 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2729,7 +2728,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.httpFileDidLoad /* 131 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2738,7 +2737,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.fileUploaded /* 134 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2747,7 +2746,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.fileUploadFailed /* 135 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2756,7 +2755,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.fileUploadProgressChanged /* 136 */:
             case NotificationCenter.botStarsTransactionsLoaded /* 217 */:
                 // fill-array-data instruction
@@ -2766,7 +2765,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.fileLoadProgressChanged /* 137 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2775,7 +2774,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.fileLoaded /* 138 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2784,7 +2783,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.fileLoadFailed /* 139 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2793,7 +2792,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.filePreparingFailed /* 142 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2802,7 +2801,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.messagePlayingDidReset /* 145 */:
             case NotificationCenter.didStartedMultiGiftsSelector /* 182 */:
                 // fill-array-data instruction
@@ -2812,7 +2811,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.messagePlayingPlayStateChanged /* 146 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2821,7 +2820,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.messagePlayingDidStart /* 147 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2830,7 +2829,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.messagePlayingDidSeek /* 148 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2839,7 +2838,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.messagePlayingGoingToStop /* 149 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2848,7 +2847,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.recordStarted /* 151 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2857,7 +2856,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.recordStartError /* 152 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2866,7 +2865,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.recordPaused /* 154 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -2875,7 +2874,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.recordResumed /* 155 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2884,7 +2883,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.screenshotTook /* 156 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2893,7 +2892,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 0;
                 iArr[5] = 4;
-                return iArr;
+                break;
             case NotificationCenter.albumsDidLoad /* 157 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -2902,7 +2901,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.audioDidSent /* 158 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2911,7 +2910,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 159:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2920,7 +2919,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.audioRouteChanged /* 160 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -2929,7 +2928,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.didStartedCall /* 161 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2938,7 +2937,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.groupCallUpdated /* 162 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2947,7 +2946,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.groupCallSpeakingUsersUpdated /* 163 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2956,7 +2955,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.groupCallScreencastStateChanged /* 164 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -2965,7 +2964,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.activeGroupCallsUpdated /* 165 */:
             case NotificationCenter.smsJobStatusUpdate /* 199 */:
                 // fill-array-data instruction
@@ -2975,7 +2974,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.groupCallTypingsUpdated /* 167 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2984,7 +2983,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 0;
-                return iArr;
+                break;
             case NotificationCenter.closeInCallActivity /* 169 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -2993,7 +2992,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.appDidLogout /* 171 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3002,7 +3001,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 1;
-                return iArr;
+                break;
             case NotificationCenter.configLoaded /* 172 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -3011,7 +3010,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.needDeleteDialog /* 173 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3020,7 +3019,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.newEmojiSuggestionsAvailable /* 174 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3029,7 +3028,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.themeUploadError /* 176 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3038,7 +3037,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.dialogFiltersUpdated /* 177 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3047,7 +3046,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.filterSettingsUpdated /* 178 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3056,7 +3055,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 1;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.suggestedFiltersLoaded /* 179 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3065,7 +3064,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.updateBotMenuButton /* 180 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3074,7 +3073,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 3;
                 iArr[5] = 3;
-                return iArr;
+                break;
             case NotificationCenter.giftsToUserSent /* 181 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -3083,7 +3082,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.boostByChannelCreated /* 184 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3092,7 +3091,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.didUpdatePremiumGiftStickers /* 185 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3101,7 +3100,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.didUpdatePremiumGiftFieldIcon /* 186 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3110,7 +3109,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 0;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.storiesEnabledUpdate /* 187 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3119,7 +3118,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 3;
                 iArr[5] = 3;
-                return iArr;
+                break;
             case NotificationCenter.unconfirmedAuthUpdate /* 191 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3128,7 +3127,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.savedReactionTagsUpdate /* 195 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
@@ -3137,7 +3136,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.userIsPremiumBlockedUpadted /* 196 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3146,7 +3145,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.savedMessagesForwarded /* 197 */:
             case NotificationCenter.starGiftOptionsLoaded /* 210 */:
                 // fill-array-data instruction
@@ -3156,7 +3155,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.emojiKeywordsLoaded /* 198 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3165,7 +3164,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.groupRestrictionsUnlockedByBoosts /* 202 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3174,7 +3173,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case 203:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3183,7 +3182,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.customStickerCreated /* 206 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3192,7 +3191,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.starOptionsLoaded /* 209 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3201,7 +3200,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.starGiveawayOptionsLoaded /* 211 */:
             case NotificationCenter.starGiftsLoaded /* 221 */:
                 // fill-array-data instruction
@@ -3211,7 +3210,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.starTransactionsLoaded /* 213 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3220,7 +3219,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.starSubscriptionsLoaded /* 214 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3229,7 +3228,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.botStarsUpdated /* 216 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3238,7 +3237,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 0;
                 iArr[4] = 0;
                 iArr[5] = 0;
-                return iArr;
+                break;
             case NotificationCenter.channelStarsUpdated /* 218 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3247,7 +3246,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 4;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.updateAllMessages /* 220 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3256,7 +3255,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 3;
                 iArr[5] = 1;
-                return iArr;
+                break;
             case NotificationCenter.starUserGiftsLoaded /* 222 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3265,7 +3264,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.pushMessagesUpdated /* 226 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3274,7 +3273,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.wallpapersDidLoad /* 227 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3283,7 +3282,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.wallpapersNeedReload /* 228 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -3292,7 +3291,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 1;
-                return iArr;
+                break;
             case NotificationCenter.didReceiveSmsCode /* 229 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3301,7 +3300,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.invalidateMotionBackground /* 232 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
@@ -3310,7 +3309,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.cameraInitied /* 234 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3319,7 +3318,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 4;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.didReplacedPhotoInMemCache /* 235 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3328,7 +3327,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 1;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
             case NotificationCenter.didSetNewTheme /* 236 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3337,7 +3336,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 3;
                 iArr[4] = 3;
                 iArr[5] = 2;
-                return iArr;
+                break;
             default:
                 // fill-array-data instruction
                 iArr[0] = 2;
@@ -3346,8 +3345,9 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[3] = 2;
                 iArr[4] = 2;
                 iArr[5] = 2;
-                return iArr;
+                break;
         }
+        return iArr;
     }
 
     private long getInitialBitrateEstimateForNetworkType(int i) {
@@ -3451,7 +3451,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         FileLog.d("debug_loading: bandwidth meter on transfer " + AndroidUtilities.formatFileSize(j) + " per " + j2 + "ms");
         this.slidingPercentile.addSample((int) Math.sqrt((double) j), (((float) j) * 8000.0f) / ((float) j2));
         if (this.totalElapsedTimeMs >= 2000 || this.totalBytesTransferred >= 524288) {
-            this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+            this.bitrateEstimate = (long) this.slidingPercentile.getPercentile(0.5f);
             FileLog.d("debug_loading: bandwidth meter (onTransfer), bitrate estimate = " + this.bitrateEstimate);
         }
         maybeNotifyBandwidthSample((int) j2, j, this.bitrateEstimate);
@@ -3471,7 +3471,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 long j2 = this.sampleBytesTransferred;
                 this.totalBytesTransferred = j + j2;
                 if (i > 0) {
-                    this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
+                    this.slidingPercentile.addSample((int) Math.sqrt(j2), (j2 * 8000.0f) / i);
                     if (this.totalElapsedTimeMs < 2000) {
                         if (this.totalBytesTransferred >= 524288) {
                         }
@@ -3479,7 +3479,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                         this.sampleStartTimeMs = elapsedRealtime;
                         this.sampleBytesTransferred = 0L;
                     }
-                    this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+                    this.bitrateEstimate = (long) this.slidingPercentile.getPercentile(0.5f);
                     FileLog.d("debug_loading: bandwidth meter (onTransferEnd), bitrate estimate = " + this.bitrateEstimate);
                     maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
                     this.sampleStartTimeMs = elapsedRealtime;

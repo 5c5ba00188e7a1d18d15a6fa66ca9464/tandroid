@@ -40,9 +40,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import java.lang.ref.WeakReference;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AlertController {
+class AlertController {
     ListAdapter mAdapter;
     private int mAlertDialogLayout;
     private final int mButtonIconDimen;
@@ -102,7 +101,6 @@ public class AlertController {
         }
     };
 
-    /* loaded from: classes.dex */
     public static class AlertParams {
         public ListAdapter mAdapter;
         public boolean[] mCheckedItems;
@@ -310,7 +308,6 @@ public class AlertController {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class ButtonHandler extends Handler {
         private WeakReference mDialog;
 
@@ -332,9 +329,7 @@ public class AlertController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class CheckedItemAdapter extends ArrayAdapter {
+    private static class CheckedItemAdapter extends ArrayAdapter {
         public CheckedItemAdapter(Context context, int i, int i2, CharSequence[] charSequenceArr) {
             super(context, i, i2, charSequenceArr);
         }
@@ -350,7 +345,6 @@ public class AlertController {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class RecycleListView extends ListView {
         private final int mPaddingBottomNoButtons;
         private final int mPaddingTopNoTitle;

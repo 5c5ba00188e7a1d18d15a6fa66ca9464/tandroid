@@ -8,9 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzal extends AbstractMap implements Serializable {
+final class zzal extends AbstractMap implements Serializable {
     private static final Object zzd = new Object();
     transient int[] zza;
     transient Object[] zzb;
@@ -22,13 +21,11 @@ public final class zzal extends AbstractMap implements Serializable {
     private transient Set zzi;
     private transient Collection zzj;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzal(int i) {
+    zzal(int i) {
         zzm(12);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ Object zzh(zzal zzalVar) {
+    static /* synthetic */ Object zzh(zzal zzalVar) {
         Object obj = zzalVar.zze;
         obj.getClass();
         return obj;
@@ -395,13 +392,11 @@ public final class zzal extends AbstractMap implements Serializable {
         return zzakVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zze() {
+    final int zze() {
         return isEmpty() ? -1 : 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zzf(int i) {
+    final int zzf(int i) {
         int i2 = i + 1;
         if (i2 < this.zzg) {
             return i2;
@@ -409,8 +404,7 @@ public final class zzal extends AbstractMap implements Serializable {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Map zzj() {
+    final Map zzj() {
         Object obj = this.zze;
         if (obj instanceof Map) {
             return (Map) obj;
@@ -418,8 +412,7 @@ public final class zzal extends AbstractMap implements Serializable {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzl() {
+    final void zzl() {
         this.zzf += 32;
     }
 
@@ -427,8 +420,7 @@ public final class zzal extends AbstractMap implements Serializable {
         this.zzf = zzbw.zza(12, 1, 1073741823);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzn(int i, int i2) {
+    final void zzn(int i, int i2) {
         Object obj = this.zze;
         obj.getClass();
         int[] iArr = this.zza;
@@ -471,8 +463,7 @@ public final class zzal extends AbstractMap implements Serializable {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzo() {
+    final boolean zzo() {
         return this.zze == null;
     }
 }

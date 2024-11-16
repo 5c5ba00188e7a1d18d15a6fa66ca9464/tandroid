@@ -2,9 +2,8 @@ package com.google.android.gms.internal.play_billing;
 
 import java.util.Arrays;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzaf extends zzx {
+final class zzaf extends zzx {
     static final zzx zza = new zzaf(null, new Object[0], 0);
     final transient Object[] zzb;
     private final transient Object zzc;
@@ -16,14 +15,13 @@ public final class zzaf extends zzx {
         this.zzd = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r15v0 */
     /* JADX WARN: Type inference failed for: r5v11 */
     /* JADX WARN: Type inference failed for: r5v13, types: [java.lang.Object[]] */
     /* JADX WARN: Type inference failed for: r5v4, types: [int[]] */
     /* JADX WARN: Type inference failed for: r6v3, types: [java.lang.Object[]] */
-    public static zzaf zzf(int i, Object[] objArr, zzw zzwVar) {
+    static zzaf zzf(int i, Object[] objArr, zzw zzwVar) {
         int i2;
         short[] sArr;
         Object[] objArr2;

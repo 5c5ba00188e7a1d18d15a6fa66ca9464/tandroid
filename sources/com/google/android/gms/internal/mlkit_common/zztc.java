@@ -6,8 +6,7 @@ import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 
 /* loaded from: classes.dex */
 final class zztc extends LazyInstanceMap {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zztc(zztb zztbVar) {
+    /* synthetic */ zztc(zztb zztbVar) {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.LazyInstanceMap

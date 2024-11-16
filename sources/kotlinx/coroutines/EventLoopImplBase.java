@@ -78,7 +78,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         }
     }
 
-    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     private final boolean isCompleted() {
         return this._isCompleted;
     }
@@ -96,9 +96,8 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // kotlinx.coroutines.EventLoop
-    public long getNextTime() {
+    protected long getNextTime() {
         Symbol symbol;
         if (super.getNextTime() == 0) {
             return 0L;
@@ -117,8 +116,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         return Long.MAX_VALUE;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean isEmpty() {
+    protected boolean isEmpty() {
         Symbol symbol;
         if (!isUnconfinedQueueEmpty()) {
             return false;
@@ -150,8 +148,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         return 0L;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void resetAll() {
+    protected final void resetAll() {
         this._queue = null;
         this._delayed = null;
     }

@@ -2,15 +2,13 @@ package com.google.android.gms.internal.play_billing;
 
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbf extends zzbi {
+final class zzbf extends zzbi {
     private final byte[] zzc;
     private final int zzd;
     private int zze;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbf(byte[] bArr, int i, int i2) {
+    zzbf(byte[] bArr, int i, int i2) {
         super(null);
         int length = bArr.length;
         if (((length - i2) | i2) < 0) {

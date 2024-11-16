@@ -9,19 +9,16 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public interface HlsPlaylistTracker {
 
-    /* loaded from: classes.dex */
     public interface Factory {
         HlsPlaylistTracker createTracker(HlsDataSourceFactory hlsDataSourceFactory, LoadErrorHandlingPolicy loadErrorHandlingPolicy, HlsPlaylistParserFactory hlsPlaylistParserFactory);
     }
 
-    /* loaded from: classes.dex */
     public interface PlaylistEventListener {
         void onPlaylistChanged();
 
         boolean onPlaylistError(Uri uri, LoadErrorHandlingPolicy.LoadErrorInfo loadErrorInfo, boolean z);
     }
 
-    /* loaded from: classes.dex */
     public static final class PlaylistResetException extends IOException {
         public final Uri url;
 
@@ -30,7 +27,6 @@ public interface HlsPlaylistTracker {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class PlaylistStuckException extends IOException {
         public final Uri url;
 
@@ -39,7 +35,6 @@ public interface HlsPlaylistTracker {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface PrimaryPlaylistListener {
         void onPrimaryPlaylistRefreshed(HlsMediaPlaylist hlsMediaPlaylist);
     }

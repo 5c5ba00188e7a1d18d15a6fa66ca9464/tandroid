@@ -10,7 +10,6 @@ final class AppCompatTextClassifierHelper {
     private TextClassifier mTextClassifier;
     private TextView mTextView;
 
-    /* loaded from: classes.dex */
     private static final class Api26Impl {
         static TextClassifier getTextClassifier(TextView textView) {
             TextClassificationManager textClassificationManager = (TextClassificationManager) textView.getContext().getSystemService(TextClassificationManager.class);
@@ -18,8 +17,7 @@ final class AppCompatTextClassifierHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatTextClassifierHelper(TextView textView) {
+    AppCompatTextClassifierHelper(TextView textView) {
         this.mTextView = (TextView) Preconditions.checkNotNull(textView);
     }
 

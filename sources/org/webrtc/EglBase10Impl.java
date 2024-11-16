@@ -24,7 +24,6 @@ class EglBase10Impl implements EglBase10 {
     private EGLDisplay eglDisplay;
     private EGLSurface eglSurface;
 
-    /* loaded from: classes5.dex */
     private static class Context implements EglBase10.Context {
         private final EGL10 egl;
         private final EGLContext eglContext;
@@ -53,12 +52,12 @@ class EglBase10Impl implements EglBase10 {
                         throw new RuntimeException("Failed to make temporary EGL surface active: " + this.egl.eglGetError());
                     }
                 }
-                long access$000 = EglBase10Impl.access$000();
+                long nativeGetCurrentNativeEGLContext = EglBase10Impl.nativeGetCurrentNativeEGLContext();
                 if (eGLSurface != null) {
                     this.egl.eglMakeCurrent(eglGetCurrentDisplay, eglGetCurrentSurface, eglGetCurrentSurface2, eglGetCurrentContext);
                     this.egl.eglDestroySurface(eglGetCurrentDisplay, eGLSurface);
                 }
-                return access$000;
+                return nativeGetCurrentNativeEGLContext;
             } catch (Throwable th) {
                 if (0 != 0) {
                     this.egl.eglMakeCurrent(eglGetCurrentDisplay, eglGetCurrentSurface, eglGetCurrentSurface2, eglGetCurrentContext);
@@ -74,7 +73,6 @@ class EglBase10Impl implements EglBase10 {
         }
     }
 
-    /* loaded from: classes5.dex */
     private class FakeSurfaceHolder implements SurfaceHolder {
         private final Surface surface;
 
@@ -153,10 +151,6 @@ class EglBase10Impl implements EglBase10 {
         int openGlesVersionFromConfig = EglBase.-CC.getOpenGlesVersionFromConfig(iArr);
         Logging.d(TAG, "Using OpenGL ES version " + openGlesVersionFromConfig);
         this.eglContext = createEglContext(eGLContext, this.eglDisplay, this.eglConfig, openGlesVersionFromConfig);
-    }
-
-    static /* synthetic */ long access$000() {
-        return nativeGetCurrentNativeEGLContext();
     }
 
     private void checkIsNotReleased() {
@@ -241,7 +235,8 @@ class EglBase10Impl implements EglBase10 {
         throw new RuntimeException("Unable to initialize EGL10: 0x" + Integer.toHexString(this.egl.eglGetError()));
     }
 
-    private static native long nativeGetCurrentNativeEGLContext();
+    /* JADX INFO: Access modifiers changed from: private */
+    public static native long nativeGetCurrentNativeEGLContext();
 
     @Override // org.webrtc.EglBase
     public void createBackgroundSurface(SurfaceTexture surfaceTexture) {

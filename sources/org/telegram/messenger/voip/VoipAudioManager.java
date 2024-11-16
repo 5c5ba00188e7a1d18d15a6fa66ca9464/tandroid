@@ -10,9 +10,7 @@ import org.webrtc.MediaStreamTrack;
 public class VoipAudioManager {
     private Boolean isSpeakerphoneOn;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static final class InstanceHolder {
+    private static final class InstanceHolder {
         static final VoipAudioManager instance = new VoipAudioManager();
 
         private InstanceHolder() {

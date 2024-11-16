@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 public abstract class ViewConfigurationCompat {
     private static Method sGetScaledScrollFactorMethod;
 
-    /* loaded from: classes.dex */
     static class Api26Impl {
         static float getScaledHorizontalScrollFactor(ViewConfiguration viewConfiguration) {
             return viewConfiguration.getScaledHorizontalScrollFactor();
@@ -24,7 +23,6 @@ public abstract class ViewConfigurationCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api28Impl {
         static int getScaledHoverSlop(ViewConfiguration viewConfiguration) {
             return viewConfiguration.getScaledHoverSlop();

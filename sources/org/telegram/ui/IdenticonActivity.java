@@ -53,7 +53,6 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
     private LinearLayout linearLayout1;
     private TextView textView;
 
-    /* loaded from: classes4.dex */
     private static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
         }

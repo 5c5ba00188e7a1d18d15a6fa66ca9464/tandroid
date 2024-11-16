@@ -55,9 +55,7 @@ public class HintView extends FrameLayout {
     private float translationY;
     private boolean useScale;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends AnimatorListenerAdapter {
+    class 1 extends AnimatorListenerAdapter {
         1() {
         }
 
@@ -81,9 +79,7 @@ public class HintView extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 2 extends AnimatorListenerAdapter {
+    class 2 extends AnimatorListenerAdapter {
         2() {
         }
 
@@ -107,7 +103,6 @@ public class HintView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface VisibilityListener {
     }
 

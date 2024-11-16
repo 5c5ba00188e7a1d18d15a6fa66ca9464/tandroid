@@ -2,22 +2,19 @@ package com.google.android.gms.internal.vision;
 
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzlm implements Comparable, Map.Entry {
+final class zzlm implements Comparable, Map.Entry {
     private final Comparable zza;
     private Object zzb;
     private final /* synthetic */ zzlh zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzlm(zzlh zzlhVar, Comparable comparable, Object obj) {
+    zzlm(zzlh zzlhVar, Comparable comparable, Object obj) {
         this.zzc = zzlhVar;
         this.zza = comparable;
         this.zzb = obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzlm(zzlh zzlhVar, Map.Entry entry) {
+    zzlm(zzlh zzlhVar, Map.Entry entry) {
         this(zzlhVar, (Comparable) entry.getKey(), entry.getValue());
     }
 

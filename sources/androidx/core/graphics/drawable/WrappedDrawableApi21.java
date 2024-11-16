@@ -14,19 +14,16 @@ import android.util.Log;
 import androidx.appcompat.widget.AppCompatImageHelper$$ExternalSyntheticApiModelOutline0;
 import java.lang.reflect.Method;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
+class WrappedDrawableApi21 extends WrappedDrawableApi14 {
     private static Method sIsProjectedDrawableMethod;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WrappedDrawableApi21(Drawable drawable) {
+    WrappedDrawableApi21(Drawable drawable) {
         super(drawable);
         findAndCacheIsProjectedDrawableMethod();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WrappedDrawableApi21(WrappedDrawableState wrappedDrawableState, Resources resources) {
+    WrappedDrawableApi21(WrappedDrawableState wrappedDrawableState, Resources resources) {
         super(wrappedDrawableState, resources);
         findAndCacheIsProjectedDrawableMethod();
     }

@@ -18,8 +18,7 @@ final class zzkq implements zzlc {
         this.zza = zzkkVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzkq zza(zzlu zzluVar, zziq zziqVar, zzkk zzkkVar) {
+    static zzkq zza(zzlu zzluVar, zziq zziqVar, zzkk zzkkVar) {
         return new zzkq(zzluVar, zziqVar, zzkkVar);
     }
 

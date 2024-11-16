@@ -5,9 +5,8 @@ import java.util.Arrays;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzed {
+final class zzed {
     private final int flags;
     private final Object[] zzmj;
     private final int zzmk;
@@ -41,8 +40,7 @@ public final class zzed {
     private Object zzof;
     private Object zzog;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzed(Class cls, String str, Object[] objArr) {
+    zzed(Class cls, String str, Object[] objArr) {
         this.zzni = cls;
         zzee zzeeVar = new zzee(str);
         this.zznh = zzeeVar;
@@ -77,11 +75,6 @@ public final class zzed {
         this.zznp = (next2 << 1) + next3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zza(zzed zzedVar) {
-        return zzedVar.flags;
-    }
-
     private static Field zza(Class cls, String str) {
         try {
             return cls.getDeclaredField(str);
@@ -105,16 +98,6 @@ public final class zzed {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzb(zzed zzedVar) {
-        return zzedVar.zzmk;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzc(zzed zzedVar) {
-        return zzedVar.zzml;
-    }
-
     private final Object zzcw() {
         Object[] objArr = this.zzmj;
         int i = this.zznp;
@@ -126,37 +109,6 @@ public final class zzed {
         return (this.flags & 1) == 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzd(zzed zzedVar) {
-        return zzedVar.zznj;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zze(zzed zzedVar) {
-        return zzedVar.zznm;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzf(zzed zzedVar) {
-        return zzedVar.zzno;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int[] zzg(zzed zzedVar) {
-        return zzedVar.zzms;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzh(zzed zzedVar) {
-        return zzedVar.zznn;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ int zzi(zzed zzedVar) {
-        return zzedVar.zzmm;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:30:0x00c2, code lost:
     
         if (zzcz() != false) goto L39;
@@ -176,7 +128,7 @@ public final class zzed {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final boolean next() {
+    final boolean next() {
         int i;
         Object type;
         if (!this.zznh.hasNext()) {
@@ -250,23 +202,19 @@ public final class zzed {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zzcx() {
+    final int zzcx() {
         return this.zzny;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zzcy() {
+    final int zzcy() {
         return this.zzoa;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzda() {
+    final boolean zzda() {
         return this.zzoa > zzcb.zziw.id();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Field zzdb() {
+    final Field zzdb() {
         int i = this.zzob << 1;
         Object obj = this.zzmj[i];
         if (obj instanceof Field) {
@@ -277,8 +225,7 @@ public final class zzed {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Field zzdc() {
+    final Field zzdc() {
         int i = (this.zzob << 1) + 1;
         Object obj = this.zzmj[i];
         if (obj instanceof Field) {
@@ -289,18 +236,15 @@ public final class zzed {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Field zzdd() {
+    final Field zzdd() {
         return this.zzod;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzde() {
+    final boolean zzde() {
         return zzcz() && this.zzoa <= zzcb.zzhp.id();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Field zzdf() {
+    final Field zzdf() {
         int i = (this.zznk << 1) + (this.zzoc / 32);
         Object obj = this.zzmj[i];
         if (obj instanceof Field) {
@@ -311,33 +255,27 @@ public final class zzed {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zzdg() {
+    final int zzdg() {
         return this.zzoc % 32;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzdh() {
+    final boolean zzdh() {
         return (this.zznz & 256) != 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean zzdi() {
+    final boolean zzdi() {
         return (this.zznz & 512) != 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object zzdj() {
+    final Object zzdj() {
         return this.zzoe;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object zzdk() {
+    final Object zzdk() {
         return this.zzof;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object zzdl() {
+    final Object zzdl() {
         return this.zzog;
     }
 }

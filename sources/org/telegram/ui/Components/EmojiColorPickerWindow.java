@@ -35,7 +35,6 @@ public class EmojiColorPickerWindow extends PopupWindow {
     private ViewTreeObserver mViewTreeObserver;
     public EmojiColorPickerView pickerView;
 
-    /* loaded from: classes3.dex */
     public static class EmojiColorPickerView extends View {
         private Drawable arrowDrawable;
         private int arrowX;

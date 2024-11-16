@@ -7,7 +7,6 @@ import com.google.firebase.installations.local.PersistedInstallation;
 public abstract class PersistedInstallationEntry {
     public static PersistedInstallationEntry INSTANCE = builder().build();
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract PersistedInstallationEntry build();
 

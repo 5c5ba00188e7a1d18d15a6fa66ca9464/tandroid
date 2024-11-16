@@ -7,25 +7,20 @@ import com.google.android.gms.tasks.Task;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class RequestDeduplicator {
+class RequestDeduplicator {
     private final Executor executor;
     private final Map getTokenRequests = new ArrayMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface GetTokenRequest {
+    interface GetTokenRequest {
         Task start();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RequestDeduplicator(Executor executor) {
+    RequestDeduplicator(Executor executor) {
         this.executor = executor;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized Task getOrStartGetTokenRequest(final String str, GetTokenRequest getTokenRequest) {
+    synchronized Task getOrStartGetTokenRequest(final String str, GetTokenRequest getTokenRequest) {
         try {
             Task task = (Task) this.getTokenRequests.get(str);
             if (task != null) {
@@ -43,7 +38,6 @@ public class RequestDeduplicator {
                 private final RequestDeduplicator arg$1;
                 private final String arg$2;
 
-                /* JADX INFO: Access modifiers changed from: package-private */
                 {
                     this.arg$1 = this;
                     this.arg$2 = str;
@@ -62,8 +56,7 @@ public class RequestDeduplicator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ Task lambda$getOrStartGetTokenRequest$0$RequestDeduplicator(String str, Task task) {
+    final /* synthetic */ Task lambda$getOrStartGetTokenRequest$0$RequestDeduplicator(String str, Task task) {
         synchronized (this) {
             this.getTokenRequests.remove(str);
         }

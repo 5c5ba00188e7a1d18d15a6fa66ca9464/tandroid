@@ -163,9 +163,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
     private ViewPagerFixed viewPagerFixed;
     private ChartViewData viewsBySourceData;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    class Adapter extends RecyclerListView.SelectionAdapter {
         int count;
         int overviewCell;
         int overviewHeaderCell = -1;
@@ -855,7 +853,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static abstract class BaseChartCell extends FrameLayout {
         ChartHeaderView chartHeaderView;
         int chartType;
@@ -867,9 +864,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         RadialProgressView progressView;
         BaseChartView zoomedChartView;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class CheckBoxHolder {
+        class CheckBoxHolder {
             final FlatCheckBox checkBox;
             LineViewData line;
             final int position;
@@ -1178,7 +1173,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
                     j3 = ((ChartData.Line) this.data.chartData.lines.get(i)).y[binarySearch];
                 }
             }
-            float f = ((float) j3) + ((float) (j2 - j3));
+            float f = j3 + (j2 - j3);
             BaseChartView baseChartView3 = this.chartView;
             float f2 = baseChartView3.currentMinHeight;
             final float f3 = (f - f2) / (baseChartView3.currentMaxHeight - f2);
@@ -1521,7 +1516,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ChartCell extends BaseChartCell {
         private final int currentAccount;
 
@@ -1639,7 +1633,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ChartViewData {
         public long activeZoom;
         public ChartData chartData;
@@ -1754,9 +1747,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class DiffUtilsCallback extends DiffUtil.Callback {
+    private static class DiffUtilsCallback extends DiffUtil.Callback {
         int actionsCell;
         private final Adapter adapter;
         int count;
@@ -1961,7 +1952,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class MemberData {
         public String description;
         public TLRPC.User user;
@@ -2278,7 +2268,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class OverviewCell extends LinearLayout {
         TextView[] primary;
         TextView[] secondary;
@@ -2353,7 +2342,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             updateColors();
         }
 
-        /* JADX WARN: Failed to find 'out' block for switch in B:4:0x0008. Please report as an issue. */
         public void setData(OverviewChannelData overviewChannelData, TLRPC.ChatFull chatFull) {
             TextView textView;
             String str;
@@ -2477,7 +2465,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class OverviewChannelData {
         String followersPrimary;
         String followersSecondary;
@@ -2514,7 +2501,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         String viewsTitle;
         boolean viewsUp;
 
-        /* loaded from: classes4.dex */
         public static class Quadruple {
             public Object fist;
             public Object fourth;
@@ -2678,7 +2664,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class OverviewChatData {
         String membersPrimary;
         String membersSecondary;
@@ -2780,7 +2765,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class RecentPostInfo {
         public TL_stats.PostInteractionCounters counters;
         public MessageObject message;
@@ -2841,7 +2825,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class UniversalChartCell extends BaseChartCell {
         private final int classGuid;
         private final int currentAccount;
@@ -2878,7 +2861,6 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ZoomCancelable {
         int adapterPosition;
         boolean canceled;
@@ -3564,9 +3546,8 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             }
         };
         this.viewPagerFixed = new ViewPagerFixed(getContext()) { // from class: org.telegram.ui.StatisticActivity.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ViewPagerFixed
-            public void onTabAnimationUpdate(boolean z4) {
+            protected void onTabAnimationUpdate(boolean z4) {
                 if (z4) {
                     return;
                 }
@@ -3698,9 +3679,8 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             this.recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StatisticActivity.7
                 int lastH;
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-                public void onMeasure(int i2, int i3) {
+                protected void onMeasure(int i2, int i3) {
                     super.onMeasure(i2, i3);
                     if (this.lastH != getMeasuredHeight() && StatisticActivity.this.adapter != null) {
                         StatisticActivity.this.adapter.notifyDataSetChanged();
@@ -3826,9 +3806,8 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.StatisticActivity.7
             int lastH;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i22, int i32) {
+            protected void onMeasure(int i22, int i32) {
                 super.onMeasure(i22, i32);
                 if (this.lastH != getMeasuredHeight() && StatisticActivity.this.adapter != null) {
                     StatisticActivity.this.adapter.notifyDataSetChanged();

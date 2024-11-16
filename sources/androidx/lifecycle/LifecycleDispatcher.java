@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 abstract class LifecycleDispatcher {
     private static AtomicBoolean sInitialized = new AtomicBoolean(false);
 
-    /* loaded from: classes.dex */
     static class DispatcherActivityCallback extends EmptyActivityLifecycleCallbacks {
         DispatcherActivityCallback() {
         }
@@ -29,8 +28,7 @@ abstract class LifecycleDispatcher {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void init(Context context) {
+    static void init(Context context) {
         if (sInitialized.getAndSet(true)) {
             return;
         }

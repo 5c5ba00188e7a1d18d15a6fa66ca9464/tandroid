@@ -7,8 +7,7 @@ import androidx.fragment.app.Fragment;
 public abstract class FragmentFactory {
     private static final SimpleArrayMap sClassCacheMap = new SimpleArrayMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isFragmentClass(ClassLoader classLoader, String str) {
+    static boolean isFragmentClass(ClassLoader classLoader, String str) {
         try {
             return Fragment.class.isAssignableFrom(loadClass(classLoader, str));
         } catch (ClassNotFoundException unused) {

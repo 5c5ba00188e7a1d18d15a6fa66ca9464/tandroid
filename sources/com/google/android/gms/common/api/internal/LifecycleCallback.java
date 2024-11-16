@@ -11,8 +11,7 @@ import java.io.PrintWriter;
 public class LifecycleCallback {
     protected final LifecycleFragment mLifecycleFragment;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public LifecycleCallback(LifecycleFragment lifecycleFragment) {
+    protected LifecycleCallback(LifecycleFragment lifecycleFragment) {
         this.mLifecycleFragment = lifecycleFragment;
     }
 
@@ -24,8 +23,7 @@ public class LifecycleCallback {
         return getFragment(new LifecycleActivity(activity));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static LifecycleFragment getFragment(LifecycleActivity lifecycleActivity) {
+    protected static LifecycleFragment getFragment(LifecycleActivity lifecycleActivity) {
         if (lifecycleActivity.zzd()) {
             return zzd.zzc(lifecycleActivity.zzb());
         }

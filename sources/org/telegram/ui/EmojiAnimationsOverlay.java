@@ -74,7 +74,6 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
     ArrayList animationIndexes = new ArrayList();
     final ArrayList drawingObjects = new ArrayList();
 
-    /* loaded from: classes4.dex */
     public static class DrawingObject {
         TLRPC.Document document;
         public long documentId;
@@ -272,7 +271,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
             for (int i = 0; i < this.timeIntervals.size(); i++) {
                 JSONObject jSONObject2 = new JSONObject();
                 jSONObject2.put("i", ((Integer) this.animationIndexes.get(i)).intValue() + 1);
-                jSONObject2.put("t", ((float) ((Long) this.timeIntervals.get(i)).longValue()) / 1000.0f);
+                jSONObject2.put("t", ((Long) this.timeIntervals.get(i)).longValue() / 1000.0f);
                 jSONArray.put(i, jSONObject2);
             }
             jSONObject.put("a", jSONArray);

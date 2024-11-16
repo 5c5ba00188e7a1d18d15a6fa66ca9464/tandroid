@@ -5,9 +5,8 @@ final class zaaq extends zabg {
     final /* synthetic */ zaaw zaa;
     final /* synthetic */ com.google.android.gms.signin.internal.zak zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zaaq(zaar zaarVar, zabf zabfVar, zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
+    zaaq(zaar zaarVar, zabf zabfVar, zaaw zaawVar, com.google.android.gms.signin.internal.zak zakVar) {
         super(zabfVar);
         this.zaa = zaawVar;
         this.zab = zakVar;

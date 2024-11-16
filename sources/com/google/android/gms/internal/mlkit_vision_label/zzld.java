@@ -5,8 +5,7 @@ public final class zzld {
     private final zzlg zza;
     private final zzbe zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzld(zzlb zzlbVar, zzlc zzlcVar) {
+    /* synthetic */ zzld(zzlb zzlbVar, zzlc zzlcVar) {
         zzlg zzlgVar;
         zzbe zzbeVar;
         zzlgVar = zzlbVar.zza;

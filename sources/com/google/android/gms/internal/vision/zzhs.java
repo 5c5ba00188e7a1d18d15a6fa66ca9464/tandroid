@@ -2,15 +2,13 @@ package com.google.android.gms.internal.vision;
 
 import java.util.NoSuchElementException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzhs extends zzhu {
+final class zzhs extends zzhu {
     private int zza = 0;
     private final int zzb;
     private final /* synthetic */ zzht zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzhs(zzht zzhtVar) {
+    zzhs(zzht zzhtVar) {
         this.zzc = zzhtVar;
         this.zzb = zzhtVar.zza();
     }

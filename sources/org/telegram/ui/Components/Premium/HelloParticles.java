@@ -18,7 +18,6 @@ import org.telegram.messenger.Utilities;
 public abstract class HelloParticles {
     private static final String[] hellos = {"Hello", "Привіт", "Привет", "Bonjour", "Hola", "Ciao", "Olá", "여보세요", "你好", "Salve", "Sveiki", "Halo", "გამარჯობა", "Hallå", "Salam", "Tere", "Dia dhuit", "こんにちは", "Сайн уу", "Bongu", "Ahoj", "γεια", "Zdravo", "नमस्ते", "Habari", "Hallo", "ជំរាបសួរ", "مرحبًا", "ನಮಸ್ಕಾರ", "Салам", "Silav li wir", "سڵاو", "Kif inti", "Talofa", "Thobela", "हॅलो", "ሰላም", "Здраво", "ഹലോ", "ہیلو", "ꯍꯦꯜꯂꯣ", "Alô", "வணக்கம்", "Mhoro", "Moni", "Alo", "สวัสดี", "Salom", "Բարեւ"};
 
-    /* loaded from: classes3.dex */
     public static class Drawable {
         private float bitmapScale;
         public final int count;
@@ -37,7 +36,6 @@ public abstract class HelloParticles {
         public long minLifeTime = 2000;
         private final float dt = 1000.0f / AndroidUtilities.screenRefreshRate;
 
-        /* loaded from: classes3.dex */
         private class Particle {
             private int alpha;
             private Bitmap bitmap;
@@ -62,7 +60,7 @@ public abstract class HelloParticles {
                 if (!drawable.paused) {
                     float f = this.inProgress;
                     if (f != 1.0f) {
-                        float f2 = f + (drawable.dt / ((float) this.duration));
+                        float f2 = f + (drawable.dt / this.duration);
                         this.inProgress = f2;
                         if (f2 > 1.0f) {
                             this.inProgress = 1.0f;

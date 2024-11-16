@@ -7,8 +7,7 @@ abstract class p0 implements e2 {
     boolean a;
     boolean b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public p0(q0 q0Var) {
+    p0(q0 q0Var) {
         boolean z;
         z = q0Var.b;
         this.b = !z;

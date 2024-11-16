@@ -4,16 +4,14 @@ import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class ProtobufValueEncoderContext implements ValueEncoderContext {
+class ProtobufValueEncoderContext implements ValueEncoderContext {
     private FieldDescriptor field;
     private final ProtobufDataEncoderContext objEncoderCtx;
     private boolean encoded = false;
     private boolean skipDefault = false;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ProtobufValueEncoderContext(ProtobufDataEncoderContext protobufDataEncoderContext) {
+    ProtobufValueEncoderContext(ProtobufDataEncoderContext protobufDataEncoderContext) {
         this.objEncoderCtx = protobufDataEncoderContext;
     }
 
@@ -38,8 +36,7 @@ public class ProtobufValueEncoderContext implements ValueEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void resetContext(FieldDescriptor fieldDescriptor, boolean z) {
+    void resetContext(FieldDescriptor fieldDescriptor, boolean z) {
         this.encoded = false;
         this.field = fieldDescriptor;
         this.skipDefault = z;

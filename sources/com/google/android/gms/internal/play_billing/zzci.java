@@ -16,33 +16,27 @@ public class zzci extends IOException {
         this.zza = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzch zza() {
+    static zzch zza() {
         return new zzch("Protocol message tag had invalid wire type.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzci zzb() {
+    static zzci zzb() {
         return new zzci("Protocol message contained an invalid tag (zero).");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzci zzc() {
+    static zzci zzc() {
         return new zzci("Protocol message had invalid UTF-8.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzci zzd() {
+    static zzci zzd() {
         return new zzci("CodedInputStream encountered an embedded string or message which claimed to have negative size.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzci zze() {
+    static zzci zze() {
         return new zzci("Failed to parse the message.");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzci zzg() {
+    static zzci zzg() {
         return new zzci("While parsing a protocol message, the input ended unexpectedly in the middle of a field.  This could mean either that the input has been truncated or that an embedded message misreported its own length.");
     }
 

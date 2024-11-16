@@ -77,7 +77,6 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
     private Theme.ThemeAccent themeAccent;
     private Theme.ThemeInfo themeInfo;
 
-    /* loaded from: classes4.dex */
     private static class LinkMovementMethodMy extends LinkMovementMethod {
         private LinkMovementMethodMy() {
         }
@@ -100,7 +99,6 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LinkSpan extends ClickableSpan {
         private String url;
 
@@ -632,7 +630,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
                 int indexOf = formatString.indexOf(str);
                 SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(formatString);
                 if (indexOf >= 0) {
-                    spannableStringBuilder.setSpan(new LinkSpan(str), indexOf, str.length() + indexOf, 33);
+                    spannableStringBuilder.setSpan(ThemeSetUrlActivity.this.new LinkSpan(str), indexOf, str.length() + indexOf, 33);
                 }
                 ThemeSetUrlActivity.this.helpInfoCell.setText(TextUtils.concat(ThemeSetUrlActivity.this.infoText, "\n\n", spannableStringBuilder));
             }

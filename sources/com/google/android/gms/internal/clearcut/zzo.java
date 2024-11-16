@@ -5,8 +5,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public final class zzo extends zza implements zzn {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzo(IBinder iBinder) {
+    zzo(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.clearcut.internal.IClearcutLoggerService");
     }
 

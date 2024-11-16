@@ -52,7 +52,6 @@ public class SessionCell extends FrameLayout {
     private boolean showStub;
     private AnimatedFloat showStubValue;
 
-    /* loaded from: classes4.dex */
     public static class CircleGradientDrawable extends Drawable {
         private int colorBottom;
         private int colorTop;

@@ -8,9 +8,7 @@ import org.telegram.ui.Components.RecyclerListView;
 public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAdapter {
     DiffUtilsCallback callback = new DiffUtilsCallback();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class DiffUtilsCallback extends DiffUtil.Callback {
+    private class DiffUtilsCallback extends DiffUtil.Callback {
         ArrayList newItems;
         ArrayList oldItems;
 
@@ -43,7 +41,6 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class Item {
         public boolean selectable;
         public int viewType;
@@ -67,8 +64,7 @@ public abstract class AdapterWithDiffUtils extends RecyclerListView.SelectionAda
             return contentsEquals(item);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public boolean contentsEquals(Item item) {
+        protected boolean contentsEquals(Item item) {
             return false;
         }
     }

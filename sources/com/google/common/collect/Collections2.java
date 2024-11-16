@@ -9,14 +9,11 @@ import java.util.Iterator;
 /* loaded from: classes.dex */
 public abstract class Collections2 {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class FilteredCollection extends AbstractCollection {
+    static class FilteredCollection extends AbstractCollection {
         final Predicate predicate;
         final Collection unfiltered;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public FilteredCollection(Collection collection, Predicate predicate) {
+        FilteredCollection(Collection collection, Predicate predicate) {
             this.unfiltered = collection;
             this.predicate = predicate;
         }
@@ -130,14 +127,12 @@ public abstract class Collections2 {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static StringBuilder newStringBuilderForCollection(int i) {
+    static StringBuilder newStringBuilderForCollection(int i) {
         CollectPreconditions.checkNonnegative(i, "size");
         return new StringBuilder((int) Math.min(i * 8, 1073741824L));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean safeContains(Collection collection, Object obj) {
+    static boolean safeContains(Collection collection, Object obj) {
         Preconditions.checkNotNull(collection);
         try {
             return collection.contains(obj);

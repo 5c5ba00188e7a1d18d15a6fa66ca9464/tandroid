@@ -33,8 +33,7 @@ public class TrendingStickersAlert extends BottomSheet {
     private final int topOffset;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class AlertContainerView extends SizeNotifierFrameLayout {
+    class AlertContainerView extends SizeNotifierFrameLayout {
         private boolean gluedToTop;
         private boolean ignoreLayout;
         private final Paint paint;
@@ -126,9 +125,8 @@ public class TrendingStickersAlert extends BottomSheet {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             float fraction = getFraction();
             setStatusBarVisible(fraction == 0.0f && Build.VERSION.SDK_INT >= 21 && !TrendingStickersAlert.this.isDismissed(), true);
             updateLightStatusBar(this.statusBarAlpha > 0.5f);
@@ -200,9 +198,8 @@ public class TrendingStickersAlert extends BottomSheet {
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             int i5 = Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0;
             int size = View.MeasureSpec.getSize(getMeasuredHeight()) - i5;
             int measureKeyboardHeight = measureKeyboardHeight();
@@ -295,9 +292,8 @@ public class TrendingStickersAlert extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

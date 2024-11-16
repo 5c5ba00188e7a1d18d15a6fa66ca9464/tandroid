@@ -25,10 +25,8 @@ public final class Metadata implements Parcelable {
     private final Entry[] entries;
     public final long presentationTimeUs;
 
-    /* loaded from: classes.dex */
     public interface Entry extends Parcelable {
 
-        /* loaded from: classes.dex */
         public abstract /* synthetic */ class -CC {
             public static byte[] $default$getWrappedMetadataBytes(Entry entry) {
                 return null;

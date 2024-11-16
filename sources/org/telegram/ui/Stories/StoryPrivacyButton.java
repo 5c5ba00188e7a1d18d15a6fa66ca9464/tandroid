@@ -42,7 +42,7 @@ public class StoryPrivacyButton extends View {
     public StoryPrivacyButton(Context context) {
         super(context);
         this.gradientMatrix = new Matrix();
-        this.backgroundPaint = r0;
+        this.backgroundPaint = new Paint[]{new Paint(1), new Paint(1)};
         this.crossfadeT = new AnimatedFloat(this, 0L, 260L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.icon = new Drawable[2];
         this.iconSize = new float[2];
@@ -50,7 +50,6 @@ public class StoryPrivacyButton extends View {
         this.arrowPaint = paint;
         this.arrowPath = new Path();
         this.bounce = new ButtonBounce(this, 0.6f, 5.0f);
-        Paint[] paintArr = {new Paint(1), new Paint(1)};
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);

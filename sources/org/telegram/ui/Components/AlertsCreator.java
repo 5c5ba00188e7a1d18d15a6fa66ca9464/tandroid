@@ -102,7 +102,7 @@ import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.TextColorCell;
 import org.telegram.ui.ChatActivity;
-import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda294;
+import org.telegram.ui.ChatActivity$$ExternalSyntheticLambda295;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.NumberPicker;
@@ -1758,8 +1758,8 @@ public abstract class AlertsCreator {
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r1v31 boolean, still in use, count: 2, list:
           (r1v31 boolean) from 0x0284: IF  (r1v31 boolean) != false  -> B:193:0x0286 A[HIDDEN]
           (r1v31 boolean) from 0x0286: PHI (r1v34 boolean) = (r1v31 boolean), (r1v48 boolean) binds: [B:223:0x0284, B:192:0x0275] A[DONT_GENERATE, DONT_INLINE]
-        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:151)
-        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:116)
+        	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
+        	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:114)
         	at jadx.core.dex.visitors.regions.TernaryMod.processRegion(TernaryMod.java:62)
         	at jadx.core.dex.visitors.regions.TernaryMod.visitRegion(TernaryMod.java:53)
@@ -1776,7 +1776,7 @@ public abstract class AlertsCreator {
     /* JADX WARN: Removed duplicated region for block: B:90:0x0336  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x0377  */
     /* JADX WARN: Type inference failed for: r1v77 */
-    /* JADX WARN: Type inference failed for: r1v80, types: [org.telegram.messenger.ImageLocation, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r1v80, types: [java.lang.String, org.telegram.messenger.ImageLocation] */
     /* JADX WARN: Type inference failed for: r1v82 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2507,7 +2507,7 @@ public abstract class AlertsCreator {
                     lambda$createDeleteMessagesAlert$151 = AlertsCreator.lambda$createDeleteMessagesAlert$151(clientUserId, (TLObject) obj);
                     return lambda$createDeleteMessagesAlert$151;
                 }
-            }).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda294()));
+            }).collect(Collectors.toCollection(new ChatActivity$$ExternalSyntheticLambda295()));
             if (!arrayList2.isEmpty()) {
                 if (channelParticipantArr != null) {
                     DeleteMessagesBottomSheet deleteMessagesBottomSheet = new DeleteMessagesBottomSheet(baseFragment, chat, arrayList, arrayList2, channelParticipantArr, j, i, i2, runnable);
@@ -6365,14 +6365,21 @@ public abstract class AlertsCreator {
         int i4;
         int i5;
         int i6;
+        StringBuilder sb;
         int intValue = ((Integer) view.getTag()).intValue();
         if (intValue == 0) {
             if (j != 0) {
                 SharedPreferences.Editor edit = MessagesController.getNotificationsSettings(i).edit();
                 if (z) {
-                    edit.remove(NotificationsSettingsFacade.PROPERTY_NOTIFY + j);
+                    sb = new StringBuilder();
+                    sb.append(NotificationsSettingsFacade.PROPERTY_NOTIFY);
+                    sb.append(j);
+                    edit.remove(sb.toString());
                 } else {
-                    edit.putInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + j, 0);
+                    sb = new StringBuilder();
+                    sb.append(NotificationsSettingsFacade.PROPERTY_NOTIFY);
+                    sb.append(j);
+                    edit.putInt(sb.toString(), 0);
                 }
                 MessagesStorage.getInstance(i).setDialogFlags(j, 0L);
                 edit.commit();
@@ -6400,9 +6407,8 @@ public abstract class AlertsCreator {
                     currentTime += 172800;
                 } else if (intValue == 4) {
                     i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                    long j2 = i2;
                     i5 = 1;
-                    NotificationsController.getInstance(i).muteUntil(j, 1L, i4);
+                    NotificationsController.getInstance(i).muteUntil(j, i2, i4);
                     if (j != 0 && intCallback != null) {
                         if (intValue == 4 || z) {
                             intCallback.run(1);
@@ -6425,9 +6431,8 @@ public abstract class AlertsCreator {
                     return;
                 }
                 i4 = currentTime;
-                long j22 = i2;
                 i5 = 1;
-                NotificationsController.getInstance(i).muteUntil(j, 1L, i4);
+                NotificationsController.getInstance(i).muteUntil(j, i2, i4);
                 if (j != 0) {
                     if (intValue == 4) {
                     }
@@ -6592,6 +6597,13 @@ public abstract class AlertsCreator {
     /* JADX WARN: Code restructure failed: missing block: B:83:0x014e, code lost:
     
         if (r21.text.startsWith("FLOOD_WAIT") != false) goto L467;
+     */
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue
+    java.lang.NullPointerException
+    	at jadx.core.dex.visitors.regions.SwitchOverStringVisitor.restoreSwitchOverString(SwitchOverStringVisitor.java:109)
+    	at jadx.core.dex.visitors.regions.SwitchOverStringVisitor.visitRegion(SwitchOverStringVisitor.java:66)
+    	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:77)
+    	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:82)
      */
     /* JADX WARN: Removed duplicated region for block: B:325:0x05c3  */
     /* JADX WARN: Removed duplicated region for block: B:327:0x05e6  */
@@ -7118,171 +7130,43 @@ public abstract class AlertsCreator {
     }
 
     public static void showAddUserAlert(String str, final BaseFragment baseFragment, boolean z, TLObject tLObject) {
+        AlertDialog.Builder builder;
         int i;
         String string;
         if (str == null || baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
+        builder = new AlertDialog.Builder(baseFragment.getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.AppName));
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2120721660:
-                if (str.equals("CHANNELS_ADMIN_LOCATED_TOO_MUCH")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -2012133105:
-                if (str.equals("CHANNELS_ADMIN_PUBLIC_TOO_MUCH")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1763467626:
-                if (str.equals("USERS_TOO_FEW")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -538116776:
-                if (str.equals("USER_BLOCKED")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -512775857:
-                if (str.equals("USER_RESTRICTED")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -454039871:
-                if (str.equals("PEER_FLOOD")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case -420079733:
-                if (str.equals("BOTS_TOO_MUCH")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case 98635865:
-                if (str.equals("USER_KICKED")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case 517420851:
-                if (str.equals("USER_BOT")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 845559454:
-                if (str.equals("YOU_BLOCKED_USER")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 916342611:
-                if (str.equals("USER_ADMIN_INVALID")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 1047173446:
-                if (str.equals("CHAT_ADMIN_BAN_REQUIRED")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 1167301807:
-                if (str.equals("USERS_TOO_MUCH")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 1227003815:
-                if (str.equals("USER_ID_INVALID")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case 1253103379:
-                if (str.equals("ADMINS_TOO_MUCH")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case 1355367367:
-                if (str.equals("CHANNELS_TOO_MUCH")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case 1377621075:
-                if (str.equals("USER_CHANNELS_TOO_MUCH")) {
-                    c = 16;
-                    break;
-                }
-                break;
-            case 1623167701:
-                if (str.equals("USER_NOT_MUTUAL_CONTACT")) {
-                    c = 17;
-                    break;
-                }
-                break;
-            case 1754587486:
-                if (str.equals("CHAT_ADMIN_INVITE_REQUIRED")) {
-                    c = 18;
-                    break;
-                }
-                break;
-            case 1916725894:
-                if (str.equals("USER_PRIVACY_RESTRICTED")) {
-                    c = 19;
-                    break;
-                }
-                break;
-            case 1965565720:
-                if (str.equals("USER_ALREADY_PARTICIPANT")) {
-                    c = 20;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "CHANNELS_ADMIN_LOCATED_TOO_MUCH":
                 i = R.string.LocatedChannelsTooMuch;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 1:
+            case "CHANNELS_ADMIN_PUBLIC_TOO_MUCH":
                 i = R.string.PublicChannelsTooMuch;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 2:
+            case "USERS_TOO_FEW":
                 i = R.string.CreateGroupError;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 3:
-            case '\b':
-            case '\r':
+            case "USER_BLOCKED":
+            case "USER_BOT":
+            case "USER_ID_INVALID":
                 i = z ? R.string.ChannelUserCantAdd : R.string.GroupUserCantAdd;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 4:
+            case "USER_RESTRICTED":
                 i = R.string.UserRestricted;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 5:
+            case "PEER_FLOOD":
                 builder.setMessage(LocaleController.getString(R.string.NobodyLikesSpam2));
                 builder.setNegativeButton(LocaleController.getString(R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
@@ -7291,65 +7175,65 @@ public abstract class AlertsCreator {
                     }
                 });
                 break;
-            case 6:
+            case "BOTS_TOO_MUCH":
                 i = z ? R.string.ChannelUserCantBot : R.string.GroupUserCantBot;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 7:
-            case 11:
+            case "USER_KICKED":
+            case "CHAT_ADMIN_BAN_REQUIRED":
                 i = tLObject instanceof TLRPC.TL_channels_inviteToChannel ? R.string.AddUserErrorBlacklisted : R.string.AddAdminErrorBlacklisted;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case '\t':
+            case "YOU_BLOCKED_USER":
                 i = R.string.YouBlockedUser;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case '\n':
+            case "USER_ADMIN_INVALID":
                 i = R.string.AddBannedErrorAdmin;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case '\f':
+            case "USERS_TOO_MUCH":
                 i = z ? R.string.ChannelUserAddLimit : R.string.GroupUserAddLimit;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 14:
+            case "ADMINS_TOO_MUCH":
                 i = z ? R.string.ChannelUserCantAdmin : R.string.GroupUserCantAdmin;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 15:
+            case "CHANNELS_TOO_MUCH":
                 builder.setTitle(LocaleController.getString(R.string.ChannelTooMuchTitle));
                 i = tLObject instanceof TLRPC.TL_channels_createChannel ? R.string.ChannelTooMuch : R.string.ChannelTooMuchJoin;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 16:
+            case "USER_CHANNELS_TOO_MUCH":
                 builder.setTitle(LocaleController.getString(R.string.ChannelTooMuchTitle));
                 i = R.string.UserChannelTooMuchJoin;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 17:
+            case "USER_NOT_MUTUAL_CONTACT":
                 i = z ? R.string.ChannelUserLeftError : R.string.GroupUserLeftError;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 18:
+            case "CHAT_ADMIN_INVITE_REQUIRED":
                 i = R.string.AddAdminErrorNotAMember;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 19:
+            case "USER_PRIVACY_RESTRICTED":
                 i = z ? R.string.InviteToChannelError : R.string.InviteToGroupError;
                 string = LocaleController.getString(i);
                 builder.setMessage(string);
                 break;
-            case 20:
+            case "USER_ALREADY_PARTICIPANT":
                 builder.setTitle(LocaleController.getString(R.string.VoipGroupVoiceChat));
                 i = R.string.VoipGroupInviteAlreadyParticipant;
                 string = LocaleController.getString(i);
@@ -7371,7 +7255,7 @@ public abstract class AlertsCreator {
     /* JADX WARN: Removed duplicated region for block: B:39:0x0121  */
     /* JADX WARN: Type inference failed for: r4v0 */
     /* JADX WARN: Type inference failed for: r4v14 */
-    /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r4v5, types: [boolean, int] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7581,12 +7465,12 @@ public abstract class AlertsCreator {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0 */
-    /* JADX WARN: Type inference failed for: r11v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r11v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r11v3 */
     /* JADX WARN: Type inference failed for: r12v0 */
-    /* JADX WARN: Type inference failed for: r12v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v3 */
-    /* JADX WARN: Type inference failed for: r6v1, types: [android.widget.TextView, android.view.View] */
+    /* JADX WARN: Type inference failed for: r6v1, types: [android.view.View, android.widget.TextView] */
     /* JADX WARN: Type inference failed for: r9v1, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r9v3 */
     /* JADX WARN: Type inference failed for: r9v4 */

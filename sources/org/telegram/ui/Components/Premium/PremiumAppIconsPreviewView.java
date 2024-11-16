@@ -27,9 +27,7 @@ public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHead
     private final Theme.ResourcesProvider resourcesProvider;
     private AdaptiveIconImageView topIcon;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class AdaptiveIconImageView extends AppIconsSelectorCell.AdaptiveIconImageView {
+    private class AdaptiveIconImageView extends AppIconsSelectorCell.AdaptiveIconImageView {
         StarParticlesView.Drawable drawable;
         Paint paint;
         float particlesScale;

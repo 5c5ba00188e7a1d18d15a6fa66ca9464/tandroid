@@ -25,7 +25,6 @@ public class CounterView extends View {
     public CounterDrawable counterDrawable;
     private final Theme.ResourcesProvider resourcesProvider;
 
-    /* loaded from: classes3.dex */
     public static class CounterDrawable {
         public boolean addServiceGradient;
         private int circleColor;

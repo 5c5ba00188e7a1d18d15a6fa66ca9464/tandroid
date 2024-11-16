@@ -45,9 +45,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
     private float toOffsetY;
     private float translationOffsetY;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
+    class 3 implements ReactionsContainerLayout.ReactionsContainerDelegate {
         3() {
         }
 
@@ -169,7 +167,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                     if (!isEnabled()) {
                         float f = this.enabledAlpha;
                         if (f != 0.0f) {
-                            this.enabledAlpha = Math.max(0.0f, f - (((float) min) / 150.0f));
+                            this.enabledAlpha = Math.max(0.0f, f - (min / 150.0f));
                             invalidate();
                             if (this.enabledAlpha == 0.0f) {
                                 setVisibility(8);
@@ -181,7 +179,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                     if (isEnabled()) {
                         float f2 = this.enabledAlpha;
                         if (f2 != 1.0f) {
-                            this.enabledAlpha = Math.min(1.0f, f2 + (((float) min) / 150.0f));
+                            this.enabledAlpha = Math.min(1.0f, f2 + (min / 150.0f));
                             invalidate();
                         }
                     }
@@ -279,7 +277,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
         float f = this.currentOffsetY;
         float f2 = this.toOffsetY;
         if (f != f2) {
-            float f3 = ((float) min) / 220.0f;
+            float f3 = min / 220.0f;
             if (f2 > f) {
                 max = Math.min(f + f3, f2);
             } else {

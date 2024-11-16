@@ -99,7 +99,6 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
             private final boolean zzd;
             private final BroadcastReceiver.PendingResult zze;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.zza = this;
                 this.zzb = intent;
@@ -115,8 +114,7 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zza(Intent intent, Context context, boolean z, BroadcastReceiver.PendingResult pendingResult) {
+    final /* synthetic */ void zza(Intent intent, Context context, boolean z, BroadcastReceiver.PendingResult pendingResult) {
         try {
             Parcelable parcelableExtra = intent.getParcelableExtra("wrapped_intent");
             Intent intent2 = parcelableExtra instanceof Intent ? (Intent) parcelableExtra : null;

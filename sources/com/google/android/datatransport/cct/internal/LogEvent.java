@@ -5,7 +5,6 @@ import com.google.android.datatransport.cct.internal.AutoValue_LogEvent;
 /* loaded from: classes.dex */
 public abstract class LogEvent {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract LogEvent build();
 

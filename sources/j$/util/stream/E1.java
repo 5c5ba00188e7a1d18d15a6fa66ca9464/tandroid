@@ -10,8 +10,7 @@ final class E1 extends O1 implements N1 {
     final /* synthetic */ BiConsumer c;
     final /* synthetic */ j$.util.function.f d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public E1(Supplier supplier, BiConsumer biConsumer, j$.util.function.f fVar) {
+    E1(Supplier supplier, BiConsumer biConsumer, j$.util.function.f fVar) {
         this.b = supplier;
         this.c = biConsumer;
         this.d = fVar;

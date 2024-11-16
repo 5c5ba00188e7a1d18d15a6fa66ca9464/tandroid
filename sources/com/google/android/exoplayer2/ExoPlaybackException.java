@@ -99,8 +99,7 @@ public final class ExoPlaybackException extends PlaybackException {
         return str3 + ": " + str;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ExoPlaybackException copyWithMediaPeriodId(MediaPeriodId mediaPeriodId) {
+    ExoPlaybackException copyWithMediaPeriodId(MediaPeriodId mediaPeriodId) {
         return new ExoPlaybackException((String) Util.castNonNull(getMessage()), getCause(), this.errorCode, this.type, this.rendererName, this.rendererIndex, this.rendererFormat, this.rendererFormatSupport, mediaPeriodId, this.timestampMs, this.isRecoverable);
     }
 

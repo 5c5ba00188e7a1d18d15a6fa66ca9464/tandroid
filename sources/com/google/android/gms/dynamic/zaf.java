@@ -1,12 +1,10 @@
 package com.google.android.gms.dynamic;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaf implements zah {
+final class zaf implements zah {
     final /* synthetic */ DeferredLifecycleHelper zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaf(DeferredLifecycleHelper deferredLifecycleHelper) {
+    zaf(DeferredLifecycleHelper deferredLifecycleHelper) {
         this.zaa = deferredLifecycleHelper;
     }
 

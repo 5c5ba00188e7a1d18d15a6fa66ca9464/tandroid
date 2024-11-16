@@ -4,6 +4,9 @@ import j$.util.function.Consumer;
 
 /* loaded from: classes2.dex */
 final class W0 extends Y0 implements D0 {
+    W0() {
+    }
+
     @Override // j$.util.stream.Y0, j$.util.stream.F0
     public final E0 a(int i) {
         throw new IndexOutOfBoundsException();

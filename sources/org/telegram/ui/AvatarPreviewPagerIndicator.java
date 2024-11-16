@@ -157,7 +157,6 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
         postInvalidateOnAnimation();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:123:0x02fc  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x01cb  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x0204  */
@@ -167,7 +166,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         int i;
         boolean z;
         float f;
@@ -233,7 +232,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                             float f5 = this.currentLoadingAnimationProgress;
                             int i7 = this.currentLoadingAnimationDirection;
                             i3 = i6;
-                            float f6 = f5 + (((float) (i7 * j)) / 500.0f);
+                            float f6 = f5 + ((i7 * j) / 500.0f);
                             this.currentLoadingAnimationProgress = f6;
                             if (f6 > 1.0f) {
                                 this.currentLoadingAnimationProgress = 1.0f;
@@ -287,7 +286,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
             if (i8 == 2) {
                 float f11 = this.alpha;
                 if (f11 < 1.0f) {
-                    float f12 = f11 + (((float) j) / 180.0f);
+                    float f12 = f11 + (j / 180.0f);
                     this.alpha = f12;
                     if (f12 > 1.0f) {
                         this.alpha = 1.0f;
@@ -307,7 +306,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                     if (i9 != this.selectedPosition) {
                         float f13 = fArr3[i9];
                         if (f13 > 0.0f) {
-                            float f14 = f13 - (((float) j) / 500.0f);
+                            float f14 = f13 - (j / 500.0f);
                             fArr3[i9] = f14;
                             if (f14 <= 0.0f) {
                                 fArr3[i9] = 0.0f;
@@ -341,7 +340,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
             if (z2) {
                 float f15 = this.progressToCounter;
                 if (f15 != 1.0f) {
-                    this.progressToCounter = f15 + (((float) j) / 150.0f);
+                    this.progressToCounter = f15 + (j / 150.0f);
                     f = this.progressToCounter;
                     float f16 = 1.0f;
                     if (f < 1.0f) {
@@ -366,7 +365,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
             if (!z2) {
                 float f18 = this.progressToCounter;
                 if (f18 != 0.0f) {
-                    this.progressToCounter = f18 - (((float) j) / 150.0f);
+                    this.progressToCounter = f18 - (j / 150.0f);
                 }
             }
             f = this.progressToCounter;
@@ -385,7 +384,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                 float[] fArr4 = this.pressedOverlayAlpha;
                 float f19 = fArr4[i10];
                 if (f19 < 1.0f) {
-                    float f20 = f19 + (((float) j) / 180.0f);
+                    float f20 = f19 + (j / 180.0f);
                     fArr4[i10] = f20;
                     if (f20 > 1.0f) {
                         fArr4[i10] = 1.0f;
@@ -396,7 +395,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                 float[] fArr5 = this.pressedOverlayAlpha;
                 float f21 = fArr5[i10];
                 if (f21 > 0.0f) {
-                    float f22 = f21 - (((float) j) / 180.0f);
+                    float f22 = f21 - (j / 180.0f);
                     fArr5[i10] = f22;
                     if (f22 < 0.0f) {
                         fArr5[i10] = 0.0f;

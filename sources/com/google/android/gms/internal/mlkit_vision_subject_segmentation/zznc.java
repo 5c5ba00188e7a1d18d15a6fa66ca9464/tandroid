@@ -9,8 +9,7 @@ public final class zznc {
     private final Long zze;
     private final Long zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zznc(zzna zznaVar, zznb zznbVar) {
+    /* synthetic */ zznc(zzna zznaVar, zznb zznbVar) {
         Long l;
         Long l2;
         Long l3;

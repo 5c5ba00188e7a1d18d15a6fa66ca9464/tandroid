@@ -13,7 +13,6 @@ import com.google.android.exoplayer2.upstream.TransferListener;
 /* loaded from: classes.dex */
 public interface MediaSource {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static Timeline $default$getInitialTimeline(MediaSource mediaSource) {
             return null;
@@ -24,7 +23,6 @@ public interface MediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Factory {
         MediaSource createMediaSource(MediaItem mediaItem);
 
@@ -33,7 +31,6 @@ public interface MediaSource {
         Factory setLoadErrorHandlingPolicy(LoadErrorHandlingPolicy loadErrorHandlingPolicy);
     }
 
-    /* loaded from: classes.dex */
     public static final class MediaPeriodId extends com.google.android.exoplayer2.source.MediaPeriodId {
         public MediaPeriodId(com.google.android.exoplayer2.source.MediaPeriodId mediaPeriodId) {
             super(mediaPeriodId);
@@ -61,7 +58,6 @@ public interface MediaSource {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface MediaSourceCaller {
         void onSourceInfoRefreshed(MediaSource mediaSource, Timeline timeline);
     }

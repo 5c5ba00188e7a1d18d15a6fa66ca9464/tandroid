@@ -28,25 +28,19 @@ public class FileProvider extends ContentProvider {
     private int mResourceId = 0;
     private PathStrategy mStrategy;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static File[] getExternalMediaDirs(Context context) {
             return context.getExternalMediaDirs();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public interface PathStrategy {
+    interface PathStrategy {
         File getFileForUri(Uri uri);
 
         Uri getUriForFile(File file);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class SimplePathStrategy implements PathStrategy {
+    static class SimplePathStrategy implements PathStrategy {
         private final String mAuthority;
         private final HashMap mRoots = new HashMap();
 

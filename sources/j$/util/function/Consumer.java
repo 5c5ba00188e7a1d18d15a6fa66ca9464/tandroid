@@ -3,7 +3,6 @@ package j$.util.function;
 /* loaded from: classes2.dex */
 public interface Consumer<T> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class -CC {
         public static Consumer $default$andThen(Consumer consumer, Consumer consumer2) {
             consumer2.getClass();
@@ -11,7 +10,6 @@ public interface Consumer<T> {
         }
     }
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class Wrapper implements java.util.function.Consumer {
         private /* synthetic */ Wrapper() {
         }

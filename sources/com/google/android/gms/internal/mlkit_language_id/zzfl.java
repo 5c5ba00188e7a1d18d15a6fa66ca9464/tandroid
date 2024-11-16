@@ -16,9 +16,8 @@ final class zzfl extends zzfj {
         return (List) zzhn.zzf(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzfj
-    public final void zza(Object obj, long j) {
+    final void zza(Object obj, long j) {
         Object unmodifiableList;
         List list = (List) zzhn.zzf(obj, j);
         if (list instanceof zzfg) {
@@ -40,7 +39,6 @@ final class zzfl extends zzfj {
         zzhn.zza(obj, j, unmodifiableList);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0093  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x008c A[ADDED_TO_REGION] */
@@ -48,7 +46,7 @@ final class zzfl extends zzfj {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final void zza(Object obj, Object obj2, long j) {
+    final void zza(Object obj, Object obj2, long j) {
         zzfh zzfhVar;
         int size;
         List zzb = zzb(obj2, j);

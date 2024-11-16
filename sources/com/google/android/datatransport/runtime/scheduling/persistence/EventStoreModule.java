@@ -4,23 +4,19 @@ import android.content.Context;
 
 /* loaded from: classes.dex */
 public abstract class EventStoreModule {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String dbName() {
+    static String dbName() {
         return "com.google.android.datatransport.events";
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String packageName(Context context) {
+    static String packageName(Context context) {
         return context.getPackageName();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int schemaVersion() {
+    static int schemaVersion() {
         return SchemaManager.SCHEMA_VERSION;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static EventStoreConfig storeConfig() {
+    static EventStoreConfig storeConfig() {
         return EventStoreConfig.DEFAULT;
     }
 }

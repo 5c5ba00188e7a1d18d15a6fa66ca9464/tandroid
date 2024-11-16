@@ -46,7 +46,6 @@ public final class PsExtractor implements Extractor {
     private final SparseArray psPayloadReaders;
     private final TimestampAdjuster timestampAdjuster;
 
-    /* loaded from: classes.dex */
     private static final class PesReader {
         private boolean dtsFlag;
         private int extendedHeaderLength;

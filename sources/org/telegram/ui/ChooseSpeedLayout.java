@@ -22,7 +22,6 @@ public class ChooseSpeedLayout {
     ActionBarMenuSubItem[] speedItems = new ActionBarMenuSubItem[5];
     public ActionBarPopupWindow.ActionBarPopupWindowLayout speedSwipeBackLayout;
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onSpeedSelected(float f, boolean z, boolean z2);
     }

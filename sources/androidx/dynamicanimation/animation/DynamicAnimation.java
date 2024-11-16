@@ -176,31 +176,29 @@ public abstract class DynamicAnimation implements AnimationHandler.AnimationFram
         }
     };
 
-    /* loaded from: classes.dex */
     static class MassState {
         float mValue;
         float mVelocity;
+
+        MassState() {
+        }
     }
 
-    /* loaded from: classes.dex */
     public interface OnAnimationEndListener {
         void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f, float f2);
     }
 
-    /* loaded from: classes.dex */
     public interface OnAnimationUpdateListener {
         void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f, float f2);
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ViewProperty extends FloatPropertyCompat {
         private ViewProperty(String str) {
             super(str);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DynamicAnimation(final FloatValueHolder floatValueHolder) {
+    DynamicAnimation(final FloatValueHolder floatValueHolder) {
         this.mVelocity = 0.0f;
         this.mValue = Float.MAX_VALUE;
         this.mStartValueIsSet = false;
@@ -225,8 +223,7 @@ public abstract class DynamicAnimation implements AnimationHandler.AnimationFram
         this.mMinVisibleChange = 1.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DynamicAnimation(Object obj, FloatPropertyCompat floatPropertyCompat) {
+    DynamicAnimation(Object obj, FloatPropertyCompat floatPropertyCompat) {
         float f;
         this.mVelocity = 0.0f;
         this.mValue = Float.MAX_VALUE;
@@ -345,8 +342,7 @@ public abstract class DynamicAnimation implements AnimationHandler.AnimationFram
         return updateValueAndVelocity;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getValueThreshold() {
+    float getValueThreshold() {
         return this.mMinVisibleChange * 0.75f;
     }
 

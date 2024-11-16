@@ -17,8 +17,7 @@ public final class zzdd extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzdd> CREATOR = new zzde();
     LocationRequest zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdd(LocationRequest locationRequest, List list, boolean z, boolean z2, String str, boolean z3, boolean z4, String str2, long j) {
+    zzdd(LocationRequest locationRequest, List list, boolean z, boolean z2, String str, boolean z3, boolean z4, String str2, long j) {
         WorkSource workSource;
         LocationRequest.Builder builder = new LocationRequest.Builder(locationRequest);
         if (list != null) {

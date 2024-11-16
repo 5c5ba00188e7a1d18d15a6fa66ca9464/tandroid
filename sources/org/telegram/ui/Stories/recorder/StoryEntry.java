@@ -157,12 +157,10 @@ public class StoryEntry {
     public long averageDuration = 5000;
     private int checkStickersReqId = 0;
 
-    /* loaded from: classes5.dex */
     public interface DecodeBitmap {
         Bitmap decode(BitmapFactory.Options options);
     }
 
-    /* loaded from: classes5.dex */
     public static class HDRInfo {
         public int colorRange;
         public int colorStandard;
@@ -252,7 +250,7 @@ public class StoryEntry {
         long j = photoEntry.duration * 1000;
         storyEntry.duration = j;
         storyEntry.left = 0.0f;
-        storyEntry.right = Math.min(1.0f, 59500.0f / ((float) j));
+        storyEntry.right = Math.min(1.0f, 59500.0f / j);
         if (storyEntry.isVideo && storyEntry.thumbPath == null) {
             storyEntry.thumbPath = "vthumb://" + photoEntry.imageId;
         }
@@ -364,7 +362,7 @@ public class StoryEntry {
         storyEntry.duration = j;
         storyEntry.thumbPath = str;
         storyEntry.left = 0.0f;
-        storyEntry.right = Math.min(1.0f, 59500.0f / ((float) j));
+        storyEntry.right = Math.min(1.0f, 59500.0f / j);
         return storyEntry;
     }
 
@@ -650,10 +648,10 @@ public class StoryEntry {
                 videoEditedInfo.volume = 1.0f;
                 videoEditedInfo.bitrate = -1;
                 videoEditedInfo.framerate = 30;
-                videoEditedInfo.estimatedSize = ((((float) this.duration) / 1000.0f) * extractRealEncoderBitrate) / 8.0f;
+                videoEditedInfo.estimatedSize = (long) (((this.duration / 1000.0f) * extractRealEncoderBitrate) / 8.0f);
                 videoEditedInfo.filterState = null;
             }
-            j = f * ((float) j2);
+            j = (long) (f * j2);
             this.duration = j;
             videoEditedInfo.originalDuration = j;
             videoEditedInfo.estimatedDuration = j;
@@ -664,7 +662,7 @@ public class StoryEntry {
             videoEditedInfo.volume = 1.0f;
             videoEditedInfo.bitrate = -1;
             videoEditedInfo.framerate = 30;
-            videoEditedInfo.estimatedSize = ((((float) this.duration) / 1000.0f) * extractRealEncoderBitrate) / 8.0f;
+            videoEditedInfo.estimatedSize = (long) (((this.duration / 1000.0f) * extractRealEncoderBitrate) / 8.0f);
             videoEditedInfo.filterState = null;
         } else {
             videoEditedInfo.originalPath = str2;
@@ -682,18 +680,19 @@ public class StoryEntry {
                 } else {
                     videoEditedInfo.bitrate = Utilities.clamp(i2, 3000000, 500000);
                     FileLog.d("story bitrate, original = " + videoEditedInfo.originalBitrate + " => " + videoEditedInfo.bitrate);
-                    long j3 = (long) iArr[4];
+                    int i3 = iArr[4];
+                    long j3 = (long) i3;
                     this.duration = j3;
                     videoEditedInfo.originalDuration = j3 * 1000;
                     float f2 = (float) j3;
-                    long j4 = this.left * f2 * 1000;
+                    long j4 = ((long) (this.left * f2)) * 1000;
                     videoEditedInfo.startTime = j4;
-                    long j5 = this.right * f2 * 1000;
+                    long j5 = ((long) (this.right * f2)) * 1000;
                     videoEditedInfo.endTime = j5;
                     videoEditedInfo.estimatedDuration = j5 - j4;
                     videoEditedInfo.volume = this.videoVolume;
                     videoEditedInfo.muted = this.muted;
-                    videoEditedInfo.estimatedSize = iArr[5] + (((r1 / 1000.0f) * extractRealEncoderBitrate) / 8.0f);
+                    videoEditedInfo.estimatedSize = (long) (iArr[5] + (((i3 / 1000.0f) * extractRealEncoderBitrate) / 8.0f));
                     videoEditedInfo.estimatedSize = Math.max(this.file.length(), videoEditedInfo.estimatedSize);
                     videoEditedInfo.filterState = this.filterState;
                     File file6 = this.paintBlurFile;
@@ -705,18 +704,19 @@ public class StoryEntry {
             videoEditedInfo.bitrate = i;
             videoEditedInfo.originalBitrate = -1;
             FileLog.d("story bitrate, original = " + videoEditedInfo.originalBitrate + " => " + videoEditedInfo.bitrate);
-            long j32 = (long) iArr[4];
+            int i32 = iArr[4];
+            long j32 = (long) i32;
             this.duration = j32;
             videoEditedInfo.originalDuration = j32 * 1000;
             float f22 = (float) j32;
-            long j42 = this.left * f22 * 1000;
+            long j42 = ((long) (this.left * f22)) * 1000;
             videoEditedInfo.startTime = j42;
-            long j52 = this.right * f22 * 1000;
+            long j52 = ((long) (this.right * f22)) * 1000;
             videoEditedInfo.endTime = j52;
             videoEditedInfo.estimatedDuration = j52 - j42;
             videoEditedInfo.volume = this.videoVolume;
             videoEditedInfo.muted = this.muted;
-            videoEditedInfo.estimatedSize = iArr[5] + (((r1 / 1000.0f) * extractRealEncoderBitrate) / 8.0f);
+            videoEditedInfo.estimatedSize = (long) (iArr[5] + (((i32 / 1000.0f) * extractRealEncoderBitrate) / 8.0f));
             videoEditedInfo.estimatedSize = Math.max(this.file.length(), videoEditedInfo.estimatedSize);
             videoEditedInfo.filterState = this.filterState;
             File file62 = this.paintBlurFile;
@@ -741,14 +741,14 @@ public class StoryEntry {
             MediaCodecVideoConvertor.MixedSoundInfo mixedSoundInfo = new MediaCodecVideoConvertor.MixedSoundInfo(file7.getAbsolutePath());
             mixedSoundInfo.volume = this.roundVolume;
             float f3 = this.roundLeft;
-            float f4 = (float) this.roundDuration;
-            mixedSoundInfo.audioOffset = f3 * f4 * 1000;
+            float f4 = this.roundDuration;
+            mixedSoundInfo.audioOffset = ((long) (f3 * f4)) * 1000;
             if (this.isVideo) {
-                mixedSoundInfo.startTime = (((float) this.roundOffset) - (this.left * ((float) this.duration))) * 1000;
+                mixedSoundInfo.startTime = ((long) (this.roundOffset - (this.left * this.duration))) * 1000;
             } else {
                 mixedSoundInfo.startTime = 0L;
             }
-            mixedSoundInfo.duration = (this.roundRight - f3) * f4 * 1000;
+            mixedSoundInfo.duration = ((long) ((this.roundRight - f3) * f4)) * 1000;
             videoEditedInfo.mixedSoundInfos.add(mixedSoundInfo);
         }
         String str3 = this.audioPath;
@@ -756,10 +756,10 @@ public class StoryEntry {
             MediaCodecVideoConvertor.MixedSoundInfo mixedSoundInfo2 = new MediaCodecVideoConvertor.MixedSoundInfo(str3);
             mixedSoundInfo2.volume = this.audioVolume;
             float f5 = this.audioLeft;
-            float f6 = (float) this.audioDuration;
-            mixedSoundInfo2.audioOffset = f5 * f6 * 1000;
-            mixedSoundInfo2.startTime = this.isVideo ? (((float) this.audioOffset) - (this.left * ((float) this.duration))) * 1000 : 0L;
-            mixedSoundInfo2.duration = (this.audioRight - f5) * f6 * 1000;
+            float f6 = this.audioDuration;
+            mixedSoundInfo2.audioOffset = ((long) (f5 * f6)) * 1000;
+            mixedSoundInfo2.startTime = this.isVideo ? ((long) (this.audioOffset - (this.left * this.duration))) * 1000 : 0L;
+            mixedSoundInfo2.duration = ((long) ((this.audioRight - f5) * f6)) * 1000;
             videoEditedInfo.mixedSoundInfos.add(mixedSoundInfo2);
         }
         callback.run(videoEditedInfo);
@@ -809,7 +809,7 @@ public class StoryEntry {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r1v11, types: [org.telegram.tgnet.TLRPC$TL_photoSize_layer127, org.telegram.tgnet.TLRPC$PhotoSize] */
+    /* JADX WARN: Type inference failed for: r1v11, types: [org.telegram.tgnet.TLRPC$PhotoSize, org.telegram.tgnet.TLRPC$TL_photoSize_layer127] */
     public static File makeCacheFile(int i, String str) {
         TLRPC.TL_videoSize_layer127 tL_videoSize_layer127;
         TLRPC.TL_fileLocationToBeDeprecated tL_fileLocationToBeDeprecated = new TLRPC.TL_fileLocationToBeDeprecated();
@@ -867,7 +867,7 @@ public class StoryEntry {
                 long duration = (long) (messageObject.getDuration() * 1000.0d);
                 storyEntry.duration = duration;
                 storyEntry.left = 0.0f;
-                storyEntry.right = Math.min(1.0f, 59500.0f / ((float) duration));
+                storyEntry.right = Math.min(1.0f, 59500.0f / duration);
             }
         }
         return storyEntry;

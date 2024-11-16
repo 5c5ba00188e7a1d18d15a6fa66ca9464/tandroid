@@ -120,9 +120,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     protected static final Handler uiHandler = new Handler(Looper.getMainLooper());
     private static final DispatchQueuePool loadFrameRunnableQueue = new DispatchQueuePool(4);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 implements Runnable {
+    class 3 implements Runnable {
         3() {
         }
 
@@ -168,9 +166,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class NativePtrArgs {
+    private class NativePtrArgs {
         public int[] colorReplacement;
         File file;
         public int fitzModifier;
@@ -1615,8 +1611,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         lottieCacheGenerateQueue = new DispatchQueue("cache generator queue");
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static native long createWithJson(String str, String str2, int[] iArr, int[] iArr2);
+    protected static native long createWithJson(String str, String str2, int[] iArr, int[] iArr2);
 
     public static native void destroy(long j);
 
@@ -1916,8 +1911,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void checkRunningTasks() {
+    protected void checkRunningTasks() {
         Runnable runnable = this.cacheGenerateTask;
         if (runnable != null) {
             lottieCacheGenerateQueue.cancelRunnable(runnable);
@@ -2087,7 +2081,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public long getDuration() {
         int[] iArr = this.metaData;
-        return (iArr[0] / iArr[1]) * 1000.0f;
+        return (long) ((iArr[0] / iArr[1]) * 1000.0f);
     }
 
     public int getFramesCount() {
@@ -2147,8 +2141,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return (this.isRecycled || (this.renderingBitmap == null && this.nextRenderingBitmap == null) || this.isInvalid) ? false : true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean hasParentView() {
+    protected boolean hasParentView() {
         return (this.parentViews.isEmpty() && this.masterParent == null && getCallback() == null) ? false : true;
     }
 
@@ -2156,8 +2149,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return this.vibrationPattern != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void invalidateInternal() {
+    protected void invalidateInternal() {
         if (this.isRecycled) {
             return;
         }
@@ -2235,8 +2227,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         recycleResources();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void recycleResources() {
+    protected void recycleResources() {
         ArrayList arrayList = new ArrayList();
         arrayList.add(this.renderingBitmap);
         arrayList.add(this.backgroundBitmap);
@@ -2290,8 +2281,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean scheduleNextGetFrame() {
+    protected boolean scheduleNextGetFrame() {
         boolean z;
         if (this.loadFrameTask != null || this.nextRenderingBitmap != null || !canLoadFrames() || this.loadingInBackground || this.destroyWhenDone || (!this.isRunning && (!(z = this.decodeSingleFrame) || (z && this.singleFrameDecoded)))) {
             return false;

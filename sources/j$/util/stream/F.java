@@ -3,16 +3,14 @@ package j$.util.stream;
 import j$.util.function.Predicate;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class F implements x3 {
+final class F implements x3 {
     final boolean a;
     final Object b;
     final Predicate c;
     final Supplier d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public F(boolean z, T2 t2, Object obj, Predicate predicate, Supplier supplier) {
+    F(boolean z, T2 t2, Object obj, Predicate predicate, Supplier supplier) {
         this.a = z;
         this.b = obj;
         this.c = predicate;

@@ -14,16 +14,14 @@ public abstract class BaseMediaChunkIterator implements MediaChunkIterator {
         reset();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void checkInBounds() {
+    protected final void checkInBounds() {
         long j = this.currentIndex;
         if (j < this.fromIndex || j > this.toIndex) {
             throw new NoSuchElementException();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final long getCurrentIndex() {
+    protected final long getCurrentIndex() {
         return this.currentIndex;
     }
 

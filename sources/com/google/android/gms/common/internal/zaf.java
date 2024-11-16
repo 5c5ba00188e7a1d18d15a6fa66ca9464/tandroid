@@ -8,8 +8,7 @@ final class zaf extends zag {
     final /* synthetic */ Intent zaa;
     final /* synthetic */ LifecycleFragment zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaf(Intent intent, LifecycleFragment lifecycleFragment, int i) {
+    zaf(Intent intent, LifecycleFragment lifecycleFragment, int i) {
         this.zaa = intent;
         this.zab = lifecycleFragment;
     }

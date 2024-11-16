@@ -44,18 +44,15 @@ public class FcmBroadcastProcessor {
         return withinAppServiceConnection;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Integer lambda$bindToMessagingService$3$FcmBroadcastProcessor(Task task) {
+    static final /* synthetic */ Integer lambda$bindToMessagingService$3$FcmBroadcastProcessor(Task task) {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Integer lambda$startMessagingService$1$FcmBroadcastProcessor(Task task) {
+    static final /* synthetic */ Integer lambda$startMessagingService$1$FcmBroadcastProcessor(Task task) {
         return 403;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static final /* synthetic */ Task lambda$startMessagingService$2$FcmBroadcastProcessor(Context context, Intent intent, Task task) {
+    static final /* synthetic */ Task lambda$startMessagingService$2$FcmBroadcastProcessor(Context context, Intent intent, Task task) {
         return (PlatformVersion.isAtLeastO() && ((Integer) task.getResult()).intValue() == 402) ? bindToMessagingService(context, intent).continueWith(FcmBroadcastProcessor$$Lambda$5.$instance, FcmBroadcastProcessor$$Lambda$6.$instance) : task;
     }
 
@@ -77,7 +74,6 @@ public class FcmBroadcastProcessor {
             private final Context arg$1;
             private final Intent arg$2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = context;
                 this.arg$2 = intent;
@@ -93,7 +89,6 @@ public class FcmBroadcastProcessor {
             private final Context arg$1;
             private final Intent arg$2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = context;
                 this.arg$2 = intent;

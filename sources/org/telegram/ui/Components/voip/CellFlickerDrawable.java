@@ -34,7 +34,6 @@ public class CellFlickerDrawable {
     public float repeatProgress;
     int size;
 
-    /* loaded from: classes3.dex */
     public class DrawableInterface extends Drawable {
         public float radius;
         SvgHelper.SvgDrawable svgDrawable;
@@ -123,7 +122,7 @@ public class CellFlickerDrawable {
             if (j != 0) {
                 long j2 = currentTimeMillis - j;
                 if (j2 > 10) {
-                    float f = this.progress + ((((float) j2) / 1200.0f) * this.animationSpeedScale);
+                    float f = this.progress + ((j2 / 1200.0f) * this.animationSpeedScale);
                     this.progress = f;
                     if (f > this.repeatProgress) {
                         this.progress = 0.0f;
@@ -175,7 +174,7 @@ public class CellFlickerDrawable {
         if (j != 0) {
             long j2 = currentTimeMillis - j;
             if (j2 > 10) {
-                float f2 = this.progress + (((float) j2) / 500.0f);
+                float f2 = this.progress + (j2 / 500.0f);
                 this.progress = f2;
                 if (f2 > 4.0f) {
                     this.progress = 0.0f;

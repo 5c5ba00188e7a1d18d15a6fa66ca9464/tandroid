@@ -4,6 +4,9 @@ import java.io.OutputStream;
 
 /* loaded from: classes.dex */
 final class zzj extends OutputStream {
+    zzj() {
+    }
+
     public final String toString() {
         return "ByteStreams.nullOutputStream()";
     }

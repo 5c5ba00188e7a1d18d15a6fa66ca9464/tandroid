@@ -14,7 +14,6 @@ public class ConfigContainer {
     private Date fetchTime;
     private JSONObject personalizationMetadata;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private JSONArray builderAbtExperiments;
         private JSONObject builderConfigsJson;
@@ -75,8 +74,7 @@ public class ConfigContainer {
         this.containerJson = jSONObject3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ConfigContainer copyOf(JSONObject jSONObject) {
+    static ConfigContainer copyOf(JSONObject jSONObject) {
         JSONObject optJSONObject = jSONObject.optJSONObject("personalization_metadata_key");
         if (optJSONObject == null) {
             optJSONObject = new JSONObject();

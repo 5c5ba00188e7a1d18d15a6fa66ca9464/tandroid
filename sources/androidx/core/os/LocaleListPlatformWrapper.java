@@ -7,8 +7,7 @@ import java.util.Locale;
 final class LocaleListPlatformWrapper implements LocaleListInterface {
     private final LocaleList mLocaleList;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocaleListPlatformWrapper(Object obj) {
+    LocaleListPlatformWrapper(Object obj) {
         this.mLocaleList = LocaleListPlatformWrapper$$ExternalSyntheticApiModelOutline3.m(obj);
     }
 

@@ -8,7 +8,6 @@ public class TelemetryLoggingOptions implements Api.ApiOptions {
     public static final TelemetryLoggingOptions zaa = builder().build();
     private final String zab;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private String zaa;
 

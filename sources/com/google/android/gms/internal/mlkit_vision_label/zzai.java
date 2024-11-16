@@ -3,11 +3,13 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzai implements zzbr {
+abstract class zzai implements zzbr {
     private transient Set zza;
     private transient Map zzb;
+
+    zzai() {
+    }
 
     public final boolean equals(Object obj) {
         if (obj == this) {

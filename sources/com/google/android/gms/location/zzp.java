@@ -5,8 +5,7 @@ import com.google.android.gms.internal.location.zza;
 
 /* loaded from: classes.dex */
 public final class zzp extends zza implements zzr {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzp(IBinder iBinder) {
+    zzp(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.location.ILocationCallback");
     }
 

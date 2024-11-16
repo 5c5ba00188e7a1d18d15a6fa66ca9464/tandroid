@@ -21,7 +21,6 @@ public final class Loader implements LoaderErrorThrower {
     private final ExecutorService downloadExecutorService;
     private IOException fatalError;
 
-    /* loaded from: classes.dex */
     public interface Callback {
         void onLoadCanceled(Loadable loadable, long j, long j2, boolean z);
 
@@ -30,7 +29,6 @@ public final class Loader implements LoaderErrorThrower {
         LoadErrorAction onLoadError(Loadable loadable, long j, long j2, IOException iOException, int i);
     }
 
-    /* loaded from: classes.dex */
     public static final class LoadErrorAction {
         private final long retryDelayMillis;
         private final int type;
@@ -46,9 +44,7 @@ public final class Loader implements LoaderErrorThrower {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class LoadTask extends Handler implements Runnable {
+    private final class LoadTask extends Handler implements Runnable {
         private Callback callback;
         private boolean canceled;
         private IOException currentError;
@@ -238,21 +234,17 @@ public final class Loader implements LoaderErrorThrower {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Loadable {
         void cancelLoad();
 
         void load();
     }
 
-    /* loaded from: classes.dex */
     public interface ReleaseCallback {
         void onLoaderReleased();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ReleaseTask implements Runnable {
+    private static final class ReleaseTask implements Runnable {
         private final ReleaseCallback callback;
 
         public ReleaseTask(ReleaseCallback releaseCallback) {
@@ -265,7 +257,6 @@ public final class Loader implements LoaderErrorThrower {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class UnexpectedLoaderException extends IOException {
         public UnexpectedLoaderException(Throwable th) {
             super("Unexpected " + th.getClass().getSimpleName() + ": " + th.getMessage(), th);

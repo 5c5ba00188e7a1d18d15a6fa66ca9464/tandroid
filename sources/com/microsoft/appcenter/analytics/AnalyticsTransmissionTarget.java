@@ -18,8 +18,7 @@ public class AnalyticsTransmissionTarget {
     private final Map mChildrenTargets = new HashMap();
     private final PropertyConfigurator mPropertyConfigurator = new PropertyConfigurator(this);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AnalyticsTransmissionTarget(String str, AnalyticsTransmissionTarget analyticsTransmissionTarget) {
+    AnalyticsTransmissionTarget(String str, AnalyticsTransmissionTarget analyticsTransmissionTarget) {
         this.mTransmissionTargetToken = str;
         this.mParentTarget = analyticsTransmissionTarget;
     }
@@ -37,8 +36,7 @@ public class AnalyticsTransmissionTarget {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Channel.Listener getChannelListener() {
+    static Channel.Listener getChannelListener() {
         return new AbstractChannelListener() { // from class: com.microsoft.appcenter.analytics.AnalyticsTransmissionTarget.7
             @Override // com.microsoft.appcenter.channel.AbstractChannelListener, com.microsoft.appcenter.channel.Channel.Listener
             public void onPreparingLog(Log log, String str) {
@@ -59,20 +57,17 @@ public class AnalyticsTransmissionTarget {
         return this.mPropertyConfigurator;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getTransmissionTargetToken() {
+    String getTransmissionTargetToken() {
         return this.mTransmissionTargetToken;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void initInBackground(Context context, Channel channel) {
+    void initInBackground(Context context, Channel channel) {
         this.mContext = context;
         this.mChannel = channel;
         channel.addListener(this.mPropertyConfigurator);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isEnabled() {
+    boolean isEnabled() {
         return areAncestorsEnabled() && isEnabledInStorage();
     }
 }

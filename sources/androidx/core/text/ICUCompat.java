@@ -12,14 +12,12 @@ public abstract class ICUCompat {
     private static Method sAddLikelySubtagsMethod;
     private static Method sGetScriptMethod;
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static String getScript(Locale locale) {
             return locale.getScript();
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api24Impl {
         static ULocale addLikelySubtags(Object obj) {
             return ULocale.addLikelySubtags((ULocale) obj);

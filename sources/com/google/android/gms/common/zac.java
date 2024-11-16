@@ -6,9 +6,8 @@ import android.os.Message;
 import android.util.Log;
 import com.google.android.gms.internal.base.zau;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zac extends zau {
+final class zac extends zau {
     final /* synthetic */ GoogleApiAvailability zaa;
     private final Context zab;
 

@@ -91,7 +91,6 @@ public class ViewPagerFixed extends FrameLayout {
     private int[] viewTypes;
     protected SparseArray viewsByType;
 
-    /* loaded from: classes3.dex */
     public static abstract class Adapter {
         public abstract void bindView(View view, int i, int i2);
 
@@ -124,7 +123,6 @@ public class ViewPagerFixed extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class TabsView extends FrameLayout {
         private int activeTextColorKey;
         private ListAdapter adapter;
@@ -185,9 +183,7 @@ public class ViewPagerFixed extends FrameLayout {
         private TextPaint textPaint;
         private int unactiveTextColorKey;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class ListAdapter extends RecyclerListView.SelectionAdapter {
+        private class ListAdapter extends RecyclerListView.SelectionAdapter {
             private Context mContext;
 
             public ListAdapter(Context context) {
@@ -221,13 +217,11 @@ public class ViewPagerFixed extends FrameLayout {
 
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-                return new RecyclerListView.Holder(new TabView(this.mContext));
+                return new RecyclerListView.Holder(TabsView.this.new TabView(this.mContext));
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public static class Tab {
+        private static class Tab {
             public float alpha = 1.0f;
             public int counter;
             public int id;
@@ -246,7 +240,6 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        /* loaded from: classes3.dex */
         public class TabView extends View {
             private int currentPosition;
             private Tab currentTab;
@@ -416,7 +409,6 @@ public class ViewPagerFixed extends FrameLayout {
             }
         }
 
-        /* loaded from: classes3.dex */
         public interface TabsViewDelegate {
             boolean canPerformActions();
 
@@ -469,7 +461,7 @@ public class ViewPagerFixed extends FrameLayout {
                         if (elapsedRealtime > 17) {
                             elapsedRealtime = 17;
                         }
-                        TabsView.access$3416(TabsView.this, ((float) elapsedRealtime) / 200.0f);
+                        TabsView.access$3416(TabsView.this, elapsedRealtime / 200.0f);
                         TabsView tabsView = TabsView.this;
                         tabsView.setAnimationIdicatorProgress(tabsView.interpolator.getInterpolation(TabsView.this.animationTime));
                         if (TabsView.this.animationTime > 1.0f) {
@@ -519,9 +511,8 @@ public class ViewPagerFixed extends FrameLayout {
                     view.setAlpha(f);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView
-                public boolean canHighlightChildAt(View view, float f, float f2) {
+                protected boolean canHighlightChildAt(View view, float f, float f2) {
                     if (TabsView.this.isEditing) {
                         TabView tabView = (TabView) view;
                         float dp = AndroidUtilities.dp(6.0f);
@@ -1375,8 +1366,7 @@ public class ViewPagerFixed extends FrameLayout {
     protected void addMoreTabs() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean canScroll(MotionEvent motionEvent) {
+    protected boolean canScroll(MotionEvent motionEvent) {
         return true;
     }
 
@@ -1574,8 +1564,7 @@ public class ViewPagerFixed extends FrameLayout {
         this.tabsView.finishAddingTabs();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float getAvailableTranslationX() {
+    protected float getAvailableTranslationX() {
         return AndroidUtilities.displaySize.x;
     }
 
@@ -1651,15 +1640,13 @@ public class ViewPagerFixed extends FrameLayout {
     public void onStartTracking() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTabAnimationUpdate(boolean z) {
+    protected void onTabAnimationUpdate(boolean z) {
     }
 
     protected void onTabPageSelected(int i) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onTabScrollEnd(int i) {
+    protected void onTabScrollEnd(int i) {
     }
 
     @Override // android.view.View

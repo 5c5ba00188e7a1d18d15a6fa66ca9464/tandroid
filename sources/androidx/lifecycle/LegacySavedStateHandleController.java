@@ -6,13 +6,10 @@ import androidx.savedstate.SavedStateRegistry;
 import androidx.savedstate.SavedStateRegistryOwner;
 import java.util.Iterator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class LegacySavedStateHandleController {
+abstract class LegacySavedStateHandleController {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class OnRecreation implements SavedStateRegistry.AutoRecreated {
+    static final class OnRecreation implements SavedStateRegistry.AutoRecreated {
         OnRecreation() {
         }
 
@@ -34,8 +31,7 @@ public abstract class LegacySavedStateHandleController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void attachHandleIfNeeded(ViewModel viewModel, SavedStateRegistry savedStateRegistry, Lifecycle lifecycle) {
+    static void attachHandleIfNeeded(ViewModel viewModel, SavedStateRegistry savedStateRegistry, Lifecycle lifecycle) {
         SavedStateHandleController savedStateHandleController = (SavedStateHandleController) viewModel.getTag("androidx.lifecycle.savedstate.vm.tag");
         if (savedStateHandleController == null || savedStateHandleController.isAttached()) {
             return;
@@ -44,8 +40,7 @@ public abstract class LegacySavedStateHandleController {
         tryToAddRecreator(savedStateRegistry, lifecycle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static SavedStateHandleController create(SavedStateRegistry savedStateRegistry, Lifecycle lifecycle, String str, Bundle bundle) {
+    static SavedStateHandleController create(SavedStateRegistry savedStateRegistry, Lifecycle lifecycle, String str, Bundle bundle) {
         SavedStateHandleController savedStateHandleController = new SavedStateHandleController(str, SavedStateHandle.createHandle(savedStateRegistry.consumeRestoredStateForKey(str), bundle));
         savedStateHandleController.attachToLifecycle(savedStateRegistry, lifecycle);
         tryToAddRecreator(savedStateRegistry, lifecycle);

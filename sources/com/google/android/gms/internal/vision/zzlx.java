@@ -27,8 +27,7 @@ public final class zzlx {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzlx zza(zzlx zzlxVar, zzlx zzlxVar2) {
+    static zzlx zza(zzlx zzlxVar, zzlx zzlxVar2) {
         int i = zzlxVar.zzb + zzlxVar2.zzb;
         int[] copyOf = Arrays.copyOf(zzlxVar.zzc, i);
         System.arraycopy(zzlxVar2.zzc, 0, copyOf, zzlxVar.zzb, zzlxVar2.zzb);
@@ -68,8 +67,7 @@ public final class zzlx {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzlx zzb() {
+    static zzlx zzb() {
         return new zzlx();
     }
 
@@ -124,8 +122,7 @@ public final class zzlx {
         return i6 + i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(int i, Object obj) {
+    final void zza(int i, Object obj) {
         if (!this.zzf) {
             throw new UnsupportedOperationException();
         }
@@ -143,8 +140,7 @@ public final class zzlx {
         this.zzb = i4 + 1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(zzmr zzmrVar) {
+    final void zza(zzmr zzmrVar) {
         if (zzmrVar.zza() == zzmq.zzb) {
             for (int i = this.zzb - 1; i >= 0; i--) {
                 zzmrVar.zza(this.zzc[i] >>> 3, this.zzd[i]);
@@ -156,8 +152,7 @@ public final class zzlx {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(StringBuilder sb, int i) {
+    final void zza(StringBuilder sb, int i) {
         for (int i2 = 0; i2 < this.zzb; i2++) {
             zzkp.zza(sb, i, String.valueOf(this.zzc[i2] >>> 3), this.zzd[i2]);
         }

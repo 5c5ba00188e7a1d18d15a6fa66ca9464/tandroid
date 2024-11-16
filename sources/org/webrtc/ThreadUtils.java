@@ -11,30 +11,24 @@ import org.telegram.messenger.BuildVars;
 /* loaded from: classes5.dex */
 public class ThreadUtils {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 1CaughtException {
+    class 1CaughtException {
         Exception e;
 
         1CaughtException() {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 1Result {
+    class 1Result {
         public V value;
 
         1Result() {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface BlockingOperation {
         void run();
     }
 
-    /* loaded from: classes5.dex */
     public static class ThreadChecker {
         private Thread thread = Thread.currentThread();
 

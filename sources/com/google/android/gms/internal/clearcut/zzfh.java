@@ -5,6 +5,9 @@ import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 final class zzfh extends zzfg {
+    zzfh() {
+    }
+
     @Override // com.google.android.gms.internal.clearcut.zzfg
     final int zzb(int i, byte[] bArr, int i2, int i3) {
         int zzf;
@@ -65,7 +68,6 @@ final class zzfh extends zzfg {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x001d, code lost:
     
         return r10 + r0;
@@ -74,7 +76,7 @@ final class zzfh extends zzfg {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final int zzb(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    final int zzb(CharSequence charSequence, byte[] bArr, int i, int i2) {
         int i3;
         int i4;
         char charAt;
@@ -138,9 +140,8 @@ final class zzfh extends zzfg {
         return i7;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzfg
-    public final void zzb(CharSequence charSequence, ByteBuffer byteBuffer) {
+    final void zzb(CharSequence charSequence, ByteBuffer byteBuffer) {
         zzfg.zzc(charSequence, byteBuffer);
     }
 }

@@ -8,7 +8,6 @@ public final class zzid$zzg extends zzeo implements zzgb {
     private static volatile zzgj zze;
     private zzeu zzc = zzeo.zzk();
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzeo.zzb implements zzgb {
         private zza() {
             super(zzid$zzg.zzd);
@@ -28,10 +27,9 @@ public final class zzid$zzg extends zzeo implements zzgb {
     private zzid$zzg() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r1v13, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r1v13, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzic zzicVar = null;
         switch (zzic.zza[i - 1]) {
             case 1:

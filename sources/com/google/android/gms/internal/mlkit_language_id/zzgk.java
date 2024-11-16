@@ -3,9 +3,8 @@ package com.google.android.gms.internal.mlkit_language_id;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzgk {
+final class zzgk {
     private static final zzgk zza = new zzgk();
     private final ConcurrentMap zzc = new ConcurrentHashMap();
     private final zzgo zzb = new zzfm();

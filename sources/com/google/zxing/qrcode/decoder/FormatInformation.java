@@ -13,8 +13,7 @@ final class FormatInformation {
         this.dataMask = (byte) (i & 7);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static FormatInformation decodeFormatInformation(int i, int i2) {
+    static FormatInformation decodeFormatInformation(int i, int i2) {
         FormatInformation doDecodeFormatInformation = doDecodeFormatInformation(i, i2);
         return doDecodeFormatInformation != null ? doDecodeFormatInformation : doDecodeFormatInformation(i ^ 21522, i2 ^ 21522);
     }
@@ -45,8 +44,7 @@ final class FormatInformation {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int numBitsDiffering(int i, int i2) {
+    static int numBitsDiffering(int i, int i2) {
         return Integer.bitCount(i ^ i2);
     }
 
@@ -58,13 +56,11 @@ final class FormatInformation {
         return this.errorCorrectionLevel == formatInformation.errorCorrectionLevel && this.dataMask == formatInformation.dataMask;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public byte getDataMask() {
+    byte getDataMask() {
         return this.dataMask;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ErrorCorrectionLevel getErrorCorrectionLevel() {
+    ErrorCorrectionLevel getErrorCorrectionLevel() {
         return this.errorCorrectionLevel;
     }
 

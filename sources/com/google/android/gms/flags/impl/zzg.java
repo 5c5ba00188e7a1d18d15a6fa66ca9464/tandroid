@@ -9,8 +9,7 @@ final class zzg implements Callable {
     private final /* synthetic */ String zzp;
     private final /* synthetic */ Long zzs;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzg(SharedPreferences sharedPreferences, String str, Long l) {
+    zzg(SharedPreferences sharedPreferences, String str, Long l) {
         this.zzo = sharedPreferences;
         this.zzp = str;
         this.zzs = l;

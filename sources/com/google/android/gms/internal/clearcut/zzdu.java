@@ -18,8 +18,7 @@ final class zzdu implements zzef {
         this.zzmn = zzdoVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdu zza(zzex zzexVar, zzbu zzbuVar, zzdo zzdoVar) {
+    static zzdu zza(zzex zzexVar, zzbu zzbuVar, zzdo zzdoVar) {
         return new zzdu(zzexVar, zzbuVar, zzdoVar);
     }
 

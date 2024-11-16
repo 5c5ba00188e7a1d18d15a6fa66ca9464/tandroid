@@ -10,10 +10,8 @@ public class VideoFrame implements RefCounted {
     private final int rotation;
     private final long timestampNs;
 
-    /* loaded from: classes5.dex */
     public interface Buffer extends RefCounted {
 
-        /* loaded from: classes5.dex */
         public abstract /* synthetic */ class -CC {
             public static int $default$getBufferType(Buffer buffer) {
                 return 0;
@@ -37,10 +35,8 @@ public class VideoFrame implements RefCounted {
         I420Buffer toI420();
     }
 
-    /* loaded from: classes5.dex */
     public interface I420Buffer extends Buffer {
 
-        /* loaded from: classes5.dex */
         public abstract /* synthetic */ class -CC {
             public static int $default$getBufferType(I420Buffer i420Buffer) {
                 return 1;
@@ -63,10 +59,8 @@ public class VideoFrame implements RefCounted {
         int getStrideY();
     }
 
-    /* loaded from: classes5.dex */
     public interface TextureBuffer extends Buffer {
 
-        /* loaded from: classes5.dex */
         public enum Type {
             OES(36197),
             RGB(3553);

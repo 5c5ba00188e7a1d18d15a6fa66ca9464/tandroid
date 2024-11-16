@@ -35,14 +35,12 @@ public class MediaCodecVideoConvertor {
     private Muxer muxer;
     private String outputMimeType;
 
-    /* loaded from: classes3.dex */
     public class ConversionCanceledException extends RuntimeException {
         public ConversionCanceledException() {
             super("canceled conversion");
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ConvertVideoParams {
         int account;
         long avatarStartTime;
@@ -129,7 +127,6 @@ public class MediaCodecVideoConvertor {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class MixedSoundInfo {
         final String audioFile;
         public long audioOffset;
@@ -142,7 +139,6 @@ public class MediaCodecVideoConvertor {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Muxer {
         public final MediaMuxer mediaMuxer;
         public final MP4Builder mp4Builder;
@@ -412,7 +408,7 @@ public class MediaCodecVideoConvertor {
             j4 = j3;
             i = -1;
         }
-        float f = ((float) j4) / 1000.0f;
+        float f = j4 / 1000.0f;
         if (findTrack >= 0) {
             mediaExtractor.selectTrack(findTrack);
             MediaFormat trackFormat = mediaExtractor.getTrackFormat(findTrack);
@@ -559,7 +555,7 @@ public class MediaCodecVideoConvertor {
                                 if (j8 <= j6) {
                                     j8 = j6;
                                 }
-                                videoConvertorListener.didWriteData(writeSampleData, (((float) j8) / 1000.0f) / f);
+                                videoConvertorListener.didWriteData(writeSampleData, (j8 / 1000.0f) / f);
                                 j6 = j8;
                             }
                         }

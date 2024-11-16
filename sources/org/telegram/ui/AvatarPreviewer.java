@@ -56,8 +56,7 @@ public class AvatarPreviewer {
     private WindowManager windowManager;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class AvatarView extends FrameLayout {
+    static class AvatarView extends FrameLayout {
         private BackupImageView backupImageView;
         private ValueAnimator progressHideAnimator;
         private ValueAnimator progressShowAnimator;
@@ -197,14 +196,11 @@ public class AvatarPreviewer {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onMenuClick(MenuItem menuItem);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ChatInfoLoadTask extends InfoLoadTask {
+    private static class ChatInfoLoadTask extends InfoLoadTask {
         public ChatInfoLoadTask(TLRPC.Chat chat, int i) {
             super(chat, i, NotificationCenter.chatInfoDidLoad);
         }
@@ -224,7 +220,6 @@ public class AvatarPreviewer {
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class Data {
         private final String imageFilter;
         private final ImageLocation imageLocation;
@@ -323,9 +318,7 @@ public class AvatarPreviewer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static abstract class InfoLoadTask {
+    private static abstract class InfoLoadTask {
         protected final Object argument;
         protected final int classGuid;
         private boolean loading;
@@ -377,8 +370,7 @@ public class AvatarPreviewer {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static abstract class Layout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+    static abstract class Layout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
         private final AvatarView avatarView;
         private View blurView;
         private final Callback callback;
@@ -583,7 +575,7 @@ public class AvatarPreviewer {
                     this.avatarView.setProgress(1.0f);
                 }
             } else if (i == NotificationCenter.fileLoadProgressChanged && TextUtils.equals((String) objArr[0], this.videoFileName)) {
-                this.avatarView.setProgress(Math.min(1.0f, ((float) ((Long) objArr[1]).longValue()) / ((float) ((Long) objArr[2]).longValue())));
+                this.avatarView.setProgress(Math.min(1.0f, ((Long) objArr[1]).longValue() / ((Long) objArr[2]).longValue()));
             }
         }
 
@@ -693,7 +685,6 @@ public class AvatarPreviewer {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes4.dex */
     public static final class MenuItem {
         private static final /* synthetic */ MenuItem[] $VALUES;
         public static final MenuItem MENTION;
@@ -735,9 +726,7 @@ public class AvatarPreviewer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class UserInfoLoadTask extends InfoLoadTask {
+    private static class UserInfoLoadTask extends InfoLoadTask {
         public UserInfoLoadTask(TLRPC.User user, int i) {
             super(user, i, NotificationCenter.userInfoDidLoad);
         }

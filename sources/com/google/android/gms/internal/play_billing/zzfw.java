@@ -16,7 +16,7 @@ public final class zzfw extends zzcb implements zzdg {
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzcb
-    public final Object zzu(int i, Object obj, Object obj2) {
+    protected final Object zzu(int i, Object obj, Object obj2) {
         int i2 = i - 1;
         if (i2 == 0) {
             return (byte) 1;
@@ -27,8 +27,9 @@ public final class zzfw extends zzcb implements zzdg {
         if (i2 == 3) {
             return new zzfw();
         }
+        zzft zzftVar = null;
         if (i2 == 4) {
-            return new zzfu(null);
+            return new zzfu(zzftVar);
         }
         if (i2 != 5) {
             return null;

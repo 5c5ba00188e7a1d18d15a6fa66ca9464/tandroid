@@ -29,8 +29,7 @@ public abstract class AbstractBox implements Box {
     boolean isRead = true;
     boolean isParsed = true;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractBox(String str) {
+    protected AbstractBox(String str) {
         this.type = str;
     }
 

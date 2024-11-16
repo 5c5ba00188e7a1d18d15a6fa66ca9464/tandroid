@@ -11,13 +11,11 @@ import com.google.android.exoplayer2.util.Util;
 /* loaded from: classes.dex */
 public interface AudioRendererEventListener {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onAudioInputFormatChanged(AudioRendererEventListener audioRendererEventListener, Format format) {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class EventDispatcher {
         private final Handler handler;
         private final AudioRendererEventListener listener;

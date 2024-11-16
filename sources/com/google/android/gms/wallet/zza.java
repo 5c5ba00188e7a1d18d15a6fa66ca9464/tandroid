@@ -20,8 +20,7 @@ public final class zza extends AbstractSafeParcelable {
     boolean zzj;
     String zzk;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zza(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, boolean z, String str10) {
+    zza(String str, String str2, String str3, String str4, String str5, String str6, String str7, String str8, String str9, boolean z, String str10) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = str3;

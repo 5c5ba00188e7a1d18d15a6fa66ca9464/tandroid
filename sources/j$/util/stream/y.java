@@ -1,10 +1,8 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class y extends A {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public y(j$.util.Q q, int i) {
+final class y extends A {
+    y(j$.util.Q q, int i) {
         super(q, i);
     }
 
@@ -47,9 +45,8 @@ public final class y extends A {
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final e2 z0(int i, e2 e2Var) {
+    final e2 z0(int i, e2 e2Var) {
         throw new UnsupportedOperationException();
     }
 }

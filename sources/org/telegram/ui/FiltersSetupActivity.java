@@ -80,9 +80,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     private int filtersSectionEnd = -1;
     private int shiftDp = -4;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 extends RecyclerListView {
+    class 2 extends RecyclerListView {
         2(Context context) {
             super(context);
         }
@@ -92,9 +90,8 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             FiltersSetupActivity.this.getMessagesController().lockFiltersInternal();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             drawSectionBackground(canvas, FiltersSetupActivity.this.filtersSectionStart, FiltersSetupActivity.this.filtersSectionEnd, Theme.getColor(Theme.key_windowBackgroundWhite));
             super.dispatchDraw(canvas);
         }
@@ -113,7 +110,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public class FilterCell extends FrameLayout {
         private final View colorImageView;
         private MessagesController.DialogFilter currentFilter;
@@ -459,7 +455,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class HintInnerCell extends FrameLayout {
         private RLottieImageView imageView;
         private TextView messageTextView;
@@ -503,9 +498,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ItemInner extends AdapterWithDiffUtils.Item {
+    private static class ItemInner extends AdapterWithDiffUtils.Item {
         MessagesController.DialogFilter filter;
         TLRPC.TL_dialogFilterSuggested suggested;
         CharSequence text;
@@ -598,8 +591,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends AdapterWithDiffUtils {
+    class ListAdapter extends AdapterWithDiffUtils {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -892,7 +884,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
                     hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
                     frameLayout2 = hintInnerCell;
                 } else if (i == 2) {
-                    final FilterCell filterCell = new FilterCell(this.mContext);
+                    final FilterCell filterCell = FiltersSetupActivity.this.new FilterCell(this.mContext);
                     filterCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     filterCell.setOnReorderButtonTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.FiltersSetupActivity$ListAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnTouchListener
@@ -959,7 +951,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class SuggestedFilterCell extends FrameLayout {
         private ProgressButton addButton;
         private boolean needDivider;
@@ -1040,7 +1031,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class TextCell extends FrameLayout {
         private ImageView imageView;
         private SimpleTextView textView;
@@ -1094,7 +1084,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         public TouchHelperCallback() {
         }

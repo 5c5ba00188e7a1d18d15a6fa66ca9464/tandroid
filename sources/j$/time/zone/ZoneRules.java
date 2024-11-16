@@ -23,8 +23,8 @@ public final class ZoneRules implements Serializable {
     private final transient ConcurrentHashMap g = new ConcurrentHashMap();
 
     private ZoneRules(ZoneOffset zoneOffset) {
-        this.b = r0;
         ZoneOffset[] zoneOffsetArr = {zoneOffset};
+        this.b = zoneOffsetArr;
         long[] jArr = h;
         this.a = jArr;
         this.c = jArr;
@@ -33,10 +33,9 @@ public final class ZoneRules implements Serializable {
         this.f = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ZoneRules(TimeZone timeZone) {
-        this.b = r0;
+    ZoneRules(TimeZone timeZone) {
         ZoneOffset[] zoneOffsetArr = {f(timeZone.getRawOffset())};
+        this.b = zoneOffsetArr;
         long[] jArr = h;
         this.a = jArr;
         this.c = jArr;

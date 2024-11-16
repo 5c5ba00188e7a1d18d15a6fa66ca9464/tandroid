@@ -15,15 +15,13 @@ public final class ViewPropertyAnimatorCompat {
     Runnable mEndAction = null;
     int mOldLayerType = -1;
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static ViewPropertyAnimator setUpdateListener(ViewPropertyAnimator viewPropertyAnimator, ValueAnimator.AnimatorUpdateListener animatorUpdateListener) {
             return viewPropertyAnimator.setUpdateListener(animatorUpdateListener);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ViewPropertyAnimatorCompat(View view) {
+    ViewPropertyAnimatorCompat(View view) {
         this.mView = new WeakReference(view);
     }
 

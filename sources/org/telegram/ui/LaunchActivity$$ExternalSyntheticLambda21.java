@@ -12,6 +12,6 @@ public final /* synthetic */ class LaunchActivity$$ExternalSyntheticLambda21 imp
 
     @Override // org.telegram.messenger.Utilities.Callback
     public final void run(Object obj) {
-        LaunchActivity.$r8$lambda$q8ZmaWdxq_rUvWiFHt_R4H4wATE(this.f$0, ((Boolean) obj).booleanValue());
+        this.f$0.onPowerSaver(((Boolean) obj).booleanValue());
     }
 }

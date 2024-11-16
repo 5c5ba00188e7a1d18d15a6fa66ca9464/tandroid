@@ -18,16 +18,13 @@ public class NetworkMonitor {
     private final ArrayList<NetworkObserver> networkObservers;
     private int numObservers;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class InstanceHolder {
+    private static class InstanceHolder {
         static final NetworkMonitor instance = new NetworkMonitor();
 
         private InstanceHolder() {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface NetworkObserver {
         void onConnectionTypeChanged(NetworkChangeDetector.ConnectionType connectionType);
     }

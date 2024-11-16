@@ -8,6 +8,9 @@ abstract class zzy implements zzbi {
     private transient Set zza;
     private transient Map zzb;
 
+    zzy() {
+    }
+
     public final boolean equals(Object obj) {
         if (obj == this) {
             return true;

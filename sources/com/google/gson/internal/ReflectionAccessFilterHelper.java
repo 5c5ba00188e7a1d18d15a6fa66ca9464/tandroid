@@ -10,7 +10,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class ReflectionAccessFilterHelper {
 
-    /* loaded from: classes.dex */
     private static abstract class AccessChecker {
         public static final AccessChecker INSTANCE;
 

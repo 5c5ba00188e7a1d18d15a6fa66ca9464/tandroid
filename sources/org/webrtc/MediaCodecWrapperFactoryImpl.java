@@ -10,7 +10,6 @@ import java.nio.ByteBuffer;
 /* loaded from: classes5.dex */
 class MediaCodecWrapperFactoryImpl implements MediaCodecWrapperFactory {
 
-    /* loaded from: classes5.dex */
     private static class MediaCodecWrapperImpl implements MediaCodecWrapper {
         private final MediaCodec mediaCodec;
 
@@ -87,6 +86,9 @@ class MediaCodecWrapperFactoryImpl implements MediaCodecWrapperFactory {
         public void stop() {
             this.mediaCodec.stop();
         }
+    }
+
+    MediaCodecWrapperFactoryImpl() {
     }
 
     @Override // org.webrtc.MediaCodecWrapperFactory

@@ -3,11 +3,9 @@ package com.google.android.gms.internal.clearcut;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzak extends zzae {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzak(zzao zzaoVar, String str, String str2) {
+final class zzak extends zzae {
+    zzak(zzao zzaoVar, String str, String str2) {
         super(zzaoVar, str, str2, null);
     }
 
@@ -24,9 +22,8 @@ public final class zzak extends zzae {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.internal.clearcut.zzae
-    public final /* synthetic */ Object zzb(String str) {
+    protected final /* synthetic */ Object zzb(String str) {
         return str;
     }
 }

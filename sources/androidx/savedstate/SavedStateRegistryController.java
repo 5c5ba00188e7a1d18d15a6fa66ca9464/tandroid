@@ -12,7 +12,6 @@ public final class SavedStateRegistryController {
     private final SavedStateRegistryOwner owner;
     private final SavedStateRegistry savedStateRegistry;
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }

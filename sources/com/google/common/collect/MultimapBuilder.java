@@ -12,7 +12,6 @@ import java.util.TreeMap;
 /* loaded from: classes.dex */
 public abstract class MultimapBuilder {
 
-    /* loaded from: classes.dex */
     private static final class ArrayListSupplier implements Supplier, Serializable {
         private final int expectedValuesPerKey;
 
@@ -26,7 +25,6 @@ public abstract class MultimapBuilder {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class ListMultimapBuilder extends MultimapBuilder {
         ListMultimapBuilder() {
             super();
@@ -35,7 +33,6 @@ public abstract class MultimapBuilder {
         public abstract ListMultimap build();
     }
 
-    /* loaded from: classes.dex */
     public static abstract class MultimapBuilderWithKeys {
         MultimapBuilderWithKeys() {
         }

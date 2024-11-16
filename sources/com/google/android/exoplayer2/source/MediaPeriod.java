@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 /* loaded from: classes.dex */
 public interface MediaPeriod extends SequenceableLoader {
 
-    /* loaded from: classes.dex */
     public interface Callback extends SequenceableLoader.Callback {
         void onPrepared(MediaPeriod mediaPeriod);
     }

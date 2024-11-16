@@ -6,4 +6,7 @@ final class n {
     int b;
     k[] c;
     n d;
+
+    n() {
+    }
 }

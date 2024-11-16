@@ -120,8 +120,7 @@ public abstract class ScrollableHorizontalScrollView extends HorizontalScrollVie
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void updateButtonsVisibility() {
+    void updateButtonsVisibility() {
         ValueAnimator valueAnimator;
         int childCount = this.contentView.getChildCount();
         for (int i = 0; i < childCount; i++) {

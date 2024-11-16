@@ -22,8 +22,7 @@ public final class FullWallet extends AbstractSafeParcelable implements Reflecte
     InstrumentInfo[] zzj;
     PaymentMethodToken zzk;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FullWallet(String str, String str2, zzaj zzajVar, String str3, zza zzaVar, zza zzaVar2, String[] strArr, UserAddress userAddress, UserAddress userAddress2, InstrumentInfo[] instrumentInfoArr, PaymentMethodToken paymentMethodToken) {
+    FullWallet(String str, String str2, zzaj zzajVar, String str3, zza zzaVar, zza zzaVar2, String[] strArr, UserAddress userAddress, UserAddress userAddress2, InstrumentInfo[] instrumentInfoArr, PaymentMethodToken paymentMethodToken) {
         this.zza = str;
         this.zzb = str2;
         this.zzc = zzajVar;

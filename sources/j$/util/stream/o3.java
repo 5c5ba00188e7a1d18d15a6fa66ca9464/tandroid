@@ -6,8 +6,7 @@ import j$.util.function.Consumer;
 final class o3 extends r3 implements j$.util.E, j$.util.function.n {
     double e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public o3(j$.util.E e, long j, long j2) {
+    o3(j$.util.E e, long j, long j2) {
         super(e, j, j2);
     }
 

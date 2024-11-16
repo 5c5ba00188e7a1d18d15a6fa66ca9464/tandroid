@@ -6,7 +6,6 @@ import android.view.Gravity;
 /* loaded from: classes.dex */
 public abstract class GravityCompat {
 
-    /* loaded from: classes.dex */
     static class Api17Impl {
         static void apply(int i, int i2, int i3, Rect rect, int i4, int i5, Rect rect2, int i6) {
             Gravity.apply(i, i2, i3, rect, i4, i5, rect2, i6);

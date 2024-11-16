@@ -11,11 +11,9 @@ public abstract class ActionProvider {
     private SubUiVisibilityListener mSubUiVisibilityListener;
     private VisibilityListener mVisibilityListener;
 
-    /* loaded from: classes.dex */
     public interface SubUiVisibilityListener {
     }
 
-    /* loaded from: classes.dex */
     public interface VisibilityListener {
         void onActionProviderVisibilityChanged(boolean z);
     }

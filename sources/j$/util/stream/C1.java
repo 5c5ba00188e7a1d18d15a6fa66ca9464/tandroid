@@ -9,8 +9,7 @@ final class C1 implements N1 {
     private Object b;
     final /* synthetic */ j$.util.function.f c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public C1(j$.util.function.f fVar) {
+    C1(j$.util.function.f fVar) {
         this.c = fVar;
     }
 

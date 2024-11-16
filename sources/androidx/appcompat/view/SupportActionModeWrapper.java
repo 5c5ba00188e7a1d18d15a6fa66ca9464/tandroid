@@ -19,7 +19,6 @@ public class SupportActionModeWrapper extends android.view.ActionMode {
     final Context mContext;
     final ActionMode mWrappedObject;
 
-    /* loaded from: classes.dex */
     public static class CallbackWrapper implements ActionMode.Callback {
         final Context mContext;
         final ActionMode.Callback mWrappedCallback;

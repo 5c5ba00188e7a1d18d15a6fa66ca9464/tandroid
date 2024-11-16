@@ -14,7 +14,6 @@ public class SpoilersClickDetector {
     private boolean trackingTap;
     private int verticalPadding;
 
-    /* loaded from: classes3.dex */
     public interface OnSpoilerClickedListener {
         void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2);
     }

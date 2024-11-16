@@ -7,8 +7,7 @@ import com.google.android.gms.common.internal.IAccountAccessor;
 
 /* loaded from: classes.dex */
 public final class zaf extends com.google.android.gms.internal.base.zaa implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaf(IBinder iBinder) {
+    zaf(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.signin.internal.ISignInService");
     }
 

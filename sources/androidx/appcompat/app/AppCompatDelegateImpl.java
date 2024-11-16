@@ -94,9 +94,8 @@ import org.telegram.messenger.MediaController;
 import org.webrtc.MediaStreamTrack;
 import org.xmlpull.v1.XmlPullParser;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuilder.Callback, LayoutInflater.Factory2 {
+class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuilder.Callback, LayoutInflater.Factory2 {
     private static final boolean IS_PRE_LOLLIPOP;
     private static final boolean sCanApplyOverrideConfiguration;
     private static final boolean sCanReturnDifferentContext;
@@ -155,9 +154,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     Window mWindow;
     boolean mWindowNoTitle;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class ActionMenuPresenterCallback implements MenuPresenter.Callback {
+    private final class ActionMenuPresenterCallback implements MenuPresenter.Callback {
         ActionMenuPresenterCallback() {
         }
 
@@ -177,9 +174,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class ActionModeCallbackWrapperV9 implements ActionMode.Callback {
+    class ActionModeCallbackWrapperV9 implements ActionMode.Callback {
         private ActionMode.Callback mWrapped;
 
         public ActionModeCallbackWrapperV9(ActionMode.Callback callback) {
@@ -245,9 +240,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api17Impl {
+    static class Api17Impl {
         static void setLayoutDirection(Configuration configuration, Locale locale) {
             configuration.setLayoutDirection(locale);
         }
@@ -257,9 +250,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static boolean isPowerSaveMode(PowerManager powerManager) {
             boolean isPowerSaveMode;
             isPowerSaveMode = powerManager.isPowerSaveMode();
@@ -273,9 +264,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static void generateConfigDelta_locale(Configuration configuration, Configuration configuration2, Configuration configuration3) {
             LocaleList locales;
             LocaleList locales2;
@@ -311,9 +300,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api33Impl {
+    static class Api33Impl {
         static OnBackInvokedDispatcher getOnBackInvokedDispatcher(Activity activity) {
             OnBackInvokedDispatcher onBackInvokedDispatcher;
             onBackInvokedDispatcher = activity.getOnBackInvokedDispatcher();
@@ -337,9 +324,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class AppCompatWindowCallback extends WindowCallbackWrapper {
+    class AppCompatWindowCallback extends WindowCallbackWrapper {
         private boolean mDispatchKeyEventBypassEnabled;
         private boolean mOnContentChangedBypassEnabled;
         private boolean mOnPanelClosedBypassEnabled;
@@ -472,9 +457,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AutoBatteryNightModeManager extends AutoNightModeManager {
+    private class AutoBatteryNightModeManager extends AutoNightModeManager {
         private final PowerManager mPowerManager;
 
         AutoBatteryNightModeManager(Context context) {
@@ -503,9 +486,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public abstract class AutoNightModeManager {
+    abstract class AutoNightModeManager {
         private BroadcastReceiver mReceiver;
 
         AutoNightModeManager() {
@@ -546,9 +527,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AutoTimeNightModeManager extends AutoNightModeManager {
+    private class AutoTimeNightModeManager extends AutoNightModeManager {
         private final TwilightManager mTwilightManager;
 
         AutoTimeNightModeManager(TwilightManager twilightManager) {
@@ -576,9 +555,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ListMenuDecorView extends ContentFrameLayout {
+    private class ListMenuDecorView extends ContentFrameLayout {
         public ListMenuDecorView(Context context) {
             super(context);
         }
@@ -607,9 +584,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* loaded from: classes.dex */
-    public static final class PanelFeatureState {
+    protected static final class PanelFeatureState {
         int background;
         View createdPanelView;
         ViewGroup decorView;
@@ -695,9 +670,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public final class PanelMenuPresenterCallback implements MenuPresenter.Callback {
+    private final class PanelMenuPresenterCallback implements MenuPresenter.Callback {
         PanelMenuPresenterCallback() {
         }
 
@@ -769,8 +742,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         sInstalledExceptionHandler = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AppCompatDelegateImpl(Dialog dialog, AppCompatCallback appCompatCallback) {
+    AppCompatDelegateImpl(Dialog dialog, AppCompatCallback appCompatCallback) {
         this(dialog.getContext(), dialog.getWindow(), appCompatCallback, dialog);
     }
 
@@ -1903,8 +1875,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean onBackPressed() {
+    boolean onBackPressed() {
         boolean z = this.mLongPressBackDown;
         this.mLongPressBackDown = false;
         PanelFeatureState panelState = getPanelState(0, false);

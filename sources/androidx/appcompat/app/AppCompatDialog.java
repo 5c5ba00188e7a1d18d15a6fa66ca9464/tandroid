@@ -71,9 +71,8 @@ public abstract class AppCompatDialog extends ComponentDialog implements AppComp
         getDelegate().invalidateOptionsMenu();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.activity.ComponentDialog, android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         getDelegate().installViewFactory();
         super.onCreate(bundle);
         getDelegate().onCreate(bundle);
@@ -125,8 +124,7 @@ public abstract class AppCompatDialog extends ComponentDialog implements AppComp
         getDelegate().setTitle(charSequence);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean superDispatchKeyEvent(KeyEvent keyEvent) {
+    boolean superDispatchKeyEvent(KeyEvent keyEvent) {
         return super.dispatchKeyEvent(keyEvent);
     }
 

@@ -10,6 +10,6 @@ public final /* synthetic */ class PhotoViewer$$ExternalSyntheticLambda122 imple
 
     @Override // java.lang.Runnable
     public final void run() {
-        PhotoViewer.$r8$lambda$exM7AIBOqWzqXfF9GsK8jfArDws(this.f$0);
+        this.f$0.applyCurrentEditMode();
     }
 }

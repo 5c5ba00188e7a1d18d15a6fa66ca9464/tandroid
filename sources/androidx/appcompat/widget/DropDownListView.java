@@ -22,9 +22,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class DropDownListView extends ListView {
+class DropDownListView extends ListView {
     private ViewPropertyAnimatorCompat mClickAnimation;
     private boolean mDrawsInPressedState;
     private boolean mHijackFocus;
@@ -39,15 +38,12 @@ public class DropDownListView extends ListView {
     private GateKeeperDrawable mSelector;
     private final Rect mSelectorRect;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static void drawableHotspotChanged(View view, float f, float f2) {
             view.drawableHotspotChanged(f, f2);
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api30Impl {
         private static boolean sHasMethods;
         private static Method sPositionSelector;
@@ -88,9 +84,7 @@ public class DropDownListView extends ListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api33Impl {
+    static class Api33Impl {
         static boolean isSelectedChildViewEnabled(AbsListView absListView) {
             return absListView.isSelectedChildViewEnabled();
         }
@@ -100,9 +94,7 @@ public class DropDownListView extends ListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class GateKeeperDrawable extends DrawableWrapperCompat {
+    private static class GateKeeperDrawable extends DrawableWrapperCompat {
         private boolean mEnabled;
 
         GateKeeperDrawable(Drawable drawable) {
@@ -152,9 +144,7 @@ public class DropDownListView extends ListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class PreApi33Impl {
+    static class PreApi33Impl {
         private static final Field sIsChildViewEnabled;
 
         static {
@@ -193,9 +183,7 @@ public class DropDownListView extends ListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ResolveHoverRunnable implements Runnable {
+    private class ResolveHoverRunnable implements Runnable {
         ResolveHoverRunnable() {
         }
 
@@ -217,8 +205,7 @@ public class DropDownListView extends ListView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DropDownListView(Context context, boolean z) {
+    DropDownListView(Context context, boolean z) {
         super(context, null, R$attr.dropDownListViewStyle);
         this.mSelectorRect = new Rect();
         this.mSelectionLeftPadding = 0;
@@ -559,8 +546,7 @@ public class DropDownListView extends ListView {
         return super.onTouchEvent(motionEvent);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setListSelectionHidden(boolean z) {
+    void setListSelectionHidden(boolean z) {
         this.mListSelectionHidden = z;
     }
 

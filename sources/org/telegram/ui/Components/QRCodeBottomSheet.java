@@ -180,8 +180,7 @@ public class QRCodeBottomSheet extends BottomSheet {
         this.iconImage.setImageBitmap(bitmap);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void updateColors() {
+    void updateColors() {
         this.buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         TextView textView = this.buttonTextView;
         int dp = AndroidUtilities.dp(6.0f);

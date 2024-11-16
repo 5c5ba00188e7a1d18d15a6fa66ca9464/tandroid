@@ -49,7 +49,6 @@ public class FeaturesPageView extends BaseListPageView {
     ArrayList items;
     public final int type;
 
-    /* loaded from: classes3.dex */
     private class HeaderView extends FrameLayout {
         GradientTools gradientTools;
         int height;
@@ -88,9 +87,8 @@ public class FeaturesPageView extends BaseListPageView {
             }
             if (i == 1) {
                 StarParticlesView starParticlesView = new StarParticlesView(context) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.1
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView
-                    public void configure() {
+                    protected void configure() {
                         StarParticlesView.Drawable drawable = this.drawable;
                         drawable.useGradient = true;
                         drawable.useBlur = false;
@@ -107,9 +105,8 @@ public class FeaturesPageView extends BaseListPageView {
                         drawable2.init();
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView, android.view.View
-                    public void onMeasure(int i2, int i3) {
+                    protected void onMeasure(int i2, int i3) {
                         super.onMeasure(i2, i3);
                         this.drawable.rect2.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight() - AndroidUtilities.dp(52.0f));
                     }
@@ -117,16 +114,14 @@ public class FeaturesPageView extends BaseListPageView {
                 this.starParticlesView = starParticlesView;
                 addView(starParticlesView, LayoutHelper.createFrame(-1, NotificationCenter.storiesSendAsUpdate, 55));
                 GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 1, 1) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.2
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
-                    public void onAttachedToWindow() {
+                    protected void onAttachedToWindow() {
                         super.onAttachedToWindow();
                         setPaused(false);
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.View
-                    public void onDetachedFromWindow() {
+                    protected void onDetachedFromWindow() {
                         super.onDetachedFromWindow();
                         setPaused(true);
                     }
@@ -195,8 +190,7 @@ public class FeaturesPageView extends BaseListPageView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Item {
+    class Item {
         String description;
         int iconRes;
         int order;
@@ -216,7 +210,6 @@ public class FeaturesPageView extends BaseListPageView {
         }
     }
 
-    /* loaded from: classes3.dex */
     private class ItemCell extends FrameLayout {
         TextView description;
         ImageView imageView;
@@ -343,12 +336,12 @@ public class FeaturesPageView extends BaseListPageView {
                 View itemCell;
                 if (i == 0) {
                     FeaturesPageView featuresPageView = FeaturesPageView.this;
-                    itemCell = new HeaderView(featuresPageView.getContext());
+                    itemCell = featuresPageView.new HeaderView(featuresPageView.getContext());
                 } else if (i == 2) {
                     itemCell = new FixedHeightEmptyCell(FeaturesPageView.this.getContext(), 16);
                 } else {
                     FeaturesPageView featuresPageView2 = FeaturesPageView.this;
-                    itemCell = new ItemCell(featuresPageView2.getContext());
+                    itemCell = featuresPageView2.new ItemCell(featuresPageView2.getContext());
                 }
                 itemCell.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                 return new RecyclerListView.Holder(itemCell);

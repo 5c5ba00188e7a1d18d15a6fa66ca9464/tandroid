@@ -13,13 +13,10 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class GradientColorInflaterCompat {
+abstract class GradientColorInflaterCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class ColorStops {
+    static final class ColorStops {
         final int[] mColors;
         final float[] mOffsets;
 
@@ -48,8 +45,7 @@ public abstract class GradientColorInflaterCompat {
         return colorStops != null ? colorStops : z ? new ColorStops(i, i3, i2) : new ColorStops(i, i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Shader createFromXmlInner(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
+    static Shader createFromXmlInner(Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) {
         String name = xmlPullParser.getName();
         if (!name.equals("gradient")) {
             throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": invalid gradient color tag " + name);

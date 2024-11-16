@@ -6,7 +6,6 @@ import org.telegram.ui.ActionBar.AlertDialog;
 /* loaded from: classes4.dex */
 public class DarkAlertDialog extends AlertDialog {
 
-    /* loaded from: classes4.dex */
     public static class Builder extends AlertDialog.Builder {
         public Builder(Context context) {
             super(new DarkAlertDialog(context, 0));
@@ -17,9 +16,8 @@ public class DarkAlertDialog extends AlertDialog {
         super(context, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.AlertDialog
-    public int getThemedColor(int i) {
+    protected int getThemedColor(int i) {
         if (i == Theme.key_dialogBackground) {
             return -14277082;
         }

@@ -6,8 +6,7 @@ import j$.util.function.Consumer;
 abstract class Q implements x3, y3 {
     private final boolean a;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Q(boolean z) {
+    protected Q(boolean z) {
         this.a = z;
     }
 

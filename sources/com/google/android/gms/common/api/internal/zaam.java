@@ -7,9 +7,8 @@ final class zaam extends zabg {
     final /* synthetic */ ConnectionResult zaa;
     final /* synthetic */ zaao zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zaam(zaao zaaoVar, zabf zabfVar, ConnectionResult connectionResult) {
+    zaam(zaao zaaoVar, zabf zabfVar, ConnectionResult connectionResult) {
         super(zabfVar);
         this.zab = zaaoVar;
         this.zaa = connectionResult;

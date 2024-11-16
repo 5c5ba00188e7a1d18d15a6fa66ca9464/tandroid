@@ -23,7 +23,7 @@ public class VoIPEllipsizeSpan extends ReplacementSpan {
         canvas.translate(f + AndroidUtilities.dp(4.0f), i4 / 2.0f);
         long uptimeMillis = (SystemClock.uptimeMillis() % 250) + 500;
         for (int i6 = 0; i6 < 3; i6++) {
-            float min = Math.min(1.0f, ((float) (((i6 * 250) + uptimeMillis) % 750)) / 667.0f);
+            float min = Math.min(1.0f, (((i6 * 250) + uptimeMillis) % 750) / 667.0f);
             canvas.drawCircle(AndroidUtilities.dpf2((this.interpolator.getInterpolation(min) * 16.0f) + 1.667f), AndroidUtilities.dp(3.0f), AndroidUtilities.dpf2((min <= 0.425f ? this.interpolator.getInterpolation(min / 0.425f) : 1.0f - this.interpolator.getInterpolation((min - 0.425f) / 0.575f)) * 2.0f), paint);
         }
         canvas.restore();

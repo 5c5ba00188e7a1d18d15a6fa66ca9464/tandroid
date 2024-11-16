@@ -5,8 +5,7 @@ public abstract class zzbx extends zzaj {
     protected zzcb zza;
     private final zzcb zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzbx(zzcb zzcbVar) {
+    protected zzbx(zzcb zzcbVar) {
         this.zzb = zzcbVar;
         if (zzcbVar.zzt()) {
             throw new IllegalArgumentException("Default instance must be immutable.");
@@ -39,8 +38,7 @@ public abstract class zzbx extends zzaj {
         return this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzg() {
+    protected final void zzg() {
         if (this.zza.zzt()) {
             return;
         }

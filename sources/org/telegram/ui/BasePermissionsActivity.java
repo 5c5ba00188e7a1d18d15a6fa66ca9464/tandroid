@@ -36,7 +36,6 @@ public abstract class BasePermissionsActivity extends FragmentActivity {
         createPermissionErrorAlert(i, str).show();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:55:0x009f, code lost:
     
         if (r2 == false) goto L82;
@@ -44,7 +43,7 @@ public abstract class BasePermissionsActivity extends FragmentActivity {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean checkPermissionsResult(int i, String[] strArr, int[] iArr) {
+    protected boolean checkPermissionsResult(int i, String[] strArr, int[] iArr) {
         int i2;
         int i3;
         if (iArr == null) {
@@ -116,8 +115,7 @@ public abstract class BasePermissionsActivity extends FragmentActivity {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AlertDialog createPermissionErrorAlert(int i, String str) {
+    protected AlertDialog createPermissionErrorAlert(int i, String str) {
         return new AlertDialog.Builder(this).setTopAnimation(i, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(str)).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.BasePermissionsActivity$$ExternalSyntheticLambda0
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {

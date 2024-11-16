@@ -2,15 +2,13 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbd extends zzbe {
+final class zzbd extends zzbe {
     final transient int zza;
     final transient int zzb;
     final /* synthetic */ zzbe zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbd(zzbe zzbeVar, int i, int i2) {
+    zzbd(zzbe zzbeVar, int i, int i2) {
         this.zzc = zzbeVar;
         this.zza = i;
         this.zzb = i2;
@@ -37,15 +35,13 @@ public final class zzbd extends zzbe {
         return this.zzc.zzc() + this.zza + this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzaz
-    public final int zzc() {
+    final int zzc() {
         return this.zzc.zzc() + this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_vision_label.zzaz
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzc.zze();
     }
 

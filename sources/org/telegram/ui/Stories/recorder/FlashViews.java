@@ -50,7 +50,6 @@ public class FlashViews {
     public float intensity = 1.0f;
     private final Matrix gradientMatrix = new Matrix();
 
-    /* loaded from: classes5.dex */
     public static class ImageViewInvertable extends ImageView implements Invertable {
         public ImageViewInvertable(Context context) {
             super(context);
@@ -62,7 +61,6 @@ public class FlashViews {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface Invertable {
         void invalidate();
 

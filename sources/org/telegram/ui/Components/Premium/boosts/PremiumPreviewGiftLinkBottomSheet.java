@@ -35,52 +35,6 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
     private final boolean isUsed;
     private final String slug;
 
-    /* loaded from: classes3.dex */
-    public class 1 implements Bulletin.Delegate {
-        1() {
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ boolean allowLayoutChanges() {
-            return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ boolean bottomOffsetAnimated() {
-            return Bulletin.Delegate.-CC.$default$bottomOffsetAnimated(this);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ boolean clipWithGradient(int i) {
-            return Bulletin.Delegate.-CC.$default$clipWithGradient(this, i);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public int getBottomOffset(int i) {
-            return AndroidUtilities.dp(68.0f);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ int getTopOffset(int i) {
-            return Bulletin.Delegate.-CC.$default$getTopOffset(this, i);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ void onBottomOffsetChange(float f) {
-            Bulletin.Delegate.-CC.$default$onBottomOffsetChange(this, f);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ void onHide(Bulletin bulletin) {
-            Bulletin.Delegate.-CC.$default$onHide(this, bulletin);
-        }
-
-        @Override // org.telegram.ui.Components.Bulletin.Delegate
-        public /* synthetic */ void onShow(Bulletin bulletin) {
-            Bulletin.Delegate.-CC.$default$onShow(this, bulletin);
-        }
-    }
-
     public PremiumPreviewGiftLinkBottomSheet(BaseFragment baseFragment, int i, TLRPC.User user, GiftPremiumBottomSheet$GiftTier giftPremiumBottomSheet$GiftTier, String str, boolean z, Theme.ResourcesProvider resourcesProvider) {
         super(baseFragment, i, user, giftPremiumBottomSheet$GiftTier, resourcesProvider);
         this.slug = str;
@@ -90,9 +44,6 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
 
     private void init() {
         Bulletin.addDelegate((FrameLayout) this.containerView, new Bulletin.Delegate() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet.1
-            1() {
-            }
-
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public /* synthetic */ boolean allowLayoutChanges() {
                 return Bulletin.Delegate.-CC.$default$allowLayoutChanges(this);
@@ -151,10 +102,12 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
         fixNavigationBar();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$1() {
         getBaseFragment().showDialog(new PremiumPreviewBottomSheet(getBaseFragment(), UserConfig.selectedAccount, null, null, this.resourcesProvider).setAnimateConfetti(true).setAnimateConfettiWithStars(true).setOutboundGift(true));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$2(Void r3) {
         this.actionBtn.updateLoading(false);
         dismiss();
@@ -166,11 +119,13 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
         }, 200L);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$3(TLRPC.TL_error tL_error) {
         this.actionBtn.updateLoading(false);
         BoostDialogs.processApplyGiftCodeError(tL_error, (FrameLayout) this.containerView, this.resourcesProvider, new PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda1(this));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$4(View view) {
         if (this.actionBtn.isLoading()) {
             return;
@@ -189,6 +144,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
         });
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$share$0(String str, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
         long j = 0;
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -200,6 +156,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void share() {
         final String str = "https://t.me/giftcode/" + this.slug;
         Bundle bundle = new Bundle();

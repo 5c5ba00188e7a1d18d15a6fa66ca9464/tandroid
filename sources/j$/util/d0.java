@@ -6,9 +6,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class d0 implements Q {
+class d0 implements Q {
     private final Collection a;
     private Iterator b = null;
     private final int c;

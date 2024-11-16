@@ -25,7 +25,6 @@ public class ChooseDownloadQualityLayout {
     private final Callback callback;
     public final ActionBarPopupWindow.ActionBarPopupWindowLayout layout;
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onQualitySelected(MessageObject messageObject, VideoPlayer.Quality quality);
     }

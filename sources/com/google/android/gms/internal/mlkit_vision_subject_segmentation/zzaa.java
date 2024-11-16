@@ -4,8 +4,7 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class zzaa extends zzl {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaa(Map map) {
+    zzaa(Map map) {
         super(map);
     }
 }

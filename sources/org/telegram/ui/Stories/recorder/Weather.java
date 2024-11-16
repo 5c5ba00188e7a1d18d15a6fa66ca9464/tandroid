@@ -39,7 +39,6 @@ public abstract class Weather {
     private static String cacheKey;
     private static State cacheValue;
 
-    /* loaded from: classes5.dex */
     public static class State extends TLObject {
         public String emoji;
         public double lat;

@@ -8,6 +8,6 @@ public abstract class zzgb {
     private static final double[] zzsa = new double[0];
     private static final boolean[] zzsb = new boolean[0];
     public static final String[] zzsc = new String[0];
-    public static final byte[][] zzsd = new byte[0];
+    public static final byte[][] zzsd = new byte[0][];
     public static final byte[] zzse = new byte[0];
 }

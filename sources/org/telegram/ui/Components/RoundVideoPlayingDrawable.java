@@ -43,7 +43,7 @@ public class RoundVideoPlayingDrawable extends Drawable {
         if (j > 50) {
             j = 50;
         }
-        float f = (float) j;
+        float f = j;
         float f2 = this.progress1 + ((f / 300.0f) * this.progress1Direction);
         this.progress1 = f2;
         if (f2 > 1.0f) {

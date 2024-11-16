@@ -37,7 +37,6 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SvgHelper {
     private static final double[] pow10 = new double[128];
 
-    /* loaded from: classes3.dex */
     public static class Circle {
         float rad;
         float x1;
@@ -50,9 +49,7 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Line {
+    private static class Line {
         float x1;
         float x2;
         float y1;
@@ -66,9 +63,7 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class NumberParse {
+    private static class NumberParse {
         private int nextCmd;
         private ArrayList<Float> numbers;
 
@@ -86,9 +81,7 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Oval {
+    private static class Oval {
         RectF rect;
 
         public Oval(RectF rectF) {
@@ -96,7 +89,6 @@ public class SvgHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ParserHelper {
         private char current;
         private int n;
@@ -166,47 +158,10 @@ public class SvgHelper {
             return parseFloat;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:28:0x006f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:73:0x00e1, code lost:
         
-            if (r5 == 0) goto L36;
+            r2 = r1;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:29:0x0071, code lost:
-        
-            r9 = read();
-            r15.current = r9;
-            r11 = r11 - 1;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:30:0x0079, code lost:
-        
-            switch(r9) {
-                case 48: goto L87;
-                case 49: goto L86;
-                case 50: goto L86;
-                case 51: goto L86;
-                case 52: goto L86;
-                case 53: goto L86;
-                case 54: goto L86;
-                case 55: goto L86;
-                case 56: goto L86;
-                case 57: goto L86;
-                default: goto L85;
-            };
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x007c, code lost:
-        
-            if (r13 != false) goto L44;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:33:0x007e, code lost:
-        
-            return 0.0f;
-         */
-        /* JADX WARN: Failed to find 'out' block for switch in B:13:0x0034. Please report as an issue. */
-        /* JADX WARN: Failed to find 'out' block for switch in B:24:0x0066. Please report as an issue. */
-        /* JADX WARN: Failed to find 'out' block for switch in B:40:0x0092. Please report as an issue. */
-        /* JADX WARN: Failed to find 'out' block for switch in B:62:0x00c7. Please report as an issue. */
-        /* JADX WARN: Failed to find 'out' block for switch in B:6:0x0022. Please report as an issue. */
-        /* JADX WARN: Failed to find 'out' block for switch in B:71:0x00de. Please report as an issue. */
-        /* JADX WARN: Failed to find 'out' block for switch in B:86:0x004f. Please report as an issue. */
         /* JADX WARN: Removed duplicated region for block: B:23:0x0060  */
         /* JADX WARN: Removed duplicated region for block: B:45:0x0099 A[ADDED_TO_REGION] */
         /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
@@ -215,7 +170,6 @@ public class SvgHelper {
         /* JADX WARN: Removed duplicated region for block: B:59:0x00bb A[PHI: r3
           0x00bb: PHI (r3v2 boolean) = (r3v1 boolean), (r3v0 boolean) binds: [B:77:0x00b4, B:56:0x00a6] A[DONT_GENERATE, DONT_INLINE]] */
         /* JADX WARN: Removed duplicated region for block: B:78:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:7:0x0025 A[RETURN] */
         /* JADX WARN: Removed duplicated region for block: B:82:0x0038  */
         /* JADX WARN: Removed duplicated region for block: B:90:0x0058  */
         /* JADX WARN: Removed duplicated region for block: B:9:0x0028 A[LOOP:0: B:9:0x0028->B:17:?, LOOP_START] */
@@ -236,142 +190,132 @@ public class SvgHelper {
             boolean z3 = true;
             if (c2 == '+') {
                 z = true;
-            } else if (c2 != '-') {
-                z = true;
-                switch (this.current) {
-                    case '.':
-                        i = 0;
-                        i2 = 0;
-                        i3 = 0;
-                        z2 = false;
-                        if (this.current == '.') {
-                            char read3 = read();
-                            this.current = read3;
-                            switch (read3) {
-                                case '0':
-                                    break;
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
-                                    while (true) {
-                                        if (i < 9) {
-                                            i++;
-                                            i3 = (i3 * 10) + (this.current - '0');
-                                            i2--;
-                                        }
-                                        char read4 = read();
-                                        this.current = read4;
-                                        switch (read4) {
+            } else {
+                if (c2 != '-') {
+                    z = true;
+                    switch (this.current) {
+                        case '.':
+                            i = 0;
+                            i2 = 0;
+                            i3 = 0;
+                            z2 = false;
+                            if (this.current == '.') {
+                                char read3 = read();
+                                this.current = read3;
+                                switch (read3) {
+                                    case '0':
+                                        if (i == 0) {
+                                            while (true) {
+                                                char read4 = read();
+                                                this.current = read4;
+                                                i2--;
+                                                switch (read4) {
+                                                    case '0':
+                                                    case '1':
+                                                    case '2':
+                                                    case '3':
+                                                    case '4':
+                                                    case '5':
+                                                    case '6':
+                                                    case '7':
+                                                    case '8':
+                                                    case '9':
+                                                    default:
+                                                        if (!z2) {
+                                                        }
+                                                        break;
+                                                }
+                                            }
                                         }
                                         break;
-                                    }
-                                default:
-                                    if (!z2) {
-                                        reportUnexpectedCharacterError(read3);
-                                        return 0.0f;
-                                    }
-                                    break;
-                            }
-                        }
-                        c = this.current;
-                        if (c != 'E' || c == 'e') {
-                            read = read();
-                            this.current = read;
-                            if (read != '+') {
-                                if (read != '-') {
-                                    switch (read) {
-                                        case '0':
-                                        case '1':
-                                        case '2':
-                                        case '3':
-                                        case '4':
-                                        case '5':
-                                        case '6':
-                                        case '7':
-                                        case '8':
-                                        case '9':
-                                            switch (this.current) {
-                                                case '0':
-                                                    while (true) {
-                                                        char read5 = read();
-                                                        this.current = read5;
-                                                        switch (read5) {
-                                                        }
-                                                    }
-                                                    break;
-                                                case '1':
-                                                case '2':
-                                                case '3':
-                                                case '4':
-                                                case '5':
-                                                case '6':
-                                                case '7':
-                                                case '8':
-                                                case '9':
-                                                    int i5 = 0;
-                                                    while (true) {
-                                                        if (i4 < 3) {
-                                                            i4++;
-                                                            i5 = (i5 * 10) + (this.current - '0');
-                                                        }
-                                                        char read6 = read();
-                                                        this.current = read6;
-                                                        switch (read6) {
-                                                        }
-                                                        i4 = i5;
-                                                        break;
-                                                    }
+                                    case '1':
+                                    case '2':
+                                    case '3':
+                                    case '4':
+                                    case '5':
+                                    case '6':
+                                    case '7':
+                                    case '8':
+                                    case '9':
+                                        while (true) {
+                                            if (i < 9) {
+                                                i++;
+                                                i3 = (i3 * 10) + (this.current - '0');
+                                                i2--;
                                             }
-                                        default:
-                                            reportUnexpectedCharacterError(read);
-                                            return 0.0f;
-                                    }
-                                } else {
-                                    z3 = false;
+                                            char read5 = read();
+                                            this.current = read5;
+                                            switch (read5) {
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        if (!z2) {
+                                            reportUnexpectedCharacterError(read3);
+                                            break;
+                                        }
+                                        break;
                                 }
                             }
-                            read2 = read();
-                            this.current = read2;
-                            switch (read2) {
-                                case '0':
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
-                                    break;
-                                default:
-                                    reportUnexpectedCharacterError(read2);
-                                    return 0.0f;
-                            }
-                        }
-                        if (!z3) {
-                            i4 = -i4;
-                        }
-                        int i6 = i4 + i2;
-                        if (!z) {
-                            i3 = -i3;
-                        }
-                        return buildFloat(i3, i6);
-                    case '/':
-                    default:
-                        return Float.NaN;
-                    case '0':
-                        while (true) {
-                            char read7 = read();
-                            this.current = read7;
-                            if (read7 != '.' && read7 != 'E' && read7 != 'e') {
-                                switch (read7) {
+                            c = this.current;
+                            if (c != 'E' || c == 'e') {
+                                read = read();
+                                this.current = read;
+                                if (read != '+') {
+                                    if (read != '-') {
+                                        switch (read) {
+                                            case '0':
+                                            case '1':
+                                            case '2':
+                                            case '3':
+                                            case '4':
+                                            case '5':
+                                            case '6':
+                                            case '7':
+                                            case '8':
+                                            case '9':
+                                                switch (this.current) {
+                                                    case '0':
+                                                        while (true) {
+                                                            char read6 = read();
+                                                            this.current = read6;
+                                                            switch (read6) {
+                                                            }
+                                                        }
+                                                        break;
+                                                    case '1':
+                                                    case '2':
+                                                    case '3':
+                                                    case '4':
+                                                    case '5':
+                                                    case '6':
+                                                    case '7':
+                                                    case '8':
+                                                    case '9':
+                                                        int i5 = 0;
+                                                        while (true) {
+                                                            if (i4 < 3) {
+                                                                i4++;
+                                                                i5 = (i5 * 10) + (this.current - '0');
+                                                            }
+                                                            char read7 = read();
+                                                            this.current = read7;
+                                                            switch (read7) {
+                                                            }
+                                                        }
+                                                        break;
+                                                }
+                                            default:
+                                                reportUnexpectedCharacterError(read);
+                                                break;
+                                        }
+                                    } else {
+                                        z3 = false;
+                                    }
+                                }
+                                read2 = read();
+                                this.current = read2;
+                                switch (read2) {
                                     case '0':
                                     case '1':
                                     case '2':
@@ -384,56 +328,30 @@ public class SvgHelper {
                                     case '9':
                                         break;
                                     default:
-                                        return 0.0f;
+                                        reportUnexpectedCharacterError(read2);
+                                        break;
                                 }
                             }
-                        }
-                        i = 0;
-                        i2 = 0;
-                        i3 = 0;
-                        z2 = true;
-                        if (this.current == '.') {
-                        }
-                        c = this.current;
-                        if (c != 'E') {
-                        }
-                        read = read();
-                        this.current = read;
-                        if (read != '+') {
-                        }
-                        read2 = read();
-                        this.current = read2;
-                        switch (read2) {
-                        }
-                        if (!z3) {
-                        }
-                        int i62 = i4 + i2;
-                        if (!z) {
-                        }
-                        return buildFloat(i3, i62);
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        i = 0;
-                        i2 = 0;
-                        i3 = 0;
-                        while (true) {
-                            if (i < 9) {
-                                i++;
-                                i3 = (i3 * 10) + (this.current - '0');
-                            } else {
-                                i2++;
+                            if (!z3) {
+                                i4 = -i4;
                             }
-                            char read8 = read();
-                            this.current = read8;
-                            switch (read8) {
+                            int i6 = i4 + i2;
+                            if (!z) {
+                                i3 = -i3;
                             }
+                            break;
+                        case '0':
+                            while (true) {
+                                char read8 = read();
+                                this.current = read8;
+                                if (read8 != '.' && read8 != 'E' && read8 != 'e') {
+                                    switch (read8) {
+                                    }
+                                }
+                            }
+                            i = 0;
+                            i2 = 0;
+                            i3 = 0;
                             z2 = true;
                             if (this.current == '.') {
                             }
@@ -450,20 +368,64 @@ public class SvgHelper {
                             }
                             if (!z3) {
                             }
-                            int i622 = i4 + i2;
+                            int i62 = i4 + i2;
                             if (!z) {
                             }
-                            return buildFloat(i3, i622);
                             break;
-                        }
-                        break;
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            i = 0;
+                            i2 = 0;
+                            i3 = 0;
+                            while (true) {
+                                if (i < 9) {
+                                    i++;
+                                    i3 = (i3 * 10) + (this.current - '0');
+                                } else {
+                                    i2++;
+                                }
+                                char read9 = read();
+                                this.current = read9;
+                                switch (read9) {
+                                }
+                                z2 = true;
+                                if (this.current == '.') {
+                                }
+                                c = this.current;
+                                if (c != 'E') {
+                                }
+                                read = read();
+                                this.current = read;
+                                if (read != '+') {
+                                }
+                                read2 = read();
+                                this.current = read2;
+                                switch (read2) {
+                                }
+                                if (!z3) {
+                                }
+                                int i622 = i4 + i2;
+                                if (!z) {
+                                }
+                                break;
+                            }
+                            break;
+                    }
+                    return 0.0f;
                 }
-            } else {
                 z = false;
             }
             this.current = read();
             switch (this.current) {
             }
+            return 0.0f;
         }
 
         public void skipNumberSeparator() {
@@ -493,9 +455,7 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class Properties {
+    private static class Properties {
         Attributes atts;
         ArrayList<StyleSet> styles;
 
@@ -569,9 +529,7 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class RoundRect {
+    private static class RoundRect {
         RectF rect;
         float rx;
 
@@ -581,9 +539,7 @@ public class SvgHelper {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class SVGHandler extends DefaultHandler {
+    private static class SVGHandler extends DefaultHandler {
         private boolean alphaOnly;
         private Bitmap bitmap;
         private boolean boundsMode;
@@ -765,61 +721,32 @@ public class SvgHelper {
         public void endElement(String str, String str2, String str3) {
             int indexOf;
             str2.hashCode();
-            char c = 65535;
-            switch (str2.hashCode()) {
-                case 103:
-                    if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case 3079438:
-                    if (str2.equals("defs")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 109780401:
-                    if (str2.equals("style")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case 917656469:
-                    if (str2.equals("clipPath")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
-                case 1:
-                case 3:
+            switch (str2) {
+                case "g":
+                case "defs":
+                case "clipPath":
                     this.boundsMode = false;
-                    return;
-                case 2:
+                    break;
+                case "style":
                     StringBuilder sb = this.styles;
-                    if (sb == null) {
-                        return;
-                    }
-                    String[] split = sb.toString().split("\\}");
-                    int i = 0;
-                    while (true) {
-                        if (i >= split.length) {
-                            this.styles = null;
-                            return;
+                    if (sb != null) {
+                        String[] split = sb.toString().split("\\}");
+                        int i = 0;
+                        while (true) {
+                            if (i >= split.length) {
+                                this.styles = null;
+                                break;
+                            } else {
+                                String replace = split[i].trim().replace("\t", "").replace("\n", "");
+                                split[i] = replace;
+                                if (replace.length() != 0 && split[i].charAt(0) == '.' && (indexOf = split[i].indexOf(123)) >= 0) {
+                                    this.globalStyles.put(split[i].substring(1, indexOf).trim(), new StyleSet(split[i].substring(indexOf + 1)));
+                                }
+                                i++;
+                            }
                         }
-                        String replace = split[i].trim().replace("\t", "").replace("\n", "");
-                        split[i] = replace;
-                        if (replace.length() != 0 && split[i].charAt(0) == '.' && (indexOf = split[i].indexOf(123)) >= 0) {
-                            this.globalStyles.put(split[i].substring(1, indexOf).trim(), new StyleSet(split[i].substring(indexOf + 1)));
-                        }
-                        i++;
                     }
                     break;
-                default:
-                    return;
             }
         }
 
@@ -852,7 +779,7 @@ public class SvgHelper {
         
             r2.addCommand(r1, r18.paint);
          */
-        /* JADX WARN: Failed to find 'out' block for switch in B:46:0x00bf. Please report as an issue. */
+        /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
         @Override // org.xml.sax.helpers.DefaultHandler, org.xml.sax.ContentHandler
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -947,57 +874,57 @@ public class SvgHelper {
                         Float floatAttr2 = SvgHelper.getFloatAttr("cy", attributes);
                         Float floatAttr3 = SvgHelper.getFloatAttr("rx", attributes);
                         Float floatAttr4 = SvgHelper.getFloatAttr("ry", attributes);
-                        if (floatAttr == null || floatAttr2 == null || floatAttr3 == null || floatAttr4 == null) {
-                            return;
-                        }
-                        pushTransform(attributes);
-                        Properties properties = new Properties(attributes, this.globalStyles);
-                        this.rect.set(floatAttr.floatValue() - floatAttr3.floatValue(), floatAttr2.floatValue() - floatAttr4.floatValue(), floatAttr.floatValue() + floatAttr3.floatValue(), floatAttr2.floatValue() + floatAttr4.floatValue());
-                        if (doFill(properties)) {
-                            SvgDrawable svgDrawable3 = this.drawable;
-                            if (svgDrawable3 != null) {
-                                svgDrawable3.addCommand(new Oval(this.rect), this.paint);
-                            } else {
-                                this.canvas.drawOval(this.rect, this.paint);
+                        if (floatAttr != null && floatAttr2 != null && floatAttr3 != null && floatAttr4 != null) {
+                            pushTransform(attributes);
+                            Properties properties = new Properties(attributes, this.globalStyles);
+                            this.rect.set(floatAttr.floatValue() - floatAttr3.floatValue(), floatAttr2.floatValue() - floatAttr4.floatValue(), floatAttr.floatValue() + floatAttr3.floatValue(), floatAttr2.floatValue() + floatAttr4.floatValue());
+                            if (doFill(properties)) {
+                                SvgDrawable svgDrawable3 = this.drawable;
+                                if (svgDrawable3 != null) {
+                                    svgDrawable3.addCommand(new Oval(this.rect), this.paint);
+                                } else {
+                                    this.canvas.drawOval(this.rect, this.paint);
+                                }
                             }
-                        }
-                        if (doStroke(properties)) {
-                            SvgDrawable svgDrawable4 = this.drawable;
-                            if (svgDrawable4 != null) {
-                                svgDrawable4.addCommand(new Oval(this.rect), this.paint);
-                            } else {
-                                this.canvas.drawOval(this.rect, this.paint);
+                            if (doStroke(properties)) {
+                                SvgDrawable svgDrawable4 = this.drawable;
+                                if (svgDrawable4 != null) {
+                                    svgDrawable4.addCommand(new Oval(this.rect), this.paint);
+                                } else {
+                                    this.canvas.drawOval(this.rect, this.paint);
+                                }
                             }
+                            popTransform();
+                            break;
                         }
-                        popTransform();
-                        return;
+                        break;
                     case 1:
                         Float floatAttr5 = SvgHelper.getFloatAttr("cx", attributes);
                         Float floatAttr6 = SvgHelper.getFloatAttr("cy", attributes);
                         Float floatAttr7 = SvgHelper.getFloatAttr("r", attributes);
-                        if (floatAttr5 == null || floatAttr6 == null || floatAttr7 == null) {
-                            return;
-                        }
-                        pushTransform(attributes);
-                        Properties properties2 = new Properties(attributes, this.globalStyles);
-                        if (doFill(properties2)) {
-                            SvgDrawable svgDrawable5 = this.drawable;
-                            if (svgDrawable5 != null) {
-                                svgDrawable5.addCommand(new Circle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue()), this.paint);
-                            } else {
-                                this.canvas.drawCircle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue(), this.paint);
+                        if (floatAttr5 != null && floatAttr6 != null && floatAttr7 != null) {
+                            pushTransform(attributes);
+                            Properties properties2 = new Properties(attributes, this.globalStyles);
+                            if (doFill(properties2)) {
+                                SvgDrawable svgDrawable5 = this.drawable;
+                                if (svgDrawable5 != null) {
+                                    svgDrawable5.addCommand(new Circle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue()), this.paint);
+                                } else {
+                                    this.canvas.drawCircle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue(), this.paint);
+                                }
                             }
-                        }
-                        if (doStroke(properties2)) {
-                            SvgDrawable svgDrawable6 = this.drawable;
-                            if (svgDrawable6 != null) {
-                                svgDrawable6.addCommand(new Circle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue()), this.paint);
-                            } else {
-                                this.canvas.drawCircle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue(), this.paint);
+                            if (doStroke(properties2)) {
+                                SvgDrawable svgDrawable6 = this.drawable;
+                                if (svgDrawable6 != null) {
+                                    svgDrawable6.addCommand(new Circle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue()), this.paint);
+                                } else {
+                                    this.canvas.drawCircle(floatAttr5.floatValue(), floatAttr6.floatValue(), floatAttr7.floatValue(), this.paint);
+                                }
                             }
+                            popTransform();
+                            break;
                         }
-                        popTransform();
-                        return;
+                        break;
                     case 2:
                     case '\n':
                         NumberParse numberParseAttr = SvgHelper.getNumberParseAttr("points", attributes);
@@ -1028,17 +955,15 @@ public class SvgHelper {
                                     break;
                                 }
                                 popTransform();
-                                return;
+                                break;
                             }
-                            return;
                         }
-                        return;
+                        break;
                     case 3:
                         if (!"bounds".equalsIgnoreCase(SvgHelper.getStringAttr("id", attributes))) {
-                            return;
                         }
                         this.boundsMode = true;
-                        return;
+                        break;
                     case 4:
                         Float floatAttr8 = SvgHelper.getFloatAttr("width", attributes);
                         Float floatAttr9 = SvgHelper.getFloatAttr("height", attributes);
@@ -1069,27 +994,28 @@ public class SvgHelper {
                             }
                         }
                         SvgDrawable svgDrawable8 = this.drawable;
-                        if (svgDrawable8 != null) {
+                        if (svgDrawable8 == null) {
+                            Bitmap createBitmap = Bitmap.createBitmap(ceil, ceil2, this.alphaOnly ? Bitmap.Config.ALPHA_8 : Bitmap.Config.ARGB_8888);
+                            this.bitmap = createBitmap;
+                            createBitmap.eraseColor(0);
+                            Canvas canvas = new Canvas(this.bitmap);
+                            this.canvas = canvas;
+                            float f3 = this.scale;
+                            if (f3 != 0.0f) {
+                                float f4 = this.globalScale * f3;
+                                canvas.scale(f4, f4);
+                                break;
+                            }
+                        } else {
                             svgDrawable8.width = ceil;
                             svgDrawable8.height = ceil2;
-                            return;
+                            break;
                         }
-                        Bitmap createBitmap = Bitmap.createBitmap(ceil, ceil2, this.alphaOnly ? Bitmap.Config.ALPHA_8 : Bitmap.Config.ARGB_8888);
-                        this.bitmap = createBitmap;
-                        createBitmap.eraseColor(0);
-                        Canvas canvas = new Canvas(this.bitmap);
-                        this.canvas = canvas;
-                        float f3 = this.scale;
-                        if (f3 != 0.0f) {
-                            float f4 = this.globalScale * f3;
-                            canvas.scale(f4, f4);
-                            return;
-                        }
-                        return;
+                        break;
                     case 5:
                     case 11:
                         this.boundsMode = true;
-                        return;
+                        break;
                     case 6:
                         Float floatAttr10 = SvgHelper.getFloatAttr("x1", attributes);
                         Float floatAttr11 = SvgHelper.getFloatAttr("x2", attributes);
@@ -1098,18 +1024,17 @@ public class SvgHelper {
                         if (doStroke(new Properties(attributes, this.globalStyles))) {
                             pushTransform(attributes);
                             svgDrawable2 = this.drawable;
-                            if (svgDrawable2 == null) {
-                                this.canvas.drawLine(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue(), this.paint);
-                                popTransform();
-                                return;
-                            } else {
+                            if (svgDrawable2 != null) {
                                 line = new Line(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue());
                                 svgDrawable2.addCommand(line, this.paint);
                                 popTransform();
-                                return;
+                                break;
+                            } else {
+                                this.canvas.drawLine(floatAttr10.floatValue(), floatAttr12.floatValue(), floatAttr11.floatValue(), floatAttr13.floatValue(), this.paint);
+                                popTransform();
                             }
                         }
-                        return;
+                        break;
                     case 7:
                         path = SvgHelper.doPath(SvgHelper.getStringAttr("d", attributes));
                         pushTransform(attributes);
@@ -1127,7 +1052,7 @@ public class SvgHelper {
                             break;
                         }
                         popTransform();
-                        return;
+                        break;
                     case '\b':
                         Float floatAttr14 = SvgHelper.getFloatAttr("x", attributes);
                         if (floatAttr14 == null) {
@@ -1170,20 +1095,16 @@ public class SvgHelper {
                             }
                         }
                         popTransform();
-                        return;
+                        break;
                     case '\t':
                         this.styles = new StringBuilder();
-                        return;
-                    default:
-                        return;
+                        break;
                 }
             }
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class StyleSet {
+    private static class StyleSet {
         HashMap<String, String> styleMap;
 
         private StyleSet(String str) {
@@ -1207,7 +1128,6 @@ public class SvgHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SvgDrawable extends Drawable {
         private static float gradientWidth;
         private static long lastUpdateTime;
@@ -1298,7 +1218,7 @@ public class SvgHelper {
                         j2 = j3 <= 64 ? j3 : 64L;
                         if (j2 > 0) {
                             lastUpdateTime = j;
-                            totalTranslation += (((float) j2) * f5) / 1800.0f;
+                            totalTranslation += (j2 * f5) / 1800.0f;
                             while (true) {
                                 float f6 = totalTranslation;
                                 float f7 = gradientWidth * 2.0f;
@@ -1314,7 +1234,7 @@ public class SvgHelper {
                         j2 = j4 <= 64 ? j4 : 64L;
                         long j5 = j2 >= 0 ? j2 : 0L;
                         lastUpdateTime = j;
-                        float f8 = totalTranslation + ((((float) j5) * gradientWidth) / 1800.0f);
+                        float f8 = totalTranslation + ((j5 * gradientWidth) / 1800.0f);
                         while (true) {
                             totalTranslation = f8;
                             float f9 = totalTranslation;
@@ -1600,8 +1520,6 @@ public class SvgHelper {
     
         if (r4 != 'V') goto L36;
      */
-    /* JADX WARN: Failed to find 'out' block for switch in B:12:0x0076. Please report as an issue. */
-    /* JADX WARN: Failed to find 'out' block for switch in B:8:0x0037. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0079 A[PHI: r5 r6 r12 r13
       0x0079: PHI (r5v18 float) = (r5v1 float), (r5v5 float), (r5v6 float), (r5v7 float), (r5v8 float), (r5v10 float), (r5v1 float), (r5v1 float) binds: [B:12:0x0076, B:42:0x011a, B:41:0x0114, B:38:0x0106, B:37:0x00ff, B:33:0x00e5, B:26:0x009e, B:25:0x0098] A[DONT_GENERATE, DONT_INLINE]
       0x0079: PHI (r6v18 float) = (r6v1 float), (r6v1 float), (r6v1 float), (r6v5 float), (r6v6 float), (r6v8 float), (r6v12 float), (r6v13 float) binds: [B:12:0x0076, B:42:0x011a, B:41:0x0114, B:38:0x0106, B:37:0x00ff, B:33:0x00e5, B:26:0x009e, B:25:0x0098] A[DONT_GENERATE, DONT_INLINE]
@@ -2024,7 +1942,6 @@ public class SvgHelper {
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x0078. Please report as an issue. */
     public static Integer getColorByName(String str) {
         char c;
         int i;
@@ -2101,33 +2018,34 @@ public class SvgHelper {
         switch (c) {
             case 0:
                 i = -256;
-                return Integer.valueOf(i);
+                break;
             case 1:
                 i = -65536;
-                return Integer.valueOf(i);
+                break;
             case 2:
                 i = -16776961;
-                return Integer.valueOf(i);
+                break;
             case 3:
                 i = -16711681;
-                return Integer.valueOf(i);
+                break;
             case 4:
                 i = -7829368;
-                return Integer.valueOf(i);
+                break;
             case 5:
                 i = -16777216;
-                return Integer.valueOf(i);
+                break;
             case 6:
                 i = -16711936;
-                return Integer.valueOf(i);
+                break;
             case 7:
                 return -1;
             case '\b':
                 i = -65281;
-                return Integer.valueOf(i);
+                break;
             default:
                 return null;
         }
+        return Integer.valueOf(i);
     }
 
     public static SvgDrawable getDrawable(int i, Integer num) {

@@ -41,7 +41,6 @@ public class StealthModeAlert extends BottomSheet {
     private int type;
     Runnable updateButtonRunnuble;
 
-    /* loaded from: classes5.dex */
     private class ItemCell extends FrameLayout {
         TextView description;
         ImageView imageView;
@@ -67,7 +66,6 @@ public class StealthModeAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface Listener {
         void onButtonClicked(boolean z);
     }

@@ -108,9 +108,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
     private int underlineColor;
     private int underlineHeight;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 extends Transition {
+    class 3 extends Transition {
         3() {
         }
 
@@ -140,9 +138,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static /* synthetic */ class 7 {
+    static /* synthetic */ class 7 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$ScrollSlidingTabStrip$Type;
 
         static {
@@ -159,12 +155,10 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface ScrollSlidingTabStripDelegate {
         void onPageSelected(int i);
     }
 
-    /* loaded from: classes3.dex */
     public enum Type {
         LINE,
         TAB
@@ -896,8 +890,7 @@ public abstract class ScrollSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isDragging() {
+    boolean isDragging() {
         return this.draggingView != null;
     }
 

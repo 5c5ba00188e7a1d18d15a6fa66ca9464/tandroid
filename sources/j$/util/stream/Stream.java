@@ -17,7 +17,6 @@ import java.util.Iterator;
 /* loaded from: classes2.dex */
 public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
-    /* loaded from: classes2.dex */
     public final /* synthetic */ class VivifiedWrapper implements Stream {
         public final /* synthetic */ java.util.stream.Stream a;
 

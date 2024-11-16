@@ -3,16 +3,14 @@ package com.google.android.play.integrity.internal;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class w extends t {
+final class w extends t {
     final /* synthetic */ TaskCompletionSource a;
     final /* synthetic */ t b;
     final /* synthetic */ ae c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public w(ae aeVar, TaskCompletionSource taskCompletionSource, TaskCompletionSource taskCompletionSource2, t tVar) {
+    w(ae aeVar, TaskCompletionSource taskCompletionSource, TaskCompletionSource taskCompletionSource2, t tVar) {
         super(taskCompletionSource);
         this.c = aeVar;
         this.a = taskCompletionSource2;

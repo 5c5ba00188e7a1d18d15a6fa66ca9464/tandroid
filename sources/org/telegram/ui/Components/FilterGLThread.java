@@ -70,7 +70,6 @@ public class FilterGLThread extends DispatchQueue {
     private float[] videoTextureMatrix;
     private int videoWidth;
 
-    /* loaded from: classes3.dex */
     public interface FilterGLThreadVideoDelegate {
         void onVideoSurfaceCreated(SurfaceTexture surfaceTexture);
     }

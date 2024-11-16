@@ -125,7 +125,6 @@ public abstract class MemberRequestsDelegate implements MemberRequestCell.OnClic
     };
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
     public class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
@@ -292,8 +291,7 @@ public abstract class MemberRequestsDelegate implements MemberRequestCell.OnClic
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class PreviewDialog extends Dialog {
+    class PreviewDialog extends Dialog {
         private float animationProgress;
         private ValueAnimator animator;
         private BitmapDrawable backgroundDrawable;
@@ -438,9 +436,8 @@ public abstract class MemberRequestsDelegate implements MemberRequestCell.OnClic
             actionBarPopupWindowLayout.setBackgroundColor(color);
             viewGroup.addView(actionBarPopupWindowLayout);
             AvatarPreviewPagerIndicator avatarPreviewPagerIndicator = new AvatarPreviewPagerIndicator(getContext()) { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate.PreviewDialog.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.AvatarPreviewPagerIndicator, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     if (this.profileGalleryView.getRealCount() > 1) {
                         super.onDraw(canvas);
                     }
@@ -1038,8 +1035,7 @@ public abstract class MemberRequestsDelegate implements MemberRequestCell.OnClic
         return this.searchEmptyView;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean hasAllImporters() {
+    protected boolean hasAllImporters() {
         return !this.allImporters.isEmpty();
     }
 
@@ -1079,8 +1075,7 @@ public abstract class MemberRequestsDelegate implements MemberRequestCell.OnClic
         hideChatJoinRequest(tL_chatInviteImporter, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onImportersChanged(String str, boolean z, boolean z2) {
+    protected void onImportersChanged(String str, boolean z, boolean z2) {
         boolean z3;
         if (TextUtils.isEmpty(str)) {
             z3 = !this.allImporters.isEmpty() || z;

@@ -18,9 +18,7 @@ import java.util.HashSet;
 /* loaded from: classes.dex */
 public abstract class ActivityCompat extends ContextCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api16Impl {
+    static class Api16Impl {
         static void finishAffinity(Activity activity) {
             activity.finishAffinity();
         }
@@ -34,9 +32,7 @@ public abstract class ActivityCompat extends ContextCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static void onSharedElementsReady(Object obj) {
             ((SharedElementCallback.OnSharedElementsReadyListener) obj).onSharedElementsReady();
         }
@@ -50,12 +46,10 @@ public abstract class ActivityCompat extends ContextCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface OnRequestPermissionsResultCallback {
         void onRequestPermissionsResult(int i, String[] strArr, int[] iArr);
     }
 
-    /* loaded from: classes.dex */
     public interface RequestPermissionsRequestCodeValidator {
         void validateRequestPermissionsRequestCode(int i);
     }

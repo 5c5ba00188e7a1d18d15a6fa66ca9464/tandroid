@@ -20,6 +20,9 @@ public abstract class f {
         copyOnWriteArrayList.addAll(arrayList);
     }
 
+    protected f() {
+    }
+
     /* JADX WARN: Multi-variable type inference failed */
     public static ZoneRules a(String str, boolean z) {
         j$.util.a.B(str, "zoneId");

@@ -71,7 +71,6 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     private SelectorAdapter selectorAdapter;
     private SelectorListener selectorListener;
 
-    /* loaded from: classes4.dex */
     public interface SelectorListener {
         void onUserSelected(List list);
     }

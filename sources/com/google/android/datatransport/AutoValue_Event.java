@@ -6,8 +6,7 @@ final class AutoValue_Event extends Event {
     private final Object payload;
     private final Priority priority;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_Event(Integer num, Object obj, Priority priority) {
+    AutoValue_Event(Integer num, Object obj, Priority priority) {
         this.code = num;
         if (obj == null) {
             throw new NullPointerException("Null payload");

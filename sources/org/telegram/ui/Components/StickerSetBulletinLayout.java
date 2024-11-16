@@ -27,7 +27,6 @@ import org.telegram.ui.PremiumPreviewFragment;
 
 /* loaded from: classes3.dex */
 public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
-    /* JADX WARN: Failed to find 'out' block for switch in B:37:0x0123. Please report as an issue. */
     /* JADX WARN: Removed duplicated region for block: B:10:0x0071 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:112:0x0105  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x0088  */

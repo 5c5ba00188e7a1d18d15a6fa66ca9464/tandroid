@@ -12,9 +12,7 @@ public class DispatchQueuePriority {
     private volatile CountDownLatch pauseLatch;
     ThreadPoolExecutor threadPoolExecutor;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PriorityRunnable implements Runnable {
+    private static class PriorityRunnable implements Runnable {
         final int priority;
         final Runnable runnable;
 

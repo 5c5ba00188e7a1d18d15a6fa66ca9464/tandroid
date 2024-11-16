@@ -7,9 +7,8 @@ import java.util.ListIterator;
 final class zzae extends zzac implements ListIterator {
     final /* synthetic */ zzaf zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzae(zzaf zzafVar) {
+    zzae(zzaf zzafVar) {
         super(zzafVar);
         this.zzd = zzafVar;
     }

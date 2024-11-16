@@ -87,9 +87,8 @@ public class FillLastGridLayoutManager extends GridLayoutManager {
         return this.canScrollVertically;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.GridLayoutManager
-    public void measureChild(View view, int i, boolean z) {
+    protected void measureChild(View view, int i, boolean z) {
         if (this.listView.findContainingViewHolder(view).getAdapterPosition() == getItemCount() - 1) {
             ((ViewGroup.MarginLayoutParams) ((RecyclerView.LayoutParams) view.getLayoutParams())).height = Math.max(this.lastItemHeight, 0);
         }

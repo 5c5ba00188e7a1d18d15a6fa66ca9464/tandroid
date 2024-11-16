@@ -119,13 +119,10 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
     ImageReceiver thumbImage;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends StatisticActivity.BaseChartCell {
+        class 1 extends StatisticActivity.BaseChartCell {
             1(Context context, int i, BaseChartView.SharedUiComponents sharedUiComponents, Theme.ResourcesProvider resourcesProvider) {
                 super(context, i, sharedUiComponents, resourcesProvider);
             }
@@ -401,7 +398,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 } else if (i != 2) {
                     if (i != 4) {
                         if (i == 5) {
-                            View overviewCell = new OverviewCell(this.mContext);
+                            View overviewCell = MessageStatisticActivity.this.new OverviewCell(this.mContext);
                             layoutParams = new RecyclerView.LayoutParams(-1, -2);
                             view3 = overviewCell;
                         } else if (i == 6) {
@@ -445,7 +442,6 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         }
     }
 
-    /* loaded from: classes4.dex */
     public class OverviewCell extends LinearLayout {
         TextView[] primary;
         TextView[] title;
@@ -1280,9 +1276,8 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
         updateRows();
         this.listView.setEmptyView(this.emptyView);
         this.avatarContainer = new ChatAvatarContainer(context, 0 == true ? 1 : 0, z) { // from class: org.telegram.ui.MessageStatisticActivity.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 MessageStatisticActivity messageStatisticActivity = MessageStatisticActivity.this;
                 messageStatisticActivity.thumbImage.setImageCoords(messageStatisticActivity.avatarContainer.getAvatarImageView().getX(), MessageStatisticActivity.this.avatarContainer.getAvatarImageView().getY(), MessageStatisticActivity.this.avatarContainer.getAvatarImageView().getWidth(), MessageStatisticActivity.this.avatarContainer.getAvatarImageView().getHeight());
@@ -1302,16 +1297,14 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
-            public void onAttachedToWindow() {
+            protected void onAttachedToWindow() {
                 super.onAttachedToWindow();
                 MessageStatisticActivity.this.thumbImage.onAttachedToWindow();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.ChatAvatarContainer, android.view.ViewGroup, android.view.View
-            public void onDetachedFromWindow() {
+            protected void onDetachedFromWindow() {
                 super.onDetachedFromWindow();
                 MessageStatisticActivity.this.thumbImage.onDetachedFromWindow();
             }

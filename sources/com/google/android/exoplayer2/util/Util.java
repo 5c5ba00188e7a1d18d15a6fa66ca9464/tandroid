@@ -804,40 +804,13 @@ public abstract class Util {
     public static int inferContentTypeForExtension(String str) {
         String lowerCase = Ascii.toLowerCase(str);
         lowerCase.hashCode();
-        char c = 65535;
-        switch (lowerCase.hashCode()) {
-            case 104579:
-                if (lowerCase.equals("ism")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 108321:
-                if (lowerCase.equals("mpd")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3242057:
-                if (lowerCase.equals("isml")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 3299913:
-                if (lowerCase.equals("m3u8")) {
-                    c = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
-            case 2:
+        switch (lowerCase) {
+            case "ism":
+            case "isml":
                 return 1;
-            case 1:
+            case "mpd":
                 return 0;
-            case 3:
+            case "m3u8":
                 return 2;
             default:
                 return 4;
@@ -848,41 +821,14 @@ public abstract class Util {
         if (str == null) {
             return inferContentType(uri);
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -979127466:
-                if (str.equals("application/x-mpegURL")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -156749520:
-                if (str.equals("application/vnd.ms-sstr+xml")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 64194685:
-                if (str.equals("application/dash+xml")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case 1154777587:
-                if (str.equals("application/x-rtsp")) {
-                    c = 3;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "application/x-mpegURL":
                 return 2;
-            case 1:
+            case "application/vnd.ms-sstr+xml":
                 return 1;
-            case 2:
+            case "application/dash+xml":
                 return 0;
-            case 3:
+            case "application/x-rtsp":
                 return 3;
             default:
                 return 4;

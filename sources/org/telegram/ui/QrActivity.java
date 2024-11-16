@@ -128,15 +128,12 @@ public class QrActivity extends BaseFragment {
     private ThemeListViewController themesViewController;
     private long userId;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public interface OnItemSelectedListener {
+    interface OnItemSelectedListener {
         void onItemSelected(EmojiThemes emojiThemes, int i);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class QrView extends View {
+    static class QrView extends View {
         private Bitmap backgroundBitmap;
         private final Paint bitmapGradientPaint;
         private QrCenterChangedListener centerChangedListener;
@@ -170,7 +167,6 @@ public class QrActivity extends BaseFragment {
         private static final float SHADOW_SIZE = AndroidUtilities.dp(2.0f);
         private static final float RADIUS = AndroidUtilities.dp(20.0f);
 
-        /* loaded from: classes4.dex */
         public interface QrCenterChangedListener {
             void onCenterChanged(int i, int i2, int i3, int i4);
         }
@@ -794,8 +790,7 @@ public class QrActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ThemeListViewController implements NotificationCenter.NotificationCenterDelegate {
+    class ThemeListViewController implements NotificationCenter.NotificationCenterDelegate {
         public final ChatThemeBottomSheet.Adapter adapter;
         private final Drawable backgroundDrawable;
         private final View bottomShadow;
@@ -827,9 +822,8 @@ public class QrActivity extends BaseFragment {
             this.window = window;
             Activity parentActivity = baseFragment.getParentActivity();
             this.scroller = new LinearSmoothScroller(parentActivity) { // from class: org.telegram.ui.QrActivity.ThemeListViewController.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                public int calculateTimeForScrolling(int i) {
+                protected int calculateTimeForScrolling(int i) {
                     return super.calculateTimeForScrolling(i) * 6;
                 }
             };
@@ -1262,8 +1256,7 @@ public class QrActivity extends BaseFragment {
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public void onItemClicked(View view, final int i) {
+        protected void onItemClicked(View view, final int i) {
             if (this.adapter.items.get(i) == this.selectedItem || this.changeDayNightView != null) {
                 return;
             }
@@ -1331,9 +1324,7 @@ public class QrActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ThemeResourcesProvider implements Theme.ResourcesProvider {
+    private class ThemeResourcesProvider implements Theme.ResourcesProvider {
         private SparseIntArray colors;
 
         private ThemeResourcesProvider() {

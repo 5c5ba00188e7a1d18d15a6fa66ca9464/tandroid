@@ -9,8 +9,7 @@ import java.util.List;
 
 /* loaded from: classes.dex */
 public final class zzof extends zza implements IInterface {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzof(IBinder iBinder) {
+    zzof(IBinder iBinder) {
         super(iBinder, "com.google.mlkit.vision.label.aidls.IImageLabeler");
     }
 

@@ -4,6 +4,9 @@ import java.security.PrivilegedAction;
 
 /* loaded from: classes2.dex */
 final class v implements PrivilegedAction {
+    v() {
+    }
+
     @Override // java.security.PrivilegedAction
     public final Object run() {
         return Boolean.valueOf(Boolean.getBoolean("java.util.secureRandomSeed"));

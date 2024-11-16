@@ -13,7 +13,6 @@ final class AutoValue_LogRequest extends LogRequest {
     private final long requestTimeMs;
     private final long requestUptimeMs;
 
-    /* loaded from: classes.dex */
     static final class Builder extends LogRequest.Builder {
         private ClientInfo clientInfo;
         private List logEvents;
@@ -22,6 +21,9 @@ final class AutoValue_LogRequest extends LogRequest {
         private QosTier qosTier;
         private Long requestTimeMs;
         private Long requestUptimeMs;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.cct.internal.LogRequest.Builder
         public LogRequest build() {

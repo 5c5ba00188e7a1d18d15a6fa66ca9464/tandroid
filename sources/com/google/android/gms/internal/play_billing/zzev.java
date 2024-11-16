@@ -2,9 +2,8 @@ package com.google.android.gms.internal.play_billing;
 
 import org.telegram.messenger.NotificationCenter;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzev {
+abstract class zzev {
     public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzes zzb;
 
@@ -15,8 +14,7 @@ public abstract class zzev {
         zzb = new zzet();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* bridge */ /* synthetic */ int zza(byte[] bArr, int i, int i2) {
+    static /* bridge */ /* synthetic */ int zza(byte[] bArr, int i, int i2) {
         int i3 = i2 - i;
         byte b = bArr[i - 1];
         if (i3 != 0) {
@@ -41,7 +39,6 @@ public abstract class zzev {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x00ff, code lost:
     
         return r9 + r0;
@@ -49,7 +46,7 @@ public abstract class zzev {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static int zzb(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    static int zzb(CharSequence charSequence, byte[] bArr, int i, int i2) {
         int i3;
         int i4;
         int i5;
@@ -112,8 +109,7 @@ public abstract class zzev {
         return i7;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(CharSequence charSequence) {
+    static int zzc(CharSequence charSequence) {
         int length = charSequence.length();
         int i = 0;
         int i2 = 0;
@@ -155,13 +151,11 @@ public abstract class zzev {
         throw new IllegalArgumentException("UTF-8 length does not fit in int: " + (i3 + 4294967296L));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzd(byte[] bArr) {
+    static boolean zzd(byte[] bArr) {
         return zzb.zzb(bArr, 0, bArr.length);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zze(byte[] bArr, int i, int i2) {
+    static boolean zze(byte[] bArr, int i, int i2) {
         return zzb.zzb(bArr, i, i2);
     }
 }

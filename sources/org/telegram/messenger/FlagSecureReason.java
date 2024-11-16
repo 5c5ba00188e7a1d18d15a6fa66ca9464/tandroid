@@ -11,7 +11,6 @@ public class FlagSecureReason {
     private boolean attached = false;
     private boolean value = false;
 
-    /* loaded from: classes3.dex */
     public interface FlagSecureCondition {
         boolean run();
     }

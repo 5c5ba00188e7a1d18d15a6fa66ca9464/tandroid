@@ -12,7 +12,6 @@ public final class VerticalPositionAutoAnimator {
     private View floatingButtonView;
     private float offsetY;
 
-    /* loaded from: classes3.dex */
     private class AnimatorLayoutChangeListener implements View.OnLayoutChangeListener {
         private boolean ignoreNextLayout;
         private Boolean orientation;

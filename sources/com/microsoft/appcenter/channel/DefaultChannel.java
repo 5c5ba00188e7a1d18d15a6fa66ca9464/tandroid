@@ -51,9 +51,7 @@ public class DefaultChannel implements Channel {
     private final Collection mListeners;
     private final Persistence mPersistence;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public class GroupState {
+    class GroupState {
         final long mBatchTimeInterval;
         final Ingestion mIngestion;
         final Channel.GroupListener mListener;

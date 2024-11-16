@@ -24,7 +24,6 @@ public class GridLayoutManager extends LinearLayoutManager {
     SpanSizeLookup mSpanSizeLookup;
     private boolean mUsingSpansToEstimateScrollBarDimensions;
 
-    /* loaded from: classes.dex */
     public static final class DefaultSpanSizeLookup extends SpanSizeLookup {
         @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
         public int getSpanIndex(int i, int i2) {
@@ -37,7 +36,6 @@ public class GridLayoutManager extends LinearLayoutManager {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class LayoutParams extends RecyclerView.LayoutParams {
         int mSpanIndex;
         public int mSpanSize;
@@ -75,7 +73,6 @@ public class GridLayoutManager extends LinearLayoutManager {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class SpanSizeLookup {
         final SparseIntArray mSpanIndexCache = new SparseIntArray();
         final SparseIntArray mSpanGroupIndexCache = new SparseIntArray();
@@ -377,8 +374,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         calculateItemBorders(height - paddingTop);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void assignSpans(RecyclerView.Recycler recycler, RecyclerView.State state, int i, boolean z) {
+    protected void assignSpans(RecyclerView.Recycler recycler, RecyclerView.State state, int i, boolean z) {
         int i2;
         int i3;
         int i4 = 0;
@@ -549,8 +545,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         return this.mSpanCount;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getSpanSize(RecyclerView.Recycler recycler, RecyclerView.State state, int i) {
+    protected int getSpanSize(RecyclerView.Recycler recycler, RecyclerView.State state, int i) {
         if (!state.isPreLayout()) {
             return this.mSpanSizeLookup.getSpanSize(i);
         }
@@ -743,8 +738,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         Arrays.fill(this.mSet, (Object) null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void measureChild(View view, int i, boolean z) {
+    protected void measureChild(View view, int i, boolean z) {
         int i2;
         int i3;
         LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
@@ -764,17 +758,15 @@ public class GridLayoutManager extends LinearLayoutManager {
         measureChildWithDecorationsAndMargin(view, i3, i2, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void measureChildWithDecorationsAndMargin(View view, int i, int i2, boolean z) {
+    protected void measureChildWithDecorationsAndMargin(View view, int i, int i2, boolean z) {
         RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) view.getLayoutParams();
         if (z ? shouldReMeasureChild(view, i, i2, layoutParams) : shouldMeasureChild(view, i, i2, layoutParams)) {
             view.measure(i, i2);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // androidx.recyclerview.widget.LinearLayoutManager
-    public void onAnchorReady(RecyclerView.Recycler recycler, RecyclerView.State state, LinearLayoutManager.AnchorInfo anchorInfo, int i) {
+    void onAnchorReady(RecyclerView.Recycler recycler, RecyclerView.State state, LinearLayoutManager.AnchorInfo anchorInfo, int i) {
         super.onAnchorReady(recycler, state, anchorInfo, i);
         updateMeasurements();
         if (state.getItemCount() > 0 && !state.isPreLayout()) {

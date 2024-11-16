@@ -32,9 +32,7 @@ public class StickerView extends EntityView {
     private Object parentObject;
     private TLRPC.Document sticker;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class FrameLayoutDrawer extends FrameLayout {
+    private class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
             setWillNotDraw(false);
@@ -46,7 +44,6 @@ public class StickerView extends EntityView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class StickerViewSelectionView extends EntityView.SelectionView {
         private RectF arcRect;
 
@@ -265,9 +262,8 @@ public class StickerView extends EntityView {
         canvas.restore();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
+    protected void updatePosition() {
         Size size = this.baseSize;
         float f = size.width / 2.0f;
         float f2 = size.height / 2.0f;

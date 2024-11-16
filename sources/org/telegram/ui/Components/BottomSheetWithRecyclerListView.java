@@ -57,7 +57,6 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     public float topPadding;
     boolean wasDrawn;
 
-    /* loaded from: classes3.dex */
     public enum ActionBarType {
         FADING,
         SLIDING
@@ -93,9 +92,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.headerShadowDrawable = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
         if (z3) {
             NestedSizeNotifierLayout nestedSizeNotifierLayout = new NestedSizeNotifierLayout(context) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     BottomSheetWithRecyclerListView.this.preDrawInternal(canvas, this);
                     super.dispatchDraw(canvas);
                     BottomSheetWithRecyclerListView.this.postDrawInternal(canvas, this);
@@ -124,9 +122,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     return super.drawChild(canvas, view, j);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.NestedSizeNotifierLayout, android.widget.FrameLayout, android.view.View
-                public void onMeasure(int i, int i2) {
+                protected void onMeasure(int i, int i2) {
                     BottomSheetWithRecyclerListView.this.contentHeight = View.MeasureSpec.getSize(i2);
                     BottomSheetWithRecyclerListView.this.onPreMeasure(i, i2);
                     if (z4) {
@@ -185,9 +182,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-                public void dispatchDraw(Canvas canvas) {
+                protected void dispatchDraw(Canvas canvas) {
                     BottomSheetWithRecyclerListView.this.preDrawInternal(canvas, this);
                     super.dispatchDraw(canvas);
                     BottomSheetWithRecyclerListView.this.postDrawInternal(canvas, this);
@@ -216,7 +212,6 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                     return super.drawChild(canvas, view, j);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 /* JADX WARN: Removed duplicated region for block: B:31:0x009c  */
                 /* JADX WARN: Removed duplicated region for block: B:38:0x00c6  */
                 /* JADX WARN: Removed duplicated region for block: B:49:0x00b8  */
@@ -224,7 +219,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
-                public void onLayout(boolean z5, int i, int i2, int i3, int i4) {
+                protected void onLayout(boolean z5, int i, int i2, int i3, int i4) {
                     int i5;
                     int i6;
                     int i7;
@@ -309,15 +304,13 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
             };
         }
         this.recyclerListView = new RecyclerListView(context, resourcesProvider) { // from class: org.telegram.ui.Components.BottomSheetWithRecyclerListView.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean canHighlightChildAt(View view, float f, float f2) {
+            protected boolean canHighlightChildAt(View view, float f, float f2) {
                 return BottomSheetWithRecyclerListView.this.canHighlightChildAt(view, f, f2);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z5, int i, int i2, int i3, int i4) {
+            protected void onLayout(boolean z5, int i, int i2, int i3, int i4) {
                 BottomSheetWithRecyclerListView.this.applyScrolledPosition();
                 super.onLayout(z5, i, i2, i3, i4);
             }
@@ -605,9 +598,8 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.savedScrollPosition = -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 
@@ -644,8 +636,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     protected void onPreDraw(Canvas canvas, int i, float f) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onPreMeasure(int i, int i2) {
+    protected void onPreMeasure(int i, int i2) {
     }
 
     public void onViewCreated(FrameLayout frameLayout) {

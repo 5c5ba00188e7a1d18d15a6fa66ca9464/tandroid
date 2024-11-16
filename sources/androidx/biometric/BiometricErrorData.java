@@ -7,8 +7,7 @@ class BiometricErrorData {
     private final int mErrorCode;
     private final CharSequence mErrorMessage;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public BiometricErrorData(int i, CharSequence charSequence) {
+    BiometricErrorData(int i, CharSequence charSequence) {
         this.mErrorCode = i;
         this.mErrorMessage = charSequence;
     }
@@ -34,13 +33,11 @@ class BiometricErrorData {
         return this.mErrorCode == biometricErrorData.mErrorCode && isErrorMessageEqualTo(biometricErrorData.mErrorMessage);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int getErrorCode() {
+    int getErrorCode() {
         return this.mErrorCode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CharSequence getErrorMessage() {
+    CharSequence getErrorMessage() {
         return this.mErrorMessage;
     }
 

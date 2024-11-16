@@ -121,7 +121,6 @@ class ImageDownload implements Closeable {
         this.task = Tasks.call(executor, new Callable(this) { // from class: com.google.firebase.messaging.ImageDownload$$Lambda$0
             private final ImageDownload arg$1;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
             }

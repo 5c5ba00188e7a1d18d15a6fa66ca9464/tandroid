@@ -59,9 +59,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
     private HashSet selectedLanguages;
     private int separatorRow = -1;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private boolean search;
 

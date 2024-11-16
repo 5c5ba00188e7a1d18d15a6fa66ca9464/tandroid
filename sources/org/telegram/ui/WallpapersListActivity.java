@@ -128,9 +128,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     private static final String[] searchColorsNames = {"Blue", "Red", "Orange", "Yellow", "Green", "Teal", "Purple", "Pink", "Brown", "Black", "Gray", "White"};
     private static final int[] searchColorsNamesR = {R.string.Blue, R.string.Red, R.string.Orange, R.string.Yellow, R.string.Green, R.string.Teal, R.string.Purple, R.string.Pink, R.string.Brown, R.string.Black, R.string.Gray, R.string.White};
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 implements WallpaperUpdater.WallpaperUpdaterDelegate {
+    class 1 implements WallpaperUpdater.WallpaperUpdaterDelegate {
         1() {
         }
 
@@ -159,9 +157,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 extends ActionBar.ActionBarMenuOnItemClick {
+    class 2 extends ActionBar.ActionBarMenuOnItemClick {
         2() {
         }
 
@@ -358,7 +354,6 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
     private class ColorCell extends View {
         private int color;
 
@@ -385,7 +380,6 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class ColorWallpaper {
         public int color;
         public Bitmap defaultCache;
@@ -512,7 +506,6 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class FileWallpaper {
         public File originalPath;
         public File path;
@@ -533,9 +526,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -696,8 +687,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int imageReqId;
         private RecyclerListView innerListView;
         private String lastSearchImageString;
@@ -712,7 +702,6 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         private HashMap searchResultKeys = new HashMap();
         private boolean bingSearchEndReached = true;
 
-        /* loaded from: classes4.dex */
         private class CategoryAdapterRecycler extends RecyclerListView.SelectionAdapter {
             private CategoryAdapterRecycler() {
             }
@@ -739,7 +728,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             @Override // androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 SearchAdapter searchAdapter = SearchAdapter.this;
-                return new RecyclerListView.Holder(new ColorCell(searchAdapter.mContext));
+                return new RecyclerListView.Holder(WallpapersListActivity.this.new ColorCell(searchAdapter.mContext));
             }
         }
 

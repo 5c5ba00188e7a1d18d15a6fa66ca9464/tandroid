@@ -11,8 +11,10 @@ public abstract class zzu extends zzr implements List, RandomAccess {
     public static final /* synthetic */ int $r8$clinit = 0;
     private static final zzai zza = new zzs(zzaa.zza, 0);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzu zzi(Object[] objArr, int i) {
+    zzu() {
+    }
+
+    static zzu zzi(Object[] objArr, int i) {
         return i == 0 ? zzaa.zza : new zzaa(objArr, i);
     }
 
@@ -143,9 +145,8 @@ public abstract class zzu extends zzr implements List, RandomAccess {
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzr
-    public int zza(Object[] objArr, int i) {
+    int zza(Object[] objArr, int i) {
         int size = size();
         for (int i2 = 0; i2 < size; i2++) {
             objArr[i2] = get(i2);

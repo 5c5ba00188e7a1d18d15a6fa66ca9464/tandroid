@@ -7,8 +7,7 @@ abstract class zzdo extends zzdv {
     private final int zza;
     private int zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzdo(int i, int i2) {
+    protected zzdo(int i, int i2) {
         zzdm.zzb(i2, i, "index");
         this.zza = i;
         this.zzb = i2;

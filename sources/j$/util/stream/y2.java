@@ -4,8 +4,7 @@ import java.util.Arrays;
 
 /* loaded from: classes2.dex */
 final class y2 extends g0 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public y2(b bVar) {
+    y2(b bVar) {
         super(bVar, S2.q | S2.o, 0);
     }
 

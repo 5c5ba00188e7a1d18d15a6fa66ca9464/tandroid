@@ -10,6 +10,6 @@ public final /* synthetic */ class ProfileActivity$$ExternalSyntheticLambda2 imp
 
     @Override // java.lang.Runnable
     public final void run() {
-        ProfileActivity.$r8$lambda$w8rO6Zm--kolCrj34I0aad2OtBk(this.f$0);
+        this.f$0.createBirthdayEffect();
     }
 }

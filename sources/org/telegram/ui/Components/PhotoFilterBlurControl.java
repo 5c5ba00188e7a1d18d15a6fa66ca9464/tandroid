@@ -44,9 +44,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
     private float startRadius;
     private int type;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static /* synthetic */ class 1 {
+    static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl;
 
         static {
@@ -71,9 +69,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public enum BlurViewActiveControl {
+    private enum BlurViewActiveControl {
         BlurViewActiveControlNone,
         BlurViewActiveControlCenter,
         BlurViewActiveControlInnerRadius,
@@ -82,7 +78,6 @@ public class PhotoFilterBlurControl extends FrameLayout {
         BlurViewActiveControlRotation
     }
 
-    /* loaded from: classes3.dex */
     public interface PhotoFilterLinearBlurControlDelegate {
         void valueChanged(Point point, float f, float f2, float f3);
     }

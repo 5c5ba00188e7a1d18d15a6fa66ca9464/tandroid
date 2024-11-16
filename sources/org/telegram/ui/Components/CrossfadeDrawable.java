@@ -85,7 +85,7 @@ public class CrossfadeDrawable extends Drawable {
                 CrossfadeDrawable.this.lambda$animateToProgress$0(valueAnimator2);
             }
         });
-        this.animator.setDuration(Math.abs(getProgress() - f) * 200.0f);
+        this.animator.setDuration((long) (Math.abs(getProgress() - f) * 200.0f));
         this.animator.setInterpolator(CubicBezierInterpolator.DEFAULT);
         this.animator.start();
     }

@@ -98,9 +98,7 @@ public class SharedLinkCell extends FrameLayout {
     private int titleY;
     private int viewType;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class CheckForLongPress implements Runnable {
+    class CheckForLongPress implements Runnable {
         public int currentPressCount;
 
         CheckForLongPress() {
@@ -123,9 +121,7 @@ public class SharedLinkCell extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public final class CheckForTap implements Runnable {
+    private final class CheckForTap implements Runnable {
         private CheckForTap() {
         }
 
@@ -133,7 +129,7 @@ public class SharedLinkCell extends FrameLayout {
         public void run() {
             if (SharedLinkCell.this.pendingCheckForLongPress == null) {
                 SharedLinkCell sharedLinkCell = SharedLinkCell.this;
-                sharedLinkCell.pendingCheckForLongPress = new CheckForLongPress();
+                sharedLinkCell.pendingCheckForLongPress = sharedLinkCell.new CheckForLongPress();
             }
             SharedLinkCell.this.pendingCheckForLongPress.currentPressCount = SharedLinkCell.access$104(SharedLinkCell.this);
             SharedLinkCell sharedLinkCell2 = SharedLinkCell.this;
@@ -141,7 +137,6 @@ public class SharedLinkCell extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface SharedLinkCellDelegate {
         boolean canPerformActions();
 

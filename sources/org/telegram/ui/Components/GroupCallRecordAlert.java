@@ -42,8 +42,7 @@ public abstract class GroupCallRecordAlert extends BottomSheet {
     private ViewPager viewPager;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends PagerAdapter {
+    class Adapter extends PagerAdapter {
         private Adapter() {
         }
 

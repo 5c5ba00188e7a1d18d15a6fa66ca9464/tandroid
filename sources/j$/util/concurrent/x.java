@@ -11,8 +11,7 @@ final class x implements E {
     final double c;
     final double d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public x(long j, long j2, double d, double d2) {
+    x(long j, long j2, double d, double d2) {
         this.a = j;
         this.b = j2;
         this.c = d;

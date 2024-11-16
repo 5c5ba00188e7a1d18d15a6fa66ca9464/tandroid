@@ -32,7 +32,6 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult 
     private final AtomicReference zai = new AtomicReference();
     private boolean zaq = false;
 
-    /* loaded from: classes.dex */
     public static class CallbackHandler extends com.google.android.gms.internal.base.zau {
         public CallbackHandler(Looper looper) {
             super(looper);
@@ -60,8 +59,7 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public BasePendingResult(GoogleApiClient googleApiClient) {
+    protected BasePendingResult(GoogleApiClient googleApiClient) {
         this.zab = new CallbackHandler(googleApiClient != null ? googleApiClient.getLooper() : Looper.getMainLooper());
         this.zac = new WeakReference(googleApiClient);
     }
@@ -144,8 +142,7 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Result createFailedResult(Status status);
+    protected abstract Result createFailedResult(Status status);
 
     public final void forceFailureUnlessReady(Status status) {
         synchronized (this.zae) {

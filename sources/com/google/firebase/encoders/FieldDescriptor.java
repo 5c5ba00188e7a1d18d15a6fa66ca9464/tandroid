@@ -10,7 +10,6 @@ public final class FieldDescriptor {
     private final String name;
     private final Map properties;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private final String name;
         private Map properties = null;

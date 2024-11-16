@@ -14,14 +14,12 @@ public abstract class PopupWindowCompat {
     private static Method sSetWindowLayoutTypeMethod;
     private static boolean sSetWindowLayoutTypeMethodAttempted;
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static void showAsDropDown(PopupWindow popupWindow, View view, int i, int i2, int i3) {
             popupWindow.showAsDropDown(view, i, i2, i3);
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean getOverlapAnchor(PopupWindow popupWindow) {
             return popupWindow.getOverlapAnchor();

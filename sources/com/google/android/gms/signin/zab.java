@@ -10,6 +10,9 @@ import com.google.android.gms.signin.internal.SignInClientImpl;
 
 /* loaded from: classes.dex */
 final class zab extends Api.AbstractClientBuilder {
+    zab() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* bridge */ /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         ActivityResultRegistry$$ExternalSyntheticThrowCCEIfNotNull0.m(obj);

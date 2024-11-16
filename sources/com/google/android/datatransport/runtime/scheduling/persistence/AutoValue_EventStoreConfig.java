@@ -10,13 +10,15 @@ final class AutoValue_EventStoreConfig extends EventStoreConfig {
     private final int maxBlobByteSizePerRow;
     private final long maxStorageSizeInBytes;
 
-    /* loaded from: classes.dex */
     static final class Builder extends EventStoreConfig.Builder {
         private Integer criticalSectionEnterTimeoutMs;
         private Long eventCleanUpAge;
         private Integer loadBatchSize;
         private Integer maxBlobByteSizePerRow;
         private Long maxStorageSizeInBytes;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.runtime.scheduling.persistence.EventStoreConfig.Builder
         EventStoreConfig build() {

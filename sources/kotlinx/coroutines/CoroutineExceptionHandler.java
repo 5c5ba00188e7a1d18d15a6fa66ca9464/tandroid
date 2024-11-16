@@ -6,7 +6,6 @@ import kotlin.coroutines.CoroutineContext;
 public interface CoroutineExceptionHandler extends CoroutineContext.Element {
     public static final Key Key = Key.$$INSTANCE;
 
-    /* loaded from: classes.dex */
     public static final class Key implements CoroutineContext.Key {
         static final /* synthetic */ Key $$INSTANCE = new Key();
 

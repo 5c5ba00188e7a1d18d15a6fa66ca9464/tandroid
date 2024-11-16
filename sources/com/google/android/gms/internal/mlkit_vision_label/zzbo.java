@@ -10,8 +10,7 @@ import java.util.Map;
 final class zzbo extends AbstractCollection {
     final Map zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbo(Map map) {
+    zzbo(Map map) {
         this.zza = map;
     }
 

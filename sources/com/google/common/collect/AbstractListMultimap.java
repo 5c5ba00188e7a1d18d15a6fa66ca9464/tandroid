@@ -7,8 +7,7 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class AbstractListMultimap extends AbstractMapBasedMultimap implements ListMultimap {
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractListMultimap(Map map) {
+    protected AbstractListMultimap(Map map) {
         super(map);
     }
 

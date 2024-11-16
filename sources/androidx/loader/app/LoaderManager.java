@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 /* loaded from: classes.dex */
 public abstract class LoaderManager {
 
-    /* loaded from: classes.dex */
     public interface LoaderCallbacks {
         Loader onCreateLoader(int i, Bundle bundle);
 

@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.source.MediaSource;
 /* loaded from: classes.dex */
 public interface PlaybackSessionManager {
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onAdPlaybackStarted(AnalyticsListener.EventTime eventTime, String str, String str2);
 

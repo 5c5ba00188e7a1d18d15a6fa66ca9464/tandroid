@@ -67,7 +67,6 @@ public class BotDownloads {
     private static final HashMap instances = new HashMap();
     private static HashMap cachedMimeAndSizes = new HashMap();
 
-    /* loaded from: classes5.dex */
     public static class DownloadBulletin extends Bulletin.ButtonLayout {
         public final BackgroundDrawable background;
         private int currentButtonType;
@@ -79,9 +78,7 @@ public class BotDownloads {
         private final LinearLayout textLayout;
         private final TextView titleView;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public static class BackgroundDrawable extends Drawable {
+        private static class BackgroundDrawable extends Drawable {
             private boolean arrow;
             private int arrowMargin;
             private final AnimatedFloat arrowProgress;
@@ -160,9 +157,7 @@ public class BotDownloads {
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public static class StatusDrawable extends Drawable {
+        private static class StatusDrawable extends Drawable {
             private AnimatedFloat animatedDone;
             private AnimatedFloat animatedHasPercent;
             private AnimatedFloat animatedProgress;
@@ -236,8 +231,8 @@ public class BotDownloads {
                     this.rect.set(f4 - dp, f5 - dp, f4 + dp, f5 + dp);
                     float f7 = this.animatedHasPercent.set(this.hasPercent);
                     this.strokePaint.setColor(Theme.multAlpha(-1, f2 * 0.15f * (1.0f - f7)));
-                    canvas.drawArc(this.rect, (-(((((float) ((System.currentTimeMillis() - this.start) % 600)) / 600.0f) - 1.0f) * 360.0f)) - 90.0f, -90.0f, false, this.strokePaint);
-                    float currentTimeMillis = (((float) (System.currentTimeMillis() - this.start)) * 0.45f) % 5400.0f;
+                    canvas.drawArc(this.rect, (-(((((System.currentTimeMillis() - this.start) % 600) / 600.0f) - 1.0f) * 360.0f)) - 90.0f, -90.0f, false, this.strokePaint);
+                    float currentTimeMillis = ((System.currentTimeMillis() - this.start) * 0.45f) % 5400.0f;
                     float max = Math.max(0.0f, ((1520.0f * currentTimeMillis) / 5400.0f) - 20.0f);
                     for (int i = 0; i < 4; i++) {
                         FastOutSlowInInterpolator fastOutSlowInInterpolator = CircularProgressDrawable.interpolator;
@@ -326,7 +321,7 @@ public class BotDownloads {
                 boolean z = pair != null && ((Long) pair.second).longValue() > 0;
                 this.hasPercent = z;
                 if (z) {
-                    this.progress = Utilities.clamp(((float) ((Long) pair.first).longValue()) / ((float) ((Long) pair.second).longValue()), 1.0f, 0.0f);
+                    this.progress = Utilities.clamp(((Long) pair.first).longValue() / ((Long) pair.second).longValue(), 1.0f, 0.0f);
                 }
                 invalidateSelf();
             }
@@ -432,9 +427,8 @@ public class BotDownloads {
             setButton(undoAction);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.Bulletin.ButtonLayout, android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(68.0f), 1073741824));
         }
 
@@ -490,7 +484,6 @@ public class BotDownloads {
         }
     }
 
-    /* loaded from: classes5.dex */
     public class FileDownload {
         public boolean cancelled;
         public boolean done;
@@ -696,326 +689,83 @@ public class BotDownloads {
         if (str == null || str.isEmpty()) {
             return "";
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2008589971:
-                if (str.equals("application/epub+zip")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1719571662:
-                if (str.equals("application/vnd.oasis.opendocument.text")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1664118616:
-                if (str.equals("video/3gpp")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -1578389996:
-                if (str.equals("application/vnd.ms-fontobject")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -1348237359:
-                if (str.equals("application/x-cdf")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -1348236892:
-                if (str.equals("application/x-csh")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case -1079884372:
-                if (str.equals("video/x-msvideo")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case -1073633483:
-                if (str.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case -1071817359:
-                if (str.equals("application/vnd.ms-powerpoint")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case -1050893613:
-                if (str.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case -1007601745:
-                if (str.equals("audio/x-midi")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case -958424608:
-                if (str.equals("text/calendar")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case -816908365:
-                if (str.equals("application/x-httpd-php")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case -648684635:
-                if (str.equals("audio/3gpp2")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case -433129473:
-                if (str.equals("application/vnd.apple.installer+xml")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case -366307023:
-                if (str.equals("application/vnd.ms-excel")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case -48069494:
-                if (str.equals("video/3gpp2")) {
-                    c = 16;
-                    break;
-                }
-                break;
-            case -43923783:
-                if (str.equals("application/gzip")) {
-                    c = 17;
-                    break;
-                }
-                break;
-            case -43491031:
-                if (str.equals("application/x-sh")) {
-                    c = 18;
-                    break;
-                }
-                break;
-            case 187091926:
-                if (str.equals("audio/ogg")) {
-                    c = 19;
-                    break;
-                }
-                break;
-            case 817335912:
-                if (str.equals("text/plain")) {
-                    c = 20;
-                    break;
-                }
-                break;
-            case 859118878:
-                if (str.equals("application/x-abiword")) {
-                    c = 21;
-                    break;
-                }
-                break;
-            case 886992732:
-                if (str.equals("application/ld+json")) {
-                    c = 22;
-                    break;
-                }
-                break;
-            case 904647503:
-                if (str.equals("application/msword")) {
-                    c = 23;
-                    break;
-                }
-                break;
-            case 1154306387:
-                if (str.equals("application/x-bzip")) {
-                    c = 24;
-                    break;
-                }
-                break;
-            case 1154455342:
-                if (str.equals("application/x-gzip")) {
-                    c = 25;
-                    break;
-                }
-                break;
-            case 1178484637:
-                if (str.equals("application/octet-stream")) {
-                    c = 26;
-                    break;
-                }
-                break;
-            case 1423759679:
-                if (str.equals("application/x-bzip2")) {
-                    c = 27;
-                    break;
-                }
-                break;
-            case 1436962847:
-                if (str.equals("application/vnd.oasis.opendocument.presentation")) {
-                    c = 28;
-                    break;
-                }
-                break;
-            case 1454024983:
-                if (str.equals("application/x-7z-compressed")) {
-                    c = 29;
-                    break;
-                }
-                break;
-            case 1455492626:
-                if (str.equals("application/x-freearc")) {
-                    c = 30;
-                    break;
-                }
-                break;
-            case 1503095341:
-                if (str.equals("audio/3gpp")) {
-                    c = 31;
-                    break;
-                }
-                break;
-            case 1504831518:
-                if (str.equals("audio/mpeg")) {
-                    c = ' ';
-                    break;
-                }
-                break;
-            case 1509238306:
-                if (str.equals("application/vnd.rar")) {
-                    c = '!';
-                    break;
-                }
-                break;
-            case 1578362927:
-                if (str.equals("image/vnd.microsoft.icon")) {
-                    c = '\"';
-                    break;
-                }
-                break;
-            case 1643664935:
-                if (str.equals("application/vnd.oasis.opendocument.spreadsheet")) {
-                    c = '#';
-                    break;
-                }
-                break;
-            case 1672200517:
-                if (str.equals("application/vnd.amazon.ebook")) {
-                    c = '$';
-                    break;
-                }
-                break;
-            case 1993842850:
-                if (str.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-                    c = '%';
-                    break;
-                }
-                break;
-            case 2049276534:
-                if (str.equals("application/java-archive")) {
-                    c = '&';
-                    break;
-                }
-                break;
-            case 2132236175:
-                if (str.equals("text/javascript")) {
-                    c = '\'';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "application/epub+zip":
                 return "epub";
-            case 1:
+            case "application/vnd.oasis.opendocument.text":
                 return "odt";
-            case 2:
-            case 31:
+            case "video/3gpp":
+            case "audio/3gpp":
                 return "3gp";
-            case 3:
+            case "application/vnd.ms-fontobject":
                 return "eot";
-            case 4:
+            case "application/x-cdf":
                 return "cda";
-            case 5:
+            case "application/x-csh":
                 return "csh";
-            case 6:
+            case "video/x-msvideo":
                 return "avi";
-            case 7:
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
                 return "pptx";
-            case '\b':
+            case "application/vnd.ms-powerpoint":
                 return "ppt";
-            case '\t':
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 return "docx";
-            case '\n':
+            case "audio/x-midi":
                 return "midi";
-            case 11:
+            case "text/calendar":
                 return "ics";
-            case '\f':
+            case "application/x-httpd-php":
                 return "php";
-            case '\r':
-            case 16:
+            case "audio/3gpp2":
+            case "video/3gpp2":
                 return "3g2";
-            case 14:
+            case "application/vnd.apple.installer+xml":
                 return "mpkg";
-            case 15:
+            case "application/vnd.ms-excel":
                 return "xls";
-            case 17:
-            case 25:
+            case "application/gzip":
+            case "application/x-gzip":
                 return "gz";
-            case 18:
+            case "application/x-sh":
                 return "sh";
-            case 19:
+            case "audio/ogg":
                 return "opus";
-            case 20:
+            case "text/plain":
                 return "txt";
-            case 21:
+            case "application/x-abiword":
                 return "abw";
-            case 22:
+            case "application/ld+json":
                 return "jsonld";
-            case 23:
+            case "application/msword":
                 return "doc";
-            case 24:
+            case "application/x-bzip":
                 return "bz";
-            case 26:
+            case "application/octet-stream":
                 return "bin";
-            case 27:
+            case "application/x-bzip2":
                 return "bz2";
-            case 28:
+            case "application/vnd.oasis.opendocument.presentation":
                 return "odp";
-            case 29:
+            case "application/x-7z-compressed":
                 return "7z";
-            case 30:
+            case "application/x-freearc":
                 return "arc";
-            case ' ':
+            case "audio/mpeg":
                 return "mp3";
-            case '!':
+            case "application/vnd.rar":
                 return "rar";
-            case '\"':
+            case "image/vnd.microsoft.icon":
                 return "ico";
-            case '#':
+            case "application/vnd.oasis.opendocument.spreadsheet":
                 return "ods";
-            case '$':
+            case "application/vnd.amazon.ebook":
                 return "azw";
-            case '%':
+            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
                 return "xlsx";
-            case '&':
+            case "application/java-archive":
                 return "jar";
-            case '\'':
+            case "text/javascript":
                 return "js";
             default:
                 if (str.contains("/")) {

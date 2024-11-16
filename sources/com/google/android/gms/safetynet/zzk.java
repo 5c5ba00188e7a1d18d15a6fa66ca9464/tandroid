@@ -9,6 +9,9 @@ import com.google.android.gms.internal.safetynet.zzaf;
 
 /* loaded from: classes.dex */
 final class zzk extends Api.AbstractClientBuilder {
+    zzk() {
+    }
+
     @Override // com.google.android.gms.common.api.Api.AbstractClientBuilder
     public final /* bridge */ /* synthetic */ Api.Client buildClient(Context context, Looper looper, ClientSettings clientSettings, Object obj, GoogleApiClient.ConnectionCallbacks connectionCallbacks, GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener) {
         return new zzaf(context, looper, clientSettings, connectionCallbacks, onConnectionFailedListener);

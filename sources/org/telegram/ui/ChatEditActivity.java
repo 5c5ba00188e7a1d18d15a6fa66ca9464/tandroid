@@ -170,9 +170,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     private long userId;
     private TLRPC.UserFull userInfo;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends PhotoViewer.EmptyPhotoViewerProvider {
+    class 1 extends PhotoViewer.EmptyPhotoViewerProvider {
         1() {
         }
 
@@ -1874,7 +1872,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.ChatEditActivity.3
             private boolean ignoreLayout;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
             /* JADX WARN: Removed duplicated region for block: B:29:0x009d  */
             /* JADX WARN: Removed duplicated region for block: B:33:0x00af  */
@@ -1884,7 +1881,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i10, int i11, int i12, int i13) {
+            protected void onLayout(boolean z, int i10, int i11, int i12, int i13) {
                 int i14;
                 int i15;
                 int i16;

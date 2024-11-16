@@ -6,6 +6,9 @@ import java.util.Set;
 public abstract class zzay extends zzaq implements Set {
     private transient zzav zza;
 
+    zzay() {
+    }
+
     @Override // java.util.Collection, java.util.Set
     public final boolean equals(Object obj) {
         if (obj == this || obj == this) {

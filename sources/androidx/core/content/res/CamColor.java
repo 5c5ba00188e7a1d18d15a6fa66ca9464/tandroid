@@ -2,9 +2,8 @@ package androidx.core.content.res;
 
 import androidx.core.graphics.ColorUtils;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class CamColor {
+class CamColor {
     private final float mAstar;
     private final float mBstar;
     private final float mChroma;
@@ -59,8 +58,7 @@ public class CamColor {
         return camColor;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static CamColor fromColor(int i) {
+    static CamColor fromColor(int i) {
         return fromColorInViewingConditions(i, ViewingConditions.DEFAULT);
     }
 
@@ -149,8 +147,7 @@ public class CamColor {
         return new CamColor(f3, f2, f, sqrt, flRoot, sqrt2, f4, log * ((float) Math.cos(d3)), log * ((float) Math.sin(d3)));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int toColor(float f, float f2, float f3) {
+    static int toColor(float f, float f2, float f3) {
         return toColor(f, f2, f3, ViewingConditions.DEFAULT);
     }
 
@@ -199,13 +196,11 @@ public class CamColor {
         return this.mBstar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getChroma() {
+    float getChroma() {
         return this.mChroma;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public float getHue() {
+    float getHue() {
         return this.mHue;
     }
 

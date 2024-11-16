@@ -8,7 +8,6 @@ public class RtpReceiver {
     private long nativeObserver;
     private long nativeRtpReceiver;
 
-    /* loaded from: classes5.dex */
     public interface Observer {
         void onFirstPacketReceived(MediaStreamTrack.MediaType mediaType);
     }

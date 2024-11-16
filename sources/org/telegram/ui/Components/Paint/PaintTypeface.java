@@ -40,9 +40,7 @@ public class PaintTypeface {
     private final String nameKey;
     private final Typeface typeface;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class Family {
+    static class Family {
         String family;
         ArrayList fonts = new ArrayList();
 
@@ -76,9 +74,7 @@ public class PaintTypeface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public static class FontData {
+    static class FontData {
         String family;
         Font font;
         String subfamily;
@@ -95,12 +91,10 @@ public class PaintTypeface {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class LazyTypeface {
+    static class LazyTypeface {
         private final LazyTypefaceLoader loader;
         private Typeface typeface;
 
-        /* loaded from: classes3.dex */
         public interface LazyTypefaceLoader {
             Typeface load();
         }
@@ -117,9 +111,7 @@ public class PaintTypeface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class NameRecord {
+    private static class NameRecord {
         final int encodingID;
         final int languageID;
         final int nameID;
@@ -461,8 +453,8 @@ public class PaintTypeface {
         try {
             randomAccessFile.close();
         } catch (Exception unused4) {
-            return null;
         }
+        return null;
     }
 
     private static String parseString(RandomAccessFile randomAccessFile, int i, NameRecord nameRecord) {

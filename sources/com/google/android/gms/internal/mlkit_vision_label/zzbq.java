@@ -4,8 +4,7 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 public abstract class zzbq {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Map map, Object obj) {
+    static Object zza(Map map, Object obj) {
         map.getClass();
         try {
             return map.get(obj);
@@ -14,8 +13,7 @@ public abstract class zzbq {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzb(Map map, Object obj) {
+    static boolean zzb(Map map, Object obj) {
         map.getClass();
         try {
             return map.containsKey(obj);

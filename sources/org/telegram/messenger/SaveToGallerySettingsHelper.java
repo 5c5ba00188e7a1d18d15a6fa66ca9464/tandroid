@@ -16,7 +16,6 @@ public class SaveToGallerySettingsHelper {
     public static SharedSettings groups;
     public static SharedSettings user;
 
-    /* loaded from: classes3.dex */
     public static class DialogException extends Settings {
         public long dialogId;
 
@@ -43,7 +42,6 @@ public class SaveToGallerySettingsHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class Settings {
         public long limitVideo = SaveToGallerySettingsHelper.DEFAULT_VIDEO_LIMIT;
         public boolean savePhoto;
@@ -66,7 +64,6 @@ public class SaveToGallerySettingsHelper {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SharedSettings extends Settings {
         private int type;
 

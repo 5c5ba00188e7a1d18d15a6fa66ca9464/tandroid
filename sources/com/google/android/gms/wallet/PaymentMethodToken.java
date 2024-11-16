@@ -11,8 +11,7 @@ public final class PaymentMethodToken extends AbstractSafeParcelable {
     int zza;
     String zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentMethodToken(int i, String str) {
+    PaymentMethodToken(int i, String str) {
         this.zza = i;
         this.zzb = str;
     }

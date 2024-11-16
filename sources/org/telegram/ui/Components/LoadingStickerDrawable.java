@@ -49,7 +49,7 @@ public class LoadingStickerDrawable extends Drawable {
             abs = 16;
         }
         this.lastUpdateTime = elapsedRealtime;
-        float f = this.totalTranslation + ((((float) abs) * this.gradientWidth) / 1800.0f);
+        float f = this.totalTranslation + ((abs * this.gradientWidth) / 1800.0f);
         while (true) {
             this.totalTranslation = f;
             float f2 = this.totalTranslation;

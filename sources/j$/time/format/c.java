@@ -6,8 +6,7 @@ import java.util.Locale;
 final class c extends v {
     final /* synthetic */ u d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public c(u uVar) {
+    c(u uVar) {
         this.d = uVar;
     }
 

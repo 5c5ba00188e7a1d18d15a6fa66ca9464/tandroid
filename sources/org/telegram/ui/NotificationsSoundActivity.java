@@ -99,9 +99,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     int uploadRow;
     ArrayList uploadingTones;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+    class 1 extends ActionBar.ActionBarMenuOnItemClick {
         final /* synthetic */ Context val$context;
 
         1(Context context) {
@@ -235,9 +233,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private Adapter() {
         }
 
@@ -392,9 +388,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class Tone {
+    private static class Tone {
         TLRPC.Document document;
         public boolean fromServer;
         boolean isSystemDefault;
@@ -440,9 +434,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ToneCell extends FrameLayout {
+    private static class ToneCell extends FrameLayout {
         private CheckBox2 checkBox;
         private boolean needDivider;
         private RadioButton radioButton;

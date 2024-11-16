@@ -4,8 +4,7 @@ package com.google.android.gms.internal.vision;
 final class zzkd implements zzkl {
     private zzkl[] zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzkd(zzkl... zzklVarArr) {
+    zzkd(zzkl... zzklVarArr) {
         this.zza = zzklVarArr;
     }
 

@@ -16,8 +16,7 @@ public abstract class Buffer {
         this.flags = (i ^ (-1)) & this.flags;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean getFlag(int i) {
+    protected final boolean getFlag(int i) {
         return (this.flags & i) == i;
     }
 

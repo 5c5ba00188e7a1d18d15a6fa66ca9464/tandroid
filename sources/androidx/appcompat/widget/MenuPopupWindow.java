@@ -24,7 +24,6 @@ public class MenuPopupWindow extends ListPopupWindow implements MenuItemHoverLis
     private static Method sSetTouchModalMethod;
     private MenuItemHoverListener mHoverListener;
 
-    /* loaded from: classes.dex */
     static class Api23Impl {
         static void setEnterTransition(PopupWindow popupWindow, Transition transition) {
             popupWindow.setEnterTransition(transition);
@@ -35,21 +34,18 @@ public class MenuPopupWindow extends ListPopupWindow implements MenuItemHoverLis
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api29Impl {
         static void setTouchModal(PopupWindow popupWindow, boolean z) {
             popupWindow.setTouchModal(z);
         }
     }
 
-    /* loaded from: classes.dex */
     public static class MenuDropDownListView extends DropDownListView {
         final int mAdvanceKey;
         private MenuItemHoverListener mHoverListener;
         private MenuItem mHoveredMenuItem;
         final int mRetreatKey;
 
-        /* loaded from: classes.dex */
         static class Api17Impl {
             static int getLayoutDirection(Configuration configuration) {
                 return configuration.getLayoutDirection();

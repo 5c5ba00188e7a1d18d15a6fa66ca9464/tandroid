@@ -4,14 +4,12 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaab implements PendingResult.StatusListener {
+final class zaab implements PendingResult.StatusListener {
     final /* synthetic */ BasePendingResult zaa;
     final /* synthetic */ zaad zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaab(zaad zaadVar, BasePendingResult basePendingResult) {
+    zaab(zaad zaadVar, BasePendingResult basePendingResult) {
         this.zab = zaadVar;
         this.zaa = basePendingResult;
     }

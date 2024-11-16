@@ -95,7 +95,7 @@ public class StackBarChartView extends BaseChartView {
                         long[] jArr = lineViewData.line.y;
                         float f17 = ((f2 / f13) + (((StackBarChartData) this.chartData).xPercentage[max] * (f8 - f2))) - f10;
                         f4 = f3;
-                        float measuredHeight = (((float) jArr[max]) / this.currentMaxHeight) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * lineViewData.alpha;
+                        float measuredHeight = (jArr[max] / this.currentMaxHeight) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * lineViewData.alpha;
                         float[] fArr2 = lineViewData.linesPath;
                         int i6 = lineViewData.linesPathBottomSize;
                         fArr2[i6] = f17;
@@ -138,10 +138,8 @@ public class StackBarChartView extends BaseChartView {
                 LineViewData lineViewData2 = (LineViewData) this.lines.get(i);
                 i = (!lineViewData2.enabled && lineViewData2.alpha == 0.0f) ? i + 1 : 0;
                 long[] jArr2 = lineViewData2.line.y;
-                float[] fArr3 = ((StackBarChartData) this.chartData).xPercentage;
-                int i8 = this.selectedIndex;
-                float f20 = ((f2 / 2.0f) + (fArr3[i8] * (f8 - f2))) - f10;
-                float measuredHeight2 = (((float) jArr2[i8]) / this.currentMaxHeight) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * lineViewData2.alpha;
+                float f20 = ((f2 / 2.0f) + (((StackBarChartData) this.chartData).xPercentage[this.selectedIndex] * (f8 - f2))) - f10;
+                float measuredHeight2 = (jArr2[r5] / this.currentMaxHeight) * ((getMeasuredHeight() - this.chartBottom) - BaseChartView.SIGNATURE_TEXT_HEIGHT) * lineViewData2.alpha;
                 lineViewData2.paint.setStrokeWidth(f);
                 lineViewData2.paint.setAlpha((int) (f18 * 255.0f));
                 canvas.drawLine(f20, ((getMeasuredHeight() - this.chartBottom) - measuredHeight2) - f19, f20, (getMeasuredHeight() - this.chartBottom) - f19, lineViewData2.paint);
@@ -190,9 +188,9 @@ public class StackBarChartView extends BaseChartView {
                     while (i4 < size) {
                         LineViewData lineViewData2 = (LineViewData) this.lines.get(i4);
                         if (lineViewData2.enabled || lineViewData2.alpha != f) {
-                            float f4 = BaseChartView.ANIMATE_PICKER_SIZES ? this.pickerMaxHeight : (float) ((StackBarChartData) this.chartData).maxValue;
+                            float f4 = BaseChartView.ANIMATE_PICKER_SIZES ? this.pickerMaxHeight : ((StackBarChartData) this.chartData).maxValue;
                             long[] jArr3 = this.yMaxPoints;
-                            float f5 = (((float) jArr3[i4]) / f4) * lineViewData2.alpha;
+                            float f5 = (jArr3[i4] / f4) * lineViewData2.alpha;
                             float f6 = this.pikerHeight;
                             float f7 = f5 * f6;
                             float[] fArr = lineViewData2.linesPath;
@@ -221,9 +219,8 @@ public class StackBarChartView extends BaseChartView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void drawSelection(Canvas canvas) {
+    protected void drawSelection(Canvas canvas) {
     }
 
     @Override // org.telegram.ui.Charts.BaseChartView
@@ -236,9 +233,8 @@ public class StackBarChartView extends BaseChartView {
         return 0.1f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void initPickerMaxHeight() {
+    protected void initPickerMaxHeight() {
         super.initPickerMaxHeight();
         this.pickerMaxHeight = 0.0f;
         int length = ((StackBarChartData) this.chartData).x.length;
@@ -251,7 +247,7 @@ public class StackBarChartView extends BaseChartView {
                     j += stackBarViewData.line.y[i];
                 }
             }
-            float f = (float) j;
+            float f = j;
             if (f > this.pickerMaxHeight) {
                 this.pickerMaxHeight = f;
             }
@@ -278,9 +274,8 @@ public class StackBarChartView extends BaseChartView {
         super.onCheckChanged();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         tick();
         drawChart(canvas);
         drawBottomLine(canvas);
@@ -347,9 +342,8 @@ public class StackBarChartView extends BaseChartView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Charts.BaseChartView
-    public void updatePickerMinMaxHeight() {
+    protected void updatePickerMinMaxHeight() {
         if (BaseChartView.ANIMATE_PICKER_SIZES) {
             int length = ((StackBarChartData) this.chartData).x.length;
             int size = this.lines.size();
@@ -367,7 +361,7 @@ public class StackBarChartView extends BaseChartView {
                 }
             }
             if (j > 0) {
-                float f = (float) j;
+                float f = j;
                 if (f != this.animatedToPickerMaxHeight) {
                     this.animatedToPickerMaxHeight = f;
                     Animator animator = this.pickerAnimator;

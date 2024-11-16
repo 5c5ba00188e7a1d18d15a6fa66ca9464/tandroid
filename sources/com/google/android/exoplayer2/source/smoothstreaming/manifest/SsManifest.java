@@ -24,7 +24,6 @@ public class SsManifest implements FilterableManifest {
     public final ProtectionElement protectionElement;
     public final StreamElement[] streamElements;
 
-    /* loaded from: classes.dex */
     public static class ProtectionElement {
         public final byte[] data;
         public final TrackEncryptionBox[] trackEncryptionBoxes;
@@ -37,7 +36,6 @@ public class SsManifest implements FilterableManifest {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class StreamElement {
         private final String baseUri;
         public final int chunkCount;

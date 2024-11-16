@@ -6,15 +6,13 @@ final class zzar {
     private final Object zzb;
     private final Object zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzar(Object obj, Object obj2, Object obj3) {
+    zzar(Object obj, Object obj2, Object obj3) {
         this.zza = obj;
         this.zzb = obj2;
         this.zzc = obj3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final IllegalArgumentException zza() {
+    final IllegalArgumentException zza() {
         Object obj = this.zzc;
         Object obj2 = this.zzb;
         Object obj3 = this.zza;

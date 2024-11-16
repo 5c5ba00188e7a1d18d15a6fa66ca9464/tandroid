@@ -109,9 +109,7 @@ public abstract class FilterTabsView extends FrameLayout {
     private TextPaint textPaint;
     private int unactiveTextColorKey;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 4 extends DefaultItemAnimator {
+    class 4 extends DefaultItemAnimator {
         4() {
         }
 
@@ -159,9 +157,8 @@ public abstract class FilterTabsView extends FrameLayout {
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // androidx.recyclerview.widget.DefaultItemAnimator
-        public void animateMoveImpl(RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo) {
+        protected void animateMoveImpl(RecyclerView.ViewHolder viewHolder, DefaultItemAnimator.MoveInfo moveInfo) {
             super.animateMoveImpl(viewHolder, moveInfo);
             View view = viewHolder.itemView;
             if (view instanceof TabView) {
@@ -234,7 +231,6 @@ public abstract class FilterTabsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface FilterTabsViewDelegate {
         boolean canPerformActions();
 
@@ -255,9 +251,7 @@ public abstract class FilterTabsView extends FrameLayout {
         void onSamePageSelected();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -336,7 +330,7 @@ public abstract class FilterTabsView extends FrameLayout {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new RecyclerListView.Holder(new TabView(this.mContext));
+            return new RecyclerListView.Holder(FilterTabsView.this.new TabView(this.mContext));
         }
 
         /* JADX WARN: Removed duplicated region for block: B:12:0x00ba  */
@@ -416,7 +410,6 @@ public abstract class FilterTabsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class Tab {
         public int counter;
         public int id;
@@ -460,7 +453,6 @@ public abstract class FilterTabsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class TabView extends View {
         public boolean animateChange;
         public boolean animateCounterChange;
@@ -736,7 +728,7 @@ public abstract class FilterTabsView extends FrameLayout {
                 double d = (f4 * (i16 == 0 ? 1.0f : -1.0f)) + i16;
                 Double.isNaN(d);
                 float sin = (float) Math.sin(d * 3.141592653589793d * 2.5d);
-                double elapsedRealtime = ((float) SystemClock.elapsedRealtime()) / 400.0f;
+                double elapsedRealtime = SystemClock.elapsedRealtime() / 400.0f;
                 Double.isNaN(elapsedRealtime);
                 double d2 = elapsedRealtime * 3.141592653589793d;
                 double d3 = this.currentPosition % 2 == 0 ? 1.0f : -1.0f;
@@ -1203,7 +1195,6 @@ public abstract class FilterTabsView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         private Runnable resetDefaultPosition = new Runnable() { // from class: org.telegram.ui.Components.FilterTabsView$TouchHelperCallback$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
@@ -1309,7 +1300,7 @@ public abstract class FilterTabsView extends FrameLayout {
                     if (elapsedRealtime > 17) {
                         elapsedRealtime = 17;
                     }
-                    FilterTabsView.access$2616(FilterTabsView.this, ((float) elapsedRealtime) / 200.0f);
+                    FilterTabsView.access$2616(FilterTabsView.this, elapsedRealtime / 200.0f);
                     FilterTabsView filterTabsView = FilterTabsView.this;
                     filterTabsView.setAnimationIdicatorProgress(filterTabsView.interpolator.getInterpolation(FilterTabsView.this.animationTime));
                     if (FilterTabsView.this.animationTime > 1.0f) {
@@ -1355,15 +1346,13 @@ public abstract class FilterTabsView extends FrameLayout {
         this.selectorDrawable.setColor(Theme.getColor(this.tabLineColorKey));
         setHorizontalScrollBarEnabled(false);
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.FilterTabsView.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean allowSelectChildAtPosition(View view) {
+            protected boolean allowSelectChildAtPosition(View view) {
                 return FilterTabsView.this.isEnabled() && FilterTabsView.this.delegate.canPerformActions();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean canHighlightChildAt(View view, float f, float f2) {
+            protected boolean canHighlightChildAt(View view, float f, float f2) {
                 if (FilterTabsView.this.isEditing) {
                     TabView tabView = (TabView) view;
                     float dp = AndroidUtilities.dp(6.0f);
@@ -1706,7 +1695,7 @@ public abstract class FilterTabsView extends FrameLayout {
             if (this.editingForwardAnimation) {
                 float f2 = this.editingAnimationProgress;
                 boolean z3 = f2 <= 0.0f;
-                float f3 = f2 + (((float) min) / 420.0f);
+                float f3 = f2 + (min / 420.0f);
                 this.editingAnimationProgress = f3;
                 if (!z && z3 && f3 >= 0.0f) {
                     this.editingAnimationProgress = 0.0f;
@@ -1718,7 +1707,7 @@ public abstract class FilterTabsView extends FrameLayout {
             } else {
                 float f4 = this.editingAnimationProgress;
                 r11 = f4 >= 0.0f;
-                float f5 = f4 - (((float) min) / 420.0f);
+                float f5 = f4 - (min / 420.0f);
                 this.editingAnimationProgress = f5;
                 if (!z && r11 && f5 <= 0.0f) {
                     this.editingAnimationProgress = 0.0f;
@@ -1733,7 +1722,7 @@ public abstract class FilterTabsView extends FrameLayout {
         if (z) {
             float f6 = this.editingStartAnimationProgress;
             if (f6 < 1.0f) {
-                float f7 = f6 + (((float) min) / 180.0f);
+                float f7 = f6 + (min / 180.0f);
                 this.editingStartAnimationProgress = f7;
                 if (f7 > 1.0f) {
                     this.editingStartAnimationProgress = 1.0f;
@@ -1744,7 +1733,7 @@ public abstract class FilterTabsView extends FrameLayout {
             if (!z) {
                 float f8 = this.editingStartAnimationProgress;
                 if (f8 > 0.0f) {
-                    float f9 = f8 - (((float) min) / 180.0f);
+                    float f9 = f8 - (min / 180.0f);
                     this.editingStartAnimationProgress = f9;
                     if (f9 < 0.0f) {
                         this.editingStartAnimationProgress = 0.0f;

@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FcmLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+class FcmLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     private final Set seenIntents = Collections.newSetFromMap(new WeakHashMap());
+
+    FcmLifecycleCallbacks() {
+    }
 
     @Override // android.app.Application.ActivityLifecycleCallbacks
     public void onActivityCreated(Activity activity, Bundle bundle) {

@@ -22,9 +22,7 @@ import org.telegram.ui.Components.RadioButton;
 public abstract class ChatListCell extends LinearLayout {
     private ListView[] listView;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListView extends FrameLayout {
+    private class ListView extends FrameLayout {
         private RadioButton button;
         private boolean isThreeLines;
         private RectF rect;

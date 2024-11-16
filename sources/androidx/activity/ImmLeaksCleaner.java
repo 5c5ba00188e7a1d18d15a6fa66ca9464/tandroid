@@ -16,8 +16,7 @@ final class ImmLeaksCleaner implements LifecycleEventObserver {
     private static Field sServedViewField;
     private Activity mActivity;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ImmLeaksCleaner(Activity activity) {
+    ImmLeaksCleaner(Activity activity) {
         this.mActivity = activity;
     }
 

@@ -10,8 +10,7 @@ final class AutoValue_CreationContext extends CreationContext {
     private final Clock monotonicClock;
     private final Clock wallClock;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_CreationContext(Context context, Clock clock, Clock clock2, String str) {
+    AutoValue_CreationContext(Context context, Clock clock, Clock clock2, String str) {
         if (context == null) {
             throw new NullPointerException("Null applicationContext");
         }

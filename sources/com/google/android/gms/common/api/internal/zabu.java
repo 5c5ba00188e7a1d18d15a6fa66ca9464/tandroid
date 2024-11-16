@@ -1,6 +1,5 @@
 package com.google.android.gms.common.api.internal;
 
-import android.os.Handler;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
@@ -9,9 +8,8 @@ import com.google.android.gms.common.internal.IAccountAccessor;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zabu implements BaseGmsClient.ConnectionProgressReportCallbacks, zacs {
+final class zabu implements BaseGmsClient.ConnectionProgressReportCallbacks, zacs {
     final /* synthetic */ GoogleApiManager zaa;
     private final Api.Client zab;
     private final ApiKey zac;
@@ -36,9 +34,7 @@ public final class zabu implements BaseGmsClient.ConnectionProgressReportCallbac
 
     @Override // com.google.android.gms.common.internal.BaseGmsClient.ConnectionProgressReportCallbacks
     public final void onReportServiceBinding(ConnectionResult connectionResult) {
-        Handler handler;
-        handler = this.zaa.zat;
-        handler.post(new zabt(this, connectionResult));
+        this.zaa.zat.post(new zabt(this, connectionResult));
     }
 
     @Override // com.google.android.gms.common.api.internal.zacs

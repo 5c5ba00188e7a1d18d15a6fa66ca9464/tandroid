@@ -17,7 +17,6 @@ public abstract class FourierTransform {
     protected int timeSize;
     protected int whichAverage;
 
-    /* loaded from: classes3.dex */
     public static class FFT extends FourierTransform {
         private float[] coslookup;
         private int[] reverse;

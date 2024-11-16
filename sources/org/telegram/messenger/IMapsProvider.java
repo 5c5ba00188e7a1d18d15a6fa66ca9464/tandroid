@@ -137,7 +137,6 @@ public interface IMapsProvider {
     /* loaded from: classes3.dex */
     public interface IMapView {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static GLSurfaceView $default$getGlSurfaceView(IMapView iMapView) {
                 return null;
@@ -250,7 +249,6 @@ public interface IMapsProvider {
     /* loaded from: classes3.dex */
     public static class PatternItem {
 
-        /* loaded from: classes3.dex */
         public static final class Dash extends PatternItem {
             public final int length;
 
@@ -259,7 +257,6 @@ public interface IMapsProvider {
             }
         }
 
-        /* loaded from: classes3.dex */
         public static final class Gap extends PatternItem {
             public final int length;
 

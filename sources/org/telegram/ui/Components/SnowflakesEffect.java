@@ -26,9 +26,7 @@ public class SnowflakesEffect {
     private ArrayList particles = new ArrayList();
     private ArrayList freeParticles = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Particle {
+    private class Particle {
         float alpha;
         float currentTime;
         float lifeTime;
@@ -172,7 +170,7 @@ public class SnowflakesEffect {
                 float f4 = particle.x;
                 float f5 = particle.vx;
                 float f6 = particle.velocity;
-                float f7 = (float) j;
+                float f7 = j;
                 particle.x = f4 + (((f5 * f6) * f7) / 500.0f);
                 particle.y += ((particle.vy * f6) * f7) / 500.0f;
                 particle.currentTime += f7;

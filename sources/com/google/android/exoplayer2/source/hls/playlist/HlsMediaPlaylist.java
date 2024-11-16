@@ -32,7 +32,6 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
     public final List trailingParts;
     public final int version;
 
-    /* loaded from: classes.dex */
     public static final class Part extends SegmentBase {
         public final boolean isIndependent;
         public final boolean isPreload;
@@ -48,7 +47,6 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class RenditionReport {
         public final long lastMediaSequence;
         public final int lastPartIndex;
@@ -61,7 +59,6 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Segment extends SegmentBase {
         public final List parts;
         public final String title;
@@ -88,7 +85,6 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class SegmentBase implements Comparable {
         public final long byteRangeLength;
         public final long byteRangeOffset;
@@ -125,7 +121,6 @@ public final class HlsMediaPlaylist extends HlsPlaylist {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class ServerControl {
         public final boolean canBlockReload;
         public final boolean canSkipDateRanges;

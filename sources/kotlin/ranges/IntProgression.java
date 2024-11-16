@@ -11,7 +11,6 @@ public abstract class IntProgression implements Iterable {
     private final int last;
     private final int step;
 
-    /* loaded from: classes.dex */
     public static final class Companion {
         private Companion() {
         }

@@ -1,8 +1,7 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class v extends a0 {
+final class v extends a0 {
     public final /* synthetic */ int m;
     final /* synthetic */ Object n;
 
@@ -20,9 +19,8 @@ public final class v extends a0 {
         this.n = f;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final e2 z0(int i, e2 e2Var) {
+    final e2 z0(int i, e2 e2Var) {
         switch (this.m) {
             case 0:
                 return new s(this, e2Var, 2);

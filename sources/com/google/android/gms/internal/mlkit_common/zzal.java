@@ -4,8 +4,7 @@ import org.telegram.tgnet.ConnectionsManager;
 
 /* loaded from: classes.dex */
 public abstract class zzal {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, int i2) {
+    static int zza(int i, int i2) {
         if (i2 < 0) {
             throw new AssertionError("cannot store more than MAX_VALUE elements");
         }

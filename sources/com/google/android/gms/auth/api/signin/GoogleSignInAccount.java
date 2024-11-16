@@ -40,8 +40,7 @@ public class GoogleSignInAccount extends AbstractSafeParcelable implements Refle
     private String zam;
     private Set zan = new HashSet();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GoogleSignInAccount(int i, String str, String str2, String str3, String str4, Uri uri, String str5, long j, String str6, List list, String str7, String str8) {
+    GoogleSignInAccount(int i, String str, String str2, String str3, String str4, Uri uri, String str5, long j, String str6, List list, String str7, String str8) {
         this.zab = i;
         this.zad = str;
         this.zae = str2;

@@ -10,12 +10,10 @@ public abstract class zzbi extends zzaq {
     private static final boolean zzd = zzeq.zzx();
     zzbj zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbi(zzbh zzbhVar) {
+    /* synthetic */ zzbi(zzbh zzbhVar) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzt(int i, zzdf zzdfVar, zzdp zzdpVar) {
+    static int zzt(int i, zzdf zzdfVar, zzdp zzdpVar) {
         int zza = ((zzak) zzdfVar).zza(zzdpVar);
         int zzx = zzx(i << 3);
         return zzx + zzx + zza;
@@ -28,8 +26,7 @@ public abstract class zzbi extends zzaq {
         return 10;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzv(zzdf zzdfVar, zzdp zzdpVar) {
+    static int zzv(zzdf zzdfVar, zzdp zzdpVar) {
         int zza = ((zzak) zzdfVar).zza(zzdpVar);
         return zzx(zza) + zza;
     }
@@ -88,8 +85,7 @@ public abstract class zzbi extends zzaq {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzB(String str, zzeu zzeuVar) {
+    final void zzB(String str, zzeu zzeuVar) {
         zzc.logp(Level.WARNING, "com.google.protobuf.CodedOutputStream", "inefficientWriteStringNoTag", "Converting ill-formed UTF-16. Your Protocol Buffer will not round trip correctly!", (Throwable) zzeuVar);
         byte[] bytes = str.getBytes(zzcg.zzb);
         try {

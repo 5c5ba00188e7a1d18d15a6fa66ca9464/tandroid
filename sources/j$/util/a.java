@@ -16,6 +16,9 @@ import java.util.OptionalLong;
 
 /* loaded from: classes2.dex */
 public abstract /* synthetic */ class a {
+    a() {
+    }
+
     public static boolean A(Object obj, Object obj2) {
         return obj == obj2 || (obj != null && obj.equals(obj2));
     }

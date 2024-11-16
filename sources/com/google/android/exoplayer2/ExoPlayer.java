@@ -24,10 +24,8 @@ import org.telegram.messenger.DispatchQueue;
 /* loaded from: classes.dex */
 public interface ExoPlayer extends Player {
 
-    /* loaded from: classes.dex */
     public interface AudioOffloadListener {
 
-        /* loaded from: classes.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onExperimentalOffloadedPlayback(AudioOffloadListener audioOffloadListener, boolean z) {
             }
@@ -38,7 +36,6 @@ public interface ExoPlayer extends Player {
         void onExperimentalSleepingForOffloadChanged(boolean z);
     }
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         Function analyticsCollectorFunction;
         AudioAttributes audioAttributes;

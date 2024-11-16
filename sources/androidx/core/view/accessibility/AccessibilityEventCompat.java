@@ -5,7 +5,6 @@ import android.view.accessibility.AccessibilityEvent;
 /* loaded from: classes.dex */
 public abstract class AccessibilityEventCompat {
 
-    /* loaded from: classes.dex */
     static class Api19Impl {
         static int getContentChangeTypes(AccessibilityEvent accessibilityEvent) {
             return accessibilityEvent.getContentChangeTypes();

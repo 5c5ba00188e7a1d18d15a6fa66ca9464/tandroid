@@ -52,7 +52,6 @@ public class VoIpGradientLayout extends FrameLayout {
     private boolean showClip;
     private GradientState state;
 
-    /* loaded from: classes3.dex */
     public enum GradientState {
         CALLING,
         CONNECTED,

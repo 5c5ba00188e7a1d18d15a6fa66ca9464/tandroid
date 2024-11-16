@@ -6,7 +6,6 @@ import android.view.accessibility.AccessibilityRecord;
 /* loaded from: classes.dex */
 public abstract class AccessibilityRecordCompat {
 
-    /* loaded from: classes.dex */
     static class Api15Impl {
         static int getMaxScrollX(AccessibilityRecord accessibilityRecord) {
             return accessibilityRecord.getMaxScrollX();
@@ -25,7 +24,6 @@ public abstract class AccessibilityRecordCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api16Impl {
         static void setSource(AccessibilityRecord accessibilityRecord, View view, int i) {
             accessibilityRecord.setSource(view, i);

@@ -45,8 +45,7 @@ public class ApiFeatureRequest extends AbstractSafeParcelable {
         return zaa(moduleInstallRequest.getApis(), true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ApiFeatureRequest zaa(List list, boolean z) {
+    static ApiFeatureRequest zaa(List list, boolean z) {
         TreeSet treeSet = new TreeSet(zaa);
         Iterator it = list.iterator();
         while (it.hasNext()) {

@@ -1,10 +1,8 @@
 package j$.util.stream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class P0 extends H0 implements E0 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public P0(E0 e0, E0 e02) {
+abstract class P0 extends H0 implements E0 {
+    P0(E0 e0, E0 e02) {
         super(e0, e02);
     }
 

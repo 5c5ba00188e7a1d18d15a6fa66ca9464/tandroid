@@ -73,8 +73,7 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
     private Theme.ThemeInfo prevThemeInfo;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class InnerThemeView extends FrameLayout {
+    class InnerThemeView extends FrameLayout {
         private ObjectAnimator accentAnimator;
         private boolean accentColorChanged;
         private int accentId;
@@ -590,7 +589,7 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
                 long elapsedRealtime = SystemClock.elapsedRealtime();
                 long min2 = Math.min(17L, elapsedRealtime - this.lastDrawTime);
                 this.lastDrawTime = elapsedRealtime;
-                float f3 = this.placeholderAlpha - (((float) min2) / 180.0f);
+                float f3 = this.placeholderAlpha - (min2 / 180.0f);
                 this.placeholderAlpha = f3;
                 if (f3 < 0.0f) {
                     this.placeholderAlpha = 0.0f;
@@ -747,9 +746,7 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ThemesListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ThemesListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         ThemesListAdapter(Context context) {
@@ -784,7 +781,7 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new RecyclerListView.Holder(new InnerThemeView(this.mContext));
+            return new RecyclerListView.Holder(ThemesHorizontalListCell.this.new InnerThemeView(this.mContext));
         }
     }
 
@@ -910,9 +907,8 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         for (int i = 0; i < 4; i++) {
             NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.fileLoaded);
@@ -920,9 +916,8 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         for (int i = 0; i < 4; i++) {
             NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.fileLoaded);

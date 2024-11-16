@@ -4,8 +4,7 @@ package com.google.android.gms.internal.play_billing;
 final class zzcw implements zzdd {
     private final zzdd[] zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcw(zzdd... zzddVarArr) {
+    zzcw(zzdd... zzddVarArr) {
         this.zza = zzddVarArr;
     }
 

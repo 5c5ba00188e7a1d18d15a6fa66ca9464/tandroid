@@ -5,6 +5,9 @@ import com.google.android.gms.dynamite.DynamiteModule;
 
 /* loaded from: classes.dex */
 final class zzf implements DynamiteModule.VersionPolicy {
+    zzf() {
+    }
+
     @Override // com.google.android.gms.dynamite.DynamiteModule.VersionPolicy
     public final DynamiteModule.VersionPolicy.SelectionResult selectModule(Context context, String str, DynamiteModule.VersionPolicy.IVersions iVersions) {
         DynamiteModule.VersionPolicy.SelectionResult selectionResult = new DynamiteModule.VersionPolicy.SelectionResult();

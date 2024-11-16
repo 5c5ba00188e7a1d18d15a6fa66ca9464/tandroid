@@ -4,11 +4,9 @@ import com.google.mlkit.common.sdkinternal.LazyInstanceMap;
 import com.google.mlkit.common.sdkinternal.MlKitContext;
 import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zztv extends LazyInstanceMap {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zztv(zztu zztuVar) {
+final class zztv extends LazyInstanceMap {
+    /* synthetic */ zztv(zztu zztuVar) {
     }
 
     @Override // com.google.mlkit.common.sdkinternal.LazyInstanceMap

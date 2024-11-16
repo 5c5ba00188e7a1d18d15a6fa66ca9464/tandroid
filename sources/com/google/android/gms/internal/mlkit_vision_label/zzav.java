@@ -2,12 +2,10 @@ package com.google.android.gms.internal.mlkit_vision_label;
 
 /* loaded from: classes.dex */
 abstract class zzav {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i) {
+    static int zza(int i) {
         return (i < 32 ? 4 : 2) * (i + 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:12:0x002a, code lost:
     
         r9 = r6 & r11;
@@ -31,7 +29,7 @@ abstract class zzav {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static int zzb(Object obj, Object obj2, int i, Object obj3, int[] iArr, Object[] objArr, Object[] objArr2) {
+    static int zzb(Object obj, Object obj2, int i, Object obj3, int[] iArr, Object[] objArr, Object[] objArr2) {
         int zza = zzaw.zza(obj);
         int i2 = zza & i;
         int zzc = zzc(obj3, i2);
@@ -55,21 +53,18 @@ abstract class zzav {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(Object obj, int i) {
+    static int zzc(Object obj, int i) {
         return obj instanceof byte[] ? ((byte[]) obj)[i] & 255 : obj instanceof short[] ? (char) ((short[]) obj)[i] : ((int[]) obj)[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzd(int i) {
+    static Object zzd(int i) {
         if (i >= 2 && i <= 1073741824 && Integer.highestOneBit(i) == i) {
             return i <= 256 ? new byte[i] : i <= 65536 ? new short[i] : new int[i];
         }
         throw new IllegalArgumentException("must be power of 2 between 2^1 and 2^30: " + i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zze(Object obj, int i, int i2) {
+    static void zze(Object obj, int i, int i2) {
         if (obj instanceof byte[]) {
             ((byte[]) obj)[i] = (byte) i2;
         } else if (obj instanceof short[]) {

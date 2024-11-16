@@ -120,9 +120,8 @@ public abstract class BaseCell extends FrameLayout {
 
     protected abstract boolean needCheck();
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(getFullHeight()), 1073741824));
     }
 
@@ -137,8 +136,7 @@ public abstract class BaseCell extends FrameLayout {
         invalidate();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setSubtitle(CharSequence charSequence) {
+    protected void setSubtitle(CharSequence charSequence) {
         SimpleTextView simpleTextView;
         float f;
         if (charSequence == null) {
@@ -163,8 +161,7 @@ public abstract class BaseCell extends FrameLayout {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void updateLayouts() {
+    protected void updateLayouts() {
         float f;
         float f2;
         float f3;
@@ -203,8 +200,7 @@ public abstract class BaseCell extends FrameLayout {
         radioButton.setLayoutParams(LayoutHelper.createFrame(22, 22.0f, (z3 ? 5 : 3) | 16, z3 ? 15.0f : 20.0f, 0.0f, z3 ? 20.0f : 15.0f, 0.0f));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public CharSequence withArrow(CharSequence charSequence) {
+    protected CharSequence withArrow(CharSequence charSequence) {
         SpannableString spannableString = new SpannableString(">");
         Drawable drawable = getContext().getResources().getDrawable(R.drawable.attach_arrow_right);
         ColoredImageSpan coloredImageSpan = new ColoredImageSpan(drawable, 2);

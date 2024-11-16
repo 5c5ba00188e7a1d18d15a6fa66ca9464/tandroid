@@ -26,9 +26,8 @@ public class GradientButtonWithCounterView extends ButtonWithCounterView {
         cellFlickerDrawable.repeatProgress = 4.0f;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Stories.recorder.ButtonWithCounterView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         boolean z;
         if (this.incGradient) {
             float f = this.progress + 0.016f;

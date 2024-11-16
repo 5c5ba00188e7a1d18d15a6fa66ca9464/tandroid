@@ -81,47 +81,8 @@ public class SeekBarView extends FrameLayout {
     private int transitionThumbX;
     private boolean twoSided;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 extends FloatSeekBarAccessibilityDelegate {
-        1(boolean z) {
-            super(z);
-        }
-
-        @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
-        public CharSequence getContentDescription(View view) {
-            SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
-            if (seekBarViewDelegate != null) {
-                return seekBarViewDelegate.getContentDescription();
-            }
-            return null;
-        }
-
-        /* JADX INFO: Access modifiers changed from: protected */
-        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-        public float getDelta() {
-            int stepsCount = SeekBarView.this.delegate.getStepsCount();
-            return stepsCount > 0 ? 1.0f / stepsCount : super.getDelta();
-        }
-
-        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-        public float getProgress() {
-            return SeekBarView.this.getProgress();
-        }
-
-        @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-        public void setProgress(float f) {
-            SeekBarView.this.pressed = true;
-            SeekBarView.this.setProgress(f);
-            SeekBarView.this.setSeekBarDrag(true, f);
-            SeekBarView.this.pressed = false;
-        }
-    }
-
-    /* loaded from: classes3.dex */
     public interface SeekBarViewDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static CharSequence $default$getContentDescription(SeekBarViewDelegate seekBarViewDelegate) {
                 return null;
@@ -183,11 +144,7 @@ public class SeekBarView extends FrameLayout {
             this.hoverDrawable.setVisible(true, false);
         }
         setImportantForAccessibility(1);
-        1 r8 = new FloatSeekBarAccessibilityDelegate(z) { // from class: org.telegram.ui.Components.SeekBarView.1
-            1(boolean z2) {
-                super(z2);
-            }
-
+        FloatSeekBarAccessibilityDelegate floatSeekBarAccessibilityDelegate = new FloatSeekBarAccessibilityDelegate(z) { // from class: org.telegram.ui.Components.SeekBarView.1
             @Override // org.telegram.ui.Components.SeekBarAccessibilityDelegate
             public CharSequence getContentDescription(View view) {
                 SeekBarViewDelegate seekBarViewDelegate = SeekBarView.this.delegate;
@@ -197,9 +154,8 @@ public class SeekBarView extends FrameLayout {
                 return null;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate
-            public float getDelta() {
+            protected float getDelta() {
                 int stepsCount = SeekBarView.this.delegate.getStepsCount();
                 return stepsCount > 0 ? 1.0f / stepsCount : super.getDelta();
             }
@@ -217,8 +173,8 @@ public class SeekBarView extends FrameLayout {
                 SeekBarView.this.pressed = false;
             }
         };
-        this.seekBarAccessibilityDelegate = r8;
-        setAccessibilityDelegate(r8);
+        this.seekBarAccessibilityDelegate = floatSeekBarAccessibilityDelegate;
+        setAccessibilityDelegate(floatSeekBarAccessibilityDelegate);
     }
 
     private void drawProgressBar(Canvas canvas, RectF rectF, Paint paint) {
@@ -344,7 +300,7 @@ public class SeekBarView extends FrameLayout {
 
     /* JADX WARN: Code restructure failed: missing block: B:48:0x0104, code lost:
     
-        if (r1 > r5) goto L148;
+        if (r1 > r5) goto L59;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -417,12 +373,12 @@ public class SeekBarView extends FrameLayout {
             this.currentTimestamp = size;
         }
         if (this.timestampChangeT < 1.0f) {
-            this.timestampChangeT = Math.min(this.timestampChangeT + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
+            this.timestampChangeT = Math.min(this.timestampChangeT + (Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate)) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
             invalidate();
             this.lastTimestampUpdate = SystemClock.elapsedRealtime();
         }
         if (this.timestampsAppearing < 1.0f) {
-            this.timestampsAppearing = Math.min(this.timestampsAppearing + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / 200.0f), 1.0f);
+            this.timestampsAppearing = Math.min(this.timestampsAppearing + (Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate)) / 200.0f), 1.0f);
             invalidate();
             this.lastTimestampsAppearingUpdate = SystemClock.elapsedRealtime();
         }
@@ -457,10 +413,12 @@ public class SeekBarView extends FrameLayout {
         return Theme.getColor(i, this.resourcesProvider);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onTouch$0() {
         this.pressedDelayed = false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$updateTimestamps$1(Pair pair, Pair pair2) {
         if (((Float) pair.first).floatValue() > ((Float) pair2.first).floatValue()) {
             return 1;
@@ -494,6 +452,7 @@ public class SeekBarView extends FrameLayout {
         return build;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setSeekBarDrag(boolean z, float f) {
         SeekBarViewDelegate seekBarViewDelegate = this.delegate;
         if (seekBarViewDelegate != null) {
@@ -539,7 +498,7 @@ public class SeekBarView extends FrameLayout {
 
     /* JADX WARN: Code restructure failed: missing block: B:29:0x01aa, code lost:
     
-        if (r4 > r1) goto L94;
+        if (r4 > r1) goto L36;
      */
     /* JADX WARN: Code restructure failed: missing block: B:30:0x01bf, code lost:
     
@@ -551,7 +510,7 @@ public class SeekBarView extends FrameLayout {
      */
     /* JADX WARN: Code restructure failed: missing block: B:52:0x01bb, code lost:
     
-        if (r4 < r1) goto L94;
+        if (r4 < r1) goto L36;
      */
     /* JADX WARN: Removed duplicated region for block: B:38:0x01dd  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x023d  */
@@ -620,15 +579,15 @@ public class SeekBarView extends FrameLayout {
         if (f4 == f5) {
             z = false;
         } else if (f4 < f5) {
-            float dp6 = f4 + (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
+            float dp6 = f4 + (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
             this.currentRadius = dp6;
         } else {
-            float dp7 = f4 - (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
+            float dp7 = f4 - (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
             this.currentRadius = dp7;
         }
         float f6 = this.transitionProgress;
         if (f6 < 1.0f) {
-            float f7 = f6 + (((float) elapsedRealtime) / 225.0f);
+            float f7 = f6 + (elapsedRealtime / 225.0f);
             this.transitionProgress = f7;
             if (f7 >= 1.0f) {
                 this.transitionProgress = 1.0f;
@@ -675,7 +634,7 @@ public class SeekBarView extends FrameLayout {
         this.progressToSet = -100.0f;
     }
 
-    public boolean onTouch(MotionEvent motionEvent) {
+    boolean onTouch(MotionEvent motionEvent) {
         Drawable drawable;
         Drawable drawable2;
         float measuredWidth;
@@ -925,10 +884,9 @@ public class SeekBarView extends FrameLayout {
             }
             for (URLSpanNoUnderline uRLSpanNoUnderline : uRLSpanNoUnderlineArr) {
                 if (uRLSpanNoUnderline != null && uRLSpanNoUnderline.getURL() != null && uRLSpanNoUnderline.label != null && uRLSpanNoUnderline.getURL().startsWith("audio?") && (parseInt = Utilities.parseInt((CharSequence) uRLSpanNoUnderline.getURL().substring(6))) != null && parseInt.intValue() >= 0) {
-                    float intValue = ((float) (parseInt.intValue() * 1000)) / ((float) l.longValue());
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(uRLSpanNoUnderline.label);
                     Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.timestampLabelPaint.getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
-                    this.timestamps.add(new Pair(Float.valueOf(intValue), spannableStringBuilder));
+                    this.timestamps.add(new Pair(Float.valueOf((parseInt.intValue() * 1000) / l.longValue()), spannableStringBuilder));
                 }
             }
             Collections.sort(this.timestamps, new Comparator() { // from class: org.telegram.ui.Components.SeekBarView$$ExternalSyntheticLambda0

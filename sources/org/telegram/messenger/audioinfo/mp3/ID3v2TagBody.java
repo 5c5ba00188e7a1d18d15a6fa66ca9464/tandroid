@@ -11,8 +11,7 @@ public class ID3v2TagBody {
     private final RangeInputStream input;
     private final ID3v2TagHeader tagHeader;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ID3v2TagBody(InputStream inputStream, long j, int i, ID3v2TagHeader iD3v2TagHeader) {
+    ID3v2TagBody(InputStream inputStream, long j, int i, ID3v2TagHeader iD3v2TagHeader) {
         RangeInputStream rangeInputStream = new RangeInputStream(inputStream, j, i);
         this.input = rangeInputStream;
         this.data = new ID3v2DataInput(rangeInputStream);

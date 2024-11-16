@@ -35,13 +35,11 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         onPositionReset(j, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ExoPlaybackException createRendererException(Throwable th, Format format, int i) {
+    protected final ExoPlaybackException createRendererException(Throwable th, Format format, int i) {
         return createRendererException(th, format, false, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ExoPlaybackException createRendererException(Throwable th, Format format, boolean z, int i) {
+    protected final ExoPlaybackException createRendererException(Throwable th, Format format, boolean z, int i) {
         int i2;
         if (format != null && !this.throwRendererExceptionIsExecuting) {
             this.throwRendererExceptionIsExecuting = true;
@@ -87,13 +85,11 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final RendererConfiguration getConfiguration() {
+    protected final RendererConfiguration getConfiguration() {
         return (RendererConfiguration) Assertions.checkNotNull(this.configuration);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final FormatHolder getFormatHolder() {
+    protected final FormatHolder getFormatHolder() {
         this.formatHolder.clear();
         return this.formatHolder;
     }
@@ -111,8 +107,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final PlayerId getPlayerId() {
+    protected final PlayerId getPlayerId() {
         return (PlayerId) Assertions.checkNotNull(this.playerId);
     }
 
@@ -131,8 +126,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return this.stream;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Format[] getStreamFormats() {
+    protected final Format[] getStreamFormats() {
         return (Format[]) Assertions.checkNotNull(this.streamFormats);
     }
 
@@ -161,8 +155,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         return this.streamIsFinal;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean isSourceReady() {
+    protected final boolean isSourceReady() {
         return hasReadStreamToEnd() ? this.streamIsFinal : ((SampleStream) Assertions.checkNotNull(this.stream)).isReady();
     }
 
@@ -187,12 +180,10 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
     protected void onStopped() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+    protected void onStreamChanged(Format[] formatArr, long j, long j2) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final int readSource(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
+    protected final int readSource(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, int i) {
         int readData = ((SampleStream) Assertions.checkNotNull(this.stream)).readData(formatHolder, decoderInputBuffer, i);
         if (readData == -4) {
             if (decoderInputBuffer.isEndOfStream()) {
@@ -245,8 +236,7 @@ public abstract class BaseRenderer implements Renderer, RendererCapabilities {
         Renderer.-CC.$default$setPlaybackSpeed(this, f, f2);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int skipSource(long j) {
+    protected int skipSource(long j) {
         return ((SampleStream) Assertions.checkNotNull(this.stream)).skipData(j - this.streamOffsetUs);
     }
 

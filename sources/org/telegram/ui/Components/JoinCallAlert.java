@@ -72,7 +72,6 @@ public class JoinCallAlert extends BottomSheet {
     private Drawable shadowDrawable;
     private TextView textView;
 
-    /* loaded from: classes3.dex */
     public class BottomSheetCell extends FrameLayout {
         private View background;
         private boolean hasBackground;
@@ -156,12 +155,10 @@ public class JoinCallAlert extends BottomSheet {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface JoinCallAlertDelegate {
         void didSelectChat(TLRPC.InputPeer inputPeer, boolean z, boolean z2, boolean z3);
     }
 
-    /* loaded from: classes3.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context context;
 
@@ -828,9 +825,8 @@ public class JoinCallAlert extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

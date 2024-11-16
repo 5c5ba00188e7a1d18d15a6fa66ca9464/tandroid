@@ -5,13 +5,11 @@ abstract class zzfu {
     private static final zzfs zza = zzc();
     private static final zzfs zzb = new zzfv();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzfs zza() {
+    static zzfs zza() {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzfs zzb() {
+    static zzfs zzb() {
         return zzb;
     }
 

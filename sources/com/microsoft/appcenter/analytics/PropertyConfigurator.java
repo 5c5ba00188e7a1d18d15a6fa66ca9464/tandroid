@@ -18,8 +18,7 @@ public class PropertyConfigurator extends AbstractChannelListener {
     private final AnalyticsTransmissionTarget mTransmissionTarget;
     private String mUserId;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PropertyConfigurator(AnalyticsTransmissionTarget analyticsTransmissionTarget) {
+    PropertyConfigurator(AnalyticsTransmissionTarget analyticsTransmissionTarget) {
         this.mTransmissionTarget = analyticsTransmissionTarget;
     }
 

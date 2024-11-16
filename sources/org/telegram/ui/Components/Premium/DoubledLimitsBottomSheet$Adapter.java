@@ -106,7 +106,7 @@ public class DoubledLimitsBottomSheet$Adapter extends RecyclerListView.Selection
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r15v3, types: [org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$Adapter$1, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r15v3, types: [android.view.ViewGroup, org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$Adapter$1] */
     /* JADX WARN: Type inference failed for: r15v6, types: [org.telegram.ui.Components.Premium.DoubledLimitsBottomSheet$LimitCell] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

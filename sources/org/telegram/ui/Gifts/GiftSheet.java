@@ -89,7 +89,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
     private final LinearLayout starsHeaderView;
     private final ArrayList tabs;
 
-    /* loaded from: classes3.dex */
     public static class CardBackground extends Drawable {
         public final Paint paint;
         private final RectF rect;
@@ -129,7 +128,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class GiftCell extends FrameLayout {
         private final AvatarDrawable avatarDrawable;
         private final BackupImageView avatarView;
@@ -147,7 +145,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         private final TextView subtitleView;
         private final TextView titleView;
 
-        /* loaded from: classes3.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());
@@ -414,7 +411,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Ribbon extends View {
         private Paint paint;
         private Path path;
@@ -478,7 +474,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class StarsBackground extends Drawable {
         public final Paint backgroundPaint;
         public final StarsReactionsSheet.Particles particles;
@@ -524,7 +519,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class Tabs extends HorizontalScrollView {
         private AnimatedFloat animatedSelected;
         private final RectF ceiledRect;
@@ -537,7 +531,6 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         private final RectF selectedRect;
         private final ArrayList tabs;
 
-        /* loaded from: classes3.dex */
         public static class Factory extends UItem.UItemFactory {
             static {
                 UItem.UItemFactory.setup(new Factory());

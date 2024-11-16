@@ -8,9 +8,8 @@ import java.util.Map;
 final class zzaa extends zzbn {
     final /* synthetic */ zzag zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public zzaa(zzag zzagVar, Map map) {
+    zzaa(zzag zzagVar, Map map) {
         super(map);
         this.zza = zzagVar;
     }

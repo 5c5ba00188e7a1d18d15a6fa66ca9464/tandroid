@@ -10,7 +10,6 @@ import java.util.Objects;
 /* loaded from: classes.dex */
 final class FlacBinarySearchSeeker extends BinarySearchSeeker {
 
-    /* loaded from: classes.dex */
     private static final class FlacTimestampSeeker implements BinarySearchSeeker.TimestampSeeker {
         private final FlacStreamMetadata flacStreamMetadata;
         private final int frameStartMarker;

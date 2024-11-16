@@ -156,9 +156,7 @@ public class ManageLinksActivity extends BaseFragment {
     private final LinkEditActivity.Callback linkEditActivityCallback = new 6();
     AnimationNotificationsLocker notificationsLocker = new AnimationNotificationsLocker();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 6 implements LinkEditActivity.Callback {
+    class 6 implements LinkEditActivity.Callback {
         6() {
         }
 
@@ -226,9 +224,7 @@ public class ManageLinksActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class DiffCallback extends DiffUtil.Callback {
+    private class DiffCallback extends DiffUtil.Callback {
         SparseIntArray newPositionToItem;
         int oldAdminsEndRow;
         int oldAdminsStartRow;
@@ -310,7 +306,6 @@ public class ManageLinksActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     private static class EmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private final int currentAccount;
         private BackupImageView stickerView;
@@ -360,7 +355,6 @@ public class ManageLinksActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class HintInnerCell extends FrameLayout {
         private EmptyView emptyView;
         private TextView messageTextView;
@@ -386,8 +380,7 @@ public class ManageLinksActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class LinkCell extends FrameLayout {
+    class LinkCell extends FrameLayout {
         int animateFromState;
         boolean animateHideExpiring;
         float animateToStateProgress;
@@ -522,9 +515,8 @@ public class ManageLinksActivity extends BaseFragment {
                 Context context = getContext();
                 String str = this.invite.link;
                 manageLinksActivity.showDialog(new ShareAlert(context, null, str, false, str, false, ManageLinksActivity.this.getResourceProvider()) { // from class: org.telegram.ui.ManageLinksActivity.LinkCell.1
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.ShareAlert
-                    public void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
+                    protected void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
                         String formatString;
                         if (longSparseArray == null || longSparseArray.size() != 1) {
                             formatString = LocaleController.formatString(R.string.InvLinkToChats, LocaleController.formatPluralString("Chats", i, new Object[0]));
@@ -644,7 +636,7 @@ public class ManageLinksActivity extends BaseFragment {
                             i3 = tL_chatInviteExported3.date;
                         }
                         long j2 = i3 * 1000;
-                        f = 1.0f - (((float) (currentTimeMillis - j2)) / ((float) (j - j2)));
+                        f = 1.0f - ((currentTimeMillis - j2) / (j - j2));
                     } else {
                         f = 1.0f;
                     }
@@ -902,9 +894,7 @@ public class ManageLinksActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -999,9 +989,7 @@ public class ManageLinksActivity extends BaseFragment {
         
             if (r10 == (r8.this$0.revokedLinksEndRow - 1)) goto L49;
          */
-        /* JADX WARN: Failed to find 'out' block for switch in B:9:0x0011. Please report as an issue. */
         /* JADX WARN: Removed duplicated region for block: B:29:0x00bf  */
-        /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1088,13 +1076,10 @@ public class ManageLinksActivity extends BaseFragment {
                     }
                     int i4 = R.string.ChannelLinksInfo;
                     textInfoPrivacyCell.setText(LocaleController.getString(i4));
-                    return;
+                    break;
                 case 10:
                     ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
-                    if (i == ManageLinksActivity.this.creatorRow) {
-                        user = ManageLinksActivity.this.getMessagesController().getUser(Long.valueOf(ManageLinksActivity.this.adminId));
-                        i3 = ManageLinksActivity.this.invitesCount;
-                    } else {
+                    if (i != ManageLinksActivity.this.creatorRow) {
                         TLRPC.TL_chatAdminWithInvites tL_chatAdminWithInvites = (TLRPC.TL_chatAdminWithInvites) ManageLinksActivity.this.admins.get(i - ManageLinksActivity.this.adminsStartRow);
                         TLRPC.User user2 = (TLRPC.User) ManageLinksActivity.this.users.get(Long.valueOf(tL_chatAdminWithInvites.admin_id));
                         i3 = tL_chatAdminWithInvites.invites_count;
@@ -1102,15 +1087,19 @@ public class ManageLinksActivity extends BaseFragment {
                             user = user2;
                             if (user == null) {
                                 manageChatUserCell.setData(user, ContactsController.formatName(user.first_name, user.last_name), LocaleController.formatPluralString("InviteLinkCount", i3, new Object[0]), z);
-                                return;
+                                break;
                             }
-                            return;
+                        } else {
+                            user = user2;
                         }
-                        user = user2;
+                    } else {
+                        user = ManageLinksActivity.this.getMessagesController().getUser(Long.valueOf(ManageLinksActivity.this.adminId));
+                        i3 = ManageLinksActivity.this.invitesCount;
                     }
                     z = false;
                     if (user == null) {
                     }
+                    break;
                 case 11:
                     textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -1124,11 +1113,9 @@ public class ManageLinksActivity extends BaseFragment {
                         }
                         int i42 = R.string.ChannelLinksInfo;
                         textInfoPrivacyCell.setText(LocaleController.getString(i42));
-                        return;
+                        break;
                     }
-                    return;
-                default:
-                    return;
+                    break;
             }
         }
 
@@ -1191,7 +1178,7 @@ public class ManageLinksActivity extends BaseFragment {
                     view = new ShadowSectionCell(this.mContext);
                     break;
                 case 5:
-                    view = new LinkCell(this.mContext);
+                    view = ManageLinksActivity.this.new LinkCell(this.mContext);
                     break;
                 case 6:
                     FlickerLoadingView flickerLoadingView2 = new FlickerLoadingView(this.mContext);
@@ -1228,7 +1215,7 @@ public class ManageLinksActivity extends BaseFragment {
                     view = new TextInfoPrivacyCell(this.mContext, ((BaseFragment) ManageLinksActivity.this).resourceProvider);
                     break;
                 default:
-                    View hintInnerCell = new HintInnerCell(this.mContext);
+                    View hintInnerCell = ManageLinksActivity.this.new HintInnerCell(this.mContext);
                     hintInnerCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundWhite));
                     view = hintInnerCell;
                     break;

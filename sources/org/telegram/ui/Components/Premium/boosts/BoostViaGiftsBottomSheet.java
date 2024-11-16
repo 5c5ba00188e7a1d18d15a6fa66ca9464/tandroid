@@ -82,7 +82,6 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     private final List starsNotExtended;
     private int top;
 
-    /* loaded from: classes3.dex */
     public interface ActionListener {
         void onAddChat(List list);
 
@@ -247,7 +246,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
 
     private long getSelectedPerUserStars(long j) {
         List perUserStarsValues = getPerUserStarsValues(j);
-        return perUserStarsValues.isEmpty() ? Math.round(((float) j) / ((float) getSelectedPerUserStars())) : ((Long) perUserStarsValues.get(Utilities.clamp(this.selectedStarsSliderIndex, perUserStarsValues.size() - 1, 0))).longValue();
+        return perUserStarsValues.isEmpty() ? Math.round(j / getSelectedPerUserStars()) : ((Long) perUserStarsValues.get(Utilities.clamp(this.selectedStarsSliderIndex, perUserStarsValues.size() - 1, 0))).longValue();
     }
 
     private int getSelectedSliderValue() {

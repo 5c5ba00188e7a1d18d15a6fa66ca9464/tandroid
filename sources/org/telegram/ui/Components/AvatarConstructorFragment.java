@@ -93,7 +93,6 @@ public class AvatarConstructorFragment extends BaseFragment {
     boolean isLightInternal = false;
     float progressToLightStatusBar = 0.0f;
 
-    /* loaded from: classes3.dex */
     public static class BackgroundGradient {
         int color1;
         int color2;
@@ -151,8 +150,7 @@ public class AvatarConstructorFragment extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class BackgroundSelectView extends RecyclerListView {
+    class BackgroundSelectView extends RecyclerListView {
         RecyclerView.Adapter adapter;
         BackgroundGradient customSelectedGradient;
         ArrayList gradients;
@@ -234,7 +232,7 @@ public class AvatarConstructorFragment extends BaseFragment {
                         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
                         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i2) {
                             BackgroundSelectView backgroundSelectView = BackgroundSelectView.this;
-                            return new RecyclerListView.Holder(new GradientSelectorView(backgroundSelectView.getContext()));
+                            return new RecyclerListView.Holder(AvatarConstructorFragment.this.new GradientSelectorView(backgroundSelectView.getContext()));
                         }
                     };
                     this.adapter = adapter;
@@ -286,9 +284,8 @@ public class AvatarConstructorFragment extends BaseFragment {
             adapter.notifyDataSetChanged();
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             AvatarConstructorFragment avatarConstructorFragment;
             AvatarConstructorFragment.this.gradientBackgroundItemWidth = View.MeasureSpec.getSize(i) / this.adapter.getItemCount();
             float f = 36.0f;
@@ -325,7 +322,6 @@ public class AvatarConstructorFragment extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     private class ContainerLayout extends SizeNotifierFrameLayout implements NestedScrollingParent {
         private NestedScrollingParentHelper nestedScrollingParentHelper;
 
@@ -390,14 +386,11 @@ public class AvatarConstructorFragment extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface Delegate {
         void onDone(BackgroundGradient backgroundGradient, long j, TLRPC.Document document, PreviewView previewView);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class GradientSelectorView extends View {
+    private class GradientSelectorView extends View {
         Drawable addIcon;
         BackgroundGradient backgroundGradient;
         Paint defaultPaint;
@@ -493,7 +486,6 @@ public class AvatarConstructorFragment extends BaseFragment {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class PreviewView extends FrameLayout {
         BackgroundGradient backgroundGradient;
         BackupImageView backupImageView;
@@ -1170,9 +1162,8 @@ public class AvatarConstructorFragment extends BaseFragment {
             float scrollFromY;
             float startFromProgressToExpand;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 int save = canvas.save();
                 super.dispatchDraw(canvas);
                 AvatarConstructorFragment avatarConstructorFragment = AvatarConstructorFragment.this;
@@ -1404,9 +1395,8 @@ public class AvatarConstructorFragment extends BaseFragment {
                 AvatarConstructorFragment.this.setPreview(l == null ? 0L : l.longValue(), document);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i4, int i5, int i6, int i7) {
+            protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
                 super.onLayout(z, i4, i5, i6, i7);
                 if (this.firstLayout) {
                     this.firstLayout = false;

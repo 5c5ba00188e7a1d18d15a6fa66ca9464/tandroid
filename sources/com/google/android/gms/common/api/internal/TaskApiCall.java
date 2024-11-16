@@ -11,7 +11,6 @@ public abstract class TaskApiCall {
     private final boolean zab;
     private final int zac;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private RemoteCall zaa;
         private Feature[] zac;
@@ -47,8 +46,7 @@ public abstract class TaskApiCall {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public TaskApiCall(Feature[] featureArr, boolean z, int i) {
+    protected TaskApiCall(Feature[] featureArr, boolean z, int i) {
         this.zaa = featureArr;
         boolean z2 = false;
         if (featureArr != null && z) {
@@ -62,8 +60,7 @@ public abstract class TaskApiCall {
         return new Builder(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void doExecute(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource);
+    protected abstract void doExecute(Api.AnyClient anyClient, TaskCompletionSource taskCompletionSource);
 
     public boolean shouldAutoResolveMissingFeatures() {
         return this.zab;

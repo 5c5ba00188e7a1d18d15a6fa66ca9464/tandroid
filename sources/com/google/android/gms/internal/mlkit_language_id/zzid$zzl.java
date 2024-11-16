@@ -9,7 +9,6 @@ public final class zzid$zzl extends zzeo.zzc implements zzgb {
     private byte zze = 2;
     private zzew zzd = zzeo.zzl();
 
-    /* loaded from: classes.dex */
     public static final class zza extends zzeo.zzd implements zzgb {
         private zza() {
             super(zzid$zzl.zzf);
@@ -20,7 +19,6 @@ public final class zzid$zzl extends zzeo.zzc implements zzgb {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class zzb extends zzeo implements zzgb {
         private static final zzb zzg;
         private static volatile zzgj zzh;
@@ -29,7 +27,6 @@ public final class zzid$zzl extends zzeo.zzc implements zzgb {
         private int zze;
         private zzew zzf = zzeo.zzl();
 
-        /* loaded from: classes.dex */
         public static final class zza extends zzeo.zzb implements zzgb {
             private zza() {
                 super(zzb.zzg);
@@ -49,10 +46,9 @@ public final class zzid$zzl extends zzeo.zzc implements zzgb {
         private zzb() {
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+        /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-        public final Object zza(int i, Object obj, Object obj2) {
+        protected final Object zza(int i, Object obj, Object obj2) {
             zzic zzicVar = null;
             switch (zzic.zza[i - 1]) {
                 case 1:
@@ -100,10 +96,9 @@ public final class zzid$zzl extends zzeo.zzc implements zzgb {
     private zzid$zzl() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzeo$zza, com.google.android.gms.internal.mlkit_language_id.zzgj] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzic zzicVar = null;
         switch (zzic.zza[i - 1]) {
             case 1:

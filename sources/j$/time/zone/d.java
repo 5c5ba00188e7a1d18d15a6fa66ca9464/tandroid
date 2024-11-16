@@ -8,8 +8,7 @@ import java.util.List;
 final class d implements PrivilegedAction {
     final /* synthetic */ List a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public d(ArrayList arrayList) {
+    d(ArrayList arrayList) {
         this.a = arrayList;
     }
 

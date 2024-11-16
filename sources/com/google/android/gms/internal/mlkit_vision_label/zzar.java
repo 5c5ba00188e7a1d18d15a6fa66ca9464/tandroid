@@ -8,8 +8,7 @@ import java.util.Map;
 final class zzar extends AbstractSet {
     final /* synthetic */ zzau zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzar(zzau zzauVar) {
+    zzar(zzau zzauVar) {
         this.zza = zzauVar;
     }
 

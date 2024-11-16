@@ -10,8 +10,7 @@ public abstract class HlsPlaylist implements FilterableManifest {
     public final boolean hasIndependentSegments;
     public final List tags;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public HlsPlaylist(String str, List list, boolean z) {
+    protected HlsPlaylist(String str, List list, boolean z) {
         this.baseUri = str;
         this.tags = Collections.unmodifiableList(list);
         this.hasIndependentSegments = z;

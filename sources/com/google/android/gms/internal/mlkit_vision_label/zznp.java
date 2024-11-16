@@ -94,13 +94,11 @@ public final class zznp {
         return this.zzk.get(zzkfVar) == null || j - ((Long) this.zzk.get(zzkfVar)).longValue() > TimeUnit.SECONDS.toMillis(30L);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String zzb() {
+    final /* synthetic */ String zzb() {
         return LibraryVersion.getInstance().getVersion(this.zzi);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzc(zznf zznfVar, zzkf zzkfVar, String str) {
+    final /* synthetic */ void zzc(zznf zznfVar, zzkf zzkfVar, String str) {
         zznfVar.zzb(zzkfVar);
         String zzd = zznfVar.zzd();
         zzmh zzmhVar = new zzmh();
@@ -130,8 +128,7 @@ public final class zznp {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzf(zzkf zzkfVar, com.google.mlkit.vision.label.defaults.thin.zzg zzgVar) {
+    final /* synthetic */ void zzf(zzkf zzkfVar, com.google.mlkit.vision.label.defaults.thin.zzg zzgVar) {
         zzbj zzbjVar = (zzbj) this.zzl.get(zzkfVar);
         if (zzbjVar != null) {
             for (Object obj : zzbjVar.zzq()) {
@@ -164,8 +161,7 @@ public final class zznp {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ void zzg(final zzkf zzkfVar, Object obj, long j, final com.google.mlkit.vision.label.defaults.thin.zzg zzgVar) {
+    final /* synthetic */ void zzg(final zzkf zzkfVar, Object obj, long j, final com.google.mlkit.vision.label.defaults.thin.zzg zzgVar) {
         if (!this.zzl.containsKey(zzkfVar)) {
             this.zzl.put(zzkfVar, zzaj.zzr());
         }

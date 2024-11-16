@@ -22,7 +22,6 @@ public class AudioDecoder {
     private long startTimeUs;
     private int trackIndex;
 
-    /* loaded from: classes3.dex */
     public static class DecodedBufferData {
         public ByteBuffer byteBuffer = null;
         public int index = -1;

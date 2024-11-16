@@ -13,93 +13,75 @@ public class BaseController {
         this.currentAccount = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final AccountInstance getAccountInstance() {
+    protected final AccountInstance getAccountInstance() {
         return this.parentAccountInstance;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final PersistColorPalette getColorPalette() {
+    protected final PersistColorPalette getColorPalette() {
         return this.parentAccountInstance.getColorPalette();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ConnectionsManager getConnectionsManager() {
+    protected final ConnectionsManager getConnectionsManager() {
         return this.parentAccountInstance.getConnectionsManager();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ContactsController getContactsController() {
+    protected final ContactsController getContactsController() {
         return this.parentAccountInstance.getContactsController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final DownloadController getDownloadController() {
+    protected final DownloadController getDownloadController() {
         return this.parentAccountInstance.getDownloadController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final FileLoader getFileLoader() {
+    protected final FileLoader getFileLoader() {
         return this.parentAccountInstance.getFileLoader();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final FileRefController getFileRefController() {
+    protected final FileRefController getFileRefController() {
         return this.parentAccountInstance.getFileRefController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final LocationController getLocationController() {
+    protected final LocationController getLocationController() {
         return this.parentAccountInstance.getLocationController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaDataController getMediaDataController() {
+    protected final MediaDataController getMediaDataController() {
         return this.parentAccountInstance.getMediaDataController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MemberRequestsController getMemberRequestsController() {
+    protected final MemberRequestsController getMemberRequestsController() {
         return this.parentAccountInstance.getMemberRequestsController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MessagesController getMessagesController() {
+    protected final MessagesController getMessagesController() {
         return this.parentAccountInstance.getMessagesController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MessagesStorage getMessagesStorage() {
+    protected final MessagesStorage getMessagesStorage() {
         return this.parentAccountInstance.getMessagesStorage();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final NotificationCenter getNotificationCenter() {
+    protected final NotificationCenter getNotificationCenter() {
         return this.parentAccountInstance.getNotificationCenter();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final NotificationsController getNotificationsController() {
+    protected final NotificationsController getNotificationsController() {
         return this.parentAccountInstance.getNotificationsController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final SecretChatHelper getSecretChatHelper() {
+    protected final SecretChatHelper getSecretChatHelper() {
         return this.parentAccountInstance.getSecretChatHelper();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final SendMessagesHelper getSendMessagesHelper() {
+    protected final SendMessagesHelper getSendMessagesHelper() {
         return this.parentAccountInstance.getSendMessagesHelper();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final StatsController getStatsController() {
+    protected final StatsController getStatsController() {
         return this.parentAccountInstance.getStatsController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final UserConfig getUserConfig() {
+    protected final UserConfig getUserConfig() {
         return this.parentAccountInstance.getUserConfig();
     }
 }

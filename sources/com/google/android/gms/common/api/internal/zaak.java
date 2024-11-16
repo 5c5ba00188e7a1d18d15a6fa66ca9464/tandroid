@@ -3,13 +3,11 @@ package com.google.android.gms.common.api.internal;
 import android.content.Context;
 import com.google.android.gms.common.GoogleApiAvailabilityLight;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zaak implements Runnable {
+final class zaak implements Runnable {
     final /* synthetic */ zaaw zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zaak(zaaw zaawVar) {
+    zaak(zaaw zaawVar) {
         this.zaa = zaawVar;
     }
 

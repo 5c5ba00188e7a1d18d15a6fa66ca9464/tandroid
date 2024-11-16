@@ -53,6 +53,5 @@ public abstract class GmsClientSupervisor {
         zza(new zzn(str, str2, i, z), serviceConnection, str3);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract boolean zzc(zzn zznVar, ServiceConnection serviceConnection, String str, Executor executor);
+    protected abstract boolean zzc(zzn zznVar, ServiceConnection serviceConnection, String str, Executor executor);
 }

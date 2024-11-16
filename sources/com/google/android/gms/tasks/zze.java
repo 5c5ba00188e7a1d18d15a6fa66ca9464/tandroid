@@ -7,8 +7,7 @@ final class zze implements Runnable {
     final /* synthetic */ Task zza;
     final /* synthetic */ zzf zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zze(zzf zzfVar, Task task) {
+    zze(zzf zzfVar, Task task) {
         this.zzb = zzfVar;
         this.zza = task;
     }

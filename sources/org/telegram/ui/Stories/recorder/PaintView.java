@@ -277,9 +277,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
     private TextView zoomOutText;
     private boolean zoomOutVisible;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 24 extends ChatActivity {
+    class 24 extends ChatActivity {
         final /* synthetic */ Utilities.Callback2 val$onLocationSelected;
 
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -372,9 +370,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 33 implements EmojiView.EmojiViewDelegate {
+    class 33 implements EmojiView.EmojiViewDelegate {
         int innerTextChange;
 
         33() {
@@ -577,7 +573,6 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
     }
 
-    /* loaded from: classes5.dex */
     public class PopupButton extends LinearLayout {
         ImageView checkView;
         ImageView image2View;
@@ -724,9 +719,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class PopupWindowLayout extends ActionBarPopupWindow.ActionBarPopupWindowLayout {
+    private class PopupWindowLayout extends ActionBarPopupWindow.ActionBarPopupWindowLayout {
         private final ButtonBounce bounce;
         private float cx;
         private float cy;
@@ -738,9 +731,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             this.enableBounce = true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.view.ViewGroup, android.view.View
-        public void dispatchDraw(Canvas canvas) {
+        protected void dispatchDraw(Canvas canvas) {
             float scale = this.bounce.getScale(0.05f);
             if (scale < 1.0f) {
                 canvas.save();
@@ -771,16 +763,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             return super.dispatchTouchEvent(motionEvent);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View
-        public void onMeasure(int i, int i2) {
+        protected void onMeasure(int i, int i2) {
             super.onMeasure(i, i2);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class StickerPosition {
+    private static class StickerPosition {
         private float angle;
         private Point position;
         private float scale;
@@ -1141,13 +1130,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 if (i6 != 0) {
                     float f3 = this.stickyXAlpha;
                     if (f3 != 1.0f) {
-                        max = Math.min(1.0f, f3 + (((float) min) / 150.0f));
+                        max = Math.min(1.0f, f3 + (min / 150.0f));
                         this.stickyXAlpha = max;
                         invalidate();
                         if (i7 != 0) {
                             float f4 = this.stickyYAlpha;
                             if (f4 != 1.0f) {
-                                max2 = Math.min(1.0f, f4 + (((float) min) / 150.0f));
+                                max2 = Math.min(1.0f, f4 + (min / 150.0f));
                                 this.stickyYAlpha = max2;
                                 invalidate();
                                 f = this.stickyYAlpha;
@@ -1193,7 +1182,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                         if (i7 == 0) {
                             float f7 = this.stickyYAlpha;
                             if (f7 != 0.0f) {
-                                max2 = Math.max(0.0f, f7 - (((float) min) / 150.0f));
+                                max2 = Math.max(0.0f, f7 - (min / 150.0f));
                                 this.stickyYAlpha = max2;
                                 invalidate();
                             }
@@ -1209,7 +1198,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 if (i6 == 0) {
                     float f8 = this.stickyXAlpha;
                     if (f8 != 0.0f) {
-                        max = Math.max(0.0f, f8 - (((float) min) / 150.0f));
+                        max = Math.max(0.0f, f8 - (min / 150.0f));
                         this.stickyXAlpha = max;
                         invalidate();
                     }
@@ -4805,8 +4794,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         return drawChild;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void editSelectedTextEntity() {
+    protected void editSelectedTextEntity() {
         EntityView entityView = this.currentEntityView;
         if (!(entityView instanceof TextPaintView) || this.editingText) {
             return;
@@ -5261,9 +5249,9 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                                     mediaEntity.roundOffset = storyEntry2.roundOffset;
                                                     long j = storyEntry2.roundDuration;
                                                     mediaEntity.roundDuration = j;
-                                                    float f8 = (float) j;
-                                                    mediaEntity.roundLeft = storyEntry2.roundLeft * f8;
-                                                    mediaEntity.roundRight = storyEntry2.roundRight * f8;
+                                                    float f8 = j;
+                                                    mediaEntity.roundLeft = (long) (storyEntry2.roundLeft * f8);
+                                                    mediaEntity.roundRight = (long) (storyEntry2.roundRight * f8);
                                                 }
                                                 mediaEntity.subType = (byte) 4;
                                                 if (roundView.isMirrored()) {
@@ -5668,15 +5656,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         this.weightChooserView.setLayerType(z ? 2 : 0, null);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         this.destroyed = false;
         super.onAttachedToWindow();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void onAudioSelect(MessageObject messageObject);
+    protected abstract void onAudioSelect(MessageObject messageObject);
 
     public boolean onBackPressed() {
         if (this.reactionLayoutShowing) {
@@ -5750,9 +5736,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
 
     public abstract void onDeselectRound(RoundView roundView);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.view.ViewGroup, android.view.View
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         this.destroyed = true;
         ReactionsContainerLayout reactionsContainerLayout = this.reactionLayout;
         if (reactionsContainerLayout != null) {
@@ -5795,9 +5780,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         return PersistColorPalette.getInstance(this.currentAccount);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto, org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         super.onLayout(z, i, i2, i3, i4);
     }
 
@@ -6094,7 +6078,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                 RLottieDrawable lottieAnimation = imageReceiver.getLottieAnimation();
                 imageReceiver.getAnimation();
                 if (lottieAnimation != null) {
-                    lottieAnimation.setCurrentFrame(Math.round(((((float) j) % ((float) lottieAnimation.getDuration())) / ((float) lottieAnimation.getDuration())) * lottieAnimation.getFramesCount()), true, false);
+                    lottieAnimation.setCurrentFrame(Math.round(((j % lottieAnimation.getDuration()) / lottieAnimation.getDuration()) * lottieAnimation.getFramesCount()), true, false);
                 }
             }
         }

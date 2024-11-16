@@ -13,7 +13,6 @@ public abstract class ChatActivityEnterTopView extends FrameLayout {
     private EditView editView;
     private View replyView;
 
-    /* loaded from: classes3.dex */
     public static class EditView extends LinearLayout {
         private EditViewButton[] buttons;
 
@@ -41,7 +40,6 @@ public abstract class ChatActivityEnterTopView extends FrameLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static abstract class EditViewButton extends LinearLayout {
         private boolean editButton;
         private ImageView imageView;

@@ -11,8 +11,7 @@ public final class a implements Comparable, Serializable {
     private final ZoneOffset b;
     private final ZoneOffset c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public a(long j, ZoneOffset zoneOffset, ZoneOffset zoneOffset2) {
+    a(long j, ZoneOffset zoneOffset, ZoneOffset zoneOffset2) {
         this.a = g.j(j, 0, zoneOffset);
         this.b = zoneOffset;
         this.c = zoneOffset2;

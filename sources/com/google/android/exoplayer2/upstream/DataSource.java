@@ -6,11 +6,9 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public interface DataSource extends DataReader {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
     }
 
-    /* loaded from: classes.dex */
     public interface Factory {
         DataSource createDataSource();
     }

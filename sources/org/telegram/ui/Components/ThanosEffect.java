@@ -51,7 +51,6 @@ public class ThanosEffect extends TextureView {
     private final ArrayList toSet;
     private Runnable whenDone;
 
-    /* loaded from: classes3.dex */
     class 2 implements TextureView.SurfaceTextureListener {
         2() {
         }
@@ -123,8 +122,7 @@ public class ThanosEffect extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class DrawingThread extends DispatchQueue {
+    static class DrawingThread extends DispatchQueue {
         private AtomicBoolean alive;
         private int deltaTimeHandle;
         private int densityHandle;
@@ -161,8 +159,7 @@ public class ThanosEffect extends TextureView {
         private int width;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class Animation {
+        class Animation {
             private Bitmap bitmap;
             public final int[] buffer;
             public int currentBuffer;
@@ -233,7 +230,7 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Can't wrap try/catch for region: R(14:1|(1:3)|4|(1:6)|7|(2:9|(8:11|12|(3:14|(1:18)|19)|(1:21)(1:(1:31))|22|23|24|25))|(2:33|(1:35))|12|(0)|(0)(0)|22|23|24|25) */
+            /* JADX WARN: Can't wrap try/catch for region: R(15:0|1|(1:3)|4|(1:6)|7|(2:9|(8:11|12|(3:14|(1:18)|19)|(1:21)(1:(1:31))|22|23|24|25))|(2:33|(1:35))|12|(0)|(0)(0)|22|23|24|25) */
             /* JADX WARN: Code restructure failed: missing block: B:28:0x012a, code lost:
             
                 r7 = move-exception;
@@ -1496,9 +1493,7 @@ public class ThanosEffect extends TextureView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ToSet {
+    private static class ToSet {
         public final Bitmap bitmap;
         public Runnable doneCallback;
         public float durationMultiplier;

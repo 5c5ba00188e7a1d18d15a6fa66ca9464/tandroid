@@ -4,21 +4,18 @@ import java.util.Map;
 
 /* loaded from: classes.dex */
 abstract class zzee {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract int zza(Map.Entry entry);
+    zzee() {
+    }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract zzej zza(Object obj);
+    abstract int zza(Map.Entry entry);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zza(zzib zzibVar, Map.Entry entry);
+    abstract zzej zza(Object obj);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract boolean zza(zzfz zzfzVar);
+    abstract void zza(zzib zzibVar, Map.Entry entry);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract zzej zzb(Object obj);
+    abstract boolean zza(zzfz zzfzVar);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void zzc(Object obj);
+    abstract zzej zzb(Object obj);
+
+    abstract void zzc(Object obj);
 }

@@ -14,8 +14,7 @@ final class TransportImpl implements Transport {
     private final TransportContext transportContext;
     private final TransportInternal transportInternal;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TransportImpl(TransportContext transportContext, String str, Encoding encoding, Transformer transformer, TransportInternal transportInternal) {
+    TransportImpl(TransportContext transportContext, String str, Encoding encoding, Transformer transformer, TransportInternal transportInternal) {
         this.transportContext = transportContext;
         this.name = str;
         this.payloadEncoding = encoding;

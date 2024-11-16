@@ -4,7 +4,6 @@ import j$.util.Map;
 import java.util.EnumMap;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* JADX WARN: Enum visitor error
 jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'DISTINCT' uses external variables
 	at jadx.core.dex.visitors.EnumVisitor.createEnumFieldByConstructor(EnumVisitor.java:451)
@@ -16,7 +15,7 @@ jadx.core.utils.exceptions.JadxRuntimeException: Init of enum field 'DISTINCT' u
  */
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* loaded from: classes2.dex */
-public final class S2 {
+final class S2 {
     public static final S2 DISTINCT;
     public static final S2 ORDERED;
     public static final S2 SHORT_CIRCUIT;
@@ -129,8 +128,7 @@ public final class S2 {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int a(int i2, int i3) {
+    static int a(int i2, int i3) {
         return i2 | (i3 & (i2 == 0 ? i : ((((j & i2) << 1) | i2) | ((k & i2) >> 1)) ^ (-1)));
     }
 
@@ -142,8 +140,7 @@ public final class S2 {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int c(j$.util.Q q2) {
+    static int c(j$.util.Q q2) {
         int characteristics = q2.characteristics();
         int i2 = characteristics & 4;
         int i3 = f;
@@ -156,8 +153,7 @@ public final class S2 {
         return q2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int g(int i2) {
+    static int g(int i2) {
         return i2 & ((i2 ^ (-1)) >> 1) & j;
     }
 
@@ -169,13 +165,11 @@ public final class S2 {
         return (S2[]) v.clone();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean d(int i2) {
+    final boolean d(int i2) {
         return (i2 & this.e) == this.c;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final boolean e(int i2) {
+    final boolean e(int i2) {
         int i3 = this.e;
         return (i2 & i3) == i3;
     }

@@ -17,13 +17,11 @@ abstract class zzdl {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza() {
+    static boolean zza() {
         return (zza == null || zzb) ? false : true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Class zzb() {
+    static Class zzb() {
         return zza;
     }
 }

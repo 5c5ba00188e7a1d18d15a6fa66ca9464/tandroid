@@ -62,7 +62,6 @@ public final class BulletinFactory {
     	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:100)
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* loaded from: classes3.dex */
     public static final class FileType {
         private static final /* synthetic */ FileType[] $VALUES;
         public static final FileType AUDIO;
@@ -83,9 +82,7 @@ public final class BulletinFactory {
         private final int localeRes;
         private final boolean plural;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public enum Icon {
+        private enum Icon {
             SAVED_TO_DOWNLOADS(R.raw.ic_download, 2, "Box", "Arrow"),
             SAVED_TO_GALLERY(R.raw.ic_save_to_gallery, 0, "Box", "Arrow", "Mask", "Arrow 2", "Splash"),
             SAVED_TO_MUSIC(R.raw.ic_save_to_music, 2, "Box", "Arrow"),
@@ -157,7 +154,6 @@ public final class BulletinFactory {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class UndoObject {
         public Runnable onAction;
         public Runnable onUndo;

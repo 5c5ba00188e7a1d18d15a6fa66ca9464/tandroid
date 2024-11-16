@@ -14,14 +14,12 @@ class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
     private final Handler mHandler;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public UncaughtExceptionHandler(Handler handler, Channel channel) {
+    UncaughtExceptionHandler(Handler handler, Channel channel) {
         this.mHandler = handler;
         this.mChannel = channel;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void register() {
+    void register() {
         this.mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
     }

@@ -109,7 +109,7 @@ public class PacmanAnimation {
         if (this.progress >= 1.0f) {
             this.progress = 0.0f;
         }
-        float f = (float) j;
+        float f = j;
         float f2 = this.progress + (f / 400.0f);
         this.progress = f2;
         if (f2 > 1.0f) {

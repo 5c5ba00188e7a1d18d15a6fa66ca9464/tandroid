@@ -45,7 +45,6 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
     private int responseCode;
     private final String userAgent;
 
-    /* loaded from: classes.dex */
     public static final class Factory implements DataSource.Factory {
         private boolean allowCrossProtocolRedirects;
         private Predicate contentTypePredicate;
@@ -72,8 +71,8 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         }
     }
 
-    /* loaded from: classes.dex */
-    private static class NullFilteringHeadersMap extends ForwardingMap {
+    /* JADX INFO: Access modifiers changed from: private */
+    static class NullFilteringHeadersMap extends ForwardingMap {
         private final Map headers;
 
         public NullFilteringHeadersMap(Map map) {
@@ -313,25 +312,25 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
 
     private static void maybeTerminateInputStream(HttpURLConnection httpURLConnection, long j) {
         int i;
-        if (httpURLConnection != null && (i = Util.SDK_INT) >= 19 && i <= 20) {
-            try {
-                InputStream inputStream = httpURLConnection.getInputStream();
-                if (j == -1) {
-                    if (inputStream.read() == -1) {
-                        return;
-                    }
-                } else if (j <= 2048) {
+        if (httpURLConnection == null || (i = Util.SDK_INT) < 19 || i > 20) {
+            return;
+        }
+        try {
+            InputStream inputStream = httpURLConnection.getInputStream();
+            if (j == -1) {
+                if (inputStream.read() == -1) {
                     return;
                 }
-                String name = inputStream.getClass().getName();
-                if (!"com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) && !"com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
-                    return;
-                }
+            } else if (j <= 2048) {
+                return;
+            }
+            String name = inputStream.getClass().getName();
+            if ("com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) || "com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
                 Method declaredMethod = ((Class) Assertions.checkNotNull(inputStream.getClass().getSuperclass())).getDeclaredMethod("unexpectedEndOfInput", null);
                 declaredMethod.setAccessible(true);
                 declaredMethod.invoke(inputStream, null);
-            } catch (Exception unused) {
             }
+        } catch (Exception unused) {
         }
     }
 

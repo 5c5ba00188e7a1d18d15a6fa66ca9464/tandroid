@@ -280,8 +280,7 @@ public class SimpleArrayMap {
         return i2 ^ (-1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int indexOfValue(Object obj) {
+    int indexOfValue(Object obj) {
         int i = this.mSize * 2;
         Object[] objArr = this.mArray;
         if (obj == null) {

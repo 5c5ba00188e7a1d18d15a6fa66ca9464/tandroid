@@ -134,7 +134,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     private ArrayList warnUsers;
     private Runnable whenCoverClicked;
 
-    /* loaded from: classes5.dex */
     public static class ChoosePeerSheet extends BottomSheet {
         private final int currentAccount;
         private final TextView headerView;
@@ -143,7 +142,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         private final List peers;
         private final TLRPC.InputPeer selectedPeer;
 
-        /* loaded from: classes5.dex */
         private class Adapter extends RecyclerListView.SelectionAdapter {
             private Adapter() {
             }
@@ -344,9 +342,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class ContainerView extends FrameLayout {
+    private class ContainerView extends FrameLayout {
         private final AnimatedFloat isActionBar;
         private final Path path;
         private float top;
@@ -400,14 +396,12 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface DoneCallback {
         void done(StoryPrivacy storyPrivacy, boolean z, boolean z2, TLRPC.InputPeer inputPeer, Runnable runnable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class HeaderCell extends FrameLayout {
+    static class HeaderCell extends FrameLayout {
         public BackDrawable backDrawable;
         private ImageView closeView;
         private final Paint dividerPaint;
@@ -481,7 +475,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes5.dex */
     private static class HeaderCell2 extends LinearLayout {
         private final Theme.ResourcesProvider resourcesProvider;
         private final TextView subtitleTextView;
@@ -510,9 +503,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class ItemInner extends AdapterWithDiffUtils.Item {
+    private static class ItemInner extends AdapterWithDiffUtils.Item {
         public TLRPC.Chat chat;
         public boolean checked;
         public Drawable drawable;
@@ -673,8 +664,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Page extends FrameLayout implements View.OnClickListener, NotificationCenter.NotificationCenterDelegate {
+    class Page extends FrameLayout implements View.OnClickListener, NotificationCenter.NotificationCenterDelegate {
         private Adapter adapter;
         private final ArrayList atTop;
         private final ButtonWithCounterView button;
@@ -710,9 +700,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         public boolean wasAtTop;
         private boolean wasKeyboardVisible;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class Adapter extends AdapterWithDiffUtils {
+        private class Adapter extends AdapterWithDiffUtils {
             private Context context;
             private RecyclerListView listView;
             private Runnable onBack;
@@ -900,7 +888,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 int i2;
                 int i3;
                 if (i == -1) {
-                    textCell = new PadView(this.context);
+                    textCell = Page.this.new PadView(this.context);
                 } else {
                     if (i == 0) {
                         textCell = new View(this.context);
@@ -942,8 +930,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class ButtonContainer extends LinearLayout {
+        class ButtonContainer extends LinearLayout {
             final AnimatedFloat alpha;
             private ValueAnimator animator;
             final Paint dividerPaint;
@@ -1046,9 +1033,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes5.dex */
-        public class PadView extends View {
+        private class PadView extends View {
             public PadView(Context context) {
                 super(context);
             }
@@ -1195,16 +1180,14 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     Page.this.contentView.invalidate();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                public void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                protected void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                     ((BottomSheet) StoryPrivacyBottomSheet.this).containerView.invalidate();
                     Page.this.contentView.invalidate();
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                     ((BottomSheet) StoryPrivacyBottomSheet.this).containerView.invalidate();
                     Page.this.contentView.invalidate();
                     Page.this.listView.invalidate();
@@ -2923,7 +2906,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes5.dex */
     public class SearchUsersCell extends ScrollView {
         public ArrayList allSpans;
         private final LinearGradient bottomGradient;
@@ -2949,7 +2931,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         private final Paint topGradientPaint;
         private Runnable updateHeight;
 
-        /* loaded from: classes5.dex */
         public class SpansContainer extends ViewGroup {
             private View addingSpan;
             private ArrayList animAddingSpans;
@@ -3496,7 +3477,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class StoryPrivacy {
         public final ArrayList rules;
         public final ArrayList selectedInputUsers;
@@ -3972,7 +3952,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class UserCell extends FrameLayout {
         private Paint arrowPaint;
         private Path arrowPath;
@@ -4389,7 +4368,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i2) {
-                return new Page(context);
+                return StoryPrivacyBottomSheet.this.new Page(context);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
@@ -4438,7 +4417,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter
             public View createView(int i2) {
-                return new Page(context);
+                return StoryPrivacyBottomSheet.this.new Page(context);
             }
 
             @Override // org.telegram.ui.Components.ViewPagerFixed.Adapter

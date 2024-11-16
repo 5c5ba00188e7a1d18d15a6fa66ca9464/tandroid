@@ -7,18 +7,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class AbstractMultimap implements Multimap {
+abstract class AbstractMultimap implements Multimap {
     private transient Map asMap;
     private transient Collection entries;
     private transient Set keySet;
     private transient Collection values;
 
-    /* loaded from: classes.dex */
     class Entries extends Multimaps.Entries {
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Entries() {
+        Entries() {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
@@ -32,10 +29,8 @@ public abstract class AbstractMultimap implements Multimap {
         }
     }
 
-    /* loaded from: classes.dex */
     class Values extends AbstractCollection {
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Values() {
+        Values() {
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection
@@ -57,6 +52,9 @@ public abstract class AbstractMultimap implements Multimap {
         public int size() {
             return AbstractMultimap.this.size();
         }
+    }
+
+    AbstractMultimap() {
     }
 
     @Override // com.google.common.collect.Multimap

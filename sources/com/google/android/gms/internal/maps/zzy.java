@@ -7,8 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 /* loaded from: classes.dex */
 public final class zzy extends zza implements zzaa {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzy(IBinder iBinder) {
+    zzy(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.maps.model.internal.IMarkerDelegate");
     }
 

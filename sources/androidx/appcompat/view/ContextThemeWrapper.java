@@ -18,9 +18,7 @@ public class ContextThemeWrapper extends ContextWrapper {
     private Resources.Theme mTheme;
     private int mThemeResource;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api17Impl {
+    static class Api17Impl {
         static Context createConfigurationContext(ContextThemeWrapper contextThemeWrapper, Configuration configuration) {
             return contextThemeWrapper.createConfigurationContext(configuration);
         }

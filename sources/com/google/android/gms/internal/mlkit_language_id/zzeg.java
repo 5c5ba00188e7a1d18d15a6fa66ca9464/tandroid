@@ -5,13 +5,11 @@ abstract class zzeg {
     private static final zzee zza = new zzeh();
     private static final zzee zzb = zzc();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzee zza() {
+    static zzee zza() {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzee zzb() {
+    static zzee zzb() {
         zzee zzeeVar = zzb;
         if (zzeeVar != null) {
             return zzeeVar;

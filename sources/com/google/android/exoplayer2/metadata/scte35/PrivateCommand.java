@@ -34,8 +34,7 @@ public final class PrivateCommand extends SpliceCommand {
         this.commandBytes = (byte[]) Util.castNonNull(parcel.createByteArray());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static PrivateCommand parseFromSection(ParsableByteArray parsableByteArray, int i, long j) {
+    static PrivateCommand parseFromSection(ParsableByteArray parsableByteArray, int i, long j) {
         long readUnsignedInt = parsableByteArray.readUnsignedInt();
         int i2 = i - 4;
         byte[] bArr = new byte[i2];

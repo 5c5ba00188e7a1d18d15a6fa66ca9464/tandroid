@@ -15,9 +15,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class AbsActionBarView extends ViewGroup {
+abstract class AbsActionBarView extends ViewGroup {
     protected ActionMenuPresenter mActionMenuPresenter;
     protected int mContentHeight;
     private boolean mEatingHover;
@@ -27,7 +26,6 @@ public abstract class AbsActionBarView extends ViewGroup {
     protected final VisibilityAnimListener mVisAnimListener;
     protected ViewPropertyAnimatorCompat mVisibilityAnim;
 
-    /* loaded from: classes.dex */
     protected class VisibilityAnimListener implements ViewPropertyAnimatorListener {
         private boolean mCanceled = false;
         int mFinalVisibility;
@@ -63,8 +61,7 @@ public abstract class AbsActionBarView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AbsActionBarView(Context context, AttributeSet attributeSet, int i) {
+    AbsActionBarView(Context context, AttributeSet attributeSet, int i) {
         super(context, attributeSet, i);
         this.mVisAnimListener = new VisibilityAnimListener();
         TypedValue typedValue = new TypedValue();
@@ -75,8 +72,7 @@ public abstract class AbsActionBarView extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static int next(int i, int i2, boolean z) {
+    protected static int next(int i, int i2, boolean z) {
         return z ? i - i2 : i + i2;
     }
 
@@ -88,8 +84,7 @@ public abstract class AbsActionBarView extends ViewGroup {
         return this.mContentHeight;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int measureChildView(View view, int i, int i2, int i3) {
+    protected int measureChildView(View view, int i, int i2, int i3) {
         view.measure(View.MeasureSpec.makeMeasureSpec(i, Integer.MIN_VALUE), i2);
         return Math.max(0, (i - view.getMeasuredWidth()) - i3);
     }
@@ -142,8 +137,7 @@ public abstract class AbsActionBarView extends ViewGroup {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int positionChild(View view, int i, int i2, int i3, boolean z) {
+    protected int positionChild(View view, int i, int i2, int i3, boolean z) {
         int measuredWidth = view.getMeasuredWidth();
         int measuredHeight = view.getMeasuredHeight();
         int i4 = i2 + ((i3 - measuredHeight) / 2);

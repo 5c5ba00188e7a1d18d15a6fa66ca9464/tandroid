@@ -1,8 +1,7 @@
 package j$.time.format;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class k implements g {
+final class k implements g {
     static final String[] c = {"+HH", "+HHmm", "+HH:mm", "+HHMM", "+HH:MM", "+HHMMss", "+HH:MM:ss", "+HHMMSS", "+HH:MM:SS"};
     static final k d = new k("+HH:MM:ss", "Z");
     private final String a;
@@ -12,8 +11,7 @@ public final class k implements g {
         new k("+HH:MM:ss", "0");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public k(String str, String str2) {
+    k(String str, String str2) {
         int i = 0;
         while (true) {
             String[] strArr = c;

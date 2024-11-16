@@ -3,7 +3,6 @@ package com.google.android.play.core.integrity;
 /* loaded from: classes.dex */
 public abstract class IntegrityTokenRequest {
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         public abstract IntegrityTokenRequest build();
 

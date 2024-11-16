@@ -22,8 +22,7 @@ public abstract class BaseMediaChunk extends MediaChunk {
         return ((int[]) Assertions.checkStateNotNull(this.firstSampleIndices))[i];
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final BaseMediaChunkOutput getOutput() {
+    protected final BaseMediaChunkOutput getOutput() {
         return (BaseMediaChunkOutput) Assertions.checkStateNotNull(this.output);
     }
 

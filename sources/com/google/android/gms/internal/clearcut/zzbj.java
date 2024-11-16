@@ -5,8 +5,7 @@ final class zzbj implements zzbf {
     private zzbj() {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzbj(zzbc zzbcVar) {
+    /* synthetic */ zzbj(zzbc zzbcVar) {
         this();
     }
 

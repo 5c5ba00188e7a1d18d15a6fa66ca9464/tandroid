@@ -47,6 +47,9 @@ class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
         sCreateFromFamiliesWithDefault = method;
     }
 
+    TypefaceCompatApi24Impl() {
+    }
+
     private static boolean addFontWeightStyle(Object obj, ByteBuffer byteBuffer, int i, int i2, boolean z) {
         try {
             return ((Boolean) sAddFontWeightStyle.invoke(obj, byteBuffer, Integer.valueOf(i), null, Integer.valueOf(i2), Boolean.valueOf(z))).booleanValue();

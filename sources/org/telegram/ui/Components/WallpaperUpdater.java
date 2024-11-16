@@ -32,7 +32,6 @@ public class WallpaperUpdater {
     private BaseFragment parentFragment;
     private File picturePath = null;
 
-    /* loaded from: classes3.dex */
     public interface WallpaperUpdaterDelegate {
         void didSelectWallpaper(File file, Bitmap bitmap, boolean z);
 

@@ -16,18 +16,15 @@ import androidx.fragment.app.SpecialEffectsController;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FragmentStateManager {
+class FragmentStateManager {
     private final FragmentLifecycleCallbacksDispatcher mDispatcher;
     private final Fragment mFragment;
     private final FragmentStore mFragmentStore;
     private boolean mMovingToState = false;
     private int mFragmentManagerState = -1;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$State;
 
         static {
@@ -52,15 +49,13 @@ public class FragmentStateManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentStateManager(FragmentLifecycleCallbacksDispatcher fragmentLifecycleCallbacksDispatcher, FragmentStore fragmentStore, Fragment fragment) {
+    FragmentStateManager(FragmentLifecycleCallbacksDispatcher fragmentLifecycleCallbacksDispatcher, FragmentStore fragmentStore, Fragment fragment) {
         this.mDispatcher = fragmentLifecycleCallbacksDispatcher;
         this.mFragmentStore = fragmentStore;
         this.mFragment = fragment;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentStateManager(FragmentLifecycleCallbacksDispatcher fragmentLifecycleCallbacksDispatcher, FragmentStore fragmentStore, Fragment fragment, FragmentState fragmentState) {
+    FragmentStateManager(FragmentLifecycleCallbacksDispatcher fragmentLifecycleCallbacksDispatcher, FragmentStore fragmentStore, Fragment fragment, FragmentState fragmentState) {
         this.mDispatcher = fragmentLifecycleCallbacksDispatcher;
         this.mFragmentStore = fragmentStore;
         this.mFragment = fragment;
@@ -76,8 +71,7 @@ public class FragmentStateManager {
         fragment.mSavedFragmentState = bundle == null ? new Bundle() : bundle;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentStateManager(FragmentLifecycleCallbacksDispatcher fragmentLifecycleCallbacksDispatcher, FragmentStore fragmentStore, ClassLoader classLoader, FragmentFactory fragmentFactory, FragmentState fragmentState) {
+    FragmentStateManager(FragmentLifecycleCallbacksDispatcher fragmentLifecycleCallbacksDispatcher, FragmentStore fragmentStore, ClassLoader classLoader, FragmentFactory fragmentFactory, FragmentState fragmentState) {
         this.mDispatcher = fragmentLifecycleCallbacksDispatcher;
         this.mFragmentStore = fragmentStore;
         Fragment instantiate = fragmentFactory.instantiate(classLoader, fragmentState.mClassName);
@@ -148,8 +142,7 @@ public class FragmentStateManager {
         return bundle;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void activityCreated() {
+    void activityCreated() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "moveto ACTIVITY_CREATED: " + this.mFragment);
         }
@@ -160,15 +153,13 @@ public class FragmentStateManager {
         fragmentLifecycleCallbacksDispatcher.dispatchOnFragmentActivityCreated(fragment2, fragment2.mSavedFragmentState, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void addViewToContainer() {
+    void addViewToContainer() {
         int findFragmentIndexInContainer = this.mFragmentStore.findFragmentIndexInContainer(this.mFragment);
         Fragment fragment = this.mFragment;
         fragment.mContainer.addView(fragment.mView, findFragmentIndexInContainer);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void attach() {
+    void attach() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "moveto ATTACHED: " + this.mFragment);
         }
@@ -202,8 +193,7 @@ public class FragmentStateManager {
         this.mDispatcher.dispatchOnFragmentAttached(this.mFragment, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int computeExpectedState() {
+    int computeExpectedState() {
         Fragment fragment;
         ViewGroup viewGroup;
         Fragment fragment2 = this.mFragment;
@@ -251,8 +241,7 @@ public class FragmentStateManager {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void create() {
+    void create() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "moveto CREATED: " + this.mFragment);
         }
@@ -270,8 +259,7 @@ public class FragmentStateManager {
         fragmentLifecycleCallbacksDispatcher.dispatchOnFragmentCreated(fragment3, fragment3.mSavedFragmentState, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void createView() {
+    void createView() {
         String str;
         if (this.mFragment.mFromLayout) {
             return;
@@ -367,8 +355,7 @@ public class FragmentStateManager {
         this.mFragment.mState = 2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void destroy() {
+    void destroy() {
         Fragment findActiveFragment;
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "movefrom CREATED: " + this.mFragment);
@@ -412,8 +399,7 @@ public class FragmentStateManager {
         this.mFragmentStore.makeInactive(this);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void destroyFragmentView() {
+    void destroyFragmentView() {
         View view;
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "movefrom CREATE_VIEW: " + this.mFragment);
@@ -433,8 +419,7 @@ public class FragmentStateManager {
         this.mFragment.mInLayout = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void detach() {
+    void detach() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "movefrom ATTACHED: " + this.mFragment);
         }
@@ -454,8 +439,7 @@ public class FragmentStateManager {
         this.mFragment.initState();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void ensureInflatedView() {
+    void ensureInflatedView() {
         Fragment fragment = this.mFragment;
         if (fragment.mFromLayout && fragment.mInLayout && !fragment.mPerformedCreateView) {
             if (FragmentManager.isLoggingEnabled(3)) {
@@ -481,13 +465,11 @@ public class FragmentStateManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Fragment getFragment() {
+    Fragment getFragment() {
         return this.mFragment;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void moveToExpectedState() {
+    void moveToExpectedState() {
         ViewGroup viewGroup;
         ViewGroup viewGroup2;
         ViewGroup viewGroup3;
@@ -605,8 +587,7 @@ public class FragmentStateManager {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void pause() {
+    void pause() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "movefrom RESUMED: " + this.mFragment);
         }
@@ -614,8 +595,7 @@ public class FragmentStateManager {
         this.mDispatcher.dispatchOnFragmentPaused(this.mFragment, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void restoreState(ClassLoader classLoader) {
+    void restoreState(ClassLoader classLoader) {
         Bundle bundle = this.mFragment.mSavedFragmentState;
         if (bundle == null) {
             return;
@@ -646,8 +626,7 @@ public class FragmentStateManager {
         fragment6.mDeferStart = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void resume() {
+    void resume() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "moveto RESUMED: " + this.mFragment);
         }
@@ -676,8 +655,7 @@ public class FragmentStateManager {
         fragment.mSavedViewRegistryState = null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentState saveState() {
+    FragmentState saveState() {
         FragmentState fragmentState = new FragmentState(this.mFragment);
         Fragment fragment = this.mFragment;
         if (fragment.mState <= -1 || fragmentState.mSavedFragmentState != null) {
@@ -699,8 +677,7 @@ public class FragmentStateManager {
         return fragmentState;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void saveViewState() {
+    void saveViewState() {
         if (this.mFragment.mView == null) {
             return;
         }
@@ -717,13 +694,11 @@ public class FragmentStateManager {
         this.mFragment.mSavedViewRegistryState = bundle;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setFragmentManagerState(int i) {
+    void setFragmentManagerState(int i) {
         this.mFragmentManagerState = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void start() {
+    void start() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "moveto STARTED: " + this.mFragment);
         }
@@ -731,8 +706,7 @@ public class FragmentStateManager {
         this.mDispatcher.dispatchOnFragmentStarted(this.mFragment, false);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void stop() {
+    void stop() {
         if (FragmentManager.isLoggingEnabled(3)) {
             Log.d("FragmentManager", "movefrom STARTED: " + this.mFragment);
         }

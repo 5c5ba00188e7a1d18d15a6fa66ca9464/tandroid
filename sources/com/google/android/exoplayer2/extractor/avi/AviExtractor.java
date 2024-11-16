@@ -33,9 +33,7 @@ public final class AviExtractor implements Extractor {
     private int hdrlSize = -1;
     private long durationUs = -9223372036854775807L;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class AviSeekMap implements SeekMap {
+    private class AviSeekMap implements SeekMap {
         private final long durationUs;
 
         public AviSeekMap(long j) {
@@ -65,7 +63,6 @@ public final class AviExtractor implements Extractor {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class ChunkHeaderHolder {
         public int chunkType;
         public int listType;

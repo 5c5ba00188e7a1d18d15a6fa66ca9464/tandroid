@@ -48,8 +48,7 @@ public abstract class BaseAudioProcessor implements AudioProcessor {
         return byteBuffer;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean hasPendingOutput() {
+    protected final boolean hasPendingOutput() {
         return this.outputBuffer.hasRemaining();
     }
 
@@ -80,8 +79,7 @@ public abstract class BaseAudioProcessor implements AudioProcessor {
         onQueueEndOfStream();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final ByteBuffer replaceOutputBuffer(int i) {
+    protected final ByteBuffer replaceOutputBuffer(int i) {
         if (this.buffer.capacity() < i) {
             this.buffer = ByteBuffer.allocateDirect(i).order(ByteOrder.nativeOrder());
         } else {

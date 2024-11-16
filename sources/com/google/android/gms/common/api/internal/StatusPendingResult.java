@@ -10,9 +10,8 @@ public class StatusPendingResult extends BasePendingResult {
         super(googleApiClient);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.api.internal.BasePendingResult
-    public final /* bridge */ /* synthetic */ Result createFailedResult(Status status) {
+    protected final /* bridge */ /* synthetic */ Result createFailedResult(Status status) {
         return status;
     }
 }

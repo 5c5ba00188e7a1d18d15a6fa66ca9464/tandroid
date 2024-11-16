@@ -10,8 +10,7 @@ final class ByFunctionOrdering extends Ordering implements Serializable {
     final Function function;
     final Ordering ordering;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ByFunctionOrdering(Function function, Ordering ordering) {
+    ByFunctionOrdering(Function function, Ordering ordering) {
         this.function = (Function) Preconditions.checkNotNull(function);
         this.ordering = (Ordering) Preconditions.checkNotNull(ordering);
     }

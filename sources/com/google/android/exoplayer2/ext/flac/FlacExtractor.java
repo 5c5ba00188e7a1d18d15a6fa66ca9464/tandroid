@@ -56,9 +56,7 @@ public final class FlacExtractor implements Extractor {
     private boolean streamMetadataDecoded;
     private TrackOutput trackOutput;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class FlacSeekMap implements SeekMap {
+    private static final class FlacSeekMap implements SeekMap {
         private final FlacDecoderJni decoderJni;
         private final long durationUs;
 
@@ -87,7 +85,6 @@ public final class FlacExtractor implements Extractor {
     @Target({ElementType.TYPE_USE})
     @Documented
     @Retention(RetentionPolicy.SOURCE)
-    /* loaded from: classes.dex */
     public @interface Flags {
     }
 

@@ -6,14 +6,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiActivity;
 import com.google.android.gms.common.internal.Preconditions;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zao implements Runnable {
+final class zao implements Runnable {
     final /* synthetic */ zap zaa;
     private final zam zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zao(zap zapVar, zam zamVar) {
+    zao(zap zapVar, zam zamVar) {
         this.zaa = zapVar;
         this.zab = zamVar;
     }

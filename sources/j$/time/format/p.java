@@ -10,14 +10,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class p extends o {
+final class p extends o {
     private static final ConcurrentHashMap d = new ConcurrentHashMap();
     private final TextStyle c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public p(TextStyle textStyle) {
+    p(TextStyle textStyle) {
         super(j$.time.temporal.j.i(), "ZoneText(" + textStyle + ")");
         new HashMap();
         new HashMap();

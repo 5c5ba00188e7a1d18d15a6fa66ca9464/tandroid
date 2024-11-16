@@ -58,9 +58,8 @@ public abstract class ComponentDialog extends Dialog implements LifecycleOwner, 
         this.onBackPressedDispatcher.onBackPressed();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         OnBackInvokedDispatcher onBackInvokedDispatcher;
         super.onCreate(bundle);
         if (Build.VERSION.SDK_INT >= 33) {
@@ -77,9 +76,8 @@ public abstract class ComponentDialog extends Dialog implements LifecycleOwner, 
         getLifecycleRegistry().handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Dialog
-    public void onStop() {
+    protected void onStop() {
         getLifecycleRegistry().handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
         this._lifecycleRegistry = null;
         super.onStop();

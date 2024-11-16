@@ -23,7 +23,6 @@ public final class TreeTypeAdapter extends SerializationDelegatingTypeAdapter {
     private final TypeAdapterFactory skipPastForGetDelegateAdapter;
     private final TypeToken typeToken;
 
-    /* loaded from: classes.dex */
     private final class GsonContextImpl implements JsonSerializationContext {
         private GsonContextImpl() {
         }
@@ -34,9 +33,7 @@ public final class TreeTypeAdapter extends SerializationDelegatingTypeAdapter {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SingleTypeFactory implements TypeAdapterFactory {
+    private static final class SingleTypeFactory implements TypeAdapterFactory {
         private final TypeToken exactType;
         private final Class hierarchyType;
         private final boolean matchRawType;

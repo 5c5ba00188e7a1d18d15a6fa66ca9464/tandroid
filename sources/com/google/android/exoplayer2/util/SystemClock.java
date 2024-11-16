@@ -5,6 +5,9 @@ import android.os.Looper;
 
 /* loaded from: classes.dex */
 public class SystemClock implements Clock {
+    protected SystemClock() {
+    }
+
     @Override // com.google.android.exoplayer2.util.Clock
     public HandlerWrapper createHandler(Looper looper, Handler.Callback callback) {
         return new SystemHandlerWrapper(new Handler(looper, callback));

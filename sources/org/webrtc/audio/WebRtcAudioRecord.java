@@ -24,9 +24,8 @@ import org.webrtc.Logging;
 import org.webrtc.ThreadUtils;
 import org.webrtc.audio.JavaAudioDeviceModule;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes5.dex */
-public class WebRtcAudioRecord {
+class WebRtcAudioRecord {
     private static final int AUDIO_RECORD_START = 0;
     private static final int AUDIO_RECORD_STOP = 1;
     private static final long AUDIO_RECORD_THREAD_JOIN_TIMEOUT_MS = 2000;
@@ -59,7 +58,6 @@ public class WebRtcAudioRecord {
     private AudioDeviceInfo preferredDevice;
     private final JavaAudioDeviceModule.AudioRecordStateCallback stateCallback;
 
-    /* loaded from: classes5.dex */
     private class AudioRecordThread extends Thread {
         private volatile boolean keepAlive;
 
@@ -449,8 +447,7 @@ public class WebRtcAudioRecord {
     /* JADX INFO: Access modifiers changed from: private */
     public native void nativeDataIsRecorded(long j, int i);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static ScheduledExecutorService newDefaultScheduler() {
+    static ScheduledExecutorService newDefaultScheduler() {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
         return Executors.newScheduledThreadPool(0, new ThreadFactory() { // from class: org.webrtc.audio.WebRtcAudioRecord.1
             @Override // java.util.concurrent.ThreadFactory
@@ -693,8 +690,7 @@ public class WebRtcAudioRecord {
         this.nativeAudioRecord = j;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setPreferredDevice(AudioDeviceInfo audioDeviceInfo) {
+    void setPreferredDevice(AudioDeviceInfo audioDeviceInfo) {
         Integer num;
         boolean preferredDevice;
         int id;

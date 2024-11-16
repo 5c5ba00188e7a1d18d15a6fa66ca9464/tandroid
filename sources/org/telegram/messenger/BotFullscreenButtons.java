@@ -68,7 +68,6 @@ public class BotFullscreenButtons extends View {
     private Drawable verifiedForeground;
     public WebView webView;
 
-    /* loaded from: classes3.dex */
     public static class OptionsIcon extends Drawable {
         private final AnimatedFloat animatedDownloading;
         private final Paint downloadPaint;
@@ -116,7 +115,7 @@ public class BotFullscreenButtons extends View {
                 canvas.scale(f2, f2);
                 this.downloadPaint.setColor(Theme.multAlpha(-1, 0.4f));
                 canvas.drawPath(this.downloadPath, this.downloadPaint);
-                float currentTimeMillis = ((float) ((System.currentTimeMillis() - this.start) % 450)) / 450.0f;
+                float currentTimeMillis = ((System.currentTimeMillis() - this.start) % 450) / 450.0f;
                 float f3 = 0.5f + currentTimeMillis;
                 canvas.save();
                 canvas.clipRect(-AndroidUtilities.dp(5.0f), AndroidUtilities.lerp(-AndroidUtilities.dpf2(3.5f), AndroidUtilities.dpf2(3.5f), currentTimeMillis), AndroidUtilities.dp(5.0f), AndroidUtilities.lerp(-AndroidUtilities.dpf2(3.5f), AndroidUtilities.dpf2(3.5f), f3));
@@ -415,7 +414,7 @@ public class BotFullscreenButtons extends View {
             canvas.scale(f10, f10);
             this.downloadPaint.setColor(Theme.multAlpha(-1, 0.4f));
             canvas.drawPath(this.downloadPath, this.downloadPaint);
-            float currentTimeMillis = ((float) ((System.currentTimeMillis() - this.start) % 450)) / 450.0f;
+            float currentTimeMillis = ((System.currentTimeMillis() - this.start) % 450) / 450.0f;
             float f11 = 0.5f + currentTimeMillis;
             canvas.save();
             canvas.clipRect(-AndroidUtilities.dp(5.0f), AndroidUtilities.lerp(-AndroidUtilities.dpf2(3.5f), AndroidUtilities.dpf2(3.5f), currentTimeMillis), AndroidUtilities.dp(5.0f), AndroidUtilities.lerp(-AndroidUtilities.dpf2(3.5f), AndroidUtilities.dpf2(3.5f), f11));

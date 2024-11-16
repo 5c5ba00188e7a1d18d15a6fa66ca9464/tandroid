@@ -24,8 +24,7 @@ public final class zzey {
         this.zzfa = z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzey zza(zzey zzeyVar, zzey zzeyVar2) {
+    static zzey zza(zzey zzeyVar, zzey zzeyVar2) {
         int i = zzeyVar.count + zzeyVar2.count;
         int[] copyOf = Arrays.copyOf(zzeyVar.zzpa, i);
         System.arraycopy(zzeyVar2.zzpa, 0, copyOf, zzeyVar.count, zzeyVar2.count);
@@ -69,8 +68,7 @@ public final class zzey {
         return zzoz;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzey zzeb() {
+    static zzey zzeb() {
         return new zzey();
     }
 
@@ -125,8 +123,7 @@ public final class zzey {
         return i6 + i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(zzfr zzfrVar) {
+    final void zza(zzfr zzfrVar) {
         if (zzfrVar.zzaj() == zzcg.zzg.zzkp) {
             for (int i = this.count - 1; i >= 0; i--) {
                 zzfrVar.zza(this.zzpa[i] >>> 3, this.zzmj[i]);
@@ -138,8 +135,7 @@ public final class zzey {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(StringBuilder sb, int i) {
+    final void zza(StringBuilder sb, int i) {
         for (int i2 = 0; i2 < this.count; i2++) {
             zzdr.zza(sb, i, String.valueOf(this.zzpa[i2] >>> 3), this.zzmj[i2]);
         }
@@ -176,8 +172,7 @@ public final class zzey {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zzb(int i, Object obj) {
+    final void zzb(int i, Object obj) {
         if (!this.zzfa) {
             throw new UnsupportedOperationException();
         }

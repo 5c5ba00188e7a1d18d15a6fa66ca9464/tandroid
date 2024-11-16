@@ -9,9 +9,8 @@ import java.util.logging.Logger;
 import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzma {
+abstract class zzma {
     static final boolean zza;
     private static final Unsafe zzb;
     private static final Class zzc;
@@ -36,7 +35,6 @@ public abstract class zzma {
     private static final long zzv;
     private static final int zzw;
 
-    /* loaded from: classes.dex */
     private static final class zza extends zzd {
         zza(Unsafe unsafe) {
             super(unsafe);
@@ -91,7 +89,6 @@ public abstract class zzma {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class zzb extends zzd {
         zzb(Unsafe unsafe) {
             super(unsafe);
@@ -138,7 +135,6 @@ public abstract class zzma {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class zzc extends zzd {
         zzc(Unsafe unsafe) {
             super(unsafe);
@@ -193,9 +189,7 @@ public abstract class zzma {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static abstract class zzd {
+    private static abstract class zzd {
         Unsafe zza;
 
         zzd(Unsafe unsafe) {
@@ -276,18 +270,15 @@ public abstract class zzma {
         zza = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static byte zza(byte[] bArr, long j) {
+    static byte zza(byte[] bArr, long j) {
         return zzf.zza(bArr, zzi + j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(Object obj, long j) {
+    static int zza(Object obj, long j) {
         return zzf.zze(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(Class cls) {
+    static Object zza(Class cls) {
         try {
             return zzb.allocateInstance(cls);
         } catch (InstantiationException e) {
@@ -303,43 +294,35 @@ public abstract class zzma {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, double d) {
+    static void zza(Object obj, long j, double d) {
         zzf.zza(obj, j, d);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, float f) {
+    static void zza(Object obj, long j, float f) {
         zzf.zza(obj, j, f);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, int i) {
+    static void zza(Object obj, long j, int i) {
         zzf.zza(obj, j, i);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, long j2) {
+    static void zza(Object obj, long j, long j2) {
         zzf.zza(obj, j, j2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, Object obj2) {
+    static void zza(Object obj, long j, Object obj2) {
         zzf.zza.putObject(obj, j, obj2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(Object obj, long j, boolean z) {
+    static void zza(Object obj, long j, boolean z) {
         zzf.zza(obj, j, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(byte[] bArr, long j, byte b) {
+    static void zza(byte[] bArr, long j, byte b) {
         zzf.zza((Object) bArr, zzi + j, b);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza() {
+    static boolean zza() {
         return zzh;
     }
 
@@ -350,13 +333,11 @@ public abstract class zzma {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static long zzb(Object obj, long j) {
+    static long zzb(Object obj, long j) {
         return zzf.zzf(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzb() {
+    static boolean zzb() {
         return zzg;
     }
 
@@ -367,8 +348,7 @@ public abstract class zzma {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Unsafe zzc() {
+    static Unsafe zzc() {
         try {
             return (Unsafe) AccessController.doPrivileged(new zzmc());
         } catch (Throwable unused) {
@@ -383,13 +363,11 @@ public abstract class zzma {
         zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.notificationsCountUpdated << i) ^ (-1))));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzc(Object obj, long j) {
+    static boolean zzc(Object obj, long j) {
         return zzf.zzb(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static float zzd(Object obj, long j) {
+    static float zzd(Object obj, long j) {
         return zzf.zzc(obj, j);
     }
 
@@ -469,8 +447,7 @@ public abstract class zzma {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static double zze(Object obj, long j) {
+    static double zze(Object obj, long j) {
         return zzf.zzd(obj, j);
     }
 
@@ -516,8 +493,7 @@ public abstract class zzma {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zzf(Object obj, long j) {
+    static Object zzf(Object obj, long j) {
         return zzf.zza.getObject(obj, j);
     }
 

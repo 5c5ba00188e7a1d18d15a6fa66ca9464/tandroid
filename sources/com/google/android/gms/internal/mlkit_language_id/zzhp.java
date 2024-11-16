@@ -1,16 +1,14 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzhp {
+abstract class zzhp {
     private static final zzho zza;
 
     static {
         zza = (zzhn.zza() && zzhn.zzb() && !zzdl.zza()) ? new zzht() : new zzhr();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(CharSequence charSequence) {
+    static int zza(CharSequence charSequence) {
         int length = charSequence.length();
         int i = 0;
         int i2 = 0;
@@ -55,8 +53,7 @@ public abstract class zzhp {
         throw new IllegalArgumentException(sb.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    static int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         return zza.zza(charSequence, bArr, i, i2);
     }
 

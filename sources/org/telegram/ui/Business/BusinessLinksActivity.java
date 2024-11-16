@@ -62,7 +62,6 @@ import org.telegram.ui.LaunchActivity;
 public class BusinessLinksActivity extends UniversalFragment implements NotificationCenter.NotificationCenterDelegate {
     private static AlertDialog currentDialog;
 
-    /* loaded from: classes4.dex */
     public static class BusinessLinkView extends FrameLayout {
         private TLRPC.TL_businessChatLink businessLink;
         private final SimpleTextView clicksCountTextView;
@@ -183,7 +182,6 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class BusinessLinkWrapper {
         TLRPC.TL_businessChatLink link;
 
@@ -370,24 +368,21 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
                 this.limit.setGravity(5);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 this.limit.setTextColor(this.limitColor.set(Theme.getColor(this.limitCount < 0 ? Theme.key_text_RedRegular : Theme.key_dialogSearchHint, resourcesProvider)));
                 this.limit.setBounds(getScrollX(), 0, getScrollX() + getWidth(), getHeight());
                 this.limit.draw(canvas);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-            public void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i2, int i3) {
                 super.onMeasure(i2, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36.0f), 1073741824));
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            protected void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
                 super.onTextChanged(charSequence, i2, i3, i4);
                 if (this.limit != null) {
                     this.limitCount = 32 - charSequence.length();

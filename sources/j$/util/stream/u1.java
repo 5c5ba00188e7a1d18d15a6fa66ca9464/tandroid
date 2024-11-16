@@ -4,9 +4,8 @@ import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class u1 extends t0 {
+final class u1 extends t0 {
     public final /* synthetic */ int h;
     final /* synthetic */ Object i;
     final /* synthetic */ Object j;

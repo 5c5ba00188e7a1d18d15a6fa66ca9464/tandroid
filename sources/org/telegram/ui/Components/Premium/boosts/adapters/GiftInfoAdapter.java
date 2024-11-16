@@ -42,17 +42,20 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         this.resourcesProvider = resourcesProvider;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$0(ActionBtnCell actionBtnCell, Void r2) {
         actionBtnCell.updateLoading(false);
         afterCodeApplied();
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$1(ActionBtnCell actionBtnCell, TLRPC.TL_error tL_error) {
         actionBtnCell.updateLoading(false);
         BoostDialogs.processApplyGiftCodeError(tL_error, this.container, this.resourcesProvider, new GiftInfoAdapter$$ExternalSyntheticLambda2(this));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$2(final ActionBtnCell actionBtnCell, View view) {
         if (!this.isUnused) {
             dismiss();
@@ -75,10 +78,12 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onBindViewHolder$3(View view) {
         dismiss();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$share$4(String str, DialogsActivity dialogsActivity, ArrayList arrayList, CharSequence charSequence, boolean z, boolean z2, int i, TopicsFragment topicsFragment) {
         long j = 0;
         for (int i2 = 0; i2 < arrayList.size(); i2++) {
@@ -90,6 +95,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void share() {
         final String str = "https://t.me/giftcode/" + this.slug;
         Bundle bundle = new Bundle();
@@ -281,7 +287,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         return new RecyclerListView.Holder(linkCell);
     }
 
-    public abstract void onHiddenLinkClicked();
+    protected abstract void onHiddenLinkClicked();
 
-    public abstract void onObjectClicked(TLObject tLObject);
+    protected abstract void onObjectClicked(TLObject tLObject);
 }

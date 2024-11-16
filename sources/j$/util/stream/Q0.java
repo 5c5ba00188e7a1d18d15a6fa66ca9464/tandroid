@@ -2,11 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class Q0 extends H0 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Q0(F0 f0, F0 f02) {
+final class Q0 extends H0 {
+    Q0(F0 f0, F0 f02) {
         super(f0, f02);
     }
 

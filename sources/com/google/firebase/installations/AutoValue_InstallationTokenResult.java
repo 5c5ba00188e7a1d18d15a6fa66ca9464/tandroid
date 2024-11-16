@@ -8,11 +8,13 @@ final class AutoValue_InstallationTokenResult extends InstallationTokenResult {
     private final long tokenCreationTimestamp;
     private final long tokenExpirationTimestamp;
 
-    /* loaded from: classes.dex */
     static final class Builder extends InstallationTokenResult.Builder {
         private String token;
         private Long tokenCreationTimestamp;
         private Long tokenExpirationTimestamp;
+
+        Builder() {
+        }
 
         @Override // com.google.firebase.installations.InstallationTokenResult.Builder
         public InstallationTokenResult build() {

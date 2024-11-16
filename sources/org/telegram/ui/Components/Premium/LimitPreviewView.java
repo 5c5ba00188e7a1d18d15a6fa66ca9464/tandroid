@@ -76,8 +76,7 @@ public class LimitPreviewView extends LinearLayout {
     int width1;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CounterView extends View {
+    class CounterView extends View {
         ArrayList animatedLayouts;
         StaticLayout animatedStableLayout;
         boolean animationInProgress;
@@ -93,8 +92,7 @@ public class LimitPreviewView extends LinearLayout {
         float textWidth;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class AnimatedLayout {
+        class AnimatedLayout {
             public boolean direction;
             float progress;
             public boolean replace;
@@ -416,12 +414,10 @@ public class LimitPreviewView extends LinearLayout {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface DarkGradientProvider {
         Paint setDarkGradientLocation(float f, float f2);
     }
 
-    /* loaded from: classes3.dex */
     private class TextViewHolder extends FrameLayout {
         private final boolean isLeft;
         private final Paint paint;

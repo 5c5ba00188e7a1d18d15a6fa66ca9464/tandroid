@@ -13,6 +13,9 @@ class v {
     private static final Comparator b = new t();
     public static final /* synthetic */ int c = 0;
 
+    v() {
+    }
+
     private static String b(String str) {
         return str.substring(0, Character.charCount(str.codePointAt(0)));
     }

@@ -12,15 +12,16 @@ final class AutoValue_EventInternal extends EventInternal {
     private final String transportName;
     private final long uptimeMillis;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class Builder extends EventInternal.Builder {
+    static final class Builder extends EventInternal.Builder {
         private Map autoMetadata;
         private Integer code;
         private EncodedPayload encodedPayload;
         private Long eventMillis;
         private String transportName;
         private Long uptimeMillis;
+
+        Builder() {
+        }
 
         @Override // com.google.android.datatransport.runtime.EventInternal.Builder
         public EventInternal build() {
@@ -55,9 +56,8 @@ final class AutoValue_EventInternal extends EventInternal {
             throw new IllegalStateException("Property \"autoMetadata\" has not been set");
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // com.google.android.datatransport.runtime.EventInternal.Builder
-        public EventInternal.Builder setAutoMetadata(Map map) {
+        protected EventInternal.Builder setAutoMetadata(Map map) {
             if (map == null) {
                 throw new NullPointerException("Null autoMetadata");
             }
@@ -123,9 +123,8 @@ final class AutoValue_EventInternal extends EventInternal {
         return this.transportName.equals(eventInternal.getTransportName()) && ((num = this.code) != null ? num.equals(eventInternal.getCode()) : eventInternal.getCode() == null) && this.encodedPayload.equals(eventInternal.getEncodedPayload()) && this.eventMillis == eventInternal.getEventMillis() && this.uptimeMillis == eventInternal.getUptimeMillis() && this.autoMetadata.equals(eventInternal.getAutoMetadata());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.datatransport.runtime.EventInternal
-    public Map getAutoMetadata() {
+    protected Map getAutoMetadata() {
         return this.autoMetadata;
     }
 

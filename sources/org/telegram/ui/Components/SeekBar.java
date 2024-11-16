@@ -62,10 +62,8 @@ public class SeekBar {
     private float timestampChangeT = 1.0f;
     private float lastWidth = -1.0f;
 
-    /* loaded from: classes3.dex */
     public interface SeekBarDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static boolean $default$isSeekBarDragAllowed(SeekBarDelegate seekBarDelegate) {
                 return true;
@@ -268,7 +266,7 @@ public class SeekBar {
             }
         }
         if (this.timestampChangeT < 1.0f) {
-            this.timestampChangeT = Math.min(this.timestampChangeT + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
+            this.timestampChangeT = Math.min(this.timestampChangeT + (Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate)) / (this.timestamps.size() > 8 ? 160.0f : 220.0f)), 1.0f);
             View view = this.parentView;
             if (view != null) {
                 view.invalidate();
@@ -276,7 +274,7 @@ public class SeekBar {
             this.lastTimestampUpdate = SystemClock.elapsedRealtime();
         }
         if (this.timestampsAppearing < 1.0f) {
-            this.timestampsAppearing = Math.min(this.timestampsAppearing + (((float) Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate))) / 200.0f), 1.0f);
+            this.timestampsAppearing = Math.min(this.timestampsAppearing + (Math.min(17L, Math.abs(SystemClock.elapsedRealtime() - this.lastTimestampUpdate)) / 200.0f), 1.0f);
             View view2 = this.parentView;
             if (view2 != null) {
                 view2.invalidate();
@@ -365,10 +363,10 @@ public class SeekBar {
             }
             float f4 = this.currentRadius;
             if (f4 < dp) {
-                float dp2 = f4 + (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
+                float dp2 = f4 + (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
                 this.currentRadius = dp2;
             } else {
-                float dp3 = f4 - (AndroidUtilities.dp(1.0f) * (((float) elapsedRealtime) / 60.0f));
+                float dp3 = f4 - (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
                 this.currentRadius = dp3;
             }
         }
@@ -553,9 +551,8 @@ public class SeekBar {
             for (URLSpanNoUnderline uRLSpanNoUnderline : uRLSpanNoUnderlineArr) {
                 try {
                     if (uRLSpanNoUnderline != null && uRLSpanNoUnderline.getURL() != null && uRLSpanNoUnderline.label != null && uRLSpanNoUnderline.getURL().startsWith("audio?") && (parseInt = Utilities.parseInt((CharSequence) uRLSpanNoUnderline.getURL().substring(6))) != null && parseInt.intValue() >= 0) {
-                        float intValue = ((float) (parseInt.intValue() * 1000)) / ((float) l.longValue());
                         Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(uRLSpanNoUnderline.label), this.timestampLabelPaint.getFontMetricsInt(), AndroidUtilities.dp(14.0f), false);
-                        this.timestamps.add(new Pair(Float.valueOf(intValue), uRLSpanNoUnderline));
+                        this.timestamps.add(new Pair(Float.valueOf((parseInt.intValue() * 1000) / l.longValue()), uRLSpanNoUnderline));
                     }
                 } catch (Exception e) {
                     FileLog.e(e);

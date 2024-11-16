@@ -66,13 +66,10 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
     private View shadow;
     private AnimatorSet shadowAnimation;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ListItemID {
+    private static class ListItemID {
         private final long id;
         private final Type type;
 
-        /* loaded from: classes3.dex */
         public enum Type {
             USER,
             CONTACT
@@ -109,10 +106,8 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface PhonebookShareAlertDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$didSelectContacts(PhonebookShareAlertDelegate phonebookShareAlertDelegate, ArrayList arrayList, String str, boolean z, int i, long j, boolean z2) {
             }
@@ -123,7 +118,6 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         void didSelectContacts(ArrayList arrayList, String str, boolean z, int i, long j, boolean z2);
     }
 
-    /* loaded from: classes3.dex */
     public class ShareAdapter extends RecyclerListView.SectionsAdapter {
         private int currentAccount = UserConfig.selectedAccount;
         private Context mContext;
@@ -273,7 +267,6 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
     public class ShareSearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
         private Context mContext;
@@ -637,7 +630,6 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class UserCell extends FrameLayout {
         private AvatarDrawable avatarDrawable;
         private BackupImageView avatarImageView;
@@ -657,7 +649,6 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         private final Theme.ResourcesProvider resourcesProvider;
         private SimpleTextView statusTextView;
 
-        /* loaded from: classes3.dex */
         public interface CharSequenceCallback {
             CharSequence run();
         }
@@ -975,9 +966,8 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                         return super.calculateDyToMakeVisible(view, i2) - (ChatAttachAlertContactsLayout.this.listView.getPaddingTop() - AndroidUtilities.dp(8.0f));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i2) {
+                    protected int calculateTimeForDeceleration(int i2) {
                         return super.calculateTimeForDeceleration(i2) * 2;
                     }
                 };

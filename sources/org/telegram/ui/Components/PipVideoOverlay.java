@@ -140,9 +140,7 @@ public class PipVideoOverlay {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 3 implements ScaleGestureDetector.OnScaleGestureListener {
+    class 3 implements ScaleGestureDetector.OnScaleGestureListener {
         3() {
         }
 
@@ -234,9 +232,7 @@ public class PipVideoOverlay {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 4 extends GestureDetectorFixDoubleTap.OnGestureListener {
+    class 4 extends GestureDetectorFixDoubleTap.OnGestureListener {
         private float startPipX;
         private float startPipY;
         final /* synthetic */ int val$touchSlop;
@@ -289,7 +285,7 @@ public class PipVideoOverlay {
                                 PipVideoOverlay.this.videoForwardDrawable.setLeftSide(!z2);
                                 PipVideoOverlay.this.videoForwardDrawable.addTime(10000L);
                                 PipVideoOverlay.this.seekTo(j);
-                                PipVideoOverlay.this.onUpdateRewindProgressUiInternal(z2 ? 10000L : -10000L, ((float) j) / ((float) duration), true);
+                                PipVideoOverlay.this.onUpdateRewindProgressUiInternal(z2 ? 10000L : -10000L, j / duration, true);
                                 if (!PipVideoOverlay.this.isShowingControls) {
                                     PipVideoOverlay pipVideoOverlay = PipVideoOverlay.this;
                                     pipVideoOverlay.toggleControls(pipVideoOverlay.isShowingControls = true);
@@ -421,9 +417,7 @@ public class PipVideoOverlay {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static final class PipConfig {
+    private static final class PipConfig {
         private SharedPreferences mPrefs;
 
         private PipConfig(int i, int i2) {
@@ -456,16 +450,13 @@ public class PipVideoOverlay {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class PipVideoViewGroup extends ViewGroup {
         public PipVideoViewGroup(Context context) {
             super(context);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public final class VideoProgressView extends View {
+    private final class VideoProgressView extends View {
         private Paint bufferPaint;
         private Paint progressPaint;
 
@@ -716,13 +707,12 @@ public class PipVideoOverlay {
             this.videoProgress = r1.getCurrentPosition() / this.photoViewerWebView.getVideoDuration();
             bufferedPosition = this.photoViewerWebView.getBufferedPosition();
         } else {
-            VideoPlayer videoPlayer = photoViewer.getVideoPlayer();
-            if (videoPlayer == null) {
+            if (photoViewer.getVideoPlayer() == null) {
                 return;
             }
-            float duration = (float) getDuration();
-            this.videoProgress = ((float) videoPlayer.getCurrentPosition()) / duration;
-            bufferedPosition = ((float) videoPlayer.getBufferedPosition()) / duration;
+            float duration = getDuration();
+            this.videoProgress = r0.getCurrentPosition() / duration;
+            bufferedPosition = r0.getBufferedPosition() / duration;
         }
         this.bufferProgress = bufferedPosition;
         this.videoProgressView.invalidate();
@@ -1383,8 +1373,7 @@ public class PipVideoOverlay {
         imageView.setImageResource(i);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onLongClick() {
+    protected void onLongClick() {
         PhotoViewer photoViewer = this.photoViewer;
         if (photoViewer != null) {
             if ((photoViewer.getVideoPlayer() == null && this.photoViewerWebView == null) || this.isDismissing || this.isVideoCompleted || this.isScrolling || this.scaleGestureDetector.isInProgress() || !this.canLongClick) {

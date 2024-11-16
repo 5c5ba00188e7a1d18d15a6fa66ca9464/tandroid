@@ -18,7 +18,6 @@ import org.telegram.messenger.NotificationCenter;
 public class AlertDialog extends AppCompatDialog implements DialogInterface {
     final AlertController mAlert;
 
-    /* loaded from: classes.dex */
     public static class Builder {
         private final AlertController.AlertParams P;
         private final int mTheme;
@@ -122,9 +121,8 @@ public class AlertDialog extends AppCompatDialog implements DialogInterface {
         return this.mAlert.getListView();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.appcompat.app.AppCompatDialog, androidx.activity.ComponentDialog, android.app.Dialog
-    public void onCreate(Bundle bundle) {
+    protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.mAlert.installContent();
     }

@@ -17,9 +17,7 @@ final class SefReader {
     private static final Splitter COLON_SPLITTER = Splitter.on(':');
     private static final Splitter ASTERISK_SPLITTER = Splitter.on('*');
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DataReference {
+    private static final class DataReference {
         public final int dataType;
         public final int size;
         public final long startOffset;
@@ -45,49 +43,16 @@ final class SefReader {
 
     private static int nameToDataType(String str) {
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -1711564334:
-                if (str.equals("SlowMotion_Data")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1332107749:
-                if (str.equals("Super_SlowMotion_Edit_Data")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1251387154:
-                if (str.equals("Super_SlowMotion_Data")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -830665521:
-                if (str.equals("Super_SlowMotion_Deflickering_On")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case 1760745220:
-                if (str.equals("Super_SlowMotion_BGM")) {
-                    c = 4;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "SlowMotion_Data":
                 return 2192;
-            case 1:
+            case "Super_SlowMotion_Edit_Data":
                 return 2819;
-            case 2:
+            case "Super_SlowMotion_Data":
                 return 2816;
-            case 3:
+            case "Super_SlowMotion_Deflickering_On":
                 return 2820;
-            case 4:
+            case "Super_SlowMotion_BGM":
                 return 2817;
             default:
                 throw ParserException.createForMalformedContainer("Invalid SEF name", null);

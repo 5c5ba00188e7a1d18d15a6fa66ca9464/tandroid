@@ -2,9 +2,11 @@ package j$.time.format;
 
 import j$.time.ZoneOffset;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class i implements g {
+final class i implements g {
+    i() {
+    }
+
     @Override // j$.time.format.g
     public final boolean a(s sVar, StringBuilder sb) {
         Long e = sVar.e(j$.time.temporal.a.INSTANT_SECONDS);

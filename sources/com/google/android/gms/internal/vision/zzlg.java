@@ -4,11 +4,9 @@ import androidx.activity.result.ActivityResultRegistry$$ExternalSyntheticThrowCC
 import java.util.Iterator;
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzlg extends zzlh {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzlg(int i) {
+final class zzlg extends zzlh {
+    zzlg(int i) {
         super(i, null);
     }
 

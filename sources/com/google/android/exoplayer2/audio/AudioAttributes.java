@@ -28,21 +28,18 @@ public final class AudioAttributes implements Bundleable {
         }
     };
 
-    /* loaded from: classes.dex */
     private static final class Api29 {
         public static void setAllowedCapturePolicy(AudioAttributes.Builder builder, int i) {
             builder.setAllowedCapturePolicy(i);
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class Api32 {
         public static void setSpatializationBehavior(AudioAttributes.Builder builder, int i) {
             builder.setSpatializationBehavior(i);
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class AudioAttributesV21 {
         public final android.media.AudioAttributes audioAttributes;
 
@@ -66,7 +63,6 @@ public final class AudioAttributes implements Bundleable {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private int contentType = 0;
         private int flags = 0;

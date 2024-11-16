@@ -156,7 +156,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     private boolean verticalButtons;
     private boolean withCancelDialog;
 
-    /* loaded from: classes4.dex */
     public static class AlertDialogCell extends FrameLayout {
         private ImageView imageView;
         private final Theme.ResourcesProvider resourcesProvider;
@@ -213,7 +212,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         }
     }
 
-    /* loaded from: classes4.dex */
     public class AlertDialogView extends LinearLayout {
         private Paint backgroundPaint;
         private AnimatedFloat blurPaintAlpha;
@@ -513,7 +511,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         }
     }
 
-    /* loaded from: classes4.dex */
     public static class Builder {
         private AlertDialog alertDialog;
         private final boolean[] red;
@@ -531,8 +528,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this(context, 0, resourcesProvider);
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
-        public Builder(AlertDialog alertDialog) {
+        protected Builder(AlertDialog alertDialog) {
             this.red = new boolean[3];
             this.alertDialog = alertDialog;
         }
@@ -1047,12 +1043,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int getThemedColor(int i) {
+    protected int getThemedColor(int i) {
         return Theme.getColor(i, this.resourcesProvider);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:100:0x0412  */
     /* JADX WARN: Removed duplicated region for block: B:103:0x0424  */
@@ -1089,7 +1083,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public View inflateContent(boolean z) {
+    protected View inflateContent(boolean z) {
         boolean z2;
         Drawable drawable;
         int i;

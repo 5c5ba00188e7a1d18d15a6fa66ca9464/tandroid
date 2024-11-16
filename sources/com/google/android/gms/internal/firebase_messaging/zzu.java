@@ -5,8 +5,7 @@ final class zzu implements zzz {
     private final int zza;
     private final zzy zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzu(int i, zzy zzyVar) {
+    zzu(int i, zzy zzyVar) {
         this.zza = i;
         this.zzb = zzyVar;
     }

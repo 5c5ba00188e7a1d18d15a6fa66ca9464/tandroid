@@ -2,11 +2,9 @@ package j$.util.stream;
 
 import j$.util.function.Consumer;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class U1 extends W1 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public U1(j$.util.Q q, int i, boolean z) {
+final class U1 extends W1 {
+    U1(j$.util.Q q, int i, boolean z) {
         super(q, i, z);
     }
 
@@ -33,9 +31,8 @@ public final class U1 extends W1 {
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.stream.b
-    public final e2 z0(int i, e2 e2Var) {
+    final e2 z0(int i, e2 e2Var) {
         throw new UnsupportedOperationException();
     }
 }

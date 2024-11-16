@@ -10,21 +10,18 @@ public abstract class Table {
     private int vtable_size;
     private int vtable_start;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int __indirect(int i) {
+    protected int __indirect(int i) {
         return i + this.bb.getInt(i);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int __offset(int i) {
+    protected int __offset(int i) {
         if (i < this.vtable_size) {
             return this.bb.getShort(this.vtable_start + i);
         }
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void __reset(int i, ByteBuffer byteBuffer) {
+    protected void __reset(int i, ByteBuffer byteBuffer) {
         short s;
         this.bb = byteBuffer;
         if (byteBuffer != null) {
@@ -40,14 +37,12 @@ public abstract class Table {
         this.vtable_size = s;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int __vector(int i) {
+    protected int __vector(int i) {
         int i2 = i + this.bb_pos;
         return i2 + this.bb.getInt(i2) + 4;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int __vector_len(int i) {
+    protected int __vector_len(int i) {
         int i2 = i + this.bb_pos;
         return this.bb.getInt(i2 + this.bb.getInt(i2));
     }

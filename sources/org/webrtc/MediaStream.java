@@ -104,8 +104,7 @@ public class MediaStream {
         return nativeGetId(this.nativeStream);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public long getNativeMediaStream() {
+    long getNativeMediaStream() {
         checkMediaStreamExists();
         return this.nativeStream;
     }

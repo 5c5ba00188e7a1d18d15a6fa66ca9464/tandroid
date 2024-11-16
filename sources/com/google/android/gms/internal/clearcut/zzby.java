@@ -6,15 +6,13 @@ import java.util.Iterator;
 abstract class zzby {
     public abstract /* synthetic */ Object clone();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract Iterator descendingIterator();
+    abstract Iterator descendingIterator();
 
     public abstract boolean equals(Object obj);
 
     public abstract int hashCode();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract boolean isEmpty();
+    abstract boolean isEmpty();
 
     public abstract boolean isImmutable();
 

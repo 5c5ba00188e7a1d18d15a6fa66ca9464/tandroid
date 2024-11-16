@@ -90,7 +90,6 @@ public abstract class StoriesUtilities {
     private static final PathMeasure forumRoundRectPathMeasure = new PathMeasure();
     private static final Path forumSegmentPath = new Path();
 
-    /* loaded from: classes5.dex */
     public static class AvatarStoryParams {
         public boolean allowLongress;
         public float alpha;
@@ -339,7 +338,6 @@ public abstract class StoriesUtilities {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class EnsureStoryFileLoadedObject {
         private boolean cancelled;
         long dialogId;
@@ -359,7 +357,6 @@ public abstract class StoriesUtilities {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class StoryGradientTools {
         private final AnimatedColor animatedColor1;
         private final AnimatedColor animatedColor2;
@@ -445,7 +442,6 @@ public abstract class StoriesUtilities {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class UserStoriesLoadOperation {
         boolean canceled;
         private int currentAccount;
@@ -1285,18 +1281,17 @@ public abstract class StoriesUtilities {
                 StoriesUtilities.lambda$ensureStoryFileLoaded$0(StoriesUtilities.EnsureStoryFileLoadedObject.this, runnable);
             }
         };
+        final Runnable[] runnableArr = {r2};
         Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Stories.StoriesUtilities$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
-                StoriesUtilities.lambda$ensureStoryFileLoaded$1(r1, ensureStoryFileLoadedObject);
+                StoriesUtilities.lambda$ensureStoryFileLoaded$1(runnableArr, ensureStoryFileLoadedObject);
             }
         };
-        final Runnable[] runnableArr = {runnable2};
         AndroidUtilities.runOnUIThread(runnable2, 3000L);
         ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Stories.StoriesUtilities.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str, int i3, boolean z, int i4) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str, int i3, boolean z, int i4) {
                 boolean imageBitmapByKey = super.setImageBitmapByKey(drawable, str, i3, z, i4);
                 Runnable runnable3 = runnableArr[0];
                 if (runnable3 != null) {

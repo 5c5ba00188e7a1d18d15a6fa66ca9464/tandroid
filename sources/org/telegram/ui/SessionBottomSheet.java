@@ -42,9 +42,7 @@ public class SessionBottomSheet extends BottomSheet {
     BaseFragment parentFragment;
     TLRPC.TL_authorization session;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 implements View.OnClickListener {
+    class 8 implements View.OnClickListener {
         final /* synthetic */ Callback val$callback;
         final /* synthetic */ BaseFragment val$fragment;
         final /* synthetic */ TLRPC.TL_authorization val$session;
@@ -85,12 +83,10 @@ public class SessionBottomSheet extends BottomSheet {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onSessionTerminated(TLRPC.TL_authorization tL_authorization);
     }
 
-    /* loaded from: classes4.dex */
     private static class ItemView extends FrameLayout {
         TextView descriptionText;
         ImageView iconView;

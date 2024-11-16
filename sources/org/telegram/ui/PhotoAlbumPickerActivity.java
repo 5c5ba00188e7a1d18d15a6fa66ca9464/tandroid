@@ -103,8 +103,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
     private Paint paint = new Paint(1);
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -158,7 +157,6 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface PhotoAlbumPickerActivityDelegate {
         void didSelectPhotos(ArrayList arrayList, boolean z, int i);
 
@@ -609,7 +607,6 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             private boolean ignoreLayout;
             private int lastNotifyWidth;
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:29:0x009a  */
             /* JADX WARN: Removed duplicated region for block: B:36:0x00c8  */
             /* JADX WARN: Removed duplicated region for block: B:45:0x00b6  */
@@ -617,7 +614,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i3, int i4, int i5, int i6) {
+            protected void onLayout(boolean z, int i3, int i4, int i5, int i6) {
                 int i7;
                 int i8;
                 int i9;

@@ -18,7 +18,6 @@ public class ProtobufEncoder {
     private final Map objectEncoders;
     private final Map valueEncoders;
 
-    /* loaded from: classes.dex */
     public static final class Builder implements EncoderConfig {
         private static final ObjectEncoder DEFAULT_FALLBACK_ENCODER = new ObjectEncoder() { // from class: com.google.firebase.encoders.proto.ProtobufEncoder$Builder$$ExternalSyntheticLambda0
             @Override // com.google.firebase.encoders.ObjectEncoder

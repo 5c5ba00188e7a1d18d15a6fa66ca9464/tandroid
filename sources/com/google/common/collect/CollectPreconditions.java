@@ -4,8 +4,7 @@ import com.google.common.base.Preconditions;
 
 /* loaded from: classes.dex */
 abstract class CollectPreconditions {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void checkEntryNotNull(Object obj, Object obj2) {
+    static void checkEntryNotNull(Object obj, Object obj2) {
         if (obj == null) {
             String valueOf = String.valueOf(obj2);
             StringBuilder sb = new StringBuilder(valueOf.length() + 24);
@@ -24,8 +23,7 @@ abstract class CollectPreconditions {
         throw new NullPointerException(sb2.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int checkNonnegative(int i, String str) {
+    static int checkNonnegative(int i, String str) {
         if (i >= 0) {
             return i;
         }
@@ -36,8 +34,7 @@ abstract class CollectPreconditions {
         throw new IllegalArgumentException(sb.toString());
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void checkRemove(boolean z) {
+    static void checkRemove(boolean z) {
         Preconditions.checkState(z, "no calls to next() since the last call to remove()");
     }
 }

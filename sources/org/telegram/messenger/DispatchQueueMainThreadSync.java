@@ -16,9 +16,7 @@ public class DispatchQueueMainThreadSync extends Thread {
     private long lastTaskTime;
     private ArrayList<PostponedTask> postponedTasks;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class PostponedTask {
+    private class PostponedTask {
         long delay;
         Message message;
         Runnable runnable;

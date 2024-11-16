@@ -30,7 +30,6 @@ public final class DrmInitData implements Comparator, Parcelable {
     private final SchemeData[] schemeDatas;
     public final String schemeType;
 
-    /* loaded from: classes.dex */
     public static final class SchemeData implements Parcelable {
         public static final Parcelable.Creator<SchemeData> CREATOR = new Parcelable.Creator() { // from class: com.google.android.exoplayer2.drm.DrmInitData.SchemeData.1
             @Override // android.os.Parcelable.Creator

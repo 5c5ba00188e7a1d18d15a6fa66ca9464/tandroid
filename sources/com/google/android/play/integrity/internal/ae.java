@@ -67,7 +67,7 @@ public final class ae {
         }
     }
 
-    public static /* bridge */ /* synthetic */ void o(ae aeVar, final TaskCompletionSource taskCompletionSource) {
+    static /* bridge */ /* synthetic */ void o(final ae aeVar, final TaskCompletionSource taskCompletionSource) {
         aeVar.f.add(taskCompletionSource);
         taskCompletionSource.getTask().addOnCompleteListener(new OnCompleteListener() { // from class: com.google.android.play.integrity.internal.v
             @Override // com.google.android.gms.tasks.OnCompleteListener
@@ -77,7 +77,7 @@ public final class ae {
         });
     }
 
-    public static /* bridge */ /* synthetic */ void q(ae aeVar, t tVar) {
+    static /* bridge */ /* synthetic */ void q(ae aeVar, t tVar) {
         if (aeVar.o != null || aeVar.h) {
             if (!aeVar.h) {
                 tVar.run();
@@ -105,7 +105,7 @@ public final class ae {
         aeVar.e.clear();
     }
 
-    public static /* bridge */ /* synthetic */ void r(ae aeVar) {
+    static /* bridge */ /* synthetic */ void r(ae aeVar) {
         aeVar.c.d("linkToDeath", new Object[0]);
         try {
             aeVar.o.asBinder().linkToDeath(aeVar.l, 0);
@@ -114,7 +114,7 @@ public final class ae {
         }
     }
 
-    public static /* bridge */ /* synthetic */ void s(ae aeVar) {
+    static /* bridge */ /* synthetic */ void s(ae aeVar) {
         aeVar.c.d("unlinkToDeath", new Object[0]);
         aeVar.o.asBinder().unlinkToDeath(aeVar.l, 0);
     }
@@ -123,6 +123,7 @@ public final class ae {
         return new RemoteException(String.valueOf(this.d).concat(" : Binder has died."));
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public final void x() {
         Iterator it = this.f.iterator();
         while (it.hasNext()) {
@@ -157,7 +158,7 @@ public final class ae {
         c().post(new w(this, tVar.c(), taskCompletionSource, tVar));
     }
 
-    public final /* synthetic */ void u(TaskCompletionSource taskCompletionSource, Task task) {
+    final /* synthetic */ void u(TaskCompletionSource taskCompletionSource, Task task) {
         synchronized (this.g) {
             this.f.remove(taskCompletionSource);
         }

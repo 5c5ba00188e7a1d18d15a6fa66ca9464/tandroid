@@ -4,16 +4,14 @@ import com.google.firebase.encoders.EncodingException;
 import com.google.firebase.encoders.FieldDescriptor;
 import com.google.firebase.encoders.ValueEncoderContext;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzao implements ValueEncoderContext {
+final class zzao implements ValueEncoderContext {
     private boolean zza = false;
     private boolean zzb = false;
     private FieldDescriptor zzc;
     private final zzak zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzao(zzak zzakVar) {
+    zzao(zzak zzakVar) {
         this.zzd = zzakVar;
     }
 
@@ -38,8 +36,7 @@ public final class zzao implements ValueEncoderContext {
         return this;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(FieldDescriptor fieldDescriptor, boolean z) {
+    final void zza(FieldDescriptor fieldDescriptor, boolean z) {
         this.zza = false;
         this.zzc = fieldDescriptor;
         this.zzb = z;

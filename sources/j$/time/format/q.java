@@ -86,6 +86,7 @@ public final class q {
 
     private void k(j jVar) {
         j c;
+        y yVar;
         q qVar = this.a;
         int i = qVar.e;
         if (i < 0) {
@@ -95,14 +96,17 @@ public final class q {
         j jVar2 = (j) qVar.c.get(i);
         int i2 = jVar.b;
         int i3 = jVar.c;
-        if (i2 == i3 && j.b(jVar) == y.NOT_NEGATIVE) {
-            c = jVar2.d(i3);
-            d(jVar.c());
-            this.a.e = i;
-        } else {
-            c = jVar2.c();
-            this.a.e = d(jVar);
+        if (i2 == i3) {
+            yVar = jVar.d;
+            if (yVar == y.NOT_NEGATIVE) {
+                c = jVar2.d(i3);
+                d(jVar.c());
+                this.a.e = i;
+                this.a.c.set(i, c);
+            }
         }
+        c = jVar2.c();
+        this.a.e = d(jVar);
         this.a.c.set(i, c);
     }
 
@@ -229,8 +233,7 @@ public final class q {
         d(l.LENIENT);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final a u(x xVar, j$.time.chrono.g gVar) {
+    final a u(x xVar, j$.time.chrono.g gVar) {
         return w(Locale.getDefault(), xVar, gVar);
     }
 

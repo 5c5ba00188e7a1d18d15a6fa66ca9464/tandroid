@@ -7,8 +7,7 @@ import com.google.android.gms.internal.icing.zzak;
 final class zzq extends zzs {
     final /* synthetic */ zzc[] zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzq(zzt zztVar, zzc[] zzcVarArr) {
+    zzq(zzt zztVar, zzc[] zzcVarArr) {
         this.zza = zzcVarArr;
     }
 

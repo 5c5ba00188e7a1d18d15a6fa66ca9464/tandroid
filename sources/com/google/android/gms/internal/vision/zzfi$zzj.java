@@ -13,7 +13,6 @@ public final class zzfi$zzj extends zzjb implements zzkm {
     private long zzg;
     private long zzh;
 
-    /* loaded from: classes.dex */
     public enum zza implements zzje {
         zza(0),
         zzb(1),
@@ -58,7 +57,6 @@ public final class zzfi$zzj extends zzjb implements zzkm {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class zzb extends zzjb.zzb implements zzkm {
         private zzb() {
             super(zzfi$zzj.zzi);
@@ -142,10 +140,9 @@ public final class zzfi$zzj extends zzjb implements zzkm {
         this.zzh = j;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v18, types: [com.google.android.gms.internal.vision.zzkx, com.google.android.gms.internal.vision.zzjb$zza] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [com.google.android.gms.internal.vision.zzjb$zza, com.google.android.gms.internal.vision.zzkx] */
     @Override // com.google.android.gms.internal.vision.zzjb
-    public final Object zza(int i, Object obj, Object obj2) {
+    protected final Object zza(int i, Object obj, Object obj2) {
         zzfk zzfkVar = null;
         switch (zzfk.zza[i - 1]) {
             case 1:

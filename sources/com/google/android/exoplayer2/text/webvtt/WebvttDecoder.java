@@ -32,8 +32,8 @@ public final class WebvttDecoder extends SimpleSubtitleDecoder {
     }
 
     private static void skipComment(ParsableByteArray parsableByteArray) {
-        do {
-        } while (!TextUtils.isEmpty(parsableByteArray.readLine()));
+        while (!TextUtils.isEmpty(parsableByteArray.readLine())) {
+        }
     }
 
     @Override // com.google.android.exoplayer2.text.SimpleSubtitleDecoder
@@ -43,8 +43,8 @@ public final class WebvttDecoder extends SimpleSubtitleDecoder {
         ArrayList arrayList = new ArrayList();
         try {
             WebvttParserUtil.validateWebvttHeaderLine(this.parsableWebvttData);
-            do {
-            } while (!TextUtils.isEmpty(this.parsableWebvttData.readLine()));
+            while (!TextUtils.isEmpty(this.parsableWebvttData.readLine())) {
+            }
             ArrayList arrayList2 = new ArrayList();
             while (true) {
                 int nextEvent = getNextEvent(this.parsableWebvttData);

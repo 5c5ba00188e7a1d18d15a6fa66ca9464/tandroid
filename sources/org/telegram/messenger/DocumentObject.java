@@ -10,7 +10,6 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class DocumentObject {
 
-    /* loaded from: classes3.dex */
     public static class ThemeDocument extends TLRPC.TL_document {
         public Theme.ThemeAccent accent;
         public Theme.ThemeInfo baseTheme;

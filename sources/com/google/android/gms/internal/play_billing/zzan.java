@@ -7,8 +7,7 @@ final class zzan {
     public Object zzc;
     public final zzbn zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzan(zzbn zzbnVar) {
+    zzan(zzbn zzbnVar) {
         zzbnVar.getClass();
         this.zzd = zzbnVar;
     }

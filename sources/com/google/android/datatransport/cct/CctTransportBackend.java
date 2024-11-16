@@ -51,9 +51,8 @@ import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class CctTransportBackend implements TransportBackend {
+final class CctTransportBackend implements TransportBackend {
     private final Context applicationContext;
     private final ConnectivityManager connectivityManager;
     private final DataEncoder dataEncoder;
@@ -62,9 +61,7 @@ public final class CctTransportBackend implements TransportBackend {
     private final Clock uptimeClock;
     private final Clock wallTimeClock;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class HttpRequest {
+    static final class HttpRequest {
         final String apiKey;
         final BatchedLogRequest requestBody;
         final URL url;
@@ -80,9 +77,7 @@ public final class CctTransportBackend implements TransportBackend {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class HttpResponse {
+    static final class HttpResponse {
         final int code;
         final long nextRequestMillis;
         final URL redirectUrl;
@@ -94,8 +89,7 @@ public final class CctTransportBackend implements TransportBackend {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public CctTransportBackend(Context context, Clock clock, Clock clock2) {
+    CctTransportBackend(Context context, Clock clock, Clock clock2) {
         this(context, clock, clock2, 130000);
     }
 

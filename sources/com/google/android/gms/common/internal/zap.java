@@ -13,8 +13,7 @@ final class zap implements PendingResult.StatusListener {
     final /* synthetic */ PendingResultUtil.ResultConverter zac;
     final /* synthetic */ zas zad;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zap(PendingResult pendingResult, TaskCompletionSource taskCompletionSource, PendingResultUtil.ResultConverter resultConverter, zas zasVar) {
+    zap(PendingResult pendingResult, TaskCompletionSource taskCompletionSource, PendingResultUtil.ResultConverter resultConverter, zas zasVar) {
         this.zaa = pendingResult;
         this.zab = taskCompletionSource;
         this.zac = resultConverter;

@@ -6,9 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.Arrays;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class SchemaManager extends SQLiteOpenHelper {
+final class SchemaManager extends SQLiteOpenHelper {
     private static final List INCREMENTAL_MIGRATIONS;
     private static final Migration MIGRATE_TO_V1;
     private static final Migration MIGRATE_TO_V2;
@@ -20,7 +19,6 @@ public final class SchemaManager extends SQLiteOpenHelper {
     private static final String CREATE_INITIAL_GLOBAL_LOG_EVENT_STATE_VALUE_SQL = "INSERT INTO global_log_event_state VALUES (" + System.currentTimeMillis() + ")";
     static int SCHEMA_VERSION = 5;
 
-    /* loaded from: classes.dex */
     public interface Migration {
         void upgrade(SQLiteDatabase sQLiteDatabase);
     }
@@ -64,8 +62,7 @@ public final class SchemaManager extends SQLiteOpenHelper {
         INCREMENTAL_MIGRATIONS = Arrays.asList(migration, migration2, migration3, migration4, migration5);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public SchemaManager(Context context, String str, int i) {
+    SchemaManager(Context context, String str, int i) {
         super(context, str, (SQLiteDatabase.CursorFactory) null, i);
         this.configured = false;
         this.schemaVersion = i;

@@ -69,7 +69,6 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
     private boolean topicWasVisible;
     private TLRPC.User user;
 
-    /* loaded from: classes4.dex */
     public static class RepostStoryDrawable extends Drawable {
         int alpha;
         private final Drawable drawable;
@@ -312,7 +311,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                             if (z) {
                                 float f6 = this.onlineProgress;
                                 if (f6 > 0.0f) {
-                                    float f7 = f6 - (((float) j2) / 150.0f);
+                                    float f7 = f6 - (j2 / 150.0f);
                                     this.onlineProgress = f7;
                                     if (f7 < 0.0f) {
                                         this.onlineProgress = 0.0f;
@@ -323,7 +322,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                             } else {
                                 float f8 = this.onlineProgress;
                                 if (f8 < 1.0f) {
-                                    float f9 = f8 + (((float) j2) / 150.0f);
+                                    float f9 = f8 + (j2 / 150.0f);
                                     this.onlineProgress = f9;
                                     if (f9 > 1.0f) {
                                         this.onlineProgress = 1.0f;
@@ -403,8 +402,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(this.currentType == 2 ? 95.0f : 103.0f), 1073741824));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public String repostToCustomName() {
+    protected String repostToCustomName() {
         return LocaleController.getString(R.string.FwdMyStory);
     }
 

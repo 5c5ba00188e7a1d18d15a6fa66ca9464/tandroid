@@ -11,6 +11,9 @@ class RequestLimiter {
     private long nextRequestTime;
     private final Utils utils = Utils.getInstance();
 
+    RequestLimiter() {
+    }
+
     private synchronized long getBackoffDuration(int i) {
         if (!isRetryableError(i)) {
             return MAXIMUM_BACKOFF_DURATION_FOR_CONFIGURATION_ERRORS;

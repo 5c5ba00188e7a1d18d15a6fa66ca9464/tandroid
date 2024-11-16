@@ -4,8 +4,7 @@ import dalvik.system.PathClassLoader;
 
 /* loaded from: classes.dex */
 final class zzc extends PathClassLoader {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(String str, ClassLoader classLoader) {
+    zzc(String str, ClassLoader classLoader) {
         super(str, classLoader);
     }
 

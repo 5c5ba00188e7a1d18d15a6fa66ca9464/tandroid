@@ -37,7 +37,6 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
     private int rowCount;
     private EditTextSettingsCell[] textCells = new EditTextSettingsCell[4];
 
-    /* loaded from: classes4.dex */
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
@@ -76,7 +75,6 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                 textInfoPrivacyCell.setText(LocaleController.getString(R.string.VoipQuickRepliesExplain));
-                return;
             }
             if (itemViewType == 1) {
                 return;
@@ -108,9 +106,7 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
                         str2 = null;
                     }
                     editTextSettingsCell.setTextAndHint(QuickRepliesSettingsActivity.this.getParentActivity().getSharedPreferences("mainconfig", 0).getString(str2, ""), str, i != QuickRepliesSettingsActivity.this.reply4Row);
-                    return;
-                default:
-                    return;
+                    break;
             }
         }
 

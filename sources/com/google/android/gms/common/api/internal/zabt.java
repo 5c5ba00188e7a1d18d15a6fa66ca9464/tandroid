@@ -10,8 +10,7 @@ final class zabt implements Runnable {
     final /* synthetic */ ConnectionResult zaa;
     final /* synthetic */ zabu zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zabt(zabu zabuVar, ConnectionResult connectionResult) {
+    zabt(zabu zabuVar, ConnectionResult connectionResult) {
         this.zab = zabuVar;
         this.zaa = connectionResult;
     }

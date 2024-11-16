@@ -5,8 +5,7 @@ public final class AccountIdentifiers {
     private final String zza;
     private final String zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AccountIdentifiers(String str, String str2) {
+    AccountIdentifiers(String str, String str2) {
         this.zza = str;
         this.zzb = str2;
     }

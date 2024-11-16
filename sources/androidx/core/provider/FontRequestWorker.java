@@ -13,17 +13,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class FontRequestWorker {
+abstract class FontRequestWorker {
     static final LruCache sTypefaceCache = new LruCache(16);
     private static final ExecutorService DEFAULT_EXECUTOR_SERVICE = RequestExecutor.createDefaultExecutor("fonts-androidx", 10, 10000);
     static final Object LOCK = new Object();
     static final SimpleArrayMap PENDING_REPLIES = new SimpleArrayMap();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class TypefaceResult {
+    static final class TypefaceResult {
         final int mResult;
         final Typeface mTypeface;
 
@@ -37,8 +34,7 @@ public abstract class FontRequestWorker {
             this.mResult = 0;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public boolean isSuccess() {
+        boolean isSuccess() {
             return this.mResult == 0;
         }
     }
@@ -91,8 +87,7 @@ public abstract class FontRequestWorker {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Typeface requestFontAsync(final Context context, final FontRequest fontRequest, final int i, Executor executor, final CallbackWithHandler callbackWithHandler) {
+    static Typeface requestFontAsync(final Context context, final FontRequest fontRequest, final int i, Executor executor, final CallbackWithHandler callbackWithHandler) {
         final String createCacheId = createCacheId(fontRequest, i);
         Typeface typeface = (Typeface) sTypefaceCache.get(createCacheId);
         if (typeface != null) {
@@ -159,8 +154,7 @@ public abstract class FontRequestWorker {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Typeface requestFontSync(final Context context, final FontRequest fontRequest, CallbackWithHandler callbackWithHandler, final int i, int i2) {
+    static Typeface requestFontSync(final Context context, final FontRequest fontRequest, CallbackWithHandler callbackWithHandler, final int i, int i2) {
         final String createCacheId = createCacheId(fontRequest, i);
         Typeface typeface = (Typeface) sTypefaceCache.get(createCacheId);
         if (typeface != null) {

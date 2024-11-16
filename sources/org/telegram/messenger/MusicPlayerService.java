@@ -684,7 +684,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
                 public void onSeekTo(long j) {
                     MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
                     if (playingMessageObject != null) {
-                        MediaController.getInstance().seekToProgress(playingMessageObject, ((float) (j / 1000)) / ((float) playingMessageObject.getDuration()));
+                        MediaController.getInstance().seekToProgress(playingMessageObject, (j / 1000) / ((float) playingMessageObject.getDuration()));
                         MusicPlayerService.this.updatePlaybackState(j);
                     }
                 }

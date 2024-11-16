@@ -7,8 +7,7 @@ import java.io.Serializable;
 final class ReverseOrdering extends Ordering implements Serializable {
     final Ordering forwardOrder;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ReverseOrdering(Ordering ordering) {
+    ReverseOrdering(Ordering ordering) {
         this.forwardOrder = (Ordering) Preconditions.checkNotNull(ordering);
     }
 

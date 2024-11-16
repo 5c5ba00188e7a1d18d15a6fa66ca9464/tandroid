@@ -16,17 +16,15 @@ import androidx.savedstate.SavedStateRegistry;
 import androidx.savedstate.SavedStateRegistryController;
 import androidx.savedstate.SavedStateRegistryOwner;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class FragmentViewLifecycleOwner implements HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, ViewModelStoreOwner {
+class FragmentViewLifecycleOwner implements HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, ViewModelStoreOwner {
     private ViewModelProvider.Factory mDefaultFactory;
     private final Fragment mFragment;
     private LifecycleRegistry mLifecycleRegistry = null;
     private SavedStateRegistryController mSavedStateRegistryController = null;
     private final ViewModelStore mViewModelStore;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FragmentViewLifecycleOwner(Fragment fragment, ViewModelStore viewModelStore) {
+    FragmentViewLifecycleOwner(Fragment fragment, ViewModelStore viewModelStore) {
         this.mFragment = fragment;
         this.mViewModelStore = viewModelStore;
     }
@@ -82,36 +80,30 @@ public class FragmentViewLifecycleOwner implements HasDefaultViewModelProviderFa
         return this.mViewModelStore;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void handleLifecycleEvent(Lifecycle.Event event) {
+    void handleLifecycleEvent(Lifecycle.Event event) {
         this.mLifecycleRegistry.handleLifecycleEvent(event);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void initialize() {
+    void initialize() {
         if (this.mLifecycleRegistry == null) {
             this.mLifecycleRegistry = new LifecycleRegistry(this);
             this.mSavedStateRegistryController = SavedStateRegistryController.create(this);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isInitialized() {
+    boolean isInitialized() {
         return this.mLifecycleRegistry != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void performRestore(Bundle bundle) {
+    void performRestore(Bundle bundle) {
         this.mSavedStateRegistryController.performRestore(bundle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void performSave(Bundle bundle) {
+    void performSave(Bundle bundle) {
         this.mSavedStateRegistryController.performSave(bundle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void setCurrentState(Lifecycle.State state) {
+    void setCurrentState(Lifecycle.State state) {
         this.mLifecycleRegistry.setCurrentState(state);
     }
 }

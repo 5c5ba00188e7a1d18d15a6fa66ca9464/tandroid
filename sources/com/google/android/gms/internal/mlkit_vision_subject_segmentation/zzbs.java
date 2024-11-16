@@ -6,8 +6,7 @@ import java.util.Set;
 
 /* loaded from: classes.dex */
 public abstract class zzbs {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(Set set) {
+    static int zza(Set set) {
         Iterator it = set.iterator();
         int i = 0;
         while (it.hasNext()) {
@@ -17,8 +16,7 @@ public abstract class zzbs {
         return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzb(Set set, Collection collection) {
+    static boolean zzb(Set set, Collection collection) {
         collection.getClass();
         if (collection instanceof zzbj) {
             collection = ((zzbj) collection).zza();
@@ -38,8 +36,7 @@ public abstract class zzbs {
         return z;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zzc(Set set, Iterator it) {
+    static boolean zzc(Set set, Iterator it) {
         boolean z = false;
         while (it.hasNext()) {
             z |= set.remove(it.next());

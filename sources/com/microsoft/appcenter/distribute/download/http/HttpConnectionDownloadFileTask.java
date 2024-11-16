@@ -22,8 +22,7 @@ class HttpConnectionDownloadFileTask extends AsyncTask {
     private final HttpConnectionReleaseDownloader mDownloader;
     private final File mTargetFile;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public HttpConnectionDownloadFileTask(HttpConnectionReleaseDownloader httpConnectionReleaseDownloader, Uri uri, File file) {
+    HttpConnectionDownloadFileTask(HttpConnectionReleaseDownloader httpConnectionReleaseDownloader, Uri uri, File file) {
         this.mDownloader = httpConnectionReleaseDownloader;
         this.mDownloadUri = uri;
         this.mTargetFile = file;

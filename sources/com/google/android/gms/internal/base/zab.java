@@ -7,8 +7,7 @@ import android.os.Parcel;
 
 /* loaded from: classes.dex */
 public abstract class zab extends Binder implements IInterface {
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zab(String str) {
+    protected zab(String str) {
         attachInterface(this, str);
     }
 

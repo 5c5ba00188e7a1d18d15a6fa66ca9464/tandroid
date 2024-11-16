@@ -12,7 +12,6 @@ public abstract class BuildCompat {
     public static final int S_EXTENSION_INT;
     public static final int T_EXTENSION_INT;
 
-    /* loaded from: classes.dex */
     private static final class Extensions30Impl {
         static final int AD_SERVICES;
         static final int R;

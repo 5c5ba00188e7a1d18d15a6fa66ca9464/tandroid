@@ -12,7 +12,6 @@ import java.util.List;
 /* loaded from: classes.dex */
 public interface DashChunkSource extends ChunkSource {
 
-    /* loaded from: classes.dex */
     public interface Factory {
         DashChunkSource createDashChunkSource(LoaderErrorThrower loaderErrorThrower, DashManifest dashManifest, BaseUrlExclusionList baseUrlExclusionList, int i, int[] iArr, ExoTrackSelection exoTrackSelection, int i2, long j, boolean z, List list, PlayerEmsgHandler.PlayerTrackEmsgHandler playerTrackEmsgHandler, TransferListener transferListener, PlayerId playerId);
     }

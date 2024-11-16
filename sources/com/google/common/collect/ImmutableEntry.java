@@ -7,8 +7,7 @@ class ImmutableEntry extends AbstractMapEntry implements Serializable {
     final Object key;
     final Object value;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ImmutableEntry(Object obj, Object obj2) {
+    ImmutableEntry(Object obj, Object obj2) {
         this.key = obj;
         this.value = obj2;
     }

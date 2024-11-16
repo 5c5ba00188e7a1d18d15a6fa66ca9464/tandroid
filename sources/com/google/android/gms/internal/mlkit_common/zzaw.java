@@ -1,14 +1,12 @@
 package com.google.android.gms.internal.mlkit_common;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzaw extends zzaq {
+final class zzaw extends zzaq {
     static final zzaq zza = new zzaw(new Object[0], 0);
     final transient Object[] zzb;
     private final transient int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzaw(Object[] objArr, int i) {
+    zzaw(Object[] objArr, int i) {
         this.zzb = objArr;
         this.zzc = i;
     }
@@ -37,15 +35,13 @@ public final class zzaw extends zzaq {
         return this.zzc;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzam
-    public final int zzc() {
+    final int zzc() {
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.mlkit_common.zzam
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzb;
     }
 }

@@ -2,14 +2,12 @@ package com.google.android.gms.tasks;
 
 import java.util.concurrent.Callable;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzz implements Runnable {
+final class zzz implements Runnable {
     final /* synthetic */ zzw zza;
     final /* synthetic */ Callable zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzz(zzw zzwVar, Callable callable) {
+    zzz(zzw zzwVar, Callable callable) {
         this.zza = zzwVar;
         this.zzb = callable;
     }

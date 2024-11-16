@@ -10,22 +10,19 @@ import com.google.android.gms.common.util.PlatformVersion;
 import com.google.firebase.FirebaseApp;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class Metadata {
+class Metadata {
     private String appVersionCode;
     private String appVersionName;
     private final Context context;
     private int gmsVersionCode;
     private int iidImplementation = 0;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Metadata(Context context) {
+    Metadata(Context context) {
         this.context = context;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String getDefaultSenderId(FirebaseApp firebaseApp) {
+    static String getDefaultSenderId(FirebaseApp firebaseApp) {
         String gcmSenderId = firebaseApp.getOptions().getGcmSenderId();
         if (gcmSenderId != null) {
             return gcmSenderId;
@@ -66,8 +63,7 @@ public class Metadata {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized String getAppVersionCode() {
+    synchronized String getAppVersionCode() {
         try {
             if (this.appVersionCode == null) {
                 populateAppVersionInfo();
@@ -78,8 +74,7 @@ public class Metadata {
         return this.appVersionCode;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized String getAppVersionName() {
+    synchronized String getAppVersionName() {
         try {
             if (this.appVersionName == null) {
                 populateAppVersionInfo();
@@ -90,8 +85,7 @@ public class Metadata {
         return this.appVersionName;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized int getGmsVersionCode() {
+    synchronized int getGmsVersionCode() {
         PackageInfo packageInfo;
         try {
             if (this.gmsVersionCode == 0 && (packageInfo = getPackageInfo("com.google.android.gms")) != null) {
@@ -140,8 +134,7 @@ public class Metadata {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isGmscorePresent() {
+    boolean isGmscorePresent() {
         return getIidImplementation() != 0;
     }
 }

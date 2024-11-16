@@ -2,22 +2,19 @@ package com.google.android.gms.internal.mlkit_language_id;
 
 import java.util.Map;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzgz implements Comparable, Map.Entry {
+final class zzgz implements Comparable, Map.Entry {
     private final Comparable zza;
     private Object zzb;
     private final /* synthetic */ zzgq zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzgz(zzgq zzgqVar, Comparable comparable, Object obj) {
+    zzgz(zzgq zzgqVar, Comparable comparable, Object obj) {
         this.zzc = zzgqVar;
         this.zza = comparable;
         this.zzb = obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzgz(zzgq zzgqVar, Map.Entry entry) {
+    zzgz(zzgq zzgqVar, Map.Entry entry) {
         this(zzgqVar, (Comparable) entry.getKey(), entry.getValue());
     }
 

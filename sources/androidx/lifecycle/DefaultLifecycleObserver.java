@@ -3,7 +3,6 @@ package androidx.lifecycle;
 /* loaded from: classes.dex */
 public interface DefaultLifecycleObserver extends FullLifecycleObserver {
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$onCreate(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
         }

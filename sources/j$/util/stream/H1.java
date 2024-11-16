@@ -8,8 +8,7 @@ final class H1 implements N1, c2 {
     final /* synthetic */ int b;
     final /* synthetic */ j$.util.function.B c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public H1(int i, j$.util.function.B b) {
+    H1(int i, j$.util.function.B b) {
         this.b = i;
         this.c = b;
     }

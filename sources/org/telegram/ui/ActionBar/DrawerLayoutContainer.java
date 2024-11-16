@@ -72,9 +72,7 @@ public class DrawerLayoutContainer extends FrameLayout {
     private int startedTrackingY;
     private VelocityTracker velocityTracker;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class PreviewForegroundDrawable extends Drawable {
+    private static class PreviewForegroundDrawable extends Drawable {
         private final GradientDrawable bottomDrawable;
         private final GradientDrawable topDrawable;
 
@@ -386,9 +384,8 @@ public class DrawerLayoutContainer extends FrameLayout {
         return this.navigationBar;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup, android.view.View
-    public void dispatchDraw(Canvas canvas) {
+    protected void dispatchDraw(Canvas canvas) {
         INavigationLayout iNavigationLayout;
         super.dispatchDraw(canvas);
         if (!this.drawCurrentPreviewFragmentAbove || (iNavigationLayout = this.parentActionBarLayout) == null) {
@@ -540,9 +537,8 @@ public class DrawerLayoutContainer extends FrameLayout {
         return this.parentActionBarLayout.checkTransitionAnimation() || onTouchEvent(motionEvent);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-    public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+    protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         int i5;
         int paddingTop;
         int measuredHeight;

@@ -231,9 +231,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     private boolean testBackend;
     private SlideView[] views;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 8 implements TextWatcher {
+    class 8 implements TextWatcher {
         final /* synthetic */ EditText val$editText;
         final /* synthetic */ AtomicReference val$timeoutCallbackRef;
 
@@ -270,7 +268,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoadingTextView extends TextView {
         public final LoadingDrawable loadingDrawable;
         private final Drawable rippleDrawable;
@@ -363,7 +360,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityEmailCodeView extends SlideView {
         private FrameLayout cantAccessEmailFrameLayout;
         private TextView cantAccessEmailView;
@@ -1760,7 +1756,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityNewPasswordView extends SlideView {
         private TextView cancelButton;
         private EditTextBoldCursor[] codeField;
@@ -2247,7 +2242,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityPasswordView extends SlideView {
         private TextView cancelButton;
         private EditTextBoldCursor codeField;
@@ -2778,7 +2772,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityPhraseView extends SlideView {
         private String beginning;
         private final Runnable checkPasteRunnable;
@@ -2820,9 +2813,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private final TextView titleTextView;
         private boolean waitingForEvent;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends EditTextBoldCursor {
+        class 1 extends EditTextBoldCursor {
             final /* synthetic */ LoginActivity val$this$0;
 
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -2852,9 +2843,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 4 extends TimerTask {
+        class 4 extends TimerTask {
             4() {
             }
 
@@ -3107,7 +3096,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     FrameLayout frameLayout = new FrameLayout(context);
                     this.infoContainer = frameLayout;
                     linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
-                    LoadingTextView loadingTextView = new LoadingTextView(context);
+                    LoadingTextView loadingTextView = LoginActivity.this.new LoadingTextView(context);
                     this.prevTypeTextView = loadingTextView;
                     int i2 = Theme.key_windowBackgroundWhiteValueText;
                     loadingTextView.setLinkTextColor(Theme.getColor(i2));
@@ -3296,7 +3285,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             FrameLayout frameLayout3 = new FrameLayout(context);
             this.infoContainer = frameLayout3;
             linearLayout2.addView(frameLayout3, LayoutHelper.createLinear(-1, -2));
-            LoadingTextView loadingTextView3 = new LoadingTextView(context);
+            LoadingTextView loadingTextView3 = LoginActivity.this.new LoadingTextView(context);
             this.prevTypeTextView = loadingTextView3;
             int i22 = Theme.key_windowBackgroundWhiteValueText;
             loadingTextView3.setLinkTextColor(Theme.getColor(i22));
@@ -4176,7 +4165,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityRecoverView extends SlideView {
         private CodeFieldContainer codeFieldContainer;
         private TextView confirmTextView;
@@ -4617,7 +4605,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityRegisterView extends SlideView implements ImageUpdater.ImageUpdaterDelegate {
         private TLRPC.FileLocation avatar;
         private AnimatorSet avatarAnimation;
@@ -4645,9 +4632,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private TextView titleTextView;
         private TextView wrongNumber;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 4 implements View.OnAttachStateChangeListener {
+        class 4 implements View.OnAttachStateChangeListener {
             private boolean isAttached;
             final /* synthetic */ LoginActivity val$this$0;
             private long lastRun = System.currentTimeMillis();
@@ -4710,7 +4695,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /* loaded from: classes4.dex */
         public class LinkSpan extends ClickableSpan {
             public LinkSpan() {
             }
@@ -5509,7 +5493,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivityResetWaitView extends SlideView {
         private TextView confirmTextView;
         private Bundle currentParams;
@@ -5761,7 +5744,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivitySetupEmail extends SlideView {
         private Bundle currentParams;
         private EditTextBoldCursor emailField;
@@ -6315,7 +6297,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class LoginActivitySmsView extends SlideView implements NotificationCenter.NotificationCenterDelegate {
         private RLottieImageView blueImageView;
         private FrameLayout bottomContainer;
@@ -6371,9 +6352,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private boolean waitingForEvent;
         private TextView wrongCode;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 7 extends TimerTask {
+        class 7 extends TimerTask {
             7() {
             }
 
@@ -6405,9 +6384,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 8 extends TimerTask {
+        class 8 extends TimerTask {
             8() {
             }
 
@@ -6602,7 +6579,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     if (this.currentType == 3) {
                         this.codeFieldContainer.setVisibility(8);
                     }
-                    LoadingTextView loadingTextView = new LoadingTextView(context);
+                    LoadingTextView loadingTextView = LoginActivity.this.new LoadingTextView(context);
                     this.prevTypeTextView = loadingTextView;
                     int i4 = Theme.key_windowBackgroundWhiteValueText;
                     loadingTextView.setLinkTextColor(Theme.getColor(i4));
@@ -6786,7 +6763,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             if (this.currentType == 3) {
             }
-            LoadingTextView loadingTextView4 = new LoadingTextView(context);
+            LoadingTextView loadingTextView4 = LoginActivity.this.new LoadingTextView(context);
             this.prevTypeTextView = loadingTextView4;
             int i42 = Theme.key_windowBackgroundWhiteValueText;
             loadingTextView4.setLinkTextColor(Theme.getColor(i42));
@@ -8792,8 +8769,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class PhoneInputData {
+    static final class PhoneInputData {
         private CountrySelectActivity.Country country;
         private List patterns;
         private String phoneNumber;
@@ -8803,8 +8779,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class PhoneNumberConfirmView extends FrameLayout {
+    static final class PhoneNumberConfirmView extends FrameLayout {
         private View blurredView;
         private IConfirmDialogCallback callback;
         private TextView confirmMessageView;
@@ -8821,8 +8796,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private FrameLayout popupLayout;
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes4.dex */
-        public interface IConfirmDialogCallback {
+        interface IConfirmDialogCallback {
             void onConfirmPressed(PhoneNumberConfirmView phoneNumberConfirmView, TextView textView);
 
             void onDismiss(PhoneNumberConfirmView phoneNumberConfirmView);
@@ -9130,7 +9104,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* loaded from: classes4.dex */
     public class PhoneView extends SlideView implements AdapterView.OnItemSelectedListener, NotificationCenter.NotificationCenterDelegate {
         private ImageView chevronRight;
         private View codeDividerView;
@@ -9159,9 +9132,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private TextView titleView;
         private int wasCountryHintIndex;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 6 implements PhoneNumberConfirmView.IConfirmDialogCallback {
+        class 6 implements PhoneNumberConfirmView.IConfirmDialogCallback {
             final /* synthetic */ String val$code;
 
             6(String str) {
@@ -9428,9 +9399,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.plusTextView.setFocusable(false);
             linearLayout2.addView(this.plusTextView, LayoutHelper.createLinear(-2, -2));
             AnimatedPhoneNumberEditText animatedPhoneNumberEditText = new AnimatedPhoneNumberEditText(context) { // from class: org.telegram.ui.LoginActivity.PhoneView.1
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public void onFocusChanged(boolean z, int i6, Rect rect) {
+                protected void onFocusChanged(boolean z, int i6, Rect rect) {
                     super.onFocusChanged(z, i6, rect);
                     PhoneView.this.phoneOutlineView.animateSelection((z || PhoneView.this.phoneField.isFocused()) ? 1.0f : 0.0f);
                     if (z) {
@@ -9612,9 +9582,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             createLinear.width = Math.max(2, AndroidUtilities.dp(0.5f));
             linearLayout2.addView(this.codeDividerView, createLinear);
             AnimatedPhoneNumberEditText animatedPhoneNumberEditText2 = new AnimatedPhoneNumberEditText(context) { // from class: org.telegram.ui.LoginActivity.PhoneView.3
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.EditTextBoldCursor, android.widget.TextView, android.view.View
-                public void onFocusChanged(boolean z, int i7, Rect rect) {
+                protected void onFocusChanged(boolean z, int i7, Rect rect) {
                     PhoneView phoneView;
                     String str;
                     super.onFocusChanged(z, i7, rect);
@@ -11019,9 +10988,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ProgressView extends View {
+    private static class ProgressView extends View {
     }
 
     static {
@@ -13158,9 +13125,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         return animatorSet;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BaseFragment
-    public void onDialogDismiss(Dialog dialog) {
+    protected void onDialogDismiss(Dialog dialog) {
         if (Build.VERSION.SDK_INT >= 23) {
             try {
                 if (dialog == this.permissionsDialog && !this.permissionsItems.isEmpty() && getParentActivity() != null) {

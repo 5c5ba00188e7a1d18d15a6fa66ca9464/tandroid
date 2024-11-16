@@ -167,9 +167,8 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
         return this.viewType;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         RectF rectF;
         float dp;
         int dp2;
@@ -957,7 +956,7 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
         }
         this.lastUpdateTime = elapsedRealtime;
         if (this.isSingleCell || this.viewType == 13 || getViewType() == 14 || getViewType() == 17) {
-            int i3 = (int) (this.totalTranslation + (((float) (abs * i)) / 400.0f));
+            int i3 = (int) (this.totalTranslation + ((abs * i) / 400.0f));
             this.totalTranslation = i3;
             if (i3 >= i * 2) {
                 this.totalTranslation = (-this.gradientWidth) * 2;
@@ -966,7 +965,7 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
             f = this.totalTranslation + this.parentXOffset;
             f2 = 0.0f;
         } else {
-            int i4 = (int) (this.totalTranslation + (((float) (abs * i2)) / 400.0f));
+            int i4 = (int) (this.totalTranslation + ((abs * i2) / 400.0f));
             this.totalTranslation = i4;
             if (i4 >= i2 * 2) {
                 this.totalTranslation = (-this.gradientWidth) * 2;

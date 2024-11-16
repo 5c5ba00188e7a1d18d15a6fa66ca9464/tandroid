@@ -54,9 +54,8 @@ public class SignInClientImpl extends GmsClient implements com.google.android.gm
         return bundle;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
+    protected final /* synthetic */ IInterface createServiceInterface(IBinder iBinder) {
         if (iBinder == null) {
             return null;
         }
@@ -77,9 +76,8 @@ public class SignInClientImpl extends GmsClient implements com.google.android.gm
         return GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.gms.common.internal.BaseGmsClient
-    public final String getServiceDescriptor() {
+    protected final String getServiceDescriptor() {
         return "com.google.android.gms.signin.internal.ISignInService";
     }
 

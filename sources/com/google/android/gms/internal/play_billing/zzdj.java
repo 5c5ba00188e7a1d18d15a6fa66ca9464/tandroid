@@ -16,8 +16,7 @@ final class zzdj implements zzdp {
         this.zza = zzdfVar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzdj zzc(zzeg zzegVar, zzbo zzboVar, zzdf zzdfVar) {
+    static zzdj zzc(zzeg zzegVar, zzbo zzboVar, zzdf zzdfVar) {
         return new zzdj(zzegVar, zzboVar, zzdfVar);
     }
 

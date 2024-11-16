@@ -73,9 +73,8 @@ public class FileLoader extends BaseController {
     private static SparseArray<File> mediaDirs = null;
     private static final FileLoader[] Instance = new FileLoader[4];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 1 implements FileUploadOperation.FileUploadOperationDelegate {
+    class 1 implements FileUploadOperation.FileUploadOperationDelegate {
         final /* synthetic */ boolean val$encrypted;
         final /* synthetic */ String val$location;
         final /* synthetic */ boolean val$small;
@@ -173,9 +172,8 @@ public class FileLoader extends BaseController {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes3.dex */
-    public class 2 implements FileLoadOperation.FileLoadOperationDelegate {
+    class 2 implements FileLoadOperation.FileLoadOperationDelegate {
         final /* synthetic */ TLRPC.Document val$document;
         final /* synthetic */ String val$fileName;
         final /* synthetic */ int val$finalType;
@@ -286,9 +284,8 @@ public class FileLoader extends BaseController {
         File getFile();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
-    public static class LoadOperationUIObject {
+    private static class LoadOperationUIObject {
         Runnable loadInternalRunnable;
 
         private LoadOperationUIObject() {
@@ -857,33 +854,12 @@ public class FileLoader extends BaseController {
         if (str == null) {
             return "";
         }
-        char c = 65535;
-        switch (str.hashCode()) {
-            case 187091926:
-                if (str.equals("audio/ogg")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 1331848029:
-                if (str.equals("video/mp4")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 2039520277:
-                if (str.equals("video/x-matroska")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "audio/ogg":
                 return ".ogg";
-            case 1:
+            case "video/mp4":
                 return ".mp4";
-            case 2:
+            case "video/x-matroska":
                 return ".mkv";
             default:
                 return "";
@@ -2138,13 +2114,11 @@ public class FileLoader extends BaseController {
         loadFile(document, null, null, null, null, obj, null, 0L, i, (i2 != 0 || document.key == null) ? i2 : 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public FileLoadOperation loadStreamFile(FileLoadOperationStream fileLoadOperationStream, TLRPC.Document document, ImageLocation imageLocation, Object obj, long j, boolean z, int i) {
+    protected FileLoadOperation loadStreamFile(FileLoadOperationStream fileLoadOperationStream, TLRPC.Document document, ImageLocation imageLocation, Object obj, long j, boolean z, int i) {
         return loadStreamFile(fileLoadOperationStream, document, imageLocation, obj, j, z, i, document == null ? 1 : 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public FileLoadOperation loadStreamFile(final FileLoadOperationStream fileLoadOperationStream, final TLRPC.Document document, final ImageLocation imageLocation, final Object obj, final long j, final boolean z, final int i, final int i2) {
+    protected FileLoadOperation loadStreamFile(final FileLoadOperationStream fileLoadOperationStream, final TLRPC.Document document, final ImageLocation imageLocation, final Object obj, final long j, final boolean z, final int i, final int i2) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final FileLoadOperation[] fileLoadOperationArr = new FileLoadOperation[1];
         fileLoaderQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLoader$$ExternalSyntheticLambda2

@@ -7,7 +7,6 @@ import java.util.Map;
 /* loaded from: classes.dex */
 public interface HttpClient extends Closeable {
 
-    /* loaded from: classes.dex */
     public interface CallTemplate {
         String buildRequestBody();
 

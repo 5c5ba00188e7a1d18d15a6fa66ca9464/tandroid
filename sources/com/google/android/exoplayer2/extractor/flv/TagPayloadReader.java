@@ -8,15 +8,13 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 abstract class TagPayloadReader {
     protected final TrackOutput output;
 
-    /* loaded from: classes.dex */
     public static final class UnsupportedFormatException extends ParserException {
         public UnsupportedFormatException(String str) {
             super(str, null, false, 1);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public TagPayloadReader(TrackOutput trackOutput) {
+    protected TagPayloadReader(TrackOutput trackOutput) {
         this.output = trackOutput;
     }
 

@@ -12,15 +12,12 @@ import org.telegram.tgnet.ConnectionsManager;
 public abstract class ImmutableCollection extends AbstractCollection implements Serializable {
     private static final Object[] EMPTY_ARRAY = new Object[0];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static abstract class ArrayBasedBuilder extends Builder {
+    static abstract class ArrayBasedBuilder extends Builder {
         Object[] contents;
         boolean forceCopy;
         int size;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public ArrayBasedBuilder(int i) {
+        ArrayBasedBuilder(int i) {
             CollectPreconditions.checkNonnegative(i, "initialCapacity");
             this.contents = new Object[i];
             this.size = 0;
@@ -64,13 +61,11 @@ public abstract class ImmutableCollection extends AbstractCollection implements 
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class Builder {
         Builder() {
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public static int expandedCapacity(int i, int i2) {
+        static int expandedCapacity(int i, int i2) {
             if (i2 < 0) {
                 throw new AssertionError("cannot store more than MAX_VALUE elements");
             }
@@ -90,6 +85,9 @@ public abstract class ImmutableCollection extends AbstractCollection implements 
             }
             return this;
         }
+    }
+
+    ImmutableCollection() {
     }
 
     @Override // java.util.AbstractCollection, java.util.Collection
@@ -114,8 +112,7 @@ public abstract class ImmutableCollection extends AbstractCollection implements 
 
     abstract int copyIntoArray(Object[] objArr, int i);
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Object[] internalArray() {
+    Object[] internalArray() {
         return null;
     }
 
@@ -123,13 +120,11 @@ public abstract class ImmutableCollection extends AbstractCollection implements 
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int internalArrayStart() {
+    int internalArrayStart() {
         throw new UnsupportedOperationException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract boolean isPartialView();
+    abstract boolean isPartialView();
 
     @Override // java.util.AbstractCollection, java.util.Collection
     public final boolean remove(Object obj) {

@@ -50,7 +50,6 @@ public class BoostAdapter extends AdapterWithDiffUtils {
     private List items = new ArrayList();
     private HashMap chatsParticipantsCount = new HashMap();
 
-    /* loaded from: classes3.dex */
     public static class Item extends AdapterWithDiffUtils.Item {
         public boolean boolValue;
         public TLRPC.Chat chat;
@@ -210,9 +209,8 @@ public class BoostAdapter extends AdapterWithDiffUtils {
             return true;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ListView.AdapterWithDiffUtils.Item
-        public boolean contentsEquals(AdapterWithDiffUtils.Item item) {
+        protected boolean contentsEquals(AdapterWithDiffUtils.Item item) {
             Item item2;
             int i;
             int i2;
@@ -330,7 +328,6 @@ public class BoostAdapter extends AdapterWithDiffUtils {
             this.headerCell = headerCell;
             headerCell.setBoostViaGifsText(this.currentChat);
             this.headerCell.setStars(item.boolValue);
-            return;
         }
         if (itemViewType == 2) {
             ((BoostTypeCell) viewHolder.itemView).setType(item.subType, item.intValue, (TLRPC.User) item.user, item.selectable);
@@ -363,49 +360,47 @@ public class BoostAdapter extends AdapterWithDiffUtils {
                             j = inputPeer.channel_id;
                         }
                         chatCell.setChatDeleteListener(this.chatDeleteListener);
-                        return;
+                        break;
+                    } else {
+                        messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+                        j = inputPeer.chat_id;
                     }
-                    messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-                    j = inputPeer.chat_id;
                     chat = messagesController.getChat(Long.valueOf(j));
                 } else {
                     chat = item.chat;
                 }
                 chatCell.setChat(chat, item.intValue, item.boolValue, getParticipantsCount(chat));
                 chatCell.setChatDeleteListener(this.chatDeleteListener);
-                return;
             case 10:
                 ((DateEndCell) viewHolder.itemView).setDate(item.longValue);
-                return;
+                break;
             case 11:
                 ((ParticipantsTypeCell) viewHolder.itemView).setType(item.subType, item.selectable, item.boolValue, (List) item.user, this.currentChat);
-                return;
+                break;
             case 12:
                 ((DurationCell) viewHolder.itemView).setDuration(item.object, item.intValue, item.intValue2, item.longValue, item.text, item.boolValue, item.selectable);
-                return;
+                break;
             case 13:
                 SubtitleWithCounterCell subtitleWithCounterCell = (SubtitleWithCounterCell) viewHolder.itemView;
                 subtitleWithCounterCell.setText(item.text);
                 subtitleWithCounterCell.updateCounter(true, item.intValue);
-                return;
+                break;
             case 14:
                 ((BoostTypeSingleCell) viewHolder.itemView).setGiveaway((TL_stories.PrepaidGiveaway) item.user);
-                return;
+                break;
             case 15:
                 ((SwitcherCell) viewHolder.itemView).setData(item.text, item.selectable, item.boolValue, item.subType);
-                return;
+                break;
             case 16:
                 EnterPrizeCell enterPrizeCell = (EnterPrizeCell) viewHolder.itemView;
                 enterPrizeCell.setCount(item.intValue);
                 enterPrizeCell.setAfterTextChangedListener(this.afterTextChangedListener);
-                return;
+                break;
             case 17:
                 StarGiveawayOptionCell starGiveawayOptionCell = (StarGiveawayOptionCell) viewHolder.itemView;
                 Object obj = item.object;
                 starGiveawayOptionCell.setOption(obj == null ? null : (TL_stars.TL_starsGiveawayOption) obj, item.intValue, item.longValue, item.selectable, item.boolValue);
-                return;
-            default:
-                return;
+                break;
         }
     }
 

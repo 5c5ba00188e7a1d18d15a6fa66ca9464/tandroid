@@ -27,7 +27,6 @@ public class ChannelBoostsController {
     private final int currentAccount;
     private final MessagesController messagesController;
 
-    /* loaded from: classes3.dex */
     public static class CanApplyBoost {
         public boolean alreadyActive;
         public int boostCount = 0;

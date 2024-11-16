@@ -5,13 +5,11 @@ import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Iterator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class J0 implements F0 {
+final class J0 implements F0 {
     private final Collection a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public J0(Collection collection) {
+    J0(Collection collection) {
         this.a = collection;
     }
 

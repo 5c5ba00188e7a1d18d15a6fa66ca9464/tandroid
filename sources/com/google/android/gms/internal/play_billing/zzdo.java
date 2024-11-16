@@ -7,8 +7,7 @@ final class zzdo implements zzdc {
     private final Object[] zzc;
     private final int zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdo(zzdf zzdfVar, String str, Object[] objArr) {
+    zzdo(zzdf zzdfVar, String str, Object[] objArr) {
         this.zza = zzdfVar;
         this.zzb = str;
         this.zzc = objArr;
@@ -49,13 +48,11 @@ final class zzdo implements zzdc {
         return (this.zzd & 1) != 0 ? 1 : 2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final String zzd() {
+    final String zzd() {
         return this.zzb;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final Object[] zze() {
+    final Object[] zze() {
         return this.zzc;
     }
 }

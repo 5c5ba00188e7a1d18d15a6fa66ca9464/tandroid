@@ -1003,7 +1003,7 @@ public class MotionBackgroundDrawable extends Drawable {
         if (f2 < 1.0f) {
             boolean z3 = this.postInvalidateParent || this.rotatingPreview;
             if (z2) {
-                float f3 = f2 + ((((float) j) / 12000.0f) * this.indeterminateSpeedScale);
+                float f3 = f2 + ((j / 12000.0f) * this.indeterminateSpeedScale);
                 this.posAnimationProgress = f3;
                 if (f3 >= 1.0f) {
                     this.posAnimationProgress = 0.0f;
@@ -1020,7 +1020,7 @@ public class MotionBackgroundDrawable extends Drawable {
                 if (genericProvider != null) {
                     this.posAnimationProgress = ((Float) genericProvider.provide(this)).floatValue();
                 } else {
-                    this.posAnimationProgress += ((float) j) / (this.rotationBack ? 1000.0f : 2000.0f);
+                    this.posAnimationProgress += j / (this.rotationBack ? 1000.0f : 2000.0f);
                 }
                 if (this.posAnimationProgress > 1.0f) {
                     this.posAnimationProgress = 1.0f;
@@ -1061,7 +1061,7 @@ public class MotionBackgroundDrawable extends Drawable {
                 if (genericProvider2 != null) {
                     this.posAnimationProgress = ((Float) genericProvider2.provide(this)).floatValue();
                 } else {
-                    this.posAnimationProgress = f2 + (((float) j) / (this.fastAnimation ? 300.0f : 500.0f));
+                    this.posAnimationProgress = f2 + (j / (this.fastAnimation ? 300.0f : 500.0f));
                 }
                 if (this.posAnimationProgress > 1.0f) {
                     this.posAnimationProgress = 1.0f;

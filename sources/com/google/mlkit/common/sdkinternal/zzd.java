@@ -10,8 +10,7 @@ final class zzd extends PhantomReference implements Cleaner.Cleanable {
     private final Set zza;
     private final Runnable zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzd(Object obj, ReferenceQueue referenceQueue, Set set, Runnable runnable, zzc zzcVar) {
+    /* synthetic */ zzd(Object obj, ReferenceQueue referenceQueue, Set set, Runnable runnable, zzc zzcVar) {
         super(obj, referenceQueue);
         this.zza = set;
         this.zzb = runnable;

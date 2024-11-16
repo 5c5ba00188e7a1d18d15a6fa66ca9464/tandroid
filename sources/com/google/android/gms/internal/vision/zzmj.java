@@ -4,6 +4,9 @@ import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 final class zzmj extends zzme {
+    zzmj() {
+    }
+
     private static int zza(byte[] bArr, int i, long j, int i2) {
         int zzb;
         int zzb2;
@@ -140,9 +143,8 @@ final class zzmj extends zzme {
         return -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzme
-    public final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
+    final int zza(CharSequence charSequence, byte[] bArr, int i, int i2) {
         long j;
         String str;
         String str2;
@@ -247,9 +249,8 @@ final class zzmj extends zzme {
         return (int) j4;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.vision.zzme
-    public final String zzb(byte[] bArr, int i, int i2) {
+    final String zzb(byte[] bArr, int i, int i2) {
         boolean zzd;
         boolean zzd2;
         boolean zze;

@@ -12,8 +12,7 @@ public final class PaymentMethodTokenizationParameters extends AbstractSafeParce
     int zza;
     Bundle zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentMethodTokenizationParameters(int i, Bundle bundle) {
+    PaymentMethodTokenizationParameters(int i, Bundle bundle) {
         new Bundle();
         this.zza = i;
         this.zzb = bundle;

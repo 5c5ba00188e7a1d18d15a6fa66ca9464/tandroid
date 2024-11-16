@@ -52,8 +52,7 @@ public abstract class BaseMenuPresenter implements MenuPresenter {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean filterLeftoverView(ViewGroup viewGroup, int i) {
+    protected boolean filterLeftoverView(ViewGroup viewGroup, int i) {
         viewGroup.removeViewAt(i);
         return true;
     }

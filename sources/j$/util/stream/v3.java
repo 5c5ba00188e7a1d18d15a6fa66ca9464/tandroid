@@ -3,23 +3,21 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class v3 extends U2 {
+final class v3 extends U2 {
     v3(b bVar, j$.util.Q q, boolean z) {
         super(bVar, q, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public v3(b bVar, Supplier supplier, boolean z) {
+    v3(b bVar, Supplier supplier, boolean z) {
         super(bVar, supplier, z);
     }
 
     @Override // j$.util.Q
     public final void a(Consumer consumer) {
         if (this.h != null || this.i) {
-            do {
-            } while (s(consumer));
+            while (s(consumer)) {
+            }
             return;
         }
         consumer.getClass();

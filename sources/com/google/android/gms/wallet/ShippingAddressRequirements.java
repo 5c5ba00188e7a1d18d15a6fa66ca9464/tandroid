@@ -11,8 +11,7 @@ public final class ShippingAddressRequirements extends AbstractSafeParcelable {
     public static final Parcelable.Creator<ShippingAddressRequirements> CREATOR = new zzam();
     ArrayList zza;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public ShippingAddressRequirements(ArrayList arrayList) {
+    ShippingAddressRequirements(ArrayList arrayList) {
         this.zza = arrayList;
     }
 

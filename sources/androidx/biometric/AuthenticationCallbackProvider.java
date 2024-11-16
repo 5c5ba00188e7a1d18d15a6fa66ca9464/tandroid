@@ -5,16 +5,13 @@ import android.os.Build;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class AuthenticationCallbackProvider {
+class AuthenticationCallbackProvider {
     private BiometricPrompt.AuthenticationCallback mBiometricCallback;
     private FingerprintManagerCompat.AuthenticationCallback mFingerprintCallback;
     final Listener mListener;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    private static class Api28Impl {
         static BiometricPrompt.AuthenticationCallback createCallback(final Listener listener) {
             return new BiometricPrompt.AuthenticationCallback() { // from class: androidx.biometric.AuthenticationCallbackProvider.Api28Impl.1
                 @Override // android.hardware.biometrics.BiometricPrompt.AuthenticationCallback
@@ -49,16 +46,16 @@ public class AuthenticationCallbackProvider {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class Api30Impl {
         static int getAuthenticationType(BiometricPrompt.AuthenticationResult authenticationResult) {
             return authenticationResult.getAuthenticationType();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Listener {
+    static class Listener {
+        Listener() {
+        }
+
         abstract void onError(int i, CharSequence charSequence);
 
         abstract void onFailure();
@@ -68,21 +65,18 @@ public class AuthenticationCallbackProvider {
         abstract void onSuccess(BiometricPrompt.AuthenticationResult authenticationResult);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AuthenticationCallbackProvider(Listener listener) {
+    AuthenticationCallbackProvider(Listener listener) {
         this.mListener = listener;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public BiometricPrompt.AuthenticationCallback getBiometricCallback() {
+    BiometricPrompt.AuthenticationCallback getBiometricCallback() {
         if (this.mBiometricCallback == null) {
             this.mBiometricCallback = Api28Impl.createCallback(this.mListener);
         }
         return this.mBiometricCallback;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FingerprintManagerCompat.AuthenticationCallback getFingerprintCallback() {
+    FingerprintManagerCompat.AuthenticationCallback getFingerprintCallback() {
         if (this.mFingerprintCallback == null) {
             this.mFingerprintCallback = new FingerprintManagerCompat.AuthenticationCallback() { // from class: androidx.biometric.AuthenticationCallbackProvider.1
                 @Override // androidx.core.hardware.fingerprint.FingerprintManagerCompat.AuthenticationCallback

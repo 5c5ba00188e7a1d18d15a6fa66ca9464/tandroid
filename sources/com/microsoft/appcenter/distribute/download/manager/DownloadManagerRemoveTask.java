@@ -9,8 +9,7 @@ class DownloadManagerRemoveTask extends AsyncTask {
     private final Context mContext;
     private final long mDownloadId;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public DownloadManagerRemoveTask(Context context, long j) {
+    DownloadManagerRemoveTask(Context context, long j) {
         this.mContext = context;
         this.mDownloadId = j;
     }

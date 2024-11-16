@@ -4,21 +4,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class zzle {
+abstract class zzle {
     private static final Class zza = zzd();
     private static final zzlu zzb = zza(false);
     private static final zzlu zzc = zza(true);
     private static final zzlu zzd = new zzlw();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, Object obj, zzlc zzlcVar) {
+    static int zza(int i, Object obj, zzlc zzlcVar) {
         return zzii.zzb(i, (zzkk) obj, zzlcVar);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, List list) {
+    static int zza(int i, List list) {
         int size = list.size();
         int i2 = 0;
         if (size == 0) {
@@ -42,8 +39,7 @@ public abstract class zzle {
         return zze;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, List list, zzlc zzlcVar) {
+    static int zza(int i, List list, zzlc zzlcVar) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -55,16 +51,14 @@ public abstract class zzle {
         return zze;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(int i, List list, boolean z) {
+    static int zza(int i, List list, boolean z) {
         if (list.size() == 0) {
             return 0;
         }
         return zza(list) + (list.size() * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zza(List list) {
+    static int zza(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -106,8 +100,7 @@ public abstract class zzle {
         return obj;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static Object zza(int i, List list, zzjg zzjgVar, Object obj, zzlu zzluVar) {
+    static Object zza(int i, List list, zzjg zzjgVar, Object obj, zzlu zzluVar) {
         if (zzjgVar == null) {
             return obj;
         }
@@ -163,8 +156,7 @@ public abstract class zzle {
         zzmrVar.zzg(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(zziq zziqVar, Object obj, Object obj2) {
+    static void zza(zziq zziqVar, Object obj, Object obj2) {
         zziu zza2 = zziqVar.zza(obj2);
         if (zza2.zza.isEmpty()) {
             return;
@@ -172,13 +164,11 @@ public abstract class zzle {
         zziqVar.zzb(obj).zza(zza2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(zzkh zzkhVar, Object obj, Object obj2, long j) {
+    static void zza(zzkh zzkhVar, Object obj, Object obj2, long j) {
         zzma.zza(obj, j, zzkhVar.zza(zzma.zzf(obj, j), zzma.zzf(obj2, j)));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void zza(zzlu zzluVar, Object obj, Object obj2) {
+    static void zza(zzlu zzluVar, Object obj, Object obj2) {
         zzluVar.zza(obj, zzluVar.zzc(zzluVar.zzb(obj), zzluVar.zzb(obj2)));
     }
 
@@ -189,16 +179,14 @@ public abstract class zzle {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean zza(Object obj, Object obj2) {
+    static boolean zza(Object obj, Object obj2) {
         if (obj != obj2) {
             return obj != null && obj.equals(obj2);
         }
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, List list) {
+    static int zzb(int i, List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -210,8 +198,7 @@ public abstract class zzle {
         return zze;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, List list, zzlc zzlcVar) {
+    static int zzb(int i, List list, zzlc zzlcVar) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -223,8 +210,7 @@ public abstract class zzle {
         return i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(int i, List list, boolean z) {
+    static int zzb(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -232,8 +218,7 @@ public abstract class zzle {
         return zzb(list) + (size * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzb(List list) {
+    static int zzb(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -276,8 +261,7 @@ public abstract class zzle {
         zzmrVar.zzf(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(int i, List list, boolean z) {
+    static int zzc(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -285,8 +269,7 @@ public abstract class zzle {
         return zzc(list) + (size * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzc(List list) {
+    static int zzc(List list) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -315,8 +298,7 @@ public abstract class zzle {
         zzmrVar.zzc(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzd(int i, List list, boolean z) {
+    static int zzd(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -324,8 +306,7 @@ public abstract class zzle {
         return zzd(list) + (size * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzd(List list) {
+    static int zzd(List list) {
         int i;
         int size = list.size();
         int i2 = 0;
@@ -364,8 +345,7 @@ public abstract class zzle {
         zzmrVar.zzd(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zze(int i, List list, boolean z) {
+    static int zze(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -373,8 +353,7 @@ public abstract class zzle {
         return zze(list) + (size * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zze(List list) {
+    static int zze(List list) {
         int i;
         int size = list.size();
         int i2 = 0;
@@ -413,8 +392,7 @@ public abstract class zzle {
         zzmrVar.zzn(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzf(int i, List list, boolean z) {
+    static int zzf(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -422,8 +400,7 @@ public abstract class zzle {
         return zzf(list) + (size * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzf(List list) {
+    static int zzf(List list) {
         int i;
         int size = list.size();
         int i2 = 0;
@@ -454,8 +431,7 @@ public abstract class zzle {
         zzmrVar.zze(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzg(int i, List list, boolean z) {
+    static int zzg(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -463,8 +439,7 @@ public abstract class zzle {
         return zzg(list) + (size * zzii.zze(i));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzg(List list) {
+    static int zzg(List list) {
         int i;
         int size = list.size();
         int i2 = 0;
@@ -495,8 +470,7 @@ public abstract class zzle {
         zzmrVar.zzl(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzh(int i, List list, boolean z) {
+    static int zzh(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -504,8 +478,7 @@ public abstract class zzle {
         return size * zzii.zzi(i, 0);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzh(List list) {
+    static int zzh(List list) {
         return list.size() << 2;
     }
 
@@ -516,8 +489,7 @@ public abstract class zzle {
         zzmrVar.zza(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzi(int i, List list, boolean z) {
+    static int zzi(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -525,8 +497,7 @@ public abstract class zzle {
         return size * zzii.zzg(i, 0L);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzi(List list) {
+    static int zzi(List list) {
         return list.size() << 3;
     }
 
@@ -537,8 +508,7 @@ public abstract class zzle {
         zzmrVar.zzj(i, list, z);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzj(int i, List list, boolean z) {
+    static int zzj(int i, List list, boolean z) {
         int size = list.size();
         if (size == 0) {
             return 0;
@@ -546,8 +516,7 @@ public abstract class zzle {
         return size * zzii.zzb(i, true);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int zzj(List list) {
+    static int zzj(List list) {
         return list.size();
     }
 

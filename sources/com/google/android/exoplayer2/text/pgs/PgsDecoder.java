@@ -19,9 +19,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
     private final ParsableByteArray inflatedBuffer;
     private Inflater inflater;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class CueBuilder {
+    private static final class CueBuilder {
         private int bitmapHeight;
         private int bitmapWidth;
         private int bitmapX;

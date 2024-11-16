@@ -16,9 +16,8 @@ public class StoriesGradientTools extends GradientTools {
         setColors(Theme.getColor(i), Theme.getColor(this.colorKey2));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.GradientTools
-    public void updateBounds() {
+    protected void updateBounds() {
         setColors(Theme.getColor(this.colorKey1), Theme.getColor(this.colorKey2));
         super.updateBounds();
     }

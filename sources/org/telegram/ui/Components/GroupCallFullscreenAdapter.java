@@ -49,7 +49,6 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
     private final ArrayList participants = new ArrayList();
     private boolean visible = false;
 
-    /* loaded from: classes3.dex */
     public class GroupCallUserCell extends FrameLayout implements GroupCallStatusIcon.Callback {
         boolean attached;
         AvatarDrawable avatarDrawable;

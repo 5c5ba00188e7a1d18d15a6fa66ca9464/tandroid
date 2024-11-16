@@ -19,9 +19,7 @@ public final class PlaceholderSurface extends Surface {
     private final PlaceholderSurfaceThread thread;
     private boolean threadReleased;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PlaceholderSurfaceThread extends HandlerThread implements Handler.Callback {
+    private static class PlaceholderSurfaceThread extends HandlerThread implements Handler.Callback {
         private EGLSurfaceTexture eglSurfaceTexture;
         private Handler handler;
         private Error initError;

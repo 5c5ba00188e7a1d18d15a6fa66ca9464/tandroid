@@ -10,7 +10,6 @@ import java.util.Set;
 public class RemoteModelManager {
     private final Map zza = new HashMap();
 
-    /* loaded from: classes.dex */
     public static class RemoteModelManagerRegistration {
         private final Class zza;
         private final Provider zzb;

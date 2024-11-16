@@ -115,7 +115,7 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
                         this.animationProgressStart = f2;
                         this.currentProgressTime = 0L;
                     } else {
-                        this.animatedProgressValue = f3 + (f4 * decelerateInterpolator.getInterpolation(((float) j2) / 300.0f));
+                        this.animatedProgressValue = f3 + (f4 * decelerateInterpolator.getInterpolation(j2 / 300.0f));
                     }
                 }
                 this.parentView.invalidate();
@@ -127,7 +127,7 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         }
         float f6 = this.animatedAlphaValue;
         if (f6 != 0.0f) {
-            float f7 = f6 - (((float) j) / 200.0f);
+            float f7 = f6 - (j / 200.0f);
             this.animatedAlphaValue = f7;
             if (f7 <= 0.0f) {
                 this.animatedAlphaValue = 0.0f;
@@ -261,7 +261,7 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
         if (!this.progressVisible) {
             checkFileExist();
         }
-        setProgress(Math.min(1.0f, ((float) j) / ((float) j2)), true);
+        setProgress(Math.min(1.0f, j / j2), true);
     }
 
     @Override // org.telegram.messenger.DownloadController.FileDownloadProgressListener

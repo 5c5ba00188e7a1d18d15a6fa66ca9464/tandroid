@@ -22,8 +22,7 @@ public final class zzhg {
         return zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static zzhg zza(zzhg zzhgVar, zzhg zzhgVar2) {
+    static zzhg zza(zzhg zzhgVar, zzhg zzhgVar2) {
         int i = zzhgVar.zzb + zzhgVar2.zzb;
         int[] copyOf = Arrays.copyOf(zzhgVar.zzc, i);
         System.arraycopy(zzhgVar2.zzc, 0, copyOf, zzhgVar.zzb, zzhgVar2.zzb);
@@ -114,8 +113,7 @@ public final class zzhg {
         return i6 + i3;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(zzib zzibVar) {
+    final void zza(zzib zzibVar) {
         if (zzibVar.zza() == zzia.zzb) {
             for (int i = this.zzb - 1; i >= 0; i--) {
                 zzibVar.zza(this.zzc[i] >>> 3, this.zzd[i]);
@@ -127,8 +125,7 @@ public final class zzhg {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza(StringBuilder sb, int i) {
+    final void zza(StringBuilder sb, int i) {
         for (int i2 = 0; i2 < this.zzb; i2++) {
             zzga.zza(sb, i, String.valueOf(this.zzc[i2] >>> 3), this.zzd[i2]);
         }

@@ -99,9 +99,8 @@ public class ReactedUserHolderView extends FrameLayout {
         setLayoutParams(new RecyclerView.LayoutParams(-1, AndroidUtilities.dp(50.0f)));
         int i3 = i == STYLE_STORY ? 48 : 34;
         BackupImageView backupImageView = new BackupImageView(context) { // from class: org.telegram.ui.Cells.ReactedUserHolderView.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 if (i != ReactedUserHolderView.STYLE_STORY) {
                     super.onDraw(canvas);
                 } else {

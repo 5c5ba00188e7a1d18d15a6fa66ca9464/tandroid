@@ -14,9 +14,7 @@ class TwilightManager {
     private final LocationManager mLocationManager;
     private final TwilightState mTwilightState = new TwilightState();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class TwilightState {
+    private static class TwilightState {
         boolean isNight;
         long nextUpdate;
 
@@ -29,8 +27,7 @@ class TwilightManager {
         this.mLocationManager = locationManager;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static TwilightManager getInstance(Context context) {
+    static TwilightManager getInstance(Context context) {
         if (sInstance == null) {
             Context applicationContext = context.getApplicationContext();
             sInstance = new TwilightManager(applicationContext, (LocationManager) applicationContext.getSystemService("location"));
@@ -84,8 +81,7 @@ class TwilightManager {
         twilightState.nextUpdate = j;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public boolean isNight() {
+    boolean isNight() {
         TwilightState twilightState = this.mTwilightState;
         if (isStateValid()) {
             return twilightState.isNight;

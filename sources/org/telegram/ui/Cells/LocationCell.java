@@ -132,7 +132,7 @@ public class LocationCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setLocation$0(long j, long j2, float f, float f2, ValueAnimator valueAnimator) {
-        float lerp = AndroidUtilities.lerp(f, f2, j2 > 0 ? Math.min(Math.max(((float) (SystemClock.elapsedRealtime() - j)) / ((float) j2), 0.0f), 1.0f) : 1.0f);
+        float lerp = AndroidUtilities.lerp(f, f2, j2 > 0 ? Math.min(Math.max((SystemClock.elapsedRealtime() - j) / j2, 0.0f), 1.0f) : 1.0f);
         this.enterAlpha = lerp;
         this.imageView.setAlpha(lerp);
         this.nameTextView.setAlpha(this.enterAlpha);
@@ -220,7 +220,7 @@ public class LocationCell extends FrameLayout {
         boolean z3 = tL_messageMediaVenue == null;
         final float f = this.enterAlpha;
         final float f2 = z3 ? 0.0f : 1.0f;
-        final long abs = Math.abs(f - f2) * 150.0f;
+        final long abs = (long) (Math.abs(f - f2) * 150.0f);
         this.enterAnimator = ValueAnimator.ofFloat(f, f2);
         final long elapsedRealtime = SystemClock.elapsedRealtime();
         this.enterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.LocationCell$$ExternalSyntheticLambda0

@@ -12,6 +12,6 @@ public final /* synthetic */ class TimelineView$AudioWaveformLoader$$ExternalSyn
 
     @Override // java.lang.Runnable
     public final void run() {
-        TimelineView.AudioWaveformLoader.$r8$lambda$euafz_GZqdf0mOeuLVK7symE8Ls(this.f$0);
+        this.f$0.run();
     }
 }

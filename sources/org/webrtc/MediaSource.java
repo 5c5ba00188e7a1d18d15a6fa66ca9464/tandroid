@@ -5,7 +5,6 @@ public class MediaSource {
     private long nativeSource;
     private final RefCountDelegate refCountDelegate;
 
-    /* loaded from: classes5.dex */
     public enum State {
         INITIALIZING,
         LIVE,
@@ -41,14 +40,12 @@ public class MediaSource {
         this.nativeSource = 0L;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public long getNativeMediaSource() {
+    protected long getNativeMediaSource() {
         checkMediaSourceExists();
         return this.nativeSource;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void runWithReference(Runnable runnable) {
+    void runWithReference(Runnable runnable) {
         if (this.refCountDelegate.safeRetain()) {
             try {
                 runnable.run();

@@ -77,9 +77,7 @@ public class PhotoView extends EntityView {
     private boolean segmentingLoading;
     private final Rect src;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class FrameLayoutDrawer extends FrameLayout {
+    private class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
             setWillNotDraw(false);
@@ -91,7 +89,6 @@ public class PhotoView extends EntityView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class PhotoViewSelectionView extends EntityView.SelectionView {
         private final Paint clearPaint;
         private Path path;
@@ -189,9 +186,8 @@ public class PhotoView extends EntityView {
         this.overridenSegmented = false;
         this.segmented = false;
         ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
                 if (i3 == 0 && (drawable instanceof BitmapDrawable)) {
                     PhotoView.this.lambda$segmentImage$1(((BitmapDrawable) drawable).getBitmap());
                 }
@@ -231,9 +227,8 @@ public class PhotoView extends EntityView {
         this.overridenSegmented = false;
         this.segmented = false;
         ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
                 if (i3 == 0 && (drawable instanceof BitmapDrawable)) {
                     PhotoView.this.lambda$segmentImage$1(((BitmapDrawable) drawable).getBitmap());
                 }
@@ -602,7 +597,7 @@ public class PhotoView extends EntityView {
                 }
                 float f3 = this.baseSize.width;
                 float f4 = f3 * 0.8f;
-                float f5 = ((float) (currentTimeMillis - this.highlightStart)) / 1000.0f;
+                float f5 = (currentTimeMillis - this.highlightStart) / 1000.0f;
                 float f6 = (((2.0f * f4) + f3) * f5) - f4;
                 if (this.highlightPaint == null) {
                     Paint paint = new Paint(1);
@@ -645,9 +640,8 @@ public class PhotoView extends EntityView {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    public void updatePosition() {
+    protected void updatePosition() {
         Size size = this.baseSize;
         float f = size.width / 2.0f;
         float f2 = size.height / 2.0f;

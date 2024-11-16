@@ -19,9 +19,7 @@ final class VorbisReader extends StreamReader {
     private VorbisUtil.VorbisIdHeader vorbisIdHeader;
     private VorbisSetup vorbisSetup;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static final class VorbisSetup {
+    static final class VorbisSetup {
         public final VorbisUtil.CommentHeader commentHeader;
         public final int iLogModes;
         public final VorbisUtil.VorbisIdHeader idHeader;
@@ -35,6 +33,9 @@ final class VorbisReader extends StreamReader {
             this.modes = modeArr;
             this.iLogModes = i;
         }
+    }
+
+    VorbisReader() {
     }
 
     static void appendNumberOfSamples(ParsableByteArray parsableByteArray, long j) {
@@ -66,9 +67,8 @@ final class VorbisReader extends StreamReader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    public void onSeekEnd(long j) {
+    protected void onSeekEnd(long j) {
         super.onSeekEnd(j);
         this.seenFirstAudioPacket = j != 0;
         VorbisUtil.VorbisIdHeader vorbisIdHeader = this.vorbisIdHeader;
@@ -123,9 +123,8 @@ final class VorbisReader extends StreamReader {
         return new VorbisSetup(vorbisIdHeader, commentHeader, bArr, VorbisUtil.readVorbisModes(parsableByteArray, vorbisIdHeader.channels), VorbisUtil.iLog(r4.length - 1));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    public void reset(boolean z) {
+    protected void reset(boolean z) {
         super.reset(z);
         if (z) {
             this.vorbisSetup = null;

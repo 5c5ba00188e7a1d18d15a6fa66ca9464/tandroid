@@ -2,20 +2,17 @@ package com.google.android.gms.internal.play_billing;
 
 /* loaded from: classes.dex */
 final class zzcr extends zzct {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzcr(zzcq zzcqVar) {
+    /* synthetic */ zzcr(zzcq zzcqVar) {
         super(null);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzct
-    public final void zza(Object obj, long j) {
+    final void zza(Object obj, long j) {
         ((zzcf) zzeq.zzf(obj, j)).zzb();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzct
-    public final void zzb(Object obj, Object obj2, long j) {
+    final void zzb(Object obj, Object obj2, long j) {
         zzcf zzcfVar = (zzcf) zzeq.zzf(obj, j);
         zzcf zzcfVar2 = (zzcf) zzeq.zzf(obj2, j);
         int size = zzcfVar.size();

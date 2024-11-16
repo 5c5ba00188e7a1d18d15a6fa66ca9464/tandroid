@@ -21,11 +21,9 @@ import java.util.List;
 public interface Player {
     public static final ArrayList videoListeners = new ArrayList();
 
-    /* loaded from: classes.dex */
     public abstract /* synthetic */ class -CC {
     }
 
-    /* loaded from: classes.dex */
     public static final class Commands implements Bundleable {
         private final FlagSet flags;
         public static final Commands EMPTY = new Builder().build();
@@ -39,7 +37,6 @@ public interface Player {
             }
         };
 
-        /* loaded from: classes.dex */
         public static final class Builder {
             private static final int[] SUPPORTED_COMMANDS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 31, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
             private final FlagSet.Builder flagsBuilder = new FlagSet.Builder();
@@ -112,7 +109,6 @@ public interface Player {
         }
     }
 
-    /* loaded from: classes.dex */
     public static final class Events {
         private final FlagSet flags;
 
@@ -135,10 +131,8 @@ public interface Player {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Listener {
 
-        /* loaded from: classes.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onAudioAttributesChanged(Listener listener, AudioAttributes audioAttributes) {
             }
@@ -294,7 +288,6 @@ public interface Player {
         void onVolumeChanged(float f);
     }
 
-    /* loaded from: classes.dex */
     public static final class PositionInfo implements Bundleable {
         public final int adGroupIndex;
         public final int adIndexInAdGroup;

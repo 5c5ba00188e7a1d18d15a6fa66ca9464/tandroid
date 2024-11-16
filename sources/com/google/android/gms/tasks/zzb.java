@@ -4,6 +4,9 @@ package com.google.android.gms.tasks;
 final class zzb extends CancellationToken {
     private final zzw zza = new zzw();
 
+    zzb() {
+    }
+
     @Override // com.google.android.gms.tasks.CancellationToken
     public final boolean isCancellationRequested() {
         return this.zza.isComplete();

@@ -22,10 +22,7 @@ public final /* synthetic */ class y0 implements j$.util.function.n {
     @Override // j$.util.function.n
     public final /* synthetic */ j$.util.function.n k(j$.util.function.n nVar) {
         switch (this.a) {
-            case 0:
-                return j$.com.android.tools.r8.a.b(this, nVar);
-            default:
-                return j$.com.android.tools.r8.a.b(this, nVar);
         }
+        return j$.com.android.tools.r8.a.b(this, nVar);
     }
 }

@@ -12,7 +12,6 @@ import java.util.Objects;
 public final class ContentInfoCompat {
     private final Compat mCompat;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private final BuilderCompat mBuilderCompat;
 
@@ -40,7 +39,6 @@ public final class ContentInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private interface BuilderCompat {
         ContentInfoCompat build();
 
@@ -51,7 +49,6 @@ public final class ContentInfoCompat {
         void setLinkUri(Uri uri);
     }
 
-    /* loaded from: classes.dex */
     private static final class BuilderCompat31Impl implements BuilderCompat {
         private final ContentInfo.Builder mPlatformBuilder;
 
@@ -82,7 +79,6 @@ public final class ContentInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class BuilderCompatImpl implements BuilderCompat {
         ClipData mClip;
         Bundle mExtras;
@@ -116,9 +112,7 @@ public final class ContentInfoCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface Compat {
+    private interface Compat {
         ClipData getClip();
 
         int getFlags();
@@ -128,9 +122,7 @@ public final class ContentInfoCompat {
         ContentInfo getWrapped();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Compat31Impl implements Compat {
+    private static final class Compat31Impl implements Compat {
         private final ContentInfo mWrapped;
 
         Compat31Impl(ContentInfo contentInfo) {
@@ -168,7 +160,6 @@ public final class ContentInfoCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class CompatImpl implements Compat {
         private final ClipData mClip;
         private final Bundle mExtras;

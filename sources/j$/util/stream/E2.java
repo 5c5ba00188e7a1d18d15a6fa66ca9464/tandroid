@@ -8,8 +8,7 @@ final class E2 extends s2 {
     private Object[] d;
     private int e;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public E2(e2 e2Var, Comparator comparator) {
+    E2(e2 e2Var, Comparator comparator) {
         super(e2Var, comparator);
     }
 

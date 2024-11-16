@@ -121,9 +121,7 @@ public class ReactionsLayoutInBubble {
     private final RectF scrimRect = new RectF();
     int currentAccount = UserConfig.selectedAccount;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class ButtonsComparator implements Comparator {
+    private static class ButtonsComparator implements Comparator {
         int currentAccount;
         long dialogId;
 
@@ -162,7 +160,6 @@ public class ReactionsLayoutInBubble {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class ReactionButton {
         public int animateFromWidth;
         public int animateFromX;
@@ -911,7 +908,6 @@ public class ReactionsLayoutInBubble {
         }
     }
 
-    /* loaded from: classes3.dex */
     public class ReactionLayoutButton extends ReactionButton {
         public ReactionLayoutButton(ReactionButton reactionButton, TLRPC.ReactionCount reactionCount, boolean z, boolean z2) {
             super(reactionButton, ReactionsLayoutInBubble.this.currentAccount, ReactionsLayoutInBubble.this.parentView, reactionCount, z, z2, ReactionsLayoutInBubble.this.resourcesProvider);
@@ -943,7 +939,6 @@ public class ReactionsLayoutInBubble {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class VisibleReaction {
         public long documentId;
         public long effectId;

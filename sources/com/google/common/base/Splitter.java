@@ -13,7 +13,6 @@ public final class Splitter {
     private final Strategy strategy;
     private final CharMatcher trimmer;
 
-    /* loaded from: classes.dex */
     private static abstract class SplittingIterator extends AbstractIterator {
         int limit;
         int offset = 0;
@@ -107,9 +106,7 @@ public final class Splitter {
         abstract int separatorStart(int i);
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface Strategy {
+    private interface Strategy {
         Iterator iterator(Splitter splitter, CharSequence charSequence);
     }
 

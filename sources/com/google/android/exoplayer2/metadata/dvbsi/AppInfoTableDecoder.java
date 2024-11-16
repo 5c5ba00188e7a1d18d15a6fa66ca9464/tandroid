@@ -34,13 +34,13 @@ public final class AppInfoTableDecoder extends SimpleMetadataDecoder {
                 if (readBits2 == 2) {
                     int readBits4 = parsableBitArray.readBits(16);
                     parsableBitArray.skipBits(8);
-                    if (readBits4 != 3) {
-                    }
-                    while (parsableBitArray.getBytePosition() < bytePosition3) {
-                        str = parsableBitArray.readBytesAsString(parsableBitArray.readBits(8), Charsets.US_ASCII);
-                        int readBits5 = parsableBitArray.readBits(8);
-                        for (int i = 0; i < readBits5; i++) {
-                            parsableBitArray.skipBytes(parsableBitArray.readBits(8));
+                    if (readBits4 == 3) {
+                        while (parsableBitArray.getBytePosition() < bytePosition3) {
+                            str = parsableBitArray.readBytesAsString(parsableBitArray.readBits(8), Charsets.US_ASCII);
+                            int readBits5 = parsableBitArray.readBits(8);
+                            for (int i = 0; i < readBits5; i++) {
+                                parsableBitArray.skipBytes(parsableBitArray.readBits(8));
+                            }
                         }
                     }
                 } else if (readBits2 == 21) {

@@ -29,12 +29,11 @@ public class ExperimentTokens extends AbstractSafeParcelable {
     private static final zza zzaa = new zzg();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public interface zza {
+    interface zza {
     }
 
     static {
-        byte[][] bArr = new byte[0];
+        byte[][] bArr = new byte[0][];
         zzn = bArr;
         zzo = new ExperimentTokens("", null, bArr, bArr, bArr, bArr, null, null);
     }

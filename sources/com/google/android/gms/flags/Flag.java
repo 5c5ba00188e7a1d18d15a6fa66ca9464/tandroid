@@ -6,7 +6,6 @@ public abstract class Flag {
     private final int zze;
     private final Object zzf;
 
-    /* loaded from: classes.dex */
     public static class BooleanFlag extends Flag {
         public BooleanFlag(int i, String str, Boolean bool) {
             super(i, str, bool);

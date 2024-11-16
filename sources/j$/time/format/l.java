@@ -1,8 +1,7 @@
 package j$.time.format;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public enum l implements g {
+enum l implements g {
     SENSITIVE,
     INSENSITIVE,
     STRICT,

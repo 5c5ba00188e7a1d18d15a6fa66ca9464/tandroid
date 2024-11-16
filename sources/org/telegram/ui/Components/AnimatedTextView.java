@@ -26,8 +26,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.graphics.ColorUtils;
-import androidx.emoji2.text.UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion0;
-import androidx.emoji2.text.UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion1;
 import j$.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +45,6 @@ public class AnimatedTextView extends View {
     private boolean toSetMoveDown;
     private CharSequence toSetText;
 
-    /* loaded from: classes3.dex */
     public static class AnimatedTextDrawable extends Drawable {
         private boolean allowCancel;
         private int alpha;
@@ -100,9 +97,7 @@ public class AnimatedTextView extends View {
         public boolean updateAll;
         private Runnable widthUpdatedListener;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class Part {
+        private class Part {
             AnimatedEmojiSpan.EmojiGroupedSpans emoji;
             StaticLayout layout;
             float left;
@@ -144,14 +139,11 @@ public class AnimatedTextView extends View {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public interface RegionCallback {
+        interface RegionCallback {
             void run(CharSequence charSequence, int i, int i2);
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public static class WordSequence implements CharSequence {
+        private static class WordSequence implements CharSequence {
             private final int length;
             private final CharSequence[] words;
 
@@ -205,10 +197,12 @@ public class AnimatedTextView extends View {
 
             @Override // java.lang.CharSequence
             public IntStream chars() {
-                if (Build.VERSION.SDK_INT >= 24) {
-                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion1.m(toCharSequence());
+                IntStream convert;
+                if (Build.VERSION.SDK_INT < 24) {
+                    return null;
                 }
-                return null;
+                convert = IntStream.VivifiedWrapper.convert(toCharSequence().chars());
+                return convert;
             }
 
             @Override // java.lang.CharSequence
@@ -218,10 +212,12 @@ public class AnimatedTextView extends View {
 
             @Override // java.lang.CharSequence
             public IntStream codePoints() {
-                if (Build.VERSION.SDK_INT >= 24) {
-                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion0.m(toCharSequence());
+                IntStream convert;
+                if (Build.VERSION.SDK_INT < 24) {
+                    return null;
                 }
-                return null;
+                convert = IntStream.VivifiedWrapper.convert(toCharSequence().codePoints());
+                return convert;
             }
 
             @Override // java.lang.CharSequence
@@ -993,9 +989,8 @@ public class AnimatedTextView extends View {
                 this.t = 0.0f;
                 if (!charSequence.equals(this.currentText)) {
                     clearCurrentParts();
-                    this.currentParts = r12;
+                    this.currentParts = new Part[]{new Part(makeLayout(charSequence, i), 0.0f, -1)};
                     this.currentText = charSequence;
-                    Part[] partArr = {new Part(makeLayout(charSequence, i), 0.0f, -1)};
                     this.currentWidth = this.currentParts[0].width;
                     this.currentHeight = r11.layout.getHeight();
                     this.isRTL = AndroidUtilities.isRTL(this.currentText);
@@ -1052,14 +1047,14 @@ public class AnimatedTextView extends View {
                 }
             });
             clearCurrentParts();
-            Part[] partArr2 = this.currentParts;
-            if (partArr2 == null || partArr2.length != arrayList.size()) {
+            Part[] partArr = this.currentParts;
+            if (partArr == null || partArr.length != arrayList.size()) {
                 this.currentParts = new Part[arrayList.size()];
             }
             arrayList.toArray(this.currentParts);
             clearOldParts();
-            Part[] partArr3 = this.oldParts;
-            if (partArr3 == null || partArr3.length != arrayList2.size()) {
+            Part[] partArr2 = this.oldParts;
+            if (partArr2 == null || partArr2.length != arrayList2.size()) {
                 this.oldParts = new Part[arrayList2.size()];
             }
             arrayList2.toArray(this.oldParts);
@@ -1266,9 +1261,8 @@ public class AnimatedTextView extends View {
         return this.drawable.isAnimating();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         this.drawable.setBounds(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getMeasuredHeight() - getPaddingBottom());
         this.drawable.draw(canvas);
     }
@@ -1280,9 +1274,8 @@ public class AnimatedTextView extends View {
         accessibilityNodeInfo.setText(getText());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.View
-    public void onMeasure(int i, int i2) {
+    protected void onMeasure(int i, int i2) {
         int size = View.MeasureSpec.getSize(i);
         int size2 = View.MeasureSpec.getSize(i2);
         int i3 = this.maxWidth;

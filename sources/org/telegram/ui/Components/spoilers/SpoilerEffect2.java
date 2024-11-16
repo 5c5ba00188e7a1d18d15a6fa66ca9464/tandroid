@@ -50,9 +50,7 @@ public class SpoilerEffect2 {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class SpoilerThread extends Thread {
+    private class SpoilerThread extends Thread {
         private int deltaTimeHandle;
         private int drawProgram;
         private EGL10 egl;
@@ -437,7 +435,7 @@ public class SpoilerEffect2 {
                 if (SpoilerEffect2.this.thread == null) {
                     SpoilerEffect2 spoilerEffect2 = SpoilerEffect2.this;
                     final SpoilerEffect2 spoilerEffect22 = SpoilerEffect2.this;
-                    spoilerEffect2.thread = new SpoilerThread(surfaceTexture, i5, i6, new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect2$3$$ExternalSyntheticLambda0
+                    spoilerEffect2.thread = spoilerEffect22.new SpoilerThread(surfaceTexture, i5, i6, new Runnable() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect2$3$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             SpoilerEffect2.this.invalidate();

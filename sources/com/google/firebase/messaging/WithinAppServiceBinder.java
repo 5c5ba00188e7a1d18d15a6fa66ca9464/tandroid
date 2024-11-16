@@ -12,18 +12,15 @@ import com.google.firebase.messaging.WithinAppServiceConnection;
 class WithinAppServiceBinder extends Binder {
     private final IntentHandler intentHandler;
 
-    /* loaded from: classes.dex */
     interface IntentHandler {
         Task handle(Intent intent);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public WithinAppServiceBinder(IntentHandler intentHandler) {
+    WithinAppServiceBinder(IntentHandler intentHandler) {
         this.intentHandler = intentHandler;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void send(final WithinAppServiceConnection.BindRequest bindRequest) {
+    void send(final WithinAppServiceConnection.BindRequest bindRequest) {
         if (Binder.getCallingUid() != Process.myUid()) {
             throw new SecurityException("Binding only allowed within app");
         }
@@ -33,7 +30,6 @@ class WithinAppServiceBinder extends Binder {
         this.intentHandler.handle(bindRequest.intent).addOnCompleteListener(WithinAppServiceBinder$$Lambda$0.$instance, new OnCompleteListener(bindRequest) { // from class: com.google.firebase.messaging.WithinAppServiceBinder$$Lambda$1
             private final WithinAppServiceConnection.BindRequest arg$1;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = bindRequest;
             }

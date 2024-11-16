@@ -13,9 +13,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class ActivityRecreator {
+abstract class ActivityRecreator {
     protected static final Class activityThreadClass;
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
     protected static final Field mainThreadField;
@@ -24,7 +23,6 @@ public abstract class ActivityRecreator {
     protected static final Method requestRelaunchActivityMethod;
     protected static final Field tokenField;
 
-    /* loaded from: classes.dex */
     private static final class LifecycleCheckCallbacks implements Application.ActivityLifecycleCallbacks {
         Object currentlyRecreatingToken;
         private Activity mActivity;
@@ -194,8 +192,7 @@ public abstract class ActivityRecreator {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean recreate(Activity activity) {
+    static boolean recreate(Activity activity) {
         Object obj;
         if (Build.VERSION.SDK_INT >= 28) {
             activity.recreate();

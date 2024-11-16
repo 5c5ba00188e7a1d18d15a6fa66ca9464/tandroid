@@ -85,9 +85,7 @@ public class EditWidgetActivity extends BaseFragment {
     private WidgetPreviewCell widgetPreviewCell;
     private int widgetType;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements RecyclerListView.OnItemLongClickListenerExtended {
+    class 2 implements RecyclerListView.OnItemLongClickListenerExtended {
         private Rect rect = new Rect();
 
         2() {
@@ -132,14 +130,12 @@ public class EditWidgetActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface EditWidgetActivityDelegate {
         void didSelectDialogs(ArrayList arrayList);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {
@@ -284,7 +280,7 @@ public class EditWidgetActivity extends BaseFragment {
                 imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_pinnedIcon), PorterDuff.Mode.MULTIPLY));
                 frameLayout = groupCreateUserCell;
             } else {
-                frameLayout = EditWidgetActivity.this.widgetPreviewCell = new WidgetPreviewCell(this.mContext);
+                frameLayout = EditWidgetActivity.this.widgetPreviewCell = EditWidgetActivity.this.new WidgetPreviewCell(this.mContext);
             }
             return new RecyclerListView.Holder(frameLayout);
         }
@@ -312,7 +308,6 @@ public class EditWidgetActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class TouchHelperCallback extends ItemTouchHelper.Callback {
         private boolean moved;
 
@@ -374,7 +369,6 @@ public class EditWidgetActivity extends BaseFragment {
         }
     }
 
-    /* loaded from: classes4.dex */
     public class WidgetPreviewCell extends FrameLayout {
         private Drawable backgroundDrawable;
         private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;

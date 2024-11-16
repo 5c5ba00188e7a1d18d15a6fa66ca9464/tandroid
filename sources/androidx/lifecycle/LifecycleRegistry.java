@@ -20,9 +20,7 @@ public class LifecycleRegistry extends Lifecycle {
     private ArrayList mParentStates;
     private Lifecycle.State mState;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class ObserverWithState {
+    static class ObserverWithState {
         LifecycleEventObserver mLifecycleObserver;
         Lifecycle.State mState;
 

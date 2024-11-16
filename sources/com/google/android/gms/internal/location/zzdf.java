@@ -21,8 +21,7 @@ public final class zzdf extends AbstractSafeParcelable {
     private final zzk zzf;
     private final String zzg;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdf(int i, zzdd zzddVar, IBinder iBinder, IBinder iBinder2, PendingIntent pendingIntent, IBinder iBinder3, String str) {
+    zzdf(int i, zzdd zzddVar, IBinder iBinder, IBinder iBinder2, PendingIntent pendingIntent, IBinder iBinder3, String str) {
         this.zza = i;
         this.zzb = zzddVar;
         zzk zzkVar = null;

@@ -39,8 +39,7 @@ public class FirebaseRemoteConfig {
     private final ConfigMetadataClient frcMetadata;
     private final ConfigGetParameterHandler getHandler;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public FirebaseRemoteConfig(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Executor executor, ConfigCacheClient configCacheClient, ConfigCacheClient configCacheClient2, ConfigCacheClient configCacheClient3, ConfigFetchHandler configFetchHandler, ConfigGetParameterHandler configGetParameterHandler, ConfigMetadataClient configMetadataClient) {
+    FirebaseRemoteConfig(Context context, FirebaseApp firebaseApp, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Executor executor, ConfigCacheClient configCacheClient, ConfigCacheClient configCacheClient2, ConfigCacheClient configCacheClient3, ConfigFetchHandler configFetchHandler, ConfigGetParameterHandler configGetParameterHandler, ConfigMetadataClient configMetadataClient) {
         this.context = context;
         this.firebaseApp = firebaseApp;
         this.firebaseInstallations = firebaseInstallationsApi;
@@ -148,8 +147,7 @@ public class FirebaseRemoteConfig {
         return this.getHandler.getString(str);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void startLoadingConfigsFromDisk() {
+    void startLoadingConfigsFromDisk() {
         this.activatedConfigsCache.get();
         this.defaultConfigsCache.get();
         this.fetchedConfigsCache.get();

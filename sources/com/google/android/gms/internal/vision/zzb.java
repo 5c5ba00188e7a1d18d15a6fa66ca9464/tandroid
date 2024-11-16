@@ -9,14 +9,12 @@ public abstract class zzb implements IInterface {
     private final IBinder zza;
     private final String zzb;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public zzb(IBinder iBinder, String str) {
+    protected zzb(IBinder iBinder, String str) {
         this.zza = iBinder;
         this.zzb = str;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel a_() {
+    protected final Parcel a_() {
         Parcel obtain = Parcel.obtain();
         obtain.writeInterfaceToken(this.zzb);
         return obtain;
@@ -27,8 +25,7 @@ public abstract class zzb implements IInterface {
         return this.zza;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final Parcel zza(int i, Parcel parcel) {
+    protected final Parcel zza(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             try {
@@ -44,8 +41,7 @@ public abstract class zzb implements IInterface {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void zzb(int i, Parcel parcel) {
+    protected final void zzb(int i, Parcel parcel) {
         Parcel obtain = Parcel.obtain();
         try {
             this.zza.transact(i, parcel, obtain, 0);

@@ -56,9 +56,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.ReleaseCallback, SequenceableLoader, ExtractorOutput, SampleQueue.UpstreamFormatChangedListener {
+final class HlsSampleStreamWrapper implements Loader.Callback, Loader.ReleaseCallback, SequenceableLoader, ExtractorOutput, SampleQueue.UpstreamFormatChangedListener {
     private static final Set MAPPABLE_TYPES = Collections.unmodifiableSet(new HashSet(Arrays.asList(1, 2, 5)));
     private final Allocator allocator;
     private final Callback callback;
@@ -111,14 +110,12 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
     private final HlsChunkSource.HlsChunkHolder nextChunkHolder = new HlsChunkSource.HlsChunkHolder();
     private int[] sampleQueueTrackIds = new int[0];
 
-    /* loaded from: classes.dex */
     public interface Callback extends SequenceableLoader.Callback {
         void onPlaylistRefreshRequired(Uri uri);
 
         void onPrepared();
     }
 
-    /* loaded from: classes.dex */
     private static class EmsgUnwrappingTrackOutput implements TrackOutput {
         private byte[] buffer;
         private int bufferPosition;
@@ -227,9 +224,7 @@ public final class HlsSampleStreamWrapper implements Loader.Callback, Loader.Rel
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class HlsSampleQueue extends SampleQueue {
+    private static final class HlsSampleQueue extends SampleQueue {
         private DrmInitData drmInitData;
         private final Map overridingDrmInitData;
 

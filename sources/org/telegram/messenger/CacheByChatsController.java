@@ -24,7 +24,6 @@ public class CacheByChatsController {
     private final int currentAccount;
     int[] keepMediaByTypes = {-1, -1, -1, -1};
 
-    /* loaded from: classes3.dex */
     public static class KeepMediaException {
         public final long dialogId;
         public int keepMedia;
@@ -35,7 +34,6 @@ public class CacheByChatsController {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class KeepMediaFile {
         final File file;
         boolean isStory;

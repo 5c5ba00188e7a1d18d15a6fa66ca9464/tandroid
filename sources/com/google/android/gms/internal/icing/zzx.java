@@ -19,8 +19,7 @@ public final class zzx extends AbstractSafeParcelable {
     int zzh;
     public final String zzi;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzx(zzi zziVar, long j, int i, String str, zzg zzgVar, boolean z, int i2, int i3, String str2) {
+    zzx(zzi zziVar, long j, int i, String str, zzg zzgVar, boolean z, int i2, int i3, String str2) {
         this.zza = zziVar;
         this.zzb = j;
         this.zzc = i;

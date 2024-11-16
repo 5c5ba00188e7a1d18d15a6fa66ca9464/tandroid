@@ -17,6 +17,9 @@ final class OpusReader extends StreamReader {
     private static final byte[] OPUS_ID_HEADER_SIGNATURE = {79, 112, 117, 115, 72, 101, 97, 100};
     private static final byte[] OPUS_COMMENT_HEADER_SIGNATURE = {79, 112, 117, 115, 84, 97, 103, 115};
 
+    OpusReader() {
+    }
+
     private static boolean peekPacketStartsWith(ParsableByteArray parsableByteArray, byte[] bArr) {
         if (parsableByteArray.bytesLeft() < bArr.length) {
             return false;
@@ -70,9 +73,8 @@ final class OpusReader extends StreamReader {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.extractor.ogg.StreamReader
-    public void reset(boolean z) {
+    protected void reset(boolean z) {
         super.reset(z);
         if (z) {
             this.firstCommentHeaderSeen = false;

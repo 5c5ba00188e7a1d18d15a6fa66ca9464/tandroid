@@ -98,7 +98,6 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     private ActionBarMenuSubItem zoomInItem;
     private ActionBarMenuSubItem zoomOutItem;
 
-    /* loaded from: classes3.dex */
     class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
@@ -160,7 +159,6 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         }
     }
 
-    /* loaded from: classes3.dex */
     private class StoriesTabsView extends BottomPagerTabs {
         public StoriesTabsView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context, resourcesProvider);
@@ -607,7 +605,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:90:0x062a  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x0649  */
     /* JADX WARN: Type inference failed for: r5v13 */
-    /* JADX WARN: Type inference failed for: r5v14, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v14, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v15 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -656,9 +654,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return true;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            public void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
+            protected void drawList(Canvas canvas, boolean z, ArrayList arrayList) {
                 MediaActivity.this.sharedMediaLayout.drawListForBlur(canvas, arrayList);
             }
 
@@ -995,9 +992,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 return MediaActivity.this.type == 1 || MediaActivity.this.type == 2;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onActionModeSelectedUpdate(SparseArray sparseArray) {
+            protected void onActionModeSelectedUpdate(SparseArray sparseArray) {
                 int size = sparseArray.size();
                 MediaActivity.this.actionModeMessageObjects = sparseArray;
                 if (MediaActivity.this.type == 1 || MediaActivity.this.type == 2) {
@@ -1019,16 +1015,14 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 AndroidUtilities.updateViewVisibilityAnimated(frameLayout2, !z2, 0.95f, true);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onSelectedTabChanged() {
+            protected void onSelectedTabChanged() {
                 super.onSelectedTabChanged();
                 MediaActivity.this.updateMediaCount();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SharedMediaLayout
-            public void onTabProgress(float f) {
+            protected void onTabProgress(float f) {
                 if (MediaActivity.this.type != 1) {
                     return;
                 }
@@ -1050,7 +1044,6 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             /* JADX WARN: Removed duplicated region for block: B:24:0x005d  */
             /* JADX WARN: Removed duplicated region for block: B:27:0x007a  */
             /* JADX WARN: Removed duplicated region for block: B:30:0x0091  */
@@ -1067,7 +1060,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void showActionMode(final boolean z2) {
+            protected void showActionMode(final boolean z2) {
                 FrameLayout frameLayout6;
                 if (MediaActivity.this.type == 0) {
                     super.showActionMode(z2);

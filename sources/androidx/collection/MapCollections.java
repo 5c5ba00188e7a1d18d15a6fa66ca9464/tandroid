@@ -7,14 +7,12 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public abstract class MapCollections {
+abstract class MapCollections {
     EntrySet mEntrySet;
     KeySet mKeySet;
     ValuesCollection mValues;
 
-    /* loaded from: classes.dex */
     final class ArrayIterator implements Iterator {
         boolean mCanRemove = false;
         int mIndex;
@@ -55,7 +53,6 @@ public abstract class MapCollections {
         }
     }
 
-    /* loaded from: classes.dex */
     final class EntrySet implements Set {
         EntrySet() {
         }
@@ -128,7 +125,7 @@ public abstract class MapCollections {
 
         @Override // java.util.Set, java.util.Collection, java.lang.Iterable
         public Iterator iterator() {
-            return new MapIterator();
+            return MapCollections.this.new MapIterator();
         }
 
         @Override // java.util.Set, java.util.Collection
@@ -162,7 +159,6 @@ public abstract class MapCollections {
         }
     }
 
-    /* loaded from: classes.dex */
     final class KeySet implements Set {
         KeySet() {
         }
@@ -214,7 +210,7 @@ public abstract class MapCollections {
 
         @Override // java.util.Set, java.util.Collection, java.lang.Iterable
         public Iterator iterator() {
-            return new ArrayIterator(0);
+            return MapCollections.this.new ArrayIterator(0);
         }
 
         @Override // java.util.Set, java.util.Collection
@@ -253,7 +249,6 @@ public abstract class MapCollections {
         }
     }
 
-    /* loaded from: classes.dex */
     final class MapIterator implements Iterator, Map.Entry {
         int mEnd;
         boolean mEntryValid = false;
@@ -340,7 +335,6 @@ public abstract class MapCollections {
         }
     }
 
-    /* loaded from: classes.dex */
     final class ValuesCollection implements Collection {
         ValuesCollection() {
         }
@@ -383,7 +377,7 @@ public abstract class MapCollections {
 
         @Override // java.util.Collection, java.lang.Iterable
         public Iterator iterator() {
-            return new ArrayIterator(1);
+            return MapCollections.this.new ArrayIterator(1);
         }
 
         @Override // java.util.Collection
@@ -444,6 +438,9 @@ public abstract class MapCollections {
         public Object[] toArray(Object[] objArr) {
             return MapCollections.this.toArrayHelper(objArr, 1);
         }
+    }
+
+    MapCollections() {
     }
 
     public static boolean containsAllHelper(Map map, Collection collection) {

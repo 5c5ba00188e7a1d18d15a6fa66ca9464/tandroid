@@ -733,6 +733,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         TextView textView2;
         SimpleTextView simpleTextView2;
         Drawable drawable;
+        int i3;
         AvatarDrawable avatarDrawable;
         TLRPC.FileLocation fileLocation2;
         this.dialogId = 0L;
@@ -784,108 +785,45 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(19.0f);
             String str3 = (String) this.currentObject;
             str3.hashCode();
-            int i3 = 5;
-            char c = 65535;
-            switch (str3.hashCode()) {
-                case -1716307998:
-                    if (str3.equals("archived")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case -1237460524:
-                    if (str3.equals("groups")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case -1197490811:
-                    if (str3.equals("non_contacts")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case -567451565:
-                    if (str3.equals("contacts")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-                case -268161860:
-                    if (str3.equals("new_chats")) {
-                        c = 4;
-                        break;
-                    }
-                    break;
-                case 3029900:
-                    if (str3.equals("bots")) {
-                        c = 5;
-                        break;
-                    }
-                    break;
-                case 3496342:
-                    if (str3.equals("read")) {
-                        c = 6;
-                        break;
-                    }
-                    break;
-                case 104264043:
-                    if (str3.equals("muted")) {
-                        c = 7;
-                        break;
-                    }
-                    break;
-                case 151051367:
-                    if (str3.equals("existing_chats")) {
-                        c = '\b';
-                        break;
-                    }
-                    break;
-                case 1432626128:
-                    if (str3.equals("channels")) {
-                        c = '\t';
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            i3 = 5;
+            switch (str3) {
+                case "archived":
                     avatarDrawable = this.avatarDrawable;
                     i3 = 11;
                     avatarDrawable.setAvatarType(i3);
                     break;
-                case 1:
+                case "groups":
                     this.avatarDrawable.setAvatarType(6);
                     break;
-                case 2:
+                case "non_contacts":
                     avatarDrawable = this.avatarDrawable;
                     avatarDrawable.setAvatarType(i3);
                     break;
-                case 3:
+                case "contacts":
                     this.avatarDrawable.setAvatarType(4);
                     break;
-                case 4:
+                case "new_chats":
                     avatarDrawable = this.avatarDrawable;
                     i3 = 24;
                     avatarDrawable.setAvatarType(i3);
                     break;
-                case 5:
+                case "bots":
                     this.avatarDrawable.setAvatarType(8);
                     break;
-                case 6:
+                case "read":
                     avatarDrawable = this.avatarDrawable;
                     i3 = 10;
                     avatarDrawable.setAvatarType(i3);
                     break;
-                case 7:
+                case "muted":
                     this.avatarDrawable.setAvatarType(9);
                     break;
-                case '\b':
+                case "existing_chats":
                     avatarDrawable = this.avatarDrawable;
                     i3 = 23;
                     avatarDrawable.setAvatarType(i3);
                     break;
-                case '\t':
+                case "channels":
                     this.avatarDrawable.setAvatarType(7);
                     break;
             }

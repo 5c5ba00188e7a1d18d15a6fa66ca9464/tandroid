@@ -48,9 +48,7 @@ class SuggestionsAdapter extends ResourceCursorAdapter implements View.OnClickLi
     private int mText2UrlCol;
     private ColorStateList mUrlColor;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ChildViewCache {
+    private static final class ChildViewCache {
         public final ImageView mIcon1;
         public final ImageView mIcon2;
         public final ImageView mIconRefine;

@@ -55,7 +55,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     private TextPaint textPaint;
     int type;
 
-    /* loaded from: classes3.dex */
     private class BoldAndAccent extends CharacterStyle {
         private BoldAndAccent() {
         }

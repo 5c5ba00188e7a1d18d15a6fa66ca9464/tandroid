@@ -141,9 +141,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     private TextInfoPrivacyCell typeInfoCell;
     private double videoTimestamp;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 extends ActionBar.ActionBarMenuOnItemClick {
+    class 1 extends ActionBar.ActionBarMenuOnItemClick {
         1() {
         }
 
@@ -887,7 +885,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     ChannelCreateActivity.this.lambda$updateDoneProgress$4(valueAnimator2);
                 }
             });
-            this.doneButtonDrawableAnimator.setDuration(Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f);
+            this.doneButtonDrawableAnimator.setDuration((long) (Math.abs(this.doneButtonDrawable.getProgress() - (z ? 1.0f : 0.0f)) * 200.0f));
             this.doneButtonDrawableAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.doneButtonDrawableAnimator.start();
         }
@@ -1021,7 +1019,6 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             SizeNotifierFrameLayout sizeNotifierFrameLayout = new SizeNotifierFrameLayout(context) { // from class: org.telegram.ui.ChannelCreateActivity.2
                 private boolean ignoreLayout;
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 /* JADX WARN: Removed duplicated region for block: B:22:0x006f  */
                 /* JADX WARN: Removed duplicated region for block: B:29:0x009d  */
                 /* JADX WARN: Removed duplicated region for block: B:33:0x00af  */
@@ -1031,7 +1028,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
                 */
-                public void onLayout(boolean z, int i5, int i6, int i7, int i8) {
+                protected void onLayout(boolean z, int i5, int i6, int i7, int i8) {
                     int i9;
                     int i10;
                     int i11;

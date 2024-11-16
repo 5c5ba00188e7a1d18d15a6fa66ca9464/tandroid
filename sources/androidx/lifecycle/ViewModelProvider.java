@@ -13,17 +13,14 @@ public class ViewModelProvider {
     private final Factory factory;
     private final ViewModelStore store;
 
-    /* loaded from: classes.dex */
     public static class AndroidViewModelFactory extends NewInstanceFactory {
         private static AndroidViewModelFactory sInstance;
         private final Application application;
         public static final Companion Companion = new Companion(null);
         public static final CreationExtras.Key APPLICATION_KEY = Companion.ApplicationKeyImpl.INSTANCE;
 
-        /* loaded from: classes.dex */
         public static final class Companion {
 
-            /* loaded from: classes.dex */
             private static final class ApplicationKeyImpl implements CreationExtras.Key {
                 public static final ApplicationKeyImpl INSTANCE = new ApplicationKeyImpl();
 
@@ -120,10 +117,8 @@ public class ViewModelProvider {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface Factory {
 
-        /* loaded from: classes.dex */
         public abstract /* synthetic */ class -CC {
             public static ViewModel $default$create(Factory factory, Class modelClass) {
                 Intrinsics.checkNotNullParameter(modelClass, "modelClass");
@@ -142,16 +137,13 @@ public class ViewModelProvider {
         ViewModel create(Class cls, CreationExtras creationExtras);
     }
 
-    /* loaded from: classes.dex */
     public static class NewInstanceFactory implements Factory {
         public static final Companion Companion = new Companion(null);
         public static final CreationExtras.Key VIEW_MODEL_KEY = Companion.ViewModelKeyImpl.INSTANCE;
         private static NewInstanceFactory sInstance;
 
-        /* loaded from: classes.dex */
         public static final class Companion {
 
-            /* loaded from: classes.dex */
             private static final class ViewModelKeyImpl implements CreationExtras.Key {
                 public static final ViewModelKeyImpl INSTANCE = new ViewModelKeyImpl();
 
@@ -196,7 +188,6 @@ public class ViewModelProvider {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class OnRequeryFactory {
         public abstract void onRequery(ViewModel viewModel);
     }

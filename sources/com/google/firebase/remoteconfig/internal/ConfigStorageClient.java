@@ -41,8 +41,7 @@ public class ConfigStorageClient {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getFileName() {
+    String getFileName() {
         return this.fileName;
     }
 

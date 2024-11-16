@@ -4,16 +4,14 @@ import com.google.android.gms.common.api.internal.ListenerHolder;
 import com.google.android.gms.common.api.internal.RemoteCall;
 import com.google.android.gms.tasks.TaskCompletionSource;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzbo implements RemoteCall, zzcs {
+final class zzbo implements RemoteCall, zzcs {
     final /* synthetic */ zzbp zza;
     private final zzbn zzb;
     private ListenerHolder zzc;
     private boolean zzd = true;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzbo(zzbp zzbpVar, ListenerHolder listenerHolder, zzbn zzbnVar) {
+    zzbo(zzbp zzbpVar, ListenerHolder listenerHolder, zzbn zzbnVar) {
         this.zza = zzbpVar;
         this.zzc = listenerHolder;
         this.zzb = zzbnVar;

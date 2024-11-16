@@ -2,9 +2,8 @@ package com.google.android.gms.internal.vision;
 
 import org.telegram.tgnet.ConnectionsManager;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzih extends zzif {
+final class zzih extends zzif {
     private final byte[] zzd;
     private final boolean zze;
     private int zzf;

@@ -21,6 +21,7 @@ public final class TrackEncryptionBox {
         this.cryptoData = new TrackOutput.CryptoData(schemeToCryptoMode(str), bArr, i2, i3);
     }
 
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
     private static int schemeToCryptoMode(String str) {
         if (str == null) {
             return 1;

@@ -9,8 +9,7 @@ final class zzi implements Callable {
     private final /* synthetic */ String zzp;
     private final /* synthetic */ String zzt;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzi(SharedPreferences sharedPreferences, String str, String str2) {
+    zzi(SharedPreferences sharedPreferences, String str, String str2) {
         this.zzo = sharedPreferences;
         this.zzp = str;
         this.zzt = str2;

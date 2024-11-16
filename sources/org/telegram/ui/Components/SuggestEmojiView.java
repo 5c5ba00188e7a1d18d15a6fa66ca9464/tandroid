@@ -88,9 +88,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     private AnimatedFloat showFloat2;
     private Runnable updateRunnable;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
+    class 1 implements ContentPreviewViewer.ContentPreviewViewerDelegate {
         1() {
         }
 
@@ -349,9 +347,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         SuggestEmojiView suggestEmojiView;
 
         public Adapter(SuggestEmojiView suggestEmojiView) {
@@ -386,11 +382,10 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new RecyclerListView.Holder(new EmojiImageView(this.suggestEmojiView.getContext()));
+            return new RecyclerListView.Holder(SuggestEmojiView.this.new EmojiImageView(this.suggestEmojiView.getContext()));
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface AnchorViewDelegate {
         void addTextChangedListener(TextWatcher textWatcher);
 
@@ -407,7 +402,6 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         void setFieldText(CharSequence charSequence);
     }
 
-    /* loaded from: classes3.dex */
     public class EmojiImageView extends View {
         private boolean attached;
         private int direction;

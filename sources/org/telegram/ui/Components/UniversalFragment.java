@@ -61,16 +61,14 @@ public abstract class UniversalFragment extends BaseFragment {
                 return Boolean.valueOf(UniversalFragment.this.onLongClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue()));
             }
         }) { // from class: org.telegram.ui.Components.UniversalFragment.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 super.onLayout(z, i, i2, i3, i4);
                 UniversalFragment.this.savedScrollPosition = -1;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
-            public void onMeasure(int i, int i2) {
+            protected void onMeasure(int i, int i2) {
                 super.onMeasure(i, i2);
             }
         };
@@ -80,16 +78,13 @@ public abstract class UniversalFragment extends BaseFragment {
         return sizeNotifierFrameLayout;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter);
+    protected abstract void fillItems(ArrayList arrayList, UniversalAdapter universalAdapter);
 
     protected abstract CharSequence getTitle();
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract void onClick(UItem uItem, View view, int i, float f, float f2);
+    protected abstract void onClick(UItem uItem, View view, int i, float f, float f2);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract boolean onLongClick(UItem uItem, View view, int i, float f, float f2);
+    protected abstract boolean onLongClick(UItem uItem, View view, int i, float f, float f2);
 
     public void saveScrollPosition() {
         UniversalRecyclerView universalRecyclerView = this.listView;

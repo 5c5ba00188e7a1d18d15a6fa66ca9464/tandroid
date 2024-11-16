@@ -9,8 +9,7 @@ public final class zzc {
     private final zze zza;
     private final ExecutorSelector zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzc(zze zzeVar, ExecutorSelector executorSelector) {
+    zzc(zze zzeVar, ExecutorSelector executorSelector) {
         this.zza = zzeVar;
         this.zzb = executorSelector;
     }

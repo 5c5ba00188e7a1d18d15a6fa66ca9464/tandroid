@@ -21,8 +21,7 @@ public final class Collectors {
         Collections.emptySet();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void a(double[] dArr, double d) {
+    static void a(double[] dArr, double d) {
         double d2 = d - dArr[1];
         double d3 = dArr[0];
         double d4 = d3 + d2;

@@ -8,20 +8,17 @@ final class zam {
     private final int zaa;
     private final ConnectionResult zab;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zam(ConnectionResult connectionResult, int i) {
+    zam(ConnectionResult connectionResult, int i) {
         Preconditions.checkNotNull(connectionResult);
         this.zab = connectionResult;
         this.zaa = i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int zaa() {
+    final int zaa() {
         return this.zaa;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final ConnectionResult zab() {
+    final ConnectionResult zab() {
         return this.zab;
     }
 }

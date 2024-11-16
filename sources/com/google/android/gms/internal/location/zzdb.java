@@ -19,8 +19,7 @@ public final class zzdb extends AbstractSafeParcelable {
     private final String zze;
     private final String zzf;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzdb(int i, IBinder iBinder, IBinder iBinder2, PendingIntent pendingIntent, String str, String str2) {
+    zzdb(int i, IBinder iBinder, IBinder iBinder2, PendingIntent pendingIntent, String str, String str2) {
         this.zza = i;
         this.zzb = iBinder;
         this.zzc = iBinder2;
@@ -31,7 +30,7 @@ public final class zzdb extends AbstractSafeParcelable {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r2v0, types: [android.os.IBinder] */
-    /* JADX WARN: Type inference failed for: r8v0, types: [com.google.android.gms.location.zzr, android.os.IBinder] */
+    /* JADX WARN: Type inference failed for: r8v0, types: [android.os.IBinder, com.google.android.gms.location.zzr] */
     public static zzdb zzb(IInterface iInterface, com.google.android.gms.location.zzr zzrVar, String str, String str2) {
         if (iInterface == null) {
             iInterface = null;

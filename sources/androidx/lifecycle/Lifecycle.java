@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public abstract class Lifecycle {
     AtomicReference mInternalScopeRef = new AtomicReference();
 
-    /* loaded from: classes.dex */
     static /* synthetic */ class 1 {
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$Event;
         static final /* synthetic */ int[] $SwitchMap$androidx$lifecycle$Lifecycle$State;
@@ -67,7 +66,6 @@ public abstract class Lifecycle {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum Event {
         ON_CREATE,
         ON_START,
@@ -123,7 +121,6 @@ public abstract class Lifecycle {
         }
     }
 
-    /* loaded from: classes.dex */
     public enum State {
         DESTROYED,
         INITIALIZED,

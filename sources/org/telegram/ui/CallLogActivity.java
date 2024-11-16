@@ -103,9 +103,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     private ArrayList selectedIds = new ArrayList();
     private final AccelerateDecelerateInterpolator floatingInterpolator = new AccelerateDecelerateInterpolator();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 extends RecyclerView.OnScrollListener {
+    class 2 extends RecyclerView.OnScrollListener {
         2() {
         }
 
@@ -156,8 +154,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class CallCell extends FrameLayout {
+    class CallCell extends FrameLayout {
         private CheckBox2 checkBox;
         private ImageView imageView;
         private ProfileSearchCell profileSearchCell;
@@ -212,8 +209,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class CallLogRow {
+    static class CallLogRow {
         public ArrayList calls;
         public int type;
         public TLRPC.User user;
@@ -224,8 +220,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class EmptyTextProgressView extends FrameLayout {
+    static class EmptyTextProgressView extends FrameLayout {
         private TextView emptyTextView1;
         private TextView emptyTextView2;
         private RLottieImageView imageView;
@@ -315,8 +310,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class GroupCallCell extends FrameLayout {
+    class GroupCallCell extends FrameLayout {
         private ProgressButton button;
         private TLRPC.Chat currentChat;
         private ProfileSearchCell profileSearchCell;
@@ -369,9 +363,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    private class ListAdapter extends RecyclerListView.SelectionAdapter {
         private int activeEndRow;
         private int activeHeaderRow;
         private int activeStartRow;
@@ -596,7 +588,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View callCell;
             if (i == 0) {
-                callCell = new CallCell(this.mContext);
+                callCell = CallLogActivity.this.new CallCell(this.mContext);
             } else if (i == 1) {
                 FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this.mContext);
                 flickerLoadingView.setIsSingleCell(true);
@@ -608,7 +600,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 callCell = new TextInfoPrivacyCell(this.mContext);
                 callCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             } else if (i != 3) {
-                callCell = i != 4 ? new ShadowSectionCell(this.mContext) : new GroupCallCell(this.mContext);
+                callCell = i != 4 ? new ShadowSectionCell(this.mContext) : CallLogActivity.this.new GroupCallCell(this.mContext);
             } else {
                 callCell = new HeaderCell(this.mContext, Theme.key_windowBackgroundWhiteBlueHeader, 21, 15, 2, false, CallLogActivity.this.getResourceProvider());
                 callCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));

@@ -27,7 +27,6 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
     private final IdentityHashMap streamPeriodIndices = new IdentityHashMap();
     private MediaPeriod[] enabledPeriods = new MediaPeriod[0];
 
-    /* loaded from: classes.dex */
     private static final class ForwardingTrackSelection implements ExoTrackSelection {
         private final TrackGroup trackGroup;
         private final ExoTrackSelection trackSelection;
@@ -163,7 +162,6 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class TimeOffsetMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         private MediaPeriod.Callback callback;
         private final MediaPeriod mediaPeriod;
@@ -289,7 +287,6 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         }
     }
 
-    /* loaded from: classes.dex */
     private static final class TimeOffsetSampleStream implements SampleStream {
         private final SampleStream sampleStream;
         private final long timeOffsetUs;

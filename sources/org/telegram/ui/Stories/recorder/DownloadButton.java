@@ -58,8 +58,7 @@ public class DownloadButton extends ImageView {
     private boolean wasVideoDownloading;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class BuildingVideo implements NotificationCenter.NotificationCenterDelegate {
+    static class BuildingVideo implements NotificationCenter.NotificationCenterDelegate {
         final int currentAccount;
         final StoryEntry entry;
         final File file;
@@ -158,7 +157,6 @@ public class DownloadButton extends ImageView {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class PreparingVideoToast extends View {
         private final Paint backgroundPaint;
         private final ButtonBounce cancelButton;

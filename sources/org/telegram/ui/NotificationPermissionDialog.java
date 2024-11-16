@@ -42,8 +42,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
     private Utilities.Callback whenGranted;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class CounterView extends View {
+    static class CounterView extends View {
         private final AnimatedFloat alpha;
         private ValueAnimator countAnimator;
         private float countScale;
@@ -156,7 +155,6 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
         }
     }
 
-    /* loaded from: classes4.dex */
     private static class SectionView extends FrameLayout {
         public SectionView(Context context, int i, CharSequence charSequence) {
             super(context);

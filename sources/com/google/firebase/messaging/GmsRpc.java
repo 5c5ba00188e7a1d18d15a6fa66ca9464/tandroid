@@ -20,9 +20,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public class GmsRpc {
+class GmsRpc {
     private final FirebaseApp app;
     private final FirebaseInstallationsApi firebaseInstallations;
     private final Provider heartbeatInfo;
@@ -39,8 +38,7 @@ public class GmsRpc {
         this.firebaseInstallations = firebaseInstallationsApi;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Provider provider, Provider provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
+    GmsRpc(FirebaseApp firebaseApp, Metadata metadata, Provider provider, Provider provider2, FirebaseInstallationsApi firebaseInstallationsApi) {
         this(firebaseApp, metadata, new Rpc(firebaseApp.getApplicationContext()), provider, provider2, firebaseInstallationsApi);
     }
 
@@ -52,7 +50,6 @@ public class GmsRpc {
         return task.continueWith(GmsRpc$$Lambda$0.$instance, new Continuation(this) { // from class: com.google.firebase.messaging.GmsRpc$$Lambda$1
             private final GmsRpc arg$1;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
             {
                 this.arg$1 = this;
             }
@@ -99,8 +96,7 @@ public class GmsRpc {
         throw new IOException("SERVICE_NOT_AVAILABLE");
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean isErrorMessageForRetryableError(String str) {
+    static boolean isErrorMessageForRetryableError(String str) {
         return "SERVICE_NOT_AVAILABLE".equals(str) || "INTERNAL_SERVER_ERROR".equals(str) || "InternalServerError".equals(str);
     }
 
@@ -165,18 +161,15 @@ public class GmsRpc {
         return this.rpc.send(bundle);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Task getToken(String str) {
+    Task getToken(String str) {
         return extractResponseWhenComplete(startRpc(str, Metadata.getDefaultSenderId(this.app), "*", new Bundle()));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final /* synthetic */ String lambda$extractResponseWhenComplete$0$GmsRpc(Task task) {
+    final /* synthetic */ String lambda$extractResponseWhenComplete$0$GmsRpc(Task task) {
         return handleResponse((Bundle) task.getResult(IOException.class));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Task subscribeToTopic(String str, String str2, String str3) {
+    Task subscribeToTopic(String str, String str2, String str3) {
         Bundle bundle = new Bundle();
         String valueOf = String.valueOf(str3);
         bundle.putString("gcm.topic", valueOf.length() != 0 ? "/topics/".concat(valueOf) : new String("/topics/"));
@@ -184,8 +177,7 @@ public class GmsRpc {
         return extractResponseWhenComplete(startRpc(str, str2, valueOf2.length() != 0 ? "/topics/".concat(valueOf2) : new String("/topics/"), bundle));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Task unsubscribeFromTopic(String str, String str2, String str3) {
+    Task unsubscribeFromTopic(String str, String str2, String str3) {
         Bundle bundle = new Bundle();
         String valueOf = String.valueOf(str3);
         bundle.putString("gcm.topic", valueOf.length() != 0 ? "/topics/".concat(valueOf) : new String("/topics/"));

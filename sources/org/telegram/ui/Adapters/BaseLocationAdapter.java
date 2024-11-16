@@ -46,7 +46,6 @@ public abstract class BaseLocationAdapter extends AdapterWithDiffUtils {
     protected ArrayList places = new ArrayList();
     private int currentAccount = UserConfig.selectedAccount;
 
-    /* loaded from: classes4.dex */
     public interface BaseLocationAdapterDelegate {
         void didLoadSearchResult(ArrayList arrayList);
     }

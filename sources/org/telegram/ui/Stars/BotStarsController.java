@@ -27,8 +27,7 @@ public class BotStarsController {
     private final HashMap transactions = new HashMap();
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class TransactionsState {
+    class TransactionsState {
         private final boolean[] endReached;
         private final boolean[] loading;
         private final String[] offset;

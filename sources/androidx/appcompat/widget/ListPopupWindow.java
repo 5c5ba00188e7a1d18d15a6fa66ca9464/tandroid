@@ -64,17 +64,13 @@ public abstract class ListPopupWindow implements ShowableListMenu {
     private final Rect mTempRect;
     private final PopupTouchInterceptor mTouchInterceptor;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api24Impl {
+    static class Api24Impl {
         static int getMaxAvailableHeight(PopupWindow popupWindow, View view, int i, boolean z) {
             return popupWindow.getMaxAvailableHeight(view, i, z);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    static class Api29Impl {
         static void setEpicenterBounds(PopupWindow popupWindow, Rect rect) {
             popupWindow.setEpicenterBounds(rect);
         }
@@ -84,9 +80,7 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ListSelectorHider implements Runnable {
+    private class ListSelectorHider implements Runnable {
         ListSelectorHider() {
         }
 
@@ -96,7 +90,6 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         }
     }
 
-    /* loaded from: classes.dex */
     private class PopupDataSetObserver extends DataSetObserver {
         PopupDataSetObserver() {
         }
@@ -114,9 +107,7 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class PopupScrollListener implements AbsListView.OnScrollListener {
+    private class PopupScrollListener implements AbsListView.OnScrollListener {
         PopupScrollListener() {
         }
 
@@ -135,9 +126,7 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class PopupTouchInterceptor implements View.OnTouchListener {
+    private class PopupTouchInterceptor implements View.OnTouchListener {
         PopupTouchInterceptor() {
         }
 
@@ -161,9 +150,7 @@ public abstract class ListPopupWindow implements ShowableListMenu {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class ResizePopupRunnable implements Runnable {
+    private class ResizePopupRunnable implements Runnable {
         ResizePopupRunnable() {
         }
 

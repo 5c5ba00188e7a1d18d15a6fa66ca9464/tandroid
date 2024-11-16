@@ -7,7 +7,6 @@ import kotlin.jvm.internal.Intrinsics;
 /* loaded from: classes.dex */
 public abstract class ActivityResultContract {
 
-    /* loaded from: classes.dex */
     public static final class SynchronousResult {
         private final Object value;
 

@@ -86,7 +86,6 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
     private boolean updateRightDrawable;
 
-    /* loaded from: classes4.dex */
     public static class AnimatedStatusView extends View {
         private int animationUniq;
         private ArrayList animations;
@@ -279,9 +278,8 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
                 super.invalidateDrawable(drawable);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.ActionBar.SimpleTextView, android.view.View
-            public void onDraw(Canvas canvas) {
+            protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 if (DrawerProfileCell.this.updateRightDrawable) {
                     DrawerProfileCell.this.updateRightDrawable = false;
@@ -489,8 +487,10 @@ public abstract class DrawerProfileCell extends FrameLayout implements Notificat
     }
 
     private void switchTheme(Theme.ThemeInfo themeInfo, boolean z) {
-        this.darkThemeView.getLocationInWindow(r1);
-        int[] iArr = {iArr[0] + (this.darkThemeView.getMeasuredWidth() / 2), iArr[1] + (this.darkThemeView.getMeasuredHeight() / 2)};
+        int[] iArr = new int[2];
+        this.darkThemeView.getLocationInWindow(iArr);
+        iArr[0] = iArr[0] + (this.darkThemeView.getMeasuredWidth() / 2);
+        iArr[1] = iArr[1] + (this.darkThemeView.getMeasuredHeight() / 2);
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, themeInfo, Boolean.FALSE, iArr, -1, Boolean.valueOf(z), this.darkThemeView);
     }
 

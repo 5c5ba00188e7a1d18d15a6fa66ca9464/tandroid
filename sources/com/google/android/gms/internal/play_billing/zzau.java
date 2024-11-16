@@ -4,8 +4,7 @@ package com.google.android.gms.internal.play_billing;
 final class zzau extends zzax {
     private final int zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzau(byte[] bArr, int i, int i2) {
+    zzau(byte[] bArr, int i, int i2) {
         super(bArr);
         zzba.zzj(0, i2, bArr.length);
         this.zzc = i2;
@@ -23,9 +22,8 @@ final class zzau extends zzax {
         throw new ArrayIndexOutOfBoundsException("Index > length: " + i + ", " + i2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.play_billing.zzax, com.google.android.gms.internal.play_billing.zzba
-    public final byte zzb(int i) {
+    final byte zzb(int i) {
         return this.zza[i];
     }
 

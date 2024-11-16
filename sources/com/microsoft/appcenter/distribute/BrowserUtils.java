@@ -12,8 +12,7 @@ import java.util.List;
 
 /* loaded from: classes.dex */
 abstract class BrowserUtils {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static String appendUri(String str, String str2) {
+    static String appendUri(String str, String str2) {
         URI uri = new URI(str);
         String query = uri.getQuery();
         if (query != null) {
@@ -22,8 +21,7 @@ abstract class BrowserUtils {
         return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), str2, uri.getFragment()).toString();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static void openBrowser(String str, Activity activity) {
+    static void openBrowser(String str, Activity activity) {
         try {
             openBrowserWithoutIntentChooser(str, activity);
         } catch (SecurityException e) {

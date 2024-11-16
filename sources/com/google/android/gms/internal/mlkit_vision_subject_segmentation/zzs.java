@@ -11,16 +11,14 @@ class zzs implements Iterator {
     final Collection zzb;
     final /* synthetic */ zzt zzc;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzs(zzt zztVar) {
+    zzs(zzt zztVar) {
         this.zzc = zztVar;
         Collection collection = zztVar.zzb;
         this.zzb = collection;
         this.zza = collection instanceof List ? ((List) collection).listIterator() : collection.iterator();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzs(zzt zztVar, Iterator it) {
+    zzs(zzt zztVar, Iterator it) {
         this.zzc = zztVar;
         this.zzb = zztVar.zzb;
         this.zza = it;
@@ -48,8 +46,7 @@ class zzs implements Iterator {
         this.zzc.zzc();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void zza() {
+    final void zza() {
         this.zzc.zzb();
         if (this.zzc.zzb != this.zzb) {
             throw new ConcurrentModificationException();

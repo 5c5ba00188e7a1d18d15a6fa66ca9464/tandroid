@@ -8,9 +8,7 @@ import android.os.Build;
 /* loaded from: classes.dex */
 public abstract class AppOpsManagerCompat {
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static <T> T getSystemService(Context context, Class<T> cls) {
             return (T) context.getSystemService(cls);
         }
@@ -28,7 +26,6 @@ public abstract class AppOpsManagerCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     static class Api29Impl {
         static int checkOpNoThrow(AppOpsManager appOpsManager, String str, int i, String str2) {
             if (appOpsManager == null) {

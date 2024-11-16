@@ -21,9 +21,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
     private final int width;
     private final YuvConverter yuvConverter;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public interface RefCountMonitor {
+    interface RefCountMonitor {
         void onDestroy(TextureBufferImpl textureBufferImpl);
 
         void onRelease(TextureBufferImpl textureBufferImpl);
@@ -70,8 +68,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, RefCountMonitor refCountMonitor) {
+    TextureBufferImpl(int i, int i2, VideoFrame.TextureBuffer.Type type, int i3, Matrix matrix, Handler handler, YuvConverter yuvConverter, RefCountMonitor refCountMonitor) {
         this(i, i2, i, i2, type, i3, matrix, handler, yuvConverter, refCountMonitor);
     }
 

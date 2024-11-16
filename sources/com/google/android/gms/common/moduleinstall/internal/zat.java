@@ -9,8 +9,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 final class zat extends zaa {
     final /* synthetic */ TaskCompletionSource zaa;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zat(zay zayVar, TaskCompletionSource taskCompletionSource) {
+    zat(zay zayVar, TaskCompletionSource taskCompletionSource) {
         this.zaa = taskCompletionSource;
     }
 

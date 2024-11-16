@@ -8,8 +8,7 @@ abstract class AbstractIndexedListIterator extends UnmodifiableListIterator {
     private int position;
     private final int size;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public AbstractIndexedListIterator(int i, int i2) {
+    protected AbstractIndexedListIterator(int i, int i2) {
         Preconditions.checkPositionIndex(i2, i);
         this.size = i;
         this.position = i2;

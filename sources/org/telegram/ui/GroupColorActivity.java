@@ -33,9 +33,7 @@ public class GroupColorActivity extends ChannelColorActivity {
     private ChannelColorActivity.ProfilePreview profilePreview;
     private float profilePreviewPercent;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 implements ViewTreeObserver.OnGlobalLayoutListener {
+    class 1 implements ViewTreeObserver.OnGlobalLayoutListener {
         final /* synthetic */ View val$view;
 
         1(View view) {
@@ -99,9 +97,8 @@ public class GroupColorActivity extends ChannelColorActivity {
     @Override // org.telegram.ui.ChannelColorActivity
     protected void createListView() {
         RecyclerListView recyclerListView = new RecyclerListView(getContext(), this.resourceProvider) { // from class: org.telegram.ui.GroupColorActivity.2
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 if (GroupColorActivity.this.profilePreview == null || GroupColorActivity.this.profilePreviewPercent < 1.0f) {
                     return;

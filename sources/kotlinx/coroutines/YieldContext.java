@@ -8,7 +8,6 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 public abstract class YieldContext extends AbstractCoroutineContextElement {
     public static final Key Key = new Key(null);
 
-    /* loaded from: classes.dex */
     public static final class Key implements CoroutineContext.Key {
         private Key() {
         }

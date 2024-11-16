@@ -91,9 +91,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     private UndoView undoView;
     private Drawable videoPlayImage;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class GroupCalculator {
+    private class GroupCalculator {
         float height;
         int maxX;
         int maxY;
@@ -103,9 +101,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         public HashMap positions = new HashMap();
         private final int maxSizeWidth = 1000;
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class MessageGroupedLayoutAttempt {
+        private class MessageGroupedLayoutAttempt {
             public float[] heights;
             public int[] lineCounts;
 
@@ -197,7 +193,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         /* JADX WARN: Removed duplicated region for block: B:64:0x07dd  */
         /* JADX WARN: Removed duplicated region for block: B:76:0x081c A[LOOP:2: B:75:0x081a->B:76:0x081c, LOOP_END] */
         /* JADX WARN: Type inference failed for: r14v17 */
-        /* JADX WARN: Type inference failed for: r14v19, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r14v19, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r14v2 */
         /* JADX WARN: Type inference failed for: r14v20 */
         /*
@@ -760,8 +756,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class PreviewGroupsView extends ViewGroup {
+    class PreviewGroupsView extends ViewGroup {
         private HashMap deletedPhotos;
         private float draggingT;
         private ArrayList groupCells;
@@ -789,7 +784,6 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         float viewBottom;
         float viewTop;
 
-        /* loaded from: classes3.dex */
         class GroupingPhotoViewerProvider extends PhotoViewer.EmptyPhotoViewerProvider {
             private ArrayList photos = new ArrayList();
 
@@ -854,9 +848,8 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         ImageReceiver imageReceiver = mediaCell.image;
                         placeProviderObject.imageReceiver = imageReceiver;
                         placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-                        placeProviderObject.radius = r13;
+                        placeProviderObject.radius = new int[]{(int) r1.left, (int) r1.top, (int) r1.right, (int) r1.bottom};
                         RectF rectF = mediaCell.roundRadiuses;
-                        int[] iArr2 = {(int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom};
                         placeProviderObject.clipTopAddition = (int) (-PreviewGroupsView.this.getY());
                         placeProviderObject.clipBottomAddition = PreviewGroupsView.this.getHeight() - ((int) (((-PreviewGroupsView.this.getY()) + ChatAttachAlertPhotoLayoutPreview.this.listView.getHeight()) - ChatAttachAlertPhotoLayoutPreview.this.parentAlert.getClipLayoutBottom()));
                     }
@@ -970,8 +963,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class PreviewGroupCell {
+        class PreviewGroupCell {
             private Theme.MessageDrawable.PathDrawParams backgroundCacheParams;
             private float bottom;
             private Text buttonText;
@@ -1001,8 +993,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             public float y;
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* loaded from: classes3.dex */
-            public class MediaCell {
+            class MediaCell {
                 private Paint bitmapPaint;
                 public ImageReceiver blurredImage;
                 private android.graphics.Rect durationIn;
@@ -1339,7 +1330,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     this.spoilerRevealY = f2;
                     RectF drawingRect = drawingRect();
                     this.spoilerMaxRadius = (float) Math.sqrt(Math.pow(drawingRect.width(), 2.0d) + Math.pow(drawingRect.height(), 2.0d));
-                    ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(MathUtils.clamp(this.spoilerMaxRadius * 0.3f, 250.0f, 550.0f));
+                    ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration((long) MathUtils.clamp(this.spoilerMaxRadius * 0.3f, 250.0f, 550.0f));
                     duration.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
                     duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ChatAttachAlertPhotoLayoutPreview$PreviewGroupsView$PreviewGroupCell$MediaCell$$ExternalSyntheticLambda1
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -1360,7 +1351,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
 
                 /* JADX INFO: Access modifiers changed from: protected */
                 public MediaCell clone() {
-                    MediaCell mediaCell = new MediaCell();
+                    MediaCell mediaCell = PreviewGroupCell.this.new MediaCell();
                     mediaCell.rect.set(this.rect);
                     mediaCell.image = this.image;
                     mediaCell.photoEntry = this.photoEntry;
@@ -1536,7 +1527,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         if (z2) {
                             long min = Math.min(17L, SystemClock.elapsedRealtime() - this.lastVisibleTUpdate);
                             this.lastVisibleTUpdate = SystemClock.elapsedRealtime();
-                            float f10 = ((float) min) / 100.0f;
+                            float f10 = min / 100.0f;
                             float f11 = this.visibleT;
                             if (f9 < f11) {
                                 this.visibleT = Math.max(0.0f, f11 - f10);
@@ -1564,7 +1555,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                     this.path.rewind();
                     this.path.addRoundRect(drawingRect, this.radii, Path.Direction.CW);
                     canvas.clipPath(this.path);
-                    float min2 = Math.min(1.0f, this.spoilerCrossfadeProgress + (((float) Math.min(16L, SystemClock.elapsedRealtime() - this.lastUpdate)) / 250.0f));
+                    float min2 = Math.min(1.0f, this.spoilerCrossfadeProgress + (Math.min(16L, SystemClock.elapsedRealtime() - this.lastUpdate) / 250.0f));
                     this.spoilerCrossfadeProgress = min2;
                     this.spoilerCrossfadePaint.setAlpha((int) ((1.0f - min2) * 255.0f));
                     canvas.drawBitmap(this.spoilerCrossfadeBitmap, drawingRect.left, drawingRect.top, this.spoilerCrossfadePaint);
@@ -1610,7 +1601,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                 }
 
                 public float getT() {
-                    return PreviewGroupCell.this.interpolator.getInterpolation(Math.min(1.0f, ((float) (SystemClock.elapsedRealtime() - this.lastUpdate)) / 200.0f));
+                    return PreviewGroupCell.this.interpolator.getInterpolation(Math.min(1.0f, (SystemClock.elapsedRealtime() - this.lastUpdate) / 200.0f));
                 }
 
                 public RectF rect() {
@@ -1704,7 +1695,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                 long elapsedRealtime = SystemClock.elapsedRealtime();
                 long j = elapsedRealtime - this.lastMediaUpdate;
                 if (j < 200) {
-                    float f2 = ((float) j) / 200.0f;
+                    float f2 = j / 200.0f;
                     this.previousGroupHeight = AndroidUtilities.lerp(this.previousGroupHeight, this.groupHeight, f2);
                     f = AndroidUtilities.lerp(this.previousGroupWidth, this.groupWidth, f2);
                 } else {
@@ -1776,7 +1767,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
 
             public boolean draw(Canvas canvas) {
                 float f = 1.0f;
-                float interpolation = this.interpolator.getInterpolation(Math.min(1.0f, ((float) (SystemClock.elapsedRealtime() - this.lastMediaUpdate)) / 200.0f));
+                float interpolation = this.interpolator.getInterpolation(Math.min(1.0f, (SystemClock.elapsedRealtime() - this.lastMediaUpdate) / 200.0f));
                 boolean z = interpolation < 1.0f;
                 android.graphics.Point point = AndroidUtilities.displaySize;
                 float lerp = AndroidUtilities.lerp(this.previousGroupWidth, this.groupWidth, interpolation) * PreviewGroupsView.this.getWidth() * ChatAttachAlertPhotoLayoutPreview.this.getPreviewScale();
@@ -1839,7 +1830,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
 
             public float getT() {
-                return this.interpolator.getInterpolation(Math.min(1.0f, ((float) (SystemClock.elapsedRealtime() - this.lastMediaUpdate)) / 200.0f));
+                return this.interpolator.getInterpolation(Math.min(1.0f, (SystemClock.elapsedRealtime() - this.lastMediaUpdate) / 200.0f));
             }
 
             public float measure() {
@@ -1992,7 +1983,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         PreviewGroupCell previewGroupCell3 = new PreviewGroupCell();
                         ArrayList arrayList = new ArrayList();
                         arrayList.add(photoEntry2);
-                        previewGroupCell3.setGroup(new GroupCalculator(arrayList), true);
+                        previewGroupCell3.setGroup(ChatAttachAlertPhotoLayoutPreview.this.new GroupCalculator(arrayList), true);
                         invalidate();
                     } else {
                         pushToGroup(previewGroupCell2, photoEntry2, 0);
@@ -2120,7 +2111,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                 arrayList.add((MediaController.PhotoEntry) this.photosMap.get(num));
                 if (i3 % 10 == 9 || i3 == i2) {
                     PreviewGroupCell previewGroupCell = new PreviewGroupCell();
-                    previewGroupCell.setGroup(new GroupCalculator(arrayList), false);
+                    previewGroupCell.setGroup(ChatAttachAlertPhotoLayoutPreview.this.new GroupCalculator(arrayList), false);
                     this.groupCells.add(previewGroupCell);
                     arrayList = new ArrayList();
                 }

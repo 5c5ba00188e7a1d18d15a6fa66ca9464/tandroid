@@ -7,8 +7,7 @@ final class AutoValue_BackendResponse extends BackendResponse {
     private final long nextRequestWaitMillis;
     private final BackendResponse.Status status;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public AutoValue_BackendResponse(BackendResponse.Status status, long j) {
+    AutoValue_BackendResponse(BackendResponse.Status status, long j) {
         if (status == null) {
             throw new NullPointerException("Null status");
         }

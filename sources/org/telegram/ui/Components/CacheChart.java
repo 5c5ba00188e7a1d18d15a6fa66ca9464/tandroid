@@ -74,9 +74,7 @@ public abstract class CacheChart extends View {
     private AnimatedTextView.AnimatedTextDrawable topText;
     private final int type;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class Sector {
+    class Sector {
         float angleCenter;
         AnimatedFloat angleCenterAnimated;
         float angleSize;
@@ -149,7 +147,7 @@ public abstract class CacheChart extends View {
             if (CacheChart.particlesStart < 0) {
                 long unused = CacheChart.particlesStart = currentTimeMillis;
             }
-            float f11 = ((float) (currentTimeMillis - CacheChart.particlesStart)) / 10000.0f;
+            float f11 = (currentTimeMillis - CacheChart.particlesStart) / 10000.0f;
             Bitmap bitmap = this.particle;
             if (bitmap != null) {
                 int width = bitmap.getWidth();
@@ -371,7 +369,6 @@ public abstract class CacheChart extends View {
         }
     }
 
-    /* loaded from: classes3.dex */
     public static class SegmentSize {
         int index;
         public boolean selected;
@@ -595,8 +592,7 @@ public abstract class CacheChart extends View {
             if (z && loadedStart != null) {
                 l = null;
             }
-            Long l2 = loadedStart;
-            float currentTimeMillis = ((float) ((l2 != null ? System.currentTimeMillis() : l2.longValue()) - start.longValue())) * 0.6f;
+            float currentTimeMillis = ((loadedStart != null ? System.currentTimeMillis() : r8.longValue()) - start.longValue()) * 0.6f;
             CircularProgressDrawable.getSegments(currentTimeMillis % 5400.0f, this.segmentsTmp);
             float[] fArr = this.segmentsTmp;
             f = fArr[0];
@@ -792,8 +788,7 @@ public abstract class CacheChart extends View {
             l = Long.valueOf(System.currentTimeMillis());
         }
         loadedStart = l;
-        Long l22 = loadedStart;
-        float currentTimeMillis2 = ((float) ((l22 != null ? System.currentTimeMillis() : l22.longValue()) - start.longValue())) * 0.6f;
+        float currentTimeMillis2 = ((loadedStart != null ? System.currentTimeMillis() : r8.longValue()) - start.longValue()) * 0.6f;
         CircularProgressDrawable.getSegments(currentTimeMillis2 % 5400.0f, this.segmentsTmp);
         float[] fArr2 = this.segmentsTmp;
         f = fArr2[0];
@@ -1046,7 +1041,7 @@ public abstract class CacheChart extends View {
                 int i8 = 0;
                 while (i7 < segmentSizeArr2.length) {
                     SegmentSize segmentSize3 = segmentSizeArr2[i7];
-                    float f4 = (segmentSize3 == null || !segmentSize3.selected) ? 0.0f : ((float) segmentSize3.size) / ((float) j2);
+                    float f4 = (segmentSize3 == null || !segmentSize3.selected) ? 0.0f : segmentSize3.size / j2;
                     if (f4 <= 0.0f || f4 >= 0.02f) {
                         i3 = 1;
                     } else {
@@ -1068,7 +1063,7 @@ public abstract class CacheChart extends View {
                 for (int i9 = 0; i9 < segmentSizeArr2.length; i9++) {
                     float[] fArr2 = this.tempFloat;
                     SegmentSize segmentSize4 = segmentSizeArr2[i9];
-                    fArr2[i9] = (segmentSize4 == null || !segmentSize4.selected) ? 0.0f : ((float) segmentSize4.size) / ((float) j2);
+                    fArr2[i9] = (segmentSize4 == null || !segmentSize4.selected) ? 0.0f : segmentSize4.size / j2;
                 }
                 AndroidUtilities.roundPercents(this.tempFloat, this.tempPercents);
                 if (this.type == 0) {
@@ -1107,7 +1102,7 @@ public abstract class CacheChart extends View {
                     int i13 = segmentSize7.index;
                     if (segmentSize7.selected) {
                         f = f5;
-                        f2 = ((float) segmentSize7.size) / ((float) j2);
+                        f2 = segmentSize7.size / j2;
                     } else {
                         f = f5;
                         f2 = 0.0f;

@@ -33,8 +33,7 @@ public final class FontRequest {
         return this.mCertificatesArray;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public String getId() {
+    String getId() {
         return this.mIdentifier;
     }
 

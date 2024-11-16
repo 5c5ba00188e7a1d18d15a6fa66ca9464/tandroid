@@ -23,7 +23,6 @@ public final class IntentSenderRequest implements Parcelable {
     private final int mFlagsValues;
     private final IntentSender mIntentSender;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private Intent mFillInIntent;
         private int mFlagsMask;

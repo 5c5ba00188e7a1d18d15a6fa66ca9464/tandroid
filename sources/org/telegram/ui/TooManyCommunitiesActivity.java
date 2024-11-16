@@ -89,9 +89,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    class Adapter extends RecyclerListView.SelectionAdapter {
         int endPaddingPosition;
         int headerPosition;
         int hintPosition;
@@ -208,9 +206,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private int lastSearchId;
         ArrayList searchResults = new ArrayList();
         ArrayList searchResultsSignatures = new ArrayList();

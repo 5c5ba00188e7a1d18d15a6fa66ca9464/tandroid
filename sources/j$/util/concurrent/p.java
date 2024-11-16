@@ -3,9 +3,8 @@ package j$.util.concurrent;
 import java.util.concurrent.locks.LockSupport;
 import sun.misc.Unsafe;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class p extends k {
+final class p extends k {
     private static final Unsafe h;
     private static final long i;
     q e;
@@ -23,8 +22,7 @@ public final class p extends k {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public p(q qVar) {
+    p(q qVar) {
         super(-2, null, null, null);
         int i2;
         this.f = qVar;
@@ -318,9 +316,8 @@ public final class p extends k {
         return (obj == null || obj2 == null || (compareTo = obj.getClass().getName().compareTo(obj2.getClass().getName())) == 0) ? System.identityHashCode(obj) <= System.identityHashCode(obj2) ? -1 : 1 : compareTo;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // j$.util.concurrent.k
-    public final k a(Object obj, int i2) {
+    final k a(Object obj, int i2) {
         Object obj2;
         Thread thread;
         Thread thread2;
@@ -360,7 +357,6 @@ public final class p extends k {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Code restructure failed: missing block: B:19:0x00b3, code lost:
     
         return null;
@@ -372,7 +368,7 @@ public final class p extends k {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final q f(int i2, Object obj, Object obj2) {
+    final q f(int i2, Object obj, Object obj2) {
         int i3;
         q qVar;
         q qVar2 = this.e;
@@ -440,7 +436,6 @@ public final class p extends k {
         return qVar2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Removed duplicated region for block: B:41:0x0091 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
     /* JADX WARN: Removed duplicated region for block: B:51:0x00ac  */
     /* JADX WARN: Removed duplicated region for block: B:54:0x00b5 A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:21:0x0030, B:25:0x0039, B:29:0x003f, B:31:0x004d, B:32:0x0068, B:34:0x006e, B:35:0x0070, B:41:0x0091, B:44:0x00a2, B:45:0x0099, B:47:0x009d, B:48:0x00a0, B:49:0x00a8, B:52:0x00b1, B:54:0x00b5, B:56:0x00b9, B:58:0x00bd, B:59:0x00c6, B:61:0x00c0, B:63:0x00c4, B:66:0x00ad, B:68:0x007a, B:70:0x007e, B:71:0x0081, B:72:0x0055, B:74:0x005b, B:76:0x005f, B:77:0x0062, B:78:0x0064), top: B:20:0x0030 }] */
@@ -450,7 +445,7 @@ public final class p extends k {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public final boolean g(q qVar) {
+    final boolean g(q qVar) {
         q qVar2;
         q qVar3;
         q qVar4 = (q) qVar.d;

@@ -14,8 +14,7 @@ public final class OfferWalletObject extends AbstractSafeParcelable {
     CommonWalletObject zzc;
     private final int zzd;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public OfferWalletObject(int i, String str, String str2, CommonWalletObject commonWalletObject) {
+    OfferWalletObject(int i, String str, String str2, CommonWalletObject commonWalletObject) {
         this.zzd = i;
         this.zzb = str2;
         if (i >= 3) {

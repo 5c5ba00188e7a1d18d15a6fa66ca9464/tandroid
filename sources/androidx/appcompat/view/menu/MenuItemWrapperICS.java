@@ -22,7 +22,6 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
     private Method mSetExclusiveCheckableMethod;
     private final SupportMenuItem mWrappedObject;
 
-    /* loaded from: classes.dex */
     private class ActionProviderWrapper extends ActionProvider {
         final android.view.ActionProvider mInner;
 
@@ -47,7 +46,6 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
         }
     }
 
-    /* loaded from: classes.dex */
     private class ActionProviderWrapperJB extends ActionProviderWrapper implements ActionProvider.VisibilityListener {
         private ActionProvider.VisibilityListener mListener;
 
@@ -85,7 +83,6 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
         }
     }
 
-    /* loaded from: classes.dex */
     static class CollapsibleActionViewWrapper extends FrameLayout implements CollapsibleActionView {
         final android.view.CollapsibleActionView mWrappedView;
 
@@ -111,7 +108,6 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
         }
     }
 
-    /* loaded from: classes.dex */
     private class OnActionExpandListenerWrapper implements MenuItem.OnActionExpandListener {
         private final MenuItem.OnActionExpandListener mObject;
 
@@ -130,7 +126,6 @@ public class MenuItemWrapperICS extends BaseMenuWrapper implements MenuItem {
         }
     }
 
-    /* loaded from: classes.dex */
     private class OnMenuItemClickListenerWrapper implements MenuItem.OnMenuItemClickListener {
         private final MenuItem.OnMenuItemClickListener mObject;
 

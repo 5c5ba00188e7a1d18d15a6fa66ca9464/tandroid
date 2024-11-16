@@ -4,6 +4,9 @@ package com.google.android.gms.internal.firebase_messaging;
 final class zzq extends zzn {
     private final zzp zza = new zzp();
 
+    zzq() {
+    }
+
     @Override // com.google.android.gms.internal.firebase_messaging.zzn
     public final void zza(Throwable th, Throwable th2) {
         if (th2 == th) {

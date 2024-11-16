@@ -8,8 +8,7 @@ final class zzcp extends zzj {
     final /* synthetic */ TaskCompletionSource zza;
     final /* synthetic */ com.google.android.gms.location.zzr zzb;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzcp(TaskCompletionSource taskCompletionSource, com.google.android.gms.location.zzr zzrVar) {
+    zzcp(TaskCompletionSource taskCompletionSource, com.google.android.gms.location.zzr zzrVar) {
         this.zza = taskCompletionSource;
         this.zzb = zzrVar;
     }

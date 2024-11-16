@@ -100,9 +100,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 5 extends SelectAnimatedEmojiDialog {
+    class 5 extends SelectAnimatedEmojiDialog {
         private boolean firstLayout;
 
         5(BaseFragment baseFragment, Context context, boolean z, Integer num, int i, boolean z2, Theme.ResourcesProvider resourcesProvider, int i2, int i3) {
@@ -170,9 +168,8 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             }
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-        public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+        protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             super.onLayout(z, i, i2, i3, i4);
             if (this.firstLayout) {
                 this.firstLayout = false;
@@ -708,9 +705,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity.2
             final AdjustPanLayoutHelper adjustPanLayoutHelper = new 1(this);
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            /* loaded from: classes3.dex */
-            public class 1 extends AdjustPanLayoutHelper {
+            class 1 extends AdjustPanLayoutHelper {
                 1(View view) {
                     super(view);
                 }
@@ -732,22 +727,19 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                     return (((BaseFragment) ChatCustomReactionsEditActivity.this).inPreviewMode || AndroidUtilities.isTablet() || ((BaseFragment) ChatCustomReactionsEditActivity.this).inBubbleMode || AndroidUtilities.isInMultiwindow || ChatCustomReactionsEditActivity.this.getParentLayout() == null) ? false : true;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onPanTranslationUpdate(float f, float f2, boolean z) {
+                protected void onPanTranslationUpdate(float f, float f2, boolean z) {
                     if (ChatCustomReactionsEditActivity.this.getParentLayout() != null) {
                         ChatCustomReactionsEditActivity.this.getParentLayout().isPreviewOpenAnimationInProgress();
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionEnd() {
+                protected void onTransitionEnd() {
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.AdjustPanLayoutHelper
-                public void onTransitionStart(final boolean z, int i) {
+                protected void onTransitionStart(final boolean z, int i) {
                     ChatCustomReactionsEditActivity.this.actionButtonContainer.setVisibility(0);
                     ChatCustomReactionsEditActivity.this.actionButtonContainer.animate().alpha(!z ? 1.0f : 0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$2$1$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable

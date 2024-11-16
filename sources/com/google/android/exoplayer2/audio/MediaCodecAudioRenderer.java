@@ -44,14 +44,12 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
     private boolean experimentalKeepAudioTrackOnSeek;
     private Renderer.WakeupListener wakeupListener;
 
-    /* loaded from: classes.dex */
     private static final class Api23 {
         public static void setAudioSinkPreferredDevice(AudioSink audioSink, Object obj) {
             audioSink.setPreferredDevice(DecoderAudioRenderer$Api23$$ExternalSyntheticApiModelOutline0.m(obj));
         }
     }
 
-    /* loaded from: classes.dex */
     private final class AudioSinkListener implements AudioSink.Listener {
         private AudioSinkListener() {
         }
@@ -264,7 +262,6 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
     public void handleMessage(int i, Object obj) {
         if (i == 2) {
             this.audioSink.setVolume(((Float) obj).floatValue());
-            return;
         }
         if (i == 3) {
             this.audioSink.setAudioAttributes((AudioAttributes) obj);
@@ -277,22 +274,22 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         switch (i) {
             case 9:
                 this.audioSink.setSkipSilenceEnabled(((Boolean) obj).booleanValue());
-                return;
+                break;
             case 10:
                 this.audioSink.setAudioSessionId(((Integer) obj).intValue());
-                return;
+                break;
             case 11:
                 this.wakeupListener = (Renderer.WakeupListener) obj;
-                return;
+                break;
             case 12:
                 if (Util.SDK_INT >= 23) {
                     Api23.setAudioSinkPreferredDevice(this.audioSink, obj);
-                    return;
+                    break;
                 }
-                return;
+                break;
             default:
                 super.handleMessage(i, obj);
-                return;
+                break;
         }
     }
 
@@ -322,9 +319,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.eventDispatcher.decoderReleased(str);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onDisabled() {
+    protected void onDisabled() {
         this.audioSinkNeedsReset = true;
         try {
             this.audioSink.flush();
@@ -341,9 +337,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onEnabled(boolean z, boolean z2) {
+    protected void onEnabled(boolean z, boolean z2) {
         super.onEnabled(z, z2);
         this.eventDispatcher.enabled(this.decoderCounters);
         if (getConfiguration().tunneling) {
@@ -354,9 +349,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.audioSink.setPlayerId(getPlayerId());
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    public DecoderReuseEvaluation onInputFormatChanged(FormatHolder formatHolder) {
+    protected DecoderReuseEvaluation onInputFormatChanged(FormatHolder formatHolder) {
         DecoderReuseEvaluation onInputFormatChanged = super.onInputFormatChanged(formatHolder);
         this.eventDispatcher.inputFormatChanged(formatHolder.format, onInputFormatChanged);
         return onInputFormatChanged;
@@ -395,9 +389,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.allowPositionDiscontinuity = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onPositionReset(long j, boolean z) {
+    protected void onPositionReset(long j, boolean z) {
         super.onPositionReset(j, z);
         if (this.experimentalKeepAudioTrackOnSeek) {
             this.audioSink.experimentalFlushWithoutAudioTrackRelease();
@@ -409,9 +402,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.allowPositionDiscontinuity = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    public void onProcessedStreamChange() {
+    protected void onProcessedStreamChange() {
         super.onProcessedStreamChange();
         this.audioSink.handleDiscontinuity();
     }
@@ -427,9 +419,8 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.allowFirstBufferPositionDiscontinuity = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onReset() {
+    protected void onReset() {
         try {
             super.onReset();
         } finally {
@@ -440,16 +431,14 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onStarted() {
+    protected void onStarted() {
         super.onStarted();
         this.audioSink.play();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer, com.google.android.exoplayer2.BaseRenderer
-    public void onStopped() {
+    protected void onStopped() {
         updateCurrentPosition();
         this.audioSink.pause();
         super.onStopped();

@@ -153,12 +153,10 @@ abstract class g implements l {
         a = new int[]{0, 90, NotificationCenter.giftsToUserSent, NotificationCenter.onDatabaseOpened, 0, 91, NotificationCenter.didStartedMultiGiftsSelector, NotificationCenter.onDownloadingFilesChanged};
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public g(String str, int i) {
+    g(String str, int i) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static boolean f(k kVar) {
+    static boolean f(k kVar) {
         j$.util.a.B(kVar, "temporal");
         Object obj = (j$.time.chrono.f) kVar.c(j.b);
         if (obj == null) {
@@ -167,8 +165,7 @@ abstract class g implements l {
         return ((j$.time.chrono.a) obj).equals(j$.time.chrono.g.a);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int i(LocalDate localDate) {
+    static int i(LocalDate localDate) {
         int ordinal = localDate.j().ordinal();
         int i = 1;
         int k = localDate.k() - 1;

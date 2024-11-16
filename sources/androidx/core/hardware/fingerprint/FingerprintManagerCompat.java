@@ -13,9 +13,7 @@ import javax.crypto.Mac;
 public class FingerprintManagerCompat {
     private final Context mContext;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static class Api23Impl {
+    static class Api23Impl {
         static void authenticate(Object obj, Object obj2, CancellationSignal cancellationSignal, int i, Object obj3, Handler handler) {
             ((FingerprintManager) obj).authenticate((FingerprintManager.CryptoObject) obj2, cancellationSignal, i, (FingerprintManager.AuthenticationCallback) obj3, handler);
         }
@@ -74,7 +72,6 @@ public class FingerprintManagerCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static abstract class AuthenticationCallback {
         public abstract void onAuthenticationError(int i, CharSequence charSequence);
 
@@ -85,7 +82,6 @@ public class FingerprintManagerCompat {
         public abstract void onAuthenticationSucceeded(AuthenticationResult authenticationResult);
     }
 
-    /* loaded from: classes.dex */
     public static final class AuthenticationResult {
         private final CryptoObject mCryptoObject;
 
@@ -98,7 +94,6 @@ public class FingerprintManagerCompat {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class CryptoObject {
         private final Cipher mCipher;
         private final Mac mMac;

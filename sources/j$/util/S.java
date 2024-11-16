@@ -10,8 +10,7 @@ final class S implements Iterator, Consumer {
     Object b;
     final /* synthetic */ Q c;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public S(Q q) {
+    S(Q q) {
         this.c = q;
     }
 

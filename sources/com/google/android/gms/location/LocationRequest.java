@@ -34,7 +34,6 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
     private final WorkSource zzn;
     private final zzd zzo;
 
-    /* loaded from: classes.dex */
     public static final class Builder {
         private int zza;
         private long zzb;
@@ -149,8 +148,7 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public LocationRequest(int i, long j, long j2, long j3, long j4, long j5, int i2, float f, boolean z, long j6, int i3, int i4, String str, boolean z2, WorkSource workSource, zzd zzdVar) {
+    LocationRequest(int i, long j, long j2, long j3, long j4, long j5, int i2, float f, boolean z, long j6, int i3, int i4, String str, boolean z2, WorkSource workSource, zzd zzdVar) {
         this.zza = i;
         long j7 = j;
         this.zzb = j7;

@@ -55,11 +55,8 @@ public final /* synthetic */ class s implements BiConsumer, BiFunction, Consumer
     @Override // j$.util.function.BiConsumer
     public /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
         switch (this.a) {
-            case 0:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            default:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
         }
+        return BiConsumer.-CC.$default$andThen(this, biConsumer);
     }
 
     @Override // j$.util.function.BiFunction

@@ -41,7 +41,6 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     private int reason;
     private int selectedIndex;
 
-    /* loaded from: classes.dex */
     public static final class AdaptationCheckpoint {
         public final long allocatedBandwidth;
         public final long totalBandwidth;
@@ -67,7 +66,6 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class Factory implements ExoTrackSelection.Factory {
         private final float bandwidthFraction;
         private final float bufferedFractionToLiveEdgeForQualityIncrease;
@@ -271,8 +269,8 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         AdaptationCheckpoint adaptationCheckpoint = (AdaptationCheckpoint) this.adaptationCheckpoints.get(i - 1);
         AdaptationCheckpoint adaptationCheckpoint2 = (AdaptationCheckpoint) this.adaptationCheckpoints.get(i);
         long j2 = adaptationCheckpoint.totalBandwidth;
-        float f = ((float) (totalAllocatableBandwidth - j2)) / ((float) (adaptationCheckpoint2.totalBandwidth - j2));
-        return adaptationCheckpoint.allocatedBandwidth + (f * ((float) (adaptationCheckpoint2.allocatedBandwidth - r2)));
+        float f = (totalAllocatableBandwidth - j2) / (adaptationCheckpoint2.totalBandwidth - j2);
+        return adaptationCheckpoint.allocatedBandwidth + ((long) (f * (adaptationCheckpoint2.allocatedBandwidth - r2)));
     }
 
     private long getLastChunkDurationUs(List list) {
@@ -306,7 +304,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     }
 
     private static long[][] getSortedTrackBitrates(ExoTrackSelection.Definition[] definitionArr) {
-        long[][] jArr = new long[definitionArr.length];
+        long[][] jArr = new long[definitionArr.length][];
         for (int i = 0; i < definitionArr.length; i++) {
             ExoTrackSelection.Definition definition = definitionArr[i];
             if (definition == null) {
@@ -368,12 +366,13 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
     }
 
     private long getTotalAllocatableBandwidth(long j) {
-        long bitrateEstimate = ((float) this.bandwidthMeter.getBitrateEstimate()) * this.bandwidthFraction;
-        if (this.bandwidthMeter.getTimeToFirstByteEstimateUs() == -9223372036854775807L || j == -9223372036854775807L) {
-            return ((float) bitrateEstimate) / this.playbackSpeed;
+        long bitrateEstimate = (long) (this.bandwidthMeter.getBitrateEstimate() * this.bandwidthFraction);
+        long timeToFirstByteEstimateUs = this.bandwidthMeter.getTimeToFirstByteEstimateUs();
+        if (timeToFirstByteEstimateUs == -9223372036854775807L || j == -9223372036854775807L) {
+            return (long) (bitrateEstimate / this.playbackSpeed);
         }
-        float f = (float) j;
-        return (((float) bitrateEstimate) * Math.max((f / this.playbackSpeed) - ((float) r2), 0.0f)) / f;
+        float f = j;
+        return (long) ((bitrateEstimate * Math.max((f / this.playbackSpeed) - timeToFirstByteEstimateUs, 0.0f)) / f);
     }
 
     private long minDurationForQualityIncreaseUs(long j, long j2) {
@@ -383,7 +382,7 @@ public class AdaptiveTrackSelection extends BaseTrackSelection {
         if (j2 != -9223372036854775807L) {
             j -= j2;
         }
-        return Math.min(((float) j) * this.bufferedFractionToLiveEdgeForQualityIncrease, this.minDurationForQualityIncreaseUs);
+        return Math.min((long) (j * this.bufferedFractionToLiveEdgeForQualityIncrease), this.minDurationForQualityIncreaseUs);
     }
 
     protected boolean canSelectFormat(Format format, int i, long j) {

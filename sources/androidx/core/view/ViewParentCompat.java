@@ -9,7 +9,6 @@ import android.view.accessibility.AccessibilityEvent;
 /* loaded from: classes.dex */
 public abstract class ViewParentCompat {
 
-    /* loaded from: classes.dex */
     static class Api21Impl {
         static boolean onNestedFling(ViewParent viewParent, View view, float f, float f2, boolean z) {
             return viewParent.onNestedFling(view, f, f2, z);

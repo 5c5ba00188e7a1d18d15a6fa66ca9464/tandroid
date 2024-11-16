@@ -51,7 +51,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
         this.labelTimeText = new TextView[2];
         this.lines = new ViewGroup[7];
         this.labelText = new TextView[7];
-        this.timeText = new TextView[7];
+        this.timeText = new TextView[7][];
         this.todayLinesCount = 1;
         this.todayLinesHeight = 0;
         this.firstAfterAttach = true;

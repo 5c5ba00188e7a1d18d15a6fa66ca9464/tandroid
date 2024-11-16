@@ -55,8 +55,7 @@ public abstract class LinearSmoothScrollerEnd extends RecyclerView.SmoothScrolle
         return 0;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public int calculateTimeForDeceleration(int i) {
+    protected int calculateTimeForDeceleration(int i) {
         double calculateTimeForScrolling = calculateTimeForScrolling(i);
         Double.isNaN(calculateTimeForScrolling);
         return (int) Math.ceil(calculateTimeForScrolling / 0.3356d);

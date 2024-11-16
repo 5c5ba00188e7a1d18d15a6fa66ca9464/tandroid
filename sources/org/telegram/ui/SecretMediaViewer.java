@@ -247,9 +247,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 11 extends Fade {
+    class 11 extends Fade {
         final /* synthetic */ boolean val$isCaptionEmpty;
         final /* synthetic */ boolean val$isCurrentCaptionEmpty;
 
@@ -287,9 +285,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 12 extends Fade {
+    class 12 extends Fade {
         final /* synthetic */ boolean val$isCaptionEmpty;
         final /* synthetic */ boolean val$isCurrentCaptionEmpty;
 
@@ -328,9 +324,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 13 extends Transition {
+    class 13 extends Transition {
         13() {
         }
 
@@ -392,9 +386,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 17 extends AnimatorListenerAdapter {
+    class 17 extends AnimatorListenerAdapter {
         final /* synthetic */ PhotoViewer.PlaceProviderObject val$object;
 
         17(PhotoViewer.PlaceProviderObject placeProviderObject) {
@@ -425,9 +417,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements VideoPlayer.VideoPlayerDelegate {
+    class 2 implements VideoPlayer.VideoPlayerDelegate {
         final /* synthetic */ File val$file;
 
         2(File file) {
@@ -538,9 +528,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class FrameLayoutDrawer extends FrameLayout {
+    private class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
             setWillNotDraw(false);
@@ -575,9 +563,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PhotoBackgroundDrawable extends ColorDrawable {
+    private class PhotoBackgroundDrawable extends ColorDrawable {
         private Runnable drawRunnable;
         private int frame;
 
@@ -620,9 +606,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SecretDeleteTimer extends FrameLayout {
+    private class SecretDeleteTimer extends FrameLayout {
         private Paint afterDeleteProgressPaint;
         private Paint circlePaint;
         private RectF deleteProgressRect;
@@ -710,13 +694,13 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                             long duration = SecretMediaViewer.this.videoPlayer.getDuration();
                             long currentPosition = SecretMediaViewer.this.videoPlayer.getCurrentPosition();
                             if (duration != -9223372036854775807L && currentPosition != -9223372036854775807L) {
-                                max = 1.0f - (((float) currentPosition) / ((float) duration));
+                                max = 1.0f - (currentPosition / duration);
                             }
                         }
                         max = 1.0f;
                     } else {
                         if (this.destroyTime != 0) {
-                            max = ((float) Math.max(0L, this.destroyTime - (System.currentTimeMillis() + (ConnectionsManager.getInstance(SecretMediaViewer.this.currentAccount).getTimeDifference() * 1000)))) / (((float) this.destroyTtl) * 1000.0f);
+                            max = Math.max(0L, this.destroyTime - (System.currentTimeMillis() + (ConnectionsManager.getInstance(SecretMediaViewer.this.currentAccount).getTimeDifference() * 1000))) / (this.destroyTtl * 1000.0f);
                         }
                         max = 1.0f;
                     }
@@ -771,8 +755,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class VideoPlayerControlFrameLayout extends FrameLayout {
+    class VideoPlayerControlFrameLayout extends FrameLayout {
         public final Property SEEKBAR_ALPHA;
         private boolean ignoreLayout;
         private int lastTimeWidth;
@@ -847,7 +830,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
         @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
             super.onLayout(z, i, i2, i3, i4);
-            SecretMediaViewer.this.seekbar.setProgress(SecretMediaViewer.this.videoPlayer != null ? ((float) SecretMediaViewer.this.videoPlayer.getCurrentPosition()) / ((float) SecretMediaViewer.this.videoPlayer.getDuration()) : 0.0f);
+            SecretMediaViewer.this.seekbar.setProgress(SecretMediaViewer.this.videoPlayer != null ? SecretMediaViewer.this.videoPlayer.getCurrentPosition() / SecretMediaViewer.this.videoPlayer.getDuration() : 0.0f);
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:7:0x004d, code lost:
@@ -1060,7 +1043,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             duration = 0;
         }
         if (duration > 0 && !this.seekbar.isDragging()) {
-            this.seekbar.setProgress(((float) currentPosition) / ((float) duration));
+            this.seekbar.setProgress(currentPosition / duration);
             this.seekbarView.invalidate();
         }
         updateVideoPlayerTime();
@@ -1369,7 +1352,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                                 long currentTimeMillis = System.currentTimeMillis();
                                 long j = currentTimeMillis - this.videoCrossfadeAlphaLastTime;
                                 this.videoCrossfadeAlphaLastTime = currentTimeMillis;
-                                this.videoCrossfadeAlpha += ((float) j) / 200.0f;
+                                this.videoCrossfadeAlpha += j / 200.0f;
                                 this.containerView.invalidate();
                                 if (this.videoCrossfadeAlpha > 1.0f) {
                                     this.videoCrossfadeAlpha = 1.0f;
@@ -2158,7 +2141,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
                     };
                     secretMediaViewer.imageMoveAnimation.setInterpolator(new DecelerateInterpolator());
                     secretMediaViewer.imageMoveAnimation.setDuration(250L);
-                    secretMediaViewer.imageMoveAnimation.addListener(new 17(placeProviderObject));
+                    secretMediaViewer.imageMoveAnimation.addListener(secretMediaViewer.new 17(placeProviderObject));
                     secretMediaViewer.photoTransitionAnimationStartTime = System.currentTimeMillis();
                     secretMediaViewer.containerView.setLayerType(2, null);
                     secretMediaViewer.imageMoveAnimation.start();
@@ -2398,7 +2381,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     /* JADX WARN: Type inference failed for: r14v2 */
     /* JADX WARN: Type inference failed for: r14v7 */
     /* JADX WARN: Type inference failed for: r14v8 */
-    /* JADX WARN: Type inference failed for: r15v2, types: [android.view.View$OnClickListener, android.graphics.Paint] */
+    /* JADX WARN: Type inference failed for: r15v2, types: [android.graphics.Paint, android.view.View$OnClickListener] */
     /* JADX WARN: Type inference failed for: r15v6 */
     /* JADX WARN: Type inference failed for: r15v7 */
     /* JADX WARN: Type inference failed for: r15v8 */
@@ -2890,8 +2873,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             public void onSeekBarContinuousDrag(float f) {
                 if (SecretMediaViewer.this.videoPlayer != null) {
                     SecretMediaViewer.this.videoPlayer.pause();
-                    if (SecretMediaViewer.this.videoPlayer.getDuration() != -9223372036854775807L) {
-                        SecretMediaViewer.this.videoPlayer.seekTo(f * ((float) r0), false);
+                    long duration = SecretMediaViewer.this.videoPlayer.getDuration();
+                    if (duration != -9223372036854775807L) {
+                        SecretMediaViewer.this.videoPlayer.seekTo((long) (f * duration), false);
                     }
                 }
             }
@@ -2899,8 +2883,9 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
             @Override // org.telegram.ui.Components.VideoPlayerSeekBar.SeekBarDelegate
             public void onSeekBarDrag(float f) {
                 if (SecretMediaViewer.this.videoPlayer != null) {
-                    if (SecretMediaViewer.this.videoPlayer.getDuration() != -9223372036854775807L) {
-                        SecretMediaViewer.this.videoPlayer.seekTo(f * ((float) r0), false);
+                    long duration = SecretMediaViewer.this.videoPlayer.getDuration();
+                    if (duration != -9223372036854775807L) {
+                        SecretMediaViewer.this.videoPlayer.seekTo((long) (f * duration), false);
                     }
                     SecretMediaViewer.this.videoPlayer.play();
                 }

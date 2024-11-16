@@ -21,9 +21,7 @@ import java.util.Properties;
 public abstract class $Gson$Types {
     static final Type[] EMPTY_TYPE_ARRAY = new Type[0];
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class GenericArrayTypeImpl implements GenericArrayType, Serializable {
+    private static final class GenericArrayTypeImpl implements GenericArrayType, Serializable {
         private final Type componentType;
 
         public GenericArrayTypeImpl(Type type) {
@@ -49,9 +47,7 @@ public abstract class $Gson$Types {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
+    private static final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
         private final Type ownerType;
         private final Type rawType;
         private final Type[] typeArguments;
@@ -122,9 +118,7 @@ public abstract class $Gson$Types {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class WildcardTypeImpl implements WildcardType, Serializable {
+    private static final class WildcardTypeImpl implements WildcardType, Serializable {
         private final Type lowerBound;
         private final Type upperBound;
 
@@ -384,7 +378,7 @@ public abstract class $Gson$Types {
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0, types: [java.lang.reflect.Type] */
     /* JADX WARN: Type inference failed for: r11v1, types: [java.lang.reflect.Type] */
-    /* JADX WARN: Type inference failed for: r11v10, types: [java.lang.reflect.Type, java.lang.Object] */
+    /* JADX WARN: Type inference failed for: r11v10, types: [java.lang.Object, java.lang.reflect.Type] */
     /* JADX WARN: Type inference failed for: r11v13, types: [java.lang.reflect.Type] */
     /* JADX WARN: Type inference failed for: r11v2, types: [java.lang.reflect.WildcardType] */
     /* JADX WARN: Type inference failed for: r11v3, types: [java.lang.reflect.WildcardType] */

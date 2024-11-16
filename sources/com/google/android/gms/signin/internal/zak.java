@@ -14,8 +14,7 @@ public final class zak extends AbstractSafeParcelable {
     private final ConnectionResult zab;
     private final zav zac;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zak(int i, ConnectionResult connectionResult, zav zavVar) {
+    zak(int i, ConnectionResult connectionResult, zav zavVar) {
         this.zaa = i;
         this.zab = connectionResult;
         this.zac = zavVar;

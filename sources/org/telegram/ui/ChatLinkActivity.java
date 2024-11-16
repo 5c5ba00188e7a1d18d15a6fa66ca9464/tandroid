@@ -81,7 +81,6 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     private boolean joinToSendProgress = false;
     private boolean joinRequestProgress = false;
 
-    /* loaded from: classes4.dex */
     private static class EmptyView extends LinearLayout implements NotificationCenter.NotificationCenterDelegate {
         private int currentAccount;
         private LoadingStickerDrawable drawable;
@@ -134,7 +133,6 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* loaded from: classes4.dex */
     public class HintInnerCell extends FrameLayout {
         private EmptyView emptyView;
         private TextView messageTextView;
@@ -178,13 +176,10 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 extends JoinToSendSettingsView {
+        class 1 extends JoinToSendSettingsView {
             final /* synthetic */ TLRPC.Chat val$chat;
 
             /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
@@ -445,7 +440,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 view = new ManageChatTextCell(this.mContext);
                 view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
             } else if (i != 4) {
-                view = new HintInnerCell(this.mContext);
+                view = ChatLinkActivity.this.new HintInnerCell(this.mContext);
             } else {
                 TLRPC.Chat chat = ChatLinkActivity.this.isChannel ? (TLRPC.Chat) ChatLinkActivity.this.chats.get(0) : ChatLinkActivity.this.currentChat;
                 view = ChatLinkActivity.this.joinToSendSettings = new 1(this.mContext, chat, chat);
@@ -463,8 +458,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private ArrayList searchResult = new ArrayList();
         private ArrayList searchResultNames = new ArrayList();

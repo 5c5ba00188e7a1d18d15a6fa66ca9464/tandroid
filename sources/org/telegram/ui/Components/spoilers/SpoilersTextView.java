@@ -131,9 +131,8 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         updateAnimatedEmoji(true);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView, android.view.View
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
         canvas.save();
@@ -204,9 +203,8 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         invalidateSpoilers();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.widget.TextView
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+    protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         invalidateSpoilers();
         updateAnimatedEmoji(true);

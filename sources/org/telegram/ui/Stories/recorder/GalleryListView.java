@@ -112,9 +112,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     public MediaController.AlbumEntry selectedAlbum;
     public ArrayList selectedPhotos;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes5.dex */
-    public class 12 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
+    class 12 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         private AnimatorSet animatorSet;
 
         12() {
@@ -241,9 +239,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class Adapter extends RecyclerListView.FastScrollAdapter {
+    private class Adapter extends RecyclerListView.FastScrollAdapter {
         private Adapter() {
         }
 
@@ -352,11 +348,11 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             View cell;
             if (i == 0) {
                 GalleryListView galleryListView = GalleryListView.this;
-                cell = new EmptyView(galleryListView.getContext());
+                cell = galleryListView.new EmptyView(galleryListView.getContext());
             } else if (i == 1) {
                 GalleryListView galleryListView2 = GalleryListView.this;
                 GalleryListView galleryListView3 = GalleryListView.this;
-                cell = galleryListView2.headerView = new HeaderView(galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
+                cell = galleryListView2.headerView = galleryListView3.new HeaderView(galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
             } else {
                 cell = new Cell(GalleryListView.this.getContext());
             }
@@ -365,8 +361,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public static class Cell extends View {
+    static class Cell extends View {
         private static int allQueuesIndex;
         private final Paint bgPaint;
         private Bitmap bitmap;
@@ -835,7 +830,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                     z = true;
                 }
                 setDraft(z);
-                setDuration((storyEntry == null || !storyEntry.isVideo) ? null : AndroidUtilities.formatShortDuration((int) Math.max(0.0f, (((float) storyEntry.duration) * (storyEntry.right - storyEntry.left)) / 1000.0f)));
+                setDuration((storyEntry == null || !storyEntry.isVideo) ? null : AndroidUtilities.formatShortDuration((int) Math.max(0.0f, (storyEntry.duration * (storyEntry.right - storyEntry.left)) / 1000.0f)));
             }
             loadBitmap(storyEntry);
         }
@@ -846,7 +841,6 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes5.dex */
     private class EmptyView extends View {
         int height;
 
@@ -880,7 +874,6 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         }
     }
 
-    /* loaded from: classes5.dex */
     private class HeaderView extends FrameLayout {
         public TextView textView;
 
@@ -898,8 +891,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes5.dex */
-    public class SearchAdapter extends RecyclerListView.SelectionAdapter {
+    class SearchAdapter extends RecyclerListView.SelectionAdapter {
         private TLRPC.User bot;
         private int currentReqId;
         private String lastOffset;

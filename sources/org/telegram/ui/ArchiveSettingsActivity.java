@@ -40,9 +40,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
     private final ArrayList oldItems = new ArrayList();
     private final ArrayList items = new ArrayList();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class ItemInner extends AdapterWithDiffUtils.Item {
+    private static class ItemInner extends AdapterWithDiffUtils.Item {
         public int id;
         public CharSequence text;
 
@@ -64,9 +62,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends AdapterWithDiffUtils {
+    private class ListAdapter extends AdapterWithDiffUtils {
         private ListAdapter() {
         }
 

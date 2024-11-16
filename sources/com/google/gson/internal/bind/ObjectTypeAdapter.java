@@ -21,9 +21,7 @@ public final class ObjectTypeAdapter extends TypeAdapter {
     private final Gson gson;
     private final ToNumberStrategy toNumberStrategy;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes.dex */
-    public static /* synthetic */ class 2 {
+    static /* synthetic */ class 2 {
         static final /* synthetic */ int[] $SwitchMap$com$google$gson$stream$JsonToken;
 
         static {

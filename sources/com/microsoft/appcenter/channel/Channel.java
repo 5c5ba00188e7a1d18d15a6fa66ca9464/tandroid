@@ -6,7 +6,6 @@ import com.microsoft.appcenter.ingestion.models.Log;
 /* loaded from: classes.dex */
 public interface Channel {
 
-    /* loaded from: classes.dex */
     public interface GroupListener {
         void onBeforeSending(Log log);
 
@@ -15,7 +14,6 @@ public interface Channel {
         void onSuccess(Log log);
     }
 
-    /* loaded from: classes.dex */
     public interface Listener {
         void onClear(String str);
 

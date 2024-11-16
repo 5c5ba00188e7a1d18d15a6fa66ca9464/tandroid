@@ -9,7 +9,6 @@ import java.util.ArrayList;
 /* loaded from: classes.dex */
 public abstract class SafeParcelReader {
 
-    /* loaded from: classes.dex */
     public static class ParseException extends RuntimeException {
         public ParseException(String str, Parcel parcel) {
             super(str + " Parcel: pos=" + parcel.dataPosition() + " size=" + parcel.dataSize());
@@ -45,7 +44,7 @@ public abstract class SafeParcelReader {
             return null;
         }
         int readInt = parcel.readInt();
-        byte[][] bArr = new byte[readInt];
+        byte[][] bArr = new byte[readInt][];
         for (int i2 = 0; i2 < readInt; i2++) {
             bArr[i2] = parcel.createByteArray();
         }

@@ -33,9 +33,7 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
     GridLayoutManager layoutManager;
     Consumer wallpaperConsumer;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class Adapter extends RecyclerListView.SelectionAdapter {
+    private class Adapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private final ArrayList wallpapers = new ArrayList();
 
@@ -96,9 +94,8 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
                 return false;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+            protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
                 super.onLayout(z, i, i2, i3, i4);
                 PhotoViewer.getInstance().checkCurrentImageVisibility();
             }
@@ -155,9 +152,8 @@ public class ChatAttachAlertColorsLayout extends ChatAttachAlert.AttachAlertLayo
                         return super.calculateDyToMakeVisible(view, i2) - (ChatAttachAlertColorsLayout.this.gridView.getPaddingTop() - AndroidUtilities.dp(7.0f));
                     }
 
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // androidx.recyclerview.widget.LinearSmoothScroller
-                    public int calculateTimeForDeceleration(int i2) {
+                    protected int calculateTimeForDeceleration(int i2) {
                         return super.calculateTimeForDeceleration(i2) * 2;
                     }
                 };

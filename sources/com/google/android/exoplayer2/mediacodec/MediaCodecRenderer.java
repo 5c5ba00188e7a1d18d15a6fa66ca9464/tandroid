@@ -109,9 +109,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     private float targetPlaybackSpeed;
     private boolean waitingForFirstSampleInFormat;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class Api31 {
+    private static final class Api31 {
         public static void setLogSessionIdToMediaCodecFormat(MediaCodecAdapter.Configuration configuration, PlayerId playerId) {
             LogSessionId logSessionId;
             boolean equals;
@@ -128,7 +126,6 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
     }
 
-    /* loaded from: classes.dex */
     public static class DecoderInitializationException extends Exception {
         public final MediaCodecInfo codecInfo;
         public final String diagnosticInfo;
@@ -807,7 +804,6 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
             } catch (Exception e2) {
                 if (mediaCodecInfo2 != mediaCodecInfo) {
                     throw e2;
-                    break;
                 }
                 try {
                     Log.w("MediaCodecRenderer", "Preferred decoder instantiation failed. Sleeping for 50ms then retrying.");
@@ -925,8 +921,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return this.renderTimeLimitMs == -9223372036854775807L || SystemClock.elapsedRealtime() - j < this.renderTimeLimitMs;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public static boolean supportsFormatDrm(Format format) {
+    protected static boolean supportsFormatDrm(Format format) {
         int i = format.cryptoType;
         return i == 0 || i == 2;
     }
@@ -970,8 +965,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return new MediaCodecDecoderException(th, mediaCodecInfo);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final boolean flushOrReinitializeCodec() {
+    protected final boolean flushOrReinitializeCodec() {
         boolean flushOrReleaseCodec = flushOrReleaseCodec();
         if (flushOrReleaseCodec) {
             maybeInitCodecOrBypass();
@@ -1005,13 +999,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaCodecAdapter getCodec() {
+    protected final MediaCodecAdapter getCodec() {
         return this.codec;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaCodecInfo getCodecInfo() {
+    protected final MediaCodecInfo getCodecInfo() {
         return this.codecInfo;
     }
 
@@ -1021,8 +1013,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     protected abstract float getCodecOperatingRateV23(float f, Format format, Format[] formatArr);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final MediaFormat getCodecOutputMediaFormat() {
+    protected final MediaFormat getCodecOutputMediaFormat() {
         return this.codecOutputMediaFormat;
     }
 
@@ -1030,13 +1021,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     protected abstract MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f);
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final long getOutputStreamOffsetUs() {
+    protected final long getOutputStreamOffsetUs() {
         return this.outputStreamOffsetUs;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public float getPlaybackSpeed() {
+    protected float getPlaybackSpeed() {
         return this.currentPlaybackSpeed;
     }
 
@@ -1053,8 +1042,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return this.inputFormat != null && (isSourceReady() || hasOutputBuffer() || (this.codecHotswapDeadlineMs != -9223372036854775807L && SystemClock.elapsedRealtime() < this.codecHotswapDeadlineMs));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void maybeInitCodecOrBypass() {
+    protected final void maybeInitCodecOrBypass() {
         Format format;
         if (this.codec != null || this.bypassEnabled || (format = this.inputFormat) == null) {
             return;
@@ -1105,9 +1093,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     protected abstract void onCodecReleased(String str);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onDisabled() {
+    protected void onDisabled() {
         this.inputFormat = null;
         this.outputStreamStartPositionUs = -9223372036854775807L;
         setOutputStreamOffsetUs(-9223372036854775807L);
@@ -1115,13 +1102,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         flushOrReleaseCodec();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onEnabled(boolean z, boolean z2) {
+    protected void onEnabled(boolean z, boolean z2) {
         this.decoderCounters = new DecoderCounters();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Code restructure failed: missing block: B:34:0x007e, code lost:
     
         if (drainAndUpdateCodecDrmSessionV23() == false) goto L69;
@@ -1137,7 +1122,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public DecoderReuseEvaluation onInputFormatChanged(FormatHolder formatHolder) {
+    protected DecoderReuseEvaluation onInputFormatChanged(FormatHolder formatHolder) {
         int i;
         boolean z = true;
         this.waitingForFirstSampleInFormat = true;
@@ -1213,9 +1198,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     protected void onOutputStreamOffsetUsChanged(long j) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onPositionReset(long j, boolean z) {
+    protected void onPositionReset(long j, boolean z) {
         this.inputStreamEnded = false;
         this.outputStreamEnded = false;
         this.pendingOutputEndOfStream = false;
@@ -1238,8 +1222,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onProcessedOutputBuffer(long j) {
+    protected void onProcessedOutputBuffer(long j) {
         while (this.pendingOutputStreamOffsetCount != 0 && j >= this.pendingOutputStreamSwitchTimesUs[0]) {
             this.outputStreamStartPositionUs = this.pendingOutputStreamStartPositionsUs[0];
             setOutputStreamOffsetUs(this.pendingOutputStreamOffsetsUs[0]);
@@ -1255,15 +1238,13 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onProcessedStreamChange() {
+    protected void onProcessedStreamChange() {
     }
 
     protected abstract void onQueueInputBuffer(DecoderInputBuffer decoderInputBuffer);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onReset() {
+    protected void onReset() {
         try {
             disableBypass();
             releaseCodec();
@@ -1272,19 +1253,16 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStarted() {
+    protected void onStarted() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStopped() {
+    protected void onStopped() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.BaseRenderer
-    public void onStreamChanged(Format[] formatArr, long j, long j2) {
+    protected void onStreamChanged(Format[] formatArr, long j, long j2) {
         if (this.outputStreamOffsetUs == -9223372036854775807L) {
             Assertions.checkState(this.outputStreamStartPositionUs == -9223372036854775807L);
             this.outputStreamStartPositionUs = j;
@@ -1306,9 +1284,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     protected abstract boolean processOutputBuffer(long j, long j2, MediaCodecAdapter mediaCodecAdapter, ByteBuffer byteBuffer, int i, int i2, int i3, long j3, boolean z, boolean z2, Format format);
 
-    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Multi-variable type inference failed */
-    public void releaseCodec() {
+    protected void releaseCodec() {
         try {
             MediaCodecAdapter mediaCodecAdapter = this.codec;
             if (mediaCodecAdapter != null) {
@@ -1358,8 +1335,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
                 maybeInitCodecOrBypass();
                 if (this.bypassEnabled) {
                     TraceUtil.beginSection("bypassRender");
-                    do {
-                    } while (bypassRender(j, j2));
+                    while (bypassRender(j, j2)) {
+                    }
                 } else {
                     if (this.codec == null) {
                         this.decoderCounters.skippedInputBufferCount += skipSource(j);
@@ -1394,8 +1371,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
     protected void renderToEndOfStream() {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void resetCodecStateForFlush() {
+    protected void resetCodecStateForFlush() {
         resetInputBuffer();
         resetOutputBuffer();
         this.codecHotswapDeadlineMs = -9223372036854775807L;
@@ -1442,13 +1418,11 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         this.mediaCryptoRequiresSecureDecoder = false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void setPendingOutputEndOfStream() {
+    protected final void setPendingOutputEndOfStream() {
         this.pendingOutputEndOfStream = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void setPendingPlaybackException(ExoPlaybackException exoPlaybackException) {
+    protected final void setPendingPlaybackException(ExoPlaybackException exoPlaybackException) {
         this.pendingPlaybackException = exoPlaybackException;
     }
 
@@ -1487,8 +1461,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return 8;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void updateOutputFormatForTime(long j) {
+    protected final void updateOutputFormatForTime(long j) {
         Format format = (Format) this.formatQueue.pollFloor(j);
         if (format == null && this.codecOutputMediaFormatChanged) {
             format = (Format) this.formatQueue.pollFirst();

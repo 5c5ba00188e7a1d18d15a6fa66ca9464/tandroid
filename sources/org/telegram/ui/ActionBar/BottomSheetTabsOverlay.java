@@ -95,9 +95,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     private VelocityTracker velocityTracker;
     private boolean verticallyScrolling;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 extends AnimatorListenerAdapter {
+    class 2 extends AnimatorListenerAdapter {
         final /* synthetic */ Sheet val$sheet;
         final /* synthetic */ BottomSheetTabs.WebTabData val$tab;
 
@@ -147,10 +145,8 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Sheet {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$setLastVisible(Sheet sheet, boolean z) {
             }
@@ -173,7 +169,6 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         void setLastVisible(boolean z);
     }
 
-    /* loaded from: classes4.dex */
     public interface SheetView {
         float drawInto(Canvas canvas, RectF rectF, float f, RectF rectF2, float f2, boolean z);
 
@@ -185,8 +180,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static class TabPreview {
+    static class TabPreview {
         private final Paint backgroundPaint;
         private final Paint bitmapPaint;
         public final ButtonBounce bounce;
@@ -1061,7 +1055,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
         });
         this.animator.addListener(new 2(saveState, sheet));
         AndroidUtilities.applySpring(this.animator, 220.0d, 30.0d, 1.0d);
-        this.animator.setDuration(((float) r13.getDuration()) * 1.2f);
+        this.animator.setDuration((long) (r13.getDuration() * 1.2f));
         this.animator.start();
         this.slowerDismiss = false;
         return true;
@@ -1076,7 +1070,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
 
     /* JADX WARN: Code restructure failed: missing block: B:192:0x04b5, code lost:
     
-        if (((float) (java.lang.System.currentTimeMillis() - r25.startTime)) <= (android.view.ViewConfiguration.getTapTimeout() * 1.2f)) goto L177;
+        if ((java.lang.System.currentTimeMillis() - r25.startTime) <= (android.view.ViewConfiguration.getTapTimeout() * 1.2f)) goto L177;
      */
     @Override // android.view.ViewGroup, android.view.View
     /*

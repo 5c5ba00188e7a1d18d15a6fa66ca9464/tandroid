@@ -64,7 +64,6 @@ public class SeekBarWaveform {
     private AnimatedFloat loadingFloat = new AnimatedFloat(150, CubicBezierInterpolator.DEFAULT);
     private boolean exploding = false;
 
-    /* loaded from: classes3.dex */
     public static class Particles {
         private final int count;
         private RectF emitArea;
@@ -74,9 +73,7 @@ public class SeekBarWaveform {
         private final ArrayList particles = new ArrayList(50);
         private final ArrayList deadParticles = new ArrayList(50);
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes3.dex */
-        public class Particle {
+        private class Particle {
             float d;
             float t;
             float v;
@@ -104,7 +101,7 @@ public class SeekBarWaveform {
             int i = 0;
             while (i < this.particles.size()) {
                 Particle particle = (Particle) this.particles.get(i);
-                float f2 = (float) min;
+                float f2 = min;
                 float f3 = particle.t - (f2 / particle.d);
                 particle.t = f3;
                 if (f3 < 0.0f) {
@@ -119,7 +116,7 @@ public class SeekBarWaveform {
                     float f7 = particle.y;
                     float f8 = particle.vy;
                     particle.y = f7 + (((f6 * f8) * f2) / 500.0f);
-                    particle.vy = f8 - (((float) (AndroidUtilities.dp(0.33f) * min)) / 500.0f);
+                    particle.vy = f8 - ((AndroidUtilities.dp(0.33f) * min) / 500.0f);
                 }
                 i++;
             }
@@ -269,7 +266,7 @@ public class SeekBarWaveform {
             }
             this.loadingPaint.setAlpha((int) (f2 * 255.0f * f));
             canvas.save();
-            float pow = ((((float) Math.pow(((float) (SystemClock.elapsedRealtime() - this.loadingStart)) / 270.0f, 0.75d)) % 1.6f) - 0.6f) * this.loadingPaintWidth;
+            float pow = ((((float) Math.pow((SystemClock.elapsedRealtime() - this.loadingStart) / 270.0f, 0.75d)) % 1.6f) - 0.6f) * this.loadingPaintWidth;
             canvas.translate(pow, 0.0f);
             canvas.drawRect(-pow, 0.0f, (this.width + 5) - pow, this.height, this.loadingPaint);
             canvas.restore();

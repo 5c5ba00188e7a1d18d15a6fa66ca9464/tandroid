@@ -33,9 +33,7 @@ public final class H264Reader implements ElementaryStreamReader {
     private long pesTimeUs = -9223372036854775807L;
     private final ParsableByteArray seiWrapper = new ParsableByteArray();
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SampleReader {
+    private static final class SampleReader {
         private final boolean allowNonIdrKeyframes;
         private final ParsableNalUnitBitArray bitArray;
         private byte[] buffer;
@@ -55,9 +53,7 @@ public final class H264Reader implements ElementaryStreamReader {
         private final SparseArray sps = new SparseArray();
         private final SparseArray pps = new SparseArray();
 
-        /* JADX INFO: Access modifiers changed from: private */
-        /* loaded from: classes.dex */
-        public static final class SliceHeaderData {
+        private static final class SliceHeaderData {
             private boolean bottomFieldFlag;
             private boolean bottomFieldFlagPresent;
             private int deltaPicOrderCnt0;

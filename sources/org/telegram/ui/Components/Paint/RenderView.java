@@ -48,9 +48,7 @@ public class RenderView extends TextureView {
     private UndoStore undoStore;
     private float weight;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes3.dex */
-    public class 1 implements TextureView.SurfaceTextureListener {
+    class 1 implements TextureView.SurfaceTextureListener {
         final /* synthetic */ BlurringShader.BlurManager val$blurManager;
 
         1(BlurringShader.BlurManager blurManager) {
@@ -82,7 +80,7 @@ public class RenderView extends TextureView {
             if (surfaceTexture == null || RenderView.this.internal != null) {
                 return;
             }
-            RenderView.this.internal = new CanvasInternal(surfaceTexture, this.val$blurManager);
+            RenderView.this.internal = RenderView.this.new CanvasInternal(surfaceTexture, this.val$blurManager);
             RenderView.this.internal.setBufferSize(i, i2);
             RenderView.this.updateTransform();
             RenderView.this.post(new Runnable() { // from class: org.telegram.ui.Components.Paint.RenderView$1$$ExternalSyntheticLambda1
@@ -131,8 +129,7 @@ public class RenderView extends TextureView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class CanvasInternal extends DispatchQueue {
+    class CanvasInternal extends DispatchQueue {
         private final BlurringShader.BlurManager blurManager;
         private int bufferHeight;
         private int bufferWidth;
@@ -147,9 +144,7 @@ public class RenderView extends TextureView {
         private Runnable scheduledRunnable;
         private SurfaceTexture surfaceTexture;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes3.dex */
-        public class 1 implements Runnable {
+        class 1 implements Runnable {
             1() {
             }
 
@@ -445,10 +440,8 @@ public class RenderView extends TextureView {
         }
     }
 
-    /* loaded from: classes3.dex */
     public interface RenderViewDelegate {
 
-        /* loaded from: classes3.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$invalidateInputView(RenderViewDelegate renderViewDelegate) {
             }
@@ -668,8 +661,7 @@ public class RenderView extends TextureView {
         this.input.ignoreOnce();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void selectBrush(Brush brush) {
+    protected void selectBrush(Brush brush) {
     }
 
     public void setBrush(Brush brush) {

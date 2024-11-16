@@ -28,17 +28,13 @@ public class BiometricFragment extends Fragment {
     Handler mHandler = new Handler(Looper.getMainLooper());
     BiometricViewModel mViewModel;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api21Impl {
+    private static class Api21Impl {
         static Intent createConfirmDeviceCredentialIntent(KeyguardManager keyguardManager, CharSequence charSequence, CharSequence charSequence2) {
             return keyguardManager.createConfirmDeviceCredentialIntent(charSequence, charSequence2);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api28Impl {
+    private static class Api28Impl {
         static void authenticate(android.hardware.biometrics.BiometricPrompt biometricPrompt, BiometricPrompt.CryptoObject cryptoObject, CancellationSignal cancellationSignal, Executor executor, BiometricPrompt.AuthenticationCallback authenticationCallback) {
             biometricPrompt.authenticate(cryptoObject, cancellationSignal, executor, authenticationCallback);
         }
@@ -72,9 +68,7 @@ public class BiometricFragment extends Fragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api29Impl {
+    private static class Api29Impl {
         static void setConfirmationRequired(BiometricPrompt.Builder builder, boolean z) {
             builder.setConfirmationRequired(z);
         }
@@ -84,17 +78,13 @@ public class BiometricFragment extends Fragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class Api30Impl {
+    private static class Api30Impl {
         static void setAllowedAuthenticators(BiometricPrompt.Builder builder, int i) {
             builder.setAllowedAuthenticators(i);
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class PromptExecutor implements Executor {
+    private static class PromptExecutor implements Executor {
         private final Handler mPromptHandler = new Handler(Looper.getMainLooper());
 
         PromptExecutor() {
@@ -106,7 +96,6 @@ public class BiometricFragment extends Fragment {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class ShowPromptForAuthenticationRunnable implements Runnable {
         private final WeakReference mFragmentRef;
 
@@ -122,9 +111,7 @@ public class BiometricFragment extends Fragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class StopDelayingPromptRunnable implements Runnable {
+    private static class StopDelayingPromptRunnable implements Runnable {
         private final WeakReference mViewModelRef;
 
         StopDelayingPromptRunnable(BiometricViewModel biometricViewModel) {
@@ -139,7 +126,6 @@ public class BiometricFragment extends Fragment {
         }
     }
 
-    /* loaded from: classes.dex */
     private static class StopIgnoringCancelRunnable implements Runnable {
         private final WeakReference mViewModelRef;
 
@@ -305,8 +291,7 @@ public class BiometricFragment extends Fragment {
         startActivityForResult(createConfirmDeviceCredentialIntent, 1);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static BiometricFragment newInstance() {
+    static BiometricFragment newInstance() {
         return new BiometricFragment();
     }
 
@@ -421,8 +406,7 @@ public class BiometricFragment extends Fragment {
         this.mViewModel.setFingerprintDialogHelpMessage(charSequence);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void authenticate(BiometricPrompt.PromptInfo promptInfo, BiometricPrompt.CryptoObject cryptoObject) {
+    void authenticate(BiometricPrompt.PromptInfo promptInfo, BiometricPrompt.CryptoObject cryptoObject) {
         BiometricViewModel biometricViewModel;
         BiometricViewModel biometricViewModel2;
         String str;

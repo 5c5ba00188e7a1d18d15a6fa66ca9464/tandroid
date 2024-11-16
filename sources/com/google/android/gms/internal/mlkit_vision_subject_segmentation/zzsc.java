@@ -14,8 +14,7 @@ public final class zzsc {
     private final Integer zzj;
     private final Integer zzk;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzsc(zzsa zzsaVar, zzsb zzsbVar) {
+    /* synthetic */ zzsc(zzsa zzsaVar, zzsb zzsbVar) {
         String str;
         String str2;
         String str3;

@@ -6,9 +6,8 @@ final class l2 extends X1 {
     long c;
     final /* synthetic */ m2 d;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public l2(m2 m2Var, e2 e2Var) {
+    l2(m2 m2Var, e2 e2Var) {
         super(e2Var);
         this.d = m2Var;
         this.b = m2Var.m;

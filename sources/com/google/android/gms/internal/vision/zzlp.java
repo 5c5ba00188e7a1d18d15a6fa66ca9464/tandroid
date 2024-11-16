@@ -16,8 +16,7 @@ final class zzlp implements Iterator {
         this.zza = -1;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzlp(zzlh zzlhVar, zzlg zzlgVar) {
+    /* synthetic */ zzlp(zzlh zzlhVar, zzlg zzlgVar) {
         this(zzlhVar);
     }
 

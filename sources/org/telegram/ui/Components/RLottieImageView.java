@@ -167,9 +167,8 @@ public class RLottieImageView extends ImageView {
             return;
         }
         ImageReceiver imageReceiver3 = new ImageReceiver() { // from class: org.telegram.ui.Components.RLottieImageView.1
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.messenger.ImageReceiver
-            public boolean setImageBitmapByKey(Drawable drawable, String str5, int i4, boolean z, int i5) {
+            protected boolean setImageBitmapByKey(Drawable drawable, String str5, int i4, boolean z, int i5) {
                 if (drawable != null) {
                     RLottieImageView.this.onLoaded();
                 }

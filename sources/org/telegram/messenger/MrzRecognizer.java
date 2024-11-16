@@ -19,7 +19,6 @@ import java.util.HashMap;
 /* loaded from: classes3.dex */
 public class MrzRecognizer {
 
-    /* loaded from: classes3.dex */
     public static class Result {
         public static final int GENDER_FEMALE = 2;
         public static final int GENDER_MALE = 1;

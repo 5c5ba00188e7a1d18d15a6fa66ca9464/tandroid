@@ -46,13 +46,9 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
     ArrayList items;
     RecyclerListView recyclerListView;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 2 implements RecyclerListView.OnItemClickListener {
+    class 2 implements RecyclerListView.OnItemClickListener {
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 1 implements ProfileNotificationsActivity.ProfileNotificationsActivityDelegate {
+        class 1 implements ProfileNotificationsActivity.ProfileNotificationsActivityDelegate {
             final /* synthetic */ TLRPC.TL_forumTopic val$topic;
 
             1(TLRPC.TL_forumTopic tL_forumTopic) {
@@ -169,9 +165,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Adapter extends AdapterWithDiffUtils {
+    private class Adapter extends AdapterWithDiffUtils {
         private Adapter() {
         }
 
@@ -241,9 +235,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class Item extends AdapterWithDiffUtils.Item {
+    private class Item extends AdapterWithDiffUtils.Item {
         final TLRPC.TL_forumTopic topic;
 
         private Item(int i, TLRPC.TL_forumTopic tL_forumTopic) {

@@ -13,7 +13,6 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
     private final PersistedInstallation.RegistrationStatus registrationStatus;
     private final long tokenCreationEpochInSecs;
 
-    /* loaded from: classes.dex */
     static final class Builder extends PersistedInstallationEntry.Builder {
         private String authToken;
         private Long expiresInSecs;
@@ -23,8 +22,7 @@ final class AutoValue_PersistedInstallationEntry extends PersistedInstallationEn
         private PersistedInstallation.RegistrationStatus registrationStatus;
         private Long tokenCreationEpochInSecs;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        public Builder() {
+        Builder() {
         }
 
         private Builder(PersistedInstallationEntry persistedInstallationEntry) {

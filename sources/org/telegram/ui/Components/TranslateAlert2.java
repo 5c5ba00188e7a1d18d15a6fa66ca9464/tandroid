@@ -84,7 +84,6 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
     private FrameLayout textViewContainer;
     private String toLanguage;
 
-    /* loaded from: classes3.dex */
     private class ContainerView extends FrameLayout {
         private Paint bgPaint;
         private Path bgPath;
@@ -180,8 +179,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class HeaderView extends FrameLayout {
+    class HeaderView extends FrameLayout {
         private ImageView arrowView;
         private ImageView backButton;
         private View backgroundView;
@@ -269,9 +267,8 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
                 private Paint bgPaint = new Paint(1);
                 private LinkSpanDrawable.LinkCollector links = new LinkSpanDrawable.LinkCollector();
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.AnimatedTextView, android.view.View
-                public void onDraw(Canvas canvas) {
+                protected void onDraw(Canvas canvas) {
                     if (LocaleController.isRTL) {
                         AndroidUtilities.rectTmp.set(getWidth() - width(), (getHeight() - AndroidUtilities.dp(18.0f)) / 2.0f, getWidth(), (getHeight() + AndroidUtilities.dp(18.0f)) / 2.0f);
                     } else {
@@ -384,9 +381,8 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
 
         public void openLanguagesSelect() {
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext()) { // from class: org.telegram.ui.Components.TranslateAlert2.HeaderView.4
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout, android.widget.FrameLayout, android.view.View
-                public void onMeasure(int i, int i2) {
+                protected void onMeasure(int i, int i2) {
                     super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(Math.min((int) (AndroidUtilities.displaySize.y * 0.33f), View.MeasureSpec.getSize(i2)), 1073741824));
                 }
             };
@@ -459,9 +455,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class LoadingTextView extends TextView {
+    private class LoadingTextView extends TextView {
         private final LoadingDrawable loadingDrawable;
         private final LinkPath path;
 
@@ -515,9 +509,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public static class PaddedAdapter extends RecyclerView.Adapter {
+    private static class PaddedAdapter extends RecyclerView.Adapter {
         private Context mContext;
         private View mMainView;
         private int mainViewType = 1;
@@ -668,15 +660,13 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
             }
         });
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.Components.TranslateAlert2.4
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onChangeAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 ((BottomSheet) TranslateAlert2.this).containerView.invalidate();
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 ((BottomSheet) TranslateAlert2.this).containerView.invalidate();
             }
         };
@@ -1113,9 +1103,8 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // org.telegram.ui.ActionBar.BottomSheet
-    public boolean canDismissWithSwipe() {
+    protected boolean canDismissWithSwipe() {
         return false;
     }
 

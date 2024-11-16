@@ -16,9 +16,8 @@ final class zzda extends zzcy {
         return (List) zzfd.zzo(obj, j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.google.android.gms.internal.clearcut.zzcy
-    public final void zza(Object obj, long j) {
+    final void zza(Object obj, long j) {
         Object unmodifiableList;
         List list = (List) zzfd.zzo(obj, j);
         if (list instanceof zzcx) {
@@ -31,10 +30,9 @@ final class zzda extends zzcy {
         zzfd.zza(obj, j, unmodifiableList);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.gms.internal.clearcut.zzcy
-    public final void zza(Object obj, Object obj2, long j) {
+    final void zza(Object obj, Object obj2, long j) {
         zzcw zzcwVar;
         List zzb = zzb(obj2, j);
         int size = zzb.size();

@@ -113,9 +113,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     TextPaint textPaint2;
     private long topicId;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 1 implements StoryViewer.PlaceProvider {
+    class 1 implements StoryViewer.PlaceProvider {
         1() {
         }
 
@@ -194,9 +192,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class CalendarAdapter extends RecyclerView.Adapter {
+    private class CalendarAdapter extends RecyclerView.Adapter {
         private CalendarAdapter() {
         }
 
@@ -233,18 +229,16 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new RecyclerListView.Holder(new MonthView(viewGroup.getContext()));
+            return new RecyclerListView.Holder(CalendarActivity.this.new MonthView(viewGroup.getContext()));
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface Callback {
         void onDateSelected(int i, int i2);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class MonthView extends FrameLayout {
+    class MonthView extends FrameLayout {
         boolean attached;
         int cellCount;
         int currentMonthInYear;
@@ -259,9 +253,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         int startMonthTime;
         SimpleTextView titleView;
 
-        /* JADX INFO: Access modifiers changed from: package-private */
-        /* loaded from: classes4.dex */
-        public class 2 extends GestureDetector.SimpleOnGestureListener {
+        class 2 extends GestureDetector.SimpleOnGestureListener {
             final /* synthetic */ Context val$context;
             final /* synthetic */ CalendarActivity val$this$0;
 
@@ -1001,8 +993,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PeriodDay {
+    class PeriodDay {
         int date;
         float enterAlpha;
         float fromSelProgress;
@@ -1030,8 +1021,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public static final class RowAnimationValue {
+    static final class RowAnimationValue {
         float alpha;
         float endX;
         float startX;
@@ -1630,9 +1620,8 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         this.actionBar.setTitle(LocaleController.getString(R.string.Calendar));
         this.actionBar.setCastShadows(false);
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CalendarActivity.3
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
-            public void dispatchDraw(Canvas canvas) {
+            protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 CalendarActivity.this.checkEnterItems = false;
             }

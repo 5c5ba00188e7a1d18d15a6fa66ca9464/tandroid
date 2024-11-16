@@ -100,8 +100,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized String getDownloadedReleaseFilePath() {
+    synchronized String getDownloadedReleaseFilePath() {
         return SharedPreferencesManager.getString("Distribute.downloaded_release_file", null);
     }
 
@@ -112,8 +111,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         return this.mNotificationBuilder;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public File getTargetFile() {
+    File getTargetFile() {
         File externalFilesDir;
         if (this.mTargetFile == null && (externalFilesDir = this.mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)) != null) {
             this.mTargetFile = new File(externalFilesDir, this.mReleaseDetails.getReleaseHash() + ".apk");
@@ -126,8 +124,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         return this.mDownloadTask != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadComplete(File file) {
+    synchronized void onDownloadComplete(File file) {
         if (isCancelled()) {
             return;
         }
@@ -141,8 +138,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onComplete(Uri.parse("file://" + absolutePath));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadError(String str) {
+    synchronized void onDownloadError(String str) {
         if (isCancelled()) {
             return;
         }
@@ -150,8 +146,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onError(str);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadProgress(long j, long j2) {
+    synchronized void onDownloadProgress(long j, long j2) {
         if (isCancelled()) {
             return;
         }
@@ -159,8 +154,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onProgress(j, j2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onDownloadStarted(long j) {
+    synchronized void onDownloadStarted(long j) {
         if (isCancelled()) {
             return;
         }
@@ -168,8 +162,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         this.mListener.onStart(j);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void onStart(File file) {
+    synchronized void onStart(File file) {
         if (isCancelled()) {
             return;
         }
@@ -192,8 +185,7 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public synchronized void setDownloadedReleaseFilePath(String str) {
+    synchronized void setDownloadedReleaseFilePath(String str) {
         try {
             if (isCancelled()) {
                 return;

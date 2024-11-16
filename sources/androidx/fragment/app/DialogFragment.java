@@ -135,9 +135,8 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // androidx.fragment.app.Fragment
-    public FragmentContainer createFragmentContainer() {
+    FragmentContainer createFragmentContainer() {
         final FragmentContainer createFragmentContainer = super.createFragmentContainer();
         return new FragmentContainer() { // from class: androidx.fragment.app.DialogFragment.5
             @Override // androidx.fragment.app.FragmentContainer
@@ -335,9 +334,8 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         this.mDialog.onRestoreInstanceState(bundle2);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // androidx.fragment.app.Fragment
-    public void performCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+    void performCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         Bundle bundle2;
         super.performCreateView(layoutInflater, viewGroup, bundle);
         if (this.mView != null || this.mDialog == null || bundle == null || (bundle2 = bundle.getBundle("android:savedDialogState")) == null) {

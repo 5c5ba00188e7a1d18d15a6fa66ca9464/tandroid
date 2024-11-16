@@ -8,8 +8,7 @@ public class MediaPeriodId {
     public final Object periodUid;
     public final long windowSequenceNumber;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public MediaPeriodId(MediaPeriodId mediaPeriodId) {
+    protected MediaPeriodId(MediaPeriodId mediaPeriodId) {
         this.periodUid = mediaPeriodId.periodUid;
         this.adGroupIndex = mediaPeriodId.adGroupIndex;
         this.adIndexInAdGroup = mediaPeriodId.adIndexInAdGroup;

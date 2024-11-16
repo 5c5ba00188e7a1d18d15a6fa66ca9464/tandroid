@@ -79,9 +79,8 @@ public abstract class BaseFragment {
     protected boolean inTransitionAnimation = false;
     protected int classGuid = ConnectionsManager.generateClassGuid();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes4.dex */
-    public class 1 extends BottomSheet {
+    class 1 extends BottomSheet {
         final /* synthetic */ INavigationLayout[] val$actionBarLayout;
         final /* synthetic */ BottomSheet[] val$bottomSheet;
         final /* synthetic */ BaseFragment val$fragment;
@@ -202,7 +201,6 @@ public abstract class BaseFragment {
     /* loaded from: classes4.dex */
     public interface AttachedSheet {
 
-        /* loaded from: classes4.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$setLastVisible(AttachedSheet attachedSheet, boolean z) {
             }
@@ -548,8 +546,7 @@ public abstract class BaseFragment {
         return this.currentAccount;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Animator getCustomSlideTransition(boolean z, boolean z2, float f) {
+    protected Animator getCustomSlideTransition(boolean z, boolean z2, float f) {
         return null;
     }
 
@@ -652,8 +649,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getNotificationsController();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public SharedPreferences getNotificationsSettings() {
+    protected SharedPreferences getNotificationsSettings() {
         return getAccountInstance().getNotificationsSettings();
     }
 
@@ -768,8 +764,7 @@ public abstract class BaseFragment {
         return getLastStoryViewer() != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean hideKeyboardOnShow() {
+    protected boolean hideKeyboardOnShow() {
         return true;
     }
 
@@ -777,8 +772,7 @@ public abstract class BaseFragment {
         return this.fragmentBeginToShow;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean isFinishing() {
+    protected boolean isFinishing() {
         return this.finishing;
     }
 
@@ -886,8 +880,7 @@ public abstract class BaseFragment {
         return null;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onDialogDismiss(Dialog dialog) {
+    protected void onDialogDismiss(Dialog dialog) {
     }
 
     public void onFragmentClosed() {
@@ -1056,8 +1049,7 @@ public abstract class BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void resumeDelayedFragmentAnimation() {
+    protected void resumeDelayedFragmentAnimation() {
         INavigationLayout iNavigationLayout = this.parentLayout;
         if (iNavigationLayout != null) {
             iNavigationLayout.resumeDelayedFragmentAnimation();
@@ -1140,8 +1132,7 @@ public abstract class BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setParentActivityTitle(CharSequence charSequence) {
+    protected void setParentActivityTitle(CharSequence charSequence) {
         Activity parentActivity = getParentActivity();
         if (parentActivity != null) {
             parentActivity.setTitle(charSequence);
@@ -1229,8 +1220,7 @@ public abstract class BaseFragment {
         this.visibleDialog = dialog;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean shouldOverrideSlideTransition(boolean z, boolean z2) {
+    protected boolean shouldOverrideSlideTransition(boolean z, boolean z2) {
         return false;
     }
 

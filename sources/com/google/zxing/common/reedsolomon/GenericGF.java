@@ -53,13 +53,11 @@ public final class GenericGF {
         this.one = new GenericGFPoly(this, new int[]{1});
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public static int addOrSubtract(int i, int i2) {
+    static int addOrSubtract(int i, int i2) {
         return i ^ i2;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly buildMonomial(int i, int i2) {
+    GenericGFPoly buildMonomial(int i, int i2) {
         if (i < 0) {
             throw new IllegalArgumentException();
         }
@@ -71,8 +69,7 @@ public final class GenericGF {
         return new GenericGFPoly(this, iArr);
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int exp(int i) {
+    int exp(int i) {
         return this.expTable[i];
     }
 
@@ -80,8 +77,7 @@ public final class GenericGF {
         return this.generatorBase;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly getOne() {
+    GenericGFPoly getOne() {
         return this.one;
     }
 
@@ -89,29 +85,25 @@ public final class GenericGF {
         return this.size;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public GenericGFPoly getZero() {
+    GenericGFPoly getZero() {
         return this.zero;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int inverse(int i) {
+    int inverse(int i) {
         if (i != 0) {
             return this.expTable[(this.size - this.logTable[i]) - 1];
         }
         throw new ArithmeticException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int log(int i) {
+    int log(int i) {
         if (i != 0) {
             return this.logTable[i];
         }
         throw new IllegalArgumentException();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public int multiply(int i, int i2) {
+    int multiply(int i, int i2) {
         if (i == 0 || i2 == 0) {
             return 0;
         }

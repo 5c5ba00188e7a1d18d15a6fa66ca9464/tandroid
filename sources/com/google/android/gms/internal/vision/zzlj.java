@@ -17,8 +17,7 @@ final class zzlj implements Iterator {
         this.zza = list.size();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zzlj(zzlh zzlhVar, zzlg zzlgVar) {
+    /* synthetic */ zzlj(zzlh zzlhVar, zzlg zzlgVar) {
         this(zzlhVar);
     }
 

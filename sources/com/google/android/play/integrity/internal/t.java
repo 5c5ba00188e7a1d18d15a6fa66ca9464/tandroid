@@ -6,8 +6,7 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 public abstract class t implements Runnable {
     private final TaskCompletionSource a;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public t() {
+    t() {
         this.a = null;
     }
 
@@ -24,8 +23,7 @@ public abstract class t implements Runnable {
 
     protected abstract void b();
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final TaskCompletionSource c() {
+    final TaskCompletionSource c() {
         return this.a;
     }
 

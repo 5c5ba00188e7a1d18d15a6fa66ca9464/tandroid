@@ -41,7 +41,6 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
     private GraySectionCell topSectionCell;
     private View.OnClickListener topSectionClickListener;
 
-    /* loaded from: classes3.dex */
     public static class Item extends AdapterWithDiffUtils.Item {
         public View.OnClickListener callback;
         public TLRPC.Chat chat;
@@ -124,9 +123,8 @@ public class SelectorAdapter extends AdapterWithDiffUtils {
             return item;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.ListView.AdapterWithDiffUtils.Item
-        public boolean contentsEquals(AdapterWithDiffUtils.Item item) {
+        protected boolean contentsEquals(AdapterWithDiffUtils.Item item) {
             if (this == item) {
                 return true;
             }

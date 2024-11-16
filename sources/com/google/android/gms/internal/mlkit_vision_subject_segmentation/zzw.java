@@ -9,30 +9,18 @@ import java.util.RandomAccess;
 import java.util.Set;
 
 /* loaded from: classes.dex */
-public abstract class zzw extends zzy implements Serializable {
+abstract class zzw extends zzy implements Serializable {
     private transient Map zza;
     private transient int zzb;
 
-    public zzw(Map map) {
+    protected zzw(Map map) {
         if (!map.isEmpty()) {
             throw new IllegalArgumentException();
         }
         this.zza = map;
     }
 
-    public static /* bridge */ /* synthetic */ int zzd(zzw zzwVar) {
-        return zzwVar.zzb;
-    }
-
-    public static /* bridge */ /* synthetic */ Map zzg(zzw zzwVar) {
-        return zzwVar.zza;
-    }
-
-    public static /* bridge */ /* synthetic */ void zzj(zzw zzwVar, int i) {
-        zzwVar.zzb = i;
-    }
-
-    public static /* bridge */ /* synthetic */ void zzk(zzw zzwVar, Object obj) {
+    static /* bridge */ /* synthetic */ void zzk(zzw zzwVar, Object obj) {
         Object obj2;
         Map map = zzwVar.zza;
         map.getClass();
@@ -49,9 +37,9 @@ public abstract class zzw extends zzy implements Serializable {
         }
     }
 
-    public abstract Collection zza();
+    abstract Collection zza();
 
-    public abstract Collection zzb(Object obj, Collection collection);
+    abstract Collection zzb(Object obj, Collection collection);
 
     public final Collection zze(Object obj) {
         Collection collection = (Collection) this.zza.get(obj);
@@ -61,7 +49,7 @@ public abstract class zzw extends zzy implements Serializable {
         return zzb(obj, collection);
     }
 
-    public final List zzf(Object obj, List list, zzt zztVar) {
+    final List zzf(Object obj, List list, zzt zztVar) {
         return list instanceof RandomAccess ? new zzr(this, obj, list, zztVar) : new zzv(this, obj, list, zztVar);
     }
 

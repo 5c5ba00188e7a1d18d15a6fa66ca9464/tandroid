@@ -74,8 +74,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
     private DownloadController.Preset highPreset = DownloadController.getInstance(this.currentAccount).highPreset;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class ListAdapter extends RecyclerListView.SelectionAdapter {
+    class ListAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public ListAdapter(Context context) {

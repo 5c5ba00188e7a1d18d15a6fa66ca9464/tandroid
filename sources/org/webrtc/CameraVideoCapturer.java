@@ -5,7 +5,6 @@ import android.media.MediaRecorder;
 /* loaded from: classes5.dex */
 public interface CameraVideoCapturer extends VideoCapturer {
 
-    /* loaded from: classes5.dex */
     public abstract /* synthetic */ class -CC {
         public static void $default$addMediaRecorderToCamera(CameraVideoCapturer cameraVideoCapturer, MediaRecorder mediaRecorder, MediaRecorderHandler mediaRecorderHandler) {
             throw new UnsupportedOperationException("Deprecated and not implemented.");
@@ -16,7 +15,6 @@ public interface CameraVideoCapturer extends VideoCapturer {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface CameraEventsHandler {
         void onCameraClosed();
 
@@ -31,7 +29,6 @@ public interface CameraVideoCapturer extends VideoCapturer {
         void onFirstFrameAvailable();
     }
 
-    /* loaded from: classes5.dex */
     public static class CameraStatistics {
         private static final int CAMERA_FREEZE_REPORT_TIMOUT_MS = 4000;
         private static final int CAMERA_OBSERVER_PERIOD_MS = 2000;
@@ -103,7 +100,6 @@ public interface CameraVideoCapturer extends VideoCapturer {
         }
     }
 
-    /* loaded from: classes5.dex */
     public interface CameraSwitchHandler {
         void onCameraSwitchDone(boolean z);
 
@@ -111,7 +107,6 @@ public interface CameraVideoCapturer extends VideoCapturer {
     }
 
     @Deprecated
-    /* loaded from: classes5.dex */
     public interface MediaRecorderHandler {
         void onMediaRecorderError(String str);
 

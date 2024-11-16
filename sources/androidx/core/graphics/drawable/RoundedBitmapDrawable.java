@@ -29,8 +29,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
     private final RectF mDstRectF = new RectF();
     private boolean mApplyGravity = true;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public RoundedBitmapDrawable(Resources resources, Bitmap bitmap) {
+    RoundedBitmapDrawable(Resources resources, Bitmap bitmap) {
         BitmapShader bitmapShader;
         this.mTargetDensity = NotificationCenter.audioRouteChanged;
         if (resources != null) {
@@ -164,8 +163,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public void updateDstRect() {
+    void updateDstRect() {
         if (this.mApplyGravity) {
             if (this.mIsCircular) {
                 int min = Math.min(this.mBitmapWidth, this.mBitmapHeight);

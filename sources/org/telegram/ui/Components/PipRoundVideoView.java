@@ -59,7 +59,6 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     private WindowManager windowManager;
     private FrameLayout windowView;
 
-    /* loaded from: classes3.dex */
     public class PipFrameLayout extends FrameLayout {
         public PipFrameLayout(Context context) {
             super(context);

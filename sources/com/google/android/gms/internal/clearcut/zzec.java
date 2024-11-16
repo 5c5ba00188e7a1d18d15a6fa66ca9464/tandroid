@@ -2,32 +2,36 @@ package com.google.android.gms.internal.clearcut;
 
 import com.google.android.gms.internal.clearcut.zzcg;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-public final class zzec implements zzdm {
+final class zzec implements zzdm {
     private final String info;
     private final zzdo zzmn;
     private final zzed zzng;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzec(zzdo zzdoVar, String str, Object[] objArr) {
+    zzec(zzdo zzdoVar, String str, Object[] objArr) {
         this.zzmn = zzdoVar;
         this.info = str;
         this.zzng = new zzed(zzdoVar.getClass(), str, objArr);
     }
 
     public final int getFieldCount() {
-        return zzed.zzd(this.zzng);
+        int i;
+        i = this.zzng.zznj;
+        return i;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdm
     public final int zzcf() {
-        return (zzed.zza(this.zzng) & 1) == 1 ? zzcg.zzg.zzkl : zzcg.zzg.zzkm;
+        int i;
+        i = this.zzng.flags;
+        return (i & 1) == 1 ? zzcg.zzg.zzkl : zzcg.zzg.zzkm;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdm
     public final boolean zzcg() {
-        return (zzed.zza(this.zzng) & 2) == 2;
+        int i;
+        i = this.zzng.flags;
+        return (i & 2) == 2;
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzdm
@@ -35,37 +39,49 @@ public final class zzec implements zzdm {
         return this.zzmn;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final zzed zzco() {
+    final zzed zzco() {
         return this.zzng;
     }
 
     public final int zzcp() {
-        return zzed.zzb(this.zzng);
+        int i;
+        i = this.zzng.zzmk;
+        return i;
     }
 
     public final int zzcq() {
-        return zzed.zzc(this.zzng);
+        int i;
+        i = this.zzng.zzml;
+        return i;
     }
 
     public final int zzcr() {
-        return zzed.zze(this.zzng);
+        int i;
+        i = this.zzng.zznm;
+        return i;
     }
 
     public final int zzcs() {
-        return zzed.zzf(this.zzng);
+        int i;
+        i = this.zzng.zzno;
+        return i;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final int[] zzct() {
-        return zzed.zzg(this.zzng);
+    final int[] zzct() {
+        int[] iArr;
+        iArr = this.zzng.zzms;
+        return iArr;
     }
 
     public final int zzcu() {
-        return zzed.zzh(this.zzng);
+        int i;
+        i = this.zzng.zznn;
+        return i;
     }
 
     public final int zzcv() {
-        return zzed.zzi(this.zzng);
+        int i;
+        i = this.zzng.zzmm;
+        return i;
     }
 }

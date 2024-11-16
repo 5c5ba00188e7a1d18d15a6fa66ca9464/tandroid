@@ -4,9 +4,8 @@ import j$.util.Q;
 import j$.util.function.Consumer;
 import java.util.Comparator;
 
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class i extends o implements Q {
+final class i extends o implements Q {
     public final /* synthetic */ int i;
     long j;
 
@@ -25,7 +24,7 @@ public final class i extends o implements Q {
                 while (true) {
                     k b = b();
                     if (b == null) {
-                        return;
+                        break;
                     } else {
                         consumer.r(b.b);
                     }
@@ -35,7 +34,7 @@ public final class i extends o implements Q {
                 while (true) {
                     k b2 = b();
                     if (b2 == null) {
-                        return;
+                        break;
                     } else {
                         consumer.r(b2.c);
                     }
@@ -56,11 +55,8 @@ public final class i extends o implements Q {
     @Override // j$.util.Q
     public final long estimateSize() {
         switch (this.i) {
-            case 0:
-                return this.j;
-            default:
-                return this.j;
         }
+        return this.j;
     }
 
     @Override // j$.util.Q
@@ -76,21 +72,15 @@ public final class i extends o implements Q {
     @Override // j$.util.Q
     public final /* synthetic */ long getExactSizeIfKnown() {
         switch (this.i) {
-            case 0:
-                return j$.util.a.j(this);
-            default:
-                return j$.util.a.j(this);
         }
+        return j$.util.a.j(this);
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ boolean hasCharacteristics(int i) {
         switch (this.i) {
-            case 0:
-                return j$.util.a.k(this, i);
-            default:
-                return j$.util.a.k(this, i);
         }
+        return j$.util.a.k(this, i);
     }
 
     @Override // j$.util.Q
@@ -99,20 +89,21 @@ public final class i extends o implements Q {
             case 0:
                 consumer.getClass();
                 k b = b();
-                if (b == null) {
-                    return false;
+                if (b != null) {
+                    consumer.r(b.b);
+                    break;
                 }
-                consumer.r(b.b);
-                return true;
+                break;
             default:
                 consumer.getClass();
                 k b2 = b();
-                if (b2 == null) {
-                    return false;
+                if (b2 != null) {
+                    consumer.r(b2.c);
+                    break;
                 }
-                consumer.r(b2.c);
-                return true;
+                break;
         }
+        return true;
     }
 
     @Override // j$.util.Q

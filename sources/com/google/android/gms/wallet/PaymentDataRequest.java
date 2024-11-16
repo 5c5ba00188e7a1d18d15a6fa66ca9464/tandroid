@@ -23,7 +23,6 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
     String zzj;
     Bundle zzk;
 
-    /* loaded from: classes.dex */
     public final class Builder {
         /* synthetic */ Builder(zzab zzabVar) {
         }
@@ -46,8 +45,7 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
         this.zzi = true;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
+    PaymentDataRequest(boolean z, boolean z2, CardRequirements cardRequirements, boolean z3, ShippingAddressRequirements shippingAddressRequirements, ArrayList arrayList, PaymentMethodTokenizationParameters paymentMethodTokenizationParameters, TransactionInfo transactionInfo, boolean z4, String str, Bundle bundle) {
         this.zza = z;
         this.zzb = z2;
         this.zzc = cardRequirements;
@@ -68,7 +66,7 @@ public final class PaymentDataRequest extends AbstractSafeParcelable {
     }
 
     public static Builder newBuilder() {
-        return new Builder(null);
+        return new PaymentDataRequest().new Builder(null);
     }
 
     @Override // android.os.Parcelable

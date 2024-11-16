@@ -309,9 +309,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     private boolean wasScroll;
     private long watchForKeyboardEndTime;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 27 implements ColorPicker.ColorPickerDelegate {
+    class 27 implements ColorPicker.ColorPickerDelegate {
         27() {
         }
 
@@ -382,9 +380,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    /* loaded from: classes4.dex */
-    public class 9 extends ActionBar.ActionBarMenuOnItemClick {
+    class 9 extends ActionBar.ActionBarMenuOnItemClick {
         9() {
         }
 
@@ -466,9 +462,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     if (sb.length() <= 0) {
                         str = str2;
                         ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false) { // from class: org.telegram.ui.ThemePreviewActivity.9.1
-                            /* JADX INFO: Access modifiers changed from: protected */
                             @Override // org.telegram.ui.Components.ShareAlert
-                            public void onSend(LongSparseArray longSparseArray, int i3, TLRPC.TL_forumTopic tL_forumTopic) {
+                            protected void onSend(LongSparseArray longSparseArray, int i3, TLRPC.TL_forumTopic tL_forumTopic) {
                                 if (longSparseArray.size() == 1) {
                                     ThemePreviewActivity.this.undoView.showWithAction(((TLRPC.Dialog) longSparseArray.valueAt(0)).id, 61, Integer.valueOf(i3));
                                 } else {
@@ -505,9 +500,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
                 str = url;
                 ThemePreviewActivity.this.showDialog(new ShareAlert(ThemePreviewActivity.this.getParentActivity(), null, str, false, str, false) { // from class: org.telegram.ui.ThemePreviewActivity.9.1
-                    /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.ShareAlert
-                    public void onSend(LongSparseArray longSparseArray, int i3, TLRPC.TL_forumTopic tL_forumTopic) {
+                    protected void onSend(LongSparseArray longSparseArray, int i3, TLRPC.TL_forumTopic tL_forumTopic) {
                         if (longSparseArray.size() == 1) {
                             ThemePreviewActivity.this.undoView.showWithAction(((TLRPC.Dialog) longSparseArray.valueAt(0)).id, 61, Integer.valueOf(i3));
                         } else {
@@ -613,7 +607,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes4.dex */
     public class BackgroundView extends BackupImageView {
         public Drawable background;
         boolean drawBackground;
@@ -630,9 +623,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             return this.background;
         }
 
-        /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.ui.Components.BackupImageView, android.view.View
-        public void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
             this.tx = 0.0f;
             this.ty = 0.0f;
             if (this.drawBackground) {
@@ -737,9 +729,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class BlurButton extends View {
+    private class BlurButton extends View {
         private final ColorFilter colorFilter;
         private final Paint dimPaint;
         private final Paint dimPaint2;
@@ -856,7 +846,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface DayNightSwitchDelegate {
         boolean isDark();
 
@@ -865,7 +854,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         void switchDayNight(boolean z);
     }
 
-    /* loaded from: classes4.dex */
     public static class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         private ArrayList dialogs = new ArrayList();
         private Context mContext;
@@ -1011,7 +999,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes4.dex */
     private class MessageDrawable extends Theme.MessageDrawable {
         public MessageDrawable(int i, boolean z, boolean z2) {
             super(i, z, z2);
@@ -1034,7 +1021,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes4.dex */
     public class MessagesAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
         private ArrayList messages;
@@ -2146,9 +2132,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes4.dex */
-    public class PatternsAdapter extends RecyclerListView.SelectionAdapter {
+    private class PatternsAdapter extends RecyclerListView.SelectionAdapter {
         private Context mContext;
 
         public PatternsAdapter(Context context) {
@@ -2273,7 +2257,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes4.dex */
     public class ThemeDelegate implements Theme.ResourcesProvider {
         public final Paint chat_actionBackgroundGradientDarkenPaint;
         public final TextPaint chat_actionTextPaint;
@@ -2450,57 +2433,18 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         public Paint getPaint(String str) {
             Paint themePaint;
             str.hashCode();
-            char c = 65535;
-            switch (str.hashCode()) {
-                case -1490966183:
-                    if (str.equals("paintChatActionText2")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case 561929466:
-                    if (str.equals("paintChatActionBackground")) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 1712385955:
-                    if (str.equals("paintChatBotButton")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case 1790254137:
-                    if (str.equals("paintChatActionBackgroundDarken")) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-                case 1897339317:
-                    if (str.equals("paintChatActionBackgroundSelected")) {
-                        c = 4;
-                        break;
-                    }
-                    break;
-                case 2030114297:
-                    if (str.equals("paintChatActionText")) {
-                        c = 5;
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
+            switch (str) {
+                case "paintChatActionText2":
                     return this.chat_actionTextPaint2;
-                case 1:
+                case "paintChatActionBackground":
                     return this.chat_actionBackgroundPaint;
-                case 2:
+                case "paintChatBotButton":
                     return this.chat_botButtonPaint;
-                case 3:
+                case "paintChatActionBackgroundDarken":
                     return this.chat_actionBackgroundGradientDarkenPaint;
-                case 4:
+                case "paintChatActionBackgroundSelected":
                     return this.chat_actionBackgroundSelectedPaint;
-                case 5:
+                case "paintChatActionText":
                     return this.chat_actionTextPaint;
                 default:
                     Theme.ResourcesProvider resourcesProvider = this.parentProvider;
@@ -2534,7 +2478,6 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
     }
 
-    /* loaded from: classes4.dex */
     public interface WallpaperActivityDelegate {
         void didSetNewBackground(TLRPC.WallPaper wallPaper);
     }
@@ -6481,10 +6424,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     /* JADX WARN: Removed duplicated region for block: B:96:0x0fb2  */
     /* JADX WARN: Removed duplicated region for block: B:99:0x0ff3  */
     /* JADX WARN: Type inference failed for: r1v103 */
-    /* JADX WARN: Type inference failed for: r1v104, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v104, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v110 */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v4 */
     /* JADX WARN: Type inference failed for: r8v8 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -6895,9 +6838,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     }
                                 }
 
-                                /* JADX INFO: Access modifiers changed from: protected */
                                 @Override // org.telegram.ui.Components.RecyclerListView
-                                public boolean allowSelectChildAtPosition(View view2) {
+                                protected boolean allowSelectChildAtPosition(View view2) {
                                     RecyclerView.ViewHolder findContainingViewHolder = ThemePreviewActivity.this.listView2.findContainingViewHolder(view2);
                                     if (findContainingViewHolder == null || findContainingViewHolder.getItemViewType() != 2) {
                                         return super.allowSelectChildAtPosition(view2);
@@ -6963,18 +6905,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                     return drawChild;
                                 }
 
-                                /* JADX INFO: Access modifiers changed from: protected */
                                 @Override // org.telegram.ui.Components.RecyclerListView
-                                public void onChildPressed(View view2, float f13, float f14, boolean z6) {
+                                protected void onChildPressed(View view2, float f13, float f14, boolean z6) {
                                     if (z6 && (view2 instanceof ChatMessageCell) && !((ChatMessageCell) view2).isInsideBackground(f13, f14)) {
                                         return;
                                     }
                                     super.onChildPressed(view2, f13, f14, z6);
                                 }
 
-                                /* JADX INFO: Access modifiers changed from: protected */
                                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                                public void onLayout(boolean z6, int i25, int i26, int i27, int i28) {
+                                protected void onLayout(boolean z6, int i25, int i26, int i27, int i28) {
                                     super.onLayout(z6, i25, i26, i27, i28);
                                     ThemePreviewActivity.this.invalidateBlur();
                                 }
@@ -7047,9 +6987,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 }
                             };
                             DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
-                                /* JADX INFO: Access modifiers changed from: protected */
                                 @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                                public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                                protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                                     ThemePreviewActivity.this.listView2.invalidateViews();
                                 }
                             };
@@ -7262,9 +7201,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView
-                        public boolean allowSelectChildAtPosition(View view2) {
+                        protected boolean allowSelectChildAtPosition(View view2) {
                             RecyclerView.ViewHolder findContainingViewHolder = ThemePreviewActivity.this.listView2.findContainingViewHolder(view2);
                             if (findContainingViewHolder == null || findContainingViewHolder.getItemViewType() != 2) {
                                 return super.allowSelectChildAtPosition(view2);
@@ -7330,18 +7268,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             return drawChild;
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView
-                        public void onChildPressed(View view2, float f13, float f14, boolean z6) {
+                        protected void onChildPressed(View view2, float f13, float f14, boolean z6) {
                             if (z6 && (view2 instanceof ChatMessageCell) && !((ChatMessageCell) view2).isInsideBackground(f13, f14)) {
                                 return;
                             }
                             super.onChildPressed(view2, f13, f14, z6);
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                        public void onLayout(boolean z6, int i25, int i26, int i27, int i28) {
+                        protected void onLayout(boolean z6, int i25, int i26, int i27, int i28) {
                             super.onLayout(z6, i25, i26, i27, i28);
                             ThemePreviewActivity.this.invalidateBlur();
                         }
@@ -7414,9 +7350,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         }
                     };
                     DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                        public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                        protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                             ThemePreviewActivity.this.listView2.invalidateViews();
                         }
                     };
@@ -7662,9 +7597,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             }
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView
-                        public boolean allowSelectChildAtPosition(View view2) {
+                        protected boolean allowSelectChildAtPosition(View view2) {
                             RecyclerView.ViewHolder findContainingViewHolder = ThemePreviewActivity.this.listView2.findContainingViewHolder(view2);
                             if (findContainingViewHolder == null || findContainingViewHolder.getItemViewType() != 2) {
                                 return super.allowSelectChildAtPosition(view2);
@@ -7730,18 +7664,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                             return drawChild;
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView
-                        public void onChildPressed(View view2, float f13, float f14, boolean z6) {
+                        protected void onChildPressed(View view2, float f13, float f14, boolean z6) {
                             if (z6 && (view2 instanceof ChatMessageCell) && !((ChatMessageCell) view2).isInsideBackground(f13, f14)) {
                                 return;
                             }
                             super.onChildPressed(view2, f13, f14, z6);
                         }
 
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                        public void onLayout(boolean z6, int i252, int i26, int i27, int i28) {
+                        protected void onLayout(boolean z6, int i252, int i26, int i27, int i28) {
                             super.onLayout(z6, i252, i26, i27, i28);
                             ThemePreviewActivity.this.invalidateBlur();
                         }
@@ -7814,9 +7746,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         }
                     };
                     DefaultItemAnimator defaultItemAnimator22 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
-                        /* JADX INFO: Access modifiers changed from: protected */
                         @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                        public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                        protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                             ThemePreviewActivity.this.listView2.invalidateViews();
                         }
                     };
@@ -8865,9 +8796,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     }
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView
-                public boolean allowSelectChildAtPosition(View view22) {
+                protected boolean allowSelectChildAtPosition(View view22) {
                     RecyclerView.ViewHolder findContainingViewHolder = ThemePreviewActivity.this.listView2.findContainingViewHolder(view22);
                     if (findContainingViewHolder == null || findContainingViewHolder.getItemViewType() != 2) {
                         return super.allowSelectChildAtPosition(view22);
@@ -8933,18 +8863,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                     return drawChild;
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView
-                public void onChildPressed(View view22, float f13, float f14, boolean z6) {
+                protected void onChildPressed(View view22, float f13, float f14, boolean z6) {
                     if (z6 && (view22 instanceof ChatMessageCell) && !((ChatMessageCell) view22).isInsideBackground(f13, f14)) {
                         return;
                     }
                     super.onChildPressed(view22, f13, f14, z6);
                 }
 
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-                public void onLayout(boolean z6, int i252, int i262, int i272, int i282) {
+                protected void onLayout(boolean z6, int i252, int i262, int i272, int i282) {
                     super.onLayout(z6, i252, i262, i272, i282);
                     ThemePreviewActivity.this.invalidateBlur();
                 }
@@ -9017,9 +8945,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
             };
             DefaultItemAnimator defaultItemAnimator222 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
-                /* JADX INFO: Access modifiers changed from: protected */
                 @Override // androidx.recyclerview.widget.DefaultItemAnimator
-                public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+                protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                     ThemePreviewActivity.this.listView2.invalidateViews();
                 }
             };
@@ -9438,9 +9365,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 }
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public boolean allowSelectChildAtPosition(View view22) {
+            protected boolean allowSelectChildAtPosition(View view22) {
                 RecyclerView.ViewHolder findContainingViewHolder = ThemePreviewActivity.this.listView2.findContainingViewHolder(view22);
                 if (findContainingViewHolder == null || findContainingViewHolder.getItemViewType() != 2) {
                     return super.allowSelectChildAtPosition(view22);
@@ -9506,18 +9432,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 return drawChild;
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView
-            public void onChildPressed(View view22, float f13, float f14, boolean z6) {
+            protected void onChildPressed(View view22, float f13, float f14, boolean z6) {
                 if (z6 && (view22 instanceof ChatMessageCell) && !((ChatMessageCell) view22).isInsideBackground(f13, f14)) {
                     return;
                 }
                 super.onChildPressed(view22, f13, f14, z6);
             }
 
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup, android.view.View
-            public void onLayout(boolean z6, int i252, int i262, int i272, int i282) {
+            protected void onLayout(boolean z6, int i252, int i262, int i272, int i282) {
                 super.onLayout(z6, i252, i262, i272, i282);
                 ThemePreviewActivity.this.invalidateBlur();
             }
@@ -9590,9 +9514,8 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             }
         };
         DefaultItemAnimator defaultItemAnimator2222 = new DefaultItemAnimator() { // from class: org.telegram.ui.ThemePreviewActivity.12
-            /* JADX INFO: Access modifiers changed from: protected */
             @Override // androidx.recyclerview.widget.DefaultItemAnimator
-            public void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
+            protected void onMoveAnimationUpdate(RecyclerView.ViewHolder viewHolder) {
                 ThemePreviewActivity.this.listView2.invalidateViews();
             }
         };

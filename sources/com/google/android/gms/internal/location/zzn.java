@@ -10,8 +10,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 
 /* loaded from: classes.dex */
 public final class zzn extends zza implements zzo {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public zzn(IBinder iBinder) {
+    zzn(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.location.internal.IGoogleLocationManagerService");
     }
 

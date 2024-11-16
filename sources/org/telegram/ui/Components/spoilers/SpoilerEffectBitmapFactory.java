@@ -101,8 +101,7 @@ public class SpoilerEffectBitmapFactory {
         });
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Paint getPaint() {
+    Paint getPaint() {
         if (this.shaderBitmap == null) {
             int i = this.size;
             this.shaderBitmap = Bitmap.createBitmap(i, i, Bitmap.Config.ALPHA_8);

@@ -28,9 +28,7 @@ final class DvbParser {
     private final Paint fillRegionPaint;
     private final SubtitleService subtitleService;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ClutDefinition {
+    private static final class ClutDefinition {
         public final int[] clutEntries2Bit;
         public final int[] clutEntries4Bit;
         public final int[] clutEntries8Bit;
@@ -44,9 +42,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class DisplayDefinition {
+    private static final class DisplayDefinition {
         public final int height;
         public final int horizontalPositionMaximum;
         public final int horizontalPositionMinimum;
@@ -64,9 +60,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class ObjectData {
+    private static final class ObjectData {
         public final byte[] bottomFieldData;
         public final int id;
         public final boolean nonModifyingColorFlag;
@@ -80,9 +74,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class PageComposition {
+    private static final class PageComposition {
         public final SparseArray regions;
         public final int state;
         public final int timeOutSecs;
@@ -96,9 +88,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class PageRegion {
+    private static final class PageRegion {
         public final int horizontalAddress;
         public final int verticalAddress;
 
@@ -108,9 +98,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class RegionComposition {
+    private static final class RegionComposition {
         public final int clutId;
         public final int depth;
         public final boolean fillFlag;
@@ -145,9 +133,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class RegionObject {
+    private static final class RegionObject {
         public final int backgroundPixelCode;
         public final int foregroundPixelCode;
         public final int horizontalPosition;
@@ -165,9 +151,7 @@ final class DvbParser {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static final class SubtitleService {
+    private static final class SubtitleService {
         public final int ancillaryPageId;
         public DisplayDefinition displayDefinition;
         public PageComposition pageComposition;

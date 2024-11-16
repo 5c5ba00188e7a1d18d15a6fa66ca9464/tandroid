@@ -81,45 +81,24 @@ final class WebvttCssParser {
         return true;
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:17:0x0064. Please report as an issue. */
     private static void parseFontSize(String str, WebvttCssStyle webvttCssStyle) {
+        int i;
         Matcher matcher = FONT_SIZE_PATTERN.matcher(Ascii.toLowerCase(str));
         if (!matcher.matches()) {
             Log.w("WebvttCssParser", "Invalid font-size: '" + str + "'.");
             return;
         }
-        int i = 2;
+        i = 2;
         String str2 = (String) Assertions.checkNotNull(matcher.group(2));
         str2.hashCode();
-        char c = 65535;
-        switch (str2.hashCode()) {
-            case 37:
-                if (str2.equals("%")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case 3240:
-                if (str2.equals("em")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case 3592:
-                if (str2.equals("px")) {
-                    c = 2;
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str2) {
+            case "%":
                 i = 3;
-            case 1:
+            case "em":
                 webvttCssStyle.setFontSizeUnit(i);
                 webvttCssStyle.setFontSize(Float.parseFloat((String) Assertions.checkNotNull(matcher.group(1))));
                 return;
-            case 2:
+            case "px":
                 webvttCssStyle.setFontSizeUnit(1);
                 webvttCssStyle.setFontSize(Float.parseFloat((String) Assertions.checkNotNull(matcher.group(1))));
                 return;
@@ -292,8 +271,8 @@ final class WebvttCssParser {
     }
 
     static void skipStyleBlock(ParsableByteArray parsableByteArray) {
-        do {
-        } while (!TextUtils.isEmpty(parsableByteArray.readLine()));
+        while (!TextUtils.isEmpty(parsableByteArray.readLine())) {
+        }
     }
 
     static void skipWhitespaceAndComments(ParsableByteArray parsableByteArray) {

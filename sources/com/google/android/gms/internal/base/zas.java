@@ -9,8 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 /* loaded from: classes.dex */
 final class zas implements zaq {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public /* synthetic */ zas(zar zarVar) {
+    /* synthetic */ zas(zar zarVar) {
     }
 
     @Override // com.google.android.gms.internal.base.zaq

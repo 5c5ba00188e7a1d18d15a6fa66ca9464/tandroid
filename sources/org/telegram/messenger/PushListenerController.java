@@ -31,7 +31,6 @@ public class PushListenerController {
     public static final int PUSH_TYPE_HUAWEI = 13;
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    /* loaded from: classes.dex */
     public static final class GooglePushListenerServiceProvider implements IPushListenerServiceProvider {
         public static final GooglePushListenerServiceProvider INSTANCE = new GooglePushListenerServiceProvider();
         private Boolean hasServices;
@@ -118,7 +117,6 @@ public class PushListenerController {
         }
     }
 
-    /* loaded from: classes.dex */
     public interface IPushListenerServiceProvider {
         String getLogTitle();
 
@@ -130,354 +128,128 @@ public class PushListenerController {
     }
 
     @Retention(RetentionPolicy.SOURCE)
-    /* loaded from: classes.dex */
     public @interface PushType {
     }
 
-    /* JADX WARN: Failed to find 'out' block for switch in B:114:0x01fa. Please report as an issue. */
     private static String getReactedText(String str, Object[] objArr) {
         int i;
         str.hashCode();
-        char c = 65535;
-        switch (str.hashCode()) {
-            case -2114646919:
-                if (str.equals("CHAT_REACT_CONTACT")) {
-                    c = 0;
-                    break;
-                }
-                break;
-            case -1891797827:
-                if (str.equals("REACT_GEOLIVE")) {
-                    c = 1;
-                    break;
-                }
-                break;
-            case -1773019340:
-                if (str.equals("REACT_STORY_HIDDEN")) {
-                    c = 2;
-                    break;
-                }
-                break;
-            case -1553058678:
-                if (str.equals("REACT_HIDDEN")) {
-                    c = 3;
-                    break;
-                }
-                break;
-            case -1415696683:
-                if (str.equals("CHAT_REACT_NOTEXT")) {
-                    c = 4;
-                    break;
-                }
-                break;
-            case -1375264434:
-                if (str.equals("REACT_NOTEXT")) {
-                    c = 5;
-                    break;
-                }
-                break;
-            case -1105974394:
-                if (str.equals("CHAT_REACT_INVOICE")) {
-                    c = 6;
-                    break;
-                }
-                break;
-            case -861247200:
-                if (str.equals("REACT_CONTACT")) {
-                    c = 7;
-                    break;
-                }
-                break;
-            case -661458538:
-                if (str.equals("CHAT_REACT_STICKER")) {
-                    c = '\b';
-                    break;
-                }
-                break;
-            case 51977938:
-                if (str.equals("REACT_GAME")) {
-                    c = '\t';
-                    break;
-                }
-                break;
-            case 52259487:
-                if (str.equals("REACT_POLL")) {
-                    c = '\n';
-                    break;
-                }
-                break;
-            case 52294965:
-                if (str.equals("REACT_QUIZ")) {
-                    c = 11;
-                    break;
-                }
-                break;
-            case 52369421:
-                if (str.equals("REACT_TEXT")) {
-                    c = '\f';
-                    break;
-                }
-                break;
-            case 147425325:
-                if (str.equals("REACT_INVOICE")) {
-                    c = '\r';
-                    break;
-                }
-                break;
-            case 192842257:
-                if (str.equals("CHAT_REACT_DOC")) {
-                    c = 14;
-                    break;
-                }
-                break;
-            case 192844842:
-                if (str.equals("CHAT_REACT_GEO")) {
-                    c = 15;
-                    break;
-                }
-                break;
-            case 192844957:
-                if (str.equals("CHAT_REACT_GIF")) {
-                    c = 16;
-                    break;
-                }
-                break;
-            case 591941181:
-                if (str.equals("REACT_STICKER")) {
-                    c = 17;
-                    break;
-                }
-                break;
-            case 635226735:
-                if (str.equals("CHAT_REACT_AUDIO")) {
-                    c = 18;
-                    break;
-                }
-                break;
-            case 648703179:
-                if (str.equals("CHAT_REACT_PHOTO")) {
-                    c = 19;
-                    break;
-                }
-                break;
-            case 650764327:
-                if (str.equals("CHAT_REACT_ROUND")) {
-                    c = 20;
-                    break;
-                }
-                break;
-            case 654263060:
-                if (str.equals("CHAT_REACT_VIDEO")) {
-                    c = 21;
-                    break;
-                }
-                break;
-            case 731873318:
-                if (str.equals("CHAT_REACT_GIVEAWAY")) {
-                    c = 22;
-                    break;
-                }
-                break;
-            case 932558943:
-                if (str.equals("REACT_GIVEAWAY")) {
-                    c = 23;
-                    break;
-                }
-                break;
-            case 1149769750:
-                if (str.equals("CHAT_REACT_GEOLIVE")) {
-                    c = 24;
-                    break;
-                }
-                break;
-            case 1606362326:
-                if (str.equals("REACT_AUDIO")) {
-                    c = 25;
-                    break;
-                }
-                break;
-            case 1619838770:
-                if (str.equals("REACT_PHOTO")) {
-                    c = 26;
-                    break;
-                }
-                break;
-            case 1621899918:
-                if (str.equals("REACT_ROUND")) {
-                    c = 27;
-                    break;
-                }
-                break;
-            case 1622966773:
-                if (str.equals("REACT_STORY")) {
-                    c = 28;
-                    break;
-                }
-                break;
-            case 1625398651:
-                if (str.equals("REACT_VIDEO")) {
-                    c = 29;
-                    break;
-                }
-                break;
-            case 1664242232:
-                if (str.equals("REACT_DOC")) {
-                    c = 30;
-                    break;
-                }
-                break;
-            case 1664244817:
-                if (str.equals("REACT_GEO")) {
-                    c = 31;
-                    break;
-                }
-                break;
-            case 1664244932:
-                if (str.equals("REACT_GIF")) {
-                    c = ' ';
-                    break;
-                }
-                break;
-            case 1683218969:
-                if (str.equals("CHAT_REACT_GAME")) {
-                    c = '!';
-                    break;
-                }
-                break;
-            case 1683500518:
-                if (str.equals("CHAT_REACT_POLL")) {
-                    c = '\"';
-                    break;
-                }
-                break;
-            case 1683535996:
-                if (str.equals("CHAT_REACT_QUIZ")) {
-                    c = '#';
-                    break;
-                }
-                break;
-            case 1683610452:
-                if (str.equals("CHAT_REACT_TEXT")) {
-                    c = '$';
-                    break;
-                }
-                break;
-        }
-        switch (c) {
-            case 0:
+        switch (str) {
+            case "CHAT_REACT_CONTACT":
                 i = R.string.PushChatReactContact;
-                return LocaleController.formatString(i, objArr);
-            case 1:
+                break;
+            case "REACT_GEOLIVE":
                 i = R.string.PushReactGeoLocation;
-                return LocaleController.formatString(i, objArr);
-            case 2:
+                break;
+            case "REACT_STORY_HIDDEN":
                 i = R.string.PushReactStoryHidden;
-                return LocaleController.formatString(i, objArr);
-            case 3:
+                break;
+            case "REACT_HIDDEN":
                 i = R.string.PushReactHidden;
-                return LocaleController.formatString(i, objArr);
-            case 4:
+                break;
+            case "CHAT_REACT_NOTEXT":
                 i = R.string.PushChatReactNotext;
-                return LocaleController.formatString(i, objArr);
-            case 5:
+                break;
+            case "REACT_NOTEXT":
                 i = R.string.PushReactNoText;
-                return LocaleController.formatString(i, objArr);
-            case 6:
+                break;
+            case "CHAT_REACT_INVOICE":
                 i = R.string.PushChatReactInvoice;
-                return LocaleController.formatString(i, objArr);
-            case 7:
+                break;
+            case "REACT_CONTACT":
                 i = R.string.PushReactContect;
-                return LocaleController.formatString(i, objArr);
-            case '\b':
+                break;
+            case "CHAT_REACT_STICKER":
                 i = R.string.PushChatReactSticker;
-                return LocaleController.formatString(i, objArr);
-            case '\t':
+                break;
+            case "REACT_GAME":
                 i = R.string.PushReactGame;
-                return LocaleController.formatString(i, objArr);
-            case '\n':
+                break;
+            case "REACT_POLL":
                 i = R.string.PushReactPoll;
-                return LocaleController.formatString(i, objArr);
-            case 11:
+                break;
+            case "REACT_QUIZ":
                 i = R.string.PushReactQuiz;
-                return LocaleController.formatString(i, objArr);
-            case '\f':
+                break;
+            case "REACT_TEXT":
                 i = R.string.PushReactText;
-                return LocaleController.formatString(i, objArr);
-            case '\r':
+                break;
+            case "REACT_INVOICE":
                 i = R.string.PushReactInvoice;
-                return LocaleController.formatString(i, objArr);
-            case 14:
+                break;
+            case "CHAT_REACT_DOC":
                 i = R.string.PushChatReactDoc;
-                return LocaleController.formatString(i, objArr);
-            case 15:
+                break;
+            case "CHAT_REACT_GEO":
                 i = R.string.PushChatReactGeo;
-                return LocaleController.formatString(i, objArr);
-            case 16:
+                break;
+            case "CHAT_REACT_GIF":
                 i = R.string.PushChatReactGif;
-                return LocaleController.formatString(i, objArr);
-            case 17:
+                break;
+            case "REACT_STICKER":
                 i = R.string.PushReactSticker;
-                return LocaleController.formatString(i, objArr);
-            case 18:
+                break;
+            case "CHAT_REACT_AUDIO":
                 i = R.string.PushChatReactAudio;
-                return LocaleController.formatString(i, objArr);
-            case 19:
+                break;
+            case "CHAT_REACT_PHOTO":
                 i = R.string.PushChatReactPhoto;
-                return LocaleController.formatString(i, objArr);
-            case 20:
+                break;
+            case "CHAT_REACT_ROUND":
                 i = R.string.PushChatReactRound;
-                return LocaleController.formatString(i, objArr);
-            case 21:
+                break;
+            case "CHAT_REACT_VIDEO":
                 i = R.string.PushChatReactVideo;
-                return LocaleController.formatString(i, objArr);
-            case 22:
+                break;
+            case "CHAT_REACT_GIVEAWAY":
                 i = R.string.NotificationChatReactGiveaway;
-                return LocaleController.formatString(i, objArr);
-            case 23:
+                break;
+            case "REACT_GIVEAWAY":
                 i = R.string.NotificationReactGiveaway;
-                return LocaleController.formatString(i, objArr);
-            case 24:
+                break;
+            case "CHAT_REACT_GEOLIVE":
                 i = R.string.PushChatReactGeoLive;
-                return LocaleController.formatString(i, objArr);
-            case 25:
+                break;
+            case "REACT_AUDIO":
                 i = R.string.PushReactAudio;
-                return LocaleController.formatString(i, objArr);
-            case 26:
+                break;
+            case "REACT_PHOTO":
                 i = R.string.PushReactPhoto;
-                return LocaleController.formatString(i, objArr);
-            case 27:
+                break;
+            case "REACT_ROUND":
                 i = R.string.PushReactRound;
-                return LocaleController.formatString(i, objArr);
-            case 28:
+                break;
+            case "REACT_STORY":
                 i = R.string.PushReactStory;
-                return LocaleController.formatString(i, objArr);
-            case 29:
+                break;
+            case "REACT_VIDEO":
                 i = R.string.PushReactVideo;
-                return LocaleController.formatString(i, objArr);
-            case 30:
+                break;
+            case "REACT_DOC":
                 i = R.string.PushReactDoc;
-                return LocaleController.formatString(i, objArr);
-            case 31:
+                break;
+            case "REACT_GEO":
                 i = R.string.PushReactGeo;
-                return LocaleController.formatString(i, objArr);
-            case ' ':
+                break;
+            case "REACT_GIF":
                 i = R.string.PushReactGif;
-                return LocaleController.formatString(i, objArr);
-            case '!':
+                break;
+            case "CHAT_REACT_GAME":
                 i = R.string.PushChatReactGame;
-                return LocaleController.formatString(i, objArr);
-            case '\"':
+                break;
+            case "CHAT_REACT_POLL":
                 i = R.string.PushChatReactPoll;
-                return LocaleController.formatString(i, objArr);
-            case '#':
+                break;
+            case "CHAT_REACT_QUIZ":
                 i = R.string.PushChatReactQuiz;
-                return LocaleController.formatString(i, objArr);
-            case '$':
+                break;
+            case "CHAT_REACT_TEXT":
                 i = R.string.PushChatReactText;
-                return LocaleController.formatString(i, objArr);
+                break;
             default:
                 return null;
         }
+        return LocaleController.formatString(i, objArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -505,6 +277,7 @@ public class PushListenerController {
      */
     /* JADX WARN: Failed to find 'out' block for switch in B:276:0x0716. Please report as an issue. */
     /* JADX WARN: Failed to find 'out' block for switch in B:282:0x12e7. Please report as an issue. */
+    /* JADX WARN: Failed to restore switch over string. Please report as a decompilation issue */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:105:0x02b0  */
     /* JADX WARN: Removed duplicated region for block: B:1541:0x06dd  */

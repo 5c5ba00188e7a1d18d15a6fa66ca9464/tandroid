@@ -5,6 +5,9 @@ import java.util.Comparator;
 
 /* loaded from: classes2.dex */
 final class Z extends a implements H {
+    Z() {
+    }
+
     @Override // j$.util.Q
     public final /* synthetic */ void a(Consumer consumer) {
         a.f(this, consumer);

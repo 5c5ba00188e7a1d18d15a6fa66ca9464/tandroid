@@ -19,7 +19,6 @@ public class PeerConnection {
     private List<RtpSender> senders;
     private List<RtpTransceiver> transceivers;
 
-    /* loaded from: classes5.dex */
     public enum AdapterType {
         UNKNOWN(0),
         ETHERNET(1),
@@ -51,26 +50,22 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum BundlePolicy {
         BALANCED,
         MAXBUNDLE,
         MAXCOMPAT
     }
 
-    /* loaded from: classes5.dex */
     public enum CandidateNetworkPolicy {
         ALL,
         LOW_COST
     }
 
-    /* loaded from: classes5.dex */
     public enum ContinualGatheringPolicy {
         GATHER_ONCE,
         GATHER_CONTINUALLY
     }
 
-    /* loaded from: classes5.dex */
     public enum IceConnectionState {
         NEW,
         CHECKING,
@@ -85,7 +80,6 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum IceGatheringState {
         NEW,
         GATHERING,
@@ -96,7 +90,6 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public static class IceServer {
         public final String hostname;
         public final String password;
@@ -109,7 +102,6 @@ public class PeerConnection {
         public final List<String> urls;
         public final String username;
 
-        /* loaded from: classes5.dex */
         public static class Builder {
             private String hostname;
             private String password;
@@ -274,7 +266,6 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum IceTransportsType {
         NONE,
         RELAY,
@@ -282,16 +273,13 @@ public class PeerConnection {
         ALL
     }
 
-    /* loaded from: classes5.dex */
     public enum KeyType {
         RSA,
         ECDSA
     }
 
-    /* loaded from: classes5.dex */
     public interface Observer {
 
-        /* loaded from: classes5.dex */
         public abstract /* synthetic */ class -CC {
             public static void $default$onConnectionChange(Observer observer, PeerConnectionState peerConnectionState) {
             }
@@ -337,7 +325,6 @@ public class PeerConnection {
         void onTrack(RtpTransceiver rtpTransceiver);
     }
 
-    /* loaded from: classes5.dex */
     public enum PeerConnectionState {
         NEW,
         CONNECTING,
@@ -351,14 +338,12 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum PortPrunePolicy {
         NO_PRUNE,
         PRUNE_BASED_ON_PRIORITY,
         KEEP_FIRST_READY
     }
 
-    /* loaded from: classes5.dex */
     public static class RTCConfiguration {
         public RtcCertificatePem certificate;
         public List<IceServer> iceServers;
@@ -573,19 +558,16 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum RtcpMuxPolicy {
         NEGOTIATE,
         REQUIRE
     }
 
-    /* loaded from: classes5.dex */
     public enum SdpSemantics {
         PLAN_B,
         UNIFIED_PLAN
     }
 
-    /* loaded from: classes5.dex */
     public enum SignalingState {
         STABLE,
         HAVE_LOCAL_OFFER,
@@ -599,20 +581,17 @@ public class PeerConnection {
         }
     }
 
-    /* loaded from: classes5.dex */
     public enum TcpCandidatePolicy {
         ENABLED,
         DISABLED
     }
 
-    /* loaded from: classes5.dex */
     public enum TlsCertPolicy {
         TLS_CERT_POLICY_SECURE,
         TLS_CERT_POLICY_INSECURE_NO_CHECK
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public PeerConnection(long j) {
+    PeerConnection(long j) {
         this.localStreams = new ArrayList();
         this.senders = new ArrayList();
         this.receivers = new ArrayList();

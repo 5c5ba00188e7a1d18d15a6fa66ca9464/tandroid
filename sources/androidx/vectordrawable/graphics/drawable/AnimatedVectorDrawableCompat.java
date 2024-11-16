@@ -31,9 +31,7 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
     final Drawable.Callback mCallback;
     private Context mContext;
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public static class AnimatedVectorDrawableCompatState extends Drawable.ConstantState {
+    private static class AnimatedVectorDrawableCompatState extends Drawable.ConstantState {
         AnimatorSet mAnimatorSet;
         ArrayList mAnimators;
         int mChangingConfigurations;
@@ -94,7 +92,6 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
         }
     }
 
-    /* loaded from: classes.dex */
     private static class AnimatedVectorDrawableDelegateState extends Drawable.ConstantState {
         private final Drawable.ConstantState mDelegateState;
 

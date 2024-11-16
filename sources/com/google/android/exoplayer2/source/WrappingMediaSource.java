@@ -10,8 +10,7 @@ public abstract class WrappingMediaSource extends CompositeMediaSource {
     private static final Void CHILD_SOURCE_ID = null;
     protected final MediaSource mediaSource;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public WrappingMediaSource(MediaSource mediaSource) {
+    protected WrappingMediaSource(MediaSource mediaSource) {
         this.mediaSource = mediaSource;
     }
 
@@ -69,8 +68,7 @@ public abstract class WrappingMediaSource extends CompositeMediaSource {
         onChildSourceInfoRefreshed(timeline);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final void prepareChildSource() {
+    protected final void prepareChildSource() {
         prepareChildSource(CHILD_SOURCE_ID, this.mediaSource);
     }
 
@@ -78,9 +76,8 @@ public abstract class WrappingMediaSource extends CompositeMediaSource {
         prepareChildSource();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.google.android.exoplayer2.source.CompositeMediaSource, com.google.android.exoplayer2.source.BaseMediaSource
-    public final void prepareSourceInternal(TransferListener transferListener) {
+    protected final void prepareSourceInternal(TransferListener transferListener) {
         super.prepareSourceInternal(transferListener);
         prepareSourceInternal();
     }
