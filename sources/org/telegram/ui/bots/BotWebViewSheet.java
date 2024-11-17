@@ -2489,7 +2489,11 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
 
     @Override // org.telegram.ui.ActionBar.BottomSheetTabsOverlay.Sheet
     public void release() {
-        super.dismiss();
+        try {
+            super.dismiss();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     /* JADX WARN: Multi-variable type inference failed */

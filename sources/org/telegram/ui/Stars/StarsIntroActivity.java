@@ -1717,28 +1717,33 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         }
 
         public void set(TL_stars.StarsSubscription starsSubscription, boolean z) {
-            String userName;
-            TextView textView;
+            boolean z2;
             String str;
+            TextView textView;
+            String str2;
             int i;
             long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
             this.threeLines = !TextUtils.isEmpty(starsSubscription.title);
+            MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
             if (peerDialogId < 0) {
-                TLRPC.Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerDialogId));
+                TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-peerDialogId));
                 AvatarDrawable avatarDrawable = new AvatarDrawable();
                 avatarDrawable.setInfo(chat);
                 this.imageView.setForUserOrChat(chat, avatarDrawable);
-                userName = chat != null ? chat.title : null;
+                str = chat != null ? chat.title : null;
+                z2 = false;
             } else {
-                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId));
+                TLRPC.User user = messagesController.getUser(Long.valueOf(peerDialogId));
                 AvatarDrawable avatarDrawable2 = new AvatarDrawable();
                 avatarDrawable2.setInfo(user);
                 this.imageView.setForUserOrChat(user, avatarDrawable2);
-                userName = UserObject.getUserName(user);
+                String userName = UserObject.getUserName(user);
+                z2 = !UserObject.isBot(user);
+                str = userName;
             }
             long currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
             SimpleTextView simpleTextView = this.titleView;
-            simpleTextView.setText(Emoji.replaceEmoji(userName, simpleTextView.getPaint().getFontMetricsInt(), false));
+            simpleTextView.setText(Emoji.replaceEmoji(str, simpleTextView.getPaint().getFontMetricsInt(), false));
             if (TextUtils.isEmpty(starsSubscription.title)) {
                 this.productView.setVisibility(8);
             } else {
@@ -1757,14 +1762,13 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 this.productView.setText(spannableStringBuilder);
             }
             this.subtitleView.setTextSize(1, this.threeLines ? 13.0f : 14.0f);
-            if (starsSubscription.canceled) {
+            if (starsSubscription.canceled || starsSubscription.bot_canceled) {
                 TextView textView2 = this.subtitleView;
                 long j = starsSubscription.until_date;
                 textView2.setText(LocaleController.formatString(j < currentTime ? R.string.StarsSubscriptionExpired : R.string.StarsSubscriptionExpires, LocaleController.formatDateChat(j)));
                 this.priceTitleView.setVisibility(8);
                 this.priceSubtitleView.setTextColor(Theme.getColor(Theme.key_color_red, this.resourcesProvider));
-                textView = this.priceSubtitleView;
-                i = R.string.StarsSubscriptionStatusCancelled;
+                this.priceSubtitleView.setText(LocaleController.getString(starsSubscription.bot_canceled ? z2 ? R.string.StarsSubscriptionStatusBizCancelled : R.string.StarsSubscriptionStatusBotCancelled : R.string.StarsSubscriptionStatusCancelled));
             } else {
                 long j2 = starsSubscription.until_date;
                 if (j2 < currentTime) {
@@ -1779,27 +1783,23 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     this.priceTitleView.setText(StarsIntroActivity.replaceStarsWithPlain("⭐️ " + Long.toString(starsSubscription.pricing.amount), 0.8f));
                     this.priceSubtitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, this.resourcesProvider));
                     int i2 = starsSubscription.pricing.period;
-                    if (i2 != 2592000) {
-                        if (i2 != 60) {
-                            if (i2 == 300) {
-                                textView = this.priceSubtitleView;
-                                str = "per 5 minutes";
-                            }
-                            this.needDivider = z;
-                            setWillNotDraw(!z);
-                        }
+                    if (i2 == 2592000) {
                         textView = this.priceSubtitleView;
-                        str = "per minute";
-                        textView.setText(str);
-                        this.needDivider = z;
-                        setWillNotDraw(!z);
+                        i = R.string.StarsParticipantSubscriptionPerMonth;
+                    } else {
+                        if (i2 == 60) {
+                            textView = this.priceSubtitleView;
+                            str2 = "per minute";
+                        } else if (i2 == 300) {
+                            textView = this.priceSubtitleView;
+                            str2 = "per 5 minutes";
+                        }
+                        textView.setText(str2);
                     }
-                    textView = this.priceSubtitleView;
-                    i = R.string.StarsParticipantSubscriptionPerMonth;
                 }
+                str2 = LocaleController.getString(i);
+                textView.setText(str2);
             }
-            str = LocaleController.getString(i);
-            textView.setText(str);
             this.needDivider = z;
             setWillNotDraw(!z);
         }
@@ -5433,7 +5433,8 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x0225  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x01cc  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x014f  */
     /* JADX WARN: Removed duplicated region for block: B:16:0x01c6  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x020b  */
@@ -5441,12 +5442,9 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     /* JADX WARN: Removed duplicated region for block: B:32:0x031f  */
     /* JADX WARN: Removed duplicated region for block: B:44:0x0344  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x0347  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x03b1  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0461  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x05ed  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x02d3  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0225  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0466  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x063e  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x02d3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -5613,7 +5611,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 int i4 = R.string.formatDateAtTime;
                 tableView.addRow(string, LocaleController.formatString(i4, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date((starsSubscription.until_date - starsSubscription.pricing.period) * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date((starsSubscription.until_date - starsSubscription.pricing.period) * 1000))));
                 currentTime = ConnectionsManager.getInstance(i).getCurrentTime();
-                tableView.addRow(LocaleController.getString(!starsSubscription.canceled ? R.string.StarsSubscriptionUntilExpires : currentTime > ((long) starsSubscription.until_date) ? R.string.StarsSubscriptionUntilExpired : R.string.StarsSubscriptionUntilRenews), LocaleController.formatString(i4, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(starsSubscription.until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(starsSubscription.until_date * 1000))));
+                tableView.addRow(LocaleController.getString((!starsSubscription.canceled || starsSubscription.bot_canceled) ? R.string.StarsSubscriptionUntilExpires : currentTime > ((long) starsSubscription.until_date) ? R.string.StarsSubscriptionUntilExpired : R.string.StarsSubscriptionUntilRenews), LocaleController.formatString(i4, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(starsSubscription.until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(starsSubscription.until_date * 1000))));
                 linearLayout.addView(tableView, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 0.0f));
                 LinkSpanDrawable.LinksTextView linksTextView2 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
                 int i5 = Theme.key_windowBackgroundWhiteGrayText2;
@@ -5675,16 +5673,26 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     });
                 } else {
                     notificationCenterDelegate2 = notificationCenterDelegate;
-                    if (starsSubscription.canceled) {
+                    if (starsSubscription.bot_canceled) {
                         LinkSpanDrawable.LinksTextView linksTextView5 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
                         linksTextView5.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
                         linksTextView5.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
                         linksTextView5.setTextSize(1, 14.0f);
-                        linksTextView5.setText(LocaleController.getString(R.string.StarsSubscriptionCancelledText));
+                        linksTextView5.setText(LocaleController.getString(z2 ? R.string.StarsSubscriptionBusinessCancelledText : R.string.StarsSubscriptionBotCancelledText));
                         linksTextView5.setSingleLine(false);
                         linksTextView5.setMaxLines(4);
                         linksTextView5.setGravity(17);
                         linearLayout.addView(linksTextView5, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
+                    } else if (starsSubscription.canceled) {
+                        LinkSpanDrawable.LinksTextView linksTextView6 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+                        linksTextView6.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
+                        linksTextView6.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
+                        linksTextView6.setTextSize(1, 14.0f);
+                        linksTextView6.setText(LocaleController.getString(R.string.StarsSubscriptionCancelledText));
+                        linksTextView6.setSingleLine(false);
+                        linksTextView6.setMaxLines(4);
+                        linksTextView6.setGravity(17);
+                        linearLayout.addView(linksTextView6, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
                         if (starsSubscription.chat_invite_hash != null || starsSubscription.invoice_slug != null) {
                             final ButtonWithCounterView buttonWithCounterView3 = new ButtonWithCounterView(context, true, resourcesProvider);
                             buttonWithCounterView3.setText(LocaleController.getString(R.string.StarsSubscriptionRenew), false);
@@ -5699,15 +5707,15 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                             });
                         }
                     } else {
-                        LinkSpanDrawable.LinksTextView linksTextView6 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
-                        linksTextView6.setTextColor(Theme.getColor(i5, resourcesProvider));
-                        linksTextView6.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
-                        linksTextView6.setTextSize(1, 14.0f);
-                        linksTextView6.setText(LocaleController.formatString(R.string.StarsSubscriptionCancelInfo, LocaleController.formatDateChat(starsSubscription.until_date)));
-                        linksTextView6.setSingleLine(false);
-                        linksTextView6.setMaxLines(4);
-                        linksTextView6.setGravity(17);
-                        linearLayout.addView(linksTextView6, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
+                        LinkSpanDrawable.LinksTextView linksTextView7 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+                        linksTextView7.setTextColor(Theme.getColor(i5, resourcesProvider));
+                        linksTextView7.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
+                        linksTextView7.setTextSize(1, 14.0f);
+                        linksTextView7.setText(LocaleController.formatString(R.string.StarsSubscriptionCancelInfo, LocaleController.formatDateChat(starsSubscription.until_date)));
+                        linksTextView7.setSingleLine(false);
+                        linksTextView7.setMaxLines(4);
+                        linksTextView7.setGravity(17);
+                        linearLayout.addView(linksTextView7, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
                         final ButtonWithCounterView buttonWithCounterView4 = new ButtonWithCounterView(context, false, resourcesProvider);
                         buttonWithCounterView4.setText(LocaleController.getString(R.string.StarsSubscriptionCancel), false);
                         buttonWithCounterView4.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
@@ -5770,16 +5778,16 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         textView22.setText(replaceStarsWithPlain);
         linearLayout.addView(textView22, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         tableView = new TableView(context, resourcesProvider);
-        LinkSpanDrawable.LinksTextView linksTextView7 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
-        linksTextView7.setPadding(AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f), AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f));
-        linksTextView7.setEllipsize(TextUtils.TruncateAt.END);
+        LinkSpanDrawable.LinksTextView linksTextView8 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
+        linksTextView8.setPadding(AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f), AndroidUtilities.dp(12.66f), AndroidUtilities.dp(9.33f));
+        linksTextView8.setEllipsize(TextUtils.TruncateAt.END);
         int i32 = Theme.key_chat_messageLinkIn;
-        linksTextView7.setTextColor(Theme.getColor(i32, resourcesProvider));
-        linksTextView7.setLinkTextColor(Theme.getColor(i32, resourcesProvider));
-        linksTextView7.setTextSize(1, 14.0f);
-        linksTextView7.setSingleLine(true);
-        linksTextView7.setDisablePaddingsOffsetY(true);
-        AvatarSpan avatarSpan2 = new AvatarSpan(linksTextView7, i, 24.0f);
+        linksTextView8.setTextColor(Theme.getColor(i32, resourcesProvider));
+        linksTextView8.setLinkTextColor(Theme.getColor(i32, resourcesProvider));
+        linksTextView8.setTextSize(1, 14.0f);
+        linksTextView8.setSingleLine(true);
+        linksTextView8.setDisablePaddingsOffsetY(true);
+        AvatarSpan avatarSpan2 = new AvatarSpan(linksTextView8, i, 24.0f);
         if (peerDialogId < 0) {
         }
         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder("x  " + ((Object) publicUsername));
@@ -5799,7 +5807,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 textPaint.setUnderlineText(false);
             }
         }, 3, spannableStringBuilder2.length(), 33);
-        linksTextView7.setText(spannableStringBuilder2);
+        linksTextView8.setText(spannableStringBuilder2);
         if (!z3) {
         }
         if (peerDialogId >= 0) {
@@ -5809,7 +5817,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         int i42 = R.string.formatDateAtTime;
         tableView.addRow(string2, LocaleController.formatString(i42, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date((starsSubscription.until_date - starsSubscription.pricing.period) * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date((starsSubscription.until_date - starsSubscription.pricing.period) * 1000))));
         currentTime = ConnectionsManager.getInstance(i).getCurrentTime();
-        tableView.addRow(LocaleController.getString(!starsSubscription.canceled ? R.string.StarsSubscriptionUntilExpires : currentTime > ((long) starsSubscription.until_date) ? R.string.StarsSubscriptionUntilExpired : R.string.StarsSubscriptionUntilRenews), LocaleController.formatString(i42, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(starsSubscription.until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(starsSubscription.until_date * 1000))));
+        tableView.addRow(LocaleController.getString((!starsSubscription.canceled || starsSubscription.bot_canceled) ? R.string.StarsSubscriptionUntilExpires : currentTime > ((long) starsSubscription.until_date) ? R.string.StarsSubscriptionUntilExpired : R.string.StarsSubscriptionUntilRenews), LocaleController.formatString(i42, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(starsSubscription.until_date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(starsSubscription.until_date * 1000))));
         linearLayout.addView(tableView, LayoutHelper.createLinear(-1, -2, 0.0f, 17.0f, 0.0f, 0.0f));
         LinkSpanDrawable.LinksTextView linksTextView22 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
         int i52 = Theme.key_windowBackgroundWhiteGrayText2;
