@@ -5446,18 +5446,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             animatorSet.cancel();
             this.actionBarAnimation = null;
         }
-        ActionBarMenuItem actionBarMenuItem = this.searchItem;
-        boolean z3 = actionBarMenuItem != null && this.avatarSearch;
-        boolean z4 = (this.isPhotoPicker || this.storyMediaPicker || (this.avatarPicker == 0 && this.menuShowed) || this.currentAttachLayout != this.photoLayout || (!this.photosEnabled && !this.videosEnabled)) ? false : true;
+        boolean z3 = (this.isPhotoPicker || this.storyMediaPicker || (this.avatarPicker == 0 && this.menuShowed) || this.currentAttachLayout != this.photoLayout || (!this.photosEnabled && !this.videosEnabled)) ? false : true;
         if (this.currentAttachLayout == this.restrictedLayout) {
             z3 = false;
-            z4 = false;
         }
         if (z) {
             if (z3) {
-                actionBarMenuItem.setVisibility(0);
-            }
-            if (z4) {
                 this.selectedMenuItem.setVisibility(0);
                 this.selectedMenuItem.setClickable(true);
             }
@@ -5477,9 +5471,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             arrayList.add(ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, z ? 1.0f : 0.0f));
             arrayList.add(ObjectAnimator.ofFloat(this.actionBarShadow, (Property<View, Float>) property, z ? 1.0f : 0.0f));
             if (z3) {
-                arrayList.add(ObjectAnimator.ofFloat(this.searchItem, (Property<ActionBarMenuItem, Float>) property, z ? 1.0f : 0.0f));
-            }
-            if (z4) {
                 arrayList.add(ObjectAnimator.ofFloat(this.selectedMenuItem, (Property<ActionBarMenuItem, Float>) property, z ? 1.0f : 0.0f));
             }
             this.actionBarAnimation.playTogether(arrayList);
@@ -5503,9 +5494,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             }
                             return;
                         }
-                        ActionBarMenuItem actionBarMenuItem2 = ChatAttachAlert.this.searchItem;
-                        if (actionBarMenuItem2 != null) {
-                            actionBarMenuItem2.setVisibility(4);
+                        ActionBarMenuItem actionBarMenuItem = ChatAttachAlert.this.searchItem;
+                        if (actionBarMenuItem != null) {
+                            actionBarMenuItem.setVisibility(4);
                         }
                         ChatAttachAlert chatAttachAlert2 = ChatAttachAlert.this;
                         if (chatAttachAlert2.avatarPicker == 0 && chatAttachAlert2.menuShowed) {
@@ -5526,9 +5517,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         this.actionBar.setAlpha(z ? 1.0f : 0.0f);
         this.actionBarShadow.setAlpha(z ? 1.0f : 0.0f);
         if (z3) {
-            this.searchItem.setAlpha(z ? 1.0f : 0.0f);
-        }
-        if (z4) {
             this.selectedMenuItem.setAlpha(z ? 1.0f : 0.0f);
             this.selectedMenuItem.setScaleX(z ? 1.0f : 0.6f);
             this.selectedMenuItem.setScaleY(z ? 1.0f : 0.6f);
@@ -5536,9 +5524,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         if (z) {
             return;
         }
-        ActionBarMenuItem actionBarMenuItem2 = this.searchItem;
-        if (actionBarMenuItem2 != null) {
-            actionBarMenuItem2.setVisibility(4);
+        ActionBarMenuItem actionBarMenuItem = this.searchItem;
+        if (actionBarMenuItem != null) {
+            actionBarMenuItem.setVisibility(4);
         }
         if (this.avatarPicker == 0 && this.menuShowed) {
             return;

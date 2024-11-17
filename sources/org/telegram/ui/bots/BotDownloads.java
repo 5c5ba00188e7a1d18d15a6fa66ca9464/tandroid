@@ -384,15 +384,15 @@ public class BotDownloads {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:13:0x002f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:13:0x0033, code lost:
         
             if (getBulletin() != null) goto L18;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:14:0x0055, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x005d, code lost:
         
             r4.onAttach(r3, getBulletin());
          */
-        /* JADX WARN: Code restructure failed: missing block: B:18:0x0053, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:18:0x005b, code lost:
         
             if (getBulletin() != null) goto L18;
          */
@@ -408,7 +408,7 @@ public class BotDownloads {
             if (i == 0) {
                 undoAction = null;
             } else if (i == 1) {
-                undoAction = new Bulletin.UndoButton(getContext(), true, this.resourcesProvider).setText("Cancel").setUndoAction(new Runnable() { // from class: org.telegram.ui.bots.BotDownloads$DownloadBulletin$$ExternalSyntheticLambda0
+                undoAction = new Bulletin.UndoButton(getContext(), true, this.resourcesProvider).setText(LocaleController.getString(R.string.BotFileDownloadCancel)).setUndoAction(new Runnable() { // from class: org.telegram.ui.bots.BotDownloads$DownloadBulletin$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         BotDownloads.DownloadBulletin.this.lambda$setButton$0();
@@ -417,7 +417,7 @@ public class BotDownloads {
             } else if (i != 2) {
                 return;
             } else {
-                undoAction = new Bulletin.UndoButton(getContext(), true, this.resourcesProvider).setText("Open").setUndoAction(new Runnable() { // from class: org.telegram.ui.bots.BotDownloads$DownloadBulletin$$ExternalSyntheticLambda1
+                undoAction = new Bulletin.UndoButton(getContext(), true, this.resourcesProvider).setText(LocaleController.getString(R.string.BotFileDownloadOpen)).setUndoAction(new Runnable() { // from class: org.telegram.ui.bots.BotDownloads$DownloadBulletin$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         BotDownloads.DownloadBulletin.this.lambda$setButton$1();
