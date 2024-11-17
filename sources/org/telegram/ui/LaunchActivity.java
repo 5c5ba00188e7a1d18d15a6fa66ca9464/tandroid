@@ -6209,6 +6209,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         }
                     }
                 }
+                Iterator it = BotWebViewSheet.activeSheets.iterator();
+                while (it.hasNext()) {
+                    color = ((BotWebViewSheet) it.next()).getNavigationBarColor(color);
+                }
                 setNavigationBarColor(color, z4);
                 setLightNavigationBar(AndroidUtilities.computePerceivedBrightness(color) >= 0.721f);
             }
