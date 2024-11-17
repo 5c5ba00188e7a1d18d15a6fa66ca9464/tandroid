@@ -2864,8 +2864,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$runLinkRequest$56(TLRPC.TL_error tL_error, TLObject tLObject, TLRPC.TL_inputInvoiceSlug tL_inputInvoiceSlug, final Runnable runnable, int i, String str) {
         PaymentFormActivity paymentFormActivity;
+        BulletinFactory of;
+        int i2;
         if (tL_error != null) {
-            BulletinFactory.of((BaseFragment) mainFragmentsStack.get(r7.size() - 1)).createErrorBulletin(LocaleController.getString(R.string.PaymentInvoiceLinkInvalid)).show();
+            if ("SUBSCRIPTION_ALREADY_ACTIVE".equalsIgnoreCase(tL_error.text)) {
+                of = BulletinFactory.of((BaseFragment) mainFragmentsStack.get(r7.size() - 1));
+                i2 = R.string.PaymentInvoiceSubscriptionLinkAlreadyPaid;
+            } else {
+                of = BulletinFactory.of((BaseFragment) mainFragmentsStack.get(r7.size() - 1));
+                i2 = R.string.PaymentInvoiceLinkInvalid;
+            }
+            of.createErrorBulletin(LocaleController.getString(i2)).show();
         } else if (!isFinishing()) {
             if (tLObject instanceof TLRPC.TL_payments_paymentFormStars) {
                 final Runnable runnable2 = this.navigateToPremiumGiftCallback;

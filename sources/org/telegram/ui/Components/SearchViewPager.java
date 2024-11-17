@@ -987,10 +987,14 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         if (this.expandedPublicPosts) {
             this.expandedPublicPosts = false;
             updateTabs();
-            if (this.tabsView.getCurrentTabId() != 0) {
+            ViewPagerFixed.TabsView tabsView = this.tabsView;
+            if (tabsView != null && tabsView.getCurrentTabId() != 0) {
                 this.tabsView.scrollToTab(0, 0);
             }
-            this.dialogsSearchAdapter.searchDialogs(this.lastSearchString, includeFolder() ? 1 : 0, true);
+            DialogsSearchAdapter dialogsSearchAdapter = this.dialogsSearchAdapter;
+            if (dialogsSearchAdapter != null) {
+                dialogsSearchAdapter.searchDialogs(this.lastSearchString, includeFolder() ? 1 : 0, true);
+            }
         }
     }
 

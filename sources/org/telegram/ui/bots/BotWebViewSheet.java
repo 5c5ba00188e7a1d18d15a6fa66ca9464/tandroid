@@ -694,7 +694,9 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate
         public void onWebAppSwipingBehavior(boolean z) {
-            BotWebViewSheet.this.swipeContainer.setAllowSwipes(z);
+            if (BotWebViewSheet.this.swipeContainer != null) {
+                BotWebViewSheet.this.swipeContainer.setAllowSwipes(z);
+            }
         }
 
         @Override // org.telegram.ui.web.BotWebViewContainer.Delegate

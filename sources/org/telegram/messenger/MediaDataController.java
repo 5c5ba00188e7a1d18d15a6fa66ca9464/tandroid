@@ -12830,21 +12830,25 @@ public class MediaDataController extends BaseController {
                 this.draftMessages.put(j, longSparseArray4);
             }
             longSparseArray4.put(j2, message2);
-            SerializedData serializedData2 = new SerializedData(message2.getObjectSize());
-            message2.serializeToStream(serializedData2);
-            if (j2 == 0) {
-                sb3 = new StringBuilder();
-                sb3.append("r_");
-                sb3.append(j);
-            } else {
-                sb3 = new StringBuilder();
-                sb3.append("rt_");
-                sb3.append(j);
-                sb3.append("_");
-                sb3.append(j2);
+            try {
+                SerializedData serializedData2 = new SerializedData(message2.getObjectSize());
+                message2.serializeToStream(serializedData2);
+                if (j2 == 0) {
+                    sb3 = new StringBuilder();
+                    sb3.append("r_");
+                    sb3.append(j);
+                } else {
+                    sb3 = new StringBuilder();
+                    sb3.append("rt_");
+                    sb3.append(j);
+                    sb3.append("_");
+                    sb3.append(j2);
+                }
+                edit.putString(sb3.toString(), Utilities.bytesToHex(serializedData2.toByteArray()));
+                serializedData2.cleanup();
+            } catch (Exception e2) {
+                FileLog.e(e2);
             }
-            edit.putString(sb3.toString(), Utilities.bytesToHex(serializedData2.toByteArray()));
-            serializedData2.cleanup();
         }
         edit.commit();
         if (z) {

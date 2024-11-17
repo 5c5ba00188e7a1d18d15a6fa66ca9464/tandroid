@@ -223,24 +223,32 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$postEvent$0(String str, String str2) {
-            BotWebViewContainer botWebViewContainer = this.container;
-            if (botWebViewContainer == null) {
-                return;
+            try {
+                BotWebViewContainer botWebViewContainer = this.container;
+                if (botWebViewContainer == null) {
+                    return;
+                }
+                botWebViewContainer.onEventReceived(this, str, str2);
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-            botWebViewContainer.onEventReceived(this, str, str2);
         }
 
         @JavascriptInterface
         public void postEvent(final String str, final String str2) {
-            if (this.container == null) {
-                FileLog.d("webviewproxy.postEvent: no container");
-            } else {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$BotWebViewProxy$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BotWebViewContainer.BotWebViewProxy.this.lambda$postEvent$0(str, str2);
-                    }
-                });
+            try {
+                if (this.container == null) {
+                    FileLog.d("webviewproxy.postEvent: no container");
+                } else {
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$BotWebViewProxy$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            BotWebViewContainer.BotWebViewProxy.this.lambda$postEvent$0(str, str2);
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
             }
         }
 
@@ -5988,13 +5996,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public void restoreButtonData() {
-        String str = this.buttonData;
-        if (str != null) {
-            onEventReceived(this.botWebViewProxy, "web_app_setup_main_button", str);
-        }
-        String str2 = this.secondaryButtonData;
-        if (str2 != null) {
-            onEventReceived(this.botWebViewProxy, "web_app_setup_secondary_button", str2);
+        try {
+            String str = this.buttonData;
+            if (str != null) {
+                onEventReceived(this.botWebViewProxy, "web_app_setup_main_button", str);
+            }
+            String str2 = this.secondaryButtonData;
+            if (str2 != null) {
+                onEventReceived(this.botWebViewProxy, "web_app_setup_secondary_button", str2);
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 
