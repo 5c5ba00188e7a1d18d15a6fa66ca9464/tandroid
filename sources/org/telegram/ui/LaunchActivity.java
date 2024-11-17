@@ -738,6 +738,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 ((BaseFragment.AttachedSheet) safeLastFragment.sheetsStack.get(size2)).dismiss(true);
             }
         }
+        ArrayList arrayList3 = new ArrayList();
+        Iterator it = BotWebViewSheet.activeSheets.iterator();
+        while (it.hasNext()) {
+            arrayList3.add((BotWebViewSheet) it.next());
+        }
+        Iterator it2 = arrayList3.iterator();
+        while (it2.hasNext()) {
+            ((BotWebViewSheet) it2.next()).dismiss(true);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

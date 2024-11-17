@@ -44,6 +44,7 @@ import androidx.dynamicanimation.animation.SpringForce;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -114,20 +115,6 @@ import org.telegram.ui.web.BotWebViewContainer;
 
 /* loaded from: classes5.dex */
 public class BotWebViewSheet extends Dialog implements NotificationCenter.NotificationCenterDelegate, BottomSheetTabsOverlay.Sheet {
-    private static final SimpleFloatPropertyCompat ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda0
-        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
-        public final float get(Object obj) {
-            float f;
-            f = ((BotWebViewSheet) obj).actionBarTransitionProgress;
-            return f;
-        }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda1
-        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
-        public final void set(Object obj, float f) {
-            BotWebViewSheet.lambda$static$3((BotWebViewSheet) obj, f);
-        }
-    }).setMultiplier(100.0f);
-    private static int shownLockedBots = 0;
     private ActionBar actionBar;
     private int actionBarColor;
     private int actionBarColorKey;
@@ -210,6 +197,21 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     private Boolean wasLightStatusBar;
     private BotWebViewContainer webViewContainer;
     private WindowView windowView;
+    public static HashSet activeSheets = new HashSet();
+    private static final SimpleFloatPropertyCompat ACTION_BAR_TRANSITION_PROGRESS_VALUE = new SimpleFloatPropertyCompat("actionBarTransitionProgress", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda0
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
+        public final float get(Object obj) {
+            float f;
+            f = ((BotWebViewSheet) obj).actionBarTransitionProgress;
+            return f;
+        }
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda1
+        @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
+        public final void set(Object obj, float f) {
+            BotWebViewSheet.lambda$static$3((BotWebViewSheet) obj, f);
+        }
+    }).setMultiplier(100.0f);
+    private static int shownLockedBots = 0;
 
     class 11 implements View.OnLayoutChangeListener {
         11() {
@@ -220,14 +222,15 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             view.removeOnLayoutChangeListener(this);
             BotWebViewSheet.this.swipeContainer.setSwipeOffsetY(BotWebViewSheet.this.swipeContainer.getHeight());
             BotWebViewSheet.this.windowView.setAlpha(1.0f);
-            final AnimationNotificationsLocker animationNotificationsLocker = new AnimationNotificationsLocker();
-            animationNotificationsLocker.lock();
             BotWebViewSheet botWebViewSheet = BotWebViewSheet.this;
             if (botWebViewSheet.showOffsetY != Float.MAX_VALUE) {
                 botWebViewSheet.swipeContainer.setSwipeOffsetAnimationDisallowed(true);
                 BotWebViewSheet.this.swipeContainer.setOffsetY(BotWebViewSheet.this.showOffsetY);
                 BotWebViewSheet.this.swipeContainer.setSwipeOffsetAnimationDisallowed(false);
             }
+            BotWebViewSheet.this.webViewContainer.invalidateViewPortHeight(true, true);
+            final AnimationNotificationsLocker animationNotificationsLocker = new AnimationNotificationsLocker();
+            animationNotificationsLocker.lock();
             BotWebViewSheet botWebViewSheet2 = BotWebViewSheet.this;
             if (botWebViewSheet2.showExpanded || botWebViewSheet2.isFullSize()) {
                 BotWebViewSheet.this.swipeContainer.stickTo((-BotWebViewSheet.this.swipeContainer.getOffsetY()) + BotWebViewSheet.this.swipeContainer.getTopActionBarOffsetY(), new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$11$$ExternalSyntheticLambda1
@@ -1182,7 +1185,9 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.fullscreenButtons = botFullscreenButtons;
         botFullscreenButtons.setAlpha(0.0f);
         this.fullscreenButtons.setVisibility(8);
-        this.fullscreenButtons.setParentRenderNode(this.swipeContainer.getRenderNode());
+        if (!MessagesController.getInstance(this.currentAccount).disableBotFullscreenBlur) {
+            this.fullscreenButtons.setParentRenderNode(this.swipeContainer.getRenderNode());
+        }
         this.windowView.addView(this.fullscreenButtons, LayoutHelper.createFrame(-1, -1, 119));
         this.fullscreenButtons.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
@@ -2241,24 +2246,25 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 this.springAnimation.start();
             }
             LaunchActivity.instance.getBottomSheetTabsOverlay().dismissSheet(this);
-            return;
-        }
-        BotButtons botButtons = this.botButtons;
-        if (botButtons != null) {
-            botButtons.animate().translationY(this.botButtons.getTotalHeight()).alpha(0.0f).setDuration(160L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
-        }
-        this.webViewContainer.destroyWebView();
-        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
-        int height = webViewSwipeContainer.getHeight();
-        BotButtons botButtons2 = this.botButtons;
-        int totalHeight = height + (botButtons2 != null ? botButtons2.getTotalHeight() : 0);
-        Rect rect = this.insets;
-        webViewSwipeContainer.stickTo(totalHeight + rect.top + rect.bottom + this.windowView.measureKeyboardHeight() + (isFullSize() ? AndroidUtilities.dp(200.0f) : 0), true, new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda11
-            @Override // java.lang.Runnable
-            public final void run() {
-                BotWebViewSheet.this.lambda$dismiss$46(runnable);
+        } else {
+            BotButtons botButtons = this.botButtons;
+            if (botButtons != null) {
+                botButtons.animate().translationY(this.botButtons.getTotalHeight()).alpha(0.0f).setDuration(160L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
             }
-        });
+            this.webViewContainer.destroyWebView();
+            ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = this.swipeContainer;
+            int height = webViewSwipeContainer.getHeight();
+            BotButtons botButtons2 = this.botButtons;
+            int totalHeight = height + (botButtons2 != null ? botButtons2.getTotalHeight() : 0);
+            Rect rect = this.insets;
+            webViewSwipeContainer.stickTo(totalHeight + rect.top + rect.bottom + this.windowView.measureKeyboardHeight() + (isFullSize() ? AndroidUtilities.dp(200.0f) : 0), true, new Runnable() { // from class: org.telegram.ui.bots.BotWebViewSheet$$ExternalSyntheticLambda11
+                @Override // java.lang.Runnable
+                public final void run() {
+                    BotWebViewSheet.this.lambda$dismiss$46(runnable);
+                }
+            });
+        }
+        activeSheets.remove(this);
     }
 
     public Activity getActivity() {
@@ -3308,6 +3314,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             this.windowView.setAlpha(0.0f);
             this.windowView.addOnLayoutChangeListener(new 11());
             super.show();
+            activeSheets.add(this);
         }
     }
 
@@ -3397,22 +3404,25 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         WindowView windowView;
         int systemUiVisibility;
         BotButtons botButtons;
-        Window window = getWindow();
-        if (window == null) {
-            return;
+        try {
+            Window window = getWindow();
+            if (window == null) {
+                return;
+            }
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            boolean z = this.fullscreen;
+            attributes.flags = z ? attributes.flags | 512 : attributes.flags & (-513);
+            if (!z || (((botButtons = this.botButtons) != null && botButtons.getTotalHeight() > 0) || this.windowView.drawingFromOverlay)) {
+                windowView = this.windowView;
+                systemUiVisibility = windowView.getSystemUiVisibility() & (-3);
+            } else {
+                windowView = this.windowView;
+                systemUiVisibility = windowView.getSystemUiVisibility() | 2;
+            }
+            windowView.setSystemUiVisibility(systemUiVisibility);
+            window.setAttributes(attributes);
+        } catch (Exception e) {
+            FileLog.e(e);
         }
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        boolean z = this.fullscreen;
-        int i = attributes.flags;
-        attributes.flags = z ? i | 512 : i & (-513);
-        if (!z || (((botButtons = this.botButtons) != null && botButtons.getTotalHeight() > 0) || this.windowView.drawingFromOverlay)) {
-            windowView = this.windowView;
-            systemUiVisibility = windowView.getSystemUiVisibility() & (-3);
-        } else {
-            windowView = this.windowView;
-            systemUiVisibility = windowView.getSystemUiVisibility() | 2;
-        }
-        windowView.setSystemUiVisibility(systemUiVisibility);
-        window.setAttributes(attributes);
     }
 }

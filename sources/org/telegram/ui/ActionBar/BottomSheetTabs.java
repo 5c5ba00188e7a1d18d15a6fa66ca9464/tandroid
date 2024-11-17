@@ -480,6 +480,7 @@ public class BottomSheetTabs extends FrameLayout {
         while (it.hasNext()) {
             ((Runnable) it.next()).run();
         }
+        invalidate();
     }
 
     private void updateMultipleTitle() {
@@ -1012,13 +1013,13 @@ public class BottomSheetTabs extends FrameLayout {
     }
 
     public void updateVisibility(boolean z) {
+        if (this.bottomTabsHeight == getExpandedHeight()) {
+            return;
+        }
         ValueAnimator valueAnimator = this.bottomTabsAnimator;
         if (valueAnimator != null) {
             this.bottomTabsAnimator = null;
             valueAnimator.cancel();
-        }
-        if (this.bottomTabsHeight == getExpandedHeight()) {
-            return;
         }
         this.bottomTabsHeight = getExpandedHeight();
         Iterator it = this.relayoutListeners.iterator();
@@ -1027,6 +1028,7 @@ public class BottomSheetTabs extends FrameLayout {
         }
         if (!z) {
             this.bottomTabsProgress = this.bottomTabsHeight;
+            invalidate();
             return;
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.bottomTabsProgress, this.bottomTabsHeight);

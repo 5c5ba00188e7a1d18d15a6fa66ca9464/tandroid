@@ -444,7 +444,7 @@ public class BotDownloads {
                 Pair progress = fileDownload.getProgress();
                 this.status.setProgress(progress);
                 if (((Long) progress.first).longValue() <= 0) {
-                    this.subtitleView.setText("Downloading...");
+                    this.subtitleView.setText(LocaleController.getString(R.string.BotFileDownloading));
                 } else {
                     if (((Long) progress.second).longValue() <= 0) {
                         textView = this.subtitleView;
@@ -465,7 +465,7 @@ public class BotDownloads {
                     return true;
                 }
                 if (fileDownload.done) {
-                    this.subtitleView.setText("File saved to Downloads");
+                    this.subtitleView.setText(LocaleController.getString(R.string.BotFileDownloaded));
                     setButton(2);
                     this.status.setDone(false);
                     Bulletin bulletin2 = getBulletin();

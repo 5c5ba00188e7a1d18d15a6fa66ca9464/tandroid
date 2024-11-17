@@ -1066,6 +1066,9 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             if (groupCreateSpan == GroupCreateActivity.this.selectedPremium) {
                 GroupCreateActivity.this.selectedPremium = null;
             }
+            if (groupCreateSpan == GroupCreateActivity.this.selectedMiniapps) {
+                GroupCreateActivity.this.selectedMiniapps = null;
+            }
             GroupCreateActivity.this.allSpans.remove(groupCreateSpan);
             groupCreateSpan.setOnClickListener(null);
             if (GroupCreateActivity.this.currentAnimation != null) {
@@ -1123,32 +1126,32 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x005f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0071, code lost:
     
-        if (r11.selectedContacts.indexOfKey(r9) >= 0) goto L29;
+        if (r11.selectedContacts.indexOfKey(r9) >= 0) goto L35;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0061, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x0073, code lost:
     
         r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0064, code lost:
-    
-        r3.setChecked(r4, true);
-        r3.setCheckBoxEnabled(true);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x0063, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0075, code lost:
     
         r4 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0040, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0041, code lost:
     
-        if (r11.selectedPremium != null) goto L29;
+        if (r11.selectedPremium != null) goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x0052, code lost:
+    
+        if (r11.selectedMiniapps != null) goto L35;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void checkVisibleRows() {
         long j;
+        boolean z;
         int childCount = this.listView.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childAt = this.listView.getChildAt(i);
@@ -1159,8 +1162,15 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     j = ((TLRPC.User) object).id;
                 } else if (object instanceof TLRPC.Chat) {
                     j = -((TLRPC.Chat) object).id;
-                } else if (!(object instanceof String) || !"premium".equalsIgnoreCase((String) object)) {
-                    j = 0;
+                } else {
+                    boolean z2 = object instanceof String;
+                    if (!z2 || !"premium".equalsIgnoreCase((String) object)) {
+                        if (!z2 || !"miniapps".equalsIgnoreCase((String) object)) {
+                            j = 0;
+                        }
+                    }
+                    groupCreateUserCell.setChecked(z, true);
+                    groupCreateUserCell.setCheckBoxEnabled(true);
                 }
                 if (j != 0) {
                     LongSparseArray longSparseArray = this.ignoreUsers;

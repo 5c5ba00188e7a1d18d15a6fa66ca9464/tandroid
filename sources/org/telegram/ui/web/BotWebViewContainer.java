@@ -5339,7 +5339,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             }
             this.webView.opener = this.opener;
         }
-        this.webView.setLayerType(2, null);
+        if (!MessagesController.getInstance(this.currentAccount).disableBotFullscreenBlur) {
+            this.webView.setLayerType(2, null);
+        }
         this.webView.setContainers(this, this.webViewScrollListener);
         this.webView.setCloseListener(this.onCloseListener);
         WebSettings settings = this.webView.getSettings();
@@ -5625,6 +5627,17 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         return this.botWebViewProxy;
     }
 
+    public int getMinHeight() {
+        if (!(getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer)) {
+            return 0;
+        }
+        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = (ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent();
+        if (webViewSwipeContainer.isFullSize()) {
+            return (int) (((webViewSwipeContainer.getMeasuredHeight() - webViewSwipeContainer.getOffsetY()) - webViewSwipeContainer.getTopActionBarOffsetY()) + this.viewPortHeightOffset);
+        }
+        return 0;
+    }
+
     public WebViewProxy getProxy() {
         return this.webViewProxy;
     }
@@ -5656,14 +5669,14 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             if (z) {
                 this.lastExpanded = webViewSwipeContainer.getSwipeOffsetY() == (-webViewSwipeContainer.getOffsetY()) + webViewSwipeContainer.getTopActionBarOffsetY();
             }
-            int measuredHeight = (int) (((webViewSwipeContainer.getMeasuredHeight() - webViewSwipeContainer.getOffsetY()) - webViewSwipeContainer.getSwipeOffsetY()) + webViewSwipeContainer.getTopActionBarOffsetY() + this.viewPortHeightOffset);
-            if (!z2 && measuredHeight == this.lastViewportHeightReported && this.lastViewportStateStable == z && this.lastViewportIsExpanded == this.lastExpanded) {
+            int max = Math.max(getMinHeight(), (int) (((webViewSwipeContainer.getMeasuredHeight() - webViewSwipeContainer.getOffsetY()) - webViewSwipeContainer.getSwipeOffsetY()) + webViewSwipeContainer.getTopActionBarOffsetY() + this.viewPortHeightOffset));
+            if (!z2 && max == this.lastViewportHeightReported && this.lastViewportStateStable == z && this.lastViewportIsExpanded == this.lastExpanded) {
                 return;
             }
-            this.lastViewportHeightReported = measuredHeight;
+            this.lastViewportHeightReported = max;
             this.lastViewportStateStable = z;
             this.lastViewportIsExpanded = this.lastExpanded;
-            notifyEvent_fast("viewport_changed", "{height:" + (measuredHeight / AndroidUtilities.density) + ",is_state_stable:" + z + ",is_expanded:" + this.lastExpanded + "}");
+            notifyEvent_fast("viewport_changed", "{height:" + (max / AndroidUtilities.density) + ",is_state_stable:" + z + ",is_expanded:" + this.lastExpanded + "}");
         }
     }
 
