@@ -827,10 +827,6 @@ public class WindowInsetsCompat {
             return 2;
         }
 
-        public static int statusBars() {
-            return 1;
-        }
-
         public static int systemBars() {
             return 7;
         }
