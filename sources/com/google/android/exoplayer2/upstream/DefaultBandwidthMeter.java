@@ -18,7 +18,7 @@ import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class DefaultBandwidthMeter implements BandwidthMeter, TransferListener {
     private static DefaultBandwidthMeter singletonInstance;
-    private long bitrateEstimate;
+    private volatile long bitrateEstimate;
     private final Clock clock;
     private final BandwidthMeter.EventListener.EventDispatcher eventDispatcher;
     private final ImmutableMap initialBitrateEstimates;
@@ -3441,22 +3441,30 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
         }
     }
 
-    public void onTransfer(long j, long j2) {
-        long elapsedRealtime = this.clock.elapsedRealtime();
-        this.totalElapsedTimeMs += (int) (elapsedRealtime - this.sampleStartTimeMs);
-        this.totalBytesTransferred += j;
-        if (j2 <= 0 || j <= 0) {
-            return;
+    public synchronized void onTransfer(long j, long j2) {
+        try {
+            long elapsedRealtime = this.clock.elapsedRealtime();
+            this.totalElapsedTimeMs += (int) (elapsedRealtime - this.sampleStartTimeMs);
+            this.totalBytesTransferred += j;
+            if (j2 > 0 && j > 0) {
+                FileLog.d("debug_loading: bandwidth meter on transfer " + AndroidUtilities.formatFileSize(j) + " per " + j2 + "ms");
+                this.slidingPercentile.addSample((int) Math.sqrt((double) j), (((float) j) * 8000.0f) / ((float) j2));
+                if (this.totalElapsedTimeMs < 2000) {
+                    if (this.totalBytesTransferred >= 524288) {
+                    }
+                    maybeNotifyBandwidthSample((int) j2, j, this.bitrateEstimate);
+                    this.sampleStartTimeMs = elapsedRealtime;
+                    this.sampleBytesTransferred = 0L;
+                }
+                this.bitrateEstimate = (long) this.slidingPercentile.getPercentile(0.5f);
+                FileLog.d("debug_loading: bandwidth meter (onTransfer), bitrate estimate = " + this.bitrateEstimate);
+                maybeNotifyBandwidthSample((int) j2, j, this.bitrateEstimate);
+                this.sampleStartTimeMs = elapsedRealtime;
+                this.sampleBytesTransferred = 0L;
+            }
+        } catch (Throwable th) {
+            throw th;
         }
-        FileLog.d("debug_loading: bandwidth meter on transfer " + AndroidUtilities.formatFileSize(j) + " per " + j2 + "ms");
-        this.slidingPercentile.addSample((int) Math.sqrt((double) j), (((float) j) * 8000.0f) / ((float) j2));
-        if (this.totalElapsedTimeMs >= 2000 || this.totalBytesTransferred >= 524288) {
-            this.bitrateEstimate = (long) this.slidingPercentile.getPercentile(0.5f);
-            FileLog.d("debug_loading: bandwidth meter (onTransfer), bitrate estimate = " + this.bitrateEstimate);
-        }
-        maybeNotifyBandwidthSample((int) j2, j, this.bitrateEstimate);
-        this.sampleStartTimeMs = elapsedRealtime;
-        this.sampleBytesTransferred = 0L;
     }
 
     @Override // com.google.android.exoplayer2.upstream.TransferListener
