@@ -6921,19 +6921,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         drawerLayoutAdapter.notifyDataSetChanged();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:214:0x02df, code lost:
+    
+        if (r39.photoPathsArray.size() == 1) goto L189;
+     */
     /* JADX WARN: Removed duplicated region for block: B:107:0x01fb  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0420  */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x04c0  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x04d3  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x04e2 A[LOOP:2: B:160:0x04da->B:162:0x04e2, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0512 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x0529 A[ADDED_TO_REGION, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:184:0x03e0  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x03ea  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x03e5  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x03db  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x031b  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x03ed  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0491  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x04a4  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x04b3 A[LOOP:2: B:149:0x04ab->B:151:0x04b3, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x04df A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:162:0x04f6 A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x03a3  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x03ad  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x03b7  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x03a8  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x02e2  */
     @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -6947,17 +6951,18 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         MessageObject messageObject;
         long j;
         ChatActivity chatActivity3;
-        String str;
         boolean z5;
+        String str;
         boolean z6;
         boolean z7;
         String str2;
+        String str3;
         int size;
         ArrayList arrayList2;
-        String str3;
+        boolean z8;
+        String str4;
         ArrayList arrayList3;
         int i3;
-        String str4;
         ArrayList arrayList4;
         String str5;
         ArrayList arrayList5 = arrayList;
@@ -6977,7 +6982,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } catch (Exception unused) {
             }
         } else {
-            final boolean z8 = dialogsActivity == null || dialogsActivity.notify || z2;
+            final boolean z9 = dialogsActivity == null || dialogsActivity.notify || z2;
             final int i4 = i != 0 ? i : dialogsActivity == null ? 0 : dialogsActivity.scheduleDate;
             if (arrayList.size() <= 1) {
                 long j2 = ((MessagesStorage.TopicKey) arrayList5.get(0)).dialogId;
@@ -7045,13 +7050,13 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     final ChatActivity chatActivity5 = chatActivity;
                     phonebookShareAlert.setDelegate(new ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda88
                         @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                        public final void didSelectContact(TLRPC.User user, boolean z9, int i6, long j3, boolean z10) {
-                            LaunchActivity.this.lambda$didSelectDialogs$135(chatActivity5, arrayList, i4, charSequence, currentAccount, z8, user, z9, i6, j3, z10);
+                        public final void didSelectContact(TLRPC.User user, boolean z10, int i6, long j3, boolean z11) {
+                            LaunchActivity.this.lambda$didSelectDialogs$135(chatActivity5, arrayList, i4, charSequence, currentAccount, z9, user, z10, i6, j3, z11);
                         }
 
                         @Override // org.telegram.ui.Components.ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate
-                        public /* synthetic */ void didSelectContacts(ArrayList arrayList13, String str6, boolean z9, int i6, long j3, boolean z10) {
-                            ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList13, str6, z9, i6, j3, z10);
+                        public /* synthetic */ void didSelectContacts(ArrayList arrayList13, String str6, boolean z10, int i6, long j3, boolean z11) {
+                            ChatAttachAlertContactsLayout.PhonebookShareAlertDelegate.-CC.$default$didSelectContacts(this, arrayList13, str6, z10, i6, j3, z11);
                         }
                     });
                     ((BaseFragment) arrayList12.get(arrayList12.size() - 1)).showDialog(phonebookShareAlert);
@@ -7080,7 +7085,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             j = j3;
                             chatActivity3 = chatActivity;
                             getActionBarLayout().presentFragment(chatActivity, dialogsActivity != null, dialogsActivity == null || this.videoPath != null || ((arrayList4 = this.photoPathsArray) != null && arrayList4.size() > 0), true, false);
-                            boolean z9 = dialogsActivity != null;
+                            z5 = dialogsActivity != null;
                             String str7 = this.videoPath;
                             if (str7 == null || j4 != 0) {
                                 ArrayList arrayList13 = this.photoPathsArray;
@@ -7093,38 +7098,37 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         }
                                         ArrayList arrayList14 = new ArrayList();
                                         arrayList14.add(this.videoPath);
-                                        SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList14, arrayList14, null, str6, null, j, messageObject, messageObject, null, null, null, z8, i4, null, null, 0, 0L, false);
+                                        SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList14, arrayList14, null, str6, null, j, messageObject, messageObject, null, null, null, z9, i4, null, null, 0, 0L, false);
                                     } else {
                                         ArrayList arrayList15 = this.photoPathsArray;
                                         if (arrayList15 != null && arrayList15.size() > 0) {
                                             String str9 = this.sendingText;
-                                            if (str9 != null && str9.length() <= 1024 && this.photoPathsArray.size() == 1) {
-                                                ((SendMessagesHelper.SendingMediaInfo) this.photoPathsArray.get(0)).caption = this.sendingText;
-                                                this.sendingText = null;
+                                            if (str9 != null) {
+                                                if (str9.length() <= 1024) {
+                                                }
                                             }
-                                            SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, null, false, false, null, z8, i4, 0, false, null, null, 0, 0L, false);
+                                            SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, null, false, false, null, z9, i4, 0, false, null, null, 0, 0L, false);
                                         }
                                     }
                                     str = str6;
                                     z6 = false;
+                                    z7 = false;
                                 } else {
                                     boolean openPhotosEditor = chatActivity3.openPhotosEditor(this.photoPathsArray, (charSequence == null || charSequence.length() == 0) ? this.sendingText : charSequence);
                                     if (openPhotosEditor) {
                                         this.sendingText = null;
                                     }
+                                    z7 = false;
                                     str = str6;
-                                    z6 = false;
-                                    z7 = z9;
-                                    z5 = openPhotosEditor;
+                                    z6 = openPhotosEditor;
                                 }
                             } else {
                                 chatActivity3.openVideoEditor(str7, this.sendingText);
                                 this.sendingText = null;
                                 str = str6;
-                                z6 = true;
+                                z6 = false;
+                                z7 = true;
                             }
-                            z7 = z9;
-                            z5 = false;
                         } else {
                             j = j3;
                             chatActivity3 = chatActivity;
@@ -7136,20 +7140,31 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 }
                                 ArrayList arrayList16 = new ArrayList();
                                 arrayList16.add(this.videoPath);
-                                SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList16, arrayList16, null, str6, null, j, messageObject, messageObject, null, null, null, z8, i4, null, null, 0, 0L, false);
+                                SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList16, arrayList16, null, str6, null, j, messageObject, messageObject, null, null, null, z9, i4, null, null, 0, 0L, false);
                             }
-                            str = str6;
-                            z5 = false;
-                            z6 = false;
-                            z7 = z4;
-                        }
-                        if (this.photoPathsArray != null && !z5) {
-                            str4 = this.sendingText;
-                            if (str4 != null && str4.length() <= 1024 && this.photoPathsArray.size() == 1) {
-                                ((SendMessagesHelper.SendingMediaInfo) this.photoPathsArray.get(0)).caption = this.sendingText;
-                                this.sendingText = null;
+                            if (this.photoPathsArray != null) {
+                                String str11 = this.sendingText;
+                                if (str11 == null || str11.length() > 1024 || this.photoPathsArray.size() != 1) {
+                                    z5 = z4;
+                                    SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, null, false, false, null, z9, i4, 0, false, null, null, 0, 0L, false);
+                                    str = str6;
+                                    z6 = false;
+                                    z7 = false;
+                                } else {
+                                    z5 = z4;
+                                    ((SendMessagesHelper.SendingMediaInfo) this.photoPathsArray.get(0)).caption = this.sendingText;
+                                    this.sendingText = null;
+                                    SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, null, false, false, null, z9, i4, 0, false, null, null, 0, 0L, false);
+                                    str = str6;
+                                    z6 = false;
+                                    z7 = false;
+                                }
+                            } else {
+                                z5 = z4;
+                                str = str6;
+                                z6 = false;
+                                z7 = false;
                             }
-                            SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, null, false, false, null, z8, i4, 0, false, null, null, 0, 0L, false);
                         }
                         if (this.documentsPathsArray == null || this.documentsUrisArray != null) {
                             str2 = this.sendingText;
@@ -7158,12 +7173,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                 size = arrayList17 == null ? arrayList17.size() : 0;
                                 arrayList2 = this.documentsUrisArray;
                                 if (size + (arrayList2 == null ? arrayList2.size() : 0) == 1) {
-                                    String str11 = this.sendingText;
+                                    str = this.sendingText;
                                     this.sendingText = null;
-                                    str = str11;
                                 }
                             }
-                            SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j, messageObject, messageObject, null, null, null, z8, i4, null, null, 0, 0L, false);
+                            str3 = str;
+                            SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str3, this.documentsMimeType, j, messageObject, messageObject, null, null, null, z9, i4, null, null, 0, 0L, false);
+                        } else {
+                            str3 = str;
                         }
                         if (this.voicePath != null) {
                             File file = new File(this.voicePath);
@@ -7184,52 +7201,48 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     tL_documentAttributeAudio.flags |= 4;
                                 }
                                 tL_document.attributes.add(tL_documentAttributeAudio);
-                                accountInstance.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(tL_document, null, file.getAbsolutePath(), j, messageObject, messageObject, this.sendingText, null, null, null, z8, i4, 0, null, null, false));
+                                z8 = z5;
+                                accountInstance.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(tL_document, null, file.getAbsolutePath(), j, messageObject, messageObject, this.sendingText, null, null, null, z9, i4, 0, null, null, false));
                                 if (this.sendingText != null) {
                                     this.sendingText = null;
                                 }
-                                str3 = this.sendingText;
-                                if (str3 != null) {
-                                    SendMessagesHelper.prepareSendingText(accountInstance, str3, j, j4, z8, i4, 0L);
+                                str4 = this.sendingText;
+                                if (str4 != null) {
+                                    SendMessagesHelper.prepareSendingText(accountInstance, str4, j, j4, z9, i4, 0L);
                                 }
                                 arrayList3 = this.contactsToSend;
                                 if (arrayList3 != null && !arrayList3.isEmpty()) {
-                                    i3 = 0;
-                                    while (i3 < this.contactsToSend.size()) {
-                                        SendMessagesHelper.getInstance(currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of((TLRPC.User) this.contactsToSend.get(i3), j, messageObject, messageObject, (TLRPC.ReplyMarkup) null, (HashMap<String, String>) null, z8, i4));
-                                        i3++;
-                                        z7 = z7;
+                                    for (i3 = 0; i3 < this.contactsToSend.size(); i3++) {
+                                        SendMessagesHelper.getInstance(currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of((TLRPC.User) this.contactsToSend.get(i3), j, messageObject, messageObject, (TLRPC.ReplyMarkup) null, (HashMap<String, String>) null, z9, i4));
                                     }
                                 }
-                                boolean z10 = z7;
-                                if (TextUtils.isEmpty(charSequence) && !z6 && !z5) {
-                                    SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, j4, z8, i4, 0L);
+                                if (TextUtils.isEmpty(charSequence) && !z7 && !z6) {
+                                    SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, j4, z9, i4, 0L);
                                 }
                                 i6 = i2 + 1;
                                 arrayList5 = arrayList;
-                                z3 = z10;
+                                z3 = z8;
                                 chatActivity = chatActivity3;
-                                str6 = str;
+                                str6 = str3;
                             }
                         }
-                        str3 = this.sendingText;
-                        if (str3 != null) {
+                        z8 = z5;
+                        str4 = this.sendingText;
+                        if (str4 != null) {
                         }
                         arrayList3 = this.contactsToSend;
                         if (arrayList3 != null) {
-                            i3 = 0;
                             while (i3 < this.contactsToSend.size()) {
                             }
                         }
-                        boolean z102 = z7;
                         if (TextUtils.isEmpty(charSequence)) {
-                            SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, j4, z8, i4, 0L);
+                            SendMessagesHelper.prepareSendingText(accountInstance, charSequence.toString(), j, j4, z9, i4, 0L);
                         }
                         i6 = i2 + 1;
                         arrayList5 = arrayList;
-                        z3 = z102;
+                        z3 = z8;
                         chatActivity = chatActivity3;
-                        str6 = str;
+                        str6 = str3;
                     }
                 } else {
                     i2 = i6;
@@ -7237,14 +7250,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 z4 = z3;
                 messageObject = null;
                 if (chatActivity == null) {
-                }
-                if (this.photoPathsArray != null) {
-                    str4 = this.sendingText;
-                    if (str4 != null) {
-                        ((SendMessagesHelper.SendingMediaInfo) this.photoPathsArray.get(0)).caption = this.sendingText;
-                        this.sendingText = null;
-                    }
-                    SendMessagesHelper.prepareSendingMedia(accountInstance, this.photoPathsArray, j, messageObject, messageObject, null, null, false, false, null, z8, i4, 0, false, null, null, 0, 0L, false);
                 }
                 if (this.documentsPathsArray == null) {
                 }
@@ -7257,23 +7262,24 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     if (size + (arrayList2 == null ? arrayList2.size() : 0) == 1) {
                     }
                 }
-                SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str, this.documentsMimeType, j, messageObject, messageObject, null, null, null, z8, i4, null, null, 0, 0L, false);
+                str3 = str;
+                SendMessagesHelper.prepareSendingDocuments(accountInstance, this.documentsPathsArray, this.documentsOriginalPathsArray, this.documentsUrisArray, str3, this.documentsMimeType, j, messageObject, messageObject, null, null, null, z9, i4, null, null, 0, 0L, false);
                 if (this.voicePath != null) {
                 }
-                str3 = this.sendingText;
-                if (str3 != null) {
+                z8 = z5;
+                str4 = this.sendingText;
+                if (str4 != null) {
                 }
                 arrayList3 = this.contactsToSend;
                 if (arrayList3 != null) {
                 }
-                boolean z1022 = z7;
                 if (TextUtils.isEmpty(charSequence)) {
                 }
                 i6 = i2 + 1;
                 arrayList5 = arrayList;
-                z3 = z1022;
+                z3 = z8;
                 chatActivity = chatActivity3;
-                str6 = str;
+                str6 = str3;
             }
             chatActivity2 = chatActivity;
             if (dialogsActivity != null) {
