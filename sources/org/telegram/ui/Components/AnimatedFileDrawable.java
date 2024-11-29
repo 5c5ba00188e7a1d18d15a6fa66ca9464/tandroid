@@ -806,6 +806,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    public boolean decoderFailed() {
+        return this.decoderCreated && this.ptrFail;
+    }
+
     @Override // android.graphics.drawable.BitmapDrawable, android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
         drawInternal(canvas, false, System.currentTimeMillis(), 0);
@@ -1374,6 +1378,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    public void seekToSync(long j) {
+        if (this.nativePtr == 0) {
+            return;
+        }
+        seekToMs(this.nativePtr, j, this.metaData, true);
+    }
+
     public void setActualDrawRect(float f, float f2, float f3, float f4) {
         float f5 = f4 + f2;
         float f6 = f3 + f;
@@ -1448,6 +1459,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
             return;
         }
         this.useSharedQueue = z;
+    }
+
+    public void skipNextFrame(boolean z) {
+        if (this.nativePtr == 0) {
+            return;
+        }
+        getVideoFrame(this.nativePtr, null, this.metaData, 0, false, this.startTime, this.endTime, z);
     }
 
     @Override // android.graphics.drawable.Animatable

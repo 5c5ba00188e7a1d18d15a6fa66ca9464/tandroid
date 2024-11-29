@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 8.4.2
-SHA-256-Digest-Manifest: QjfCdpJZ8nf/nvO0SBXcWXDCUrYkphDxyagd11peZX0=
+SHA-256-Digest-Manifest: F6bqQsvDFaGje7TAxL6UYGX2Uc/TlXXcdu4fJx1TGmA=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: bslvXJ33e/f+Dm5AHRsdqNZMn4irtYvZKMBF2l8mML0=
+SHA-256-Digest: 8J/DHAeUH7yY4zyvxSvYecbxWLEO1f4O7OS6aUyGWjE=
 
 Name: DebugProbesKt.bin
 SHA-256-Digest: EuE0exWn1BqnXy7yBXKn/kXjNj4uFZgQCPqj16JeTqQ=
@@ -140,7 +140,7 @@ Name: META-INF/services/kotlinx.coroutines.internal.MainDispatcherFact
 SHA-256-Digest: CvpiKzNhVHqONkAL//lJVL9QOZGQGXeAZRDX9l7tM4E=
 
 Name: META-INF/version-control-info.textproto
-SHA-256-Digest: 3sxSoL+ZY01vSSfxhkBOhinKUBZVyX9/82NmoEvHUOM=
+SHA-256-Digest: WtHeTR1Xmk2dFlULXi0msEN/lPoPCbjb/QVDeLnBlF0=
 
 Name: androidsupportmultidexversion.txt
 SHA-256-Digest: /ozB4iWCv4KQhBIH6rZJtXMfwltgyz6k/votYXVgXCA=
@@ -170,10 +170,10 @@ Name: assets/day.attheme
 SHA-256-Digest: 775k0SFxdCx9/BwniTINPU9ZzTjH95iW0lbwnbvceSI=
 
 Name: assets/dexopt/baseline.prof
-SHA-256-Digest: YonS3P3cRXgotHxhK1AnIaf1iQQNYoT3zxWMAYbk4Hk=
+SHA-256-Digest: NzvdvGrpTP4fKls/EybceWFFIGN6DoU5yWmevyuMJ5I=
 
 Name: assets/dexopt/baseline.profm
-SHA-256-Digest: tDzIv3m/MaXHxRv+7Onl0WSYtARPLoazWDYYWe7RDfI=
+SHA-256-Digest: CmnEkS14VgLVXVM1jqJmFWdbiiI9W1AqOgGMyjYkA+o=
 
 Name: assets/emoji/0_0.png
 SHA-256-Digest: FFGFTJbXaeReRgKogyPqZYP4FU2skp84PODIGXmkkic=
@@ -11002,38 +11002,20 @@ SHA-256-Digest: ABT6woz5ofNmixV22hWNcJ+Xbtp6mU/oVhlj5EM4e7s=
 Name: assets/models/coin_inner.binobj
 SHA-256-Digest: 0F0mMO7w7DlnLbZ4U5jMpRqHUnIgDNNtSRgeK35TKec=
 
-Name: assets/models/coin_inner.obj
-SHA-256-Digest: aJYkm7xn9c1+txfY2S0VAD542e15LdhSTZxA1nO0IWU=
-
 Name: assets/models/coin_logo.binobj
 SHA-256-Digest: F8iavJgq+8Po6qDsW5JVZT0cmxNQF2KTU/gbyxP6uq8=
-
-Name: assets/models/coin_logo.obj
-SHA-256-Digest: Zf4hab22XnwEVR2AaGMv8tEyrAJiMfXiGYKF23z9+wI=
 
 Name: assets/models/coin_outer.binobj
 SHA-256-Digest: dkBoP5OtuoQVbuK6/N7nrF1SbKXXs0P+S1t8aUs69nI=
 
-Name: assets/models/coin_outer.obj
-SHA-256-Digest: XudiI9Nxa+3DGGFi3WURS6AfcRGzDW0ZK0jNrmaYlK8=
-
 Name: assets/models/coin_stars.binobj
 SHA-256-Digest: qzHehr1EGvXbQByf+uckS+cRFjMfGuDNUvlZhToGdXg=
-
-Name: assets/models/coin_stars.obj
-SHA-256-Digest: JPNW2CwDZVNKxNLYSuGInOC6YZ80q7M3V1U2WzVhc3A=
 
 Name: assets/models/deal_logo.binobj
 SHA-256-Digest: es2W0DQIduXEbYMes1W+jnMg5RBQEhHenMPqoHkPgQ8=
 
-Name: assets/models/deal_logo.obj
-SHA-256-Digest: 64fmH8s0E8uF5wyjdDglkyy+/dyPULyeXQfFf1OJ8FA=
-
 Name: assets/models/star.binobj
 SHA-256-Digest: 8S7xh0rmyepUVl0iqEkpehWCz9mXNeU8NThoO+vggnU=
-
-Name: assets/models/star.obj
-SHA-256-Digest: MRNCqwmlTAYgCmkcgslGlkkS/r1XG71Z3uPhllwvt0c=
 
 Name: assets/night.attheme
 SHA-256-Digest: 8p+KZOveIZvSwkPdJJbUNpe0DXe5RZbd+nKeJL9Lm2M=
@@ -11063,19 +11045,19 @@ Name: builddef.lst
 SHA-256-Digest: nV5pCcT+/FvcW5d37qA0E7yBBIkqNsX7vFJzDLqlDuY=
 
 Name: classes.dex
-SHA-256-Digest: YhGKKHr1CJ+PyziApX52O53GjBcan+Di9JW5c8TzJZ4=
+SHA-256-Digest: XAbKhAt1eto2wotsCh+JC8u2+8IFXYeJejN19efRc0I=
 
 Name: classes2.dex
 SHA-256-Digest: j5ZNObVlO0gUBoxublsui2pLky0lrFe+CVbRQ0RNriE=
 
 Name: classes3.dex
-SHA-256-Digest: WDWrFwWK6e+LNCVpJ+kORthxsNRBW8gZwP3pCM5JvxU=
+SHA-256-Digest: p1QcdTQSldH7FWoJWeHDJnVDVF8TWB6/ntmM2Alj3PA=
 
 Name: classes4.dex
-SHA-256-Digest: zcgfbTYx3v9hDfnKlmAAlFM3lS5pAsC7/gCN2fskwEI=
+SHA-256-Digest: eiLyMrXL7D5KIBmnMg2jxUBo6Kkg2FiWI3Pfhm87AHI=
 
 Name: classes5.dex
-SHA-256-Digest: YBUPb+0mmnsIVipEhgLZQVwYow7jqvYOp9EJxZOihFQ=
+SHA-256-Digest: A1aJoUU+Ga9myZ1s1+Oaxnndgc4tSqPJ7UuuSXu3P7U=
 
 Name: com/google/android/search/verification/client/R.java
 SHA-256-Digest: EsMVPn34QVRran564KJSlepygKDiuNN7iY8qEXPZd6k=

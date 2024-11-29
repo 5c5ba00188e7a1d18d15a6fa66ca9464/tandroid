@@ -267,11 +267,10 @@ public class MediaCodecVideoConvertor {
         	at jadx.core.dex.attributes.nodes.NotificationAttrNode.addError(NotificationAttrNode.java:19)
         	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:77)
         */
-    /* JADX WARN: Unreachable blocks removed: 2, instructions: 5 */
-    /* JADX WARN: Unreachable blocks removed: 2, instructions: 6 */
-    private boolean convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor.ConvertVideoParams r84, boolean r85, int r86, android.os.Handler r87) {
+    /* JADX WARN: Finally extract failed */
+    private boolean convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor.ConvertVideoParams r85, boolean r86, int r87, android.os.Handler r88) {
         /*
-            Method dump skipped, instructions count: 8318
+            Method dump skipped, instructions count: 7971
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor$ConvertVideoParams, boolean, int, android.os.Handler):boolean");
