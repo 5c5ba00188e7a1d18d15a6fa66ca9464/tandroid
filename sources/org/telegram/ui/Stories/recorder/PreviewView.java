@@ -1868,7 +1868,7 @@ public abstract class PreviewView extends FrameLayout {
                     storyEntry2.audioOffset = (long) (storyEntry2.left * getDuration());
                 }
                 this.entry.audioLeft = 0.0f;
-                if (isCollage()) {
+                if (isCollage() && this.collage.hasVideo()) {
                     duration = this.collage.getDuration();
                 } else {
                     StoryEntry storyEntry3 = this.entry;
