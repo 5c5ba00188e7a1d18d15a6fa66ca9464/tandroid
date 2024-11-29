@@ -122,7 +122,7 @@ public class BarChartView extends BaseChartView {
                                 float f16 = f13;
                                 i2 = i;
                                 canvas.drawLine(f14, f16, f14, measuredHeight2, paint2);
-                                barViewData.paint.setAlpha(NotificationCenter.notificationsCountUpdated);
+                                barViewData.paint.setAlpha(NotificationCenter.newLocationAvailable);
                                 i = i2 + 1;
                                 i9 = 2;
                                 c = 1;

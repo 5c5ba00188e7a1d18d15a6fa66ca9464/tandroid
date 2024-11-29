@@ -95,7 +95,7 @@ public class CameraSession {
             } else if (rotation == 2) {
                 i = NotificationCenter.updateBotMenuButton;
             } else if (rotation == 3) {
-                i = NotificationCenter.attachMenuBotsDidLoad;
+                i = NotificationCenter.emojiPreviewThemesChanged;
             }
         }
         int i2 = cameraInfo.facing;
@@ -105,7 +105,7 @@ public class CameraSession {
         }
         int i4 = (360 - ((i3 + i) % 360)) % 360;
         if (!z && i4 == 90) {
-            i4 = NotificationCenter.attachMenuBotsDidLoad;
+            i4 = NotificationCenter.emojiPreviewThemesChanged;
         }
         if (!z && "Huawei".equals(Build.MANUFACTURER) && "angler".equals(Build.PRODUCT) && i4 == 270) {
             return 90;
@@ -273,11 +273,11 @@ public class CameraSession {
         this.isVideo = true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00e8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00ea, code lost:
     
         if (((360 - r7.displayOrientation) % 360) == r4) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:57:0x00bc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00be, code lost:
     
         if (r3.getSupportedFocusModes().contains("auto") != false) goto L28;
      */
@@ -553,7 +553,7 @@ public class CameraSession {
                     } else if (i3 == 2) {
                         i = NotificationCenter.updateBotMenuButton;
                     } else if (i3 == 3) {
-                        i = NotificationCenter.attachMenuBotsDidLoad;
+                        i = NotificationCenter.emojiPreviewThemesChanged;
                     }
                     cameraInfo = this.info;
                     if (cameraInfo.orientation % 90 != 0) {

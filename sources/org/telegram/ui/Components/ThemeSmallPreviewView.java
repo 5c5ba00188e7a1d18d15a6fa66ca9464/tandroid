@@ -846,7 +846,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             ChatThemeBottomSheet.ChatThemeItem chatThemeItem3 = this.chatThemeItem;
             int settingsIndex = chatThemeItem3.chatTheme.getSettingsIndex(chatThemeItem3.themeIndex);
             fillOutBubblePaint(themeDrawable.outBubblePaintSecond, tlTheme.settings.get(settingsIndex).message_colors);
-            themeDrawable.outBubblePaintSecond.setAlpha(NotificationCenter.notificationsCountUpdated);
+            themeDrawable.outBubblePaintSecond.setAlpha(NotificationCenter.newLocationAvailable);
             getPreviewDrawable(tlTheme, settingsIndex);
         } else {
             ChatThemeBottomSheet.ChatThemeItem chatThemeItem4 = this.chatThemeItem;

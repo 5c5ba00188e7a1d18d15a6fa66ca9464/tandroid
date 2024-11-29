@@ -125,7 +125,7 @@ public class Emoji {
                 canvas.restore();
             }
             if (z) {
-                getDrawable().setAlpha(NotificationCenter.notificationsCountUpdated);
+                getDrawable().setAlpha(NotificationCenter.newLocationAvailable);
             }
         }
 

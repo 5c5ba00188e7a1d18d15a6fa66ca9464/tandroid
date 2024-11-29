@@ -358,7 +358,7 @@ public class ViewPagerFixed extends FrameLayout {
                     int measuredHeight = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
                     if (this.currentTab.id == Integer.MAX_VALUE || ((!TabsView.this.isEditing && TabsView.this.editingStartAnimationProgress == 0.0f) || str != null)) {
                         paint = TabsView.this.counterPaint;
-                        i11 = NotificationCenter.notificationsCountUpdated;
+                        i11 = NotificationCenter.newLocationAvailable;
                     } else {
                         paint = TabsView.this.counterPaint;
                         i11 = (int) (TabsView.this.editingStartAnimationProgress * 255.0f);

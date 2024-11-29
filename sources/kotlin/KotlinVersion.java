@@ -31,7 +31,7 @@ public final class KotlinVersion implements Comparable {
     }
 
     private final int versionOf(int i, int i2, int i3) {
-        if (new IntRange(0, NotificationCenter.notificationsCountUpdated).contains(i) && new IntRange(0, NotificationCenter.notificationsCountUpdated).contains(i2) && new IntRange(0, NotificationCenter.notificationsCountUpdated).contains(i3)) {
+        if (new IntRange(0, NotificationCenter.newLocationAvailable).contains(i) && new IntRange(0, NotificationCenter.newLocationAvailable).contains(i2) && new IntRange(0, NotificationCenter.newLocationAvailable).contains(i3)) {
             return (i << 16) + (i2 << 8) + i3;
         }
         throw new IllegalArgumentException(("Version components are out of range: " + i + '.' + i2 + '.' + i3).toString());

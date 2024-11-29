@@ -137,7 +137,7 @@ final class zzed {
         this.zzny = this.zznh.next();
         int next = this.zznh.next();
         this.zznz = next;
-        int i2 = next & NotificationCenter.notificationsCountUpdated;
+        int i2 = next & NotificationCenter.newLocationAvailable;
         this.zzoa = i2;
         int i3 = this.zzny;
         if (i3 < this.zznr) {

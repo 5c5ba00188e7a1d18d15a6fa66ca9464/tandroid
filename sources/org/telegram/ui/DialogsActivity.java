@@ -10374,7 +10374,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0412  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x0414  */
     /* renamed from: updateDialogsHint, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -10477,7 +10477,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                 });
                 DialogsHintCell dialogsHintCell4 = this.dialogsHintCell;
-                long j2 = j - starsController.balance;
+                long j2 = j - starsController.balance.amount;
                 if (j2 > 0) {
                     j = j2;
                 }
@@ -12298,6 +12298,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 @Override // org.telegram.ui.Adapters.DialogsAdapter
                 public void onCreateGroupForThisClick() {
                     DialogsActivity.this.createGroupForThis();
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter
+                protected void onOpenBot(TLRPC.User user) {
+                    MessagesController.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).openApp(user, 0);
+                }
+
+                @Override // org.telegram.ui.Adapters.DialogsAdapter
+                protected boolean showOpenBotButton() {
+                    return DialogsActivity.this.initialDialogsType == 0;
                 }
             };
             viewPage.dialogsAdapter.setRecyclerListView(viewPage.listView);
@@ -14812,7 +14822,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             starsController.loadInsufficientSubscriptions();
             return false;
         }
-        long j = -starsController.balance;
+        long j = -starsController.balance.amount;
         while (i < starsController.insufficientSubscriptions.size()) {
             TL_stars.StarsSubscription starsSubscription = (TL_stars.StarsSubscription) starsController.insufficientSubscriptions.get(i);
             long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);

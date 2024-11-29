@@ -51,7 +51,7 @@ public abstract class PaintColorsListView extends RecyclerListView {
             PaintColorsListView.drawColorCircle(canvas, width, height, min, this.mColor);
             if (this.selectProgress != 0.0f) {
                 PaintColorsListView.this.outlinePaint.setColor(this.mColor);
-                PaintColorsListView.this.outlinePaint.setAlpha(NotificationCenter.notificationsCountUpdated);
+                PaintColorsListView.this.outlinePaint.setAlpha(NotificationCenter.newLocationAvailable);
                 canvas.drawCircle(width, height, (Math.min((getWidth() - getPaddingLeft()) - getPaddingRight(), (getHeight() - getPaddingTop()) - getPaddingBottom()) / 2.0f) - AndroidUtilities.dp(2.0f), PaintColorsListView.this.outlinePaint);
             }
         }
@@ -145,7 +145,7 @@ public abstract class PaintColorsListView extends RecyclerListView {
         }
         RectF rectF = AndroidUtilities.rectTmp;
         rectF.set(f - f3, f2 - f3, f + f3, f2 + f3);
-        colorCirclePaint.setAlpha(NotificationCenter.notificationsCountUpdated);
+        colorCirclePaint.setAlpha(NotificationCenter.newLocationAvailable);
         canvas.drawArc(rectF, -45.0f, -180.0f, true, colorCirclePaint);
         colorCirclePath.rewind();
         colorCirclePath.moveTo(rectF.centerX(), rectF.centerY());

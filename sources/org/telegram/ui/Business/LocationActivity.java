@@ -424,7 +424,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         int min = Math.min(2, (int) Math.ceil(f));
         BackupImageView backupImageView2 = this.mapPreview;
         TLRPC.GeoPoint geoPoint = this.geo;
-        backupImageView2.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(geoPoint.lat, geoPoint._long, 0L, min * i, min * NotificationCenter.needCheckSystemBarColors, 15, min)), i + "_" + NotificationCenter.needCheckSystemBarColors, this.mapLoadingDrawable, 0, (Object) null);
+        backupImageView2.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(geoPoint.lat, geoPoint._long, 0L, min * i, min * NotificationCenter.didApplyNewTheme, 15, min)), i + "_" + NotificationCenter.didApplyNewTheme, this.mapLoadingDrawable, 0, (Object) null);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

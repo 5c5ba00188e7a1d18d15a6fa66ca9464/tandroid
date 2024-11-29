@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
@@ -1579,12 +1580,14 @@ public class FilterCreateActivity extends BaseFragment {
         float height;
         StaticLayout layout;
         private boolean outline;
+        private CharSequence text;
         TextPaint textPaint;
         float width;
 
         public NewSpan(float f) {
             this.textPaint = new TextPaint(1);
             this.bgPaint = new Paint(1);
+            this.text = "NEW";
             this.outline = false;
             this.textPaint.setTypeface(AndroidUtilities.bold());
             this.bgPaint.setStyle(Paint.Style.FILL);
@@ -1594,6 +1597,7 @@ public class FilterCreateActivity extends BaseFragment {
         public NewSpan(boolean z, int i) {
             this.textPaint = new TextPaint(1);
             this.bgPaint = new Paint(1);
+            this.text = "NEW";
             this.outline = z;
             this.fontSize = i;
             this.textPaint.setTypeface(AndroidUtilities.bold());
@@ -1658,7 +1662,7 @@ public class FilterCreateActivity extends BaseFragment {
 
         public StaticLayout makeLayout() {
             if (this.layout == null) {
-                StaticLayout staticLayout = new StaticLayout("NEW", this.textPaint, AndroidUtilities.displaySize.x, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                StaticLayout staticLayout = new StaticLayout(this.text, this.textPaint, AndroidUtilities.displaySize.x, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 this.layout = staticLayout;
                 this.width = staticLayout.getLineWidth(0);
                 this.height = this.layout.getHeight();
@@ -1668,6 +1672,18 @@ public class FilterCreateActivity extends BaseFragment {
 
         public void setColor(int i) {
             this.color = i;
+        }
+
+        public void setText(CharSequence charSequence) {
+            this.text = charSequence;
+            if (this.layout != null) {
+                this.layout = null;
+                makeLayout();
+            }
+        }
+
+        public void setTypeface(Typeface typeface) {
+            this.textPaint.setTypeface(typeface);
         }
     }
 

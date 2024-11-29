@@ -58,6 +58,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     public boolean isLandscapeMode;
     protected LinearLayoutManager layoutManager;
     protected RecyclerListView listView;
+    private int minusHeaderHeight;
     protected StarParticlesView particlesView;
     public int particlesViewHeight;
     private float progress;
@@ -160,12 +161,12 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             BackgroundView backgroundView = gradientHeaderActivity.backgroundView;
             if (!gradientHeaderActivity.isDialogVisible) {
                 if (GradientHeaderActivity.this.inc) {
-                    GradientHeaderActivity.access$1316(GradientHeaderActivity.this, 0.016f);
+                    GradientHeaderActivity.access$1416(GradientHeaderActivity.this, 0.016f);
                     if (GradientHeaderActivity.this.progress > 3.0f) {
                         GradientHeaderActivity.this.inc = false;
                     }
                 } else {
-                    GradientHeaderActivity.access$1324(GradientHeaderActivity.this, 0.016f);
+                    GradientHeaderActivity.access$1424(GradientHeaderActivity.this, 0.016f);
                     if (GradientHeaderActivity.this.progress < 1.0f) {
                         GradientHeaderActivity.this.inc = true;
                     }
@@ -239,7 +240,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             if (f3 > 0.01f || !GradientHeaderActivity.this.drawActionBarShadow()) {
                 return;
             }
-            ((BaseFragment) GradientHeaderActivity.this).parentLayout.drawHeaderShadow(canvas, NotificationCenter.notificationsCountUpdated, ((BaseFragment) GradientHeaderActivity.this).actionBar.getMeasuredHeight());
+            ((BaseFragment) GradientHeaderActivity.this).parentLayout.drawHeaderShadow(canvas, NotificationCenter.newLocationAvailable, ((BaseFragment) GradientHeaderActivity.this).actionBar.getMeasuredHeight());
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -372,13 +373,13 @@ public abstract class GradientHeaderActivity extends BaseFragment {
         return i;
     }
 
-    static /* synthetic */ float access$1316(GradientHeaderActivity gradientHeaderActivity, float f) {
+    static /* synthetic */ float access$1416(GradientHeaderActivity gradientHeaderActivity, float f) {
         float f2 = gradientHeaderActivity.progress + f;
         gradientHeaderActivity.progress = f2;
         return f2;
     }
 
-    static /* synthetic */ float access$1324(GradientHeaderActivity gradientHeaderActivity, float f) {
+    static /* synthetic */ float access$1424(GradientHeaderActivity gradientHeaderActivity, float f) {
         float f2 = gradientHeaderActivity.progress - f;
         gradientHeaderActivity.progress = f2;
         return f2;
@@ -575,7 +576,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
                     GradientHeaderActivity gradientHeaderActivity2 = GradientHeaderActivity.this;
                     int i3 = dp + gradientHeaderActivity2.statusBarHeight;
                     if (gradientHeaderActivity2.backgroundView.getMeasuredHeight() + AndroidUtilities.dp(24.0f) > i3) {
-                        i3 = GradientHeaderActivity.this.backgroundView.getMeasuredHeight() + AndroidUtilities.dp(24.0f);
+                        i3 = Math.max(i3, (GradientHeaderActivity.this.backgroundView.getMeasuredHeight() + AndroidUtilities.dp(24.0f)) - GradientHeaderActivity.this.minusHeaderHeight);
                     }
                     GradientHeaderActivity.this.firstViewHeight = i3;
                 }
@@ -662,6 +663,10 @@ public abstract class GradientHeaderActivity extends BaseFragment {
     public Paint setDarkGradientLocation(float f, float f2) {
         this.darkGradientTools.gradientMatrix(0, 0, this.contentView.getMeasuredWidth(), this.contentView.getMeasuredHeight(), (-f) - ((this.contentView.getMeasuredWidth() * 0.1f) * this.progress), -f2);
         return this.darkGradientTools.paint;
+    }
+
+    public void setMinusHeaderHeight(int i) {
+        this.minusHeaderHeight = i;
     }
 
     public void setWhiteBackground(boolean z) {

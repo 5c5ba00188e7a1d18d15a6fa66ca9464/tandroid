@@ -14,7 +14,7 @@ abstract class AuthenticatorUtils {
         if (promptInfo.getAllowedAuthenticators() != 0) {
             return promptInfo.getAllowedAuthenticators();
         }
-        int i = cryptoObject != null ? 15 : NotificationCenter.notificationsCountUpdated;
+        int i = cryptoObject != null ? 15 : NotificationCenter.newLocationAvailable;
         return promptInfo.isDeviceCredentialAllowed() ? 32768 | i : i;
     }
 
@@ -41,6 +41,6 @@ abstract class AuthenticatorUtils {
     }
 
     static boolean isWeakBiometricAllowed(int i) {
-        return (i & NotificationCenter.notificationsCountUpdated) == 255;
+        return (i & NotificationCenter.newLocationAvailable) == 255;
     }
 }

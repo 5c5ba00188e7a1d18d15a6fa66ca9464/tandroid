@@ -27,6 +27,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 public class SliderView extends View {
     private final Path clipPath;
     private final int currentType;
+    public int fixWidth;
     private int h;
     private float lastTouchX;
     private float maxVolume;
@@ -156,7 +157,7 @@ public class SliderView extends View {
         path.addRoundRect(rectF, f, f, Path.Direction.CW);
         canvas.clipPath(this.clipPath);
         float f2 = this.valueIsAnimated ? this.valueAnimated.set(this.value) : this.value;
-        canvas.saveLayerAlpha(0.0f, 0.0f, this.w, this.h, NotificationCenter.notificationsCountUpdated, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, this.w, this.h, NotificationCenter.newLocationAvailable, 31);
         if (this.currentType == 0) {
             animatedTextDrawable = this.text;
             dp = AndroidUtilities.dp(42.0f);
@@ -247,47 +248,62 @@ public class SliderView extends View {
         return true;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:12:0x007c  */
+    /* JADX WARN: Removed duplicated region for block: B:15:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void onMeasure(int i, int i2) {
-        float f;
+        int dp;
         this.r = this.currentType == 3 ? AndroidUtilities.dpf2(8.0f) : AndroidUtilities.dpf2(6.33f);
         this.textPaint.setTextSize(AndroidUtilities.dp(16.0f));
         this.text.setTextSize(AndroidUtilities.dp(15.0f));
-        if (this.currentType == 0) {
-            this.w = (int) Math.min(this.textPaint.measureText(LocaleController.getString(R.string.StoryAudioRemove)) + AndroidUtilities.dp(88.0f), View.MeasureSpec.getSize(i));
-            f = 48.0f;
+        int i3 = this.fixWidth;
+        if (i3 > 0) {
+            this.w = i3;
         } else {
-            this.w = AndroidUtilities.dp(190.0f);
-            f = 44.0f;
+            if (this.currentType != 0) {
+                this.w = AndroidUtilities.dp(190.0f);
+                dp = AndroidUtilities.dp(44.0f);
+                this.h = dp;
+                setMeasuredDimension(this.w, this.h);
+                if (this.currentType != 0) {
+                    float dp2 = AndroidUtilities.dp(25.0f);
+                    float f = this.h / 2.0f;
+                    this.speaker1Paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(1.33f)));
+                    this.speaker1Path.rewind();
+                    this.speaker1Path.moveTo(dp2 - AndroidUtilities.dpf2(8.66f), f - AndroidUtilities.dpf2(2.9f));
+                    this.speaker1Path.lineTo(dp2 - AndroidUtilities.dpf2(3.0f), f - AndroidUtilities.dpf2(2.9f));
+                    this.speaker1Path.lineTo(dp2 - AndroidUtilities.dpf2(3.0f), AndroidUtilities.dpf2(2.9f) + f);
+                    this.speaker1Path.lineTo(dp2 - AndroidUtilities.dpf2(8.66f), AndroidUtilities.dpf2(2.9f) + f);
+                    this.speaker1Path.close();
+                    this.speaker2Paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(2.66f)));
+                    this.speaker2Path.rewind();
+                    this.speaker2Path.moveTo(dp2 - AndroidUtilities.dpf2(7.5f), f);
+                    this.speaker2Path.lineTo(dp2, f - AndroidUtilities.dpf2(7.33f));
+                    this.speaker2Path.lineTo(dp2, AndroidUtilities.dpf2(7.33f) + f);
+                    this.speaker2Path.close();
+                    this.speakerWave1Path.rewind();
+                    RectF rectF = AndroidUtilities.rectTmp;
+                    rectF.set((dp2 - AndroidUtilities.dpf2(0.33f)) - AndroidUtilities.dp(4.33f), f - AndroidUtilities.dp(4.33f), (dp2 - AndroidUtilities.dpf2(0.33f)) + AndroidUtilities.dp(4.33f), AndroidUtilities.dp(4.33f) + f);
+                    this.speakerWave1Path.arcTo(rectF, -60.0f, 120.0f);
+                    this.speakerWave1Path.close();
+                    this.speakerWave2Paint.setStyle(Paint.Style.STROKE);
+                    this.speakerWave2Paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
+                    this.speakerWave2Path.rewind();
+                    rectF.set((dp2 - AndroidUtilities.dpf2(0.33f)) - AndroidUtilities.dp(8.0f), f - AndroidUtilities.dp(8.0f), (dp2 - AndroidUtilities.dpf2(0.33f)) + AndroidUtilities.dp(8.0f), f + AndroidUtilities.dp(8.0f));
+                    this.speakerWave2Path.arcTo(rectF, -70.0f, 140.0f);
+                    return;
+                }
+                return;
+            }
+            this.w = (int) Math.min(this.textPaint.measureText(LocaleController.getString(R.string.StoryAudioRemove)) + AndroidUtilities.dp(88.0f), View.MeasureSpec.getSize(i));
         }
-        this.h = AndroidUtilities.dp(f);
+        dp = AndroidUtilities.dp(48.0f);
+        this.h = dp;
         setMeasuredDimension(this.w, this.h);
-        if (this.currentType == 0) {
-            float dp = AndroidUtilities.dp(25.0f);
-            float f2 = this.h / 2.0f;
-            this.speaker1Paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(1.33f)));
-            this.speaker1Path.rewind();
-            this.speaker1Path.moveTo(dp - AndroidUtilities.dpf2(8.66f), f2 - AndroidUtilities.dpf2(2.9f));
-            this.speaker1Path.lineTo(dp - AndroidUtilities.dpf2(3.0f), f2 - AndroidUtilities.dpf2(2.9f));
-            this.speaker1Path.lineTo(dp - AndroidUtilities.dpf2(3.0f), AndroidUtilities.dpf2(2.9f) + f2);
-            this.speaker1Path.lineTo(dp - AndroidUtilities.dpf2(8.66f), AndroidUtilities.dpf2(2.9f) + f2);
-            this.speaker1Path.close();
-            this.speaker2Paint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(2.66f)));
-            this.speaker2Path.rewind();
-            this.speaker2Path.moveTo(dp - AndroidUtilities.dpf2(7.5f), f2);
-            this.speaker2Path.lineTo(dp, f2 - AndroidUtilities.dpf2(7.33f));
-            this.speaker2Path.lineTo(dp, AndroidUtilities.dpf2(7.33f) + f2);
-            this.speaker2Path.close();
-            this.speakerWave1Path.rewind();
-            RectF rectF = AndroidUtilities.rectTmp;
-            rectF.set((dp - AndroidUtilities.dpf2(0.33f)) - AndroidUtilities.dp(4.33f), f2 - AndroidUtilities.dp(4.33f), (dp - AndroidUtilities.dpf2(0.33f)) + AndroidUtilities.dp(4.33f), AndroidUtilities.dp(4.33f) + f2);
-            this.speakerWave1Path.arcTo(rectF, -60.0f, 120.0f);
-            this.speakerWave1Path.close();
-            this.speakerWave2Paint.setStyle(Paint.Style.STROKE);
-            this.speakerWave2Paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-            this.speakerWave2Path.rewind();
-            rectF.set((dp - AndroidUtilities.dpf2(0.33f)) - AndroidUtilities.dp(8.0f), f2 - AndroidUtilities.dp(8.0f), (dp - AndroidUtilities.dpf2(0.33f)) + AndroidUtilities.dp(8.0f), f2 + AndroidUtilities.dp(8.0f));
-            this.speakerWave2Path.arcTo(rectF, -70.0f, 140.0f);
+        if (this.currentType != 0) {
         }
     }
 

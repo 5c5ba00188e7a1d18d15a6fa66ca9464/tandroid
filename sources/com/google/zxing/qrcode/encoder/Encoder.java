@@ -126,7 +126,7 @@ public abstract class Encoder {
                         if (i != -1) {
                             throw new WriterException("Invalid byte sequence");
                         }
-                        bitArray.appendBits(((i >> 8) * NotificationCenter.dialogPhotosUpdate) + (i & NotificationCenter.notificationsCountUpdated), 13);
+                        bitArray.appendBits(((i >> 8) * NotificationCenter.dialogPhotosUpdate) + (i & NotificationCenter.newLocationAvailable), 13);
                     } else {
                         i4 = 49472;
                     }
@@ -463,7 +463,7 @@ public abstract class Encoder {
         }
         int sizeInBytes = i - bitArray.getSizeInBytes();
         for (int i4 = 0; i4 < sizeInBytes; i4++) {
-            bitArray.appendBits((i4 & 1) == 0 ? NotificationCenter.didSetNewTheme : 17, 8);
+            bitArray.appendBits((i4 & 1) == 0 ? NotificationCenter.cameraInitied : 17, 8);
         }
         if (bitArray.getSize() != i2) {
             throw new WriterException("Bits size does not equal capacity");

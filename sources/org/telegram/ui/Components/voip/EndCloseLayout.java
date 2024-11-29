@@ -188,7 +188,7 @@ public class EndCloseLayout extends FrameLayout {
             this.backgroundRect = new RectF();
             this.backColor = -761748;
             this.round = AndroidUtilities.dp(26.0f);
-            this.callDeclineAlpha = NotificationCenter.notificationsCountUpdated;
+            this.callDeclineAlpha = NotificationCenter.newLocationAvailable;
             this.closeTextAlpha = 0;
             Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.calls_decline).mutate();
             this.callDeclineDrawable = mutate;
@@ -247,7 +247,7 @@ public class EndCloseLayout extends FrameLayout {
             this.callDeclineDrawable.setAlpha(this.callDeclineAlpha);
             this.callDeclineDrawable.draw(canvas);
             this.textPaintMask.setAlpha(this.closeTextAlpha);
-            this.textPaint.setAlpha((this.closeTextAlpha / NotificationCenter.notificationsCountUpdated) * 38);
+            this.textPaint.setAlpha((this.closeTextAlpha / NotificationCenter.newLocationAvailable) * 38);
             canvas.drawText(this.closeText, width, AndroidUtilities.dp(6.0f) + height, this.textPaintMask);
             canvas.drawText(this.closeText, width, height + AndroidUtilities.dp(6.0f), this.textPaint);
             if (this.rippleDrawable == null) {
@@ -298,7 +298,7 @@ public class EndCloseLayout extends FrameLayout {
             TransitionManager.beginDelayedTransition(this, this.transitionSet);
         }
         EndCloseView endCloseView = this.endCloseView;
-        endCloseView.closeTextAlpha = NotificationCenter.notificationsCountUpdated;
+        endCloseView.closeTextAlpha = NotificationCenter.newLocationAvailable;
         endCloseView.backColor = -1;
         endCloseView.callDeclineAlpha = 0;
         endCloseView.round = AndroidUtilities.dp(8.0f);

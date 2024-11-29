@@ -1538,7 +1538,7 @@ public abstract class Theme {
             this.isSelected = z2;
             this.path = new Path();
             this.selectedPaint = new Paint(1);
-            this.alpha = NotificationCenter.notificationsCountUpdated;
+            this.alpha = NotificationCenter.newLocationAvailable;
         }
 
         private int dp(float f) {
@@ -1738,7 +1738,7 @@ public abstract class Theme {
             messageDrawable.draw(canvas);
             setAlpha((int) (this.crossfadeProgress * 255.0f));
             draw(canvas, null);
-            setAlpha(NotificationCenter.notificationsCountUpdated);
+            setAlpha(NotificationCenter.newLocationAvailable);
         }
 
         /* JADX WARN: Removed duplicated region for block: B:32:0x0106  */
@@ -3084,7 +3084,7 @@ public abstract class Theme {
             if (i == 0) {
                 return 0;
             }
-            return Color.argb(NotificationCenter.notificationsCountUpdated, i4 / i, i3 / i, i2 / i);
+            return Color.argb(NotificationCenter.newLocationAvailable, i4 / i, i3 / i, i2 / i);
         }
 
         private int bubbleSelectedOverlay(int i, int i2) {
@@ -3222,14 +3222,14 @@ public abstract class Theme {
                 float[] fArr3 = this.tempHSV;
                 float f4 = fArr3[2];
                 fArr3[2] = Math.max(0.0f, Math.min(1.0f, f4 - (f4 <= 0.7f ? 0.25f : 0.125f)));
-                return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.notificationsCountUpdated, this.tempHSV));
+                return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.newLocationAvailable, this.tempHSV));
             }
             fArr2[0] = f;
             fArr2[1] = Math.max(0.0f, Math.min(1.0f, f2 + 0.6f));
             float[] fArr32 = this.tempHSV;
             float f42 = fArr32[2];
             fArr32[2] = Math.max(0.0f, Math.min(1.0f, f42 - (f42 <= 0.7f ? 0.25f : 0.125f)));
-            return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.notificationsCountUpdated, this.tempHSV));
+            return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.newLocationAvailable, this.tempHSV));
         }
 
         public boolean fillAccentColors(SparseIntArray sparseIntArray, SparseIntArray sparseIntArray2) {
@@ -3611,10 +3611,10 @@ public abstract class Theme {
                 if (i6 == 0) {
                     i6 = 45;
                 }
-                String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (i2 >> 8)) & 255), Byte.valueOf((byte) (i2 & NotificationCenter.notificationsCountUpdated))).toLowerCase();
-                String lowerCase2 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (i3 >> 8)) & 255), Byte.valueOf((byte) (i3 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
-                String lowerCase3 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (i4 >> 8)) & 255), Byte.valueOf((byte) (i4 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
-                String lowerCase4 = i5 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i5 >> 16)) & 255), Integer.valueOf(((byte) (i5 >> 8)) & 255), Byte.valueOf((byte) (i5 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
+                String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (i2 >> 8)) & 255), Byte.valueOf((byte) (i2 & NotificationCenter.newLocationAvailable))).toLowerCase();
+                String lowerCase2 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (i3 >> 8)) & 255), Byte.valueOf((byte) (i3 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
+                String lowerCase3 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (i4 >> 8)) & 255), Byte.valueOf((byte) (i4 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
+                String lowerCase4 = i5 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i5 >> 16)) & 255), Integer.valueOf(((byte) (i5 >> 8)) & 255), Byte.valueOf((byte) (i5 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
                 if (lowerCase2 == null || lowerCase3 == null) {
                     if (lowerCase2 != null) {
                         lowerCase = (lowerCase + "-" + lowerCase2) + "&rotation=" + i6;
@@ -7575,7 +7575,7 @@ public abstract class Theme {
             }
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
             AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda92());
-            ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.9
+            ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.10
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i788) {
                 }
@@ -7831,7 +7831,7 @@ public abstract class Theme {
         chat_actionBackgroundPaint.setFilterBitmap(true);
         chat_actionBackgroundPaint.setShader(serviceBitmapShader);
         chat_actionBackgroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-        chat_actionBackgroundPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
+        chat_actionBackgroundPaint.setAlpha(NotificationCenter.newLocationAvailable);
         chat_actionBackgroundSelectedPaint.setFilterBitmap(true);
         chat_actionBackgroundSelectedPaint.setShader(serviceBitmapShader);
         ColorMatrix colorMatrix2 = new ColorMatrix(colorMatrix);
@@ -7839,7 +7839,7 @@ public abstract class Theme {
         isCurrentThemeDark();
         AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix2, 0.92f);
         chat_actionBackgroundSelectedPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix2));
-        chat_actionBackgroundSelectedPaint.setAlpha(NotificationCenter.notificationsCountUpdated);
+        chat_actionBackgroundSelectedPaint.setAlpha(NotificationCenter.newLocationAvailable);
         chat_actionBackgroundGradientDarkenPaint.setAlpha(0);
     }
 
@@ -8606,7 +8606,7 @@ public abstract class Theme {
         int red = (int) (Color.red(i) * f);
         int green = (int) (Color.green(i) * f);
         int blue = (int) (Color.blue(i) * f);
-        return Color.argb(Color.alpha(i), red < 0 ? 0 : Math.min(red, NotificationCenter.notificationsCountUpdated), green < 0 ? 0 : Math.min(green, NotificationCenter.notificationsCountUpdated), blue >= 0 ? Math.min(blue, NotificationCenter.notificationsCountUpdated) : 0);
+        return Color.argb(Color.alpha(i), red < 0 ? 0 : Math.min(red, NotificationCenter.newLocationAvailable), green < 0 ? 0 : Math.min(green, NotificationCenter.newLocationAvailable), blue >= 0 ? Math.min(blue, NotificationCenter.newLocationAvailable) : 0);
     }
 
     public static int changeColorAccent(int i) {
@@ -8973,7 +8973,7 @@ public abstract class Theme {
                         backgroundDrawableSettings.isCustomTheme = Boolean.TRUE;
                     } else {
                         BackgroundGradientDrawable backgroundGradientDrawable2 = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(i11), new int[]{i10, i9});
-                        backgroundGradientDisposable = backgroundGradientDrawable2.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.11
+                        backgroundGradientDisposable = backgroundGradientDrawable2.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.12
                             @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
                             public void onSizeReady(int i12, int i13) {
                                 Point point = AndroidUtilities.displaySize;
@@ -9082,7 +9082,7 @@ public abstract class Theme {
                             int i13 = overrideWallpaperInfo.gradientColor1;
                             if (i13 != 0) {
                                 ?? backgroundGradientDrawable3 = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(overrideWallpaperInfo.rotation), new int[]{i12, i13});
-                                backgroundGradientDisposable = backgroundGradientDrawable3.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.12
+                                backgroundGradientDisposable = backgroundGradientDrawable3.startDithering(BackgroundGradientDrawable.Sizes.ofDeviceScreen(), new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.13
                                     @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
                                     public void onSizeReady(int i14, int i15) {
                                         Point point = AndroidUtilities.displaySize;
@@ -9479,7 +9479,7 @@ public abstract class Theme {
     public static Drawable createCircleSelectorDrawable(int i, final int i2, final int i3) {
         if (Build.VERSION.SDK_INT >= 21) {
             maskPaint.setColor(-1);
-            return new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), null, new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.8
+            return new BaseCell.RippleDrawableSafe(new ColorStateList(new int[][]{StateSet.WILD_CARD}, new int[]{i}), null, new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.9
                 @Override // android.graphics.drawable.Drawable
                 public void draw(Canvas canvas) {
                     Rect bounds = getBounds();
@@ -10039,6 +10039,57 @@ public abstract class Theme {
         return themeInfo;
     }
 
+    public static Drawable createOutlineCircleDrawable(int i, int i2, int i3) {
+        return new Drawable(i3, i2, i) { // from class: org.telegram.ui.ActionBar.Theme.6
+            private final Paint paint;
+            final /* synthetic */ int val$color;
+            final /* synthetic */ int val$size;
+            final /* synthetic */ int val$strokeWidth;
+
+            {
+                this.val$strokeWidth = i3;
+                this.val$color = i2;
+                this.val$size = i;
+                Paint paint = new Paint(1);
+                this.paint = paint;
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(i3);
+                paint.setColor(i2);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void draw(Canvas canvas) {
+                Rect bounds = getBounds();
+                canvas.drawCircle(bounds.centerX(), bounds.centerY(), this.val$size / 2.0f, this.paint);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getIntrinsicHeight() {
+                return this.val$size + this.val$strokeWidth;
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getIntrinsicWidth() {
+                return this.val$size + this.val$strokeWidth;
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public int getOpacity() {
+                return -2;
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void setAlpha(int i4) {
+                this.paint.setAlpha(i4);
+            }
+
+            @Override // android.graphics.drawable.Drawable
+            public void setColorFilter(ColorFilter colorFilter) {
+                this.paint.setColorFilter(colorFilter);
+            }
+        };
+    }
+
     public static void createProfileResources(Context context) {
         if (profile_verifiedDrawable == null) {
             profile_aboutTextPaint = new TextPaint(1);
@@ -10132,7 +10183,7 @@ public abstract class Theme {
         if ((i2 != 1 && i2 != 5) || i4 < 23) {
             if (i2 == 1 || i2 == 3 || i2 == 4 || i2 == 5 || i2 == 6 || i2 == 7) {
                 maskPaint.setColor(-1);
-                drawable = new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.7
+                drawable = new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.8
                     RectF rect;
 
                     @Override // android.graphics.drawable.Drawable
@@ -10228,7 +10279,7 @@ public abstract class Theme {
     }
 
     public static Drawable createServiceDrawable(final int i, final View view, final View view2, final Paint paint, final ResourcesProvider resourcesProvider) {
-        return new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.6
+        return new Drawable() { // from class: org.telegram.ui.ActionBar.Theme.7
             private RectF rect = new RectF();
 
             @Override // android.graphics.drawable.Drawable
@@ -10674,7 +10725,7 @@ public abstract class Theme {
                                                     Drawable drawable4 = mutate4222;
                                                     Drawable drawable5 = mutate2222;
                                                     Drawable drawable6 = mutate3222;
-                                                    MessageDrawable messageDrawable = new MessageDrawable(2, i18 == 1, false) { // from class: org.telegram.ui.ActionBar.Theme.10
+                                                    MessageDrawable messageDrawable = new MessageDrawable(2, i18 == 1, false) { // from class: org.telegram.ui.ActionBar.Theme.11
                                                         @Override // org.telegram.ui.ActionBar.Theme.MessageDrawable
                                                         protected int getColor(int i34) {
                                                             int indexOfKey = themeFileValues.indexOfKey(i34);
@@ -11657,7 +11708,7 @@ public abstract class Theme {
         tempHsv[1] = (tempHsv2[1] * fArr[1]) / tempHsv[1];
         float f = ((((tempHsv2[2] / tempHsv[2]) + min) - 1.0f) * fArr[2]) / min;
         tempHsv[2] = f;
-        return f < 0.3f ? i2 : Color.HSVToColor(NotificationCenter.notificationsCountUpdated, tempHsv);
+        return f < 0.3f ? i2 : Color.HSVToColor(NotificationCenter.newLocationAvailable, tempHsv);
     }
 
     public static ThemeInfo getActiveTheme() {
@@ -12294,7 +12345,7 @@ public abstract class Theme {
             } else {
                 if (file == null) {
                     BackgroundGradientDrawable backgroundGradientDrawable = new BackgroundGradientDrawable(BackgroundGradientDrawable.getGradientOrientation(i6), new int[]{i2, i3});
-                    backgroundGradientDrawable.startDithering(!z ? BackgroundGradientDrawable.Sizes.ofDeviceScreen() : BackgroundGradientDrawable.Sizes.ofDeviceScreen(0.125f, BackgroundGradientDrawable.Sizes.Orientation.PORTRAIT), view != null ? new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.13
+                    backgroundGradientDrawable.startDithering(!z ? BackgroundGradientDrawable.Sizes.ofDeviceScreen() : BackgroundGradientDrawable.Sizes.ofDeviceScreen(0.125f, BackgroundGradientDrawable.Sizes.Orientation.PORTRAIT), view != null ? new BackgroundGradientDrawable.ListenerAdapter() { // from class: org.telegram.ui.ActionBar.Theme.14
                         @Override // org.telegram.ui.Components.BackgroundGradientDrawable.ListenerAdapter, org.telegram.ui.Components.BackgroundGradientDrawable.Listener
                         public void onSizeReady(int i7, int i8) {
                             if (!z) {
@@ -12431,13 +12482,13 @@ public abstract class Theme {
             sb2.append("https://attheme.org?slug=");
             sb2.append(overrideWallpaperInfo.slug);
         } else {
-            String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.color >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.color & NotificationCenter.notificationsCountUpdated))).toLowerCase();
+            String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.color >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.color & NotificationCenter.newLocationAvailable))).toLowerCase();
             int i2 = overrideWallpaperInfo.gradientColor1;
-            String lowerCase2 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor1 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
+            String lowerCase2 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor1 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
             int i3 = overrideWallpaperInfo.gradientColor2;
-            String lowerCase3 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor2 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
+            String lowerCase3 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor2 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
             int i4 = overrideWallpaperInfo.gradientColor3;
-            String lowerCase4 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor3 & NotificationCenter.notificationsCountUpdated))).toLowerCase() : null;
+            String lowerCase4 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor3 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
             if (lowerCase2 == null || lowerCase3 == null) {
                 if (lowerCase2 != null) {
                     sb = new StringBuilder();
@@ -13207,7 +13258,7 @@ public abstract class Theme {
     }
 
     public static int multAlpha(int i, float f) {
-        return f == 1.0f ? i : ColorUtils.setAlphaComponent(i, MathUtils.clamp((int) (Color.alpha(i) * f), 0, NotificationCenter.notificationsCountUpdated));
+        return f == 1.0f ? i : ColorUtils.setAlphaComponent(i, MathUtils.clamp((int) (Color.alpha(i) * f), 0, NotificationCenter.newLocationAvailable));
     }
 
     private static int needSwitchToTheme() {

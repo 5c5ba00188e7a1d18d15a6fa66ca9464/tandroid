@@ -388,7 +388,7 @@ public class CheckBoxBase {
                         int save = canvas.save();
                         canvas.translate(i6 - dp2, centerY - dp2);
                         i8 = i6;
-                        canvas.saveLayerAlpha(0.0f, 0.0f, AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), NotificationCenter.notificationsCountUpdated, 31);
+                        canvas.saveLayerAlpha(0.0f, 0.0f, AndroidUtilities.dp(this.size), AndroidUtilities.dp(this.size), NotificationCenter.newLocationAvailable, 31);
                         Paint paint5 = (Paint) this.circlePaintProvider.provide(null);
                         int i21 = this.backgroundType;
                         if (i21 == 12 || i21 == 13) {

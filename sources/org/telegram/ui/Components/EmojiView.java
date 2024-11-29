@@ -1895,7 +1895,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         backgroundThreadDrawHolderArr[i2] = imageReceiver.setDrawInBackgroundThread(backgroundThreadDrawHolderArr2[i3], i3);
                         imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].time = j;
                         imageViewEmoji.backgroundThreadDrawHolder[this.threadIndex].overrideAlpha = 1.0f;
-                        animatedEmojiDrawable.setAlpha(NotificationCenter.notificationsCountUpdated);
+                        animatedEmojiDrawable.setAlpha(NotificationCenter.newLocationAvailable);
                         int height = (int) (imageViewEmoji.getHeight() * 0.03f);
                         android.graphics.Rect rect = AndroidUtilities.rectTmp2;
                         rect.set((imageViewEmoji.getLeft() + imageViewEmoji.getPaddingLeft()) - this.startOffset, height, (imageViewEmoji.getRight() - imageViewEmoji.getPaddingRight()) - this.startOffset, ((imageViewEmoji.getMeasuredHeight() + height) - imageViewEmoji.getPaddingTop()) - imageViewEmoji.getPaddingBottom());
@@ -2983,7 +2983,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$search$1(final String str, final ArrayList arrayList, final Runnable runnable) {
-            MediaDataController.getInstance(EmojiView.this.currentAccount).getEmojiSuggestions(EmojiView.this.lastSearchKeyboardLanguage, this.lastSearchEmojiString, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda6
+            MediaDataController.getInstance(EmojiView.this.currentAccount).getEmojiSuggestions(EmojiView.this.lastSearchKeyboardLanguage, this.lastSearchEmojiString, false, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda7
                 @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
                 public final void run(ArrayList arrayList2, String str2) {
                     EmojiView.EmojiSearchAdapter.this.lambda$search$0(str, arrayList, runnable, arrayList2, str2);
@@ -2992,7 +2992,37 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$search$2(String str, ArrayList arrayList, Runnable runnable) {
+        public /* synthetic */ void lambda$search$2(String str, ArrayList arrayList, Runnable runnable, ArrayList arrayList2) {
+            if (str.equals(this.lastSearchEmojiString)) {
+                AnimatedEmojiDrawable.getDocumentFetcher(EmojiView.this.currentAccount).putDocuments(arrayList2);
+                Iterator it = arrayList2.iterator();
+                while (it.hasNext()) {
+                    TLRPC.Document document = (TLRPC.Document) it.next();
+                    MediaDataController.KeywordResult keywordResult = new MediaDataController.KeywordResult();
+                    keywordResult.emoji = "animated_" + document.id;
+                    keywordResult.keyword = null;
+                    arrayList.add(keywordResult);
+                }
+                runnable.run();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$search$3(String[] strArr, final String str, final ArrayList arrayList, final Runnable runnable) {
+            if (ConnectionsManager.getInstance(EmojiView.this.currentAccount).getConnectionState() != 3) {
+                runnable.run();
+            } else {
+                MediaDataController.getInstance(EmojiView.this.currentAccount).searchStickers(true, (strArr == null || strArr.length == 0) ? "" : strArr[0], str, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda8
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        EmojiView.EmojiSearchAdapter.this.lambda$search$2(str, arrayList, runnable, (ArrayList) obj);
+                    }
+                });
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$search$4(String str, ArrayList arrayList, Runnable runnable) {
             TLRPC.StickerSet stickerSet;
             ArrayList<TLRPC.Document> arrayList2;
             TLRPC.StickerSet stickerSet2;
@@ -3047,7 +3077,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$search$3(String str, ArrayList arrayList, ArrayList arrayList2, Runnable runnable) {
+        public /* synthetic */ void lambda$search$5(String str, ArrayList arrayList, ArrayList arrayList2, Runnable runnable) {
             if (str.equals(this.lastSearchEmojiString)) {
                 EmojiView.this.emojiSearchField.showProgress(false);
                 this.searchWas = true;
@@ -3063,8 +3093,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$search$4(final String str) {
-            String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
+        public /* synthetic */ void lambda$search$6(final String str) {
+            final String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
             if (!Arrays.equals(EmojiView.this.lastSearchKeyboardLanguage, currentKeyboardLanguage)) {
                 MediaDataController.getInstance(EmojiView.this.currentAccount).fetchNewEmojiKeywords(currentKeyboardLanguage);
             }
@@ -3079,18 +3109,23 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             }, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda4
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    EmojiView.EmojiSearchAdapter.this.lambda$search$2(str, arrayList2, (Runnable) obj);
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$3(currentKeyboardLanguage, str, arrayList, (Runnable) obj);
                 }
             }, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
-                    EmojiView.EmojiSearchAdapter.this.lambda$search$3(str, arrayList, arrayList2, (Runnable) obj);
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$4(str, arrayList2, (Runnable) obj);
+                }
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda6
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$5(str, arrayList, arrayList2, (Runnable) obj);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$search$5(LinkedHashSet linkedHashSet, Runnable runnable, TLRPC.TL_emojiList tL_emojiList) {
+        public static /* synthetic */ void lambda$search$7(LinkedHashSet linkedHashSet, Runnable runnable, TLRPC.TL_emojiList tL_emojiList) {
             if (tL_emojiList != null) {
                 linkedHashSet.addAll(tL_emojiList.document_id);
             }
@@ -3098,20 +3133,20 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$search$6() {
+        public /* synthetic */ void lambda$search$8() {
             final LinkedHashSet linkedHashSet = new LinkedHashSet();
             final String str = this.lastSearchEmojiString;
             final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiView.EmojiSearchAdapter.this.lambda$search$4(str);
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$6(str);
                 }
             };
             if (Emoji.fullyConsistsOfEmojis(str)) {
                 StickerCategoriesListView.search.fetch(UserConfig.selectedAccount, str, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        EmojiView.EmojiSearchAdapter.lambda$search$5(linkedHashSet, runnable, (TLRPC.TL_emojiList) obj);
+                        EmojiView.EmojiSearchAdapter.lambda$search$7(linkedHashSet, runnable, (TLRPC.TL_emojiList) obj);
                     }
                 });
             } else {
@@ -3444,7 +3479,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.EmojiView$EmojiSearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    EmojiView.EmojiSearchAdapter.this.lambda$search$6();
+                    EmojiView.EmojiSearchAdapter.this.lambda$search$8();
                 }
             };
             this.searchRunnable = runnable2;
@@ -4495,7 +4530,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         paint.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(18.0f), 0.0f, new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
                         this.fadePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
                     }
-                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.notificationsCountUpdated, 31);
+                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31);
                     super.dispatchDraw(canvas);
                     this.fadePaint.setAlpha((int) (SearchField.this.inputBoxGradientAlpha * 255.0f));
                     canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(18.0f), getMeasuredHeight(), this.fadePaint);
@@ -5682,29 +5717,23 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$searchStickerSets$1(TLObject tLObject, Runnable runnable) {
+            public /* synthetic */ void lambda$searchStickerSets$1(Runnable runnable, ArrayList arrayList) {
                 if (StickersSearchGridAdapter.this.emojiSearchId != this.lastId) {
                     return;
                 }
-                if (tLObject instanceof TLRPC.TL_messages_foundStickerSets) {
-                    StickersSearchGridAdapter.this.reqId = 0;
-                    this.serverPacks.addAll(((TLRPC.TL_messages_foundStickerSets) tLObject).sets);
+                this.emojiStickersArray.addAll(arrayList);
+                Iterator it = arrayList.iterator();
+                while (it.hasNext()) {
+                    TLRPC.Document document = (TLRPC.Document) it.next();
+                    this.emojiStickersMap.put(document.id, document);
                 }
+                this.emojiStickers.put(this.emojiStickersArray, StickersSearchGridAdapter.this.searchQuery);
+                this.emojiArrays.add(this.emojiStickersArray);
                 runnable.run();
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$searchStickerSets$2(final Runnable runnable, final TLObject tLObject, TLRPC.TL_error tL_error) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiView$StickersSearchGridAdapter$1$$ExternalSyntheticLambda11
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickerSets$1(tLObject, runnable);
-                    }
-                });
-            }
-
-            /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$searchStickers$3(TLRPC.TL_messages_getStickers tL_messages_getStickers, TLObject tLObject, Runnable runnable) {
+            public /* synthetic */ void lambda$searchStickers$2(TLRPC.TL_messages_getStickers tL_messages_getStickers, TLObject tLObject, Runnable runnable) {
                 if (StickersSearchGridAdapter.this.emojiSearchId != this.lastId) {
                     return;
                 }
@@ -5734,11 +5763,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$searchStickers$4(final TLRPC.TL_messages_getStickers tL_messages_getStickers, final Runnable runnable, final TLObject tLObject, TLRPC.TL_error tL_error) {
+            public /* synthetic */ void lambda$searchStickers$3(final TLRPC.TL_messages_getStickers tL_messages_getStickers, final Runnable runnable, final TLObject tLObject, TLRPC.TL_error tL_error) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EmojiView$StickersSearchGridAdapter$1$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
-                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickers$3(tL_messages_getStickers, tLObject, runnable);
+                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickers$2(tL_messages_getStickers, tLObject, runnable);
                     }
                 });
             }
@@ -5763,13 +5792,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
             /* JADX INFO: Access modifiers changed from: private */
             public void searchStickerSets(final Runnable runnable) {
-                TLRPC.TL_messages_searchStickerSets tL_messages_searchStickerSets = new TLRPC.TL_messages_searchStickerSets();
-                tL_messages_searchStickerSets.q = this.query;
-                StickersSearchGridAdapter stickersSearchGridAdapter = StickersSearchGridAdapter.this;
-                stickersSearchGridAdapter.reqId = ConnectionsManager.getInstance(EmojiView.this.currentAccount).sendRequest(tL_messages_searchStickerSets, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiView$StickersSearchGridAdapter$1$$ExternalSyntheticLambda9
-                    @Override // org.telegram.tgnet.RequestDelegate
-                    public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickerSets$2(runnable, tLObject, tL_error);
+                String[] currentKeyboardLanguage = AndroidUtilities.getCurrentKeyboardLanguage();
+                MediaDataController.getInstance(EmojiView.this.currentAccount).searchStickers(false, (currentKeyboardLanguage == null || currentKeyboardLanguage.length == 0) ? "" : currentKeyboardLanguage[0], this.query, new Utilities.Callback() { // from class: org.telegram.ui.Components.EmojiView$StickersSearchGridAdapter$1$$ExternalSyntheticLambda9
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickerSets$1(runnable, (ArrayList) obj);
                     }
                 });
             }
@@ -5787,7 +5814,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 stickersSearchGridAdapter.reqId2 = ConnectionsManager.getInstance(EmojiView.this.currentAccount).sendRequest(tL_messages_getStickers, new RequestDelegate() { // from class: org.telegram.ui.Components.EmojiView$StickersSearchGridAdapter$1$$ExternalSyntheticLambda7
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickers$4(tL_messages_getStickers, runnable, tLObject, tL_error);
+                        EmojiView.StickersSearchGridAdapter.1.this.lambda$searchStickers$3(tL_messages_getStickers, runnable, tLObject, tL_error);
                     }
                 });
             }

@@ -601,54 +601,41 @@ final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
     }
 
     public ExoPlayerImpl(ExoPlayer.Builder builder, Player player) {
-        Context applicationContext;
-        AnalyticsCollector analyticsCollector;
-        ComponentListener componentListener;
-        FrameMetadataListener frameMetadataListener;
-        Handler handler;
-        Renderer[] createRenderers;
-        TrackSelector trackSelector;
-        BandwidthMeter bandwidthMeter;
-        Looper looper;
-        Clock clock;
-        TrackSelectorResult trackSelectorResult;
-        ExoPlayerImplInternal.PlaybackInfoUpdateListener playbackInfoUpdateListener;
-        int i;
         final ExoPlayerImpl exoPlayerImpl = this;
         ConditionVariable conditionVariable = new ConditionVariable();
         exoPlayerImpl.constructorFinished = conditionVariable;
         try {
             Log.i("ExoPlayerImpl", "Init " + Integer.toHexString(System.identityHashCode(this)) + " [ExoPlayerLib/2.18.3] [" + Util.DEVICE_DEBUG_INFO + "]");
-            applicationContext = builder.context.getApplicationContext();
+            Context applicationContext = builder.context.getApplicationContext();
             exoPlayerImpl.applicationContext = applicationContext;
-            analyticsCollector = (AnalyticsCollector) builder.analyticsCollectorFunction.apply(builder.clock);
+            AnalyticsCollector analyticsCollector = (AnalyticsCollector) builder.analyticsCollectorFunction.apply(builder.clock);
             exoPlayerImpl.analyticsCollector = analyticsCollector;
             exoPlayerImpl.audioAttributes = builder.audioAttributes;
             exoPlayerImpl.videoScalingMode = builder.videoScalingMode;
             exoPlayerImpl.videoChangeFrameRateStrategy = builder.videoChangeFrameRateStrategy;
             exoPlayerImpl.skipSilenceEnabled = builder.skipSilenceEnabled;
             exoPlayerImpl.detachSurfaceTimeoutMs = builder.detachSurfaceTimeoutMs;
-            componentListener = new ComponentListener();
+            ComponentListener componentListener = new ComponentListener();
             exoPlayerImpl.componentListener = componentListener;
-            frameMetadataListener = new FrameMetadataListener();
+            FrameMetadataListener frameMetadataListener = new FrameMetadataListener();
             exoPlayerImpl.frameMetadataListener = frameMetadataListener;
-            handler = new Handler(builder.looper);
-            createRenderers = ((RenderersFactory) builder.renderersFactorySupplier.get()).createRenderers(handler, componentListener, componentListener, componentListener, componentListener);
+            Handler handler = new Handler(builder.looper);
+            Renderer[] createRenderers = ((RenderersFactory) builder.renderersFactorySupplier.get()).createRenderers(handler, builder.eglContext, componentListener, componentListener, componentListener, componentListener);
             exoPlayerImpl.renderers = createRenderers;
             Assertions.checkState(createRenderers.length > 0);
-            trackSelector = (TrackSelector) builder.trackSelectorSupplier.get();
+            TrackSelector trackSelector = (TrackSelector) builder.trackSelectorSupplier.get();
             exoPlayerImpl.trackSelector = trackSelector;
             exoPlayerImpl.mediaSourceFactory = (MediaSource.Factory) builder.mediaSourceFactorySupplier.get();
-            bandwidthMeter = (BandwidthMeter) builder.bandwidthMeterSupplier.get();
+            BandwidthMeter bandwidthMeter = (BandwidthMeter) builder.bandwidthMeterSupplier.get();
             exoPlayerImpl.bandwidthMeter = bandwidthMeter;
             exoPlayerImpl.useLazyPreparation = builder.useLazyPreparation;
             exoPlayerImpl.seekParameters = builder.seekParameters;
             exoPlayerImpl.seekBackIncrementMs = builder.seekBackIncrementMs;
             exoPlayerImpl.seekForwardIncrementMs = builder.seekForwardIncrementMs;
             exoPlayerImpl.pauseAtEndOfMediaItems = builder.pauseAtEndOfMediaItems;
-            looper = builder.looper;
+            Looper looper = builder.looper;
             exoPlayerImpl.applicationLooper = looper;
-            clock = builder.clock;
+            Clock clock = builder.clock;
             exoPlayerImpl.clock = clock;
             Player player2 = player == null ? exoPlayerImpl : player;
             exoPlayerImpl.wrappingPlayer = player2;
@@ -661,14 +648,14 @@ final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             exoPlayerImpl.audioOffloadListeners = new CopyOnWriteArraySet();
             exoPlayerImpl.mediaSourceHolderSnapshots = new ArrayList();
             exoPlayerImpl.shuffleOrder = new ShuffleOrder.DefaultShuffleOrder(0);
-            trackSelectorResult = new TrackSelectorResult(new RendererConfiguration[createRenderers.length], new ExoTrackSelection[createRenderers.length], Tracks.EMPTY, null);
+            TrackSelectorResult trackSelectorResult = new TrackSelectorResult(new RendererConfiguration[createRenderers.length], new ExoTrackSelection[createRenderers.length], Tracks.EMPTY, null);
             exoPlayerImpl.emptyTrackSelectorResult = trackSelectorResult;
             exoPlayerImpl.period = new Timeline.Period();
             Player.Commands build = new Player.Commands.Builder().addAll(1, 2, 3, 13, 14, 15, 16, 17, 18, 19, 31, 20, 30, 21, 22, 23, 24, 25, 26, 27, 28).addIf(29, trackSelector.isSetParametersSupported()).build();
             exoPlayerImpl.permanentAvailableCommands = build;
             exoPlayerImpl.availableCommands = new Player.Commands.Builder().addAll(build).add(4).add(10).build();
             exoPlayerImpl.playbackInfoUpdateHandler = clock.createHandler(looper, null);
-            playbackInfoUpdateListener = new ExoPlayerImplInternal.PlaybackInfoUpdateListener() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda19
+            ExoPlayerImplInternal.PlaybackInfoUpdateListener playbackInfoUpdateListener = new ExoPlayerImplInternal.PlaybackInfoUpdateListener() { // from class: com.google.android.exoplayer2.ExoPlayerImpl$$ExternalSyntheticLambda19
                 @Override // com.google.android.exoplayer2.ExoPlayerImplInternal.PlaybackInfoUpdateListener
                 public final void onPlaybackInfoUpdate(ExoPlayerImplInternal.PlaybackInfoUpdate playbackInfoUpdate) {
                     ExoPlayerImpl.this.lambda$new$2(playbackInfoUpdate);
@@ -677,64 +664,64 @@ final class ExoPlayerImpl extends BasePlayer implements ExoPlayer {
             exoPlayerImpl.playbackInfoUpdateListener = playbackInfoUpdateListener;
             exoPlayerImpl.playbackInfo = PlaybackInfo.createDummy(trackSelectorResult);
             analyticsCollector.setPlayer(player2, looper);
-            i = Util.SDK_INT;
-        } catch (Throwable th) {
-            th = th;
-        }
-        try {
-            ExoPlayerImplInternal exoPlayerImplInternal = new ExoPlayerImplInternal(createRenderers, trackSelector, trackSelectorResult, (LoadControl) builder.loadControlSupplier.get(), bandwidthMeter, exoPlayerImpl.repeatMode, exoPlayerImpl.shuffleModeEnabled, analyticsCollector, exoPlayerImpl.seekParameters, builder.livePlaybackSpeedControl, builder.releaseTimeoutMs, exoPlayerImpl.pauseAtEndOfMediaItems, looper, clock, playbackInfoUpdateListener, i < 31 ? new PlayerId() : Api31.registerMediaMetricsListener(applicationContext, exoPlayerImpl, builder.usePlatformDiagnostics), builder.playbackLooper);
-            exoPlayerImpl = this;
-            exoPlayerImpl.internalPlayer = exoPlayerImplInternal;
-            exoPlayerImpl.volume = 1.0f;
-            exoPlayerImpl.repeatMode = 0;
-            MediaMetadata mediaMetadata = MediaMetadata.EMPTY;
-            exoPlayerImpl.mediaMetadata = mediaMetadata;
-            exoPlayerImpl.playlistMetadata = mediaMetadata;
-            exoPlayerImpl.staticAndDynamicMediaMetadata = mediaMetadata;
-            exoPlayerImpl.maskingWindowIndex = -1;
-            exoPlayerImpl.audioSessionId = i < 21 ? exoPlayerImpl.initializeKeepSessionIdAudioTrack(0) : Util.generateAudioSessionIdV21(applicationContext);
-            exoPlayerImpl.currentCueGroup = CueGroup.EMPTY_TIME_ZERO;
-            exoPlayerImpl.throwsWhenUsingWrongThread = true;
-            exoPlayerImpl.addListener(analyticsCollector);
-            bandwidthMeter.addEventListener(new Handler(looper), analyticsCollector);
-            exoPlayerImpl.addAudioOffloadListener(componentListener);
-            long j = builder.foregroundModeTimeoutMs;
-            if (j > 0) {
-                exoPlayerImplInternal.experimentalSetForegroundModeTimeoutMs(j);
+            int i = Util.SDK_INT;
+            try {
+                ExoPlayerImplInternal exoPlayerImplInternal = new ExoPlayerImplInternal(createRenderers, trackSelector, trackSelectorResult, (LoadControl) builder.loadControlSupplier.get(), bandwidthMeter, exoPlayerImpl.repeatMode, exoPlayerImpl.shuffleModeEnabled, analyticsCollector, exoPlayerImpl.seekParameters, builder.livePlaybackSpeedControl, builder.releaseTimeoutMs, exoPlayerImpl.pauseAtEndOfMediaItems, looper, clock, playbackInfoUpdateListener, i < 31 ? new PlayerId() : Api31.registerMediaMetricsListener(applicationContext, exoPlayerImpl, builder.usePlatformDiagnostics), builder.playbackLooper);
+                exoPlayerImpl = this;
+                exoPlayerImpl.internalPlayer = exoPlayerImplInternal;
+                exoPlayerImpl.volume = 1.0f;
+                exoPlayerImpl.repeatMode = 0;
+                MediaMetadata mediaMetadata = MediaMetadata.EMPTY;
+                exoPlayerImpl.mediaMetadata = mediaMetadata;
+                exoPlayerImpl.playlistMetadata = mediaMetadata;
+                exoPlayerImpl.staticAndDynamicMediaMetadata = mediaMetadata;
+                exoPlayerImpl.maskingWindowIndex = -1;
+                exoPlayerImpl.audioSessionId = i < 21 ? exoPlayerImpl.initializeKeepSessionIdAudioTrack(0) : Util.generateAudioSessionIdV21(applicationContext);
+                exoPlayerImpl.currentCueGroup = CueGroup.EMPTY_TIME_ZERO;
+                exoPlayerImpl.throwsWhenUsingWrongThread = true;
+                exoPlayerImpl.addListener(analyticsCollector);
+                bandwidthMeter.addEventListener(new Handler(looper), analyticsCollector);
+                exoPlayerImpl.addAudioOffloadListener(componentListener);
+                long j = builder.foregroundModeTimeoutMs;
+                if (j > 0) {
+                    exoPlayerImplInternal.experimentalSetForegroundModeTimeoutMs(j);
+                }
+                AudioBecomingNoisyManager audioBecomingNoisyManager = new AudioBecomingNoisyManager(builder.context, handler, componentListener);
+                exoPlayerImpl.audioBecomingNoisyManager = audioBecomingNoisyManager;
+                audioBecomingNoisyManager.setEnabled(builder.handleAudioBecomingNoisy);
+                AudioFocusManager audioFocusManager = new AudioFocusManager(builder.context, handler, componentListener);
+                exoPlayerImpl.audioFocusManager = audioFocusManager;
+                audioFocusManager.setAudioAttributes(builder.handleAudioFocus ? exoPlayerImpl.audioAttributes : null);
+                StreamVolumeManager streamVolumeManager = new StreamVolumeManager(builder.context, handler, componentListener);
+                exoPlayerImpl.streamVolumeManager = streamVolumeManager;
+                streamVolumeManager.setStreamType(Util.getStreamTypeForAudioUsage(exoPlayerImpl.audioAttributes.usage));
+                WakeLockManager wakeLockManager = new WakeLockManager(builder.context);
+                exoPlayerImpl.wakeLockManager = wakeLockManager;
+                wakeLockManager.setEnabled(builder.wakeMode != 0);
+                WifiLockManager wifiLockManager = new WifiLockManager(builder.context);
+                exoPlayerImpl.wifiLockManager = wifiLockManager;
+                wifiLockManager.setEnabled(builder.wakeMode == 2);
+                exoPlayerImpl.deviceInfo = createDeviceInfo(streamVolumeManager);
+                exoPlayerImpl.videoSize = VideoSize.UNKNOWN;
+                exoPlayerImpl.surfaceSize = Size.UNKNOWN;
+                trackSelector.setAudioAttributes(exoPlayerImpl.audioAttributes);
+                exoPlayerImpl.sendRendererMessage(1, 10, Integer.valueOf(exoPlayerImpl.audioSessionId));
+                exoPlayerImpl.sendRendererMessage(2, 10, Integer.valueOf(exoPlayerImpl.audioSessionId));
+                exoPlayerImpl.sendRendererMessage(1, 3, exoPlayerImpl.audioAttributes);
+                exoPlayerImpl.sendRendererMessage(2, 4, Integer.valueOf(exoPlayerImpl.videoScalingMode));
+                exoPlayerImpl.sendRendererMessage(2, 5, Integer.valueOf(exoPlayerImpl.videoChangeFrameRateStrategy));
+                exoPlayerImpl.sendRendererMessage(1, 9, Boolean.valueOf(exoPlayerImpl.skipSilenceEnabled));
+                exoPlayerImpl.sendRendererMessage(2, 7, frameMetadataListener);
+                exoPlayerImpl.sendRendererMessage(6, 8, frameMetadataListener);
+                conditionVariable.open();
+            } catch (Throwable th) {
+                th = th;
+                exoPlayerImpl = this;
+                exoPlayerImpl.constructorFinished.open();
+                throw th;
             }
-            AudioBecomingNoisyManager audioBecomingNoisyManager = new AudioBecomingNoisyManager(builder.context, handler, componentListener);
-            exoPlayerImpl.audioBecomingNoisyManager = audioBecomingNoisyManager;
-            audioBecomingNoisyManager.setEnabled(builder.handleAudioBecomingNoisy);
-            AudioFocusManager audioFocusManager = new AudioFocusManager(builder.context, handler, componentListener);
-            exoPlayerImpl.audioFocusManager = audioFocusManager;
-            audioFocusManager.setAudioAttributes(builder.handleAudioFocus ? exoPlayerImpl.audioAttributes : null);
-            StreamVolumeManager streamVolumeManager = new StreamVolumeManager(builder.context, handler, componentListener);
-            exoPlayerImpl.streamVolumeManager = streamVolumeManager;
-            streamVolumeManager.setStreamType(Util.getStreamTypeForAudioUsage(exoPlayerImpl.audioAttributes.usage));
-            WakeLockManager wakeLockManager = new WakeLockManager(builder.context);
-            exoPlayerImpl.wakeLockManager = wakeLockManager;
-            wakeLockManager.setEnabled(builder.wakeMode != 0);
-            WifiLockManager wifiLockManager = new WifiLockManager(builder.context);
-            exoPlayerImpl.wifiLockManager = wifiLockManager;
-            wifiLockManager.setEnabled(builder.wakeMode == 2);
-            exoPlayerImpl.deviceInfo = createDeviceInfo(streamVolumeManager);
-            exoPlayerImpl.videoSize = VideoSize.UNKNOWN;
-            exoPlayerImpl.surfaceSize = Size.UNKNOWN;
-            trackSelector.setAudioAttributes(exoPlayerImpl.audioAttributes);
-            exoPlayerImpl.sendRendererMessage(1, 10, Integer.valueOf(exoPlayerImpl.audioSessionId));
-            exoPlayerImpl.sendRendererMessage(2, 10, Integer.valueOf(exoPlayerImpl.audioSessionId));
-            exoPlayerImpl.sendRendererMessage(1, 3, exoPlayerImpl.audioAttributes);
-            exoPlayerImpl.sendRendererMessage(2, 4, Integer.valueOf(exoPlayerImpl.videoScalingMode));
-            exoPlayerImpl.sendRendererMessage(2, 5, Integer.valueOf(exoPlayerImpl.videoChangeFrameRateStrategy));
-            exoPlayerImpl.sendRendererMessage(1, 9, Boolean.valueOf(exoPlayerImpl.skipSilenceEnabled));
-            exoPlayerImpl.sendRendererMessage(2, 7, frameMetadataListener);
-            exoPlayerImpl.sendRendererMessage(6, 8, frameMetadataListener);
-            conditionVariable.open();
         } catch (Throwable th2) {
             th = th2;
-            exoPlayerImpl = this;
-            exoPlayerImpl.constructorFinished.open();
-            throw th;
         }
     }
 

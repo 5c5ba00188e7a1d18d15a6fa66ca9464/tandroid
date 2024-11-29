@@ -1,8 +1,10 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -232,6 +234,11 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
         return view != this.hint;
     }
 
+    @Override // org.telegram.ui.Stories.recorder.CaptionContainerView, android.view.ViewGroup, android.view.View
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+    }
+
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
     protected int getCaptionDefaultLimit() {
         return MessagesController.getInstance(this.currentAccount).captionLengthLimitDefault;
@@ -245,6 +252,11 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
     protected int getCaptionPremiumLimit() {
         return MessagesController.getInstance(this.currentAccount).captionLengthLimitPremium;
+    }
+
+    @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
+    public int getEditTextHeight() {
+        return super.getEditTextHeight();
     }
 
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView
@@ -277,6 +289,11 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
         if (runnable != null) {
             runnable.run();
         }
+    }
+
+    @Override // android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        return super.onTouchEvent(motionEvent);
     }
 
     @Override // org.telegram.ui.Stories.recorder.CaptionContainerView

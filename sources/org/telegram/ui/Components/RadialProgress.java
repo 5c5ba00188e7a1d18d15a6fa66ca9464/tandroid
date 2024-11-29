@@ -319,7 +319,7 @@ public class RadialProgress {
                 this.miniProgressBackgroundPaint.setColor(this.progressColor);
                 if (this.previousMiniDrawable == null || this.currentMiniDrawable != null) {
                     paint2 = this.miniProgressBackgroundPaint;
-                    i3 = NotificationCenter.notificationsCountUpdated;
+                    i3 = NotificationCenter.newLocationAvailable;
                 } else {
                     paint2 = this.miniProgressBackgroundPaint;
                     i3 = (int) (this.animatedAlphaValue * 255.0f * this.overrideAlpha);

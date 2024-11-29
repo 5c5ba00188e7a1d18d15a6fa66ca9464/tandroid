@@ -1277,7 +1277,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             StoryViewer.this.requestAdjust(z);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:19:0x0190  */
+        /* JADX WARN: Removed duplicated region for block: B:19:0x0192  */
         @Override // org.telegram.ui.Stories.PeerStoriesView.Delegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1382,7 +1382,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     FileLog.d("StoryViewer requestPlayer: currentPlayerScope.player start " + uri);
                     StoryViewer storyViewer11 = StoryViewer.this;
-                    storyViewer11.currentPlayerScope.player.start(storyViewer11.isPaused(), uri, j2, StoryViewer.isInSilentMode, StoryViewer.currentSpeed);
+                    storyViewer11.currentPlayerScope.player.start(false, storyViewer11.isPaused(), uri, j2, StoryViewer.isInSilentMode, StoryViewer.currentSpeed);
                     StoryViewer.this.currentPlayerScope.invalidate();
                     storyViewer = StoryViewer.this;
                     if (storyViewer.USE_SURFACE_VIEW) {
@@ -2455,7 +2455,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                     return;
                 }
                 this.playerSavedPosition = videoPlayerHolder.currentPosition;
-                videoPlayerHolder.release(null);
+                this.playerHolder.release(null);
                 this.playerHolder = null;
                 return;
             }

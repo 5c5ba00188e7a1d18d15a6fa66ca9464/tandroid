@@ -990,9 +990,9 @@ public class GroupCallUserCell extends FrameLayout {
         if (nextInt < 32) {
             i = 0;
         } else {
-            i = NotificationCenter.needCheckSystemBarColors;
+            i = NotificationCenter.didApplyNewTheme;
             if (nextInt < 64) {
-                i2 = NotificationCenter.needCheckSystemBarColors;
+                i2 = NotificationCenter.didApplyNewTheme;
                 i = 120;
             } else {
                 i2 = 420;

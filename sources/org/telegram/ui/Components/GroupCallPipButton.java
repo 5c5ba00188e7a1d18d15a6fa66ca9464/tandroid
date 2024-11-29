@@ -456,7 +456,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                                                 } else if (i == 1) {
                                                     paint = this.paint;
                                                 } else {
-                                                    this.paint.setAlpha(NotificationCenter.notificationsCountUpdated);
+                                                    this.paint.setAlpha(NotificationCenter.newLocationAvailable);
                                                     canvas.save();
                                                     canvas.scale(f6, f6, measuredWidth, measuredHeight);
                                                     canvas.drawCircle(measuredWidth, measuredHeight, AndroidUtilities.dp(32.0f), this.paint);

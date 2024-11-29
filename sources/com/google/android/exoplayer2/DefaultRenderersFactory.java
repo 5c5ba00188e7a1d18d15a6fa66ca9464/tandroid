@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import android.content.Context;
+import android.opengl.EGLContext;
 import android.os.Handler;
 import android.os.Looper;
 import com.google.android.exoplayer2.audio.AudioCapabilities;
@@ -139,10 +140,10 @@ public class DefaultRenderersFactory implements RenderersFactory {
         arrayList.add(new TextRenderer(textOutput, looper));
     }
 
-    protected void buildVideoRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, long j, ArrayList arrayList) {
+    protected void buildVideoRenderers(Context context, EGLContext eGLContext, int i, MediaCodecSelector mediaCodecSelector, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, long j, ArrayList arrayList) {
         String str;
         int i2;
-        arrayList.add(new MediaCodecVideoRenderer(context, getCodecAdapterFactory(), mediaCodecSelector, j, z, handler, videoRendererEventListener, 50));
+        arrayList.add(new MediaCodecVideoRenderer(context, eGLContext, getCodecAdapterFactory(), mediaCodecSelector, j, z, handler, videoRendererEventListener, 50));
         if (i == 0) {
             return;
         }
@@ -156,36 +157,36 @@ public class DefaultRenderersFactory implements RenderersFactory {
                 try {
                     arrayList.add(size, (Renderer) Class.forName("com.google.android.exoplayer2.ext.vp9.LibvpxVideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
                     str = "DefaultRenderersFactory";
-                } catch (ClassNotFoundException unused) {
+                    try {
+                        Log.i(str, "Loaded LibvpxVideoRenderer.");
+                    } catch (ClassNotFoundException unused) {
+                        size = i2;
+                        i2 = size;
+                        arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
+                        Log.i(str, "Loaded Libgav1VideoRenderer.");
+                    }
+                } catch (ClassNotFoundException unused2) {
                     str = "DefaultRenderersFactory";
                 }
-            } catch (ClassNotFoundException unused2) {
-                str = "DefaultRenderersFactory";
-            }
-            try {
-                Log.i(str, "Loaded LibvpxVideoRenderer.");
-            } catch (ClassNotFoundException unused3) {
-                size = i2;
-                i2 = size;
-                arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
-                Log.i(str, "Loaded Libgav1VideoRenderer.");
-            }
-            try {
-                arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
-                Log.i(str, "Loaded Libgav1VideoRenderer.");
-            } catch (ClassNotFoundException unused4) {
             } catch (Exception e) {
-                throw new RuntimeException("Error instantiating AV1 extension", e);
+                throw new RuntimeException("Error instantiating VP9 extension", e);
             }
+        } catch (ClassNotFoundException unused3) {
+            str = "DefaultRenderersFactory";
+        }
+        try {
+            arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
+            Log.i(str, "Loaded Libgav1VideoRenderer.");
+        } catch (ClassNotFoundException unused4) {
         } catch (Exception e2) {
-            throw new RuntimeException("Error instantiating VP9 extension", e2);
+            throw new RuntimeException("Error instantiating AV1 extension", e2);
         }
     }
 
     @Override // com.google.android.exoplayer2.RenderersFactory
-    public Renderer[] createRenderers(Handler handler, VideoRendererEventListener videoRendererEventListener, AudioRendererEventListener audioRendererEventListener, TextOutput textOutput, MetadataOutput metadataOutput) {
+    public Renderer[] createRenderers(Handler handler, EGLContext eGLContext, VideoRendererEventListener videoRendererEventListener, AudioRendererEventListener audioRendererEventListener, TextOutput textOutput, MetadataOutput metadataOutput) {
         ArrayList arrayList = new ArrayList();
-        buildVideoRenderers(this.context, this.extensionRendererMode, this.mediaCodecSelector, this.enableDecoderFallback, handler, videoRendererEventListener, this.allowedVideoJoiningTimeMs, arrayList);
+        buildVideoRenderers(this.context, eGLContext, this.extensionRendererMode, this.mediaCodecSelector, this.enableDecoderFallback, handler, videoRendererEventListener, this.allowedVideoJoiningTimeMs, arrayList);
         AudioSink buildAudioSink = buildAudioSink(this.context, this.enableFloatOutput, this.enableAudioTrackPlaybackParams, this.enableOffload);
         if (buildAudioSink != null) {
             buildAudioRenderers(this.context, this.extensionRendererMode, this.mediaCodecSelector, this.enableDecoderFallback, buildAudioSink, handler, audioRendererEventListener, arrayList);

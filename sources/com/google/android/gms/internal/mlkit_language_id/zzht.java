@@ -203,7 +203,7 @@ final class zzht extends zzho {
                             if (Character.isSurrogatePair(charAt3, charAt4)) {
                                 int codePoint = Character.toCodePoint(charAt3, charAt4);
                                 j2 = 1;
-                                zzhn.zza(bArr, j4, (byte) ((codePoint >>> 18) | NotificationCenter.needCheckSystemBarColors));
+                                zzhn.zza(bArr, j4, (byte) ((codePoint >>> 18) | NotificationCenter.didApplyNewTheme));
                                 j3 = j5;
                                 zzhn.zza(bArr, j4 + 1, (byte) (((codePoint >>> 12) & 63) | 128));
                                 long j6 = 3 + j4;

@@ -344,7 +344,7 @@ public class BotFullscreenButtons extends View {
         canvas.restore();
         float dp7 = (this.leftMenu.left + AndroidUtilities.dp(30.0f)) - AndroidUtilities.dp(10.0f);
         RectF rectF12 = this.leftMenu;
-        canvas.saveLayerAlpha(dp7, rectF12.top, rectF12.right, rectF12.bottom, NotificationCenter.notificationsCountUpdated, 31);
+        canvas.saveLayerAlpha(dp7, rectF12.top, rectF12.right, rectF12.bottom, NotificationCenter.newLocationAvailable, 31);
         if (f4 <= 0.0f || this.previewText == null) {
             f = 1.0f;
         } else {

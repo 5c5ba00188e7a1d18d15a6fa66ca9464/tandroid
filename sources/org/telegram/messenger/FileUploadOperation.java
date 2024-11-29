@@ -603,7 +603,7 @@ public class FileUploadOperation {
                                                                 System.arraycopy(this.iv, 0, bArr6, 32, 32);
                                                                 byte[] digest = messageDigest.digest(bArr6);
                                                                 for (int i6 = 0; i6 < 4; i6++) {
-                                                                    this.fingerprint |= ((digest[i6] ^ digest[i6 + 4]) & NotificationCenter.notificationsCountUpdated) << (i6 * 8);
+                                                                    this.fingerprint |= ((digest[i6] ^ digest[i6 + 4]) & NotificationCenter.newLocationAvailable) << (i6 * 8);
                                                                 }
                                                             } catch (Exception e) {
                                                                 FileLog.e(e);

@@ -752,7 +752,7 @@ public class HintView2 extends View {
 
     protected void drawBgPath(Canvas canvas) {
         if (this.blurBackgroundPaint != null) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.notificationsCountUpdated, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.newLocationAvailable, 31);
             canvas.drawPath(this.path, this.blurBackgroundPaint);
             canvas.drawPath(this.path, this.blurCutPaint);
             canvas.restore();
@@ -1080,6 +1080,14 @@ public class HintView2 extends View {
             AndroidUtilities.cancelRunOnUIThread(runnable);
         }
         return this;
+    }
+
+    public void show(boolean z) {
+        if (z) {
+            show();
+        } else {
+            hide();
+        }
     }
 
     public boolean shown() {

@@ -47,12 +47,12 @@ public class MatrixParticlesDrawable {
             MatrixParticlesDrawable.this.paint.setAlpha((int) (f3 * clamp * 255.0f));
             MatrixParticlesDrawable matrixParticlesDrawable3 = MatrixParticlesDrawable.this;
             canvas.drawBitmap(matrixParticlesDrawable3.bitmaps[this.nextIndex], f, f2, matrixParticlesDrawable3.paint);
-            MatrixParticlesDrawable.this.paint.setAlpha(NotificationCenter.notificationsCountUpdated);
+            MatrixParticlesDrawable.this.paint.setAlpha(NotificationCenter.newLocationAvailable);
             if (clamp >= 1.0f) {
                 this.index = this.nextIndex;
                 this.lastUpdateTime = j;
                 this.nextIndex = Math.abs(Utilities.fastRandom.nextInt() % 16);
-                this.nextUpdateTime = j + Math.abs(Utilities.fastRandom.nextInt() % NotificationCenter.customTypefacesLoaded) + 150;
+                this.nextUpdateTime = j + Math.abs(Utilities.fastRandom.nextInt() % NotificationCenter.uploadStoryProgress) + 150;
             }
         }
 
@@ -60,7 +60,7 @@ public class MatrixParticlesDrawable {
             this.index = Math.abs(Utilities.fastRandom.nextInt() % 16);
             this.nextIndex = Math.abs(Utilities.fastRandom.nextInt() % 16);
             this.lastUpdateTime = j;
-            this.nextUpdateTime = j + Math.abs(Utilities.fastRandom.nextInt() % NotificationCenter.customTypefacesLoaded) + 150;
+            this.nextUpdateTime = j + Math.abs(Utilities.fastRandom.nextInt() % NotificationCenter.uploadStoryProgress) + 150;
         }
     }
 

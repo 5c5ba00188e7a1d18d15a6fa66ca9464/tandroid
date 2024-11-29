@@ -625,7 +625,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateList$2(DiffUtil.Callback callback, final Runnable runnable, final ArrayList arrayList) {
         final DiffUtil.DiffResult calculateDiff = DiffUtil.calculateDiff(callback);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsAdapter.this.lambda$updateList$1(runnable, arrayList, calculateDiff);
@@ -1294,18 +1294,18 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     public void onCreateGroupForThisClick() {
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0203, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0212, code lost:
     
         r5.setBackgroundColor(org.telegram.ui.ActionBar.Theme.getColor(org.telegram.ui.ActionBar.Theme.key_windowBackgroundWhite));
         r5 = r5;
      */
     /* JADX WARN: Code restructure failed: missing block: B:4:0x0016, code lost:
     
-        if (r19.dialogsType == 15) goto L50;
+        if (r19.dialogsType == 15) goto L53;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0201, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x0210, code lost:
     
-        if (r19.dialogsType == 15) goto L50;
+        if (r19.dialogsType == 15) goto L53;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r4v1, types: [org.telegram.ui.Components.FlickerLoadingView] */
@@ -1314,8 +1314,8 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     /* JADX WARN: Type inference failed for: r4v2, types: [android.view.ViewGroup, org.telegram.ui.Cells.HeaderCell] */
     /* JADX WARN: Type inference failed for: r4v29 */
     /* JADX WARN: Type inference failed for: r4v30 */
-    /* JADX WARN: Type inference failed for: r5v35, types: [org.telegram.ui.Adapters.DialogsAdapter$5] */
-    /* JADX WARN: Type inference failed for: r5v4, types: [org.telegram.ui.Cells.DialogCell] */
+    /* JADX WARN: Type inference failed for: r5v37, types: [org.telegram.ui.Adapters.DialogsAdapter$5] */
+    /* JADX WARN: Type inference failed for: r6v4, types: [org.telegram.ui.Cells.DialogCell] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1336,6 +1336,14 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                     viewGroup2 = new ProfileSearchCell(this.mContext);
                 } else {
                     ?? dialogCell = new DialogCell(this.parentFragment, this.mContext, true, false, this.currentAccount, null);
+                    if (showOpenBotButton()) {
+                        dialogCell.allowBotOpenButton(true, new Utilities.Callback() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
+                            @Override // org.telegram.messenger.Utilities.Callback
+                            public final void run(Object obj) {
+                                DialogsAdapter.this.onOpenBot((TLRPC.User) obj);
+                            }
+                        });
+                    }
                     dialogCell.setArchivedPullAnimation(this.pullForegroundDrawable);
                     dialogCell.setPreloader(this.preloader);
                     dialogCell.setDialogCellDelegate(this);
@@ -1527,6 +1535,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         return new RecyclerListView.Holder(viewGroup3);
     }
 
+    protected void onOpenBot(TLRPC.User user) {
+    }
+
     public void onReorderStateChanged(boolean z) {
         this.isReordering = z;
     }
@@ -1644,6 +1655,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         this.parentFragment.showChatPreview(dialogCell);
     }
 
+    protected boolean showOpenBotButton() {
+        return false;
+    }
+
     public void sortOnlineContacts(boolean z) {
         if (this.onlineContacts != null) {
             if (!z || SystemClock.elapsedRealtime() - this.lastSortTime >= 2000) {
@@ -1707,7 +1722,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             }
         };
         if (this.itemInternals.size() >= 50 && ALLOW_UPDATE_IN_BACKGROUND) {
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogsAdapter.this.lambda$updateList$2(callback, runnable, arrayList2);

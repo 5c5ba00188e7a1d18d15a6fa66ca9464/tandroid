@@ -102,6 +102,7 @@ import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 /* loaded from: classes5.dex */
 public class StoryPrivacyBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
     private int activePage;
+    private boolean allowCover;
     private boolean allowScreenshots;
     private boolean allowSmallChats;
     private boolean applyWhenDismiss;
@@ -2519,19 +2520,19 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             updateItems(z, true);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:154:0x07b1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:156:0x07b9, code lost:
         
-            if (r8 != 4) goto L203;
+            if (r8 != 4) goto L205;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:194:0x0849, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:196:0x0851, code lost:
         
-            if (r10 == 4) goto L245;
+            if (r10 == 4) goto L247;
          */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x06c0  */
-        /* JADX WARN: Removed duplicated region for block: B:228:0x08cb  */
-        /* JADX WARN: Removed duplicated region for block: B:253:0x0182  */
-        /* JADX WARN: Removed duplicated region for block: B:256:0x0199  */
-        /* JADX WARN: Removed duplicated region for block: B:257:0x0184  */
+        /* JADX WARN: Removed duplicated region for block: B:107:0x06c8  */
+        /* JADX WARN: Removed duplicated region for block: B:230:0x08d3  */
+        /* JADX WARN: Removed duplicated region for block: B:255:0x0182  */
+        /* JADX WARN: Removed duplicated region for block: B:258:0x0199  */
+        /* JADX WARN: Removed duplicated region for block: B:259:0x0184  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -2880,7 +2881,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 this.items.add(ItemInner.asShadow(LocaleController.formatPluralString(z5 ? "StoryKeepInfo" : z6 ? "StoryKeepChannelInfo" : "StoryKeepGroupInfo", (StoryPrivacyBottomSheet.this.storyPeriod == Integer.MAX_VALUE ? 86400 : StoryPrivacyBottomSheet.this.storyPeriod) / 3600, new Object[0])));
                 asPad.subtractHeight += AndroidUtilities.dp(80.0f);
             }
-            if (StoryPrivacyBottomSheet.this.keepOnMyPage && StoryPrivacyBottomSheet.this.whenCoverClicked != null) {
+            if (StoryPrivacyBottomSheet.this.keepOnMyPage && StoryPrivacyBottomSheet.this.allowCover && StoryPrivacyBottomSheet.this.whenCoverClicked != null) {
                 this.items.add(ItemInner.asButton(LocaleController.getString(R.string.StoryEditCover), StoryPrivacyBottomSheet.this.coverDrawable));
                 asPad.subtractHeight += AndroidUtilities.dp(50.0f);
                 this.items.add(ItemInner.asShadow(LocaleController.getString(R.string.StoryEditCoverInfo)));
@@ -3408,7 +3409,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
             float scrollY = getScrollY();
-            canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.notificationsCountUpdated, 31);
+            canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.newLocationAvailable, 31);
             super.dispatchDraw(canvas);
             canvas.save();
             float f = this.topGradientAlpha.set(canScrollVertically(-1));
@@ -4347,6 +4348,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.selectedContactsCount = 0;
         this.allowScreenshots = true;
         this.keepOnMyPage = false;
+        this.allowCover = true;
         this.canChangePeer = true;
         this.messageUsers = new ArrayList();
         this.activePage = 1;
@@ -4394,6 +4396,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         this.selectedContactsCount = 0;
         this.allowScreenshots = true;
         this.keepOnMyPage = false;
+        this.allowCover = true;
         this.canChangePeer = true;
         this.messageUsers = new ArrayList();
         this.activePage = 1;
@@ -4885,6 +4888,19 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
     /* JADX INFO: Access modifiers changed from: private */
     public StoryPrivacyBottomSheet whenSelectedShare(Utilities.Callback callback) {
         this.onDone2 = callback;
+        return this;
+    }
+
+    public StoryPrivacyBottomSheet allowCover(boolean z) {
+        this.allowCover = z;
+        ViewPagerFixed viewPagerFixed = this.viewPager;
+        if (viewPagerFixed != null) {
+            for (View view : viewPagerFixed.getViewPages()) {
+                if (view instanceof Page) {
+                    ((Page) view).updateButton(false);
+                }
+            }
+        }
         return this;
     }
 

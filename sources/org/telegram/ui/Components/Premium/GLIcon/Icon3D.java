@@ -68,6 +68,7 @@ public class Icon3D {
     private int xOffsetHandle;
     private static final String[] starModel = {"models/star.binobj"};
     private static final String[] coinModel = {"models/coin_outer.binobj", "models/coin_inner.binobj", "models/coin_logo.binobj", "models/coin_stars.binobj"};
+    private static final String[] dealModel = {"models/coin_outer.binobj", "models/coin_inner.binobj", "models/deal_logo.binobj", "models/coin_stars.binobj"};
     float enterAlpha = 0.0f;
     public float spec1 = 2.0f;
     public float spec2 = 0.13f;
@@ -79,7 +80,7 @@ public class Icon3D {
 
     public Icon3D(Context context, int i) {
         this.type = i;
-        String[] strArr = i == 1 ? coinModel : (i == 0 || i == 2) ? starModel : new String[0];
+        String[] strArr = i == 1 ? coinModel : i == 3 ? dealModel : (i == 0 || i == 2) ? starModel : new String[0];
         int length = strArr.length;
         this.N = length;
         this.mVertices = new FloatBuffer[length];
@@ -228,7 +229,7 @@ public class Icon3D {
             GLES20.glBindTexture(3553, iArr4[0]);
             GLES20.glUniform1i(this.mBackgroundTextureUniformHandle, 2);
         }
-        Bitmap bitmap = SvgHelper.getBitmap(R.raw.start_texture, NotificationCenter.needCheckSystemBarColors, NotificationCenter.needCheckSystemBarColors, -1);
+        Bitmap bitmap = SvgHelper.getBitmap(R.raw.start_texture, NotificationCenter.didApplyNewTheme, NotificationCenter.didApplyNewTheme, -1);
         int[] iArr6 = new int[1];
         GLES20.glGenTextures(1, iArr6, 0);
         GLES20.glBindTexture(3553, iArr6[0]);

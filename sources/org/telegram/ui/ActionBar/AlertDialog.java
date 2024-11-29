@@ -789,6 +789,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         float f = 0.8f;
         this.blurAlpha = 0.8f;
         this.resourcesProvider = resourcesProvider;
+        this.progressViewStyle = i;
         int themedColor = getThemedColor(Theme.key_dialogBackground);
         this.backgroundColor = themedColor;
         boolean z = AndroidUtilities.computePerceivedBrightness(themedColor) < 0.721f;
@@ -809,7 +810,6 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             this.shadowDrawable.getPadding(this.backgroundPaddings);
         }
         this.withCancelDialog = this.progressViewStyle == 3;
-        this.progressViewStyle = i;
     }
 
     private boolean canTextInput(View view) {
@@ -934,7 +934,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.shadowAnimation[i] = new AnimatorSet();
         BitmapDrawable bitmapDrawable = this.shadow[i];
         if (bitmapDrawable != null) {
-            this.shadowAnimation[i].playTogether(ObjectAnimator.ofInt(bitmapDrawable, "alpha", z ? NotificationCenter.notificationsCountUpdated : 0));
+            this.shadowAnimation[i].playTogether(ObjectAnimator.ofInt(bitmapDrawable, "alpha", z ? NotificationCenter.newLocationAvailable : 0));
         }
         this.shadowAnimation[i].setDuration(150L);
         this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialog.8

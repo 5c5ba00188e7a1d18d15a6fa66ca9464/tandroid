@@ -5,6 +5,7 @@ import android.media.MediaCrypto;
 import android.media.MediaCryptoException;
 import android.media.MediaFormat;
 import android.media.metrics.LogSessionId;
+import android.opengl.EGLContext;
 import android.os.Bundle;
 import android.os.SystemClock;
 import com.google.android.exoplayer2.BaseRenderer;
@@ -27,6 +28,7 @@ import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.TimedValueQueue;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.video.MediaCodecVideoRenderer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayDeque;
@@ -689,9 +691,9 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         String str = mediaCodecInfo.name;
         int i = Util.SDK_INT;
         float codecOperatingRateV23 = i < 23 ? -1.0f : getCodecOperatingRateV23(this.targetPlaybackSpeed, this.inputFormat, getStreamFormats());
-        float f = codecOperatingRateV23 > this.assumedMinimumCodecOperatingRate ? codecOperatingRateV23 : -1.0f;
+        float f = codecOperatingRateV23 <= this.assumedMinimumCodecOperatingRate ? -1.0f : codecOperatingRateV23;
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        MediaCodecAdapter.Configuration mediaCodecConfiguration = getMediaCodecConfiguration(mediaCodecInfo, this.inputFormat, mediaCrypto, f);
+        MediaCodecAdapter.Configuration mediaCodecConfiguration = getMediaCodecConfiguration(mediaCodecInfo, this.inputFormat, mediaCrypto, f, this instanceof MediaCodecVideoRenderer ? ((MediaCodecVideoRenderer) this).eglContext : null);
         if (i >= 31) {
             Api31.setLogSessionIdToMediaCodecFormat(mediaCodecConfiguration, getPlayerId());
         }
@@ -999,7 +1001,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         return false;
     }
 
-    protected final MediaCodecAdapter getCodec() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final MediaCodecAdapter getCodec() {
         return this.codec;
     }
 
@@ -1019,7 +1022,7 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
 
     protected abstract List getDecoderInfos(MediaCodecSelector mediaCodecSelector, Format format, boolean z);
 
-    protected abstract MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f);
+    protected abstract MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f, EGLContext eGLContext);
 
     protected final long getOutputStreamOffsetUs() {
         return this.outputStreamOffsetUs;
@@ -1422,7 +1425,8 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
         this.pendingOutputEndOfStream = true;
     }
 
-    protected final void setPendingPlaybackException(ExoPlaybackException exoPlaybackException) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final void setPendingPlaybackException(ExoPlaybackException exoPlaybackException) {
         this.pendingPlaybackException = exoPlaybackException;
     }
 

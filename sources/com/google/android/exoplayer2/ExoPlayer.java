@@ -1,6 +1,7 @@
 package com.google.android.exoplayer2;
 
 import android.content.Context;
+import android.opengl.EGLContext;
 import android.os.Looper;
 import com.google.android.exoplayer2.DefaultLivePlaybackSpeedControl;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -44,6 +45,7 @@ public interface ExoPlayer extends Player {
         Clock clock;
         final Context context;
         long detachSurfaceTimeoutMs;
+        public EGLContext eglContext;
         long foregroundModeTimeoutMs;
         boolean handleAudioBecomingNoisy;
         boolean handleAudioFocus;
@@ -189,6 +191,13 @@ public interface ExoPlayer extends Player {
                     return lambda$setLoadControl$19;
                 }
             };
+            return this;
+        }
+
+        public Builder setLooper(Looper looper) {
+            Assertions.checkState(!this.buildCalled);
+            Assertions.checkNotNull(looper);
+            this.looper = looper;
             return this;
         }
 

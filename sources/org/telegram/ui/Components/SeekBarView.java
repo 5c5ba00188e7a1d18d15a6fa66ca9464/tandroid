@@ -55,6 +55,7 @@ public class SeekBarView extends FrameLayout {
     int lastValue;
     private float lastWidth;
     private int lineWidthDp;
+    private float minProgress;
     private Paint outerPaint1;
     private boolean pressed;
     private boolean pressedDelayed;
@@ -117,6 +118,7 @@ public class SeekBarView extends FrameLayout {
         super(context);
         this.animatedThumbX = new AnimatedFloat(this, 0L, 80L, CubicBezierInterpolator.EASE_OUT);
         this.progressToSet = -100.0f;
+        this.minProgress = -1.0f;
         this.pressedState = new int[]{R.attr.state_enabled, R.attr.state_pressed};
         this.transitionProgress = 1.0f;
         this.lineWidthDp = 3;
@@ -452,6 +454,10 @@ public class SeekBarView extends FrameLayout {
         return build;
     }
 
+    private int minThumbX() {
+        return Math.max((int) (this.minProgress * (getMeasuredWidth() - this.selectorWidth)), 0);
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     public void setSeekBarDrag(boolean z, float f) {
         SeekBarViewDelegate seekBarViewDelegate = this.delegate;
@@ -496,26 +502,26 @@ public class SeekBarView extends FrameLayout {
         return this.twoSided;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:29:0x01aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x01e7, code lost:
     
-        if (r4 > r1) goto L36;
+        if (r4 > r1) goto L39;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x01bf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:30:0x01fc, code lost:
     
         r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x01bd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x01fa, code lost:
     
-        r15.currentRadius = r1;
+        r16.currentRadius = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x01bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x01f8, code lost:
     
-        if (r4 < r1) goto L36;
+        if (r4 < r1) goto L39;
      */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x01dd  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x021a  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x027a  */
     /* JADX WARN: Removed duplicated region for block: B:47:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0225  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0262  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -536,9 +542,10 @@ public class SeekBarView extends FrameLayout {
         this.innerPaint1.setColor(getThemedColor(Theme.key_player_progressBackground));
         float measuredHeight3 = getMeasuredHeight() / 2.0f;
         float f3 = this.selectorWidth / 2.0f;
+        float measuredWidth2 = getMeasuredWidth() - (this.selectorWidth / 2);
         float dp = measuredHeight3 - (AndroidUtilities.dp(this.lineWidthDp) / 2.0f);
         float dp2 = measuredHeight3 + (AndroidUtilities.dp(this.lineWidthDp) / 2.0f);
-        this.rect.set(f3, dp, getMeasuredWidth() - (this.selectorWidth / 2), dp2);
+        this.rect.set(f3, dp, measuredWidth2, dp2);
         drawProgressBar(canvas, this.rect, this.innerPaint1);
         if (this.bufferedProgress > 0.0f) {
             this.innerPaint1.setColor(getThemedColor(Theme.key_player_progressCachedBackground));
@@ -547,9 +554,9 @@ public class SeekBarView extends FrameLayout {
         }
         if (this.twoSided) {
             canvas.drawRect((getMeasuredWidth() / 2) - AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) - AndroidUtilities.dp(6.0f), (getMeasuredWidth() / 2) + AndroidUtilities.dp(1.0f), (getMeasuredHeight() / 2) + AndroidUtilities.dp(6.0f), this.outerPaint1);
-            int measuredWidth2 = getMeasuredWidth();
+            int measuredWidth3 = getMeasuredWidth();
             int i3 = this.selectorWidth;
-            if (i2 > (measuredWidth2 - i3) / 2) {
+            if (i2 > (measuredWidth3 - i3) / 2) {
                 f2 = getMeasuredWidth() / 2;
                 measuredHeight = (getMeasuredHeight() / 2) - AndroidUtilities.dp(1.0f);
                 measuredWidth = (this.selectorWidth / 2) + i2;
@@ -560,8 +567,20 @@ public class SeekBarView extends FrameLayout {
             }
             canvas.drawRect(f2, measuredHeight, measuredWidth, (getMeasuredHeight() / 2) + AndroidUtilities.dp(1.0f), this.outerPaint1);
         } else {
-            this.rect.set(f3, dp, (this.selectorWidth / 2) + i2, dp2);
-            drawProgressBar(canvas, this.rect, this.outerPaint1);
+            float f4 = this.minProgress;
+            if (f4 >= 0.0f) {
+                float f5 = measuredWidth2 - f3;
+                this.rect.set((f4 * f5) + f3, dp, i2 + f3, dp2);
+                drawProgressBar(canvas, this.rect, this.outerPaint1);
+                int alpha = this.outerPaint1.getAlpha();
+                this.rect.set(f3, dp, (this.minProgress * f5) + f3, dp2);
+                this.outerPaint1.setAlpha((int) (alpha * 0.5f));
+                drawProgressBar(canvas, this.rect, this.outerPaint1);
+                this.outerPaint1.setAlpha(alpha);
+            } else {
+                this.rect.set(f3, dp, i2 + f3, dp2);
+                drawProgressBar(canvas, this.rect, this.outerPaint1);
+            }
         }
         if (this.hoverDrawable != null) {
             int dp3 = ((this.selectorWidth / 2) + i2) - AndroidUtilities.dp(16.0f);
@@ -574,22 +593,22 @@ public class SeekBarView extends FrameLayout {
         if (elapsedRealtime > 18) {
             elapsedRealtime = 16;
         }
-        float f4 = this.currentRadius;
-        float f5 = dp5;
-        if (f4 == f5) {
+        float f6 = this.currentRadius;
+        float f7 = dp5;
+        if (f6 == f7) {
             z = false;
-        } else if (f4 < f5) {
-            float dp6 = f4 + (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
+        } else if (f6 < f7) {
+            float dp6 = f6 + (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
             this.currentRadius = dp6;
         } else {
-            float dp7 = f4 - (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
+            float dp7 = f6 - (AndroidUtilities.dp(1.0f) * (elapsedRealtime / 60.0f));
             this.currentRadius = dp7;
         }
-        float f6 = this.transitionProgress;
-        if (f6 < 1.0f) {
-            float f7 = f6 + (elapsedRealtime / 225.0f);
-            this.transitionProgress = f7;
-            if (f7 >= 1.0f) {
+        float f8 = this.transitionProgress;
+        if (f8 < 1.0f) {
+            float f9 = f8 + (elapsedRealtime / 225.0f);
+            this.transitionProgress = f9;
+            if (f9 >= 1.0f) {
                 this.transitionProgress = 1.0f;
             }
             f = this.transitionProgress;
@@ -634,10 +653,17 @@ public class SeekBarView extends FrameLayout {
         this.progressToSet = -100.0f;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0139  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     boolean onTouch(MotionEvent motionEvent) {
         Drawable drawable;
+        int measuredWidth;
+        int measuredWidth2;
         Drawable drawable2;
-        float measuredWidth;
+        float measuredWidth3;
+        int measuredWidth4;
         Drawable drawable3;
         if (motionEvent.getAction() == 0) {
             this.sx = motionEvent.getX();
@@ -652,11 +678,12 @@ public class SeekBarView extends FrameLayout {
                     if (this.thumbX - measuredHeight > motionEvent.getX() || motionEvent.getX() > this.thumbX + this.thumbSize + measuredHeight) {
                         int x = ((int) motionEvent.getX()) - (this.thumbSize / 2);
                         this.thumbX = x;
-                        if (x < 0) {
-                            this.thumbX = 0;
-                        } else if (x > getMeasuredWidth() - this.selectorWidth) {
-                            this.thumbX = getMeasuredWidth() - this.selectorWidth;
+                        if (x < minThumbX()) {
+                            measuredWidth = minThumbX();
+                        } else if (this.thumbX > getMeasuredWidth() - this.selectorWidth) {
+                            measuredWidth = getMeasuredWidth() - this.selectorWidth;
                         }
+                        this.thumbX = measuredWidth;
                     }
                     this.thumbDX = (int) (motionEvent.getX() - this.thumbX);
                     this.pressedDelayed = true;
@@ -666,12 +693,12 @@ public class SeekBarView extends FrameLayout {
             if (this.pressed) {
                 if (motionEvent.getAction() == 1) {
                     if (this.twoSided) {
-                        float measuredWidth2 = (getMeasuredWidth() - this.selectorWidth) / 2;
+                        float measuredWidth5 = (getMeasuredWidth() - this.selectorWidth) / 2;
                         float f = this.thumbX;
-                        if (f >= measuredWidth2) {
-                            setSeekBarDrag(false, (f - measuredWidth2) / measuredWidth2);
+                        if (f >= measuredWidth5) {
+                            setSeekBarDrag(false, (f - measuredWidth5) / measuredWidth5);
                         } else {
-                            setSeekBarDrag(false, -Math.max(0.01f, 1.0f - ((measuredWidth2 - f) / measuredWidth2)));
+                            setSeekBarDrag(false, -Math.max(0.01f, 1.0f - ((measuredWidth5 - f) / measuredWidth5)));
                         }
                     } else {
                         setSeekBarDrag(true, this.thumbX / (getMeasuredWidth() - this.selectorWidth));
@@ -702,11 +729,12 @@ public class SeekBarView extends FrameLayout {
                         if (this.thumbX - measuredHeight2 > motionEvent.getX() || motionEvent.getX() > this.thumbX + this.thumbSize + measuredHeight2) {
                             int x2 = ((int) motionEvent.getX()) - (this.thumbSize / 2);
                             this.thumbX = x2;
-                            if (x2 < 0) {
-                                this.thumbX = 0;
-                            } else if (x2 > getMeasuredWidth() - this.selectorWidth) {
-                                this.thumbX = getMeasuredWidth() - this.selectorWidth;
+                            if (x2 < minThumbX()) {
+                                measuredWidth4 = minThumbX();
+                            } else if (this.thumbX > getMeasuredWidth() - this.selectorWidth) {
+                                measuredWidth4 = getMeasuredWidth() - this.selectorWidth;
                             }
+                            this.thumbX = measuredWidth4;
                         }
                         this.thumbDX = (int) (motionEvent.getX() - this.thumbX);
                         this.pressedDelayed = true;
@@ -723,26 +751,35 @@ public class SeekBarView extends FrameLayout {
             } else if (this.pressed) {
                 int x3 = (int) (motionEvent.getX() - this.thumbDX);
                 this.thumbX = x3;
-                if (x3 < 0) {
-                    this.thumbX = 0;
-                } else if (x3 > getMeasuredWidth() - this.selectorWidth) {
-                    this.thumbX = getMeasuredWidth() - this.selectorWidth;
-                }
-                if (this.reportChanges) {
-                    if (this.twoSided) {
-                        float measuredWidth3 = (getMeasuredWidth() - this.selectorWidth) / 2;
-                        float f2 = this.thumbX;
-                        if (f2 >= measuredWidth3) {
-                            setSeekBarDrag(false, (f2 - measuredWidth3) / measuredWidth3);
-                        } else {
-                            measuredWidth = -Math.max(0.01f, 1.0f - ((measuredWidth3 - f2) / measuredWidth3));
-                        }
-                    } else {
-                        measuredWidth = this.thumbX / (getMeasuredWidth() - this.selectorWidth);
+                if (x3 >= minThumbX()) {
+                    if (this.thumbX > getMeasuredWidth() - this.selectorWidth) {
+                        measuredWidth2 = getMeasuredWidth() - this.selectorWidth;
                     }
-                    setSeekBarDrag(false, measuredWidth);
+                    if (this.reportChanges) {
+                        if (this.twoSided) {
+                            float measuredWidth6 = (getMeasuredWidth() - this.selectorWidth) / 2;
+                            float f2 = this.thumbX;
+                            if (f2 >= measuredWidth6) {
+                                setSeekBarDrag(false, (f2 - measuredWidth6) / measuredWidth6);
+                            } else {
+                                measuredWidth3 = -Math.max(0.01f, 1.0f - ((measuredWidth6 - f2) / measuredWidth6));
+                            }
+                        } else {
+                            measuredWidth3 = this.thumbX / (getMeasuredWidth() - this.selectorWidth);
+                        }
+                        setSeekBarDrag(false, measuredWidth3);
+                    }
+                    if (Build.VERSION.SDK_INT >= 21 && (drawable2 = this.hoverDrawable) != null) {
+                        drawable2.setHotspot(motionEvent.getX(), motionEvent.getY());
+                    }
+                    invalidate();
+                    return true;
                 }
-                if (Build.VERSION.SDK_INT >= 21 && (drawable2 = this.hoverDrawable) != null) {
+                measuredWidth2 = minThumbX();
+                this.thumbX = measuredWidth2;
+                if (this.reportChanges) {
+                }
+                if (Build.VERSION.SDK_INT >= 21) {
                     drawable2.setHotspot(motionEvent.getX(), motionEvent.getY());
                 }
                 invalidate();
@@ -772,6 +809,16 @@ public class SeekBarView extends FrameLayout {
 
     public void setLineWidth(int i) {
         this.lineWidthDp = i;
+    }
+
+    public void setMinProgress(float f) {
+        this.minProgress = f;
+        float progress = getProgress();
+        float f2 = this.minProgress;
+        if (progress < f2) {
+            setProgress(f2, false);
+        }
+        invalidate();
     }
 
     public void setOuterColor(int i) {
@@ -811,10 +858,13 @@ public class SeekBarView extends FrameLayout {
                 this.transitionProgress = 0.0f;
             }
             this.thumbX = ceil;
-            if (ceil >= 0) {
-                measuredWidth2 = ceil > getMeasuredWidth() - this.selectorWidth ? getMeasuredWidth() - this.selectorWidth : 0;
+            if (ceil >= minThumbX()) {
+                if (this.thumbX > getMeasuredWidth() - this.selectorWidth) {
+                    measuredWidth2 = getMeasuredWidth() - this.selectorWidth;
+                }
                 invalidate();
             }
+            measuredWidth2 = minThumbX();
             this.thumbX = measuredWidth2;
             invalidate();
         }

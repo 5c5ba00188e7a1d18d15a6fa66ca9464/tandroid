@@ -657,7 +657,7 @@ public class MessageObject {
             }
             if (z2) {
                 this.maxSizeWidth -= 50;
-                i = NotificationCenter.proxyCheckDone;
+                i = NotificationCenter.didSetNewWallpapper;
             } else {
                 i = NotificationCenter.storyQualityUpdate;
             }
@@ -7069,6 +7069,10 @@ public class MessageObject {
         return true;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:1009:0x14b4, code lost:
+    
+        if ((((org.telegram.tgnet.TLRPC.TL_messageExtendedMediaPreview) r4).flags & 4) != 0) goto L989;
+     */
     /* JADX WARN: Code restructure failed: missing block: B:35:0x00b7, code lost:
     
         if (org.telegram.messenger.ChatObject.isChannelAndNotMegaGroup(r10) != false) goto L35;
@@ -7081,35 +7085,31 @@ public class MessageObject {
     
         r0 = org.telegram.messenger.R.string.ActionSetWallpaperForThisGroup;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:631:0x0cd4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:641:0x0d20, code lost:
     
-        if (isOut() != false) goto L642;
+        if (isOut() != false) goto L652;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:632:0x0d43, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:642:0x0d8f, code lost:
     
         r0 = org.telegram.messenger.R.string.ActionTakeScreenshoot;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:633:0x0d40, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:643:0x0d8c, code lost:
     
         r0 = org.telegram.messenger.R.string.ActionTakeScreenshootYou;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:649:0x0d3e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:659:0x0d8a, code lost:
     
-        if (isOut() != false) goto L642;
+        if (isOut() != false) goto L652;
      */
     /* JADX WARN: Code restructure failed: missing block: B:75:0x01bd, code lost:
     
         if (org.telegram.messenger.ChatObject.isChannelAndNotMegaGroup(r10) != false) goto L35;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:996:0x1455, code lost:
-    
-        if ((((org.telegram.tgnet.TLRPC.TL_messageExtendedMediaPreview) r4).flags & 4) != 0) goto L976;
-     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:1092:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:1105:0x0037  */
     /* JADX WARN: Removed duplicated region for block: B:270:0x0597  */
     /* JADX WARN: Removed duplicated region for block: B:279:0x05b4  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x1654  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x16b3  */
     /* JADX WARN: Removed duplicated region for block: B:297:0x05f0  */
     /* JADX WARN: Removed duplicated region for block: B:299:0x0609  */
     /* JADX WARN: Removed duplicated region for block: B:309:0x0629  */
@@ -7117,25 +7117,26 @@ public class MessageObject {
     /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:334:0x067a  */
     /* JADX WARN: Removed duplicated region for block: B:343:0x06a0  */
-    /* JADX WARN: Removed duplicated region for block: B:432:0x08ca  */
-    /* JADX WARN: Removed duplicated region for block: B:436:0x08d8  */
-    /* JADX WARN: Removed duplicated region for block: B:458:0x0922  */
-    /* JADX WARN: Removed duplicated region for block: B:459:0x0925  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x0962  */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x0966  */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x0b34  */
-    /* JADX WARN: Removed duplicated region for block: B:593:0x0bc8  */
+    /* JADX WARN: Removed duplicated region for block: B:374:0x07b5  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x0916  */
+    /* JADX WARN: Removed duplicated region for block: B:446:0x0924  */
+    /* JADX WARN: Removed duplicated region for block: B:468:0x096e  */
+    /* JADX WARN: Removed duplicated region for block: B:469:0x0971  */
+    /* JADX WARN: Removed duplicated region for block: B:486:0x09ae  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x09b2  */
+    /* JADX WARN: Removed duplicated region for block: B:583:0x0b80  */
+    /* JADX WARN: Removed duplicated region for block: B:603:0x0c14  */
     /* JADX WARN: Removed duplicated region for block: B:6:0x0035  */
-    /* JADX WARN: Removed duplicated region for block: B:914:0x12c9  */
+    /* JADX WARN: Removed duplicated region for block: B:927:0x1328  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0048  */
     /* JADX WARN: Type inference failed for: r2v10 */
-    /* JADX WARN: Type inference failed for: r2v177, types: [android.text.SpannableStringBuilder] */
+    /* JADX WARN: Type inference failed for: r2v182, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v19, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r2v20 */
     /* JADX WARN: Type inference failed for: r2v39 */
     /* JADX WARN: Type inference failed for: r2v57 */
     /* JADX WARN: Type inference failed for: r2v64 */
-    /* JADX WARN: Type inference failed for: r2v75 */
+    /* JADX WARN: Type inference failed for: r2v77 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7188,6 +7189,8 @@ public class MessageObject {
         int i6;
         TLRPC.Chat chat6;
         ArrayList<TLRPC.VideoSize> arrayList;
+        CharSequence spannableStringBuilder;
+        int indexOf2;
         TLObject chat7;
         CharSequence replaceTags;
         TLRPC.Chat chat8;
@@ -7871,13 +7874,35 @@ public class MessageObject {
                                             replaceTags = AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("ActionStarGiveawayPrize", (int) tL_messageActionPrizeStars.stars));
                                         } else if (messageAction instanceof TLRPC.TL_messageActionStarGift) {
                                             TLRPC.TL_messageActionStarGift tL_messageActionStarGift = (TLRPC.TL_messageActionStarGift) messageAction;
-                                            boolean z3 = tLObject2 instanceof TLRPC.User;
-                                            this.messageText = (z3 && ((TLRPC.User) tLObject2).self && !tL_messageActionStarGift.forceIn) ? replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, message.peer_id.user_id)) : (z3 && UserObject.isService(((TLRPC.User) tLObject2).id)) ? TextUtils.replace(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), new String[]{"un1"}, new CharSequence[]{LocaleController.getString(R.string.StarsTransactionUnknown)}) : replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), "un1", tLObject2);
                                             TL_stars.StarGift starGift = tL_messageActionStarGift.gift;
                                             int i21 = starGift != null ? (int) starGift.stars : 0;
-                                            int indexOf2 = this.messageText.toString().indexOf("un2");
+                                            boolean z3 = tLObject2 instanceof TLRPC.User;
+                                            if (z3 && ((TLRPC.User) tLObject2).self && !tL_messageActionStarGift.forceIn) {
+                                                this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftOutbound)), "un1", getUser(abstractMap, longSparseArray, message.peer_id.user_id));
+                                                TLRPC.TL_textWithEntities tL_textWithEntities = tL_messageActionStarGift.message;
+                                                if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text)) {
+                                                    spannableStringBuilder = new SpannableStringBuilder(tL_messageActionStarGift.message.text);
+                                                    addEntitiesToText(spannableStringBuilder, tL_messageActionStarGift.message.entities, isOutOwner(), false, false, false);
+                                                }
+                                                spannableStringBuilder = LocaleController.getString(R.string.ActionStarGift);
+                                            } else if (z3 && UserObject.isService(((TLRPC.User) tLObject2).id)) {
+                                                this.messageText = TextUtils.replace(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), new String[]{"un1"}, new CharSequence[]{LocaleController.getString(R.string.StarsTransactionUnknown)});
+                                                indexOf2 = this.messageText.toString().indexOf("un2");
+                                                if (indexOf2 != -1) {
+                                                    charSequence4 = SpannableStringBuilder.valueOf(this.messageText).replace(indexOf2, indexOf2 + 3, (CharSequence) LocaleController.formatPluralStringComma("Gift2StarsCount", i21));
+                                                }
+                                            } else {
+                                                this.messageText = replaceWithLink(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ActionGiftInbound)), "un1", tLObject2);
+                                                TLRPC.TL_textWithEntities tL_textWithEntities2 = tL_messageActionStarGift.message;
+                                                if (tL_textWithEntities2 != null && !TextUtils.isEmpty(tL_textWithEntities2.text)) {
+                                                    spannableStringBuilder = new SpannableStringBuilder(tL_messageActionStarGift.message.text);
+                                                    addEntitiesToText(spannableStringBuilder, tL_messageActionStarGift.message.entities, isOutOwner(), false, false, false);
+                                                }
+                                                spannableStringBuilder = LocaleController.getString(R.string.ActionStarGift);
+                                            }
+                                            this.messageTextShort = spannableStringBuilder;
+                                            indexOf2 = this.messageText.toString().indexOf("un2");
                                             if (indexOf2 != -1) {
-                                                charSequence4 = SpannableStringBuilder.valueOf(this.messageText).replace(indexOf2, indexOf2 + 3, (CharSequence) LocaleController.formatPluralStringComma("Gift2StarsCount", i21));
                                             }
                                         } else {
                                             String str18 = "";
@@ -8109,20 +8134,20 @@ public class MessageObject {
                                                             } else if (i23 > 0 && i23 != arrayList3.size()) {
                                                                 replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerChannelPlural", i23);
                                                             } else if (i24 <= 0 || i24 == arrayList3.size()) {
-                                                                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                                                                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
                                                                 int i25 = 0;
                                                                 while (i25 < arrayList3.size()) {
                                                                     String str22 = str21;
-                                                                    spannableStringBuilder.append(replaceWithLink(str22, str22, (TLObject) arrayList3.get(i25)));
+                                                                    spannableStringBuilder2.append(replaceWithLink(str22, str22, (TLObject) arrayList3.get(i25)));
                                                                     String str23 = str19;
                                                                     if (i25 < arrayList3.size() - 1) {
-                                                                        spannableStringBuilder.append((CharSequence) str23);
+                                                                        spannableStringBuilder2.append((CharSequence) str23);
                                                                     }
                                                                     i25++;
                                                                     str19 = str23;
                                                                     str21 = str22;
                                                                 }
-                                                                replaceCharSequence = AndroidUtilities.replaceCharSequence(str21, LocaleController.getString(R.string.ActionRequestedPeer), spannableStringBuilder);
+                                                                replaceCharSequence = AndroidUtilities.replaceCharSequence(str21, LocaleController.getString(R.string.ActionRequestedPeer), spannableStringBuilder2);
                                                             } else {
                                                                 replaceCharSequence = LocaleController.getPluralString("ActionRequestedPeerChatPlural", i24);
                                                             }
@@ -8371,7 +8396,9 @@ public class MessageObject {
                                                                                     }
                                                                                 }
                                                                             } else if (messageAction instanceof TLRPC.TL_messageActionPaymentSent) {
-                                                                                generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()));
+                                                                                generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()), false);
+                                                                            } else if (messageAction instanceof TLRPC.TL_messageActionPaymentSentMe) {
+                                                                                generatePaymentSentMessageText(getUser(abstractMap, longSparseArray, getDialogId()), true);
                                                                             } else {
                                                                                 boolean z8 = messageAction instanceof TLRPC.TL_messageActionBotAllowed;
                                                                                 if (z8) {
@@ -10246,8 +10273,9 @@ public class MessageObject {
         }
     }
 
-    public void generatePaymentSentMessageText(TLRPC.User user) {
+    public void generatePaymentSentMessageText(TLRPC.User user, boolean z) {
         String str;
+        String formatString;
         if (user == null) {
             user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(getDialogId()));
         }
@@ -10265,7 +10293,15 @@ public class MessageObject {
             str = "<error>";
         }
         MessageObject messageObject = this.replyMessageObject;
-        this.messageText = (messageObject == null || !(getMedia(messageObject) instanceof TLRPC.TL_messageMediaInvoice)) ? this.messageOwner.action.recurring_init ? LocaleController.formatString(R.string.PaymentSuccessfullyPaidNoItemRecurrent, str, firstName) : LocaleController.formatString("PaymentSuccessfullyPaidNoItem", R.string.PaymentSuccessfullyPaidNoItem, str, firstName) : this.messageOwner.action.recurring_init ? LocaleController.formatString(R.string.PaymentSuccessfullyPaidRecurrent, str, firstName, getMedia(this.replyMessageObject).title) : LocaleController.formatString("PaymentSuccessfullyPaid", R.string.PaymentSuccessfullyPaid, str, firstName, getMedia(this.replyMessageObject).title);
+        if (messageObject == null || !(getMedia(messageObject) instanceof TLRPC.TL_messageMediaInvoice)) {
+            TLRPC.MessageAction messageAction2 = this.messageOwner.action;
+            int i = messageAction2.subscription_until_date;
+            formatString = i != 0 ? z ? LocaleController.formatString(R.string.PaymentSuccessfullyPaidMeNoItemSubscription, firstName, str, LocaleController.formatDateTime(i, false)) : LocaleController.formatString(R.string.PaymentSuccessfullyPaidSubscriptionNoItem, str, firstName, LocaleController.formatDateTime(i, false)) : (!messageAction2.recurring_init || z) ? LocaleController.formatString(R.string.PaymentSuccessfullyPaidNoItem, str, firstName) : LocaleController.formatString(R.string.PaymentSuccessfullyPaidNoItemRecurrent, str, firstName);
+        } else {
+            TLRPC.MessageAction messageAction3 = this.messageOwner.action;
+            formatString = messageAction3.subscription_until_date != 0 ? z ? LocaleController.formatString(R.string.PaymentSuccessfullyPaidMeSubscription, firstName, str, getMedia(this.replyMessageObject).title, LocaleController.formatDateTime(this.messageOwner.action.subscription_until_date, false)) : LocaleController.formatString(R.string.PaymentSuccessfullyPaidSubscription, str, firstName, getMedia(this.replyMessageObject).title, LocaleController.formatDateTime(this.messageOwner.action.subscription_until_date, false)) : (!messageAction3.recurring_init || z) ? LocaleController.formatString(R.string.PaymentSuccessfullyPaid, str, firstName, getMedia(this.replyMessageObject).title) : LocaleController.formatString(R.string.PaymentSuccessfullyPaidRecurrent, str, firstName, getMedia(this.replyMessageObject).title);
+        }
+        this.messageText = formatString;
         this.messageText = StarsIntroActivity.replaceStars(this.messageText);
     }
 
@@ -12581,7 +12617,7 @@ public class MessageObject {
         TLRPC.Message message = this.messageOwner;
         if (message.send_state != 2 || message.id >= 0) {
             if (this.scheduled && message.id > 0) {
-                if (message.date < ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - (this.messageOwner.video_processing_pending ? NotificationCenter.customTypefacesLoaded : 60)) {
+                if (message.date < ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - (this.messageOwner.video_processing_pending ? NotificationCenter.uploadStoryProgress : 60)) {
                 }
             }
             return false;

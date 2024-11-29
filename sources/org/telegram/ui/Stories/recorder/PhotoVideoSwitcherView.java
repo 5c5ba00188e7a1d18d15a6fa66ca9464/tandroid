@@ -20,7 +20,7 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.FlashViews;
 
 /* loaded from: classes5.dex */
-public class PhotoVideoSwitcherView extends View implements FlashViews.Invertable {
+public abstract class PhotoVideoSwitcherView extends View implements FlashViews.Invertable {
     private ValueAnimator animator;
     private boolean mIsScrolling;
     private boolean mIsTouch;
@@ -95,6 +95,8 @@ public class PhotoVideoSwitcherView extends View implements FlashViews.Invertabl
         invalidate();
     }
 
+    protected abstract boolean allowTouch();
+
     @Override // android.view.View
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -119,7 +121,7 @@ public class PhotoVideoSwitcherView extends View implements FlashViews.Invertabl
         canvas.restore();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:10:0x001c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x001d, code lost:
     
         if (r0 != 3) goto L32;
      */
@@ -135,6 +137,9 @@ public class PhotoVideoSwitcherView extends View implements FlashViews.Invertabl
         this.mVelocityTracker.addMovement(motionEvent);
         int action = motionEvent.getAction();
         if (action == 0) {
+            if (!allowTouch()) {
+                return false;
+            }
             this.mIsTouch = true;
             this.modeAtTouchDown = this.mode;
             this.mLastTouchTime = System.currentTimeMillis();

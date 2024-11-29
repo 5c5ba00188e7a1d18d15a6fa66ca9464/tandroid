@@ -641,35 +641,35 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         
             if (r19.this$0.participantsStartRow != (-1)) goto L297;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:276:0x0700, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:276:0x06fa, code lost:
         
             r8 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:310:0x06fe, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:310:0x06f8, code lost:
         
             if (r19.this$0.antiSpamRow > r19.this$0.recentActionsRow) goto L297;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:395:0x08e3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:395:0x08dd, code lost:
         
             if (r19.this$0.currentChat.megagroup == false) goto L391;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:396:0x0912, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:396:0x090c, code lost:
         
             r7 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:408:0x098e, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:408:0x0988, code lost:
         
             if (r21 != (r4 - 1)) goto L410;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:429:0x0a19, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:429:0x0a13, code lost:
         
             if (r21 == (r4 - r7)) goto L411;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:445:0x0a37, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:445:0x0a31, code lost:
         
             if (r21 != (r4 - 1)) goto L410;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:462:0x0910, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:462:0x090a, code lost:
         
             if (r19.this$0.currentChat.megagroup == false) goto L391;
          */
@@ -711,30 +711,28 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             String str3;
             String string2;
             int i10;
-            int i11;
-            String str4;
             TextInfoPrivacyCell textInfoPrivacyCell;
             Context context;
-            int i12;
+            int i11;
             TextInfoPrivacyCell textInfoPrivacyCell2;
             TextInfoPrivacyCell textInfoPrivacyCell3;
-            int i13;
-            String str5;
+            int i12;
+            String str4;
             String string3;
             String string4;
             boolean z7;
             boolean z8;
-            int i14;
-            String str6;
+            int i13;
+            String str5;
             String string5;
             boolean z9;
             boolean z10;
-            String str7;
+            String str6;
             CheckBoxCell checkBoxCell;
             String string6;
             boolean z11;
-            int i15 = 1;
-            i15 = 1;
+            int i14 = 1;
+            i14 = 1;
             switch (viewHolder.getItemViewType()) {
                 case 0:
                     ManageChatUserCell manageChatUserCell = (ManageChatUserCell) viewHolder.itemView;
@@ -778,7 +776,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         j3 = 0;
                         z4 = false;
                     }
-                    int i16 = i3;
+                    int i15 = i3;
                     if (j > 0) {
                         z5 = z;
                         chat = ChatUsersActivity.this.getMessagesController().getUser(Long.valueOf(j));
@@ -793,7 +791,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             if (ChatUsersActivity.this.type != 0) {
                                 if (ChatUsersActivity.this.type != 1) {
                                     if (ChatUsersActivity.this.type == 2) {
-                                        formatJoined = (!z5 || i16 == 0) ? null : LocaleController.formatJoined(i16);
+                                        formatJoined = (!z5 || i15 == 0) ? null : LocaleController.formatJoined(i15);
                                         break;
                                     }
                                 } else {
@@ -899,9 +897,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                     textInfoPrivacyCell = textInfoPrivacyCell4;
                                 }
                                 context = this.mContext;
-                                i12 = R.drawable.greydivider_bottom;
+                                i11 = R.drawable.greydivider_bottom;
                                 textInfoPrivacyCell2 = textInfoPrivacyCell;
-                                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, Theme.key_windowBackgroundGrayShadow));
+                                textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i11, Theme.key_windowBackgroundGrayShadow));
                             } else if (ChatUsersActivity.this.isChannel) {
                                 i9 = R.string.NoBlockedChannel2;
                                 str3 = "NoBlockedChannel2";
@@ -912,17 +910,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             textInfoPrivacyCell4.setText(LocaleController.getString(str3, i9));
                             textInfoPrivacyCell = textInfoPrivacyCell4;
                             context = this.mContext;
-                            i12 = R.drawable.greydivider_bottom;
+                            i11 = R.drawable.greydivider_bottom;
                             textInfoPrivacyCell2 = textInfoPrivacyCell;
-                            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, Theme.key_windowBackgroundGrayShadow));
+                            textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i11, Theme.key_windowBackgroundGrayShadow));
                         }
                     } else {
                         textInfoPrivacyCell4.setText(LocaleController.getString("ChannelAntiSpamInfo", R.string.ChannelAntiSpamInfo));
                         textInfoPrivacyCell3 = textInfoPrivacyCell4;
                         context = this.mContext;
-                        i12 = R.drawable.greydivider;
+                        i11 = R.drawable.greydivider;
                         textInfoPrivacyCell2 = textInfoPrivacyCell3;
-                        textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i11, Theme.key_windowBackgroundGrayShadow));
                         break;
                     }
                     break;
@@ -948,18 +946,11 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             if (ChatUsersActivity.this.addNew2Row != -1 || ((!ChatUsersActivity.this.loadingUsers || ChatUsersActivity.this.firstLoaded) && ChatUsersActivity.this.membersHeaderRow == -1 && !ChatUsersActivity.this.participants.isEmpty())) {
                                 r8 = true;
                             }
-                            if (ChatUsersActivity.this.isChannel) {
-                                i11 = R.string.AddSubscriber;
-                                str4 = "AddSubscriber";
-                            } else {
-                                i11 = R.string.AddMember;
-                                str4 = "AddMember";
-                            }
-                            string2 = LocaleController.getString(str4, i11);
+                            string2 = LocaleController.getString(ChatUsersActivity.this.isChannel ? R.string.AddSubscriber : R.string.AddMember);
                             i10 = R.drawable.msg_contact_add;
                         }
                     } else if (i == ChatUsersActivity.this.recentActionsRow) {
-                        string2 = LocaleController.getString("EventLog", R.string.EventLog);
+                        string2 = LocaleController.getString(R.string.EventLog);
                         i10 = R.drawable.msg_log;
                         break;
                     } else if (i == ChatUsersActivity.this.addNew2Row) {
@@ -980,16 +971,16 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     if (i == ChatUsersActivity.this.addNewSectionRow || (ChatUsersActivity.this.type == 3 && i == ChatUsersActivity.this.participantsDividerRow && ChatUsersActivity.this.addNewRow == -1 && ChatUsersActivity.this.participantsStartRow == -1)) {
                         textInfoPrivacyCell = viewHolder.itemView;
                         context = this.mContext;
-                        i12 = R.drawable.greydivider_bottom;
+                        i11 = R.drawable.greydivider_bottom;
                         textInfoPrivacyCell2 = textInfoPrivacyCell;
-                        textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i11, Theme.key_windowBackgroundGrayShadow));
                         break;
                     } else {
                         textInfoPrivacyCell3 = viewHolder.itemView;
                         context = this.mContext;
-                        i12 = R.drawable.greydivider;
+                        i11 = R.drawable.greydivider;
                         textInfoPrivacyCell2 = textInfoPrivacyCell3;
-                        textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i12, Theme.key_windowBackgroundGrayShadow));
+                        textInfoPrivacyCell2.setBackgroundDrawable(Theme.getThemedDrawableByKey(context, i11, Theme.key_windowBackgroundGrayShadow));
                     }
                     break;
                 case 5:
@@ -1002,24 +993,24 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                 headerCell.setText(string3);
                                 break;
                             } else {
-                                i13 = R.string.ChannelBlockedUsers;
-                                str5 = "ChannelBlockedUsers";
+                                i12 = R.string.ChannelBlockedUsers;
+                                str4 = "ChannelBlockedUsers";
                             }
                         } else {
-                            i13 = R.string.ChannelRestrictedUsers;
-                            str5 = "ChannelRestrictedUsers";
+                            i12 = R.string.ChannelRestrictedUsers;
+                            str4 = "ChannelRestrictedUsers";
                         }
                     } else if (i == ChatUsersActivity.this.permissionsSectionRow) {
-                        i13 = R.string.ChannelPermissionsHeader;
-                        str5 = "ChannelPermissionsHeader";
+                        i12 = R.string.ChannelPermissionsHeader;
+                        str4 = "ChannelPermissionsHeader";
                     } else if (i == ChatUsersActivity.this.slowmodeRow) {
-                        i13 = R.string.Slowmode;
-                        str5 = "Slowmode";
+                        i12 = R.string.Slowmode;
+                        str4 = "Slowmode";
                     } else if (i == ChatUsersActivity.this.gigaHeaderRow) {
-                        i13 = R.string.BroadcastGroup;
-                        str5 = "BroadcastGroup";
+                        i12 = R.string.BroadcastGroup;
+                        str4 = "BroadcastGroup";
                     }
-                    string3 = LocaleController.getString(str5, i13);
+                    string3 = LocaleController.getString(str4, i12);
                     headerCell.setText(string3);
                     break;
                 case 6:
@@ -1030,10 +1021,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     final TextCheckCell2 textCheckCell2 = (TextCheckCell2) viewHolder.itemView;
                     textCheckCell2.getCheckBox().setDrawIconType(1);
                     Switch checkBox = textCheckCell2.getCheckBox();
-                    int i17 = Theme.key_fill_RedNormal;
-                    int i18 = Theme.key_switch2TrackChecked;
-                    int i19 = Theme.key_windowBackgroundWhite;
-                    checkBox.setColors(i17, i18, i19, i19);
+                    int i16 = Theme.key_fill_RedNormal;
+                    int i17 = Theme.key_switch2TrackChecked;
+                    int i18 = Theme.key_windowBackgroundWhite;
+                    checkBox.setColors(i16, i17, i18, i18);
                     boolean z12 = textCheckCell2.getTag() != null && ((Integer) textCheckCell2.getTag()).intValue() == i;
                     textCheckCell2.setTag(Integer.valueOf(i));
                     if (i == ChatUsersActivity.this.changeInfoRow) {
@@ -1052,7 +1043,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         } else if (i == ChatUsersActivity.this.dontRestrictBoostersRow) {
                             textCheckCell2.setTextAndCheck(LocaleController.getString(R.string.GroupNotRestrictBoosters), ChatUsersActivity.this.isEnabledNotRestrictBoosters, false, z12);
                             textCheckCell2.getCheckBox().setDrawIconType(0);
-                            textCheckCell2.getCheckBox().setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, i19, i19);
+                            textCheckCell2.getCheckBox().setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, i18, i18);
                         } else if (i == ChatUsersActivity.this.sendMediaRow) {
                             int sendMediaSelectedCount = ChatUsersActivity.this.getSendMediaSelectedCount();
                             textCheckCell2.setTextAndCheck(LocaleController.getString("UserRestrictionsSendMedia", R.string.UserRestrictionsSendMedia), sendMediaSelectedCount > 0, true, z12);
@@ -1096,31 +1087,31 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                     break;
                                 }
                             } else if (!ChatObject.isChannel(ChatUsersActivity.this.currentChat) || ChatUsersActivity.this.currentChat.megagroup) {
-                                i14 = R.string.GroupContacts;
-                                str6 = "GroupContacts";
+                                i13 = R.string.GroupContacts;
+                                str5 = "GroupContacts";
                             } else {
-                                i14 = R.string.ChannelContacts;
-                                str6 = "ChannelContacts";
+                                i13 = R.string.ChannelContacts;
+                                str5 = "ChannelContacts";
                             }
                         } else {
-                            i14 = R.string.ChannelBots;
-                            str6 = "ChannelBots";
+                            i13 = R.string.ChannelBots;
+                            str5 = "ChannelBots";
                         }
                     } else if (!ChatObject.isChannel(ChatUsersActivity.this.currentChat) || ChatUsersActivity.this.currentChat.megagroup) {
-                        i14 = R.string.ChannelOtherMembers;
-                        str6 = "ChannelOtherMembers";
+                        i13 = R.string.ChannelOtherMembers;
+                        str5 = "ChannelOtherMembers";
                     } else {
-                        i14 = R.string.ChannelOtherSubscribers;
-                        str6 = "ChannelOtherSubscribers";
+                        i13 = R.string.ChannelOtherSubscribers;
+                        str5 = "ChannelOtherSubscribers";
                     }
-                    graySectionCell.setText(LocaleController.getString(str6, i14));
+                    graySectionCell.setText(LocaleController.getString(str5, i13));
                     break;
                 case 11:
                     FlickerLoadingView flickerLoadingView = (FlickerLoadingView) viewHolder.itemView;
                     if (ChatUsersActivity.this.type == 0 && ChatUsersActivity.this.info != null) {
-                        i15 = ChatUsersActivity.this.info.kicked_count;
+                        i14 = ChatUsersActivity.this.info.kicked_count;
                     }
-                    flickerLoadingView.setItemsCount(i15);
+                    flickerLoadingView.setItemsCount(i14);
                     break;
                 case 12:
                     TextCell textCell = (TextCell) viewHolder.itemView;
@@ -1160,9 +1151,9 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                                                     z9 = (ChatUsersActivity.this.defaultBannedRights.embed_links || ChatUsersActivity.this.defaultBannedRights.send_plain) ? false : true;
                                                 }
                                                 z10 = false;
-                                                str7 = "";
+                                                str6 = "";
                                                 checkBoxCell = checkBoxCell2;
-                                                checkBoxCell.setText(string5, str7, z9, z10, z13);
+                                                checkBoxCell.setText(string5, str6, z9, z10, z13);
                                                 break;
                                             } else {
                                                 string6 = LocaleController.getString("SendMediaPermissionRound", R.string.SendMediaPermissionRound);
@@ -1192,13 +1183,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         string6 = LocaleController.getString("SendMediaPermissionPhotos", R.string.SendMediaPermissionPhotos);
                         z11 = ChatUsersActivity.this.defaultBannedRights.send_photos;
                     }
-                    String str8 = string6;
+                    String str7 = string6;
                     z9 = !z11;
                     z10 = true;
                     checkBoxCell = checkBoxCell2;
-                    string5 = str8;
-                    str7 = "";
-                    checkBoxCell.setText(string5, str7, z9, z10, z13);
+                    string5 = str7;
+                    str6 = "";
+                    checkBoxCell.setText(string5, str6, z9, z10, z13);
                     break;
                 case 16:
                     TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
@@ -2685,7 +2676,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             return 60;
         }
         if (i == 4) {
-            return NotificationCenter.customTypefacesLoaded;
+            return NotificationCenter.uploadStoryProgress;
         }
         if (i == 5) {
             return 900;

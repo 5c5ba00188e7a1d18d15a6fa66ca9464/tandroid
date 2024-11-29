@@ -187,7 +187,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
                     SizeNotifierFrameLayout sizeNotifierFrameLayout2 = SizeNotifierFrameLayout.this;
                     Drawable drawable = i == 0 ? sizeNotifierFrameLayout2.oldBackgroundDrawable : sizeNotifierFrameLayout2.backgroundDrawable;
                     if (drawable != null) {
-                        drawable.setAlpha((i != 1 || SizeNotifierFrameLayout.this.oldBackgroundDrawable == null || SizeNotifierFrameLayout.this.parentLayout == null) ? NotificationCenter.notificationsCountUpdated : (int) (SizeNotifierFrameLayout.this.themeAnimationValue * 255.0f));
+                        drawable.setAlpha((i != 1 || SizeNotifierFrameLayout.this.oldBackgroundDrawable == null || SizeNotifierFrameLayout.this.parentLayout == null) ? NotificationCenter.newLocationAvailable : (int) (SizeNotifierFrameLayout.this.themeAnimationValue * 255.0f));
                         SizeNotifierFrameLayout sizeNotifierFrameLayout3 = SizeNotifierFrameLayout.this;
                         if (i == 0 ? sizeNotifierFrameLayout3.oldBackgroundMotion : sizeNotifierFrameLayout3.backgroundMotion) {
                             f = SizeNotifierFrameLayout.this.parallaxScale;
@@ -554,7 +554,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         if (this.parallaxEffect == null) {
             WallpaperParallaxEffect wallpaperParallaxEffect2 = new WallpaperParallaxEffect(getContext());
             this.parallaxEffect = wallpaperParallaxEffect2;
-            wallpaperParallaxEffect2.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda7
+            wallpaperParallaxEffect2.setCallback(new WallpaperParallaxEffect.Callback() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda6
                 @Override // org.telegram.ui.Components.WallpaperParallaxEffect.Callback
                 public final void onOffsetsChanged(int i, int i2, float f) {
                     SizeNotifierFrameLayout.this.lambda$checkMotion$0(i, i2, f);
@@ -595,7 +595,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         }
         Iterator it2 = this.views.iterator();
         while (it2.hasNext()) {
-            ((IViewWithInvalidateCallback) it2.next()).listenInvalidate(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda8
+            ((IViewWithInvalidateCallback) it2.next()).listenInvalidate(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     SizeNotifierFrameLayout.this.updateBlurContent();
@@ -735,7 +735,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             return;
         }
         updateBlurShaderPosition(f, z);
-        paint.setAlpha(NotificationCenter.notificationsCountUpdated);
+        paint.setAlpha(NotificationCenter.newLocationAvailable);
         if (this.blurCrossfadeProgress == 1.0f || this.selectedBlurPaint2.getShader() == null) {
             canvas.drawCircle(f2, f3, f4, paint);
             canvas.drawCircle(f2, f3, f4, this.selectedBlurPaint);
@@ -770,7 +770,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
                 return;
             }
             updateBlurShaderPosition(f, z);
-            paint.setAlpha(NotificationCenter.notificationsCountUpdated);
+            paint.setAlpha(NotificationCenter.newLocationAvailable);
             if (this.blurCrossfadeProgress == 1.0f || this.selectedBlurPaint2.getShader() == null) {
                 canvas.drawRect(rect, paint);
                 canvas.drawRect(rect, this.selectedBlurPaint);
@@ -1056,7 +1056,7 @@ public class SizeNotifierFrameLayout extends FrameLayout {
             this.keyboardHeight = measureKeyboardHeight();
             android.graphics.Point point = AndroidUtilities.displaySize;
             final boolean z = point.x > point.y;
-            post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda6
+            post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayout$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     SizeNotifierFrameLayout.this.lambda$notifyHeightChanged$1(z);

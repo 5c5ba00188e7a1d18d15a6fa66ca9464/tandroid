@@ -48,6 +48,72 @@ public class TL_stars {
         }
     }
 
+    public static class StarsAmount extends TLObject {
+        public static final int constructor = -1145654109;
+        public long amount;
+        public int nanos;
+
+        public StarsAmount() {
+        }
+
+        public StarsAmount(long j) {
+            this.amount = j;
+            this.nanos = 0;
+        }
+
+        public static StarsAmount TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+            if (-1145654109 != i) {
+                if (z) {
+                    throw new RuntimeException(String.format("can't parse magic %x in StarsAmount", Integer.valueOf(i)));
+                }
+                return null;
+            }
+            StarsAmount starsAmount = new StarsAmount();
+            starsAmount.readParams(abstractSerializedData, z);
+            return starsAmount;
+        }
+
+        public boolean equals(StarsAmount starsAmount) {
+            return starsAmount != null && this.amount == starsAmount.amount && this.nanos == starsAmount.nanos;
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+            this.amount = abstractSerializedData.readInt64(z);
+            this.nanos = abstractSerializedData.readInt32(z);
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            abstractSerializedData.writeInt32(constructor);
+            abstractSerializedData.writeInt64(this.amount);
+            abstractSerializedData.writeInt32(this.nanos);
+        }
+    }
+
+    public static class StarsStatus extends TLObject {
+        public int flags;
+        public String next_offset;
+        public long subscriptions_missing_balance;
+        public String subscriptions_next_offset;
+        public StarsAmount balance = new StarsAmount(0);
+        public ArrayList<StarsSubscription> subscriptions = new ArrayList<>();
+        public ArrayList<StarsTransaction> history = new ArrayList<>();
+        public ArrayList<TLRPC.Chat> chats = new ArrayList<>();
+        public ArrayList<TLRPC.User> users = new ArrayList<>();
+
+        public static StarsStatus TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+            StarsStatus tL_payments_starsStatus = i != -1141231252 ? i != 1822222573 ? null : new TL_payments_starsStatus() : new TL_payments_starsStatus_layer194();
+            if (tL_payments_starsStatus == null && z) {
+                throw new RuntimeException(String.format("can't parse magic %x in StarsStatus", Integer.valueOf(i)));
+            }
+            if (tL_payments_starsStatus != null) {
+                tL_payments_starsStatus.readParams(abstractSerializedData, z);
+            }
+            return tL_payments_starsStatus;
+        }
+    }
+
     public static class StarsSubscription extends TLObject {
         public boolean bot_canceled;
         public boolean can_refulfill;
@@ -79,7 +145,6 @@ public class TL_stars {
         public byte[] bot_payload;
         public int date;
         public String description;
-        public ArrayList<TLRPC.MessageMedia> extended_media = new ArrayList<>();
         public boolean failed;
         public int flags;
         public boolean floodskip;
@@ -96,12 +161,16 @@ public class TL_stars {
         public boolean refund;
         public TLRPC.Peer sent_by;
         public StarGift stargift;
-        public long stars;
+        public StarsAmount starref_amount;
+        public int starref_commission_permille;
+        public TLRPC.Peer starref_peer;
         public boolean subscription;
         public int subscription_period;
         public String title;
         public int transaction_date;
         public String transaction_url;
+        public StarsAmount stars = new StarsAmount(0);
+        public ArrayList<TLRPC.MessageMedia> extended_media = new ArrayList<>();
 
         public static StarsTransaction TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
             StarsTransaction tL_starsTransaction_layer182;
@@ -121,11 +190,14 @@ public class TL_stars {
                 case TL_starsTransaction_layer185.constructor /* 766853519 */:
                     tL_starsTransaction_layer182 = new TL_starsTransaction_layer185();
                     break;
-                case TL_starsTransaction.constructor /* 903148150 */:
-                    tL_starsTransaction_layer182 = new TL_starsTransaction();
+                case TL_starsTransaction_layer194.constructor /* 903148150 */:
+                    tL_starsTransaction_layer182 = new TL_starsTransaction_layer194();
                     break;
                 case TL_starsTransaction_layer186.constructor /* 1127934763 */:
                     tL_starsTransaction_layer182 = new TL_starsTransaction_layer186();
+                    break;
+                case TL_starsTransaction.constructor /* 1692387622 */:
+                    tL_starsTransaction_layer182 = new TL_starsTransaction();
                     break;
                 default:
                     tL_starsTransaction_layer182 = null;
@@ -238,7 +310,7 @@ public class TL_stars {
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TL_payments_starsStatus.TLdeserialize(abstractSerializedData, i, z);
+            return StarsStatus.TLdeserialize(abstractSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -310,7 +382,7 @@ public class TL_stars {
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TL_payments_starsStatus.TLdeserialize(abstractSerializedData, i, z);
+            return StarsStatus.TLdeserialize(abstractSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -353,7 +425,7 @@ public class TL_stars {
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TL_payments_starsStatus.TLdeserialize(abstractSerializedData, i, z);
+            return StarsStatus.TLdeserialize(abstractSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -387,34 +459,13 @@ public class TL_stars {
         }
     }
 
-    public static class TL_payments_starsStatus extends TLObject {
-        public static final int constructor = -1141231252;
-        public long balance;
-        public int flags;
-        public String next_offset;
-        public long subscriptions_missing_balance;
-        public String subscriptions_next_offset;
-        public ArrayList<StarsSubscription> subscriptions = new ArrayList<>();
-        public ArrayList<StarsTransaction> history = new ArrayList<>();
-        public ArrayList<TLRPC.Chat> chats = new ArrayList<>();
-        public ArrayList<TLRPC.User> users = new ArrayList<>();
-
-        public static TL_payments_starsStatus TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            if (-1141231252 != i) {
-                if (z) {
-                    throw new RuntimeException(String.format("can't parse magic %x in TL_payments_starsStatus", Integer.valueOf(i)));
-                }
-                return null;
-            }
-            TL_payments_starsStatus tL_payments_starsStatus = new TL_payments_starsStatus();
-            tL_payments_starsStatus.readParams(abstractSerializedData, z);
-            return tL_payments_starsStatus;
-        }
+    public static class TL_payments_starsStatus extends StarsStatus {
+        public static final int constructor = 1822222573;
 
         @Override // org.telegram.tgnet.TLObject
         public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
             this.flags = abstractSerializedData.readInt32(z);
-            this.balance = abstractSerializedData.readInt64(z);
+            this.balance = StarsAmount.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 2) != 0) {
                 int readInt32 = abstractSerializedData.readInt32(z);
                 if (readInt32 != 481674261) {
@@ -494,7 +545,132 @@ public class TL_stars {
         public void serializeToStream(AbstractSerializedData abstractSerializedData) {
             abstractSerializedData.writeInt32(constructor);
             abstractSerializedData.writeInt32(this.flags);
-            abstractSerializedData.writeInt64(this.balance);
+            this.balance.serializeToStream(abstractSerializedData);
+            if ((this.flags & 2) != 0) {
+                abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+                int size = this.subscriptions.size();
+                abstractSerializedData.writeInt32(size);
+                for (int i = 0; i < size; i++) {
+                    this.subscriptions.get(i).serializeToStream(abstractSerializedData);
+                }
+            }
+            if ((this.flags & 4) != 0) {
+                abstractSerializedData.writeString(this.subscriptions_next_offset);
+            }
+            if ((this.flags & 16) != 0) {
+                abstractSerializedData.writeInt64(this.subscriptions_missing_balance);
+            }
+            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+            int size2 = this.history.size();
+            abstractSerializedData.writeInt32(size2);
+            for (int i2 = 0; i2 < size2; i2++) {
+                this.history.get(i2).serializeToStream(abstractSerializedData);
+            }
+            if ((this.flags & 1) != 0) {
+                abstractSerializedData.writeString(this.next_offset);
+            }
+            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+            int size3 = this.chats.size();
+            abstractSerializedData.writeInt32(size3);
+            for (int i3 = 0; i3 < size3; i3++) {
+                this.chats.get(i3).serializeToStream(abstractSerializedData);
+            }
+            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+            int size4 = this.users.size();
+            abstractSerializedData.writeInt32(size4);
+            for (int i4 = 0; i4 < size4; i4++) {
+                this.users.get(i4).serializeToStream(abstractSerializedData);
+            }
+        }
+    }
+
+    public static class TL_payments_starsStatus_layer194 extends TL_payments_starsStatus {
+        public static final int constructor = -1141231252;
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_payments_starsStatus, org.telegram.tgnet.TLObject
+        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+            this.flags = abstractSerializedData.readInt32(z);
+            this.balance = new StarsAmount(abstractSerializedData.readInt64(z));
+            if ((this.flags & 2) != 0) {
+                int readInt32 = abstractSerializedData.readInt32(z);
+                if (readInt32 != 481674261) {
+                    if (z) {
+                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
+                    }
+                    return;
+                }
+                int readInt322 = abstractSerializedData.readInt32(z);
+                for (int i = 0; i < readInt322; i++) {
+                    StarsSubscription TLdeserialize = StarsSubscription.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                    if (TLdeserialize == null) {
+                        return;
+                    }
+                    this.subscriptions.add(TLdeserialize);
+                }
+            }
+            if ((this.flags & 4) != 0) {
+                this.subscriptions_next_offset = abstractSerializedData.readString(z);
+            }
+            if ((this.flags & 16) != 0) {
+                this.subscriptions_missing_balance = abstractSerializedData.readInt64(z);
+            }
+            if ((this.flags & 8) != 0) {
+                int readInt323 = abstractSerializedData.readInt32(z);
+                if (readInt323 != 481674261) {
+                    if (z) {
+                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
+                    }
+                    return;
+                }
+                int readInt324 = abstractSerializedData.readInt32(z);
+                for (int i2 = 0; i2 < readInt324; i2++) {
+                    StarsTransaction TLdeserialize2 = StarsTransaction.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                    if (TLdeserialize2 == null) {
+                        return;
+                    }
+                    this.history.add(TLdeserialize2);
+                }
+            }
+            if ((this.flags & 1) != 0) {
+                this.next_offset = abstractSerializedData.readString(z);
+            }
+            int readInt325 = abstractSerializedData.readInt32(z);
+            if (readInt325 != 481674261) {
+                if (z) {
+                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt325)));
+                }
+                return;
+            }
+            int readInt326 = abstractSerializedData.readInt32(z);
+            for (int i3 = 0; i3 < readInt326; i3++) {
+                TLRPC.Chat TLdeserialize3 = TLRPC.Chat.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                if (TLdeserialize3 == null) {
+                    return;
+                }
+                this.chats.add(TLdeserialize3);
+            }
+            int readInt327 = abstractSerializedData.readInt32(z);
+            if (readInt327 != 481674261) {
+                if (z) {
+                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt327)));
+                }
+                return;
+            }
+            int readInt328 = abstractSerializedData.readInt32(z);
+            for (int i4 = 0; i4 < readInt328; i4++) {
+                TLRPC.User TLdeserialize4 = TLRPC.User.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                if (TLdeserialize4 == null) {
+                    return;
+                }
+                this.users.add(TLdeserialize4);
+            }
+        }
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_payments_starsStatus, org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            abstractSerializedData.writeInt32(constructor);
+            abstractSerializedData.writeInt32(this.flags);
+            abstractSerializedData.writeInt64(this.balance.amount);
             if ((this.flags & 2) != 0) {
                 abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
                 int size = this.subscriptions.size();
@@ -1054,7 +1230,7 @@ public class TL_stars {
     }
 
     public static class TL_starsTransaction extends StarsTransaction {
-        public static final int constructor = 903148150;
+        public static final int constructor = 1692387622;
 
         @Override // org.telegram.tgnet.TLObject
         public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
@@ -1068,7 +1244,7 @@ public class TL_stars {
             this.subscription = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
             this.floodskip = (readInt32 & 32768) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = StarsAmount.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1119,6 +1295,13 @@ public class TL_stars {
             if ((this.flags & 32768) != 0) {
                 this.floodskip_number = abstractSerializedData.readInt32(z);
             }
+            if ((this.flags & 65536) != 0) {
+                this.starref_commission_permille = abstractSerializedData.readInt32(z);
+            }
+            if ((this.flags & 131072) != 0) {
+                this.starref_peer = TLRPC.Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.starref_amount = StarsAmount.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            }
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -1139,7 +1322,7 @@ public class TL_stars {
             int i7 = this.floodskip ? i6 | 32768 : i6 & (-32769);
             this.flags = i7;
             abstractSerializedData.writeInt32(i7);
-            abstractSerializedData.writeInt64(this.stars);
+            this.stars.serializeToStream(abstractSerializedData);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1180,6 +1363,13 @@ public class TL_stars {
             }
             if ((this.flags & 32768) != 0) {
                 abstractSerializedData.writeInt32(this.floodskip_number);
+            }
+            if ((this.flags & 65536) != 0) {
+                abstractSerializedData.writeInt32(this.starref_commission_permille);
+            }
+            if ((this.flags & 131072) != 0) {
+                this.starref_peer.serializeToStream(abstractSerializedData);
+                this.starref_amount.serializeToStream(abstractSerializedData);
             }
         }
     }
@@ -1299,7 +1489,7 @@ public class TL_stars {
             this.flags = readInt32;
             this.refund = (readInt32 & 8) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1319,7 +1509,7 @@ public class TL_stars {
             int i = this.refund ? this.flags | 8 : this.flags & (-9);
             this.flags = i;
             abstractSerializedData.writeInt32(i);
-            abstractSerializedData.writeInt64(this.stars);
+            abstractSerializedData.writeInt64(this.stars.amount);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1345,7 +1535,7 @@ public class TL_stars {
             this.pending = (readInt32 & 16) != 0;
             this.failed = (readInt32 & 64) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1373,7 +1563,7 @@ public class TL_stars {
             int i3 = this.failed ? i2 | 64 : i2 & (-65);
             this.flags = i3;
             abstractSerializedData.writeInt32(i3);
-            abstractSerializedData.writeInt64(this.stars);
+            abstractSerializedData.writeInt64(this.stars.amount);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1404,7 +1594,7 @@ public class TL_stars {
             this.failed = (readInt32 & 64) != 0;
             this.gift = (readInt32 & 1024) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1457,7 +1647,7 @@ public class TL_stars {
             int i4 = this.gift ? i3 | 1024 : i3 & (-1025);
             this.flags = i4;
             abstractSerializedData.writeInt32(i4);
-            abstractSerializedData.writeInt64(this.stars);
+            abstractSerializedData.writeInt64(this.stars.amount);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1504,7 +1694,7 @@ public class TL_stars {
             this.reaction = (readInt32 & 2048) != 0;
             this.subscription = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1564,7 +1754,7 @@ public class TL_stars {
             int i6 = this.subscription ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i5 & (-4097);
             this.flags = i6;
             abstractSerializedData.writeInt32(i6);
-            abstractSerializedData.writeInt64(this.stars);
+            abstractSerializedData.writeInt64(this.stars.amount);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1614,7 +1804,7 @@ public class TL_stars {
             this.reaction = (readInt32 & 2048) != 0;
             this.subscription = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1677,7 +1867,7 @@ public class TL_stars {
             int i6 = this.subscription ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i5 & (-4097);
             this.flags = i6;
             abstractSerializedData.writeInt32(i6);
-            abstractSerializedData.writeInt64(this.stars);
+            abstractSerializedData.writeInt64(this.stars.amount);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1730,7 +1920,7 @@ public class TL_stars {
             this.reaction = (readInt32 & 2048) != 0;
             this.subscription = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
             this.id = abstractSerializedData.readString(z);
-            this.stars = abstractSerializedData.readInt64(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
             this.date = abstractSerializedData.readInt32(z);
             this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
             if ((this.flags & 1) != 0) {
@@ -1796,7 +1986,7 @@ public class TL_stars {
             int i6 = this.subscription ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i5 & (-4097);
             this.flags = i6;
             abstractSerializedData.writeInt32(i6);
-            abstractSerializedData.writeInt64(this.stars);
+            abstractSerializedData.writeInt64(this.stars.amount);
             abstractSerializedData.writeInt32(this.date);
             this.peer.serializeToStream(abstractSerializedData);
             if ((this.flags & 1) != 0) {
@@ -1834,6 +2024,137 @@ public class TL_stars {
             }
             if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                 this.stargift.serializeToStream(abstractSerializedData);
+            }
+        }
+    }
+
+    public static class TL_starsTransaction_layer194 extends TL_starsTransaction {
+        public static final int constructor = 903148150;
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_starsTransaction, org.telegram.tgnet.TLObject
+        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
+            int readInt32 = abstractSerializedData.readInt32(z);
+            this.flags = readInt32;
+            this.refund = (readInt32 & 8) != 0;
+            this.pending = (readInt32 & 16) != 0;
+            this.failed = (readInt32 & 64) != 0;
+            this.gift = (readInt32 & 1024) != 0;
+            this.reaction = (readInt32 & 2048) != 0;
+            this.subscription = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
+            this.floodskip = (readInt32 & 32768) != 0;
+            this.id = abstractSerializedData.readString(z);
+            this.stars = new StarsAmount(abstractSerializedData.readInt64(z));
+            this.date = abstractSerializedData.readInt32(z);
+            this.peer = StarsTransactionPeer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            if ((this.flags & 1) != 0) {
+                this.title = abstractSerializedData.readString(z);
+            }
+            if ((this.flags & 2) != 0) {
+                this.description = abstractSerializedData.readString(z);
+            }
+            if ((this.flags & 4) != 0) {
+                this.photo = TLRPC.WebDocument.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 32) != 0) {
+                this.transaction_date = abstractSerializedData.readInt32(z);
+                this.transaction_url = abstractSerializedData.readString(z);
+            }
+            if ((this.flags & 128) != 0) {
+                this.bot_payload = abstractSerializedData.readByteArray(z);
+            }
+            if ((this.flags & 256) != 0) {
+                this.msg_id = abstractSerializedData.readInt32(z);
+            }
+            if ((this.flags & 512) != 0) {
+                int readInt322 = abstractSerializedData.readInt32(z);
+                if (readInt322 != 481674261) {
+                    if (z) {
+                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
+                    }
+                    return;
+                }
+                int readInt323 = abstractSerializedData.readInt32(z);
+                for (int i = 0; i < readInt323; i++) {
+                    TLRPC.MessageMedia TLdeserialize = TLRPC.MessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                    if (TLdeserialize == null) {
+                        return;
+                    }
+                    this.extended_media.add(TLdeserialize);
+                }
+            }
+            if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0) {
+                this.subscription_period = abstractSerializedData.readInt32(z);
+            }
+            if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
+                this.giveaway_post_id = abstractSerializedData.readInt32(z);
+            }
+            if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+                this.stargift = StarGift.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 32768) != 0) {
+                this.floodskip_number = abstractSerializedData.readInt32(z);
+            }
+        }
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_starsTransaction, org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            abstractSerializedData.writeInt32(constructor);
+            int i = this.refund ? this.flags | 8 : this.flags & (-9);
+            this.flags = i;
+            int i2 = this.pending ? i | 16 : i & (-17);
+            this.flags = i2;
+            int i3 = this.failed ? i2 | 64 : i2 & (-65);
+            this.flags = i3;
+            int i4 = this.gift ? i3 | 1024 : i3 & (-1025);
+            this.flags = i4;
+            int i5 = this.reaction ? i4 | 2048 : i4 & (-2049);
+            this.flags = i5;
+            int i6 = this.subscription ? i5 | LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM : i5 & (-4097);
+            this.flags = i6;
+            int i7 = this.floodskip ? i6 | 32768 : i6 & (-32769);
+            this.flags = i7;
+            abstractSerializedData.writeInt32(i7);
+            abstractSerializedData.writeInt64(this.stars.amount);
+            abstractSerializedData.writeInt32(this.date);
+            this.peer.serializeToStream(abstractSerializedData);
+            if ((this.flags & 1) != 0) {
+                abstractSerializedData.writeString(this.title);
+            }
+            if ((this.flags & 2) != 0) {
+                abstractSerializedData.writeString(this.description);
+            }
+            if ((this.flags & 4) != 0) {
+                this.photo.serializeToStream(abstractSerializedData);
+            }
+            if ((this.flags & 32) != 0) {
+                abstractSerializedData.writeInt32(this.transaction_date);
+                abstractSerializedData.writeString(this.transaction_url);
+            }
+            if ((this.flags & 128) != 0) {
+                abstractSerializedData.writeByteArray(this.bot_payload);
+            }
+            if ((this.flags & 256) != 0) {
+                abstractSerializedData.writeInt32(this.msg_id);
+            }
+            if ((this.flags & 512) != 0) {
+                abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+                int size = this.extended_media.size();
+                abstractSerializedData.writeInt32(size);
+                for (int i8 = 0; i8 < size; i8++) {
+                    this.extended_media.get(i8).serializeToStream(abstractSerializedData);
+                }
+            }
+            if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0) {
+                abstractSerializedData.writeInt32(this.subscription_period);
+            }
+            if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0) {
+                abstractSerializedData.writeInt32(this.giveaway_post_id);
+            }
+            if ((this.flags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
+                this.stargift.serializeToStream(abstractSerializedData);
+            }
+            if ((this.flags & 32768) != 0) {
+                abstractSerializedData.writeInt32(this.floodskip_number);
             }
         }
     }

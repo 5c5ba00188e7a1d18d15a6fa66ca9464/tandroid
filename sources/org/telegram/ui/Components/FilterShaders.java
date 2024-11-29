@@ -1372,9 +1372,9 @@ public class FilterShaders {
             GLES20.glUniform1f(this.fadeAmountHandle, this.delegate.getFadeValue());
             int tintHighlightsColor = this.delegate.getTintHighlightsColor();
             int tintShadowsColor = this.delegate.getTintShadowsColor();
-            GLES20.glUniform3f(this.highlightsTintColorHandle, ((tintHighlightsColor >> 16) & NotificationCenter.notificationsCountUpdated) / 255.0f, ((tintHighlightsColor >> 8) & NotificationCenter.notificationsCountUpdated) / 255.0f, (tintHighlightsColor & NotificationCenter.notificationsCountUpdated) / 255.0f);
+            GLES20.glUniform3f(this.highlightsTintColorHandle, ((tintHighlightsColor >> 16) & NotificationCenter.newLocationAvailable) / 255.0f, ((tintHighlightsColor >> 8) & NotificationCenter.newLocationAvailable) / 255.0f, (tintHighlightsColor & NotificationCenter.newLocationAvailable) / 255.0f);
             GLES20.glUniform1f(this.highlightsTintIntensityHandle, this.delegate.getTintHighlightsIntensityValue());
-            GLES20.glUniform3f(this.shadowsTintColorHandle, ((tintShadowsColor >> 16) & NotificationCenter.notificationsCountUpdated) / 255.0f, ((tintShadowsColor >> 8) & NotificationCenter.notificationsCountUpdated) / 255.0f, (tintShadowsColor & NotificationCenter.notificationsCountUpdated) / 255.0f);
+            GLES20.glUniform3f(this.shadowsTintColorHandle, ((tintShadowsColor >> 16) & NotificationCenter.newLocationAvailable) / 255.0f, ((tintShadowsColor >> 8) & NotificationCenter.newLocationAvailable) / 255.0f, (tintShadowsColor & NotificationCenter.newLocationAvailable) / 255.0f);
             GLES20.glUniform1f(this.shadowsTintIntensityHandle, this.delegate.getTintShadowsIntensityValue());
             boolean shouldDrawCurvesPass = this.delegate.shouldDrawCurvesPass();
             GLES20.glUniform1f(this.skipToneHandle, shouldDrawCurvesPass ? 0.0f : 1.0f);

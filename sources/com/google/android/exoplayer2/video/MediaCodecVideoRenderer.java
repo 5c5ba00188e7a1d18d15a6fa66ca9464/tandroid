@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.hardware.display.DisplayManager;
 import android.media.MediaCrypto;
 import android.media.MediaFormat;
+import android.opengl.EGLContext;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,6 +59,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private final boolean deviceNeedsNoPostProcessWorkaround;
     private long droppedFrameAccumulationStartTimeMs;
     private int droppedFrames;
+    public EGLContext eglContext;
     private final VideoRendererEventListener.EventDispatcher eventDispatcher;
     private VideoFrameMetadataListener frameMetadataListener;
     private final VideoFrameReleaseHelper frameReleaseHelper;
@@ -161,16 +163,17 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         }
     }
 
-    public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i) {
-        this(context, factory, mediaCodecSelector, j, z, handler, videoRendererEventListener, i, 30.0f);
+    public MediaCodecVideoRenderer(Context context, EGLContext eGLContext, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i) {
+        this(context, eGLContext, factory, mediaCodecSelector, j, z, handler, videoRendererEventListener, i, 30.0f);
     }
 
-    public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i, float f) {
+    public MediaCodecVideoRenderer(Context context, EGLContext eGLContext, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i, float f) {
         super(2, factory, mediaCodecSelector, z, f);
         this.allowedJoiningTimeMs = j;
         this.maxDroppedFramesToNotify = i;
         Context applicationContext = context.getApplicationContext();
         this.context = applicationContext;
+        this.eglContext = eGLContext;
         this.frameReleaseHelper = new VideoFrameReleaseHelper(applicationContext);
         this.eventDispatcher = new VideoRendererEventListener.EventDispatcher(handler, videoRendererEventListener);
         this.deviceNeedsNoPostProcessWorkaround = deviceNeedsNoPostProcessWorkaround();
@@ -1699,7 +1702,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
             } else {
                 MediaCodecInfo codecInfo = getCodecInfo();
                 if (codecInfo != null && shouldUsePlaceholderSurface(codecInfo)) {
-                    placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, codecInfo.secure);
+                    placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, codecInfo.secure, this.eglContext);
                     this.placeholderSurface = placeholderSurface;
                 }
             }
@@ -1856,9 +1859,9 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
-    protected MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f) {
+    protected MediaCodecAdapter.Configuration getMediaCodecConfiguration(MediaCodecInfo mediaCodecInfo, Format format, MediaCrypto mediaCrypto, float f, EGLContext eGLContext) {
         PlaceholderSurface placeholderSurface = this.placeholderSurface;
-        if (placeholderSurface != null && placeholderSurface.secure != mediaCodecInfo.secure) {
+        if (placeholderSurface != null && (placeholderSurface.secure != mediaCodecInfo.secure || placeholderSurface.parentContext != eGLContext)) {
             releasePlaceholderSurface();
         }
         String str = mediaCodecInfo.codecMimeType;
@@ -1870,7 +1873,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                 throw new IllegalStateException();
             }
             if (this.placeholderSurface == null) {
-                this.placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, mediaCodecInfo.secure);
+                this.placeholderSurface = PlaceholderSurface.newInstanceV17(this.context, mediaCodecInfo.secure, eGLContext);
             }
             this.surface = this.placeholderSurface;
         }

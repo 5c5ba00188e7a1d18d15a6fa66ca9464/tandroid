@@ -52,7 +52,7 @@ public class SendingFileDrawable extends StatusDrawable {
         }
         int i = 0;
         while (i < 3) {
-            paint.setAlpha(i == 0 ? (int) (this.progress * 255.0f) : i == 2 ? (int) ((1.0f - this.progress) * 255.0f) : NotificationCenter.notificationsCountUpdated);
+            paint.setAlpha(i == 0 ? (int) (this.progress * 255.0f) : i == 2 ? (int) ((1.0f - this.progress) * 255.0f) : NotificationCenter.newLocationAvailable);
             float dp = (AndroidUtilities.dp(5.0f) * i) + (AndroidUtilities.dp(5.0f) * this.progress);
             float f = 8.0f;
             canvas.drawLine(dp, AndroidUtilities.dp(this.isChat ? 3.0f : 4.0f), dp + AndroidUtilities.dp(4.0f), AndroidUtilities.dp(this.isChat ? 7.0f : 8.0f), paint);

@@ -5,6 +5,7 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.os.Build;
+import android.os.Handler;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.messenger.video.audio_input.AudioInput;
 import org.telegram.messenger.video.audio_input.GeneralAudioInput;
+import org.telegram.ui.Stories.recorder.CollageLayout;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 
 /* loaded from: classes3.dex */
@@ -49,6 +51,8 @@ public class MediaCodecVideoConvertor {
         String blurPath;
         File cacheFile;
         MediaController.VideoConvertorListener callback;
+        CollageLayout collage;
+        ArrayList<VideoEditedInfo.Part> collageParts;
         MediaController.CropState cropState;
         long duration;
         long endTime;
@@ -123,6 +127,8 @@ public class MediaCodecVideoConvertor {
             convertVideoParams.messageVideoMaskPath = videoEditedInfo.messageVideoMaskPath;
             convertVideoParams.backgroundPath = videoEditedInfo.backgroundPath;
             convertVideoParams.isSticker = videoEditedInfo.isSticker;
+            convertVideoParams.collage = videoEditedInfo.collage;
+            convertVideoParams.collageParts = videoEditedInfo.collageParts;
             return convertVideoParams;
         }
     }
@@ -223,23 +229,27 @@ public class MediaCodecVideoConvertor {
         }
         for (int i = 0; i < arrayList.size(); i++) {
             MixedSoundInfo mixedSoundInfo = arrayList.get(i);
-            GeneralAudioInput generalAudioInput = new GeneralAudioInput(mixedSoundInfo.audioFile);
-            generalAudioInput.setVolume(mixedSoundInfo.volume);
-            long j = mixedSoundInfo.startTime;
-            if (j > 0) {
-                generalAudioInput.setStartOffsetUs(j);
+            try {
+                GeneralAudioInput generalAudioInput = new GeneralAudioInput(mixedSoundInfo.audioFile);
+                generalAudioInput.setVolume(mixedSoundInfo.volume);
+                long j = mixedSoundInfo.startTime;
+                if (j > 0) {
+                    generalAudioInput.setStartOffsetUs(j);
+                }
+                long j2 = mixedSoundInfo.audioOffset;
+                if (j2 > 0) {
+                    generalAudioInput.setStartTimeUs(j2);
+                } else {
+                    j2 = 0;
+                }
+                long j3 = mixedSoundInfo.duration;
+                if (j3 > 0) {
+                    generalAudioInput.setEndTimeUs(j2 + j3);
+                }
+                arrayList2.add(generalAudioInput);
+            } catch (Exception e) {
+                FileLog.e(e);
             }
-            long j2 = mixedSoundInfo.audioOffset;
-            if (j2 > 0) {
-                generalAudioInput.setStartTimeUs(j2);
-            } else {
-                j2 = 0;
-            }
-            long j3 = mixedSoundInfo.duration;
-            if (j3 > 0) {
-                generalAudioInput.setEndTimeUs(j2 + j3);
-            }
-            arrayList2.add(generalAudioInput);
         }
     }
 
@@ -257,14 +267,14 @@ public class MediaCodecVideoConvertor {
         	at jadx.core.dex.attributes.nodes.NotificationAttrNode.addError(NotificationAttrNode.java:19)
         	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:77)
         */
-    /* JADX WARN: Finally extract failed */
     /* JADX WARN: Unreachable blocks removed: 2, instructions: 5 */
-    private boolean convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor.ConvertVideoParams r94, boolean r95, int r96) {
+    /* JADX WARN: Unreachable blocks removed: 2, instructions: 6 */
+    private boolean convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor.ConvertVideoParams r84, boolean r85, int r86, android.os.Handler r87) {
         /*
-            Method dump skipped, instructions count: 7960
+            Method dump skipped, instructions count: 8318
             To view this dump add '--comments-level debug' option
         */
-        throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor$ConvertVideoParams, boolean, int):boolean");
+        throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor$ConvertVideoParams, boolean, int, android.os.Handler):boolean");
     }
 
     private MediaCodec createEncoderForMimeType() {
@@ -596,12 +606,12 @@ public class MediaCodecVideoConvertor {
         return j7;
     }
 
-    public boolean convertVideo(ConvertVideoParams convertVideoParams) {
+    public boolean convertVideo(ConvertVideoParams convertVideoParams, Handler handler) {
         if (convertVideoParams.isSticker) {
             return WebmEncoder.convert(convertVideoParams, 0);
         }
         this.callback = convertVideoParams.callback;
-        return convertVideoInternal(convertVideoParams, false, 0);
+        return convertVideoInternal(convertVideoParams, false, 0, handler);
     }
 
     public long getLastFrameTimestamp() {

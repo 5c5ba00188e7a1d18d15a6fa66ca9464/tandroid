@@ -59,7 +59,7 @@ public class PreviewHighlightView extends FrameLayout {
                 int i2 = 0;
                 while (i2 < PreviewHighlightView.this.storiesCount) {
                     this.rectF.set(dpf2, AndroidUtilities.dpf2(8.0f), dpf2 + width, AndroidUtilities.dpf2(10.0f));
-                    this.barPaint.setAlpha(i2 < PreviewHighlightView.this.storiesCount + (-1) ? NotificationCenter.notificationsCountUpdated : NotificationCenter.didUpdateConnectionState);
+                    this.barPaint.setAlpha(i2 < PreviewHighlightView.this.storiesCount + (-1) ? NotificationCenter.newLocationAvailable : NotificationCenter.didUpdateConnectionState);
                     canvas.drawRoundRect(this.rectF, AndroidUtilities.dpf2(1.0f), AndroidUtilities.dpf2(1.0f), this.barPaint);
                     dpf2 += AndroidUtilities.dpf2(2.0f) + width;
                     i2++;

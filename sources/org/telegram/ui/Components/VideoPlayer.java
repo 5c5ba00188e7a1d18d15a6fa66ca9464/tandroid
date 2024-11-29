@@ -7,6 +7,7 @@ import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
 import android.media.MediaFormat;
 import android.net.Uri;
+import android.opengl.EGLContext;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -115,6 +116,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private Uri currentUri;
     MediaSource.Factory dashMediaSourceFactory;
     private VideoPlayerDelegate delegate;
+    private EGLContext eglParentContext;
     private long fallbackDuration;
     private long fallbackPosition;
     private boolean handleAudioFocus;
@@ -123,6 +125,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private boolean isStreaming;
     private boolean lastReportedPlayWhenReady;
     private int lastReportedPlaybackState;
+    private Looper looper;
     private boolean looping;
     private boolean loopingMediaSource;
     private ArrayList manifestUris;
@@ -349,7 +352,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             if (Math.abs(min - 360) < 55) {
                 return 360;
             }
-            return Math.abs(min + (-240)) < 55 ? NotificationCenter.needCheckSystemBarColors : Math.abs(min + (-144)) < 55 ? NotificationCenter.messagePlayingProgressDidChanged : min;
+            return Math.abs(min + (-240)) < 55 ? NotificationCenter.didApplyNewTheme : Math.abs(min + (-144)) < 55 ? NotificationCenter.messagePlayingProgressDidChanged : min;
         }
 
         public String toString() {
@@ -719,7 +722,16 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         if (this.player == null) {
             DefaultRenderersFactory audioVisualizerRenderersFactory = this.audioVisualizerDelegate != null ? new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext) : new DefaultRenderersFactory(ApplicationLoader.applicationContext);
             audioVisualizerRenderersFactory.setExtensionRendererMode(2);
-            ExoPlayer build = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(audioVisualizerRenderersFactory).setTrackSelector(this.trackSelector).setLoadControl(defaultLoadControl).build();
+            ExoPlayer.Builder loadControl = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(audioVisualizerRenderersFactory).setTrackSelector(this.trackSelector).setLoadControl(defaultLoadControl);
+            Looper looper = this.looper;
+            if (looper != null) {
+                loadControl.setLooper(looper);
+            }
+            EGLContext eGLContext = this.eglParentContext;
+            if (eGLContext != null) {
+                loadControl.eglContext = eGLContext;
+            }
+            ExoPlayer build = loadControl.build();
             this.player = build;
             build.addAnalyticsListener(this);
             this.player.addListener(this);

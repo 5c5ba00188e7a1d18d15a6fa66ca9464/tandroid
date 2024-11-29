@@ -68,7 +68,7 @@ abstract class zzfg {
                                 int codePoint = Character.toCodePoint(charAt3, charAt4);
                                 int i5 = position + 1;
                                 try {
-                                    byteBuffer.put(position, (byte) ((codePoint >>> 18) | NotificationCenter.needCheckSystemBarColors));
+                                    byteBuffer.put(position, (byte) ((codePoint >>> 18) | NotificationCenter.didApplyNewTheme));
                                     i = position + 2;
                                 } catch (IndexOutOfBoundsException unused3) {
                                     position = i5;

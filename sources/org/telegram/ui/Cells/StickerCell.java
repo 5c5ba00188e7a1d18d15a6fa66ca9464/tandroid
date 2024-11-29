@@ -241,7 +241,7 @@ public class StickerCell extends FrameLayout {
         this.sticker = document;
         Drawable background = getBackground();
         if (background != null) {
-            background.setAlpha(NotificationCenter.didReceiveCall);
+            background.setAlpha(NotificationCenter.wallpapersNeedReload);
             background.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_stickersHintPanel), PorterDuff.Mode.MULTIPLY));
         }
         updatePremiumStatus(false);

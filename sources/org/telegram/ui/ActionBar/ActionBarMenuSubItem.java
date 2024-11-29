@@ -25,8 +25,8 @@ import org.telegram.ui.Components.RLottieImageView;
 /* loaded from: classes4.dex */
 public class ActionBarMenuSubItem extends FrameLayout {
     boolean bottom;
-    private CheckBox2 checkView;
-    private boolean checkViewLeft;
+    public CheckBox2 checkView;
+    public boolean checkViewLeft;
     private boolean enabled;
     private ValueAnimator enabledAnimator;
     boolean expandIfMultiline;
@@ -41,7 +41,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     int selectorRad;
     public TextView subtextView;
     private int textColor;
-    private TextView textView;
+    public TextView textView;
     boolean top;
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x00ec, code lost:

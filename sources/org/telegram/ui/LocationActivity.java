@@ -318,7 +318,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             ofFloat.setDuration(360L);
             ofFloat.start();
             this.views.put(iMarker, frameLayout);
-            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.customTypefacesLoaded, null);
+            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.uploadStoryProgress, null);
         }
 
         public void removeInfoView(IMapsProvider.IMarker iMarker) {
@@ -1952,7 +1952,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         try {
             try {
                 if (z) {
-                    int max = Math.max(i, NotificationCenter.proxyCheckDone);
+                    int max = Math.max(i, NotificationCenter.didSetNewWallpapper);
                     IMapsProvider.LatLng center = onCreateLatLngBoundsBuilder.build().getCenter();
                     double d = max;
                     IMapsProvider.LatLng move = move(center, d, d);

@@ -1904,7 +1904,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case NotificationCenter.filePreparingStarted /* 140 */:
             case NotificationCenter.dialogsUnreadCounterChanged /* 143 */:
             case NotificationCenter.groupCallVisibilityChanged /* 170 */:
-            case 193:
+            case NotificationCenter.channelRecommendationsLoaded /* 193 */:
             case NotificationCenter.starGiftSoldOut /* 223 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
@@ -1981,7 +1981,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case NotificationCenter.recordStopped /* 153 */:
             case NotificationCenter.groupPackUpdated /* 204 */:
             case NotificationCenter.botDownloadsUpdate /* 225 */:
-            case NotificationCenter.closeOtherAppActivities /* 233 */:
+            case NotificationCenter.emojiLoaded /* 233 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 4;
@@ -2049,7 +2049,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 break;
             case 31:
             case 150:
-            case NotificationCenter.emojiLoaded /* 231 */:
+            case NotificationCenter.didReceiveSmsCode /* 231 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 1;
@@ -2526,7 +2526,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 break;
             case 'b':
             case NotificationCenter.factCheckLoaded /* 215 */:
-            case NotificationCenter.didReceiveCall /* 230 */:
+            case NotificationCenter.wallpapersNeedReload /* 230 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 2;
@@ -2693,7 +2693,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 break;
             case NotificationCenter.dialogTranslate /* 127 */:
             case NotificationCenter.starBalanceUpdated /* 212 */:
-            case NotificationCenter.themeListUpdated /* 237 */:
+            case NotificationCenter.didReplacedPhotoInMemCache /* 237 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 2;
@@ -3128,7 +3128,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 3;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.savedReactionTagsUpdate /* 195 */:
+            case 195:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 2;
@@ -3265,7 +3265,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 3;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.pushMessagesUpdated /* 226 */:
+            case NotificationCenter.channelSuggestedBotsUpdate /* 226 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 2;
@@ -3274,7 +3274,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.wallpapersDidLoad /* 227 */:
+            case NotificationCenter.channelConnectedBotsUpdate /* 227 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
                 iArr[1] = 2;
@@ -3283,7 +3283,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.wallpapersNeedReload /* 228 */:
+            case NotificationCenter.pushMessagesUpdated /* 228 */:
                 // fill-array-data instruction
                 iArr[0] = 0;
                 iArr[1] = 0;
@@ -3292,7 +3292,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 1;
                 break;
-            case NotificationCenter.didReceiveSmsCode /* 229 */:
+            case NotificationCenter.wallpapersDidLoad /* 229 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 3;
@@ -3301,7 +3301,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.invalidateMotionBackground /* 232 */:
+            case NotificationCenter.didReceiveCall /* 232 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 2;
@@ -3310,7 +3310,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.cameraInitied /* 234 */:
+            case NotificationCenter.invalidateMotionBackground /* 234 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 3;
@@ -3319,7 +3319,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.didReplacedPhotoInMemCache /* 235 */:
+            case NotificationCenter.closeOtherAppActivities /* 235 */:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 3;
@@ -3328,7 +3328,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.didSetNewTheme /* 236 */:
+            case NotificationCenter.cameraInitied /* 236 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 4;

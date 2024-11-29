@@ -6,6 +6,7 @@ import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_payments;
 
 /* loaded from: classes3.dex */
 public class TL_bots {
@@ -757,6 +758,25 @@ public class TL_bots {
         }
     }
 
+    public static class getAdminedBots extends TLObject {
+        public static final int constructor = -1334764157;
+
+        @Override // org.telegram.tgnet.TLObject
+        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+            TLRPC.Vector vector = new TLRPC.Vector();
+            int readInt32 = abstractSerializedData.readInt32(z);
+            for (int i2 = 0; i2 < readInt32; i2++) {
+                vector.objects.add(TLRPC.User.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z));
+            }
+            return vector;
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            abstractSerializedData.writeInt32(constructor);
+        }
+    }
+
     public static class getBotInfo extends TLObject {
         public static final int constructor = -589753091;
         public TLRPC.InputUser bot;
@@ -1130,6 +1150,30 @@ public class TL_bots {
             this.bot.serializeToStream(abstractSerializedData);
             abstractSerializedData.writeString(this.username);
             abstractSerializedData.writeBool(this.active);
+        }
+    }
+
+    public static class updateStarRefProgram extends TLObject {
+        public static final int constructor = 2005621427;
+        public TLRPC.InputUser bot;
+        public int commission_permille;
+        public int duration_months;
+        public int flags;
+
+        @Override // org.telegram.tgnet.TLObject
+        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+            return TL_payments.starRefProgram.TLdeserialize(abstractSerializedData, i, z);
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
+            abstractSerializedData.writeInt32(constructor);
+            abstractSerializedData.writeInt32(this.flags);
+            this.bot.serializeToStream(abstractSerializedData);
+            abstractSerializedData.writeInt32(this.commission_permille);
+            if ((this.flags & 1) != 0) {
+                abstractSerializedData.writeInt32(this.duration_months);
+            }
         }
     }
 }

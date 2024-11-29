@@ -309,7 +309,7 @@ public class StarsReactionsSheet extends BottomSheet {
             this.sliderPaint = new Paint(1);
             this.sliderCirclePaint = new Paint(1);
             this.textBackgroundPaint = new Paint(1);
-            this.sliderParticles = new Particles(0, NotificationCenter.customTypefacesLoaded);
+            this.sliderParticles = new Particles(0, NotificationCenter.uploadStoryProgress);
             this.textParticles = new Particles(1, 30);
             this.gradient = new LinearGradient(0.0f, 0.0f, 255.0f, 0.0f, new int[]{-1135603, -404714}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
             this.gradientMatrix = new Matrix();
@@ -767,7 +767,7 @@ public class StarsReactionsSheet extends BottomSheet {
                         this.anonymousAvatarDrawable.setBounds(i2 - (AndroidUtilities.dp(56.0f) / 2), i3 - (AndroidUtilities.dp(56.0f) / 2), i2 + (AndroidUtilities.dp(56.0f) / 2), i3 + (AndroidUtilities.dp(56.0f) / 2));
                         this.anonymousAvatarDrawable.setAlpha((int) (f2 * 255.0f * f4));
                         this.anonymousAvatarDrawable.draw(canvas);
-                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.notificationsCountUpdated);
+                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.newLocationAvailable);
                     }
                 }
                 RectF rectF = AndroidUtilities.rectTmp;
@@ -1525,7 +1525,7 @@ public class StarsReactionsSheet extends BottomSheet {
                 StarsReactionsSheet.this.lambda$new$4(messageObject, starsController, chatActivity, value);
             }
         };
-        if (!starsController.balanceAvailable() || starsController.getBalance() >= value) {
+        if (!starsController.balanceAvailable() || starsController.getBalance().amount >= value) {
             runnable.run();
         } else {
             new StarsIntroActivity.StarsNeededSheet(context, resourcesProvider, value, 5, chat == null ? "" : chat.title, runnable).show();

@@ -216,23 +216,23 @@ public abstract class WebvttCueParser {
 
     static {
         HashMap hashMap = new HashMap();
-        hashMap.put("white", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
-        hashMap.put("lime", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, 0)));
-        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
-        hashMap.put("red", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, 0)));
-        hashMap.put("yellow", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, 0)));
-        hashMap.put("magenta", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, NotificationCenter.notificationsCountUpdated)));
-        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.notificationsCountUpdated)));
+        hashMap.put("white", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, NotificationCenter.newLocationAvailable, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable)));
+        hashMap.put("red", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, 0, NotificationCenter.newLocationAvailable)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.newLocationAvailable)));
         hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
         HashMap hashMap2 = new HashMap();
-        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
-        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, 0)));
-        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated)));
-        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, 0)));
-        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, NotificationCenter.notificationsCountUpdated, 0)));
-        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(NotificationCenter.notificationsCountUpdated, 0, NotificationCenter.notificationsCountUpdated)));
-        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.notificationsCountUpdated)));
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, NotificationCenter.newLocationAvailable, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, NotificationCenter.newLocationAvailable, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(NotificationCenter.newLocationAvailable, 0, NotificationCenter.newLocationAvailable)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, NotificationCenter.newLocationAvailable)));
         hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
     }

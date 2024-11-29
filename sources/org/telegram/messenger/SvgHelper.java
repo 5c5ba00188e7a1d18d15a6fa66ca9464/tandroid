@@ -585,7 +585,7 @@ public class SvgHelper {
             if (f == null) {
                 f = properties.getFloat(z ? "fill-opacity" : "stroke-opacity");
             }
-            this.paint.setAlpha(f == null ? NotificationCenter.notificationsCountUpdated : (int) (f.floatValue() * 255.0f));
+            this.paint.setAlpha(f == null ? NotificationCenter.newLocationAvailable : (int) (f.floatValue() * 255.0f));
         }
 
         private boolean doFill(Properties properties) {

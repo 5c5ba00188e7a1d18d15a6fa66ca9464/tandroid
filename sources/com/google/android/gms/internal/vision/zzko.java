@@ -980,7 +980,7 @@ final class zzko implements zzlc {
                 i13 = charAt5;
                 i14 = i68;
             }
-            int i72 = charAt24 & NotificationCenter.notificationsCountUpdated;
+            int i72 = charAt24 & NotificationCenter.newLocationAvailable;
             int i73 = charAt2;
             if ((charAt24 & 1024) != 0) {
                 iArr[i62] = i63;

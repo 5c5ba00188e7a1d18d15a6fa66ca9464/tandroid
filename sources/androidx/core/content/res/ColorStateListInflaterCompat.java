@@ -180,7 +180,7 @@ public abstract class ColorStateListInflaterCompat {
         if (f == 1.0f && !z) {
             return i;
         }
-        int clamp = MathUtils.clamp((int) ((Color.alpha(i) * f) + 0.5f), 0, NotificationCenter.notificationsCountUpdated);
+        int clamp = MathUtils.clamp((int) ((Color.alpha(i) * f) + 0.5f), 0, NotificationCenter.newLocationAvailable);
         if (z) {
             CamColor fromColor = CamColor.fromColor(i);
             i = CamColor.toColor(fromColor.getHue(), fromColor.getChroma(), f2);
