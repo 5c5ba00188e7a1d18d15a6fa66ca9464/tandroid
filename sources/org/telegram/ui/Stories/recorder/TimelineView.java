@@ -1778,16 +1778,16 @@ public class TimelineView extends View {
         timelineDelegate2.onProgressChange(j10, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x009c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x009f, code lost:
     
         if (r2 != null) goto L28;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x00f6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x00fd, code lost:
     
-        r2.onVideoLeftChange(r20.index, r20.left);
-        r19.delegate.onVideoRightChange(r20.index, r20.right);
+        r2.onVideoLeftChange(r22.index, r22.left);
+        r21.delegate.onVideoRightChange(r22.index, r22.right);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x00f4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x00fb, code lost:
     
         if (r2 != null) goto L28;
      */
@@ -1797,12 +1797,13 @@ public class TimelineView extends View {
     private void moveCollageOffset(Track track, float f) {
         long clamp;
         TimelineDelegate timelineDelegate;
-        long clamp2;
         long j;
-        long j2;
         TimelineDelegate timelineDelegate2;
+        long j2;
         long j3;
+        TimelineDelegate timelineDelegate3;
         long j4;
+        long j5;
         if (track == null) {
             return;
         }
@@ -1810,118 +1811,117 @@ public class TimelineView extends View {
         if (track2 != track && track2 != null) {
             if (this.collageSelected == this.collageTracks.indexOf(track)) {
                 Track track3 = this.collageMain;
-                float f2 = track3.right;
-                float f3 = track3.duration;
-                float f4 = track.right;
-                float f5 = track.duration;
-                long j5 = (long) ((f2 * f3) - (f4 * f5));
-                float f6 = track3.left;
-                float f7 = track.left;
-                long j6 = (long) ((f6 * f3) - (f7 * f5));
-                float min = Math.min(f4 - f7, ((f2 - f6) * f3) / f5);
-                long j7 = track.offset;
-                long j8 = (long) f;
-                long j9 = j7 + j8;
-                if (j9 > j5) {
-                    float clamp3 = Utilities.clamp((((this.collageMain.right * r9.duration) - j7) - j8) / track.duration, 1.0f, min);
-                    track.right = clamp3;
-                    float clamp4 = Utilities.clamp(clamp3 - min, 1.0f, 0.0f);
-                    track.left = clamp4;
+                float f2 = track3.duration;
+                float f3 = track.right;
+                float f4 = track.duration;
+                long j6 = (long) ((f2 * 1.0f) - (f3 * f4));
+                float f5 = track.left;
+                long j7 = (long) ((f2 * 0.0f) - (f5 * f4));
+                float min = Math.min(f3 - f5, ((track3.right - track3.left) * f2) / f4);
+                long j8 = track.offset;
+                long j9 = (long) f;
+                long j10 = j8 + j9;
+                if (j10 > j6) {
+                    float clamp2 = Utilities.clamp((((this.collageMain.right * r2.duration) - j8) - j9) / track.duration, 1.0f, min);
+                    track.right = clamp2;
+                    float clamp3 = Utilities.clamp(clamp2 - min, 1.0f, 0.0f);
+                    track.left = clamp3;
                     Track track4 = this.collageMain;
-                    float f8 = track4.right;
-                    float f9 = track4.duration;
-                    float f10 = track.right;
-                    float f11 = track.duration;
-                    long j10 = (long) ((f8 * f9) - (f10 * f11));
-                    long j11 = (long) ((track4.left * f9) - (clamp4 * f11));
-                    if (j10 < j11) {
+                    float f6 = track4.right;
+                    float f7 = track4.duration;
+                    float f8 = track.right;
+                    float f9 = track.duration;
+                    long j11 = (long) ((f6 * f7) - (f8 * f9));
+                    long j12 = (long) ((track4.left * f7) - (clamp3 * f9));
+                    if (j11 < j12) {
+                        j5 = j12;
                         j4 = j11;
-                        j3 = j10;
                     } else {
-                        j3 = j11;
-                        j4 = j10;
+                        j4 = j12;
+                        j5 = j11;
                     }
-                    track.offset = Utilities.clamp(track.offset + j8, j4, j3);
-                    timelineDelegate2 = this.delegate;
-                } else if (j9 < j6) {
-                    float clamp5 = Utilities.clamp((((this.collageMain.left * r9.duration) - j7) - j8) / track.duration, 1.0f - min, 0.0f);
-                    track.left = clamp5;
-                    float clamp6 = Utilities.clamp(clamp5 + min, 1.0f, 0.0f);
-                    track.right = clamp6;
+                    track.offset = Utilities.clamp(track.offset + j9, j5, j4);
+                    timelineDelegate3 = this.delegate;
+                } else if (j10 < j7) {
+                    float clamp4 = Utilities.clamp((((this.collageMain.left * r2.duration) - j8) - j9) / track.duration, 1.0f - min, 0.0f);
+                    track.left = clamp4;
+                    float clamp5 = Utilities.clamp(clamp4 + min, 1.0f, 0.0f);
+                    track.right = clamp5;
                     Track track5 = this.collageMain;
-                    float f12 = track5.right;
-                    float f13 = track5.duration;
-                    float f14 = track.duration;
-                    long j12 = (long) ((f12 * f13) - (clamp6 * f14));
-                    long j13 = (long) ((track5.left * f13) - (track.left * f14));
-                    if (j12 < j13) {
-                        j2 = j13;
-                        j = j12;
+                    float f10 = track5.right;
+                    float f11 = track5.duration;
+                    float f12 = track.duration;
+                    long j13 = (long) ((f10 * f11) - (clamp5 * f12));
+                    long j14 = (long) ((track5.left * f11) - (track.left * f12));
+                    if (j13 < j14) {
+                        j3 = j13;
+                        j2 = j14;
                     } else {
-                        j = j13;
-                        j2 = j12;
+                        j2 = j13;
+                        j3 = j14;
                     }
-                    track.offset = Utilities.clamp(track.offset + j8, j2, j);
-                    timelineDelegate2 = this.delegate;
+                    track.offset = Utilities.clamp(track.offset + j9, j2, j3);
+                    timelineDelegate3 = this.delegate;
                 } else {
-                    track.offset = j9;
+                    track.offset = j10;
                 }
             } else {
-                long j14 = track.offset + ((long) f);
+                long j15 = track.offset + ((long) f);
                 float baseDuration = getBaseDuration();
-                float f15 = track.duration;
-                track.offset = Utilities.clamp(j14, (long) (baseDuration - (track.right * f15)), (long) ((-track.left) * f15));
+                float f13 = track.duration;
+                track.offset = Utilities.clamp(j15, (long) (baseDuration - (track.right * f13)), (long) ((-track.left) * f13));
             }
         }
         invalidate();
-        TimelineDelegate timelineDelegate3 = this.delegate;
-        if (timelineDelegate3 != null) {
-            timelineDelegate3.onVideoOffsetChange(track.index, track.offset);
+        TimelineDelegate timelineDelegate4 = this.delegate;
+        if (timelineDelegate4 != null) {
+            timelineDelegate4.onVideoOffsetChange(track.index, track.offset);
         }
         boolean z = this.dragged;
-        if (z || (timelineDelegate = this.delegate) == null) {
-            if (z || this.scrolling) {
-                Track track6 = this.collageMain;
-                if (track6 == track || track6 == null) {
-                    float f16 = track.left;
-                    long j15 = track.duration;
-                    clamp = Utilities.clamp((long) (f16 * j15), j15, 0L);
-                } else {
-                    long j16 = track.offset + ((long) (track.left * track.duration));
-                    float f17 = track6.right;
-                    float f18 = track6.duration;
-                    clamp = Utilities.clamp(j16, (long) (f17 * f18), (long) (track6.left * f18));
-                }
-                this.progress = clamp;
-                TimelineDelegate timelineDelegate4 = this.delegate;
-                if (timelineDelegate4 != null) {
-                    timelineDelegate4.onProgressChange(this.progress, false);
-                    return;
-                }
+        if (!z && (timelineDelegate2 = this.delegate) != null) {
+            timelineDelegate2.onProgressDragChange(true);
+            Track track6 = this.collageMain;
+            if (track6 == track || track6 == null) {
+                float f14 = track.left;
+                long j16 = track.duration;
+                j = Utilities.clamp((long) (f14 * j16), j16, 0L);
+            } else {
+                long j17 = track.offset + ((long) (track.left * track.duration));
+                float f15 = track6.right;
+                float f16 = track6.duration;
+                j = Utilities.clamp(j17, (long) (f15 * f16), (long) (track6.left * f16));
+            }
+            Track track7 = this.collageMain;
+            if (track7 != track && track7 != null && Math.abs(this.progress - j) > 400) {
+                this.loopProgressFrom = this.progress;
+                this.loopProgress.set(1.0f, true);
+            }
+            timelineDelegate = this.delegate;
+            this.progress = j;
+        } else {
+            if (!z && !this.scrolling) {
                 return;
             }
-            return;
+            Track track8 = this.collageMain;
+            if (track8 == track || track8 == null) {
+                float f17 = track.left;
+                long j18 = track.duration;
+                clamp = Utilities.clamp((long) (f17 * j18), j18, 0L);
+            } else {
+                long j19 = track.offset + ((long) (track.left * track.duration));
+                float f18 = track8.right;
+                float f19 = track8.duration;
+                clamp = Utilities.clamp(j19, (long) (f18 * f19), (long) (track8.left * f19));
+            }
+            this.progress = clamp;
+            timelineDelegate = this.delegate;
+            if (timelineDelegate == null) {
+                return;
+            } else {
+                j = this.progress;
+            }
         }
-        timelineDelegate.onProgressDragChange(true);
-        Track track7 = this.collageMain;
-        if (track7 == track || track7 == null) {
-            float f19 = track.left;
-            long j17 = track.duration;
-            clamp2 = Utilities.clamp((long) (f19 * j17), j17, 0L);
-        } else {
-            long j18 = track.offset + ((long) (track.left * track.duration));
-            float f20 = track7.right;
-            float f21 = track7.duration;
-            clamp2 = Utilities.clamp(j18, (long) (f20 * f21), (long) (track7.left * f21));
-        }
-        Track track8 = this.collageMain;
-        if (track8 != track && track8 != null && Math.abs(this.progress - clamp2) > 400) {
-            this.loopProgressFrom = this.progress;
-            this.loopProgress.set(1.0f, true);
-        }
-        TimelineDelegate timelineDelegate5 = this.delegate;
-        this.progress = clamp2;
-        timelineDelegate5.onProgressChange(clamp2, false);
+        timelineDelegate.onProgressChange(j, false);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:39:0x0128, code lost:

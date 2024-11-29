@@ -175,6 +175,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.tgnet.tl.TL_fragment;
 import org.telegram.tgnet.tl.TL_payments;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
@@ -3619,11 +3620,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         
             if (r27 != (r25.this$0.membersSectionRow - 1)) goto L332;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:266:0x0933, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:266:0x0931, code lost:
         
             r6 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:268:0x0931, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:268:0x092f, code lost:
         
             r6 = true;
          */
@@ -3635,7 +3636,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         
             if (r27 != (r25.this$0.membersSectionRow - 1)) goto L351;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:277:0x0984, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:277:0x0982, code lost:
         
             r6 = false;
          */
@@ -3659,15 +3660,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         
             if (r27 != (r25.this$0.membersSectionRow - 1)) goto L351;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:338:0x092f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:338:0x092d, code lost:
         
             if (r27 != (r25.this$0.membersSectionRow - 1)) goto L332;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:340:0x0949, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:340:0x0947, code lost:
         
             if (r27 != (r25.this$0.membersSectionRow - 1)) goto L351;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:350:0x0981, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:350:0x097f, code lost:
         
             if (r2 == false) goto L350;
          */
@@ -3675,18 +3676,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         
             if (r25.this$0.membersSectionRow == (-1)) goto L169;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:460:0x0c89, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:460:0x0c87, code lost:
         
             if (r25.this$0.botPermissionBiometry != (-1)) goto L489;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:461:0x0d05, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:461:0x0d03, code lost:
         
             r19 = r2;
             r20 = r3;
             r21 = r4;
             r22 = r5;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:485:0x0d02, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:485:0x0d00, code lost:
         
             if (r25.this$0.botPermissionBiometry == (-1)) goto L488;
          */
@@ -3702,8 +3703,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         /* JADX WARN: Removed duplicated region for block: B:224:0x050b  */
         /* JADX WARN: Removed duplicated region for block: B:28:0x0150  */
         /* JADX WARN: Removed duplicated region for block: B:41:0x0178  */
-        /* JADX WARN: Removed duplicated region for block: B:571:0x127b  */
-        /* JADX WARN: Removed duplicated region for block: B:575:0x12af  */
+        /* JADX WARN: Removed duplicated region for block: B:571:0x1279  */
+        /* JADX WARN: Removed duplicated region for block: B:575:0x12ad  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4126,7 +4127,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     break;
                                 } else {
                                     if (i == ProfileActivity.this.channelBalanceRow) {
-                                        long botStarsBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(-ProfileActivity.this.chatId);
+                                        TL_stars.StarsAmount botStarsBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(-ProfileActivity.this.chatId);
                                         long tONBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getTONBalance(-ProfileActivity.this.chatId);
                                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                                         if (tONBalance > 0) {
@@ -4148,20 +4149,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                             }
                                             append2.append((CharSequence) format3);
                                         }
-                                        if (botStarsBalance > 0) {
+                                        if (botStarsBalance.amount > 0) {
                                             if (spannableStringBuilder.length() > 0) {
                                                 spannableStringBuilder.append((CharSequence) " ");
                                             }
-                                            spannableStringBuilder.append((CharSequence) "XTR ").append((CharSequence) AndroidUtilities.formatWholeNumber((int) botStarsBalance, 0));
+                                            spannableStringBuilder.append((CharSequence) "XTR ").append(StarsIntroActivity.formatStarsAmountShort(botStarsBalance));
                                         }
                                         string11 = LocaleController.getString(R.string.ChannelStars);
                                         replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder, 0.7f), textCell.getTextView().getPaint());
                                         i14 = R.drawable.menu_feature_paid;
                                     } else if (i == ProfileActivity.this.botStarsBalanceRow) {
-                                        long botStarsBalance2 = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(ProfileActivity.this.userId);
+                                        TL_stars.StarsAmount botStarsBalance2 = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(ProfileActivity.this.userId);
                                         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-                                        if (botStarsBalance2 > 0) {
-                                            spannableStringBuilder2.append((CharSequence) "XTR ").append((CharSequence) AndroidUtilities.formatWholeNumber((int) botStarsBalance2, 0));
+                                        if (botStarsBalance2.amount > 0) {
+                                            spannableStringBuilder2.append((CharSequence) "XTR ").append(StarsIntroActivity.formatStarsAmountShort(botStarsBalance2));
                                         }
                                         string11 = LocaleController.getString(R.string.BotBalanceStars);
                                         replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder2, 0.7f), textCell.getTextView().getPaint());
@@ -15155,7 +15156,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:456:0x08e4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:456:0x08e8, code lost:
     
         if (r3 != false) goto L504;
      */
@@ -15163,7 +15164,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     
         if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationToBeDeprecated) == false) goto L61;
      */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0570  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0572  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15469,7 +15470,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         this.rowCount = i25 + 1;
                         this.botTonBalanceRow = i25;
                     }
-                    if (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(this.userId) > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(this.userId)) {
+                    if (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(this.userId).amount > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(this.userId)) {
                         int i26 = this.rowCount;
                         this.rowCount = i26 + 1;
                         this.botStarsBalanceRow = i26;
@@ -15716,7 +15717,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     long j2 = this.chatId;
                     long j3 = j2 != 0 ? -j2 : this.userId;
-                    if ((chatFull3 != null && chatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(j3) > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3))) || ((chatFull4 = this.chatInfo) != null && chatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getTONBalance(j3) > 0)) {
+                    if ((chatFull3 != null && chatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(j3).amount > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3))) || ((chatFull4 = this.chatInfo) != null && chatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getTONBalance(j3) > 0)) {
                         int i63 = this.rowCount;
                         this.rowCount = i63 + 1;
                         this.channelBalanceRow = i63;

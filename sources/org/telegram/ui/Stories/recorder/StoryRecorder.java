@@ -4439,7 +4439,7 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.collageButton = collageLayoutButton;
         collageLayoutButton.setBackground(Theme.createSelectorDrawable(553648127));
         if (this.lastCollageLayout == null) {
-            this.lastCollageLayout = (CollageLayout) CollageLayout.getLayouts().get(2);
+            this.lastCollageLayout = (CollageLayout) CollageLayout.getLayouts().get(6);
         }
         this.collageButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda48
             @Override // android.view.View.OnClickListener
@@ -4469,7 +4469,8 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         this.actionBarContainer.addView(this.collageRemoveButton, LayoutHelper.createFrame(56, 56, 53));
         CollageLayoutButton.CollageLayoutListView collageLayoutListView = new CollageLayoutButton.CollageLayoutListView(context, this.flashViews);
         this.collageListView = collageLayoutListView;
-        collageLayoutListView.setSelected((CollageLayout) null);
+        collageLayoutListView.listView.scrollToPosition(6);
+        this.collageListView.setSelected((CollageLayout) null);
         this.collageListView.setOnLayoutClick(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryRecorder$$ExternalSyntheticLambda50
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {

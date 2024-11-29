@@ -312,6 +312,7 @@ public class CollageLayoutButton extends ToggleButton2 {
 
         public void setBounds(float f, float f2) {
             this.listView.setPadding((int) f, 0, (int) f2, 0);
+            this.listView.invalidate();
         }
 
         public void setOnLayoutClick(Utilities.Callback<CollageLayout> callback) {
