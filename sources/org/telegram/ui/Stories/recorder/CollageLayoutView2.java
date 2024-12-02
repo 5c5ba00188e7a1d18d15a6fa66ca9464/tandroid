@@ -84,6 +84,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     public Part pressedPart;
     private boolean preview;
     private long previewStartTime;
+    private PreviewView previewView;
     private final float[] radii;
     private final RectF rect;
     public final ArrayList removingParts;
@@ -223,8 +224,10 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
                 this.videoPlayer = r9;
                 r9.allowMultipleInstances(true);
                 this.videoPlayer.with(this.textureView);
-                this.videoPlayer.setVolume(0.0f);
                 this.videoPlayer.preparePlayer(Uri.fromFile(this.content.file), false, 1.0f);
+                VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayer;
+                CollageLayoutView2 collageLayoutView2 = CollageLayoutView2.this;
+                videoPlayerHolderBase.setVolume((collageLayoutView2.isMuted || this.content.muted || !collageLayoutView2.preview) ? 0.0f : this.content.videoVolume);
                 if (!CollageLayoutView2.this.preview || CollageLayoutView2.this.playing) {
                     this.videoPlayer.play();
                 } else {
@@ -332,7 +335,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         this.syncRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
-                CollageLayoutView2.this.lambda$new$6();
+                CollageLayoutView2.this.lambda$new$7();
             }
         };
         this.blurManager = blurManager;
@@ -482,66 +485,67 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x00a1  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00d0  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00e6  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00d5  */
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x0078, code lost:
+    
+        if (r12 < (r8.content.videoRight * r14)) goto L23;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$new$6() {
+    public /* synthetic */ void lambda$new$7() {
         VideoPlayerHolderBase videoPlayerHolderBase;
-        boolean z;
-        long clamp;
         long position = getPosition();
         Part mainPart = getMainPart();
         long j = mainPart == null ? 0L : mainPart.content.videoOffset + ((long) (mainPart.content.videoLeft * mainPart.content.duration));
-        for (int i = 0; i < this.parts.size(); i++) {
+        int i = 0;
+        while (true) {
+            boolean z = true;
+            if (i >= this.parts.size()) {
+                break;
+            }
             final Part part = (Part) this.parts.get(i);
             if (part.content != null && (videoPlayerHolderBase = part.videoPlayer) != null) {
                 long duration = videoPlayerHolderBase.getDuration();
-                long clamp2 = Utilities.clamp((position + j) - part.content.videoOffset, duration, 0L);
+                long clamp = Utilities.clamp((position + j) - part.content.videoOffset, duration, 0L);
                 if (!this.preview || this.playing) {
-                    float f = clamp2;
+                    float f = clamp;
                     float f2 = duration;
-                    if (f > part.content.videoLeft * f2 && f < part.content.videoRight * f2) {
-                        z = true;
-                        float f3 = duration;
-                        clamp = Utilities.clamp(clamp2, (long) (part.content.videoRight * f3), (long) (part.content.videoLeft * f3));
-                        if (part.videoPlayer.isPlaying() != z) {
-                            VideoPlayerHolderBase videoPlayerHolderBase2 = part.videoPlayer;
-                            if (z) {
-                                videoPlayerHolderBase2.play();
-                            } else {
-                                videoPlayerHolderBase2.pause();
-                            }
-                        }
-                        part.videoPlayer.setVolume((!this.isMuted || part.content.muted) ? 0.0f : part.content.videoVolume);
-                        if (Math.abs((part.pendingSeek < 0 ? part.pendingSeek : part.videoPlayer.getCurrentPosition()) - clamp) > 450) {
-                            if (part.pendingSeek < 0) {
-                                part.videoPlayer.seekTo(part.pendingSeek = clamp, this.fastSeek, new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda8
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        CollageLayoutView2.Part.access$802(CollageLayoutView2.Part.this, -1L);
-                                    }
-                                });
-                            }
-                        }
+                    if (f > part.content.videoLeft * f2) {
                     }
                 }
                 z = false;
-                float f32 = duration;
-                clamp = Utilities.clamp(clamp2, (long) (part.content.videoRight * f32), (long) (part.content.videoLeft * f32));
+                float f3 = duration;
+                long clamp2 = Utilities.clamp(clamp, (long) (part.content.videoRight * f3), (long) (part.content.videoLeft * f3));
                 if (part.videoPlayer.isPlaying() != z) {
+                    if (z) {
+                        part.videoPlayer.play();
+                    } else {
+                        part.videoPlayer.pause();
+                    }
                 }
-                part.videoPlayer.setVolume((!this.isMuted || part.content.muted) ? 0.0f : part.content.videoVolume);
-                if (Math.abs((part.pendingSeek < 0 ? part.pendingSeek : part.videoPlayer.getCurrentPosition()) - clamp) > 450) {
+                part.videoPlayer.setVolume((this.isMuted || part.content.muted || !this.preview) ? 0.0f : part.content.videoVolume);
+                if (Math.abs((part.pendingSeek >= 0 ? part.pendingSeek : part.videoPlayer.getCurrentPosition()) - clamp2) > 450) {
+                    if (part.pendingSeek < 0) {
+                        part.videoPlayer.seekTo(part.pendingSeek = clamp2, this.fastSeek, new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda4
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                CollageLayoutView2.Part.access$802(CollageLayoutView2.Part.this, -1L);
+                            }
+                        });
+                    }
+                    i++;
                 }
             }
+            i++;
         }
         TimelineView timelineView = this.timelineView;
         if (timelineView != null) {
             timelineView.setProgress(position);
+        }
+        PreviewView previewView = this.previewView;
+        if (previewView != null) {
+            previewView.updateAudioPlayer(true);
+            this.previewView.updateRoundPlayer(true);
         }
         if (this.preview && this.playing) {
             AndroidUtilities.runOnUIThread(this.syncRunnable, (long) (1000.0f / AndroidUtilities.screenRefreshRate));
@@ -551,6 +555,11 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onLongPress$1(Float f) {
         this.longPressedPart.content.videoVolume = f.floatValue();
+        Part part = this.longPressedPart;
+        VideoPlayerHolderBase videoPlayerHolderBase = part.videoPlayer;
+        if (videoPlayerHolderBase != null) {
+            videoPlayerHolderBase.setVolume(part.content.videoVolume);
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -565,6 +574,16 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$onLongPress$4() {
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$onLongPress$5() {
+        VideoPlayerHolderBase videoPlayerHolderBase;
+        Part part = this.longPressedPart;
+        if (part == null || (videoPlayerHolderBase = part.videoPlayer) == null) {
+            return;
+        }
+        videoPlayerHolderBase.setVolume(0.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -622,17 +641,27 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
 
     /* JADX INFO: Access modifiers changed from: private */
     public void onLongPress() {
+        VideoPlayerHolderBase videoPlayerHolderBase;
         if (this.reorderingTouch || this.preview) {
             return;
         }
-        Part part = this.pressedPart;
-        this.longPressedPart = part;
-        if (part == null || part.content == null) {
+        Part part = this.longPressedPart;
+        if (part != null && (videoPlayerHolderBase = part.videoPlayer) != null) {
+            videoPlayerHolderBase.setVolume(0.0f);
+        }
+        Part part2 = this.pressedPart;
+        this.longPressedPart = part2;
+        if (part2 == null || part2.content == null) {
             return;
         }
         Runnable runnable = this.cancelGestures;
         if (runnable != null) {
             runnable.run();
+        }
+        Part part3 = this.longPressedPart;
+        VideoPlayerHolderBase videoPlayerHolderBase2 = part3.videoPlayer;
+        if (videoPlayerHolderBase2 != null) {
+            videoPlayerHolderBase2.setVolume(part3.content.videoVolume);
         }
         FrameLayout frameLayout = new FrameLayout(getContext());
         ImageView imageView = new ImageView(getContext());
@@ -647,7 +676,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         frameLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 23, 47.0f, 8.0f, 24.0f, 8.0f));
         ItemOptions makeOptions = ItemOptions.makeOptions(this.containerView, this.resourcesProvider, this);
         if (this.longPressedPart.content.isVideo) {
-            SliderView onValueChange = new SliderView(getContext(), 0).setMinMax(0.0f, 1.5f).setValue(this.longPressedPart.content.videoVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda4
+            SliderView onValueChange = new SliderView(getContext(), 0).setMinMax(0.0f, 1.5f).setValue(this.longPressedPart.content.videoVolume).setOnValueChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda5
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     CollageLayoutView2.this.lambda$onLongPress$1((Float) obj);
@@ -656,22 +685,27 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             onValueChange.fixWidth = AndroidUtilities.dp(220.0f);
             makeOptions.addView(onValueChange).addSpaceGap();
         }
-        makeOptions.setFixedWidth(NotificationCenter.updateAllMessages).add(R.drawable.menu_camera_retake, LocaleController.getString(R.string.StoreCollageRetake), new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda5
+        makeOptions.setFixedWidth(NotificationCenter.updateAllMessages).add(R.drawable.menu_camera_retake, LocaleController.getString(R.string.StoreCollageRetake), new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 CollageLayoutView2.this.lambda$onLongPress$2();
             }
-        }).add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda6
+        }).add(R.drawable.msg_delete, (CharSequence) LocaleController.getString(R.string.Delete), true, new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 CollageLayoutView2.this.lambda$onLongPress$3();
             }
-        }).addSpaceGap().addView(frameLayout, LayoutHelper.createLinear(NotificationCenter.updateAllMessages, -2)).setOnDismiss(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda7
+        }).addSpaceGap().addView(frameLayout, LayoutHelper.createLinear(NotificationCenter.updateAllMessages, -2)).setOnDismiss(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 CollageLayoutView2.lambda$onLongPress$4();
             }
-        }).setGravity(1).allowCenter(true).setBlur(true).setRoundRadius(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(10.0f)).show();
+        }).setGravity(1).allowCenter(true).setBlur(true).setRoundRadius(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(10.0f)).setOnDismiss(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda9
+            @Override // java.lang.Runnable
+            public final void run() {
+                CollageLayoutView2.this.lambda$onLongPress$5();
+            }
+        }).show();
         performHapticFeedback(0, 1);
     }
 
@@ -1157,6 +1191,15 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         return j;
     }
 
+    public long getPositionWithOffset() {
+        if (!this.preview) {
+            return 0L;
+        }
+        getPosition();
+        Part mainPart = getMainPart();
+        return getPosition() + (mainPart != null ? mainPart.content.videoOffset + ((long) (mainPart.content.videoLeft * mainPart.content.duration)) : 0L);
+    }
+
     public boolean hasContent() {
         Iterator it = this.parts.iterator();
         while (it.hasNext()) {
@@ -1468,6 +1511,10 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             this.previewStartTime = System.currentTimeMillis();
             AndroidUtilities.runOnUIThread(this.syncRunnable, (long) (1000.0f / AndroidUtilities.screenRefreshRate));
         }
+    }
+
+    public void setPreviewView(PreviewView previewView) {
+        this.previewView = previewView;
     }
 
     public void setResetState(Runnable runnable) {

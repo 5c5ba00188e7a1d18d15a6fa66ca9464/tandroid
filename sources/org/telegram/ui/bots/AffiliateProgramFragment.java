@@ -31,6 +31,7 @@ import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.tgnet.tl.TL_payments;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Components.BulletinFactory;
@@ -287,8 +288,8 @@ public class AffiliateProgramFragment extends GradientHeaderActivity implements 
         setMinusHeaderHeight(AndroidUtilities.dp(60.0f));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0069  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x009c A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0094 A[ORIG_RETURN, RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -299,7 +300,8 @@ public class AffiliateProgramFragment extends GradientHeaderActivity implements 
         CharSequence string2;
         BaseFragment baseFragment = null;
         if (getParentLayout() != null && getParentLayout().getFragmentStack() != null) {
-            List fragmentStack = getParentLayout().getFragmentStack();
+            INavigationLayout parentLayout = getParentLayout();
+            List fragmentStack = parentLayout.getFragmentStack();
             int size = fragmentStack.size() - 1;
             while (true) {
                 if (size <= 0) {
@@ -315,7 +317,7 @@ public class AffiliateProgramFragment extends GradientHeaderActivity implements 
             }
             if (baseFragment == null) {
                 lambda$onBackPressed$321();
-                baseFragment = getParentLayout().getBackgroundFragment();
+                baseFragment = parentLayout.getBackgroundFragment();
                 if (baseFragment == null) {
                     if (z) {
                         of = BulletinFactory.of(baseFragment);
@@ -334,7 +336,7 @@ public class AffiliateProgramFragment extends GradientHeaderActivity implements 
                 return;
             }
             for (int size2 = fragmentStack.size() - 1; size2 > size; size2--) {
-                getParentLayout().removeFragmentFromStack((BaseFragment) fragmentStack.get(size2));
+                parentLayout.removeFragmentFromStack((BaseFragment) fragmentStack.get(size2));
             }
         }
         lambda$onBackPressed$321();
@@ -505,7 +507,7 @@ public class AffiliateProgramFragment extends GradientHeaderActivity implements 
         if (userFull != null) {
             TL_payments.starRefProgram starrefprogram2 = this.program;
             starrefprogram2.flags |= 2;
-            starrefprogram2.end_date = getConnectionsManager().getCurrentTime();
+            starrefprogram2.end_date = getConnectionsManager().getCurrentTime() + (getConnectionsManager().isTestBackend() ? NotificationCenter.uploadStoryProgress : 86400);
             userFull.starref_program = starrefprogram;
             getMessagesStorage().updateUserInfo(userFull, false);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(this.bot_id), userFull);
@@ -542,14 +544,7 @@ public class AffiliateProgramFragment extends GradientHeaderActivity implements 
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$7() {
-        String buildCountDownTime;
-        ButtonWithCounterView buttonWithCounterView = this.button;
-        if (this.program.end_date == 0) {
-            buildCountDownTime = null;
-        } else {
-            buildCountDownTime = SelectorUserCell.buildCountDownTime(((r1 + (getConnectionsManager().isTestBackend() ? NotificationCenter.uploadStoryProgress : 86400)) - getConnectionsManager().getCurrentTime()) * 1000);
-        }
-        buttonWithCounterView.setSubText(buildCountDownTime, true);
+        this.button.setSubText(this.program.end_date == 0 ? null : SelectorUserCell.buildCountDownTime((r1 - getConnectionsManager().getCurrentTime()) * 1000), true);
         if (this.program.end_date == 0 || !this.attached) {
             return;
         }

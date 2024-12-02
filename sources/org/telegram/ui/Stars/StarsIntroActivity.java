@@ -5652,35 +5652,34 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         return bottomSheetArr[0];
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x0225  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x014f  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x01c6  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x020b  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x02ac  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0224  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x01ca  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x014d  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x01c4  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0209  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x02ab  */
     /* JADX WARN: Removed duplicated region for block: B:32:0x031f  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0344  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0347  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0466  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x063e  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0342  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0345  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0462  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x063c  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x02cf  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static BottomSheet showSubscriptionSheet(final Context context, final int i, final TL_stars.StarsSubscription starsSubscription, final Theme.ResourcesProvider resourcesProvider) {
-        boolean[] zArr;
+        FrameLayout frameLayout;
         TLRPC.Chat chat;
         String str;
-        final boolean z;
+        boolean z;
         boolean z2;
-        FrameLayout frameLayout;
+        boolean[] zArr;
         int i2;
-        SpannableStringBuilder replaceStarsWithPlain;
+        String formatString;
         TableView tableView;
         NotificationCenter.NotificationCenterDelegate notificationCenterDelegate;
-        String publicUsername;
         boolean z3;
+        String str2;
         long currentTime;
         final NotificationCenter.NotificationCenterDelegate notificationCenterDelegate2;
         BaseFragment safeLastFragment;
@@ -5709,18 +5708,19 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         NotificationCenter.getInstance(i).addObserver(notificationCenterDelegate3, NotificationCenter.starSubscriptionsLoaded);
         final long peerDialogId = DialogObject.getPeerDialogId(starsSubscription.peer);
         BackupImageView backupImageView = new BackupImageView(context);
+        MessagesController messagesController = MessagesController.getInstance(i);
         if (peerDialogId >= 0) {
-            TLRPC.User user = MessagesController.getInstance(i).getUser(Long.valueOf(peerDialogId));
+            TLRPC.User user = messagesController.getUser(Long.valueOf(peerDialogId));
             String userName = UserObject.getUserName(user);
             boolean isBot = UserObject.isBot(user);
             chat = user;
-            zArr = zArr2;
+            frameLayout = frameLayout2;
             str = userName;
-            z = isBot;
-            z2 = !isBot;
+            z2 = isBot;
+            z = !isBot;
         } else {
-            zArr = zArr2;
-            TLRPC.Chat chat2 = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
+            frameLayout = frameLayout2;
+            TLRPC.Chat chat2 = messagesController.getChat(Long.valueOf(-peerDialogId));
             chat = chat2;
             str = chat2 == null ? "" : chat2.title;
             z = false;
@@ -5733,7 +5733,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             backupImageView.setRoundRadius(AndroidUtilities.dp(50.0f));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             if (peerDialogId < 0) {
-                frameLayout = frameLayout2;
+                zArr = zArr2;
                 TLRPC.Chat chat3 = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
                 avatarDrawable.setInfo(chat3);
                 backupImageView.setForUserOrChat(chat3, avatarDrawable);
@@ -5770,11 +5770,11 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing = starsSubscription.pricing;
                 i2 = tL_starsSubscriptionPricing.period;
                 if (i2 != 2592000) {
-                    replaceStarsWithPlain = replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount)), 0.8f);
+                    formatString = LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount));
                 } else {
-                    replaceStarsWithPlain = replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount), i2 == 300 ? "5min" : "min"), 0.8f);
+                    formatString = LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tL_starsSubscriptionPricing.amount), i2 == 300 ? "5min" : "min");
                 }
-                textView2.setText(replaceStarsWithPlain);
+                textView2.setText(replaceStarsWithPlain(formatString, 0.8f));
                 linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
                 tableView = new TableView(context, resourcesProvider);
                 LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
@@ -5789,21 +5789,20 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 AvatarSpan avatarSpan = new AvatarSpan(linksTextView, i, 24.0f);
                 if (peerDialogId < 0) {
                     TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(peerDialogId));
-                    boolean z4 = user2 == null || UserObject.isDeleted(user2);
-                    String publicUsername2 = UserObject.getPublicUsername(user2);
+                    z3 = user2 == null || UserObject.isDeleted(user2);
+                    String userName2 = UserObject.getUserName(user2);
                     avatarSpan.setUser(user2);
-                    z3 = z4;
+                    str2 = userName2;
                     notificationCenterDelegate = notificationCenterDelegate3;
-                    publicUsername = publicUsername2;
                 } else {
                     notificationCenterDelegate = notificationCenterDelegate3;
                     TLRPC.Chat chat4 = MessagesController.getInstance(i).getChat(Long.valueOf(-peerDialogId));
-                    boolean z5 = chat4 == null;
-                    publicUsername = ChatObject.getPublicUsername(chat4);
+                    z3 = chat4 == null;
+                    String str3 = chat4 != null ? chat4.title : "";
                     avatarSpan.setChat(chat4);
-                    z3 = z5;
+                    str2 = str3;
                 }
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("x  " + ((Object) publicUsername));
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("x  " + ((Object) str2));
                 spannableStringBuilder.setSpan(avatarSpan, 0, 1, 33);
                 spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stars.StarsIntroActivity.10
                     @Override // android.text.style.ClickableSpan
@@ -5822,10 +5821,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 }, 3, spannableStringBuilder.length(), 33);
                 linksTextView.setText(spannableStringBuilder);
                 if (!z3) {
-                    tableView.addRowUnpadded(LocaleController.getString(peerDialogId < 0 ? R.string.StarsSubscriptionChannel : z2 ? R.string.StarsSubscriptionBusiness : R.string.StarsSubscriptionBot), linksTextView);
+                    tableView.addRowUnpadded(LocaleController.getString(peerDialogId < 0 ? R.string.StarsSubscriptionChannel : z ? R.string.StarsSubscriptionBusiness : R.string.StarsSubscriptionBot), linksTextView);
                 }
                 if (peerDialogId >= 0 && !TextUtils.isEmpty(starsSubscription.title)) {
-                    tableView.addRow(LocaleController.getString(!z2 ? R.string.StarsSubscriptionBusinessProduct : R.string.StarsSubscriptionBotProduct), starsSubscription.title);
+                    tableView.addRow(LocaleController.getString(!z ? R.string.StarsSubscriptionBusinessProduct : R.string.StarsSubscriptionBotProduct), starsSubscription.title);
                 }
                 CharSequence string = LocaleController.getString(R.string.StarsSubscriptionSince);
                 int i4 = R.string.formatDateAtTime;
@@ -5874,21 +5873,21 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                     linksTextView4.setTextColor(Theme.getColor(i5, resourcesProvider));
                     linksTextView4.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
                     linksTextView4.setTextSize(1, 14.0f);
-                    linksTextView4.setText(LocaleController.formatString(z ? R.string.StarsSubscriptionBotRefulfillInfo : R.string.StarsSubscriptionRefulfillInfo, LocaleController.formatDateChat(starsSubscription.until_date)));
+                    linksTextView4.setText(LocaleController.formatString(z2 ? R.string.StarsSubscriptionBotRefulfillInfo : R.string.StarsSubscriptionRefulfillInfo, LocaleController.formatDateChat(starsSubscription.until_date)));
                     linksTextView4.setSingleLine(false);
                     linksTextView4.setMaxLines(4);
                     linksTextView4.setGravity(17);
                     linearLayout.addView(linksTextView4, LayoutHelper.createLinear(-1, -2, 26.0f, 7.0f, 26.0f, 15.0f));
                     final ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, true, resourcesProvider);
-                    buttonWithCounterView2.setText(LocaleController.getString(z ? R.string.StarsSubscriptionBotRefulfill : R.string.StarsSubscriptionRefulfill), false);
+                    buttonWithCounterView2.setText(LocaleController.getString(z2 ? R.string.StarsSubscriptionBotRefulfill : R.string.StarsSubscriptionRefulfill), false);
                     linearLayout.addView(buttonWithCounterView2, LayoutHelper.createLinear(-1, 48));
-                    final boolean z6 = z2;
+                    final boolean z4 = z;
                     notificationCenterDelegate2 = notificationCenterDelegate;
-                    final String str2 = str;
+                    final String str4 = str;
                     buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda78
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
-                            StarsIntroActivity.lambda$showSubscriptionSheet$50(ButtonWithCounterView.this, i, starsSubscription, bottomSheetArr, peerDialogId, context, resourcesProvider, z6, str2, view);
+                            StarsIntroActivity.lambda$showSubscriptionSheet$50(ButtonWithCounterView.this, i, starsSubscription, bottomSheetArr, peerDialogId, context, resourcesProvider, z4, str4, view);
                         }
                     });
                 } else {
@@ -5898,7 +5897,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                         linksTextView5.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
                         linksTextView5.setLinkTextColor(Theme.getColor(i3, resourcesProvider));
                         linksTextView5.setTextSize(1, 14.0f);
-                        linksTextView5.setText(LocaleController.getString(z2 ? R.string.StarsSubscriptionBusinessCancelledText : R.string.StarsSubscriptionBotCancelledText));
+                        linksTextView5.setText(LocaleController.getString(z ? R.string.StarsSubscriptionBusinessCancelledText : R.string.StarsSubscriptionBotCancelledText));
                         linksTextView5.setSingleLine(false);
                         linksTextView5.setMaxLines(4);
                         linksTextView5.setGravity(17);
@@ -5918,11 +5917,11 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                             buttonWithCounterView3.setText(LocaleController.getString(R.string.StarsSubscriptionRenew), false);
                             linearLayout.addView(buttonWithCounterView3, LayoutHelper.createLinear(-1, 48));
                             final TLRPC.Chat chat5 = chat;
-                            final String str3 = str;
+                            final String str5 = str;
                             buttonWithCounterView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda79
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view) {
-                                    StarsIntroActivity.lambda$showSubscriptionSheet$53(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, chat5, str3, view);
+                                    StarsIntroActivity.lambda$showSubscriptionSheet$53(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, chat5, str5, view);
                                 }
                             });
                         }
@@ -5940,12 +5939,13 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                         buttonWithCounterView4.setText(LocaleController.getString(R.string.StarsSubscriptionCancel), false);
                         buttonWithCounterView4.setTextColor(Theme.getColor(Theme.key_color_red, resourcesProvider));
                         linearLayout.addView(buttonWithCounterView4, LayoutHelper.createLinear(-1, 48));
-                        final boolean z7 = z2;
+                        final boolean z5 = z;
+                        final boolean z6 = z2;
                         final TLRPC.Chat chat6 = chat;
                         buttonWithCounterView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda80
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view) {
-                                StarsIntroActivity.lambda$showSubscriptionSheet$56(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, z7, z, chat6, view);
+                                StarsIntroActivity.lambda$showSubscriptionSheet$56(ButtonWithCounterView.this, starsSubscription, i, bottomSheetArr, z5, z6, chat6, view);
                             }
                         });
                     }
@@ -5972,7 +5972,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             avatarDrawable.setInfo(user3);
             backupImageView.setForUserOrChat(user3, avatarDrawable);
         }
-        frameLayout = frameLayout2;
+        zArr = zArr2;
         ViewGroup viewGroup2 = frameLayout;
         viewGroup2.addView(backupImageView, LayoutHelper.createFrame(100, 100, 17));
         Drawable drawable3 = context.getResources().getDrawable(R.drawable.star_small_outline);
@@ -5995,7 +5995,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         i2 = tL_starsSubscriptionPricing2.period;
         if (i2 != 2592000) {
         }
-        textView22.setText(replaceStarsWithPlain);
+        textView22.setText(replaceStarsWithPlain(formatString, 0.8f));
         linearLayout.addView(textView22, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         tableView = new TableView(context, resourcesProvider);
         LinkSpanDrawable.LinksTextView linksTextView8 = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
@@ -6010,7 +6010,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         AvatarSpan avatarSpan2 = new AvatarSpan(linksTextView8, i, 24.0f);
         if (peerDialogId < 0) {
         }
-        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder("x  " + ((Object) publicUsername));
+        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder("x  " + ((Object) str2));
         spannableStringBuilder2.setSpan(avatarSpan2, 0, 1, 33);
         spannableStringBuilder2.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Stars.StarsIntroActivity.10
             @Override // android.text.style.ClickableSpan
@@ -6031,7 +6031,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         if (!z3) {
         }
         if (peerDialogId >= 0) {
-            tableView.addRow(LocaleController.getString(!z2 ? R.string.StarsSubscriptionBusinessProduct : R.string.StarsSubscriptionBotProduct), starsSubscription.title);
+            tableView.addRow(LocaleController.getString(!z ? R.string.StarsSubscriptionBusinessProduct : R.string.StarsSubscriptionBotProduct), starsSubscription.title);
         }
         CharSequence string2 = LocaleController.getString(R.string.StarsSubscriptionSince);
         int i42 = R.string.formatDateAtTime;

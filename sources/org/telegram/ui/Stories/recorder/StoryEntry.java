@@ -663,8 +663,7 @@ public class StoryEntry {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0128  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -672,6 +671,7 @@ public class StoryEntry {
         float f;
         long j;
         long j2;
+        long j3;
         int i;
         ArrayList arrayList;
         String str2 = str;
@@ -715,14 +715,14 @@ public class StoryEntry {
                 if (z) {
                     Iterator<VideoEditedInfo.Part> it = parts.iterator();
                     VideoEditedInfo.Part part = null;
-                    long j3 = 0;
+                    long j4 = 0;
                     while (it.hasNext()) {
                         VideoEditedInfo.Part next = it.next();
                         if (next.isVideo) {
-                            long j4 = next.duration;
-                            if (j4 > j3) {
+                            long j5 = next.duration;
+                            if (j5 > j4) {
                                 part = next;
-                                j3 = j4;
+                                j4 = j5;
                             }
                         }
                     }
@@ -730,21 +730,30 @@ public class StoryEntry {
                         float f2 = part.duration;
                         float f3 = part.right;
                         float f4 = part.left;
-                        long j5 = (long) ((f3 - f4) * f2);
-                        this.duration = j5;
-                        videoEditedInfo.originalDuration = j5;
-                        videoEditedInfo.estimatedDuration = j5;
-                        long j6 = part.offset + ((long) (f4 * f2));
-                        part.offset = -j6;
+                        long j6 = (long) ((f3 - f4) * f2);
+                        this.duration = j6;
+                        videoEditedInfo.originalDuration = j6;
+                        videoEditedInfo.estimatedDuration = j6;
+                        j3 = -(part.offset + ((long) (f4 * f2)));
+                        part.offset = j3;
                         Iterator<VideoEditedInfo.Part> it2 = videoEditedInfo.collageParts.iterator();
                         while (it2.hasNext()) {
                             VideoEditedInfo.Part next2 = it2.next();
                             if (next2.isVideo && next2 != part) {
-                                next2.offset -= j6;
-                                part = part;
+                                next2.offset += j3;
                             }
                         }
+                        videoEditedInfo.startTime = -1L;
+                        videoEditedInfo.endTime = -1L;
+                        videoEditedInfo.muted = true;
+                        videoEditedInfo.originalBitrate = -1;
+                        videoEditedInfo.volume = 1.0f;
+                        videoEditedInfo.bitrate = -1;
+                        videoEditedInfo.framerate = 30;
+                        videoEditedInfo.estimatedSize = (long) (((this.duration / 1000.0f) * extractRealEncoderBitrate) / 8.0f);
+                        videoEditedInfo.filterState = null;
                     }
+                    j3 = 0;
                     videoEditedInfo.startTime = -1L;
                     videoEditedInfo.endTime = -1L;
                     videoEditedInfo.muted = true;
@@ -767,6 +776,7 @@ public class StoryEntry {
                 this.duration = j2;
                 videoEditedInfo.originalDuration = j2;
                 videoEditedInfo.estimatedDuration = j2;
+                j3 = 0;
                 videoEditedInfo.startTime = -1L;
                 videoEditedInfo.endTime = -1L;
                 videoEditedInfo.muted = true;
@@ -781,6 +791,7 @@ public class StoryEntry {
             this.duration = j2;
             videoEditedInfo.originalDuration = j2;
             videoEditedInfo.estimatedDuration = j2;
+            j3 = 0;
             videoEditedInfo.startTime = -1L;
             videoEditedInfo.endTime = -1L;
             videoEditedInfo.muted = true;
@@ -822,7 +833,8 @@ public class StoryEntry {
                     videoEditedInfo.estimatedSize = Math.max(this.file.length(), videoEditedInfo.estimatedSize);
                     videoEditedInfo.filterState = this.filterState;
                     File file6 = this.paintBlurFile;
-                    videoEditedInfo.blurPath = file6 != null ? null : file6.getPath();
+                    videoEditedInfo.blurPath = file6 != null ? file6.getPath() : null;
+                    j3 = 0;
                 }
             } else {
                 i = 2000000;
@@ -846,7 +858,8 @@ public class StoryEntry {
             videoEditedInfo.estimatedSize = Math.max(this.file.length(), videoEditedInfo.estimatedSize);
             videoEditedInfo.filterState = this.filterState;
             File file62 = this.paintBlurFile;
-            videoEditedInfo.blurPath = file62 != null ? null : file62.getPath();
+            videoEditedInfo.blurPath = file62 != null ? file62.getPath() : null;
+            j3 = 0;
         }
         videoEditedInfo.account = this.currentAccount;
         videoEditedInfo.wallpaperPeerId = this.backgroundWallpaperPeerId;
@@ -886,6 +899,7 @@ public class StoryEntry {
             float f9 = this.roundDuration;
             mixedSoundInfo2.audioOffset = ((long) (f8 * f9)) * 1000;
             mixedSoundInfo2.startTime = this.isVideo ? ((long) (this.roundOffset - (this.left * this.duration))) * 1000 : 0L;
+            mixedSoundInfo2.startTime += j3;
             mixedSoundInfo2.duration = ((long) ((this.roundRight - f8) * f9)) * 1000;
             videoEditedInfo.mixedSoundInfos.add(mixedSoundInfo2);
         }
@@ -897,6 +911,7 @@ public class StoryEntry {
             float f11 = this.audioDuration;
             mixedSoundInfo3.audioOffset = ((long) (f10 * f11)) * 1000;
             mixedSoundInfo3.startTime = this.isVideo ? ((long) (this.audioOffset - (this.left * this.duration))) * 1000 : 0L;
+            mixedSoundInfo3.startTime += j3;
             mixedSoundInfo3.duration = ((long) ((this.audioRight - f10) * f11)) * 1000;
             videoEditedInfo.mixedSoundInfos.add(mixedSoundInfo3);
         }

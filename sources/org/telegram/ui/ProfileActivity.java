@@ -15156,15 +15156,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:456:0x08e8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:458:0x08ed, code lost:
     
-        if (r3 != false) goto L504;
+        if (r3 != false) goto L506;
      */
     /* JADX WARN: Code restructure failed: missing block: B:58:0x0169, code lost:
     
         if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationToBeDeprecated) == false) goto L61;
      */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0572  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x0577  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15184,6 +15184,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         boolean z2;
         TLRPC.UserFull userFull;
         TLRPC.UserFull userFull2;
+        TL_payments.starRefProgram starrefprogram;
         ProfileChannelCell.ChannelMessageFetcher channelMessageFetcher;
         TLRPC.Chat chat;
         TLRPC.ChatFull chatFull6;
@@ -15406,7 +15407,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 this.infoEndRow = i16 - 1;
                 this.rowCount = i16 + 1;
                 this.infoSectionRow = i16;
-                if (z6 && (userFull2 = this.userInfo) != null && userFull2.starref_program != null && getMessagesController().starrefConnectAllowed) {
+                if (z6 && (userFull2 = this.userInfo) != null && (starrefprogram = userFull2.starref_program) != null && (starrefprogram.flags & 2) == 0 && getMessagesController().starrefConnectAllowed) {
                     int i17 = this.rowCount;
                     this.affiliateRow = i17;
                     this.rowCount = i17 + 2;

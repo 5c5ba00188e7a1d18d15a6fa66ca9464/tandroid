@@ -1058,126 +1058,6 @@ public abstract class PreviewView extends FrameLayout {
         return true;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00af, code lost:
-    
-        if (r2 <= (r10 + r8)) goto L41;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void updateAudioPlayer(boolean z) {
-        long currentPosition;
-        boolean isPlaying;
-        if (this.audioPlayer == null || this.entry == null) {
-            return;
-        }
-        boolean z2 = true;
-        if (this.videoPlayer == null && this.roundPlayer == null && !isCollage()) {
-            this.audioPlayer.setPlayWhenReady(this.pauseLinks.isEmpty());
-            this.audioPlayer.setLooping(true);
-            long currentPosition2 = this.audioPlayer.getCurrentPosition();
-            if (!z || this.audioPlayer.getDuration() == -9223372036854775807L) {
-                return;
-            }
-            float duration = currentPosition2 / this.audioPlayer.getDuration();
-            StoryEntry storyEntry = this.entry;
-            if ((duration < storyEntry.audioLeft || duration > storyEntry.audioRight) && System.currentTimeMillis() - this.seekedLastTime > 500) {
-                this.seekedLastTime = System.currentTimeMillis();
-                this.audioPlayer.seekTo(-this.entry.audioOffset);
-                return;
-            }
-            return;
-        }
-        if (isCollage()) {
-            currentPosition = this.collage.getPosition();
-            isPlaying = this.collage.isPlaying();
-        } else {
-            VideoPlayer videoPlayer = this.videoPlayer;
-            if (videoPlayer == null) {
-                videoPlayer = this.roundPlayer;
-            }
-            currentPosition = videoPlayer.getCurrentPosition();
-            isPlaying = videoPlayer.isPlaying();
-        }
-        StoryEntry storyEntry2 = this.entry;
-        float f = storyEntry2.audioRight;
-        float f2 = storyEntry2.audioLeft;
-        float f3 = storyEntry2.audioDuration;
-        long j = (long) ((f - f2) * f3);
-        if (isPlaying) {
-            long j2 = storyEntry2.audioOffset;
-            if (currentPosition >= j2) {
-            }
-        }
-        z2 = false;
-        long j3 = (currentPosition - storyEntry2.audioOffset) + ((long) (f2 * f3));
-        if (this.audioPlayer.isPlaying() != z2) {
-            this.audioPlayer.setPlayWhenReady(z2);
-        } else if (!z || Math.abs(this.audioPlayer.getCurrentPosition() - j3) <= 120) {
-            return;
-        }
-        this.audioPlayer.seekTo(j3);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateRoundPlayer(boolean z) {
-        long currentPosition;
-        boolean isPlaying;
-        if (this.roundPlayer == null || this.entry == null) {
-            return;
-        }
-        boolean z2 = false;
-        if (this.videoPlayer == null && !isCollage()) {
-            this.roundPlayer.setPlayWhenReady(this.pauseLinks.isEmpty());
-            this.roundPlayer.setLooping(true);
-            RoundView roundView = this.roundView;
-            if (roundView != null) {
-                roundView.setShown(true, false);
-            }
-            long currentPosition2 = this.roundPlayer.getCurrentPosition();
-            if (!z || this.roundPlayer.getDuration() == -9223372036854775807L) {
-                return;
-            }
-            float duration = currentPosition2 / this.roundPlayer.getDuration();
-            StoryEntry storyEntry = this.entry;
-            if ((duration < storyEntry.roundLeft || duration > storyEntry.roundRight) && System.currentTimeMillis() - this.seekedLastTime > 500) {
-                this.seekedLastTime = System.currentTimeMillis();
-                this.roundPlayer.seekTo(-this.entry.roundOffset);
-                return;
-            }
-            return;
-        }
-        if (isCollage()) {
-            currentPosition = this.collage.getPosition();
-            isPlaying = this.collage.isPlaying();
-        } else {
-            currentPosition = this.videoPlayer.getCurrentPosition();
-            isPlaying = this.videoPlayer.isPlaying();
-        }
-        StoryEntry storyEntry2 = this.entry;
-        float f = storyEntry2.roundRight;
-        float f2 = storyEntry2.roundLeft;
-        float f3 = storyEntry2.roundDuration;
-        long j = (long) ((f - f2) * f3);
-        long j2 = storyEntry2.roundOffset;
-        boolean z3 = currentPosition >= j2 && currentPosition <= j + j2;
-        if (isPlaying && z3) {
-            z2 = true;
-        }
-        long j3 = (currentPosition - j2) + ((long) (f2 * f3));
-        RoundView roundView2 = this.roundView;
-        if (roundView2 != null) {
-            roundView2.setShown(z3, true);
-        }
-        if (this.roundPlayer.isPlaying() != z2) {
-            this.roundPlayer.setPlayWhenReady(z2);
-        } else if (!z || Math.abs(this.roundPlayer.getCurrentPosition() - j3) <= 120) {
-            return;
-        }
-        this.roundPlayer.seekTo(j3);
-    }
-
     public abstract boolean additionalTouchEvent(MotionEvent motionEvent);
 
     public void applyMatrix() {
@@ -2198,6 +2078,72 @@ public abstract class PreviewView extends FrameLayout {
         invalidate();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00af, code lost:
+    
+        if (r2 <= (r10 + r8)) goto L41;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void updateAudioPlayer(boolean z) {
+        long currentPosition;
+        boolean isPlaying;
+        if (this.audioPlayer == null || this.entry == null) {
+            return;
+        }
+        boolean z2 = true;
+        if (this.videoPlayer == null && this.roundPlayer == null && !isCollage()) {
+            this.audioPlayer.setPlayWhenReady(this.pauseLinks.isEmpty());
+            this.audioPlayer.setLooping(true);
+            long currentPosition2 = this.audioPlayer.getCurrentPosition();
+            if (!z || this.audioPlayer.getDuration() == -9223372036854775807L) {
+                return;
+            }
+            float duration = currentPosition2 / this.audioPlayer.getDuration();
+            StoryEntry storyEntry = this.entry;
+            if ((duration < storyEntry.audioLeft || duration > storyEntry.audioRight) && System.currentTimeMillis() - this.seekedLastTime > 500) {
+                this.seekedLastTime = System.currentTimeMillis();
+                this.audioPlayer.seekTo(-this.entry.audioOffset);
+                return;
+            }
+            return;
+        }
+        if (isCollage()) {
+            currentPosition = this.collage.getPositionWithOffset();
+            isPlaying = this.collage.isPlaying();
+        } else {
+            VideoPlayer videoPlayer = this.videoPlayer;
+            if (videoPlayer == null) {
+                videoPlayer = this.roundPlayer;
+            }
+            currentPosition = videoPlayer.getCurrentPosition();
+            isPlaying = videoPlayer.isPlaying();
+        }
+        StoryEntry storyEntry2 = this.entry;
+        float f = storyEntry2.audioRight;
+        float f2 = storyEntry2.audioLeft;
+        float f3 = storyEntry2.audioDuration;
+        long j = (long) ((f - f2) * f3);
+        if (isPlaying) {
+            long j2 = storyEntry2.audioOffset;
+            if (currentPosition >= j2) {
+            }
+        }
+        z2 = false;
+        long j3 = (currentPosition - storyEntry2.audioOffset) + ((long) (f2 * f3));
+        if (this.audioPlayer.isPlaying() != z2) {
+            this.audioPlayer.setPlayWhenReady(z2);
+        } else {
+            if (!z) {
+                return;
+            }
+            if (Math.abs(this.audioPlayer.getCurrentPosition() - j3) <= (isCollage() ? NotificationCenter.uploadStoryProgress : 120)) {
+                return;
+            }
+        }
+        this.audioPlayer.seekTo(j3);
+    }
+
     public void updatePauseReason(int i, boolean z) {
         if (z) {
             this.pauseLinks.add(Integer.valueOf(i));
@@ -2214,6 +2160,68 @@ public abstract class PreviewView extends FrameLayout {
         }
         updateAudioPlayer(true);
         updateRoundPlayer(true);
+    }
+
+    public void updateRoundPlayer(boolean z) {
+        long currentPosition;
+        boolean isPlaying;
+        if (this.roundPlayer == null || this.entry == null) {
+            return;
+        }
+        boolean z2 = false;
+        if (this.videoPlayer == null && !isCollage()) {
+            this.roundPlayer.setPlayWhenReady(this.pauseLinks.isEmpty());
+            this.roundPlayer.setLooping(true);
+            RoundView roundView = this.roundView;
+            if (roundView != null) {
+                roundView.setShown(true, false);
+            }
+            long currentPosition2 = this.roundPlayer.getCurrentPosition();
+            if (!z || this.roundPlayer.getDuration() == -9223372036854775807L) {
+                return;
+            }
+            float duration = currentPosition2 / this.roundPlayer.getDuration();
+            StoryEntry storyEntry = this.entry;
+            if ((duration < storyEntry.roundLeft || duration > storyEntry.roundRight) && System.currentTimeMillis() - this.seekedLastTime > 500) {
+                this.seekedLastTime = System.currentTimeMillis();
+                this.roundPlayer.seekTo(-this.entry.roundOffset);
+                return;
+            }
+            return;
+        }
+        if (isCollage()) {
+            currentPosition = this.collage.getPositionWithOffset();
+            isPlaying = this.collage.isPlaying();
+        } else {
+            currentPosition = this.videoPlayer.getCurrentPosition();
+            isPlaying = this.videoPlayer.isPlaying();
+        }
+        StoryEntry storyEntry2 = this.entry;
+        float f = storyEntry2.roundRight;
+        float f2 = storyEntry2.roundLeft;
+        float f3 = storyEntry2.roundDuration;
+        long j = (long) ((f - f2) * f3);
+        long j2 = storyEntry2.roundOffset;
+        boolean z3 = currentPosition >= j2 && currentPosition <= j + j2;
+        if (isPlaying && z3) {
+            z2 = true;
+        }
+        long j3 = (currentPosition - j2) + ((long) (f2 * f3));
+        RoundView roundView2 = this.roundView;
+        if (roundView2 != null) {
+            roundView2.setShown(z3, true);
+        }
+        if (this.roundPlayer.isPlaying() != z2) {
+            this.roundPlayer.setPlayWhenReady(z2);
+        } else {
+            if (!z) {
+                return;
+            }
+            if (Math.abs(this.roundPlayer.getCurrentPosition() - j3) <= (isCollage() ? NotificationCenter.uploadStoryProgress : 120)) {
+                return;
+            }
+        }
+        this.roundPlayer.seekTo(j3);
     }
 
     @Override // android.view.View
