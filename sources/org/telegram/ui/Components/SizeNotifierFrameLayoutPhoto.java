@@ -27,6 +27,9 @@ public abstract class SizeNotifierFrameLayoutPhoto extends SizeNotifierFrameLayo
         if (sizeNotifierFrameLayoutDelegate != null) {
             sizeNotifierFrameLayoutDelegate.onSizeChanged(this.keyboardHeight, z);
         }
+        for (int i = 0; i < this.delegates.size(); i++) {
+            ((SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate) this.delegates.get(i)).onSizeChanged(this.keyboardHeight, z);
+        }
     }
 
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
@@ -52,17 +55,18 @@ public abstract class SizeNotifierFrameLayoutPhoto extends SizeNotifierFrameLayo
 
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
     public void notifyHeightChanged() {
-        if (this.delegate != null) {
-            this.keyboardHeight = measureKeyboardHeight();
-            android.graphics.Point point = AndroidUtilities.displaySize;
-            final boolean z = point.x > point.y;
-            post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    SizeNotifierFrameLayoutPhoto.this.lambda$notifyHeightChanged$0(z);
-                }
-            });
+        if (this.delegate == null && this.delegates.isEmpty()) {
+            return;
         }
+        this.keyboardHeight = measureKeyboardHeight();
+        android.graphics.Point point = AndroidUtilities.displaySize;
+        final boolean z = point.x > point.y;
+        post(new Runnable() { // from class: org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() {
+                SizeNotifierFrameLayoutPhoto.this.lambda$notifyHeightChanged$0(z);
+            }
+        });
     }
 
     @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View

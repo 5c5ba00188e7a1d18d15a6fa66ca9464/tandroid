@@ -360,7 +360,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         this.parentFragment = baseFragment;
         this.sizeNotifierLayout = sizeNotifierFrameLayout;
-        sizeNotifierFrameLayout.setDelegate(this);
+        sizeNotifierFrameLayout.addDelegate(this);
         EditTextCaption editTextCaption2 = new EditTextCaption(context, resourcesProvider) { // from class: org.telegram.ui.Components.EditTextEmoji.2
             private Drawable lastIcon = null;
 
@@ -924,7 +924,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         }
         SizeNotifierFrameLayout sizeNotifierFrameLayout = this.sizeNotifierLayout;
         if (sizeNotifierFrameLayout != null) {
-            sizeNotifierFrameLayout.setDelegate(null);
+            sizeNotifierFrameLayout.removeDelegate(this);
         }
     }
 
@@ -1104,8 +1104,12 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     }
 
     public void setSizeNotifierLayout(SizeNotifierFrameLayout sizeNotifierFrameLayout) {
+        SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierLayout;
+        if (sizeNotifierFrameLayout2 != null) {
+            sizeNotifierFrameLayout2.removeDelegate(this);
+        }
         this.sizeNotifierLayout = sizeNotifierFrameLayout;
-        sizeNotifierFrameLayout.setDelegate(this);
+        sizeNotifierFrameLayout.addDelegate(this);
     }
 
     public void setSuggestionsEnabled(boolean z) {

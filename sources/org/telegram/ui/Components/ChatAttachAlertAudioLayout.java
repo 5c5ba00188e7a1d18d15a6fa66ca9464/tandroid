@@ -596,7 +596,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x008c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -609,7 +609,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 this.sendPressed = true;
                 ArrayList arrayList = new ArrayList();
                 arrayList.add(audioEntry.messageObject);
-                this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0, 0L, false);
+                this.delegate.didSelectAudio(arrayList, this.parentAlert.getCommentView().getText(), false, 0, 0L, false);
             } else {
                 if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
                     this.selectedAudios.remove(audioEntry.id);
@@ -912,7 +912,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         for (int i2 = 0; i2 < this.selectedAudiosOrder.size(); i2++) {
             arrayList.add(((MediaController.AudioEntry) this.selectedAudiosOrder.get(i2)).messageObject);
         }
-        this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), z, i, j, z2);
+        this.delegate.didSelectAudio(arrayList, this.parentAlert.getCommentView().getText(), z, i, j, z2);
     }
 
     public void setDelegate(AudioSelectDelegate audioSelectDelegate) {
