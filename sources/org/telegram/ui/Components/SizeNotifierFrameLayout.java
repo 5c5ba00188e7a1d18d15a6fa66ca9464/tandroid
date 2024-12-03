@@ -1029,7 +1029,8 @@ public class SizeNotifierFrameLayout extends FrameLayout {
         return true;
     }
 
-    protected boolean isStatusBarVisible() {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public boolean isStatusBarVisible() {
         return true;
     }
 

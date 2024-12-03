@@ -2556,7 +2556,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             this.photoViewerProvider.init(photos);
                             PhotoViewer.getInstance().openPhotoForSelect(new ArrayList(photos), indexOf3, i2, false, this.photoViewerProvider, chatActivity);
                             if (ChatAttachAlertPhotoLayoutPreview.this.photoLayout.captionForAllMedia()) {
-                                PhotoViewer.getInstance().setCaption(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.getCommentTextView().getText());
+                                PhotoViewer.getInstance().setCaption(ChatAttachAlertPhotoLayoutPreview.this.parentAlert.getCommentView().getText());
                             }
                         } else {
                             i2 = 4;

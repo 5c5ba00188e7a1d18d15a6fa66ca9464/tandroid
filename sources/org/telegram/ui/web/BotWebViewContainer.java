@@ -5170,7 +5170,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 } catch (Exception unused3) {
                     z2 = true;
                 }
-                d("allowScroll " + z2 + " " + z);
                 if (getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) {
                     ((ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent()).allowThisScroll(z2, z);
                     break;
@@ -5638,6 +5637,10 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     public int getMinHeight() {
         if (!(getParent() instanceof ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer)) {
             return 0;
+        }
+        ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer webViewSwipeContainer = (ChatAttachAlertBotWebViewLayout.WebViewSwipeContainer) getParent();
+        if (webViewSwipeContainer.isFullSize()) {
+            return (int) (((webViewSwipeContainer.getMeasuredHeight() - webViewSwipeContainer.getOffsetY()) - webViewSwipeContainer.getTopActionBarOffsetY()) + this.viewPortHeightOffset);
         }
         return 0;
     }

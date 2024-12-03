@@ -4637,7 +4637,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
                     ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate.-CC.$default$startMusicSelectActivity(this);
                 }
             });
-            this.chatAttachAlert.getCommentTextView().setText(this.chatActivityEnterView.getFieldText());
+            this.chatAttachAlert.getCommentView().setText(this.chatActivityEnterView.getFieldText());
         }
     }
 
@@ -6079,7 +6079,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         this.chatAttachAlert.setMaxSelectedPhotos(-1, true);
         this.chatAttachAlert.setDialogId(this.dialogId);
         this.chatAttachAlert.init();
-        this.chatAttachAlert.getCommentTextView().setText(this.chatActivityEnterView.getFieldText());
+        this.chatAttachAlert.getCommentView().setText(this.chatActivityEnterView.getFieldText());
         this.delegate.showDialog(this.chatAttachAlert);
     }
 

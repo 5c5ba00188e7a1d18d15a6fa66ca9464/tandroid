@@ -777,6 +777,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
         float min;
         boolean isReversed = isReversed();
         this.containerPadding = AndroidUtilities.dp(((this.adapter.isStickers() || this.adapter.isBotContext()) && this.adapter.isMediaLayout() && this.adapter.getBotContextSwitch() == null && this.adapter.getBotWebViewSwitch() == null ? 2 : 0) + 2);
+        canvas.save();
         float dp = AndroidUtilities.dp(6.0f);
         float f = this.containerTop;
         if (isReversed) {
@@ -788,6 +789,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             rect.set(0, (int) 0.0f, measuredWidth, (int) min2);
             min = Math.min(dp, Math.abs(getMeasuredHeight() - this.containerBottom));
             if (min > 0.0f) {
+                canvas.clipRect(0, 0, getWidth(), getHeight());
                 this.rect.top -= (int) min;
             }
         } else {
@@ -806,6 +808,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             rect2.set(0, (int) max2, measuredWidth2, (int) measuredHeight);
             min = Math.min(dp, Math.abs(this.containerTop));
             if (min > 0.0f) {
+                canvas.clipRect(0, 0, getWidth(), getHeight());
                 this.rect.bottom += (int) min;
             }
         }
@@ -842,7 +845,6 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
         } else {
             drawRoundRect(canvas, this.rect, f2);
         }
-        canvas.save();
         canvas.clipRect(this.rect);
         super.dispatchDraw(canvas);
         canvas.restore();
@@ -951,9 +953,11 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
     }
 
     public void setReversed(boolean z) {
-        this.scrollToFirst = true;
-        this.linearLayoutManager.setReverseLayout(z);
-        this.adapter.setIsReversed(z);
+        if (z != isReversed()) {
+            this.scrollToFirst = true;
+            this.linearLayoutManager.setReverseLayout(z);
+            this.adapter.setIsReversed(z);
+        }
     }
 
     public void updateVisibility(boolean z) {

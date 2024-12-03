@@ -1502,6 +1502,7 @@ public final class FloatingToolbar {
         popupWindow.setClippingEnabled(false);
         popupWindow.setAnimationStyle(0);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0));
+        popupWindow.setSplitTouchEnabled(true);
         viewGroup.setLayoutParams(new ViewGroup.LayoutParams(-2, -2));
         linearLayout.addView(viewGroup);
         return popupWindow;

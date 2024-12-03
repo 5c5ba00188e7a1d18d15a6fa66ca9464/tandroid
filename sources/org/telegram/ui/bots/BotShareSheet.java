@@ -542,8 +542,9 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
                 return false;
             }
 
+            /* JADX INFO: Access modifiers changed from: protected */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout
-            protected boolean isStatusBarVisible() {
+            public boolean isStatusBarVisible() {
                 return false;
             }
 

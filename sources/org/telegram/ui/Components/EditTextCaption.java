@@ -282,6 +282,10 @@ public class EditTextCaption extends EditTextBoldCursor {
         return true;
     }
 
+    public boolean getAllowTextEntitiesIntersection() {
+        return this.allowTextEntitiesIntersection;
+    }
+
     public String getCaption() {
         return this.caption;
     }

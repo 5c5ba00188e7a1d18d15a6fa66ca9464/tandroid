@@ -2443,6 +2443,16 @@ public class Bulletin {
         return this;
     }
 
+    public Bulletin setImageScale(float f) {
+        Layout layout = this.layout;
+        if (layout instanceof TwoLineLottieLayout) {
+            RLottieImageView rLottieImageView = ((TwoLineLottieLayout) layout).imageView;
+            rLottieImageView.setScaleX(f);
+            rLottieImageView.setScaleY(f);
+        }
+        return this;
+    }
+
     public Bulletin setOnClickListener(View.OnClickListener onClickListener) {
         Layout layout = this.layout;
         if (layout != null) {

@@ -71,7 +71,6 @@ public abstract class CaptionContainerView extends FrameLayout {
     public ImageView applyButton;
     private Drawable applyButtonCheck;
     private CombinedDrawable applyButtonDrawable;
-    public boolean atTop;
     protected final BlurringShader.StoryBlurDrawer backgroundBlur;
     protected final Paint backgroundPaint;
     int beforeScrollY;
@@ -435,7 +434,6 @@ public abstract class CaptionContainerView extends FrameLayout {
         super(context);
         Paint paint = new Paint(1);
         this.backgroundPaint = paint;
-        this.atTop = false;
         Paint paint2 = new Paint(1);
         this.fadePaint = paint2;
         LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(10.0f), new int[]{-65536, 0}, new float[]{0.05f, 1.0f}, Shader.TileMode.CLAMP);
@@ -604,10 +602,13 @@ public abstract class CaptionContainerView extends FrameLayout {
         editTextEmoji.getEditText().setHintText(LocaleController.getString(R.string.AddCaption), false);
         paint3.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
         editTextEmoji.getEditText().setTranslationX(AndroidUtilities.dp(-22.0f));
+        if (isAtTop()) {
+            editTextEmoji.getEditText().setGravity(48);
+        }
         editTextEmoji.getEmojiButton().setAlpha(0.0f);
         editTextEmoji.getEditText().addTextChangedListener(new 2());
         editTextEmoji.getEditText().setLinkTextColor(-1);
-        addView(editTextEmoji, LayoutHelper.createFrame(-1, -2.0f, 87, 12.0f, 12.0f, additionalRightMargin() + 12, 12.0f));
+        addView(editTextEmoji, LayoutHelper.createFrame(-1, -2.0f, (isAtTop() ? 48 : 80) | 7, 12.0f, 12.0f, additionalRightMargin() + 12, 12.0f));
         BounceableImageView bounceableImageView = new BounceableImageView(context);
         this.applyButton = bounceableImageView;
         ScaleStateListAnimator.apply(bounceableImageView, 0.05f, 1.25f);
@@ -628,7 +629,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             }
         });
         this.applyButton.setTranslationY(-AndroidUtilities.dp(1.0f));
-        addView(this.applyButton, LayoutHelper.createFrame(44, 44, 85));
+        addView(this.applyButton, LayoutHelper.createFrame(44, 44, (isAtTop() ? 48 : 80) | 5));
         AnimatedTextView animatedTextView = new AnimatedTextView(context, false, true, true);
         this.limitTextView = animatedTextView;
         animatedTextView.setGravity(17);
@@ -639,8 +640,8 @@ public abstract class CaptionContainerView extends FrameLayout {
         FrameLayout frameLayout3 = new FrameLayout(context);
         this.limitTextContainer = frameLayout3;
         frameLayout3.setTranslationX(AndroidUtilities.dp(2.0f));
-        this.limitTextContainer.addView(this.limitTextView, LayoutHelper.createFrame(52, 16, 85));
-        addView(this.limitTextContainer, LayoutHelper.createFrame(52, 16.0f, 85, 0.0f, 0.0f, 0.0f, 50.0f));
+        this.limitTextContainer.addView(this.limitTextView, LayoutHelper.createFrame(52, 16, (isAtTop() ? 48 : 80) | 5));
+        addView(this.limitTextContainer, LayoutHelper.createFrame(52, 16.0f, (isAtTop() ? 48 : 80) | 5, 0.0f, isAtTop() ? 50 : 0, 0.0f, isAtTop() ? 0 : 50));
         paint2.setShader(linearGradient);
         paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
@@ -698,7 +699,6 @@ public abstract class CaptionContainerView extends FrameLayout {
         };
         this.mentionContainer = mentionsContainerView;
         this.mentionBackgroundBlur = new BlurringShader.StoryBlurDrawer(this.blurManager, mentionsContainerView, 0);
-        setupMentionContainer();
         this.mentionContainer.withDelegate(new MentionsContainerView.Delegate() { // from class: org.telegram.ui.Stories.recorder.CaptionContainerView.4
             @Override // org.telegram.ui.Components.MentionsContainerView.Delegate
             public /* synthetic */ void addEmojiToRecent(String str) {
@@ -726,6 +726,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             }
         });
         this.containerView.addView(this.mentionContainer, LayoutHelper.createFrame(-1, -1, 83));
+        setupMentionContainer();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -822,7 +823,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         } else {
             path.rewind();
         }
-        float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(21.0f), 0, this.atTop ? 0.0f : this.keyboardT);
+        float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(21.0f), 0, this.keyboardT);
         Path path2 = this.replyClipPath;
         RectF rectF3 = this.bounds;
         Path.Direction direction = Path.Direction.CW;
@@ -890,7 +891,7 @@ public abstract class CaptionContainerView extends FrameLayout {
         this.keyboardT = ((Float) valueAnimator.getAnimatedValue()).floatValue();
         this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
         this.editText.setTranslationX(AndroidUtilities.lerp(0, AndroidUtilities.dp(-8.0f), this.keyboardT));
-        this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(10.0f), this.keyboardT));
+        this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(isAtTop() ? -10.0f : 10.0f), this.keyboardT));
         this.limitTextContainer.setTranslationX(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), AndroidUtilities.dp(2.0f), this.keyboardT));
         this.limitTextContainer.setTranslationY(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), 0, this.keyboardT));
         this.editText.getEmojiButton().setAlpha(this.keyboardT);
@@ -919,88 +920,6 @@ public abstract class CaptionContainerView extends FrameLayout {
             this.editText.setSelection(i + charSequence.length());
         } catch (Exception e) {
             FileLog.e(e);
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0038  */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0050  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0087  */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x003a  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void updateKeyboard(int i) {
-        int additionalKeyboardHeight;
-        int keyboardHeight;
-        int max;
-        ObjectAnimator objectAnimator;
-        ObjectAnimator objectAnimator2;
-        long j;
-        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.sizeNotifierFrameLayout;
-        if (sizeNotifierFrameLayout != null) {
-            sizeNotifierFrameLayout.notifyHeightChanged();
-        }
-        if (!this.editText.isPopupShowing()) {
-            if (this.editText.isWaitingForKeyboardOpen()) {
-                additionalKeyboardHeight = additionalKeyboardHeight();
-                keyboardHeight = this.editText.getKeyboardHeight();
-            }
-            SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierFrameLayout;
-            max = Math.max(0, i - (sizeNotifierFrameLayout2 != null ? 0 : sizeNotifierFrameLayout2.getBottomPadding()));
-            View view = (View) getParent();
-            view.clearAnimation();
-            objectAnimator = this.parentKeyboardAnimator;
-            if (objectAnimator != null) {
-                objectAnimator.removeAllListeners();
-                this.parentKeyboardAnimator.cancel();
-                this.parentKeyboardAnimator = null;
-            }
-            this.parentKeyboardAnimator = ObjectAnimator.ofFloat(view, (Property<View, Float>) FrameLayout.TRANSLATION_Y, view.getTranslationY(), -max);
-            if (max <= AndroidUtilities.dp(20.0f)) {
-                this.parentKeyboardAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
-                objectAnimator2 = this.parentKeyboardAnimator;
-                j = 250;
-            } else {
-                this.parentKeyboardAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                objectAnimator2 = this.parentKeyboardAnimator;
-                j = 640;
-            }
-            objectAnimator2.setDuration(j);
-            this.parentKeyboardAnimator.start();
-            this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
-            AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
-            AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
-            if (max >= AndroidUtilities.dp(20.0f)) {
-                this.editText.getEditText().clearFocus();
-                this.editText.hidePopup(true);
-                return;
-            }
-            return;
-        }
-        additionalKeyboardHeight = additionalKeyboardHeight();
-        keyboardHeight = this.editText.getEmojiPadding();
-        i = Math.max(0, additionalKeyboardHeight + keyboardHeight);
-        SizeNotifierFrameLayout sizeNotifierFrameLayout22 = this.sizeNotifierFrameLayout;
-        max = Math.max(0, i - (sizeNotifierFrameLayout22 != null ? 0 : sizeNotifierFrameLayout22.getBottomPadding()));
-        View view2 = (View) getParent();
-        view2.clearAnimation();
-        objectAnimator = this.parentKeyboardAnimator;
-        if (objectAnimator != null) {
-        }
-        this.parentKeyboardAnimator = ObjectAnimator.ofFloat(view2, (Property<View, Float>) FrameLayout.TRANSLATION_Y, view2.getTranslationY(), -max);
-        if (max <= AndroidUtilities.dp(20.0f)) {
-        }
-        objectAnimator2.setDuration(j);
-        this.parentKeyboardAnimator.start();
-        this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
-        AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
-        AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
-        if (max >= AndroidUtilities.dp(20.0f)) {
         }
     }
 
@@ -1074,7 +993,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             this.keyboardT = z ? 1.0f : 0.0f;
             this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
             this.editText.setTranslationX(AndroidUtilities.lerp(0, AndroidUtilities.dp(-8.0f), this.keyboardT));
-            this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(10.0f), this.keyboardT));
+            this.editText.setTranslationY(AndroidUtilities.lerp(0, AndroidUtilities.dp(isAtTop() ? -10.0f : 10.0f), this.keyboardT));
             this.limitTextContainer.setTranslationX(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), AndroidUtilities.dp(2.0f), this.keyboardT));
             this.limitTextContainer.setTranslationY(AndroidUtilities.lerp(-AndroidUtilities.dp(8.0f), 0, this.keyboardT));
             this.editText.getEmojiButton().setAlpha(this.keyboardT);
@@ -1157,9 +1076,9 @@ public abstract class CaptionContainerView extends FrameLayout {
 
     protected abstract boolean customBlur();
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0181, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x01b6, code lost:
     
-        if ((r0 <= 0.0f) != (r1 <= 0.0f)) goto L56;
+        if ((r0 <= 0.0f) != (r1 <= 0.0f)) goto L60;
      */
     @Override // android.view.ViewGroup, android.view.View
     /*
@@ -1189,21 +1108,27 @@ public abstract class CaptionContainerView extends FrameLayout {
             this.lastHeight = dp;
         }
         updateMentionsLayoutPosition();
-        float dpf2 = (AndroidUtilities.dpf2(-1.0f) * this.keyboardT) + f2;
-        float f3 = i3;
-        float f4 = dpf2 - f3;
-        if (Math.abs(this.lastHeightTranslation - f4) >= 1.0f && !this.collapsed) {
-            EditTextCaption editText = this.editText.getEditText();
-            this.lastHeightTranslation = f4;
-            editText.setTranslationY(f4);
+        float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), 0, this.keyboardT * (1.0f - forceRound()));
+        if (isAtTop()) {
+            float f3 = i3 + lerp;
+            this.bounds.set(lerp, lerp, getWidth() - lerp, f3);
+            this.clickBounds.set(lerp, lerp, getWidth() - lerp, f3 + AndroidUtilities.dp(24.0f));
+        } else {
+            float dpf2 = (AndroidUtilities.dpf2(-1.0f) * this.keyboardT) + f2;
+            float f4 = i3;
+            float f5 = dpf2 - f4;
+            if (Math.abs(this.lastHeightTranslation - f5) >= 1.0f && !this.collapsed) {
+                EditTextCaption editText = this.editText.getEditText();
+                this.lastHeightTranslation = f5;
+                editText.setTranslationY(f5);
+            }
+            this.bounds.set(lerp, (getHeight() - lerp) - f4, getWidth() - lerp, getHeight() - lerp);
+            this.clickBounds.set(0.0f, (getHeight() - i3) - AndroidUtilities.dp(24.0f), getWidth(), getHeight());
         }
-        float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(12.0f), 0, this.keyboardT);
-        this.bounds.set(lerp, (getHeight() - lerp) - f3, getWidth() - lerp, getHeight() - lerp);
-        this.clickBounds.set(0.0f, (getHeight() - i3) - AndroidUtilities.dp(24.0f), getWidth(), getHeight());
         canvas.save();
         float scale = this.bounce.getScale(0.018f);
         canvas.scale(scale, scale, this.bounds.centerX(), this.bounds.centerY());
-        float lerp2 = AndroidUtilities.lerp(AndroidUtilities.dp(21.0f), 0, this.keyboardT);
+        float lerp2 = AndroidUtilities.lerp(AndroidUtilities.dp(21.0f), 0, this.keyboardT * (1.0f - forceRound()));
         if (customBlur()) {
             i = 1;
             f = lerp2;
@@ -1232,17 +1157,17 @@ public abstract class CaptionContainerView extends FrameLayout {
         }
         paint.setAlpha(i2);
         canvas.drawRoundRect(this.bounds, f, f, this.backgroundPaint);
-        float f5 = this.collapsedT.get();
-        float f6 = this.collapsedT.set(this.collapsed);
-        if (Math.abs(f5 - f6) <= 0.001f) {
+        float f6 = this.collapsedT.get();
+        float f7 = this.collapsedT.set(this.collapsed);
+        if (Math.abs(f6 - f7) <= 0.001f) {
         }
         invalidateDrawOver2();
-        if (f6 > 0.0f) {
+        if (f7 > 0.0f) {
             canvas.saveLayerAlpha(this.bounds, NotificationCenter.newLocationAvailable, 31);
         }
         drawReply(canvas);
         super.dispatchDraw(canvas);
-        if (f6 > 0.0f) {
+        if (f7 > 0.0f) {
             int i4 = this.collapsedFromX;
             float dp2 = i4 == Integer.MAX_VALUE ? this.bounds.right - AndroidUtilities.dp(20.0f) : i4 == Integer.MIN_VALUE ? this.bounds.left + AndroidUtilities.dp(20.0f) : i4;
             float dp3 = this.bounds.bottom - AndroidUtilities.dp(20.0f);
@@ -1253,7 +1178,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             RectF rectF3 = this.bounds;
             float distance2 = MathUtils.distance(rectF3.right, rectF3.top, dp2, dp3);
             RectF rectF4 = this.bounds;
-            float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp2, dp3))) * f6;
+            float max2 = Math.max(max, Math.max(distance2, MathUtils.distance(rectF4.right, rectF4.bottom, dp2, dp3))) * f7;
             if (this.collapsePaint == null) {
                 Paint paint4 = new Paint(i);
                 this.collapsePaint = paint4;
@@ -1290,7 +1215,7 @@ public abstract class CaptionContainerView extends FrameLayout {
             canvas.restore();
             canvas.restore();
             if (!drawOver2FromParent()) {
-                drawOver2(canvas, this.bounds, f6);
+                drawOver2(canvas, this.bounds, f7);
             }
         }
         canvas.restore();
@@ -1338,7 +1263,7 @@ public abstract class CaptionContainerView extends FrameLayout {
     protected boolean drawChild(Canvas canvas, View view, long j) {
         boolean drawChild;
         if (view == this.editText) {
-            float max = Math.max(0, (r0.getHeight() - AndroidUtilities.dp(82.0f)) - this.editText.getScrollY()) * (1.0f - this.keyboardT);
+            float max = isAtTop() ? 0.0f : Math.max(0, (this.editText.getHeight() - AndroidUtilities.dp(82.0f)) - this.editText.getScrollY()) * (1.0f - this.keyboardT);
             canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.newLocationAvailable, 31);
             canvas.save();
             canvas.clipRect(this.bounds);
@@ -1383,6 +1308,10 @@ public abstract class CaptionContainerView extends FrameLayout {
 
     public boolean drawOver2FromParent() {
         return false;
+    }
+
+    protected float forceRound() {
+        return 0.0f;
     }
 
     public RectF getBounds() {
@@ -1458,6 +1387,10 @@ public abstract class CaptionContainerView extends FrameLayout {
     }
 
     public void invalidateDrawOver2() {
+    }
+
+    protected boolean isAtTop() {
+        return false;
     }
 
     public boolean isCaptionOverLimit() {
@@ -1608,6 +1541,80 @@ public abstract class CaptionContainerView extends FrameLayout {
 
     protected void updateEditTextLeft() {
         this.editText.getEditText().setTranslationX(AndroidUtilities.lerp(AndroidUtilities.dp(-22.0f) + getEditTextLeft(), AndroidUtilities.dp(2.0f), this.keyboardT));
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0038  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x003a  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public void updateKeyboard(int i) {
+        int additionalKeyboardHeight;
+        int keyboardHeight;
+        int max;
+        ObjectAnimator objectAnimator;
+        long j;
+        SizeNotifierFrameLayout sizeNotifierFrameLayout = this.sizeNotifierFrameLayout;
+        if (sizeNotifierFrameLayout != null) {
+            sizeNotifierFrameLayout.notifyHeightChanged();
+        }
+        if (!this.editText.isPopupShowing()) {
+            if (this.editText.isWaitingForKeyboardOpen()) {
+                additionalKeyboardHeight = additionalKeyboardHeight();
+                keyboardHeight = this.editText.getKeyboardHeight();
+            }
+            SizeNotifierFrameLayout sizeNotifierFrameLayout2 = this.sizeNotifierFrameLayout;
+            max = Math.max(0, i - (sizeNotifierFrameLayout2 != null ? 0 : sizeNotifierFrameLayout2.getBottomPadding()));
+            View view = (View) getParent();
+            view.clearAnimation();
+            if (!isAtTop()) {
+                ObjectAnimator objectAnimator2 = this.parentKeyboardAnimator;
+                if (objectAnimator2 != null) {
+                    objectAnimator2.removeAllListeners();
+                    this.parentKeyboardAnimator.cancel();
+                    this.parentKeyboardAnimator = null;
+                }
+                this.parentKeyboardAnimator = ObjectAnimator.ofFloat(view, (Property<View, Float>) FrameLayout.TRANSLATION_Y, view.getTranslationY(), -max);
+                if (max > AndroidUtilities.dp(20.0f)) {
+                    this.parentKeyboardAnimator.setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator);
+                    objectAnimator = this.parentKeyboardAnimator;
+                    j = 250;
+                } else {
+                    this.parentKeyboardAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                    objectAnimator = this.parentKeyboardAnimator;
+                    j = 640;
+                }
+                objectAnimator.setDuration(j);
+                this.parentKeyboardAnimator.start();
+            }
+            this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
+            AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
+            AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
+            if (max >= AndroidUtilities.dp(20.0f)) {
+                this.editText.getEditText().clearFocus();
+                this.editText.hidePopup(true);
+                return;
+            }
+            return;
+        }
+        additionalKeyboardHeight = additionalKeyboardHeight();
+        keyboardHeight = this.editText.getEmojiPadding();
+        i = Math.max(0, additionalKeyboardHeight + keyboardHeight);
+        SizeNotifierFrameLayout sizeNotifierFrameLayout22 = this.sizeNotifierFrameLayout;
+        max = Math.max(0, i - (sizeNotifierFrameLayout22 != null ? 0 : sizeNotifierFrameLayout22.getBottomPadding()));
+        View view2 = (View) getParent();
+        view2.clearAnimation();
+        if (!isAtTop()) {
+        }
+        this.toKeyboardShow = max > AndroidUtilities.dp(20.0f);
+        AndroidUtilities.cancelRunOnUIThread(this.updateShowKeyboard);
+        AndroidUtilities.runOnUIThread(this.updateShowKeyboard);
+        if (max >= AndroidUtilities.dp(20.0f)) {
+        }
     }
 
     public void updateMentionsLayoutPosition() {
