@@ -8,6 +8,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -47,6 +49,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
@@ -75,11 +78,11 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
     private View emptyLayout;
     private GLIconTextureView iconTextureView;
 
-    class 3 extends ClickableSpan {
+    class 4 extends ClickableSpan {
         final /* synthetic */ BotStarsController.ChannelSuggestedBots.Sort val$sort;
         final /* synthetic */ BotStarsController.ChannelSuggestedBots val$suggestedBots;
 
-        3(BotStarsController.ChannelSuggestedBots.Sort sort, BotStarsController.ChannelSuggestedBots channelSuggestedBots) {
+        4(BotStarsController.ChannelSuggestedBots.Sort sort, BotStarsController.ChannelSuggestedBots channelSuggestedBots) {
             this.val$sort = sort;
             this.val$suggestedBots = channelSuggestedBots;
         }
@@ -105,28 +108,28 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             boolean z = this.val$sort == BotStarsController.ChannelSuggestedBots.Sort.BY_DATE;
             String string = LocaleController.getString(R.string.ChannelAffiliateProgramProgramsSortDate);
             final BotStarsController.ChannelSuggestedBots channelSuggestedBots = this.val$suggestedBots;
-            ItemOptions addChecked = makeOptions.addChecked(z, string, new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$3$$ExternalSyntheticLambda0
+            ItemOptions addChecked = makeOptions.addChecked(z, string, new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$4$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelAffiliateProgramsFragment.3.lambda$onClick$0(BotStarsController.ChannelSuggestedBots.this);
+                    ChannelAffiliateProgramsFragment.4.lambda$onClick$0(BotStarsController.ChannelSuggestedBots.this);
                 }
             });
             boolean z2 = this.val$sort == BotStarsController.ChannelSuggestedBots.Sort.BY_REVENUE;
             String string2 = LocaleController.getString(R.string.ChannelAffiliateProgramProgramsSortRevenue);
             final BotStarsController.ChannelSuggestedBots channelSuggestedBots2 = this.val$suggestedBots;
-            ItemOptions addChecked2 = addChecked.addChecked(z2, string2, new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$3$$ExternalSyntheticLambda1
+            ItemOptions addChecked2 = addChecked.addChecked(z2, string2, new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$4$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelAffiliateProgramsFragment.3.lambda$onClick$1(BotStarsController.ChannelSuggestedBots.this);
+                    ChannelAffiliateProgramsFragment.4.lambda$onClick$1(BotStarsController.ChannelSuggestedBots.this);
                 }
             });
             boolean z3 = this.val$sort == BotStarsController.ChannelSuggestedBots.Sort.BY_PROFITABILITY;
             String string3 = LocaleController.getString(R.string.ChannelAffiliateProgramProgramsSortProfitability);
             final BotStarsController.ChannelSuggestedBots channelSuggestedBots3 = this.val$suggestedBots;
-            addChecked2.addChecked(z3, string3, new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$3$$ExternalSyntheticLambda2
+            addChecked2.addChecked(z3, string3, new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$4$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChannelAffiliateProgramsFragment.3.lambda$onClick$2(BotStarsController.ChannelSuggestedBots.this);
+                    ChannelAffiliateProgramsFragment.4.lambda$onClick$2(BotStarsController.ChannelSuggestedBots.this);
                 }
             }).setGravity(5).setDrawScrim(false).setDimAlpha(0).translate(AndroidUtilities.dp(24.0f), -AndroidUtilities.dp(24.0f)).show();
         }
@@ -209,16 +212,24 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 55, 66.0f, 8.66f, 10.0f, 0.0f));
             TextView textView = new TextView(context);
             this.titleView = textView;
+            textView.setMaxLines(1);
+            textView.setSingleLine(true);
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            textView.setEllipsize(truncateAt);
             textView.setTypeface(AndroidUtilities.bold());
             textView.setTextSize(1, 16.0f);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
-            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 55, 6, 0, 6, 0));
+            NotificationCenter.listenEmojiLoading(textView);
+            linearLayout.addView(textView, LayoutHelper.createLinear(-1, -2, 55, 6, 0, 24, 0));
             TextView textView2 = new TextView(context);
             this.textView = textView2;
+            textView2.setMaxLines(1);
+            textView2.setSingleLine(true);
+            textView2.setEllipsize(truncateAt);
             textView2.setTextSize(1, 14.0f);
             int i2 = Theme.key_windowBackgroundWhiteGrayText2;
             textView2.setTextColor(Theme.getColor(i2, resourcesProvider));
-            linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 55, 6, 1, 6, 0));
+            linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 55, 6, 1, 24, 0));
             ImageView imageView2 = new ImageView(context);
             this.arrowView = imageView2;
             imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2, resourcesProvider), PorterDuff.Mode.SRC_IN));
@@ -237,7 +248,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setInfo(user);
             this.imageView.setForUserOrChat(user, avatarDrawable);
-            this.titleView.setText(UserObject.getUserName(user));
+            this.titleView.setText(Emoji.replaceEmoji(UserObject.getUserName(user), this.titleView.getPaint().getFontMetricsInt(), false));
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             if (connectedbotstarref.commission_permille > 0) {
                 spannableStringBuilder.append((CharSequence) " d");
@@ -335,6 +346,16 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         this.dialogId = j;
         setWhiteBackground(true);
         setMinusHeaderHeight(AndroidUtilities.dp(60.0f));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean isLoadingVisible() {
+        for (int i = 0; i < this.listView.getChildCount(); i++) {
+            if (this.listView.getChildAt(i) instanceof FlickerLoadingView) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -732,7 +753,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
     }
 
     public static StarParticlesView makeParticlesView(Context context, int i, int i2) {
-        return new StarParticlesView(context) { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment.4
+        return new StarParticlesView(context) { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment.5
             {
                 setClipWithGradient();
             }
@@ -827,6 +848,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         textView3.setTextColor(Theme.getColor(i4, resourcesProvider));
         textView3.setTextSize(1, 14.0f);
         textView3.setGravity(17);
+        NotificationCenter.listenEmojiLoading(textView3);
         int i5 = R.string.ChannelAffiliateProgramJoinText;
         String userName = UserObject.getUserName(user);
         CharSequence percents = AffiliateProgramFragment.percents(starrefprogram.commission_permille);
@@ -845,12 +867,12 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         objArr[r3] = userName;
         objArr[1] = percents;
         objArr[2] = formatPluralString;
-        textView3.setText(AndroidUtilities.replaceTags(LocaleController.formatString(i5, objArr)));
+        textView3.setText(Emoji.replaceEmoji(AndroidUtilities.replaceTags(LocaleController.formatString(i5, objArr)), textView3.getPaint().getFontMetricsInt(), r3));
         linearLayout.addView(textView3, LayoutHelper.createLinear(-1, -2, 0.0f, 0.0f, 0.0f, 22.0f));
         if (((user.flags & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0 || BuildVars.DEBUG_PRIVATE_VERSION) && (starrefprogram.flags & 4) != 0) {
             TableView tableView = new TableView(context, resourcesProvider);
             tableView.addRow(LocaleController.getString(R.string.ChannelAffiliateProgramJoinMonthlyUsers), LocaleController.formatNumber(user.bot_active_users, ','));
-            tableView.addRow(LocaleController.getString(R.string.ChannelAffiliateProgramJoinDailyRevenue), StarsIntroActivity.replaceStarsWithPlain("⭐️ " + ((Object) StarsIntroActivity.formatStarsAmount(starrefprogram.daily_revenue_per_user, 1.0f, ',')), 0.75f));
+            tableView.addRow(LocaleController.getString(R.string.ChannelAffiliateProgramJoinDailyRevenue), StarsIntroActivity.replaceStarsWithPlain("⭐️ " + ((Object) StarsIntroActivity.formatStarsAmountShort(starrefprogram.daily_revenue_per_user, 0.95f, ',')), 0.75f));
             linearLayout.addView(tableView, LayoutHelper.createLinear(-1, -2, 0.0f, -4.0f, 0.0f, 12.0f));
         }
         if (j >= 0) {
@@ -1223,7 +1245,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         coloredImageSpan.useLinkPaintColor = true;
         coloredImageSpan.setScale(0.6f, 0.6f);
         spannableString.setSpan(coloredImageSpan, spannableString.length() - 1, spannableString.length(), 33);
-        spannableString.setSpan(new 3(sort, BotStarsController.getInstance(this.currentAccount).getChannelSuggestedBots(this.dialogId)), 0, spannableString.length(), 33);
+        spannableString.setSpan(new 4(sort, BotStarsController.getInstance(this.currentAccount).getChannelSuggestedBots(this.dialogId)), 0, spannableString.length(), 33);
         spannableStringBuilder.append((CharSequence) spannableString);
         return spannableStringBuilder;
     }
@@ -1235,7 +1257,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             public final void run(Object obj, Object obj2) {
                 ChannelAffiliateProgramsFragment.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, getResourceProvider()) { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment.2
+        }, getResourceProvider()) { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment.3
             @Override // org.telegram.ui.Components.UniversalAdapter, androidx.recyclerview.widget.RecyclerView.Adapter
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
                 if (i != 42) {
@@ -1262,21 +1284,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         View view = new View(context) { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment.1
             @Override // android.view.View
             protected void onMeasure(int i, int i2) {
-                int i3;
-                ChannelAffiliateProgramsFragment channelAffiliateProgramsFragment = ChannelAffiliateProgramsFragment.this;
-                if (channelAffiliateProgramsFragment.isLandscapeMode) {
-                    i3 = (channelAffiliateProgramsFragment.statusBarHeight + ((BaseFragment) channelAffiliateProgramsFragment).actionBar.getMeasuredHeight()) - AndroidUtilities.dp(16.0f);
-                } else {
-                    int dp = AndroidUtilities.dp(140.0f);
-                    ChannelAffiliateProgramsFragment channelAffiliateProgramsFragment2 = ChannelAffiliateProgramsFragment.this;
-                    int i4 = dp + channelAffiliateProgramsFragment2.statusBarHeight;
-                    if (channelAffiliateProgramsFragment2.backgroundView.getMeasuredHeight() + AndroidUtilities.dp(24.0f) > i4) {
-                        i3 = AndroidUtilities.dp(24.0f) + ChannelAffiliateProgramsFragment.this.backgroundView.getMeasuredHeight();
-                    } else {
-                        i3 = i4;
-                    }
-                }
-                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((int) (i3 - (((GradientHeaderActivity) ChannelAffiliateProgramsFragment.this).yOffset * 2.5f)), 1073741824));
+                super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(60.0f), 1073741824));
             }
         };
         this.emptyLayout = view;
@@ -1314,6 +1322,15 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
         defaultItemAnimator.setDurations(350L);
         this.listView.setItemAnimator(defaultItemAnimator);
+        this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment.2
+            @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                if (ChannelAffiliateProgramsFragment.this.isLoadingVisible() || !recyclerView.canScrollVertically(1)) {
+                    BotStarsController.getInstance(((BaseFragment) ChannelAffiliateProgramsFragment.this).currentAccount).getChannelConnectedBots(ChannelAffiliateProgramsFragment.this.dialogId).load();
+                    BotStarsController.getInstance(((BaseFragment) ChannelAffiliateProgramsFragment.this).currentAccount).getChannelSuggestedBots(ChannelAffiliateProgramsFragment.this.dialogId).load();
+                }
+            }
+        });
         return this.fragmentView;
     }
 
