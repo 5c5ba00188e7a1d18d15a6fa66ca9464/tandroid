@@ -10025,26 +10025,26 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:125:0x0253, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:122:0x024c, code lost:
     
-        if (r1.getVisibility() == 0) goto L131;
+        if (r1.getVisibility() == 0) goto L130;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:126:0x027b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x0274, code lost:
     
         r20.archive2Item.setVisibility(0);
         r1 = r20.archiveItem;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x0279, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x0272, code lost:
     
-        if (r1.getVisibility() == 0) goto L131;
+        if (r1.getVisibility() == 0) goto L130;
      */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02cd  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02da  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0319  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x031d  */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x0325  */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0353  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0376  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x02c6  */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x02d3  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0312  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x0316  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x031e  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x034c  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x036f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -10143,10 +10143,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         if (chat == null || !chat.megagroup || ChatObject.isPublic(chat)) {
                             this.canClearCacheCount++;
-                        } else {
-                            i10++;
+                            i9++;
                         }
-                        i9++;
                     }
                 } else {
                     boolean isChatDialog = DialogObject.isChatDialog(dialog.id);
@@ -10167,11 +10165,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         this.canPinCount++;
                     }
-                    i10++;
-                    if (dialog.id == UserObject.VERIFY) {
-                    }
-                    i9++;
                 }
+                i10++;
+                i9++;
             }
             i8++;
             size = i6;
@@ -15936,7 +15932,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:172:0x02db, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:169:0x02db, code lost:
     
         if (r29.actionBar.isActionModeShowed(null) != false) goto L82;
      */
@@ -15946,24 +15942,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:109:0x03df  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x047c  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x04d2  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0523 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x045b  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x03d8  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x02fc  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x04cb  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x051c A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x044d  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x045b  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x03d8  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x02fc  */
     /* JADX WARN: Removed duplicated region for block: B:66:0x02e4  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x0303  */
-    /* JADX WARN: Type inference failed for: r0v101 */
+    /* JADX WARN: Type inference failed for: r0v100 */
     /* JADX WARN: Type inference failed for: r0v20 */
     /* JADX WARN: Type inference failed for: r0v21, types: [boolean] */
     /* JADX WARN: Type inference failed for: r13v11 */
     /* JADX WARN: Type inference failed for: r13v8, types: [android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r13v9 */
-    /* JADX WARN: Type inference failed for: r1v30 */
-    /* JADX WARN: Type inference failed for: r1v33, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v52 */
     /* JADX WARN: Type inference failed for: r29v0, types: [org.telegram.ui.ActionBar.BaseFragment, org.telegram.ui.DialogsActivity] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -15984,18 +15976,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         ?? r0;
         String string2;
         int i3;
-        ?? r1;
+        boolean z2;
         Bundle bundle2;
         String string3;
         int i4;
         int i5;
         int i6;
         int i7;
-        boolean z2;
         boolean z3;
+        boolean z4;
         int i8;
         ActionBarMenuSubItem actionBarMenuSubItem;
-        boolean z4;
+        boolean z5;
         ScrollView scrollView;
         Bundle bundle3;
         ArrayList arrayList2;
@@ -16004,8 +15996,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         int i9;
         int i10;
         DialogsActivity dialogsActivity = this;
-        boolean z5 = true;
-        boolean z6 = false;
+        boolean z6 = true;
+        boolean z7 = false;
         if (dialogCell.isDialogFolder()) {
             if (dialogCell.getCurrentDialogFolderId() == 1) {
                 onArchiveLongPress(dialogCell);
@@ -16034,9 +16026,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         ArrayList arrayList3 = new ArrayList();
         arrayList3.add(Long.valueOf(dialogId));
-        boolean z7 = getMessagesController().filtersEnabled && getMessagesController().dialogFiltersLoaded && getMessagesController().dialogFilters != null && getMessagesController().dialogFilters.size() > 0;
+        boolean z8 = getMessagesController().filtersEnabled && getMessagesController().dialogFiltersLoaded && getMessagesController().dialogFilters != null && getMessagesController().dialogFilters.size() > 0;
         final ActionBarPopupWindow.ActionBarPopupWindowLayout[] actionBarPopupWindowLayoutArr = new ActionBarPopupWindow.ActionBarPopupWindowLayout[1];
-        if (z7) {
+        if (z8) {
             LinearLayout linearLayout2 = new LinearLayout(getParentActivity());
             linearLayout2.setOrientation(1);
             ScrollView scrollView2 = new ScrollView(getParentActivity()) { // from class: org.telegram.ui.DialogsActivity.39
@@ -16055,14 +16047,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 final MessagesController.DialogFilter dialogFilter3 = getMessagesController().dialogFilters.get(i11);
                 if (!dialogFilter3.isDefault()) {
                     final boolean includesDialog = dialogFilter3.includesDialog(AccountInstance.getInstance(dialogsActivity.currentAccount), dialogId);
-                    final ArrayList dialogsCount = FiltersListBottomSheet.getDialogsCount(dialogsActivity, dialogFilter3, arrayList3, z5, z6);
+                    final ArrayList dialogsCount = FiltersListBottomSheet.getDialogsCount(dialogsActivity, dialogFilter3, arrayList3, z6, z7);
                     if (includesDialog) {
                     }
                     actionBarMenuSubItem = new ActionBarMenuSubItem((Context) getParentActivity(), 2, false, false, (Theme.ResourcesProvider) null);
                     actionBarMenuSubItem.setChecked(includesDialog);
                     actionBarMenuSubItem.setTextAndIcon(Emoji.replaceEmoji(dialogFilter3.name, null, false), 0, new FolderDrawable(getContext(), R.drawable.msg_folders, dialogFilter3.color));
                     actionBarMenuSubItem.setMinimumWidth(NotificationCenter.audioRouteChanged);
-                    z4 = z7;
+                    z5 = z8;
                     scrollView = scrollView2;
                     bundle3 = bundle4;
                     arrayList2 = arrayList3;
@@ -16082,18 +16074,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     linearLayout2 = linearLayout;
                     linearLayout3 = r13;
                     scrollView2 = scrollView;
-                    z7 = z4;
+                    z8 = z5;
                     bundle4 = bundle3;
                     size = i10;
                     arrayList3 = arrayList2;
-                    z6 = false;
+                    z7 = false;
                     actionBarMenuSubItem2 = actionBarMenuSubItem;
-                    z5 = true;
+                    z6 = true;
                 }
                 i9 = i11;
                 i10 = size;
                 arrayList2 = arrayList3;
-                z4 = z7;
+                z5 = z8;
                 actionBarMenuSubItem = actionBarMenuSubItem2;
                 r13 = linearLayout3;
                 scrollView = scrollView2;
@@ -16104,16 +16096,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 linearLayout2 = linearLayout;
                 linearLayout3 = r13;
                 scrollView2 = scrollView;
-                z7 = z4;
+                z8 = z5;
                 bundle4 = bundle3;
                 size = i10;
                 arrayList3 = arrayList2;
-                z6 = false;
+                z7 = false;
                 actionBarMenuSubItem2 = actionBarMenuSubItem;
-                z5 = true;
+                z6 = true;
             }
             arrayList = arrayList3;
-            boolean z8 = z7;
+            boolean z9 = z8;
             ActionBarMenuSubItem actionBarMenuSubItem3 = actionBarMenuSubItem2;
             i = NotificationCenter.audioRouteChanged;
             LinearLayout linearLayout4 = linearLayout3;
@@ -16125,7 +16117,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             if (linearLayout4.getChildCount() <= 0) {
                 viewGroup = viewGroup2;
-                z7 = false;
+                z8 = false;
             } else {
                 ActionBarPopupWindow.GapView gapView = new ActionBarPopupWindow.GapView(getParentActivity(), getResourceProvider(), Theme.key_actionBarDefaultSubmenuSeparator);
                 gapView.setTag(R.id.fit_width_tag, 1);
@@ -16142,7 +16134,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 viewGroup2.addView(gapView, LayoutHelper.createLinear(-1, 8));
                 viewGroup2.addView(scrollView3);
                 viewGroup = viewGroup2;
-                z7 = z8;
+                z8 = z9;
             }
         } else {
             bundle = bundle4;
@@ -16151,9 +16143,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             viewGroup = null;
         }
         final ChatActivity[] chatActivityArr2 = new ChatActivity[1];
-        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getParentActivity(), R.drawable.popup_fixed_alert2, getResourceProvider(), z7 ? 3 : 2);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getParentActivity(), R.drawable.popup_fixed_alert2, getResourceProvider(), z8 ? 3 : 2);
         actionBarPopupWindowLayoutArr[0] = actionBarPopupWindowLayout;
-        if (z7) {
+        if (z8) {
             final int[] iArr = {actionBarPopupWindowLayout.addViewToSwipeBack(viewGroup)};
             ActionBarMenuSubItem actionBarMenuSubItem5 = new ActionBarMenuSubItem(getParentActivity(), true, false);
             actionBarMenuSubItem5.setTextAndIcon(LocaleController.getString(R.string.FilterAddTo), R.drawable.msg_addfolder);
@@ -16259,14 +16251,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 int size3 = (!z || dialogFilter2 == null) ? (this.folderId == 0 && dialogFilter2 == null) ? getUserConfig().isPremium() ? getMessagesController().maxPinnedDialogsCountPremium : getMessagesController().maxPinnedDialogsCountDefault : getUserConfig().isPremium() ? getMessagesController().maxFolderPinnedDialogsCountPremium : getMessagesController().maxFolderPinnedDialogsCountDefault : 100 - dialogFilter2.alwaysShow.size();
                 if (i6 + i14 > size3 || (i7 + i13) - i5 > size3) {
-                    z2 = false;
                     z3 = false;
+                    z4 = false;
                 } else {
-                    z2 = false;
-                    z3 = true;
+                    z3 = false;
+                    z4 = true;
                 }
-                zArr[z2 ? 1 : 0] = z3;
-                r0 = z2;
+                zArr[z3 ? 1 : 0] = z4;
+                r0 = z3;
             } else {
                 chatActivityArr = chatActivityArr2;
                 r0 = 0;
@@ -16308,36 +16300,32 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         DialogsActivity.this.lambda$showChatPreview$87(dialogId, view);
                     }
                 });
-                r1 = 0;
+                z2 = false;
                 actionBarPopupWindowLayoutArr[0].addView(actionBarMenuSubItem8);
             } else {
-                r1 = 0;
+                z2 = false;
             }
-            int i16 = r1;
-            if (dialogId != UserObject.VERIFY) {
-                ActionBarMenuSubItem actionBarMenuSubItem9 = new ActionBarMenuSubItem(getParentActivity(), r1, true);
-                actionBarMenuSubItem9.setIconColor(getThemedColor(Theme.key_text_RedRegular));
-                int i17 = Theme.key_text_RedBold;
-                actionBarMenuSubItem9.setTextColor(getThemedColor(i17));
-                actionBarMenuSubItem9.setSelectorColor(Theme.multAlpha(getThemedColor(i17), 0.12f));
-                actionBarMenuSubItem9.setTextAndIcon(LocaleController.getString(R.string.Delete), R.drawable.msg_delete);
-                actionBarMenuSubItem9.setMinimumWidth(NotificationCenter.audioRouteChanged);
-                final ArrayList arrayList4 = arrayList;
-                actionBarMenuSubItem9.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda48
-                    @Override // android.view.View.OnClickListener
-                    public final void onClick(View view) {
-                        DialogsActivity.this.lambda$showChatPreview$88(arrayList4, view);
-                    }
-                });
-                i16 = 0;
-                actionBarPopupWindowLayoutArr[0].addView(actionBarMenuSubItem9);
-            }
+            ActionBarMenuSubItem actionBarMenuSubItem9 = new ActionBarMenuSubItem(getParentActivity(), z2, true);
+            actionBarMenuSubItem9.setIconColor(getThemedColor(Theme.key_text_RedRegular));
+            int i16 = Theme.key_text_RedBold;
+            actionBarMenuSubItem9.setTextColor(getThemedColor(i16));
+            actionBarMenuSubItem9.setSelectorColor(Theme.multAlpha(getThemedColor(i16), 0.12f));
+            actionBarMenuSubItem9.setTextAndIcon(LocaleController.getString(R.string.Delete), R.drawable.msg_delete);
+            actionBarMenuSubItem9.setMinimumWidth(NotificationCenter.audioRouteChanged);
+            final ArrayList arrayList4 = arrayList;
+            actionBarMenuSubItem9.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda48
+                @Override // android.view.View.OnClickListener
+                public final void onClick(View view) {
+                    DialogsActivity.this.lambda$showChatPreview$88(arrayList4, view);
+                }
+            });
+            actionBarPopupWindowLayoutArr[0].addView(actionBarMenuSubItem9);
             bundle2 = bundle;
             if (getMessagesController().checkCanOpenChat(bundle2, this)) {
                 return false;
             }
             if (this.searchString != null) {
-                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[i16]);
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
             }
             prepareBlurBitmap();
             this.parentLayout.setHighlightActionButtons(true);
@@ -16384,11 +16372,23 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 DialogsActivity.this.lambda$showChatPreview$87(dialogId, view);
             }
         });
-        r1 = 0;
+        z2 = false;
         actionBarPopupWindowLayoutArr[0].addView(actionBarMenuSubItem82);
-        int i162 = r1;
-        if (dialogId != UserObject.VERIFY) {
-        }
+        ActionBarMenuSubItem actionBarMenuSubItem92 = new ActionBarMenuSubItem(getParentActivity(), z2, true);
+        actionBarMenuSubItem92.setIconColor(getThemedColor(Theme.key_text_RedRegular));
+        int i162 = Theme.key_text_RedBold;
+        actionBarMenuSubItem92.setTextColor(getThemedColor(i162));
+        actionBarMenuSubItem92.setSelectorColor(Theme.multAlpha(getThemedColor(i162), 0.12f));
+        actionBarMenuSubItem92.setTextAndIcon(LocaleController.getString(R.string.Delete), R.drawable.msg_delete);
+        actionBarMenuSubItem92.setMinimumWidth(NotificationCenter.audioRouteChanged);
+        final ArrayList arrayList42 = arrayList;
+        actionBarMenuSubItem92.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda48
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                DialogsActivity.this.lambda$showChatPreview$88(arrayList42, view);
+            }
+        });
+        actionBarPopupWindowLayoutArr[0].addView(actionBarMenuSubItem92);
         bundle2 = bundle;
         if (getMessagesController().checkCanOpenChat(bundle2, this)) {
         }

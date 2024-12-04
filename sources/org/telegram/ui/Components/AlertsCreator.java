@@ -1756,8 +1756,8 @@ public abstract class AlertsCreator {
 
     /*  JADX ERROR: JadxRuntimeException in pass: IfRegionVisitor
         jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r1v31 boolean, still in use, count: 2, list:
-          (r1v31 boolean) from 0x0284: IF  (r1v31 boolean) != false  -> B:193:0x0286 A[HIDDEN]
-          (r1v31 boolean) from 0x0286: PHI (r1v34 boolean) = (r1v31 boolean), (r1v48 boolean) binds: [B:223:0x0284, B:192:0x0275] A[DONT_GENERATE, DONT_INLINE]
+          (r1v31 boolean) from 0x028f: IF  (r1v31 boolean) != false  -> B:194:0x0291 A[HIDDEN]
+          (r1v31 boolean) from 0x0291: PHI (r1v34 boolean) = (r1v31 boolean), (r1v48 boolean) binds: [B:224:0x028f, B:193:0x0280] A[DONT_GENERATE, DONT_INLINE]
         	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:162)
         	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:127)
         	at jadx.core.dex.visitors.regions.TernaryMod.makeTernaryInsn(TernaryMod.java:114)
@@ -1767,23 +1767,23 @@ public abstract class AlertsCreator {
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseIterativeStepInternal(DepthRegionTraversal.java:82)
         */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x04a6  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x051e  */
-    /* JADX WARN: Removed duplicated region for block: B:109:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x04ae  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0399  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x036b  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0336  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0377  */
-    /* JADX WARN: Type inference failed for: r1v77 */
-    /* JADX WARN: Type inference failed for: r1v80, types: [java.lang.String, org.telegram.messenger.ImageLocation] */
-    /* JADX WARN: Type inference failed for: r1v82 */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x04a0  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0517  */
+    /* JADX WARN: Removed duplicated region for block: B:110:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x04a8  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0392  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0366  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0331  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x0372  */
+    /* JADX WARN: Type inference failed for: r1v76 */
+    /* JADX WARN: Type inference failed for: r1v79, types: [java.lang.String, org.telegram.messenger.ImageLocation] */
+    /* JADX WARN: Type inference failed for: r1v81 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void createClearOrDeleteDialogAlert(final org.telegram.ui.ActionBar.BaseFragment r29, final boolean r30, final boolean r31, final boolean r32, final org.telegram.tgnet.TLRPC.Chat r33, final org.telegram.tgnet.TLRPC.User r34, final boolean r35, final boolean r36, final boolean r37, final org.telegram.messenger.MessagesStorage.BooleanCallback r38, final org.telegram.ui.ActionBar.Theme.ResourcesProvider r39) {
+    public static void createClearOrDeleteDialogAlert(final org.telegram.ui.ActionBar.BaseFragment r30, final boolean r31, final boolean r32, final boolean r33, final org.telegram.tgnet.TLRPC.Chat r34, final org.telegram.tgnet.TLRPC.User r35, final boolean r36, final boolean r37, final boolean r38, final org.telegram.messenger.MessagesStorage.BooleanCallback r39, final org.telegram.ui.ActionBar.Theme.ResourcesProvider r40) {
         /*
-            Method dump skipped, instructions count: 1320
+            Method dump skipped, instructions count: 1313
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.Components.AlertsCreator.createClearOrDeleteDialogAlert(org.telegram.ui.ActionBar.BaseFragment, boolean, boolean, boolean, org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, boolean, boolean, boolean, org.telegram.messenger.MessagesStorage$BooleanCallback, org.telegram.ui.ActionBar.Theme$ResourcesProvider):void");
