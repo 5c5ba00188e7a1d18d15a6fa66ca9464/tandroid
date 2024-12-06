@@ -1844,13 +1844,13 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     /* JADX WARN: Removed duplicated region for block: B:166:0x0824  */
     /* JADX WARN: Removed duplicated region for block: B:169:0x0831  */
     /* JADX WARN: Removed duplicated region for block: B:177:0x084f  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x0c3b  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x0c47  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x0c96  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x0cc9  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x0cfb  */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x0d03  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x0cce  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x0c51  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0c5d  */
+    /* JADX WARN: Removed duplicated region for block: B:229:0x0cac  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x0cdf  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x0d11  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0d19  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0ce4  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2796,6 +2796,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 textInfoPrivacyCell3.setBackground(Theme.getThemedDrawableByKey(context, i11, i12));
                 textInfoPrivacyCell3.setTag(R.id.fit_width_tag, 1);
                 linearLayout2.addView(textInfoPrivacyCell3, LayoutHelper.createLinear(-1, 8));
+                this.balanceContainer.setVisibility((this.starsBalanceCell.getVisibility() == 0 || this.tonBalanceCell.getVisibility() == 0) ? 0 : 8);
                 chat = this.currentChat;
                 if (chat != null && chat.creator) {
                     FrameLayout frameLayout2 = new FrameLayout(context);
@@ -2917,6 +2918,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         String format;
         EditTextBoldCursor editTextBoldCursor;
         boolean z = true;
+        int i3 = 0;
         if (i == NotificationCenter.chatInfoDidLoad) {
             TLRPC.ChatFull chatFull = (TLRPC.ChatFull) objArr[0];
             if (chatFull.id == this.chatId) {
@@ -2987,6 +2989,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 if (textCell != null) {
                     textCell.setNeedDivider(botStarsController.botHasStars(this.userId) || botStarsController.botHasTON(this.userId));
                 }
+                this.balanceContainer.setVisibility((this.starsBalanceCell.getVisibility() == 0 || this.tonBalanceCell.getVisibility() == 0) ? 0 : 8);
             }
             if (this.tonBalanceCell != null) {
                 BotStarsController botStarsController2 = BotStarsController.getInstance(this.currentAccount);
@@ -3020,6 +3023,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     }
                     textCell2.setNeedDivider(z);
                 }
+                LinearLayout linearLayout = this.balanceContainer;
+                if (this.starsBalanceCell.getVisibility() != 0 && this.tonBalanceCell.getVisibility() != 0) {
+                    i3 = 8;
+                }
+                linearLayout.setVisibility(i3);
             }
         }
     }

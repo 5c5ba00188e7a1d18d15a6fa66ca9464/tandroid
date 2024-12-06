@@ -22610,12 +22610,64 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x018d  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x01a4  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x01cb  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x01de  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0202  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0215  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x0228  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x0244  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0263  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x01ce  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0118  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x00ce  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x02cf  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x02d2  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x02d9  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:204:0x02f5  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x030c  */
+    /* JADX WARN: Removed duplicated region for block: B:217:0x0317  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0321  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x034f  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x035a  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0352  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0371  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x0365  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:267:0x0319  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x030f  */
+    /* JADX WARN: Removed duplicated region for block: B:269:0x02ed  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x00b9  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00d7  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0123  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0158  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void toggleActionBar(final boolean z, boolean z2, ActionBarToggleParams actionBarToggleParams) {
+        float f;
+        int i;
+        PhotoCountView photoCountView;
         CaptionScrollView captionScrollView;
+        float f2;
+        int i2;
+        FrameLayout frameLayout;
+        PhotoCountView photoCountView2;
+        View view;
+        Property property;
         CaptionScrollView captionScrollView2;
         if (this.currentEditMode == 0) {
-            int i = this.switchingToMode;
-            if (i == 0 || i == -1) {
+            int i3 = this.switchingToMode;
+            if (i3 == 0 || i3 == -1) {
                 AnimatorSet animatorSet = this.actionBarAnimator;
                 if (animatorSet != null) {
                     animatorSet.cancel();
@@ -22653,126 +22705,245 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.videoPlayerControlFrameLayout.setSeekBarTransitionEnabled(actionBarToggleParams.enableTranslationAnimation && this.playerLooping);
                 this.videoPlayerControlFrameLayout.setTranslationYAnimationEnabled(actionBarToggleParams.enableTranslationAnimation);
                 if (!z2) {
-                    this.actionBar.setAlpha(z ? 1.0f : 0.0f);
-                    if (this.fullscreenButton[0].getTranslationX() != 0.0f && this.allowShowFullscreenButton) {
-                        this.fullscreenButton[0].setAlpha(z ? 1.0f : 0.0f);
-                    }
-                    for (int i2 = 0; i2 < 3; i2++) {
-                        this.fullscreenButton[i2].setTranslationY(z ? 0.0f : dpf2);
-                    }
-                    this.actionBar.setTranslationY(z ? 0.0f : -dpf2);
-                    PhotoCountView photoCountView = this.countView;
-                    if (photoCountView != null) {
-                        photoCountView.setAlpha(z ? 1.0f : 0.0f);
-                        this.countView.setTranslationY(z ? 0.0f : -dpf2);
-                    }
-                    this.bottomLayout.setAlpha(z ? 1.0f : 0.0f);
-                    this.bottomLayout.setTranslationY(z ? 0.0f : dpf2);
-                    this.navigationBar.setAlpha(z ? 1.0f : 0.0f);
-                    this.groupedPhotosListView.setAlpha((!z || this.aboutToSwitchTo == 3) ? 0.0f : 1.0f);
-                    this.groupedPhotosListView.setTranslationY((!z || this.aboutToSwitchTo == 3) ? dpf2 : 0.0f);
-                    if (!this.needCaptionLayout && (captionScrollView = this.captionScrollView) != null) {
-                        captionScrollView.setAlpha(z ? 1.0f : 0.0f);
-                        CaptionScrollView captionScrollView3 = this.captionScrollView;
-                        if (z) {
-                            dpf2 = 0.0f;
+                    ActionBar actionBar = this.actionBar;
+                    if (z) {
+                        CaptionContainerView captionView = getCaptionView();
+                        CaptionPhotoViewer captionPhotoViewer = this.topCaptionEdit;
+                        if (captionView != captionPhotoViewer || captionPhotoViewer.keyboardNotifier.keyboardVisible()) {
+                            f = 1.0f;
+                            actionBar.setAlpha(f);
+                            if (this.fullscreenButton[0].getTranslationX() != 0.0f && this.allowShowFullscreenButton) {
+                                this.fullscreenButton[0].setAlpha(!z ? 1.0f : 0.0f);
+                            }
+                            for (i = 0; i < 3; i++) {
+                                this.fullscreenButton[i].setTranslationY(z ? 0.0f : dpf2);
+                            }
+                            this.actionBar.setTranslationY(!z ? 0.0f : -dpf2);
+                            photoCountView = this.countView;
+                            if (photoCountView != null) {
+                                photoCountView.setAlpha(z ? 1.0f : 0.0f);
+                                this.countView.setTranslationY(z ? 0.0f : -dpf2);
+                            }
+                            this.bottomLayout.setAlpha(!z ? 1.0f : 0.0f);
+                            this.bottomLayout.setTranslationY(!z ? 0.0f : dpf2);
+                            this.navigationBar.setAlpha(!z ? 1.0f : 0.0f);
+                            this.groupedPhotosListView.setAlpha((z || this.aboutToSwitchTo == 3) ? 0.0f : 1.0f);
+                            this.groupedPhotosListView.setTranslationY((z || this.aboutToSwitchTo == 3) ? dpf2 : 0.0f);
+                            if (!this.needCaptionLayout && (captionScrollView = this.captionScrollView) != null) {
+                                captionScrollView.setAlpha(!z ? 1.0f : 0.0f);
+                                CaptionScrollView captionScrollView3 = this.captionScrollView;
+                                if (z) {
+                                    dpf2 = 0.0f;
+                                }
+                                captionScrollView3.setTranslationY(dpf2);
+                            }
+                            this.videoPlayerControlFrameLayout.setProgress(!z ? 1.0f : 0.0f);
+                            if (this.muteItem.getTag() != null) {
+                                this.muteItem.setAlpha(z ? 1.0f : 0.0f);
+                            }
+                            if (this.videoPlayerControlVisible || !this.isPlaying) {
+                                return;
+                            }
+                            this.photoProgressViews[0].setIndexedAlpha(1, z ? 1.0f : 0.0f, false);
+                            return;
                         }
-                        captionScrollView3.setTranslationY(dpf2);
                     }
-                    this.videoPlayerControlFrameLayout.setProgress(z ? 1.0f : 0.0f);
+                    f = 0.0f;
+                    actionBar.setAlpha(f);
+                    if (this.fullscreenButton[0].getTranslationX() != 0.0f) {
+                        this.fullscreenButton[0].setAlpha(!z ? 1.0f : 0.0f);
+                    }
+                    while (i < 3) {
+                    }
+                    this.actionBar.setTranslationY(!z ? 0.0f : -dpf2);
+                    photoCountView = this.countView;
+                    if (photoCountView != null) {
+                    }
+                    this.bottomLayout.setAlpha(!z ? 1.0f : 0.0f);
+                    this.bottomLayout.setTranslationY(!z ? 0.0f : dpf2);
+                    this.navigationBar.setAlpha(!z ? 1.0f : 0.0f);
+                    this.groupedPhotosListView.setAlpha((z || this.aboutToSwitchTo == 3) ? 0.0f : 1.0f);
+                    this.groupedPhotosListView.setTranslationY((z || this.aboutToSwitchTo == 3) ? dpf2 : 0.0f);
+                    if (!this.needCaptionLayout) {
+                        captionScrollView.setAlpha(!z ? 1.0f : 0.0f);
+                        CaptionScrollView captionScrollView32 = this.captionScrollView;
+                        if (z) {
+                        }
+                        captionScrollView32.setTranslationY(dpf2);
+                    }
+                    this.videoPlayerControlFrameLayout.setProgress(!z ? 1.0f : 0.0f);
                     if (this.muteItem.getTag() != null) {
-                        this.muteItem.setAlpha(z ? 1.0f : 0.0f);
                     }
-                    if (this.videoPlayerControlVisible && this.isPlaying) {
-                        this.photoProgressViews[0].setIndexedAlpha(1, z ? 1.0f : 0.0f, false);
+                    if (this.videoPlayerControlVisible) {
+                        return;
+                    } else {
                         return;
                     }
-                    return;
                 }
                 ArrayList arrayList = new ArrayList();
-                ActionBar actionBar = this.actionBar;
-                Property property = View.ALPHA;
-                arrayList.add(ObjectAnimator.ofFloat(actionBar, (Property<ActionBar, Float>) property, z ? 1.0f : 0.0f));
+                ActionBar actionBar2 = this.actionBar;
+                Property property2 = View.ALPHA;
+                if (z) {
+                    CaptionContainerView captionView2 = getCaptionView();
+                    CaptionPhotoViewer captionPhotoViewer2 = this.topCaptionEdit;
+                    if (captionView2 != captionPhotoViewer2 || captionPhotoViewer2.keyboardNotifier.keyboardVisible()) {
+                        f2 = 1.0f;
+                        arrayList.add(ObjectAnimator.ofFloat(actionBar2, (Property<ActionBar, Float>) property2, f2));
+                        if (actionBarToggleParams.enableTranslationAnimation) {
+                            this.actionBar.setTranslationY(0.0f);
+                        } else {
+                            arrayList.add(ObjectAnimator.ofFloat(this.actionBar, (Property<ActionBar, Float>) View.TRANSLATION_Y, z ? 0.0f : -dpf2));
+                        }
+                        if (this.allowShowFullscreenButton) {
+                            arrayList.add(ObjectAnimator.ofFloat(this.fullscreenButton[0], (Property<ImageView, Float>) property2, z ? 1.0f : 0.0f));
+                        }
+                        for (i2 = 1; i2 < 3; i2++) {
+                            this.fullscreenButton[i2].setTranslationY(z ? 0.0f : dpf2);
+                        }
+                        if (actionBarToggleParams.enableTranslationAnimation) {
+                            this.fullscreenButton[0].setTranslationY(0.0f);
+                        } else {
+                            arrayList.add(ObjectAnimator.ofFloat(this.fullscreenButton[0], (Property<ImageView, Float>) View.TRANSLATION_Y, z ? 0.0f : dpf2));
+                        }
+                        frameLayout = this.bottomLayout;
+                        if (frameLayout != null) {
+                            arrayList.add(ObjectAnimator.ofFloat(frameLayout, (Property<FrameLayout, Float>) View.ALPHA, z ? 1.0f : 0.0f));
+                            if (actionBarToggleParams.enableTranslationAnimation) {
+                                arrayList.add(ObjectAnimator.ofFloat(this.bottomLayout, (Property<FrameLayout, Float>) View.TRANSLATION_Y, z ? 0.0f : dpf2));
+                            } else {
+                                this.bottomLayout.setTranslationY(0.0f);
+                            }
+                        }
+                        photoCountView2 = this.countView;
+                        if (photoCountView2 != null) {
+                            arrayList.add(ObjectAnimator.ofFloat(photoCountView2, (Property<PhotoCountView, Float>) View.ALPHA, z ? 1.0f : 0.0f));
+                            if (actionBarToggleParams.enableTranslationAnimation) {
+                                arrayList.add(ObjectAnimator.ofFloat(this.countView, (Property<PhotoCountView, Float>) View.TRANSLATION_Y, z ? 0.0f : -dpf2));
+                            } else {
+                                this.countView.setTranslationY(0.0f);
+                            }
+                        }
+                        view = this.navigationBar;
+                        if (view != null) {
+                            arrayList.add(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.ALPHA, z ? 1.0f : 0.0f));
+                        }
+                        if (this.videoPlayerControlVisible) {
+                            this.videoPlayerControlFrameLayout.setProgress(z ? 1.0f : 0.0f);
+                        } else {
+                            arrayList.add(ObjectAnimator.ofFloat(this.videoPlayerControlFrameLayout, (Property<VideoPlayerControlFrameLayout, Float>) VPC_PROGRESS, z ? 1.0f : 0.0f));
+                        }
+                        GroupedPhotosListView groupedPhotosListView = this.groupedPhotosListView;
+                        property = View.ALPHA;
+                        arrayList.add(ObjectAnimator.ofFloat(groupedPhotosListView, (Property<GroupedPhotosListView, Float>) property, !z ? 1.0f : 0.0f));
+                        if (actionBarToggleParams.enableTranslationAnimation) {
+                            this.groupedPhotosListView.setTranslationY(0.0f);
+                        } else {
+                            arrayList.add(ObjectAnimator.ofFloat(this.groupedPhotosListView, (Property<GroupedPhotosListView, Float>) View.TRANSLATION_Y, z ? 0.0f : dpf2));
+                        }
+                        if (!this.needCaptionLayout && (captionScrollView2 = this.captionScrollView) != null) {
+                            arrayList.add(ObjectAnimator.ofFloat(captionScrollView2, (Property<CaptionScrollView, Float>) property, !z ? 1.0f : 0.0f));
+                            if (actionBarToggleParams.enableTranslationAnimation) {
+                                this.captionScrollView.setTranslationY(0.0f);
+                            } else {
+                                CaptionScrollView captionScrollView4 = this.captionScrollView;
+                                Property property3 = View.TRANSLATION_Y;
+                                if (z) {
+                                    dpf2 = 0.0f;
+                                }
+                                arrayList.add(ObjectAnimator.ofFloat(captionScrollView4, (Property<CaptionScrollView, Float>) property3, dpf2));
+                            }
+                        }
+                        if (this.videoPlayerControlVisible && this.isPlaying) {
+                            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.photoProgressViews[0].animAlphas[1], !z ? 1.0f : 0.0f);
+                            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda27
+                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                public final void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                    PhotoViewer.this.lambda$toggleActionBar$95(valueAnimator);
+                                }
+                            });
+                            arrayList.add(ofFloat);
+                        }
+                        if (this.muteItem.getTag() != null) {
+                            arrayList.add(ObjectAnimator.ofFloat(this.muteItem, (Property<ImageView, Float>) property, z ? 1.0f : 0.0f));
+                        }
+                        AnimatorSet animatorSet2 = new AnimatorSet();
+                        this.actionBarAnimator = animatorSet2;
+                        animatorSet2.playTogether(arrayList);
+                        this.actionBarAnimator.setDuration(actionBarToggleParams.animationDuration);
+                        this.actionBarAnimator.setInterpolator(actionBarToggleParams.animationInterpolator);
+                        this.actionBarAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.65
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationCancel(Animator animator) {
+                                if (animator.equals(PhotoViewer.this.actionBarAnimator)) {
+                                    PhotoViewer.this.actionBarAnimator = null;
+                                }
+                            }
+
+                            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                            public void onAnimationEnd(Animator animator) {
+                                if (animator.equals(PhotoViewer.this.actionBarAnimator)) {
+                                    if (!z) {
+                                        PhotoViewer.this.actionBar.setVisibility(4);
+                                        if (PhotoViewer.this.bottomLayout.getTag() != null) {
+                                            PhotoViewer.this.bottomLayout.setVisibility(4);
+                                        }
+                                        if (PhotoViewer.this.captionTextViewSwitcher.getTag() != null) {
+                                            PhotoViewer.this.captionTextViewSwitcher.setVisibility(4);
+                                        }
+                                    }
+                                    PhotoViewer.this.actionBarAnimator = null;
+                                }
+                            }
+                        });
+                        this.actionBarAnimator.start();
+                    }
+                }
+                f2 = 0.0f;
+                arrayList.add(ObjectAnimator.ofFloat(actionBar2, (Property<ActionBar, Float>) property2, f2));
                 if (actionBarToggleParams.enableTranslationAnimation) {
-                    arrayList.add(ObjectAnimator.ofFloat(this.actionBar, (Property<ActionBar, Float>) View.TRANSLATION_Y, z ? 0.0f : -dpf2));
-                } else {
-                    this.actionBar.setTranslationY(0.0f);
                 }
                 if (this.allowShowFullscreenButton) {
-                    arrayList.add(ObjectAnimator.ofFloat(this.fullscreenButton[0], (Property<ImageView, Float>) property, z ? 1.0f : 0.0f));
                 }
-                for (int i3 = 1; i3 < 3; i3++) {
-                    this.fullscreenButton[i3].setTranslationY(z ? 0.0f : dpf2);
+                while (i2 < 3) {
                 }
                 if (actionBarToggleParams.enableTranslationAnimation) {
-                    arrayList.add(ObjectAnimator.ofFloat(this.fullscreenButton[0], (Property<ImageView, Float>) View.TRANSLATION_Y, z ? 0.0f : dpf2));
-                } else {
-                    this.fullscreenButton[0].setTranslationY(0.0f);
                 }
-                FrameLayout frameLayout = this.bottomLayout;
+                frameLayout = this.bottomLayout;
                 if (frameLayout != null) {
-                    arrayList.add(ObjectAnimator.ofFloat(frameLayout, (Property<FrameLayout, Float>) View.ALPHA, z ? 1.0f : 0.0f));
-                    if (actionBarToggleParams.enableTranslationAnimation) {
-                        arrayList.add(ObjectAnimator.ofFloat(this.bottomLayout, (Property<FrameLayout, Float>) View.TRANSLATION_Y, z ? 0.0f : dpf2));
-                    } else {
-                        this.bottomLayout.setTranslationY(0.0f);
-                    }
                 }
-                PhotoCountView photoCountView2 = this.countView;
+                photoCountView2 = this.countView;
                 if (photoCountView2 != null) {
-                    arrayList.add(ObjectAnimator.ofFloat(photoCountView2, (Property<PhotoCountView, Float>) View.ALPHA, z ? 1.0f : 0.0f));
-                    if (actionBarToggleParams.enableTranslationAnimation) {
-                        arrayList.add(ObjectAnimator.ofFloat(this.countView, (Property<PhotoCountView, Float>) View.TRANSLATION_Y, z ? 0.0f : -dpf2));
-                    } else {
-                        this.countView.setTranslationY(0.0f);
-                    }
                 }
-                View view = this.navigationBar;
+                view = this.navigationBar;
                 if (view != null) {
-                    arrayList.add(ObjectAnimator.ofFloat(view, (Property<View, Float>) View.ALPHA, z ? 1.0f : 0.0f));
                 }
                 if (this.videoPlayerControlVisible) {
-                    arrayList.add(ObjectAnimator.ofFloat(this.videoPlayerControlFrameLayout, (Property<VideoPlayerControlFrameLayout, Float>) VPC_PROGRESS, z ? 1.0f : 0.0f));
-                } else {
-                    this.videoPlayerControlFrameLayout.setProgress(z ? 1.0f : 0.0f);
                 }
-                GroupedPhotosListView groupedPhotosListView = this.groupedPhotosListView;
-                Property property2 = View.ALPHA;
-                arrayList.add(ObjectAnimator.ofFloat(groupedPhotosListView, (Property<GroupedPhotosListView, Float>) property2, z ? 1.0f : 0.0f));
+                GroupedPhotosListView groupedPhotosListView2 = this.groupedPhotosListView;
+                property = View.ALPHA;
+                arrayList.add(ObjectAnimator.ofFloat(groupedPhotosListView2, (Property<GroupedPhotosListView, Float>) property, !z ? 1.0f : 0.0f));
                 if (actionBarToggleParams.enableTranslationAnimation) {
-                    arrayList.add(ObjectAnimator.ofFloat(this.groupedPhotosListView, (Property<GroupedPhotosListView, Float>) View.TRANSLATION_Y, z ? 0.0f : dpf2));
-                } else {
-                    this.groupedPhotosListView.setTranslationY(0.0f);
                 }
-                if (!this.needCaptionLayout && (captionScrollView2 = this.captionScrollView) != null) {
-                    arrayList.add(ObjectAnimator.ofFloat(captionScrollView2, (Property<CaptionScrollView, Float>) property2, z ? 1.0f : 0.0f));
+                if (!this.needCaptionLayout) {
+                    arrayList.add(ObjectAnimator.ofFloat(captionScrollView2, (Property<CaptionScrollView, Float>) property, !z ? 1.0f : 0.0f));
                     if (actionBarToggleParams.enableTranslationAnimation) {
-                        CaptionScrollView captionScrollView4 = this.captionScrollView;
-                        Property property3 = View.TRANSLATION_Y;
-                        if (z) {
-                            dpf2 = 0.0f;
-                        }
-                        arrayList.add(ObjectAnimator.ofFloat(captionScrollView4, (Property<CaptionScrollView, Float>) property3, dpf2));
-                    } else {
-                        this.captionScrollView.setTranslationY(0.0f);
                     }
                 }
-                if (this.videoPlayerControlVisible && this.isPlaying) {
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.photoProgressViews[0].animAlphas[1], z ? 1.0f : 0.0f);
-                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda27
+                if (this.videoPlayerControlVisible) {
+                    ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.photoProgressViews[0].animAlphas[1], !z ? 1.0f : 0.0f);
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda27
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                             PhotoViewer.this.lambda$toggleActionBar$95(valueAnimator);
                         }
                     });
-                    arrayList.add(ofFloat);
+                    arrayList.add(ofFloat2);
                 }
                 if (this.muteItem.getTag() != null) {
-                    arrayList.add(ObjectAnimator.ofFloat(this.muteItem, (Property<ImageView, Float>) property2, z ? 1.0f : 0.0f));
                 }
-                AnimatorSet animatorSet2 = new AnimatorSet();
-                this.actionBarAnimator = animatorSet2;
-                animatorSet2.playTogether(arrayList);
+                AnimatorSet animatorSet22 = new AnimatorSet();
+                this.actionBarAnimator = animatorSet22;
+                animatorSet22.playTogether(arrayList);
                 this.actionBarAnimator.setDuration(actionBarToggleParams.animationDuration);
                 this.actionBarAnimator.setInterpolator(actionBarToggleParams.animationInterpolator);
                 this.actionBarAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PhotoViewer.65
@@ -22805,7 +22976,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00b6  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void toggleCaptionAbove() {
+        float f;
+        boolean z;
         PhotoViewerProvider photoViewerProvider = this.placeProvider;
         if (photoViewerProvider != null && photoViewerProvider.canMoveCaptionAbove()) {
             CaptionContainerView captionView = getCaptionView();
@@ -22825,6 +23002,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (mentionsContainerView != null) {
                     AndroidUtilities.removeFromParent(mentionsContainerView);
                     captionView.mentionContainer = null;
+                }
+                ViewPropertyAnimator animate = this.actionBar.animate();
+                if (this.isActionBarVisible) {
+                    CaptionContainerView captionView3 = getCaptionView();
+                    CaptionPhotoViewer captionPhotoViewer = this.topCaptionEdit;
+                    if (captionView3 != captionPhotoViewer || !captionPhotoViewer.keyboardNotifier.keyboardVisible()) {
+                        f = 1.0f;
+                        animate.alpha(f).start();
+                        if (this.pickerView.getVisibility() == 0) {
+                            if (this.isActionBarVisible) {
+                                CaptionContainerView captionView4 = getCaptionView();
+                                CaptionPhotoViewer captionPhotoViewer2 = this.topCaptionEdit;
+                                if (captionView4 != captionPhotoViewer2 || !captionPhotoViewer2.keyboardNotifier.keyboardVisible()) {
+                                    z = true;
+                                    toggleOnlyCheckImageView(z);
+                                }
+                            }
+                            z = false;
+                            toggleOnlyCheckImageView(z);
+                        }
+                    }
+                }
+                f = 0.0f;
+                animate.alpha(f).start();
+                if (this.pickerView.getVisibility() == 0) {
                 }
             }
             if (MessagesController.getInstance(this.currentAccount).shouldShowMoveCaptionHint()) {
@@ -22939,6 +23141,27 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         });
         this.miniProgressAnimator.start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void toggleOnlyCheckImageView(boolean z) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        ArrayList arrayList = new ArrayList();
+        float dpf2 = AndroidUtilities.dpf2(24.0f);
+        int i = this.sendPhotoType;
+        if (i == 0 || i == 4) {
+            CheckBox checkBox = this.checkImageView;
+            Property property = View.ALPHA;
+            arrayList.add(ObjectAnimator.ofFloat(checkBox, (Property<CheckBox, Float>) property, z ? 1.0f : 0.0f));
+            CheckBox checkBox2 = this.checkImageView;
+            Property property2 = View.TRANSLATION_Y;
+            arrayList.add(ObjectAnimator.ofFloat(checkBox2, (Property<CheckBox, Float>) property2, z ? 0.0f : -dpf2));
+            arrayList.add(ObjectAnimator.ofFloat(this.photosCounterView, (Property<CounterView, Float>) property, z ? 1.0f : 0.0f));
+            arrayList.add(ObjectAnimator.ofFloat(this.photosCounterView, (Property<CounterView, Float>) property2, z ? 0.0f : -dpf2));
+        }
+        animatorSet.playTogether(arrayList);
+        animatorSet.setDuration(200L);
+        animatorSet.start();
     }
 
     private void togglePhotosListView(boolean z, boolean z2) {
@@ -27061,8 +27284,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     visibleBulletin.updatePosition();
                 }
                 updateMoveCaptionButton();
+                boolean z2 = false;
                 if (PhotoViewer.this.bottomBulletinUnderCaption != null) {
                     PhotoViewer.this.bottomBulletinUnderCaption.animate().translationY(-Math.max(0, i11 - PhotoViewer.this.pickerView.getHeight())).setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator).start();
+                }
+                PhotoViewer.this.actionBar.animate().alpha((!PhotoViewer.this.isActionBarVisible || (PhotoViewer.this.getCaptionView() == PhotoViewer.this.topCaptionEdit && PhotoViewer.this.topCaptionEdit.keyboardNotifier.keyboardVisible())) ? 0.0f : 1.0f).start();
+                if (PhotoViewer.this.pickerView.getVisibility() == 0) {
+                    PhotoViewer photoViewer = PhotoViewer.this;
+                    if (photoViewer.isActionBarVisible && (PhotoViewer.this.getCaptionView() != PhotoViewer.this.topCaptionEdit || !PhotoViewer.this.topCaptionEdit.keyboardNotifier.keyboardVisible())) {
+                        z2 = true;
+                    }
+                    photoViewer.toggleOnlyCheckImageView(z2);
                 }
             }
 
@@ -27186,6 +27418,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             @Override // org.telegram.ui.Components.CaptionPhotoViewer
             protected boolean showMoveButton() {
                 return PhotoViewer.this.placeProvider != null && PhotoViewer.this.placeProvider.canMoveCaptionAbove();
+            }
+
+            @Override // org.telegram.ui.Components.CaptionPhotoViewer, org.telegram.ui.Stories.recorder.CaptionContainerView
+            public void updateKeyboard(int i11) {
+                super.updateKeyboard(i11);
+                PhotoViewer.this.actionBar.animate().alpha((!PhotoViewer.this.isActionBarVisible || (PhotoViewer.this.getCaptionView() == PhotoViewer.this.topCaptionEdit && PhotoViewer.this.topCaptionEdit.keyboardNotifier.keyboardVisible())) ? 0.0f : 1.0f).start();
+                if (PhotoViewer.this.pickerView.getVisibility() == 0) {
+                    PhotoViewer photoViewer = PhotoViewer.this;
+                    photoViewer.toggleOnlyCheckImageView(photoViewer.isActionBarVisible && !(PhotoViewer.this.getCaptionView() == PhotoViewer.this.topCaptionEdit && PhotoViewer.this.topCaptionEdit.keyboardNotifier.keyboardVisible()));
+                }
             }
 
             @Override // org.telegram.ui.Stories.recorder.CaptionContainerView

@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
@@ -47,6 +48,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.GenericProvider;
@@ -69,11 +71,13 @@ import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.Stories.recorder.GalleryListView;
 
@@ -99,9 +103,13 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     private final KeyboardNotifier keyboardNotifier;
     public final GridLayoutManager layoutManager;
     public final RecyclerListView listView;
+    private int maxCount;
+    private boolean multipleOnClick;
     private Runnable onBackClickListener;
     private Utilities.Callback2 onSelectListener;
+    private Utilities.Callback2 onSelectMultipleListener;
     public final boolean onlyPhotos;
+    public ArrayList photos;
     private final Theme.ResourcesProvider resourcesProvider;
     private final SearchAdapter searchAdapterImages;
     private final FrameLayout searchContainer;
@@ -109,8 +117,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     private final ActionBarMenuItem searchItem;
     private final GridLayoutManager searchLayoutManager;
     private final RecyclerListView searchListView;
+    private final ImageView selectButton;
     public MediaController.AlbumEntry selectedAlbum;
-    public ArrayList selectedPhotos;
+    public final ArrayList selectedPhotos;
+    private int shiftDp;
 
     class 12 extends ActionBarMenuItem.ActionBarMenuItemSearchListener {
         private AnimatorSet animatorSet;
@@ -271,8 +281,8 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 }
                 i2 -= GalleryListView.this.drafts.size();
             }
-            ArrayList arrayList = GalleryListView.this.selectedPhotos;
-            if (arrayList == null || i2 < 0 || i2 >= arrayList.size() || (photoEntry = (MediaController.PhotoEntry) GalleryListView.this.selectedPhotos.get(i2)) == null) {
+            ArrayList arrayList = GalleryListView.this.photos;
+            if (arrayList == null || i2 < 0 || i2 >= arrayList.size() || (photoEntry = (MediaController.PhotoEntry) GalleryListView.this.photos.get(i2)) == null) {
                 return null;
             }
             long j = photoEntry.dateTaken;
@@ -301,7 +311,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
         public int getTotalItemsCount() {
-            ArrayList arrayList = GalleryListView.this.selectedPhotos;
+            ArrayList arrayList = GalleryListView.this.photos;
             int size = arrayList == null ? 0 : arrayList.size();
             return GalleryListView.this.containsDraftFolder ? size + 1 : GalleryListView.this.containsDrafts ? size + GalleryListView.this.drafts.size() : size;
         }
@@ -324,22 +334,26 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 int i2 = i - 2;
                 if (GalleryListView.this.containsDraftFolder) {
                     if (i2 == 0) {
+                        cell.setCheckbox(false, -1, false);
                         cell.set((StoryEntry) GalleryListView.this.drafts.get(0), GalleryListView.this.drafts.size());
                         return;
                     }
                     i2 = i - 3;
                 } else if (GalleryListView.this.containsDrafts) {
                     if (i2 >= 0 && i2 < GalleryListView.this.drafts.size()) {
+                        cell.setCheckbox(false, -1, false);
                         cell.set((StoryEntry) GalleryListView.this.drafts.get(i2), 0);
                         return;
                     }
                     i2 -= GalleryListView.this.drafts.size();
                 }
-                ArrayList arrayList = GalleryListView.this.selectedPhotos;
+                ArrayList arrayList = GalleryListView.this.photos;
                 if (arrayList == null || i2 < 0 || i2 >= arrayList.size()) {
                     return;
                 }
-                cell.set((MediaController.PhotoEntry) GalleryListView.this.selectedPhotos.get(i2));
+                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) GalleryListView.this.photos.get(i2);
+                cell.setCheckbox(GalleryListView.this.isMultiple(), GalleryListView.this.selectedPhotos.indexOf(photoEntry), cell.currentObject == photoEntry);
+                cell.set(photoEntry);
             }
         }
 
@@ -354,19 +368,33 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 GalleryListView galleryListView3 = GalleryListView.this;
                 cell = galleryListView2.headerView = galleryListView3.new HeaderView(galleryListView3.getContext(), GalleryListView.this.onlyPhotos);
             } else {
-                cell = new Cell(GalleryListView.this.getContext());
+                cell = new Cell(GalleryListView.this.getContext(), GalleryListView.this.resourcesProvider);
             }
             return new RecyclerListView.Holder(cell);
+        }
+
+        @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+        public void onViewAttachedToWindow(RecyclerView.ViewHolder viewHolder) {
+            super.onViewAttachedToWindow(viewHolder);
+            if (viewHolder.getItemViewType() == 2) {
+                Cell cell = (Cell) viewHolder.itemView;
+                if (!(cell.currentObject instanceof MediaController.PhotoEntry)) {
+                    cell.setCheckbox(false, -1, false);
+                } else {
+                    cell.setCheckbox(GalleryListView.this.isMultiple(), GalleryListView.this.selectedPhotos.indexOf((MediaController.PhotoEntry) cell.currentObject), false);
+                }
+            }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    static class Cell extends View {
+    static class Cell extends FrameLayout {
         private static int allQueuesIndex;
         private final Paint bgPaint;
         private Bitmap bitmap;
         private final Matrix bitmapMatrix;
         private final Paint bitmapPaint;
+        private CheckBox2 checkBox;
         private final Path clipPath;
         private String currentKey;
         private Object currentObject;
@@ -386,13 +414,14 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         private final Paint gradientPaint;
         private Runnable loadingBitmap;
         private DispatchQueue myQueue;
+        private final Paint paintUnderCheck;
         private final float[] radii;
         private boolean topLeft;
         private boolean topRight;
         private final Runnable unload;
         private static ArrayList allQueues = new ArrayList();
         private static final HashMap bitmapsUseCounts = new HashMap();
-        private static final LruCache bitmapsCache = new LruCache(45) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.Cell.1
+        private static final LruCache bitmapsCache = new LruCache(45) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.Cell.2
             /* JADX INFO: Access modifiers changed from: protected */
             @Override // android.util.LruCache
             public void entryRemoved(boolean z, String str, Bitmap bitmap, Bitmap bitmap2) {
@@ -403,7 +432,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             }
         };
 
-        public Cell(Context context) {
+        public Cell(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.bitmapPaint = new Paint(3);
             Paint paint = new Paint(1);
@@ -417,7 +446,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             this.durationTextPaint = textPaint;
             TextPaint textPaint2 = new TextPaint(1);
             this.draftTextPaint = textPaint2;
-            this.unload = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda1
+            this.unload = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     GalleryListView.Cell.this.lambda$new$0();
@@ -425,6 +454,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             };
             this.clipPath = new Path();
             this.radii = new float[8];
+            this.paintUnderCheck = new Paint(1);
             paint.setColor(285212671);
             paint2.setColor(1275068416);
             textPaint.setTypeface(AndroidUtilities.bold());
@@ -433,6 +463,20 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             textPaint2.setTextSize(AndroidUtilities.dp(11.33f));
             textPaint2.setColor(-1);
             this.durationPlayDrawable = context.getResources().getDrawable(R.drawable.play_mini_video).mutate();
+            CheckBox2 checkBox2 = new CheckBox2(context, 24, resourcesProvider) { // from class: org.telegram.ui.Stories.recorder.GalleryListView.Cell.1
+                @Override // android.view.View
+                public void invalidate() {
+                    super.invalidate();
+                    Cell.this.invalidate();
+                }
+            };
+            this.checkBox = checkBox2;
+            checkBox2.setDrawBackgroundAsArc(6);
+            this.checkBox.setColor(Theme.key_chat_attachCheckBoxBackground, Theme.key_chat_attachPhotoBackground, Theme.key_chat_attachCheckBoxCheck);
+            this.checkBox.getCheckBoxBase().setStrokeBackgroundColor(Theme.key_windowBackgroundWhiteBlackText);
+            addView(this.checkBox, LayoutHelper.createFrame(26, 26.0f, 53, 0.0f, 5.0f, 5.0f, 0.0f));
+            this.checkBox.setVisibility(0);
+            setWillNotDraw(false);
         }
 
         private void afterLoad(String str, Bitmap bitmap, int[] iArr) {
@@ -570,17 +614,17 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadBitmap$1(String str, Pair pair) {
+        public /* synthetic */ void lambda$loadBitmap$2(String str, Pair pair) {
             afterLoad(str, (Bitmap) pair.first, (int[]) pair.second);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$loadBitmap$2(Object obj, final String str) {
+        public /* synthetic */ void lambda$loadBitmap$3(Object obj, final String str) {
             final Pair thumbnail = getThumbnail(obj);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GalleryListView.Cell.this.lambda$loadBitmap$1(str, thumbnail);
+                    GalleryListView.Cell.this.lambda$loadBitmap$2(str, thumbnail);
                 }
             });
         }
@@ -588,6 +632,14 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
             loadBitmap(null);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$setCheckbox$1(boolean z) {
+            if (z) {
+                return;
+            }
+            this.checkBox.setVisibility(8);
         }
 
         private void loadBitmap(final Object obj) {
@@ -643,7 +695,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GalleryListView.Cell.this.lambda$loadBitmap$2(obj, str);
+                    GalleryListView.Cell.this.lambda$loadBitmap$3(obj, str);
                 }
             };
             this.loadingBitmap = runnable;
@@ -733,7 +785,8 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
 
         @Override // android.view.View
         public void draw(Canvas canvas) {
-            boolean z = false;
+            boolean z;
+            boolean z2 = true;
             if (this.topLeft || this.topRight) {
                 canvas.save();
                 this.clipPath.rewind();
@@ -750,8 +803,22 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 this.clipPath.addRoundRect(rectF, this.radii, Path.Direction.CW);
                 canvas.clipPath(this.clipPath);
                 z = true;
+            } else {
+                z = false;
             }
-            super.draw(canvas);
+            float progress = this.checkBox.getProgress() * AndroidUtilities.dp(12.66f);
+            if (progress > 0.0f) {
+                if (!z) {
+                    canvas.save();
+                }
+                float width = (getWidth() - (progress * 2.0f)) / getWidth();
+                this.paintUnderCheck.setColor(218103807);
+                canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.paintUnderCheck);
+                canvas.scale(width, width, getWidth() / 2.0f, getHeight() / 2.0f);
+                canvas.clipRect(0, 0, getWidth(), getHeight());
+            } else {
+                z2 = z;
+            }
             canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.bgPaint);
             if (this.gradient != null) {
                 canvas.drawRect(0.0f, 0.0f, getWidth(), getHeight(), this.gradientPaint);
@@ -782,12 +849,13 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 this.durationLayout.draw(canvas);
                 canvas.restore();
             }
-            if (z) {
+            if (z2) {
                 canvas.restore();
             }
+            super.draw(canvas);
         }
 
-        @Override // android.view.View
+        @Override // android.view.ViewGroup, android.view.View
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
             AndroidUtilities.cancelRunOnUIThread(this.unload);
@@ -797,16 +865,16 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             }
         }
 
-        @Override // android.view.View
+        @Override // android.view.ViewGroup, android.view.View
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             AndroidUtilities.runOnUIThread(this.unload, 250L);
         }
 
-        @Override // android.view.View
+        @Override // android.widget.FrameLayout, android.view.View
         protected void onMeasure(int i, int i2) {
             int size = View.MeasureSpec.getSize(i);
-            setMeasuredDimension(size, (int) (size * 1.39f));
+            super.onMeasure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec((int) (size * 1.39f), 1073741824));
             updateMatrix();
         }
 
@@ -835,6 +903,28 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             loadBitmap(storyEntry);
         }
 
+        public void setCheckbox(final boolean z, int i, boolean z2) {
+            CheckBox2 checkBox2 = this.checkBox;
+            if (z2) {
+                checkBox2.setVisibility(0);
+                this.checkBox.animate().alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.7f).scaleY(z ? 1.0f : 0.7f).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$Cell$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        GalleryListView.Cell.this.lambda$setCheckbox$1(z);
+                    }
+                }).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(320L).start();
+            } else {
+                checkBox2.setVisibility(z ? 0 : 8);
+            }
+            CheckBox2 checkBox22 = this.checkBox;
+            if (i < 0) {
+                checkBox22.setChecked(false, z2);
+            } else {
+                checkBox22.setChecked(true, z2);
+                this.checkBox.setNum(i);
+            }
+        }
+
         public void setRounding(boolean z, boolean z2) {
             this.topLeft = z;
             this.topRight = z2;
@@ -857,7 +947,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 if (GalleryListView.this.selectedAlbum == GalleryListView.draftsAlbum) {
                     i3 = GalleryListView.this.drafts.size();
                 } else {
-                    ArrayList arrayList = GalleryListView.this.selectedPhotos;
+                    ArrayList arrayList = GalleryListView.this.photos;
                     if (arrayList != null) {
                         i3 = arrayList.size() + (GalleryListView.this.containsDraftFolder ? 1 : 0) + (GalleryListView.this.containsDrafts ? GalleryListView.this.drafts.size() : 0);
                     } else {
@@ -1096,13 +1186,15 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     public GalleryListView(int i, Context context, Theme.ResourcesProvider resourcesProvider, MediaController.AlbumEntry albumEntry, boolean z) {
         super(context);
         TextView textView;
-        String string;
+        int i2;
         Paint paint = new Paint(1);
         this.backgroundPaint = paint;
+        this.shiftDp = -2;
         this.actionBarT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.firstLayout = true;
         ArrayList arrayList = new ArrayList();
         this.drafts = arrayList;
+        this.selectedPhotos = new ArrayList();
         this.currentAccount = i;
         this.resourcesProvider = resourcesProvider;
         this.onlyPhotos = z;
@@ -1155,8 +1247,8 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         recyclerListView.getFastScroll().setAlpha(0.0f);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.3
             @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-            public int getSpanSize(int i2) {
-                return (i2 == 0 || i2 == 1 || i2 == GalleryListView.this.adapter.getItemCount() - 1) ? 3 : 1;
+            public int getSpanSize(int i3) {
+                return (i3 == 0 || i3 == 1 || i3 == GalleryListView.this.adapter.getItemCount() - 1) ? 3 : 1;
             }
         });
         recyclerListView.addItemDecoration(new RecyclerView.ItemDecoration() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.4
@@ -1171,13 +1263,21 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         addView(recyclerListView, LayoutHelper.createFrame(-1, -1, 119));
         recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                GalleryListView.this.lambda$new$1(view, i2);
+            public final void onItemClick(View view, int i3) {
+                GalleryListView.this.lambda$new$1(view, i3);
+            }
+        });
+        recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
+            public final boolean onItemClick(View view, int i3) {
+                boolean lambda$new$2;
+                lambda$new$2 = GalleryListView.this.lambda$new$2(view, i3);
+                return lambda$new$2;
             }
         });
         recyclerListView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.5
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+            public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
                 GalleryListView.this.onScroll();
                 GalleryListView.this.invalidate();
             }
@@ -1195,14 +1295,14 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         addView(actionBar, LayoutHelper.createFrame(-1, -2, 55));
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.6
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
+            public void onItemClick(int i3) {
+                if (i3 == -1) {
                     if (GalleryListView.this.onBackClickListener != null) {
                         GalleryListView.this.onBackClickListener.run();
                     }
-                } else if (i2 >= 10) {
+                } else if (i3 >= 10) {
                     GalleryListView galleryListView = GalleryListView.this;
-                    galleryListView.selectAlbum((MediaController.AlbumEntry) galleryListView.dropDownAlbums.get(i2 - 10), false);
+                    galleryListView.selectAlbum((MediaController.AlbumEntry) galleryListView.dropDownAlbums.get(i3 - 10), false);
                 }
             }
         });
@@ -1217,10 +1317,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         this.dropDownContainer = actionBarMenuItem;
         actionBarMenuItem.setSubMenuOpenSide(1);
         actionBar.addView(actionBarMenuItem, 0, LayoutHelper.createFrame(-2, -1.0f, 51, AndroidUtilities.isTablet() ? 64.0f : 56.0f, 0.0f, 40.0f, 0.0f));
-        actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda2
+        actionBarMenuItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
-                GalleryListView.this.lambda$new$2(view);
+                GalleryListView.this.lambda$new$3(view);
             }
         });
         TextView textView2 = new TextView(context);
@@ -1274,7 +1374,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         recyclerListView2.setAdapter(searchAdapter);
         recyclerListView2.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView.9
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+            public void onScrolled(RecyclerView recyclerView, int i3, int i4) {
                 if (!GalleryListView.this.searchListView.scrollingByUser || GalleryListView.this.searchItem == null || GalleryListView.this.searchItem.getSearchField() == null) {
                     return;
                 }
@@ -1312,10 +1412,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         stickerEmptyView.title.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
         stickerEmptyView.title.setTypeface(null);
         stickerEmptyView.title.setText(LocaleController.getString(R.string.SearchImagesType));
-        this.keyboardNotifier = new KeyboardNotifier(this, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda3
+        this.keyboardNotifier = new KeyboardNotifier(this, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                GalleryListView.this.lambda$new$3((Integer) obj);
+                GalleryListView.this.lambda$new$4((Integer) obj);
             }
         });
         frameLayout.addView(stickerEmptyView, LayoutHelper.createFrame(-1, -1, 119));
@@ -1324,10 +1424,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         this.searchItem = actionBarMenuItemSearchListener;
         actionBarMenuItemSearchListener.setVisibility(8);
         actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(R.string.SearchImagesTitle));
-        recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda4
+        recyclerListView2.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i2) {
-                GalleryListView.this.lambda$new$4(view, i2);
+            public final void onItemClick(View view, int i3) {
+                GalleryListView.this.lambda$new$5(view, i3);
             }
         });
         arrayList.clear();
@@ -1340,6 +1440,22 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 }
             }
         }
+        ImageView imageView = new ImageView(context);
+        this.selectButton = imageView;
+        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setImageResource(R.drawable.floating_check);
+        imageView.setBackground(Theme.createCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider)));
+        ScaleStateListAnimator.apply(imageView, 0.1f, 1.5f);
+        addView(imageView, LayoutHelper.createFrame(-2, -2.0f, 85, 0.0f, 0.0f, 14.0f, 14.0f));
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda6
+            @Override // android.view.View.OnClickListener
+            public final void onClick(View view) {
+                GalleryListView.this.lambda$new$6(view);
+            }
+        });
+        imageView.setAlpha(0.0f);
+        imageView.setScaleX(0.7f);
+        imageView.setScaleY(0.7f);
         updateAlbumsDropDown();
         if (albumEntry == null || (albumEntry == draftsAlbum && this.drafts.size() <= 0)) {
             ArrayList arrayList2 = this.dropDownAlbums;
@@ -1347,20 +1463,33 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         } else {
             this.selectedAlbum = albumEntry;
         }
-        this.selectedPhotos = getPhotoEntries(this.selectedAlbum);
+        this.photos = getPhotoEntries(this.selectedAlbum);
         updateContainsDrafts();
         MediaController.AlbumEntry albumEntry2 = this.selectedAlbum;
         if (albumEntry2 == MediaController.allMediaAlbumEntry) {
             textView = this.dropDown;
-            string = LocaleController.getString(R.string.ChatGallery);
+            i2 = R.string.ChatGallery;
         } else if (albumEntry2 != draftsAlbum) {
             this.dropDown.setText(albumEntry2.bucketName);
             return;
         } else {
             textView = this.dropDown;
-            string = LocaleController.getString("StoryDraftsAlbum");
+            i2 = R.string.StoryDraftsAlbum;
         }
-        textView.setText(string);
+        textView.setText(LocaleController.getString(i2));
+    }
+
+    private Cell findCell(MediaController.PhotoEntry photoEntry) {
+        for (int i = 0; i < this.listView.getChildCount(); i++) {
+            View childAt = this.listView.getChildAt(i);
+            if (childAt instanceof Cell) {
+                Cell cell = (Cell) childAt;
+                if (cell.currentObject == photoEntry) {
+                    return cell;
+                }
+            }
+        }
+        return null;
     }
 
     private ArrayList getPhotoEntries(MediaController.AlbumEntry albumEntry) {
@@ -1406,25 +1535,82 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
             }
             i2 -= this.drafts.size();
         }
-        if (i2 < 0 || i2 >= this.selectedPhotos.size()) {
+        if (i2 < 0 || i2 >= this.photos.size()) {
             return;
         }
-        MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) this.selectedPhotos.get(i2);
-        this.onSelectListener.run(photoEntry, photoEntry.isVideo ? prepareBlurredThumb(cell) : null);
+        MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) this.photos.get(i2);
+        if (!isMultiple()) {
+            this.onSelectListener.run(photoEntry, photoEntry.isVideo ? prepareBlurredThumb(cell) : null);
+            return;
+        }
+        if (this.selectedPhotos.contains(photoEntry)) {
+            this.selectedPhotos.remove(photoEntry);
+        } else {
+            if (this.selectedPhotos.size() + 1 > this.maxCount) {
+                int i3 = -this.shiftDp;
+                this.shiftDp = i3;
+                AndroidUtilities.shakeViewSpring(cell, i3);
+                BotWebViewVibrationEffect.APP_ERROR.vibrate();
+                return;
+            }
+            this.selectedPhotos.add(photoEntry);
+        }
+        AndroidUtilities.updateVisibleRows(this.listView);
+        updateSelectButtonVisible();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(View view) {
+    public /* synthetic */ boolean lambda$new$2(View view, int i) {
+        boolean z = false;
+        if (i >= 2 && this.onSelectListener != null && (view instanceof Cell)) {
+            int i2 = i - 2;
+            if (this.containsDraftFolder) {
+                if (i2 == 0) {
+                    return false;
+                }
+                i2 = i - 3;
+            } else if (this.containsDrafts) {
+                if (i2 >= 0 && i2 < this.drafts.size()) {
+                    return false;
+                }
+                i2 -= this.drafts.size();
+            }
+            if (i2 >= 0 && i2 < this.photos.size()) {
+                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) this.photos.get(i2);
+                if (this.selectedPhotos.isEmpty() && !this.multipleOnClick) {
+                    z = true;
+                    if (this.selectedPhotos.contains(photoEntry)) {
+                        this.selectedPhotos.remove(photoEntry);
+                    } else {
+                        if (this.selectedPhotos.size() + 1 > this.maxCount) {
+                            int i3 = -this.shiftDp;
+                            this.shiftDp = i3;
+                            AndroidUtilities.shakeViewSpring(view, i3);
+                            BotWebViewVibrationEffect.APP_ERROR.vibrate();
+                            return true;
+                        }
+                        this.selectedPhotos.add(photoEntry);
+                    }
+                    AndroidUtilities.updateVisibleRows(this.listView);
+                    updateSelectButtonVisible();
+                }
+            }
+        }
+        return z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$3(View view) {
         this.dropDownContainer.toggleSubMenu();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(Integer num) {
+    public /* synthetic */ void lambda$new$4(Integer num) {
         this.searchEmptyView.animate().translationY(((-num.intValue()) / 2.0f) + AndroidUtilities.dp(80.0f)).setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator).start();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$4(View view, int i) {
+    public /* synthetic */ void lambda$new$5(View view, int i) {
         Utilities.Callback2 callback2;
         ActionBarMenuItem actionBarMenuItem = this.searchItem;
         if (actionBarMenuItem != null) {
@@ -1437,7 +1623,24 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ int lambda$updateAlbumsDropDown$5(ArrayList arrayList, MediaController.AlbumEntry albumEntry, MediaController.AlbumEntry albumEntry2) {
+    public /* synthetic */ void lambda$new$6(View view) {
+        if (this.onSelectMultipleListener == null || this.selectedPhotos.isEmpty()) {
+            return;
+        }
+        ArrayList arrayList = new ArrayList();
+        Iterator it = this.selectedPhotos.iterator();
+        while (it.hasNext()) {
+            MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) it.next();
+            arrayList.add(photoEntry.isVideo ? prepareBlurredThumb(findCell(photoEntry)) : null);
+        }
+        this.onSelectMultipleListener.run(new ArrayList(this.selectedPhotos), arrayList);
+        this.selectedPhotos.clear();
+        AndroidUtilities.updateVisibleRows(this.listView);
+        updateSelectButtonVisible();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ int lambda$updateAlbumsDropDown$7(ArrayList arrayList, MediaController.AlbumEntry albumEntry, MediaController.AlbumEntry albumEntry2) {
         int indexOf;
         int indexOf2;
         int i = albumEntry.bucketId;
@@ -1451,22 +1654,22 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateAlbumsDropDown$6(MediaController.AlbumEntry albumEntry, View view) {
+    public /* synthetic */ void lambda$updateAlbumsDropDown$8(MediaController.AlbumEntry albumEntry, View view) {
         selectAlbum(albumEntry, false);
         this.dropDownContainer.closeSubMenu();
     }
 
     private Bitmap prepareBlurredThumb(Cell cell) {
-        Bitmap bitmap = cell.bitmap;
-        if (bitmap == null || bitmap.isRecycled()) {
+        Bitmap bitmap;
+        if (cell == null || (bitmap = cell.bitmap) == null || bitmap.isRecycled()) {
             return null;
         }
         return Utilities.stackBlurBitmapWithScaleFactor(bitmap, 6.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:10:0x005b  */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x0040  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1474,7 +1677,8 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         TextView textView;
         String string;
         this.selectedAlbum = albumEntry;
-        this.selectedPhotos = getPhotoEntries(albumEntry);
+        this.photos = getPhotoEntries(albumEntry);
+        this.selectedPhotos.clear();
         updateContainsDrafts();
         MediaController.AlbumEntry albumEntry2 = this.selectedAlbum;
         if (albumEntry2 == MediaController.allMediaAlbumEntry) {
@@ -1509,12 +1713,12 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         final ArrayList<MediaController.AlbumEntry> arrayList = MediaController.allMediaAlbums;
         ArrayList arrayList2 = new ArrayList(arrayList);
         this.dropDownAlbums = arrayList2;
-        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda5
+        Collections.sort(arrayList2, new Comparator() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda7
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
-                int lambda$updateAlbumsDropDown$5;
-                lambda$updateAlbumsDropDown$5 = GalleryListView.lambda$updateAlbumsDropDown$5(arrayList, (MediaController.AlbumEntry) obj, (MediaController.AlbumEntry) obj2);
-                return lambda$updateAlbumsDropDown$5;
+                int lambda$updateAlbumsDropDown$7;
+                lambda$updateAlbumsDropDown$7 = GalleryListView.lambda$updateAlbumsDropDown$7(arrayList, (MediaController.AlbumEntry) obj, (MediaController.AlbumEntry) obj2);
+                return lambda$updateAlbumsDropDown$7;
             }
         });
         if (!this.drafts.isEmpty()) {
@@ -1538,10 +1742,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 }
             }
             this.dropDownContainer.getPopupLayout().addView(albumButton);
-            albumButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda6
+            albumButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    GalleryListView.this.lambda$updateAlbumsDropDown$6(albumEntry, view);
+                    GalleryListView.this.lambda$updateAlbumsDropDown$8(albumEntry, view);
                 }
             });
         }
@@ -1563,7 +1767,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         this.searchItem.setVisibility(z ? 0 : 8);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x005b  */
     /* JADX WARN: Removed duplicated region for block: B:16:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
@@ -1588,7 +1792,8 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
                 if (i4 != albumEntry2.bucketId || albumEntry.videoOnly != albumEntry2.videoOnly) {
                 }
             }
-            this.selectedPhotos = getPhotoEntries(this.selectedAlbum);
+            this.photos = getPhotoEntries(this.selectedAlbum);
+            this.selectedPhotos.clear();
             updateContainsDrafts();
             adapter = this.adapter;
             if (adapter == null) {
@@ -1600,7 +1805,8 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         ArrayList arrayList = this.dropDownAlbums;
         albumEntry = (arrayList == null || arrayList.isEmpty()) ? MediaController.allMediaAlbumEntry : (MediaController.AlbumEntry) this.dropDownAlbums.get(0);
         this.selectedAlbum = albumEntry;
-        this.selectedPhotos = getPhotoEntries(this.selectedAlbum);
+        this.photos = getPhotoEntries(this.selectedAlbum);
+        this.selectedPhotos.clear();
         updateContainsDrafts();
         adapter = this.adapter;
         if (adapter == null) {
@@ -1649,6 +1855,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         return this.selectedAlbum;
     }
 
+    public boolean isMultiple() {
+        return !this.selectedPhotos.isEmpty() || this.multipleOnClick;
+    }
+
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.albumsDidLoad);
@@ -1685,6 +1895,7 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         float f;
         this.listView.setPinnedSectionOffsetY(AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight());
         this.listView.setPadding(AndroidUtilities.dp(6.0f), AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight(), AndroidUtilities.dp(1.0f), AndroidUtilities.navigationBarHeight);
+        this.selectButton.setTranslationY(-AndroidUtilities.navigationBarHeight);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.searchContainer.getLayoutParams();
         layoutParams.leftMargin = 0;
         layoutParams.topMargin = AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight();
@@ -1708,12 +1919,27 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
     protected void onScroll() {
     }
 
+    public void setMaxCount(int i) {
+        this.maxCount = i;
+    }
+
+    public void setMultipleOnClick(boolean z) {
+        if (this.multipleOnClick != z) {
+            this.multipleOnClick = z;
+            AndroidUtilities.updateVisibleRows(this.listView);
+        }
+    }
+
     public void setOnBackClickListener(Runnable runnable) {
         this.onBackClickListener = runnable;
     }
 
     public void setOnSelectListener(Utilities.Callback2<Object, Bitmap> callback2) {
         this.onSelectListener = callback2;
+    }
+
+    public void setOnSelectMultipleListener(Utilities.Callback2<ArrayList<MediaController.PhotoEntry>, ArrayList<Bitmap>> callback2) {
+        this.onSelectMultipleListener = callback2;
     }
 
     public int top() {
@@ -1755,5 +1981,10 @@ public abstract class GalleryListView extends FrameLayout implements Notificatio
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void updateSelectButtonVisible() {
+        boolean z = !this.selectedPhotos.isEmpty();
+        this.selectButton.animate().alpha(z ? 1.0f : 0.0f).scaleX(z ? 1.0f : 0.7f).scaleY(z ? 1.0f : 0.7f).translationY(z ? -AndroidUtilities.navigationBarHeight : AndroidUtilities.dp(8.0f)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(320L).start();
     }
 }

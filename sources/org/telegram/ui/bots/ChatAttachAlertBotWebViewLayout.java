@@ -246,7 +246,9 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                     if (!WebViewSwipeContainer.this.isSwipeDisallowed && WebViewSwipeContainer.this.allowSwipes && (!WebViewSwipeContainer.this.fullsize || WebViewSwipeContainer.this.allowFullSizeSwipe)) {
                         WebViewSwipeContainer webViewSwipeContainer2 = WebViewSwipeContainer.this;
                         if (!webViewSwipeContainer2.shouldWaitWebViewScroll || webViewSwipeContainer2.allowingScroll(false)) {
-                            if (f2 >= AndroidUtilities.dp(650.0f) && ((AndroidUtilities.distance(motionEvent.getX(), motionEvent.getY(), motionEvent2.getX(), motionEvent2.getY()) > AndroidUtilities.dp(200.0f) || motionEvent2.getEventTime() - motionEvent.getEventTime() > 250) && (WebViewSwipeContainer.this.webView == null || WebViewSwipeContainer.this.webView.getScrollY() == 0))) {
+                            float distance = AndroidUtilities.distance(motionEvent.getX(), motionEvent.getY(), motionEvent2.getX(), motionEvent2.getY());
+                            float eventTime = motionEvent2.getEventTime() - motionEvent.getEventTime();
+                            if (f2 >= AndroidUtilities.dp(650.0f) && ((distance > AndroidUtilities.dp(200.0f) || eventTime > 250.0f) && (WebViewSwipeContainer.this.webView == null || WebViewSwipeContainer.this.webView.getScrollY() == 0))) {
                                 WebViewSwipeContainer.this.flingInProgress = true;
                                 if (WebViewSwipeContainer.this.swipeOffsetY >= WebViewSwipeContainer.this.swipeStickyRange || WebViewSwipeContainer.this.fullsize) {
                                     if (WebViewSwipeContainer.this.fullsize && WebViewSwipeContainer.this.allowFullSizeSwipe) {
@@ -523,15 +525,15 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
 
         /* JADX WARN: Code restructure failed: missing block: B:47:0x00bf, code lost:
         
-            if (r9.stickToEdges != false) goto L57;
+            if (r10.stickToEdges != false) goto L57;
          */
         /* JADX WARN: Code restructure failed: missing block: B:48:0x010a, code lost:
         
-            stickTo((-r9.offsetY) + r9.topActionBarOffsetY);
+            stickTo((-r10.offsetY) + r10.topActionBarOffsetY);
          */
         /* JADX WARN: Code restructure failed: missing block: B:64:0x0108, code lost:
         
-            if (r9.stickToEdges != false) goto L57;
+            if (r10.stickToEdges != false) goto L57;
          */
         @Override // android.view.ViewGroup, android.view.View
         /*
@@ -572,13 +574,15 @@ public class ChatAttachAlertBotWebViewLayout extends ChatAttachAlert.AttachAlert
                 if (!this.fullsize || this.allowFullSizeSwipe) {
                     if (this.flingInProgress) {
                         this.flingInProgress = false;
-                    } else if (this.allowSwipes && (!this.shouldWaitWebViewScroll || this.swipeOffsetY != (-this.offsetY) + this.topActionBarOffsetY || allowingScroll(false))) {
+                    } else if (this.allowSwipes && (!this.shouldWaitWebViewScroll || (this.swipeOffsetY != (-this.offsetY) + this.topActionBarOffsetY && allowingScroll(false)))) {
                         float f = this.swipeOffsetY;
                         int i = this.swipeStickyRange;
                         float f2 = -i;
                         if (f > f2) {
                             if (f <= f2 || f > i) {
-                                if (this.delegate != null && (motionEvent.getEventTime() - this.pressDownTime > 250 || AndroidUtilities.distance(motionEvent.getX(), motionEvent.getY(), this.pressDownX, this.pressDownY) > AndroidUtilities.dp(200.0f))) {
+                                float distance = AndroidUtilities.distance(motionEvent.getX(), motionEvent.getY(), this.pressDownX, this.pressDownY);
+                                long eventTime = motionEvent.getEventTime() - this.pressDownTime;
+                                if (this.delegate != null && (eventTime > 250 || distance > AndroidUtilities.dp(200.0f))) {
                                     this.delegate.onDismiss(!z);
                                 }
                             } else if (this.stickToEdges) {

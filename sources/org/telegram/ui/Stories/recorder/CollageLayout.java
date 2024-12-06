@@ -3,6 +3,7 @@ package org.telegram.ui.Stories.recorder;
 import android.graphics.RectF;
 import android.text.TextUtils;
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.telegram.messenger.BuildVars;
 
 /* loaded from: classes5.dex */
@@ -96,6 +97,26 @@ public class CollageLayout {
             }
         }
         return layouts;
+    }
+
+    public static int getMaxCount() {
+        Iterator it = getLayouts().iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            i = Math.max(i, ((CollageLayout) it.next()).parts.size());
+        }
+        return i;
+    }
+
+    public static CollageLayout of(int i) {
+        Iterator it = getLayouts().iterator();
+        while (it.hasNext()) {
+            CollageLayout collageLayout = (CollageLayout) it.next();
+            if (collageLayout.parts.size() >= i) {
+                return collageLayout;
+            }
+        }
+        return null;
     }
 
     public CollageLayout delete(int i) {

@@ -47,6 +47,8 @@ public class CheckBoxBase {
     private ProgressDelegate progressDelegate;
     private Theme.ResourcesProvider resourcesProvider;
     private float size;
+    private int strokeBackgroundKey;
+    private int strokeBackgroundWidth;
     private TextPaint textPaint;
     private boolean useDefaultCheck;
     public android.graphics.Rect bounds = new android.graphics.Rect();
@@ -65,6 +67,8 @@ public class CheckBoxBase {
         int i2 = Theme.key_chat_serviceBackground;
         this.backgroundColorKey = i2;
         this.background2ColorKey = i2;
+        this.strokeBackgroundKey = Theme.key_dialogBackground;
+        this.strokeBackgroundWidth = -1;
         this.drawUnchecked = true;
         this.circlePaintProvider = new GenericProvider() { // from class: org.telegram.ui.Components.CheckBoxBase$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.GenericProvider
@@ -332,7 +336,7 @@ public class CheckBoxBase {
                     i13 = 90;
                 }
                 if (i17 == i12) {
-                    int themedColor2 = getThemedColor(Theme.key_dialogBackground);
+                    int themedColor2 = getThemedColor(this.strokeBackgroundKey);
                     int alpha = Color.alpha(themedColor2);
                     this.backgroundPaint.setColor(themedColor2);
                     this.backgroundPaint.setAlpha((int) (alpha * f2));
@@ -692,6 +696,11 @@ public class CheckBoxBase {
 
     public void setResourcesProvider(Theme.ResourcesProvider resourcesProvider) {
         this.resourcesProvider = resourcesProvider;
+    }
+
+    public void setStrokeBackgroundColor(int i) {
+        this.strokeBackgroundKey = i;
+        invalidate();
     }
 
     public void setUseDefaultCheck(boolean z) {
