@@ -30327,6 +30327,46 @@ public class MessagesStorage extends BaseController {
         return numArr[0].intValue();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x005c, code lost:
+    
+        if (r1 == null) goto L20;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public int getDialogReadMaxSync(boolean z, long j) {
+        int i = 0;
+        SQLiteCursor sQLiteCursor = null;
+        try {
+            try {
+                if (z) {
+                    sQLiteCursor = this.database.queryFinalized("SELECT outbox_max FROM dialogs WHERE did = " + j, new Object[0]);
+                    if (sQLiteCursor.next()) {
+                        i = sQLiteCursor.intValue(0);
+                    }
+                } else {
+                    sQLiteCursor = this.database.queryFinalized("SELECT last_mid, inbox_max FROM dialogs WHERE did = " + j, new Object[0]);
+                    if (sQLiteCursor.next()) {
+                        int intValue = sQLiteCursor.intValue(0);
+                        int intValue2 = sQLiteCursor.intValue(1);
+                        if (intValue2 <= intValue) {
+                            i = intValue2;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                checkSQLException(e);
+            }
+            sQLiteCursor.dispose();
+            return i;
+        } catch (Throwable th) {
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+            throw th;
+        }
+    }
+
     public void getDialogs(final int i, final int i2, final int i3, boolean z) {
         long[] jArr;
         LongSparseArray drafts;

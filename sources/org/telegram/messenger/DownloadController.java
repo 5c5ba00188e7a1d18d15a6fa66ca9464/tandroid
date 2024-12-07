@@ -574,6 +574,133 @@ public class DownloadController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0079, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x009a, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r1.from_id.user_id)) != false) goto L64;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x00d7, code lost:
+    
+        if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r1.from_id.user_id)) != false) goto L64;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x013c  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0146  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x00f2  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    private int canDownloadMediaInternal(MessageObject messageObject, long j) {
+        TLRPC.Message message;
+        int i;
+        char c;
+        int autodownloadNetworkType;
+        Preset currentMobilePreset;
+        int i2;
+        if (messageObject == null || (message = messageObject.messageOwner) == null) {
+            return 0;
+        }
+        if (message.media instanceof TLRPC.TL_messageMediaStory) {
+            return canPreloadStories() ? 2 : 0;
+        }
+        boolean isVideoMessage = MessageObject.isVideoMessage(message);
+        if (isVideoMessage || MessageObject.isGifMessage(message) || MessageObject.isRoundVideoMessage(message) || MessageObject.isGameMessage(message)) {
+            i = 4;
+        } else if (MessageObject.isVoiceMessage(message)) {
+            i = 2;
+        } else if (MessageObject.isPhoto(message) || MessageObject.isStickerMessage(message) || MessageObject.isAnimatedStickerMessage(message)) {
+            i = 1;
+        } else {
+            if (MessageObject.getDocument(message) == null) {
+                return 0;
+            }
+            i = 8;
+        }
+        TLRPC.Peer peer = message.peer_id;
+        if (peer != null) {
+            if (peer.user_id == 0) {
+                if (peer.chat_id != 0) {
+                    if (message.from_id instanceof TLRPC.TL_peerUser) {
+                    }
+                    c = 2;
+                } else {
+                    TLRPC.Chat chat = peer.channel_id != 0 ? getMessagesController().getChat(Long.valueOf(message.peer_id.channel_id)) : null;
+                    if (ChatObject.isChannel(chat) && chat.megagroup) {
+                        if (message.from_id instanceof TLRPC.TL_peerUser) {
+                        }
+                        c = 2;
+                    } else {
+                        c = 3;
+                    }
+                }
+                autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+                if (autodownloadNetworkType == 1) {
+                    if (!this.wifiPreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentWiFiPreset();
+                } else if (autodownloadNetworkType == 2) {
+                    if (!this.roamingPreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentRoamingPreset();
+                } else {
+                    if (!this.mobilePreset.enabled) {
+                        return 0;
+                    }
+                    currentMobilePreset = getCurrentMobilePreset();
+                }
+                i2 = currentMobilePreset.mask[c];
+                long[] jArr = currentMobilePreset.sizes;
+                int typeToIndex = typeToIndex(i);
+                long max = i == 2 ? Math.max(524288L, jArr[typeToIndex]) : jArr[typeToIndex];
+                if (!isVideoMessage && currentMobilePreset.preloadVideo && j > max && max > 2097152) {
+                    return (i2 & i) != 0 ? 2 : 0;
+                }
+                if (i != 1 || (j != 0 && j <= max)) {
+                    return (i == 2 && (i2 & i) == 0) ? 0 : 1;
+                }
+                return 0;
+            }
+            c = 0;
+            autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+            if (autodownloadNetworkType == 1) {
+            }
+            i2 = currentMobilePreset.mask[c];
+            long[] jArr2 = currentMobilePreset.sizes;
+            int typeToIndex2 = typeToIndex(i);
+            if (i == 2) {
+            }
+            if (!isVideoMessage) {
+            }
+            if (i != 1) {
+            }
+            if (i == 2) {
+            }
+        }
+        c = 1;
+        autodownloadNetworkType = ApplicationLoader.getAutodownloadNetworkType();
+        if (autodownloadNetworkType == 1) {
+        }
+        i2 = currentMobilePreset.mask[c];
+        long[] jArr22 = currentMobilePreset.sizes;
+        int typeToIndex22 = typeToIndex(i);
+        if (i == 2) {
+        }
+        if (!isVideoMessage) {
+        }
+        if (i != 1) {
+        }
+        if (i == 2) {
+        }
+    }
+
     private void checkDownloadFinished(String str, int i) {
         DownloadObject downloadObject = this.downloadQueueKeys.get(str);
         if (downloadObject != null) {
@@ -1323,6 +1450,21 @@ public class DownloadController extends BaseController implements NotificationCe
             return 0;
         }
         return canDownloadMediaInternal(messageObject);
+    }
+
+    public int canDownloadMediaType(MessageObject messageObject, long j) {
+        TL_stories.StoryItem storyItem;
+        TLRPC.MessageMedia messageMedia;
+        if (messageObject.type == 23) {
+            return (!SharedConfig.isAutoplayVideo() || (storyItem = ((TLRPC.TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (messageMedia = storyItem.media) == null || messageMedia.document == null || !storyItem.isPublic) ? 0 : 2;
+        }
+        if (messageObject.sponsoredMedia != null) {
+            return 2;
+        }
+        if (messageObject.isHiddenSensitive()) {
+            return 0;
+        }
+        return canDownloadMediaInternal(messageObject, j);
     }
 
     protected boolean canDownloadNextTrack() {
