@@ -1324,7 +1324,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         } else if (user == null) {
                             continue;
                         } else {
-                            string = UserObject.isDeleted(user) ? LocaleController.getString(R.string.HiddenName) : AndroidUtilities.removeDiacritics(ContactsController.formatName(user.first_name, user.last_name).replace('\n', ' '));
+                            string = UserObject.isDeleted(user) ? LocaleController.getString(R.string.HiddenName) : AndroidUtilities.escape(ContactsController.formatName(user.first_name, user.last_name).replace('\n', ' '));
                         }
                         if (spannableStringBuilder.length() > 0) {
                             spannableStringBuilder.append((CharSequence) ", ");
@@ -2530,23 +2530,23 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                         this.draftVoice = false;
                                                         this.needEmoji = true;
                                                         updateMessageThumbs();
-                                                        CharSequence removeDiacritics = AndroidUtilities.removeDiacritics(getMessageNameString());
+                                                        CharSequence escape = AndroidUtilities.escape(getMessageNameString());
                                                         CharSequence formatTopicsNames = formatTopicsNames();
                                                         MessageObject messageObject9 = this.message;
-                                                        String messageStringFormatted = this.message != null ? getMessageStringFormatted(i2, messageObject9 != null ? MessagesController.getInstance(messageObject9.currentAccount).getRestrictionReason(this.message.messageOwner.restriction_reason) : null, removeDiacritics, true) : "";
+                                                        String messageStringFormatted = this.message != null ? getMessageStringFormatted(i2, messageObject9 != null ? MessagesController.getInstance(messageObject9.currentAccount).getRestrictionReason(this.message.messageOwner.restriction_reason) : null, escape, true) : "";
                                                         CharSequence charSequence35 = messageStringFormatted;
                                                         if (this.applyName) {
                                                             int length = messageStringFormatted.length();
                                                             charSequence35 = messageStringFormatted;
                                                             charSequence35 = messageStringFormatted;
-                                                            if (length >= 0 && removeDiacritics != null) {
+                                                            if (length >= 0 && escape != null) {
                                                                 SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(messageStringFormatted);
-                                                                valueOf.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_name, this.resourcesProvider), 0, Math.min(valueOf.length(), removeDiacritics.length() + 1), 0);
+                                                                valueOf.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_name, this.resourcesProvider), 0, Math.min(valueOf.length(), escape.length() + 1), 0);
                                                                 charSequence35 = valueOf;
                                                             }
                                                         }
                                                         this.currentMessagePaint = Theme.dialogs_messagePaint[this.paintIndex];
-                                                        charSequence6 = removeDiacritics;
+                                                        charSequence6 = escape;
                                                         charSequence9 = charSequence35;
                                                         charSequence4 = "";
                                                         z3 = true;
@@ -2739,8 +2739,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                             if (!(messageObject11.messageOwner instanceof TLRPC.TL_messageService) || (MessageObject.isTopicActionMessage(messageObject11) && !(this.message.messageOwner.action instanceof TLRPC.TL_messageActionTopicCreate))) {
                                                                                                 this.needEmoji = true;
                                                                                                 updateMessageThumbs();
-                                                                                                String removeDiacritics2 = (this.isSavedDialog || (user2 = this.user) == null || !user2.self || this.message.isOutOwner()) ? null : AndroidUtilities.removeDiacritics(getMessageNameString());
-                                                                                                if ((!this.isSavedDialog || (user = this.user) == null || user.self || (messageObject3 = this.message) == null || !messageObject3.isOutOwner()) && removeDiacritics2 == null) {
+                                                                                                String escape2 = (this.isSavedDialog || (user2 = this.user) == null || !user2.self || this.message.isOutOwner()) ? null : AndroidUtilities.escape(getMessageNameString());
+                                                                                                if ((!this.isSavedDialog || (user = this.user) == null || user.self || (messageObject3 = this.message) == null || !messageObject3.isOutOwner()) && escape2 == null) {
                                                                                                     TLRPC.Chat chat8 = this.chat;
                                                                                                     if (chat8 != null) {
                                                                                                         long j4 = chat8.id;
@@ -3064,10 +3064,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                                     }
                                                                                                 }
                                                                                                 str16 = str3;
-                                                                                                if (removeDiacritics2 == null) {
-                                                                                                    removeDiacritics2 = getMessageNameString();
+                                                                                                if (escape2 == null) {
+                                                                                                    escape2 = getMessageNameString();
                                                                                                 }
-                                                                                                CharSequence removeDiacritics3 = AndroidUtilities.removeDiacritics(removeDiacritics2);
+                                                                                                CharSequence escape3 = AndroidUtilities.escape(escape2);
                                                                                                 TLRPC.Chat chat9 = this.chat;
                                                                                                 if (chat9 != null && chat9.forum && !this.isTopic && !this.useFromUserAsAvatar) {
                                                                                                     CharSequence topicIconName = MessagesController.getInstance(this.currentAccount).getTopicsController().getTopicIconName(this.chat, this.message, this.currentMessagePaint);
@@ -3077,7 +3077,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                                         coloredImageSpan2.setColorKey((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? -1 : Theme.key_chats_nameMessage);
                                                                                                         spannableStringBuilder12.setSpan(coloredImageSpan2, 0, 1, 0);
                                                                                                         SpannableStringBuilder spannableStringBuilder13 = new SpannableStringBuilder();
-                                                                                                        spannableStringBuilder13.append(removeDiacritics3).append((CharSequence) spannableStringBuilder12).append(topicIconName);
+                                                                                                        spannableStringBuilder13.append(escape3).append((CharSequence) spannableStringBuilder12).append(topicIconName);
                                                                                                         charSequence18 = spannableStringBuilder13;
                                                                                                         SpannableStringBuilder messageStringFormatted2 = getMessageStringFormatted(i2, restrictionReason, charSequence18, false);
                                                                                                         if (!this.useFromUserAsAvatar || ((this.useForceThreeLines || SharedConfig.useThreeLinesLayout) && (this.currentDialogFolderId == 0 || messageStringFormatted2.length() <= 0))) {
@@ -3197,7 +3197,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                                         string2 = charSequence19;
                                                                                                     }
                                                                                                 }
-                                                                                                charSequence18 = removeDiacritics3;
+                                                                                                charSequence18 = escape3;
                                                                                                 SpannableStringBuilder messageStringFormatted22 = getMessageStringFormatted(i2, restrictionReason, charSequence18, false);
                                                                                                 if (this.useFromUserAsAvatar) {
                                                                                                 }
@@ -3561,7 +3561,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                         } else {
                                                                                             userName = chat10.title;
                                                                                         }
-                                                                                        string3 = AndroidUtilities.removeDiacritics(userName);
+                                                                                        string3 = AndroidUtilities.escape(userName);
                                                                                     }
                                                                                     if (string3 != null && string3.length() == 0) {
                                                                                         i16 = R.string.HiddenName;
@@ -3584,7 +3584,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                             i15 = R.string.AnonymousForward;
                                                                                         } else if (!UserObject.isUserSelf(this.user)) {
                                                                                             userName = UserObject.getUserName(this.user);
-                                                                                            string3 = AndroidUtilities.removeDiacritics(userName);
+                                                                                            string3 = AndroidUtilities.escape(userName);
                                                                                             if (string3 != null) {
                                                                                                 i16 = R.string.HiddenName;
                                                                                             }
@@ -5708,17 +5708,17 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         long j = this.currentDialogId;
         if (j == clientUserId) {
             if (user != null) {
-                return AndroidUtilities.removeDiacritics(UserObject.getFirstName(user).replace("\n", ""));
+                return AndroidUtilities.escape(UserObject.getFirstName(user).replace("\n", ""));
             }
             if (chat != null) {
-                return AndroidUtilities.removeDiacritics(chat.title.replace("\n", ""));
+                return AndroidUtilities.escape(chat.title.replace("\n", ""));
             }
             return null;
         }
         if (j == UserObject.VERIFY && (messageObject2 = this.message) != null && (message3 = messageObject2.messageOwner) != null && (messageFwdHeader2 = message3.fwd_from) != null) {
             String str3 = messageFwdHeader2.from_name;
             if (str3 != null) {
-                return AndroidUtilities.removeDiacritics(str3);
+                return AndroidUtilities.escape(str3);
             }
             long peerDialogId2 = DialogObject.getPeerDialogId(messageFwdHeader2.from_id);
             if (DialogObject.isUserDialog(peerDialogId2)) {
@@ -5731,10 +5731,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             return LocaleController.getString(R.string.FromYou);
         }
         if (!this.isSavedDialog && (messageObject = this.message) != null && (message2 = messageObject.messageOwner) != null && (message2.from_id instanceof TLRPC.TL_peerUser) && (user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.message.messageOwner.from_id.user_id))) != null) {
-            return AndroidUtilities.removeDiacritics(UserObject.getFirstName(user2).replace("\n", ""));
+            return AndroidUtilities.escape(UserObject.getFirstName(user2).replace("\n", ""));
         }
         MessageObject messageObject4 = this.message;
-        return (messageObject4 == null || (message = messageObject4.messageOwner) == null || (messageFwdHeader = message.fwd_from) == null || (str2 = messageFwdHeader.from_name) == null) ? user != null ? (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? UserObject.isDeleted(user) ? LocaleController.getString(R.string.HiddenName) : AndroidUtilities.removeDiacritics(ContactsController.formatName(user.first_name, user.last_name).replace("\n", "")) : AndroidUtilities.removeDiacritics(UserObject.getFirstName(user).replace("\n", "")) : (chat == null || (str = chat.title) == null) ? "DELETED" : AndroidUtilities.removeDiacritics(str.replace("\n", "")) : AndroidUtilities.removeDiacritics(str2);
+        return (messageObject4 == null || (message = messageObject4.messageOwner) == null || (messageFwdHeader = message.fwd_from) == null || (str2 = messageFwdHeader.from_name) == null) ? user != null ? (this.useForceThreeLines || SharedConfig.useThreeLinesLayout) ? UserObject.isDeleted(user) ? LocaleController.getString(R.string.HiddenName) : AndroidUtilities.escape(ContactsController.formatName(user.first_name, user.last_name).replace("\n", "")) : AndroidUtilities.escape(UserObject.getFirstName(user).replace("\n", "")) : (chat == null || (str = chat.title) == null) ? "DELETED" : AndroidUtilities.escape(str.replace("\n", "")) : AndroidUtilities.escape(str2);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:172:0x035b, code lost:

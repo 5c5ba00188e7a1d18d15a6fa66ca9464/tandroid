@@ -48,6 +48,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.SlideIntChooseView;
@@ -1003,6 +1004,14 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
+        if (i == NotificationCenter.dialogDeleted && ((Long) objArr[0]).longValue() == (-this.chatId)) {
+            INavigationLayout iNavigationLayout = this.parentLayout;
+            if (iNavigationLayout == null || iNavigationLayout.getLastFragment() != this) {
+                removeSelfFromStack();
+            } else {
+                lambda$onBackPressed$321();
+            }
+        }
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -1037,6 +1046,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         getNotificationCenter().addObserver(this, NotificationCenter.reactionsDidLoad);
         this.allAvailableReactions.addAll(getMediaDataController().getEnabledReactionsList());
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.stopAllHeavyOperations, 512);
+        getNotificationCenter().addObserver(this, NotificationCenter.dialogDeleted);
         return super.onFragmentCreate();
     }
 
@@ -1044,10 +1054,10 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         AndroidUtilities.cancelRunOnUIThread(this.checkAfterFastDeleteRunnable);
-        if (this.selectedType != 2 || this.reactionsCount == this.currentReactionsCount) {
-            return;
+        if (this.selectedType == 2 && this.reactionsCount != this.currentReactionsCount) {
+            getMessagesController().setCustomChatReactions(this.chatId, this.selectedType, grabReactions(false), this.reactionsCount, null, null, null);
         }
-        getMessagesController().setCustomChatReactions(this.chatId, this.selectedType, grabReactions(false), this.reactionsCount, null, null, null);
+        getNotificationCenter().removeObserver(this, NotificationCenter.dialogDeleted);
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

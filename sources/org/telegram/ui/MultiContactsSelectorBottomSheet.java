@@ -28,6 +28,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -53,7 +54,9 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     private final List contacts;
     private final List contactsLetters;
     private final Map contactsMap;
-    private final List foundedUsers;
+    private Boolean filterBots;
+    private Boolean filterPremium;
+    private final List foundUsers;
     private final SelectorHeaderCell headerView;
     private final List hints;
     private final ArrayList items;
@@ -75,7 +78,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         void onUserSelected(List list);
     }
 
-    public MultiContactsSelectorBottomSheet(BaseFragment baseFragment, boolean z, final int i, SelectorListener selectorListener) {
+    public MultiContactsSelectorBottomSheet(BaseFragment baseFragment, boolean z, final int i, Boolean bool, Boolean bool2, SelectorListener selectorListener) {
         super(baseFragment, z, false, false, baseFragment.getResourceProvider());
         this.oldItems = new ArrayList();
         ArrayList arrayList = new ArrayList();
@@ -86,13 +89,14 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.contacts = arrayList2;
         ArrayList arrayList3 = new ArrayList();
         this.hints = arrayList3;
-        this.foundedUsers = new ArrayList();
+        this.foundUsers = new ArrayList();
         HashMap hashMap = new HashMap();
         this.contactsMap = hashMap;
         ArrayList arrayList4 = new ArrayList();
         this.contactsLetters = arrayList4;
         this.allSelectedObjects = new LinkedHashMap();
         this.listPaddingTop = AndroidUtilities.dp(120.0f);
+        this.lastRequestId = -1;
         this.remoteSearchRunnable = new Runnable() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet.1
             @Override // java.lang.Runnable
             public void run() {
@@ -103,7 +107,10 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             }
         };
         this.maxCount = i;
+        this.filterBots = bool;
+        this.filterPremium = bool2;
         this.selectorListener = selectorListener;
+        this.actionBar.setTitle(getTitle());
         SelectorHeaderCell selectorHeaderCell = new SelectorHeaderCell(getContext(), this.resourcesProvider) { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet.3
             @Override // org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorHeaderCell
             protected int getHeaderHeight() {
@@ -186,7 +193,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                MultiContactsSelectorBottomSheet.this.lambda$new$1(view2);
+                MultiContactsSelectorBottomSheet.this.lambda$new$2(view2);
             }
         });
         selectorBtnCell.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 87));
@@ -218,7 +225,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public final void onItemClick(View view2, int i8, float f, float f2) {
-                MultiContactsSelectorBottomSheet.this.lambda$new$3(i, view2, i8, f, f2);
+                MultiContactsSelectorBottomSheet.this.lambda$new$4(i, view2, i8, f, f2);
             }
         });
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
@@ -241,7 +248,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         selectorSearchCell.updateSpans(false, hashSet, new Runnable() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                MultiContactsSelectorBottomSheet.this.lambda$new$4();
+                MultiContactsSelectorBottomSheet.this.lambda$new$5();
             }
         }, null);
         selectorHeaderCell.setText(getTitle());
@@ -250,6 +257,10 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         hashMap.putAll(ContactsController.getInstance(this.currentAccount).usersSectionsDict);
         arrayList4.addAll(ContactsController.getInstance(this.currentAccount).sortedUsersSectionsArray);
         arrayList3.addAll(MediaDataController.getInstance(this.currentAccount).hints);
+        Boolean bool3 = this.filterBots;
+        if (bool3 != null && bool3.booleanValue()) {
+            arrayList3.addAll(MediaDataController.getInstance(this.currentAccount).webapps);
+        }
         updateList(false, true);
         fixNavigationBar();
     }
@@ -277,29 +288,75 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         };
     }
 
+    private boolean filter(TLRPC.User user) {
+        if (user == null) {
+            return false;
+        }
+        if (this.filterBots != null && UserObject.isBot(user) != this.filterBots.booleanValue()) {
+            return false;
+        }
+        Boolean bool = this.filterPremium;
+        return bool == null || user.premium == bool.booleanValue();
+    }
+
     private boolean isSearching() {
         return !TextUtils.isEmpty(this.query);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadData$0(List list) {
-        this.foundedUsers.clear();
-        this.foundedUsers.addAll(list);
+    public /* synthetic */ void lambda$loadData$0(HashSet hashSet, List list) {
+        if (list != null) {
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                TLRPC.User user = (TLRPC.User) it.next();
+                if (user != null && !hashSet.contains(Long.valueOf(user.id)) && filter(user)) {
+                    this.foundUsers.add(user);
+                    hashSet.add(Long.valueOf(user.id));
+                }
+            }
+        }
         updateList(true, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(View view) {
+    public /* synthetic */ void lambda$loadData$1(String str, List list) {
+        final HashSet hashSet = new HashSet();
+        this.foundUsers.clear();
+        if (list != null) {
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                TLRPC.User user = (TLRPC.User) it.next();
+                if (user != null && !hashSet.contains(Long.valueOf(user.id)) && filter(user)) {
+                    this.foundUsers.add(user);
+                    hashSet.add(Long.valueOf(user.id));
+                }
+            }
+        }
+        Boolean bool = this.filterBots;
+        if (bool == null || !bool.booleanValue()) {
+            updateList(true, true);
+        } else {
+            this.lastRequestId = BoostRepository.searchContacts(str, true, new Utilities.Callback() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda8
+                @Override // org.telegram.messenger.Utilities.Callback
+                public final void run(Object obj) {
+                    MultiContactsSelectorBottomSheet.this.lambda$loadData$0(hashSet, (List) obj);
+                }
+            });
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$new$2(View view) {
         next();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2() {
+    public /* synthetic */ void lambda$new$3() {
         updateList(true, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(int i, View view, int i2, float f, float f2) {
+    public /* synthetic */ void lambda$new$4(int i, View view, int i2, float f, float f2) {
         if (view instanceof SelectorUserCell) {
             TLRPC.User user = ((SelectorUserCell) view).getUser();
             long j = user.id;
@@ -316,7 +373,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
                 this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
-                        MultiContactsSelectorBottomSheet.this.lambda$new$2();
+                        MultiContactsSelectorBottomSheet.this.lambda$new$3();
                     }
                 }, null);
                 updateList(true, false);
@@ -326,23 +383,28 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$4() {
+    public /* synthetic */ void lambda$new$5() {
         updateList(true, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSectionCell$5(View view) {
+    public /* synthetic */ void lambda$updateSectionCell$6(View view) {
         this.selectedIds.clear();
         this.searchField.spansContainer.removeAllSpans(true);
         updateList(true, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void loadData(String str) {
-        this.lastRequestId = BoostRepository.searchContacts(this.lastRequestId, str, new Utilities.Callback() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda6
+    public void loadData(final String str) {
+        if (this.lastRequestId >= 0) {
+            ConnectionsManager.getInstance(this.currentAccount).cancelRequest(this.lastRequestId, true);
+            this.lastRequestId = -1;
+        }
+        Boolean bool = this.filterBots;
+        BoostRepository.searchContactsLocally(str, bool != null && bool.booleanValue(), new Utilities.Callback() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                MultiContactsSelectorBottomSheet.this.lambda$loadData$0((List) obj);
+                MultiContactsSelectorBottomSheet.this.lambda$loadData$1(str, (List) obj);
             }
         });
     }
@@ -368,10 +430,10 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         AndroidUtilities.runOnUIThread(this.remoteSearchRunnable, 100L);
     }
 
-    public static void open(int i, SelectorListener selectorListener) {
+    public static void open(Boolean bool, Boolean bool2, int i, SelectorListener selectorListener) {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         if (lastFragment != null && instance == null) {
-            MultiContactsSelectorBottomSheet multiContactsSelectorBottomSheet = new MultiContactsSelectorBottomSheet(lastFragment, true, i, selectorListener);
+            MultiContactsSelectorBottomSheet multiContactsSelectorBottomSheet = new MultiContactsSelectorBottomSheet(lastFragment, true, i, bool, bool2, selectorListener);
             multiContactsSelectorBottomSheet.show();
             instance = multiContactsSelectorBottomSheet;
         }
@@ -392,7 +454,8 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         if (this.selectedIds.size() == 0) {
             spannableStringBuilder.append((CharSequence) "d").setSpan(this.recipientsBtnSpaceSpan, 0, 1, 33);
-            i = R.string.ChooseUsers;
+            Boolean bool = this.filterBots;
+            i = (bool == null || !bool.booleanValue()) ? R.string.ChooseUsers : this.maxCount > 1 ? R.string.ChooseBots : R.string.ChooseBot;
         } else {
             i = R.string.GiftPremiumProceedBtn;
         }
@@ -452,7 +515,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
-                    MultiContactsSelectorBottomSheet.this.lambda$updateSectionCell$5(view);
+                    MultiContactsSelectorBottomSheet.this.lambda$updateSectionCell$6(view);
                 }
             };
         } else {
@@ -485,7 +548,11 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
-        return LocaleController.getString(R.string.ChooseUsers);
+        Boolean bool = this.filterBots;
+        if (bool == null || !bool.booleanValue()) {
+            return LocaleController.getString(R.string.ChooseUsers);
+        }
+        return LocaleController.getString(this.maxCount > 1 ? R.string.ChooseBots : R.string.ChooseBot);
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet
@@ -522,7 +589,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         this.items.clear();
         if (isSearching()) {
             i2 = 0;
-            for (TLRPC.User user : this.foundedUsers) {
+            for (TLRPC.User user : this.foundUsers) {
                 i2 += AndroidUtilities.dp(56.0f);
                 this.items.add(SelectorAdapter.Item.asUser(user, this.selectedIds.contains(Long.valueOf(user.id))));
             }
@@ -535,7 +602,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
                 i = 0;
                 while (it.hasNext()) {
                     TLRPC.User user2 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(((TLRPC.TL_topPeer) it.next()).peer.user_id));
-                    if (!user2.self && !user2.bot && !UserObject.isService(user2.id) && !UserObject.isDeleted(user2)) {
+                    if (!user2.self && !user2.bot && !UserObject.isService(user2.id) && !UserObject.isDeleted(user2) && filter(user2)) {
                         i += AndroidUtilities.dp(56.0f);
                         arrayList.add(SelectorAdapter.Item.asUser(user2, this.selectedIds.contains(Long.valueOf(user2.id))));
                     }
@@ -546,19 +613,45 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
                     this.items.addAll(arrayList);
                 }
             }
-            for (String str : this.contactsLetters) {
+            long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
+            Boolean bool = this.filterBots;
+            if (bool != null && bool.booleanValue()) {
                 ArrayList arrayList2 = new ArrayList();
-                for (TLRPC.TL_contact tL_contact : (List) this.contactsMap.get(str)) {
-                    if (tL_contact.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
-                        i += AndroidUtilities.dp(56.0f);
-                        TLRPC.User user3 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_contact.user_id));
-                        arrayList2.add(SelectorAdapter.Item.asUser(user3, this.selectedIds.contains(Long.valueOf(user3.id))));
+                Iterator<TLRPC.Dialog> it2 = MessagesController.getInstance(this.currentAccount).getAllDialogs().iterator();
+                while (it2.hasNext()) {
+                    TLRPC.Dialog next = it2.next();
+                    if (next.id >= 0) {
+                        TLRPC.User user3 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(next.id));
+                        if (filter(user3)) {
+                            i += AndroidUtilities.dp(56.0f);
+                            arrayList2.add(SelectorAdapter.Item.asUser(user3, this.selectedIds.contains(Long.valueOf(user3.id))));
+                        }
                     }
                 }
                 if (!arrayList2.isEmpty()) {
                     i += AndroidUtilities.dp(32.0f);
-                    this.items.add(SelectorAdapter.Item.asLetter(str.toUpperCase()));
+                    this.items.add(SelectorAdapter.Item.asTopSection(LocaleController.getString(R.string.SearchApps)));
                     this.items.addAll(arrayList2);
+                }
+            }
+            for (String str : this.contactsLetters) {
+                ArrayList arrayList3 = new ArrayList();
+                List<TLRPC.TL_contact> list = (List) this.contactsMap.get(str);
+                if (list != null) {
+                    for (TLRPC.TL_contact tL_contact : list) {
+                        if (tL_contact.user_id != clientUserId) {
+                            TLRPC.User user4 = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(tL_contact.user_id));
+                            if (filter(user4)) {
+                                i += AndroidUtilities.dp(56.0f);
+                                arrayList3.add(SelectorAdapter.Item.asUser(user4, this.selectedIds.contains(Long.valueOf(user4.id))));
+                            }
+                        }
+                    }
+                    if (!arrayList3.isEmpty()) {
+                        i += AndroidUtilities.dp(32.0f);
+                        this.items.add(SelectorAdapter.Item.asLetter(str.toUpperCase()));
+                        this.items.addAll(arrayList3);
+                    }
                 }
             }
             i2 = i;

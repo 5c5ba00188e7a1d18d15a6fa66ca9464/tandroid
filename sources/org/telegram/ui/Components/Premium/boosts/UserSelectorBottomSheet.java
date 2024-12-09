@@ -82,7 +82,6 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
     private final List hints;
     private boolean isHintSearchText;
     private final ArrayList items;
-    private int lastRequestId;
     private int listPaddingTop;
     private final ArrayList oldItems;
     private final List paymentOptions;
@@ -709,7 +708,7 @@ public abstract class UserSelectorBottomSheet extends BottomSheetWithRecyclerLis
 
     /* JADX INFO: Access modifiers changed from: private */
     public void loadData(String str) {
-        this.lastRequestId = BoostRepository.searchContacts(this.lastRequestId, str, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda12
+        BoostRepository.searchContactsLocally(str, false, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet$$ExternalSyntheticLambda12
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 UserSelectorBottomSheet.this.lambda$loadData$0((List) obj);

@@ -65,6 +65,7 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.HeaderCell;
@@ -122,6 +123,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     private boolean canForum;
     private TextCell changeBotSettingsCell;
     private TextCell channelAffiliateProgramsCell;
+    private TLRPC.TL_chatAdminRights chatAdminRights;
+    private TLRPC.TL_chatBannedRights chatBannedRights;
+    private TLRPC.TL_chatBannedRights chatDefaultBannedRights;
     private long chatId;
     private PeerColorActivity.ChangeNameColorCell colorCell;
     private boolean createAfterUpload;
@@ -2912,10 +2916,31 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         return this.fragmentView;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:150:0x024c, code lost:
+    
+        if (r10.getLastFragment() == r9) goto L136;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x00a4, code lost:
+    
+        if (r10.getLastFragment() == r9) goto L136;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x024e, code lost:
+    
+        lambda$onBackPressed$321();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:51:?, code lost:
+    
+        return;
+     */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         SpannableStringBuilder append;
         String format;
+        TLRPC.TL_chatBannedRights tL_chatBannedRights;
+        TLRPC.TL_chatBannedRights tL_chatBannedRights2;
         EditTextBoldCursor editTextBoldCursor;
         boolean z = true;
         int i3 = 0;
@@ -2952,6 +2977,21 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             return;
         }
+        if (i == NotificationCenter.channelRightsUpdated) {
+            TLRPC.Chat chat = (TLRPC.Chat) objArr[0];
+            if (chat == null || chat.id != this.chatId) {
+                return;
+            }
+            TLRPC.TL_chatAdminRights tL_chatAdminRights = this.chatAdminRights;
+            if ((tL_chatAdminRights == null || tL_chatAdminRights.equals(chat.admin_rights)) && (((tL_chatBannedRights = this.chatBannedRights) == null || tL_chatBannedRights.equals(chat.banned_rights)) && ((tL_chatBannedRights2 = this.chatDefaultBannedRights) == null || tL_chatBannedRights2.equals(chat.default_banned_rights)))) {
+                return;
+            }
+            INavigationLayout iNavigationLayout = this.parentLayout;
+            if (iNavigationLayout != null) {
+            }
+            removeSelfFromStack();
+            return;
+        }
         if (i == NotificationCenter.chatAvailableReactionsUpdated) {
             long longValue = ((Long) objArr[0]).longValue();
             if (longValue == this.chatId) {
@@ -2972,9 +3012,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     return;
                 }
                 return;
+            } else if (i == NotificationCenter.channelConnectedBotsUpdate) {
+                ((Long) objArr[0]).longValue();
+                return;
             } else {
-                if (i == NotificationCenter.channelConnectedBotsUpdate) {
-                    ((Long) objArr[0]).longValue();
+                if (i == NotificationCenter.dialogDeleted && (-this.chatId) == ((Long) objArr[0]).longValue()) {
+                    INavigationLayout iNavigationLayout2 = this.parentLayout;
+                    if (iNavigationLayout2 != null) {
+                    }
+                    removeSelfFromStack();
                     return;
                 }
                 return;
@@ -3214,15 +3260,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     
         if (r0 == null) goto L12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x00f9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0117, code lost:
     
         if (java.lang.Math.max(r1 == null ? 0 : r1.participants_count, r0.participants_count) >= getMessagesController().forumUpgradeParticipantsMin) goto L44;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0103, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0121, code lost:
     
         if (r0.linked_chat_id != 0) goto L49;
      */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x016a  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x019e  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3281,12 +3327,17 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             imageUpdater.parentFragment = this;
             imageUpdater.setDelegate(this);
             NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
+            NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogDeleted);
+            NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.channelRightsUpdated);
             if (this.info != null) {
                 loadLinksCount();
             }
             return super.onFragmentCreate();
         }
-        this.avatarDrawable.setInfo(5L, chat2.title, null);
+        this.chatAdminRights = TLRPC.TL_chatAdminRights.clone(chat2.admin_rights);
+        this.chatBannedRights = TLRPC.TL_chatBannedRights.clone(this.currentChat.banned_rights);
+        this.chatDefaultBannedRights = TLRPC.TL_chatBannedRights.clone(this.currentChat.default_banned_rights);
+        this.avatarDrawable.setInfo(5L, this.currentChat.title, null);
         this.isChannel = ChatObject.isChannel(this.currentChat) && !this.currentChat.megagroup;
         TLRPC.Chat chat3 = this.currentChat;
         boolean z2 = chat3.forum;
@@ -3315,12 +3366,14 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         imageUpdater2.parentFragment = this;
         imageUpdater2.setDelegate(this);
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.updateInterfaces);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.dialogDeleted);
+        NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.channelRightsUpdated);
         if (this.info != null) {
         }
         return super.onFragmentCreate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:10:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x006f  */
     /* JADX WARN: Removed duplicated region for block: B:13:? A[RETURN, SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
@@ -3342,6 +3395,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 i = NotificationCenter.botStarsUpdated;
             }
             NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.updateInterfaces);
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogDeleted);
+            NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.channelRightsUpdated);
             editTextEmoji = this.nameTextView;
             if (editTextEmoji == null) {
                 editTextEmoji.onDestroy();
@@ -3355,6 +3410,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         i = NotificationCenter.channelConnectedBotsUpdate;
         notificationCenter.removeObserver(this, i);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.updateInterfaces);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogDeleted);
+        NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.channelRightsUpdated);
         editTextEmoji = this.nameTextView;
         if (editTextEmoji == null) {
         }

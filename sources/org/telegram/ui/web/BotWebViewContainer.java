@@ -1723,11 +1723,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     if (str.startsWith("blob:")) {
                         return;
                     }
-                    final String filename = getFilename(str, str3, str4);
+                    final String escape = AndroidUtilities.escape(getFilename(str, str3, str4));
                     final Runnable runnable = new Runnable() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$5$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
-                            BotWebViewContainer.MyWebView.5.this.lambda$onDownloadStart$0(str, str4, str2, filename);
+                            BotWebViewContainer.MyWebView.5.this.lambda$onDownloadStart$0(str, str4, str2, escape);
                         }
                     };
                     if (DownloadController.getInstance(UserConfig.selectedAccount).canDownloadMedia(8, j)) {
@@ -1736,7 +1736,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(MyWebView.this.getContext());
                     builder.setTitle(LocaleController.getString(R.string.WebDownloadAlertTitle));
-                    builder.setMessage(AndroidUtilities.replaceTags(j > 0 ? LocaleController.formatString(R.string.WebDownloadAlertInfoWithSize, filename, AndroidUtilities.formatFileSize(j)) : LocaleController.formatString(R.string.WebDownloadAlertInfo, filename)));
+                    builder.setMessage(AndroidUtilities.replaceTags(j > 0 ? LocaleController.formatString(R.string.WebDownloadAlertInfoWithSize, escape, AndroidUtilities.formatFileSize(j)) : LocaleController.formatString(R.string.WebDownloadAlertInfo, escape)));
                     builder.setPositiveButton(LocaleController.getString(R.string.WebDownloadAlertYes), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$5$$ExternalSyntheticLambda1
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i) {

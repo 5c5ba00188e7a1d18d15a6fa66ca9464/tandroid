@@ -47,6 +47,7 @@ import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.AdminedChannelCell;
@@ -1872,6 +1873,18 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 this.info = chatFull;
                 this.invite = chatFull.exported_invite;
                 updatePrivatePublic();
+                return;
+            }
+            return;
+        }
+        if (i == NotificationCenter.dialogDeleted) {
+            if ((-this.chatId) == ((Long) objArr[0]).longValue()) {
+                INavigationLayout iNavigationLayout = this.parentLayout;
+                if (iNavigationLayout == null || iNavigationLayout.getLastFragment() != this) {
+                    removeSelfFromStack();
+                } else {
+                    lambda$onBackPressed$321();
+                }
             }
         }
     }
@@ -2056,6 +2069,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
         }
         getNotificationCenter().addObserver(this, NotificationCenter.chatInfoDidLoad);
+        getNotificationCenter().addObserver(this, NotificationCenter.dialogDeleted);
         return super.onFragmentCreate();
     }
 
@@ -2063,6 +2077,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         getNotificationCenter().removeObserver(this, NotificationCenter.chatInfoDidLoad);
+        getNotificationCenter().removeObserver(this, NotificationCenter.dialogDeleted);
         AndroidUtilities.removeAdjustResize(getParentActivity(), this.classGuid);
     }
 

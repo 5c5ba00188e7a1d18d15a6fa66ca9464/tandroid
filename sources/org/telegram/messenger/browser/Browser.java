@@ -991,7 +991,7 @@ public abstract class Browser {
         openUrl(context, Uri.parse(str), z, z2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:33:0x002e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x002e, code lost:
     
         if (android.text.TextUtils.isEmpty(r4) == false) goto L12;
      */
@@ -1025,7 +1025,7 @@ public abstract class Browser {
         }
         if (str4 != null) {
             sb.append(str4);
-        } else {
+        } else if (uri.getPath() != null) {
             sb.append(uri.getPath());
         }
         if (uri.getQuery() != null) {
