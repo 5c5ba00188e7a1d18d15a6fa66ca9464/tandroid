@@ -303,7 +303,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
         /* JADX WARN: Removed duplicated region for block: B:38:0x00fa  */
         /* JADX WARN: Removed duplicated region for block: B:40:0x00fe  */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x0268  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x026a  */
         @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -404,7 +404,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 if (TopicsFragment.this.canShowHiddenArchive != z) {
                     TopicsFragment.this.canShowHiddenArchive = z;
                     if (TopicsFragment.this.pullViewState == 2) {
-                        TopicsFragment.this.recyclerListView.performHapticFeedback(3, 2);
+                        try {
+                            TopicsFragment.this.recyclerListView.performHapticFeedback(3, 2);
+                        } catch (Exception unused) {
+                        }
                         if (TopicsFragment.this.pullForegroundDrawable != null) {
                             TopicsFragment.this.pullForegroundDrawable.colorize(z);
                         }
@@ -2170,7 +2173,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                     }
                     if (!TopicsFragment.this.canShowHiddenArchive) {
                         TopicsFragment.this.canShowHiddenArchive = true;
-                        performHapticFeedback(3, 2);
+                        try {
+                            performHapticFeedback(3, 2);
+                        } catch (Exception unused) {
+                        }
                         if (TopicsFragment.this.pullForegroundDrawable != null) {
                             TopicsFragment.this.pullForegroundDrawable.colorize(true);
                         }
@@ -2682,7 +2688,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             }
         }
         toggleSelection(view);
-        view.performHapticFeedback(0);
+        try {
+            view.performHapticFeedback(0);
+        } catch (Exception unused) {
+        }
         return true;
     }
 
@@ -2985,7 +2994,10 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         int i2;
         String string3;
         int i3;
-        dialogCell.performHapticFeedback(0);
+        try {
+            dialogCell.performHapticFeedback(0);
+        } catch (Exception unused) {
+        }
         final ActionBarPopupWindow.ActionBarPopupWindowLayout[] actionBarPopupWindowLayoutArr = {new ActionBarPopupWindow.ActionBarPopupWindowLayout(getParentActivity(), R.drawable.popup_fixed_alert, getResourceProvider(), 1)};
         final TLRPC.TL_forumTopic tL_forumTopic = dialogCell.forumTopic;
         ChatNotificationsPopupWrapper chatNotificationsPopupWrapper = new ChatNotificationsPopupWrapper(getContext(), this.currentAccount, actionBarPopupWindowLayoutArr[0].getSwipeBack(), false, false, new 22(tL_forumTopic), getResourceProvider());

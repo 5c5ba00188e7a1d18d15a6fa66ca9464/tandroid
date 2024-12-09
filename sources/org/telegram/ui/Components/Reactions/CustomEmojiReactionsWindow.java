@@ -123,7 +123,10 @@ public class CustomEmojiReactionsWindow {
             if (this.val$baseFragment != null) {
                 ReactionsContainerLayout reactionsContainerLayout = this.val$reactionsContainerLayout;
                 if (!reactionsContainerLayout.channelReactions && reactionsContainerLayout.getWindowType() != 13 && !UserConfig.getInstance(this.val$baseFragment.getCurrentAccount()).isPremium()) {
-                    CustomEmojiReactionsWindow.this.windowView.performHapticFeedback(3);
+                    try {
+                        CustomEmojiReactionsWindow.this.windowView.performHapticFeedback(3);
+                    } catch (Exception unused) {
+                    }
                     BulletinFactory.of(CustomEmojiReactionsWindow.this.windowView, null).createEmojiBulletin(document, AndroidUtilities.replaceTags(LocaleController.getString(R.string.UnlockPremiumEmojiReaction)), LocaleController.getString(R.string.PremiumMore), new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomEmojiReactionsWindow$2$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {

@@ -7377,7 +7377,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 } else if (motionEvent.getAction() == 3 || motionEvent.getAction() == 1) {
                     EmojiView.this.backspacePressed = false;
                     if (!EmojiView.this.backspaceOnce && EmojiView.this.delegate != null && EmojiView.this.delegate.onBackspace()) {
-                        EmojiView.this.backspaceButton.performHapticFeedback(3);
+                        try {
+                            EmojiView.this.backspaceButton.performHapticFeedback(3);
+                        } catch (Exception unused) {
+                        }
                     }
                 }
                 super.onTouchEvent(motionEvent);
@@ -8407,7 +8410,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         if (this.backspacePressed) {
             EmojiViewDelegate emojiViewDelegate = this.delegate;
             if (emojiViewDelegate != null && emojiViewDelegate.onBackspace()) {
-                this.backspaceButton.performHapticFeedback(3);
+                try {
+                    this.backspaceButton.performHapticFeedback(3);
+                } catch (Exception unused) {
+                }
             }
             this.backspaceOnce = true;
             postBackspaceRunnable(Math.max(50, i - 100));

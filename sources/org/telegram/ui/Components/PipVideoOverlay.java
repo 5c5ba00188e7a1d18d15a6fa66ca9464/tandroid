@@ -120,20 +120,20 @@ public class PipVideoOverlay {
     private float maxScaleFactor = 1.4f;
     private float scaleFactor = 1.0f;
     private VideoForwardDrawable videoForwardDrawable = new VideoForwardDrawable(false);
-    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
+    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda7
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.lambda$new$4();
         }
     };
     private float[] longClickStartPoint = new float[2];
-    private Runnable longClickCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda14
+    private Runnable longClickCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda8
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.onLongClick();
         }
     };
-    private Runnable dismissControlsCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda15
+    private Runnable dismissControlsCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda9
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.lambda$new$5();
@@ -994,13 +994,13 @@ public class PipVideoOverlay {
         this.pipWidth = (int) (getSuggestedWidth() * this.scaleFactor);
         this.pipHeight = (int) (getSuggestedHeight() * this.scaleFactor);
         this.isShowingControls = false;
-        this.pipXSpring = (SpringAnimation) new SpringAnimation(this, PIP_X_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda6
+        this.pipXSpring = (SpringAnimation) new SpringAnimation(this, PIP_X_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f2, float f3) {
                 PipVideoOverlay.this.lambda$showInternal$7(dynamicAnimation, z3, f2, f3);
             }
         });
-        this.pipYSpring = (SpringAnimation) new SpringAnimation(this, PIP_Y_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda7
+        this.pipYSpring = (SpringAnimation) new SpringAnimation(this, PIP_Y_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f2, float f3) {
                 PipVideoOverlay.this.lambda$showInternal$8(dynamicAnimation, z3, f2, f3);
@@ -1193,7 +1193,7 @@ public class PipVideoOverlay {
         };
         final FrameLayout frameLayout = this.controlsView;
         Objects.requireNonNull(frameLayout);
-        this.seekSpeedDrawable = new SeekSpeedDrawable(new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda8
+        this.seekSpeedDrawable = new SeekSpeedDrawable(new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 frameLayout.invalidate();
@@ -1214,7 +1214,7 @@ public class PipVideoOverlay {
         int i5 = Theme.key_listSelector;
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(i5)));
         imageView.setPadding(dp3, dp3, dp3, dp3);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda9
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.dismissAndDestroy();
@@ -1228,7 +1228,7 @@ public class PipVideoOverlay {
         imageView2.setColorFilter(Theme.getColor(i4), mode);
         imageView2.setBackground(Theme.createSelectorDrawable(Theme.getColor(i5)));
         imageView2.setPadding(dp3, dp3, dp3, dp3);
-        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
+        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda14
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.this.lambda$showInternal$10(z, view3);
@@ -1239,7 +1239,7 @@ public class PipVideoOverlay {
         this.playPauseButton = imageView3;
         imageView3.setColorFilter(Theme.getColor(i4), mode);
         this.playPauseButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(i5)));
-        this.playPauseButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
+        this.playPauseButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda15
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.this.lambda$showInternal$11(view3);
@@ -1319,7 +1319,7 @@ public class PipVideoOverlay {
         ValueAnimator duration = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f).setDuration(200L);
         this.controlsAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.controlsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
+        this.controlsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda6
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PipVideoOverlay.this.lambda$toggleControls$6(valueAnimator);

@@ -126,7 +126,10 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                     TLRPC.TL_groupCallParticipant tL_groupCallParticipant = (TLRPC.TL_groupCallParticipant) sharedInstance.groupCall.participants.get(sharedInstance.getSelfId());
                     if (tL_groupCallParticipant == null || tL_groupCallParticipant.can_self_unmute || !tL_groupCallParticipant.muted || ChatObject.canManageCalls(sharedInstance.getChat())) {
                         AndroidUtilities.runOnUIThread(3.this.micRunnable, 90L);
-                        3.this.performHapticFeedback(3, 2);
+                        try {
+                            3.this.performHapticFeedback(3, 2);
+                        } catch (Exception unused) {
+                        }
                         3.this.pressed = true;
                     }
                 }
@@ -178,7 +181,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
 
         /* JADX WARN: Code restructure failed: missing block: B:10:0x0022, code lost:
         
-            if (r6 != 3) goto L82;
+            if (r6 != 3) goto L83;
          */
         /* JADX WARN: Removed duplicated region for block: B:21:0x0064  */
         @Override // android.view.View
@@ -269,7 +272,10 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                 if (this.pressed) {
                     if (VoIPService.getSharedInstance() != null) {
                         VoIPService.getSharedInstance().setMicMute(true, false, false);
-                        performHapticFeedback(3, 2);
+                        try {
+                            performHapticFeedback(3, 2);
+                        } catch (Exception unused) {
+                        }
                     }
                     this.pressed = false;
                 } else if (motionEvent.getAction() == 1 && !GroupCallPip.this.moving) {
@@ -1049,7 +1055,10 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                 this.iconView.playAnimation();
             }
             if (z) {
-                this.button.performHapticFeedback(3, 2);
+                try {
+                    this.button.performHapticFeedback(3, 2);
+                } catch (Exception unused) {
+                }
             }
         }
         this.button.prepareToRemove(z);

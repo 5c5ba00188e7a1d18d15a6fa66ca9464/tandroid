@@ -525,7 +525,10 @@ public class FloatingDebugView extends FrameLayout implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         this.inLongPress = true;
-        performHapticFeedback(0);
+        try {
+            performHapticFeedback(0);
+        } catch (Exception unused) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

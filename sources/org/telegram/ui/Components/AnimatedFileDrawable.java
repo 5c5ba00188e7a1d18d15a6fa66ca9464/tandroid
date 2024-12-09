@@ -251,7 +251,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 if (AnimatedFileDrawable.this.pendingRemoveLoadingFramesReset <= 0) {
                     AnimatedFileDrawable.this.pendingRemoveLoading = true;
                 } else {
-                    AnimatedFileDrawable.access$1310(AnimatedFileDrawable.this);
+                    AnimatedFileDrawable.access$1210(AnimatedFileDrawable.this);
                 }
                 if (AnimatedFileDrawable.this.forceDecodeAfterNextFrame) {
                     AnimatedFileDrawable.this.forceDecodeAfterNextFrame = false;
@@ -372,7 +372,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                                 }
                                 AnimatedFileDrawable.this.updateScaleFactor();
                                 AnimatedFileDrawable animatedFileDrawable6 = AnimatedFileDrawable.this;
-                                animatedFileDrawable6.decoderCreated = animatedFileDrawable6.isWebmSticker || animatedFileDrawable6.nativePtr != 0 || AnimatedFileDrawable.access$3508(AnimatedFileDrawable.this) > 15;
+                                animatedFileDrawable6.decoderCreated = animatedFileDrawable6.isWebmSticker || animatedFileDrawable6.nativePtr != 0 || AnimatedFileDrawable.access$3408(AnimatedFileDrawable.this) > 15;
                             }
                         }
                         z4 = false;
@@ -383,7 +383,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                         }
                         AnimatedFileDrawable.this.updateScaleFactor();
                         AnimatedFileDrawable animatedFileDrawable62 = AnimatedFileDrawable.this;
-                        animatedFileDrawable62.decoderCreated = animatedFileDrawable62.isWebmSticker || animatedFileDrawable62.nativePtr != 0 || AnimatedFileDrawable.access$3508(AnimatedFileDrawable.this) > 15;
+                        animatedFileDrawable62.decoderCreated = animatedFileDrawable62.isWebmSticker || animatedFileDrawable62.nativePtr != 0 || AnimatedFileDrawable.access$3408(AnimatedFileDrawable.this) > 15;
                     }
                     try {
                         AnimatedFileDrawable animatedFileDrawable7 = AnimatedFileDrawable.this;
@@ -538,13 +538,13 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this(file, z, j, i, document, imageLocation, obj, j2, i2, z2, 0, 0, cacheOptions);
     }
 
-    static /* synthetic */ int access$1310(AnimatedFileDrawable animatedFileDrawable) {
+    static /* synthetic */ int access$1210(AnimatedFileDrawable animatedFileDrawable) {
         int i = animatedFileDrawable.pendingRemoveLoadingFramesReset;
         animatedFileDrawable.pendingRemoveLoadingFramesReset = i - 1;
         return i;
     }
 
-    static /* synthetic */ int access$3508(AnimatedFileDrawable animatedFileDrawable) {
+    static /* synthetic */ int access$3408(AnimatedFileDrawable animatedFileDrawable) {
         int i = animatedFileDrawable.decoderTryCount;
         animatedFileDrawable.decoderTryCount = i + 1;
         return i;
@@ -624,13 +624,6 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 return true;
             }
             i++;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void invalidateInternal() {
-        for (int i = 0; i < this.parents.size(); i++) {
-            ((ImageReceiver) this.parents.get(i)).invalidate();
         }
     }
 
@@ -1199,6 +1192,12 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         return canLoadFrames() && !(this.renderingBitmap == null && this.nextRenderingBitmap == null);
     }
 
+    public void invalidateInternal() {
+        for (int i = 0; i < this.parents.size(); i++) {
+            ((ImageReceiver) this.parents.get(i)).invalidate();
+        }
+    }
+
     public boolean isLoadingStream() {
         AnimatedFileDrawableStream animatedFileDrawableStream = this.stream;
         return animatedFileDrawableStream != null && animatedFileDrawableStream.isWaitingForLoad();
@@ -1329,6 +1328,24 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 setRoundRadius(iArr);
             }
         }
+    }
+
+    public void replaceAnimatedBitmap(Bitmap bitmap) {
+        Bitmap bitmap2 = this.renderingBitmap;
+        if (bitmap2 != null) {
+            this.unusedBitmaps.add(bitmap2);
+        }
+        Bitmap bitmap3 = this.nextRenderingBitmap;
+        if (bitmap3 != null) {
+            this.unusedBitmaps.add(bitmap3);
+        }
+        Bitmap bitmap4 = this.nextRenderingBitmap2;
+        if (bitmap4 != null) {
+            this.unusedBitmaps.add(bitmap4);
+        }
+        this.renderingBitmap = bitmap;
+        this.nextRenderingBitmap = null;
+        this.nextRenderingBitmap2 = null;
     }
 
     public void resetStream(boolean z) {

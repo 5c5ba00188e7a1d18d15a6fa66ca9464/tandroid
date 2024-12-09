@@ -195,7 +195,10 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
             }
             chatActivity.restartSticker(chatMessageCell);
             if (!EmojiData.hasEmojiSupportVibration(chatMessageCell.getMessageObject().getStickerEmoji()) && !chatMessageCell.getMessageObject().isPremiumSticker() && !chatMessageCell.getMessageObject().isAnimatedAnimatedEmoji()) {
-                chatMessageCell.performHapticFeedback(3);
+                try {
+                    chatMessageCell.performHapticFeedback(3);
+                } catch (Exception unused) {
+                }
             }
             showAnimationForCell(chatMessageCell, i2, false, true);
         }
@@ -609,10 +612,14 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
 
                         @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                         public void onAnimationReady(ImageReceiver imageReceiver) {
-                            if (!z || !messageObject2.isAnimatedAnimatedEmoji() || imageReceiver.getLottieAnimation() == null || imageReceiver.getLottieAnimation().hasVibrationPattern()) {
+                            MessageObject messageObject3;
+                            if (!z || (messageObject3 = messageObject2) == null || !messageObject3.isAnimatedAnimatedEmoji() || imageReceiver.getLottieAnimation() == null || imageReceiver.getLottieAnimation().hasVibrationPattern()) {
                                 return;
                             }
-                            EmojiAnimationsOverlay.this.contentLayout.performHapticFeedback(3, 1);
+                            try {
+                                EmojiAnimationsOverlay.this.contentLayout.performHapticFeedback(3, 1);
+                            } catch (Exception unused) {
+                            }
                         }
                     });
                     if (drawingObject.imageReceiver.getLottieAnimation() != null) {
@@ -962,7 +969,10 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         }
         boolean showAnimationForCell = showAnimationForCell(chatMessageCell, -1, z, false);
         if (z && showAnimationForCell && !EmojiData.hasEmojiSupportVibration(chatMessageCell.getMessageObject().getStickerEmoji()) && !chatMessageCell.getMessageObject().isPremiumSticker() && !chatMessageCell.getMessageObject().isAnimatedAnimatedEmoji()) {
-            chatMessageCell.performHapticFeedback(3);
+            try {
+                chatMessageCell.performHapticFeedback(3);
+            } catch (Exception unused) {
+            }
         }
         if (chatMessageCell.getMessageObject().isPremiumSticker() || chatMessageCell.getEffect() != null || (!z && chatMessageCell.getMessageObject().isAnimatedEmojiStickerSingle())) {
             chatMessageCell.getMessageObject().forcePlayEffect = false;

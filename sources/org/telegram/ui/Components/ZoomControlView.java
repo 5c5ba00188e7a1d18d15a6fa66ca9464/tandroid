@@ -162,19 +162,20 @@ public class ZoomControlView extends View {
     
         if (r0 > 1.0f) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00fb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00fc, code lost:
     
-        if (animateToZoom((((float) java.lang.Math.floor(getZoom() / 0.25f)) * 0.25f) - 0.25f) != false) goto L64;
+        if (animateToZoom((((float) java.lang.Math.floor(getZoom() / 0.25f)) * 0.25f) - 0.25f) != false) goto L105;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:62:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x00fe, code lost:
     
         performHapticFeedback(3);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0142, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:77:0x014a, code lost:
     
-        if (animateToZoom((((float) java.lang.Math.floor(getZoom() / 0.25f)) * 0.25f) + 0.25f) != false) goto L64;
+        if (animateToZoom((((float) java.lang.Math.floor(getZoom() / 0.25f)) * 0.25f) + 0.25f) != false) goto L105;
      */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x01c5  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x01c8  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x01d1  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -198,60 +199,81 @@ public class ZoomControlView extends View {
         float f5 = this.progressEndY - i3;
         int i4 = (int) ((f3 * f5) + f4);
         if (action == 1 || action == 0) {
-            if (x < i2 - AndroidUtilities.dp(20.0f) || x > AndroidUtilities.dp(20.0f) + i2 || y < i4 - AndroidUtilities.dp(25.0f) || y > AndroidUtilities.dp(25.0f) + i4) {
-                if (x < this.minusCx - AndroidUtilities.dp(16.0f) || x > this.minusCx + AndroidUtilities.dp(16.0f) || y < this.minusCy - AndroidUtilities.dp(16.0f) || y > this.minusCy + AndroidUtilities.dp(16.0f)) {
-                    if (x < this.plusCx - AndroidUtilities.dp(16.0f) || x > this.plusCx + AndroidUtilities.dp(16.0f) || y < this.plusCy - AndroidUtilities.dp(16.0f) || y > this.plusCy + AndroidUtilities.dp(16.0f)) {
-                        if (z2) {
-                            if (x >= this.progressStartX && x <= this.progressEndX) {
-                                if (action == 0) {
-                                    this.knobStartX = x;
-                                } else if (Math.abs(this.knobStartX - x) <= AndroidUtilities.dp(10.0f)) {
-                                    float f6 = (x - this.progressStartX) / (this.progressEndX - r2);
-                                    this.zoom = f6;
-                                    ZoomControlViewDelegate zoomControlViewDelegate = this.delegate;
-                                    if (zoomControlViewDelegate != null) {
-                                        zoomControlViewDelegate.didSetZoom(f6);
-                                    }
-                                    invalidate();
-                                }
-                            }
-                        } else if (y >= this.progressStartY && y <= this.progressEndY) {
-                            if (action == 1) {
-                                this.knobStartY = y;
-                            } else if (Math.abs(this.knobStartY - y) <= AndroidUtilities.dp(10.0f)) {
-                                float f7 = (y - this.progressStartY) / (this.progressEndY - r0);
-                                this.zoom = f7;
-                                ZoomControlViewDelegate zoomControlViewDelegate2 = this.delegate;
-                                if (zoomControlViewDelegate2 != null) {
-                                    zoomControlViewDelegate2.didSetZoom(f7);
-                                }
-                                invalidate();
-                            }
-                        }
-                    } else if (action == 1) {
-                    }
-                    this.pressed = true;
-                } else {
-                    if (action == 1) {
-                    }
-                    this.pressed = true;
-                }
-                z = true;
-            } else {
+            if (x >= i2 - AndroidUtilities.dp(20.0f) && x <= AndroidUtilities.dp(20.0f) + i2 && y >= i4 - AndroidUtilities.dp(25.0f) && y <= AndroidUtilities.dp(25.0f) + i4) {
                 if (action == 0) {
                     this.knobPressed = true;
                     this.knobStartX = x - i2;
                     this.knobStartY = y - i4;
-                    invalidate();
                 }
                 z = true;
+                if (action == 1) {
+                }
+                if (z) {
+                }
+            }
+            if (x >= this.minusCx - AndroidUtilities.dp(16.0f) && x <= this.minusCx + AndroidUtilities.dp(16.0f) && y >= this.minusCy - AndroidUtilities.dp(16.0f) && y <= this.minusCy + AndroidUtilities.dp(16.0f)) {
+                if (action == 1) {
+                }
+                this.pressed = true;
+                z = true;
+                if (action == 1) {
+                }
+                if (z) {
+                }
+            }
+            if (x < this.plusCx - AndroidUtilities.dp(16.0f) || x > this.plusCx + AndroidUtilities.dp(16.0f) || y < this.plusCy - AndroidUtilities.dp(16.0f) || y > this.plusCy + AndroidUtilities.dp(16.0f)) {
+                if (z2) {
+                    if (x >= this.progressStartX && x <= this.progressEndX) {
+                        if (action == 0) {
+                            this.knobStartX = x;
+                        } else {
+                            if (Math.abs(this.knobStartX - x) <= AndroidUtilities.dp(10.0f)) {
+                                float f6 = (x - this.progressStartX) / (this.progressEndX - r2);
+                                this.zoom = f6;
+                                ZoomControlViewDelegate zoomControlViewDelegate = this.delegate;
+                                if (zoomControlViewDelegate != null) {
+                                    zoomControlViewDelegate.didSetZoom(f6);
+                                }
+                            }
+                            z = true;
+                        }
+                    }
+                } else if (y >= this.progressStartY && y <= this.progressEndY) {
+                    if (action == 1) {
+                        this.knobStartY = y;
+                    } else {
+                        if (Math.abs(this.knobStartY - y) <= AndroidUtilities.dp(10.0f)) {
+                            float f7 = (y - this.progressStartY) / (this.progressEndY - r0);
+                            this.zoom = f7;
+                            ZoomControlViewDelegate zoomControlViewDelegate2 = this.delegate;
+                            if (zoomControlViewDelegate2 != null) {
+                                zoomControlViewDelegate2.didSetZoom(f7);
+                            }
+                        }
+                        z = true;
+                    }
+                }
+                if (action == 1) {
+                    this.pressed = false;
+                    this.knobPressed = false;
+                    invalidate();
+                }
+                return !z || this.pressed || this.knobPressed || super.onTouchEvent(motionEvent);
             }
             if (action == 1) {
-                this.pressed = false;
-                this.knobPressed = false;
-                invalidate();
             }
-            return !z || this.pressed || this.knobPressed || super.onTouchEvent(motionEvent);
+            this.pressed = true;
+            z = true;
+            if (action == 1) {
+            }
+            if (z) {
+            }
+            invalidate();
+            z = true;
+            if (action == 1) {
+            }
+            if (z) {
+            }
         }
         if (action == 2 && this.knobPressed) {
             if (z2) {

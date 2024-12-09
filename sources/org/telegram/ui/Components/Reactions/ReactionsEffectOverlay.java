@@ -117,28 +117,28 @@ public class ReactionsEffectOverlay {
             ReactionsEffectOverlay.this.removeCurrentView();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:144:0x0537, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:144:0x0538, code lost:
         
-            if (((int) (r9 - ((r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getCurrentFrame() / r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getFramesCount()) * r9))) < r7.leftTime) goto L223;
+            if (((int) (r9 - ((r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getCurrentFrame() / r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getFramesCount()) * r9))) < r7.leftTime) goto L225;
          */
         /* JADX WARN: Removed duplicated region for block: B:100:0x02f6  */
         /* JADX WARN: Removed duplicated region for block: B:104:0x0323  */
-        /* JADX WARN: Removed duplicated region for block: B:134:0x04c0  */
-        /* JADX WARN: Removed duplicated region for block: B:139:0x04e3  */
-        /* JADX WARN: Removed duplicated region for block: B:148:0x056a  */
-        /* JADX WARN: Removed duplicated region for block: B:151:0x0633  */
-        /* JADX WARN: Removed duplicated region for block: B:156:0x0640  */
-        /* JADX WARN: Removed duplicated region for block: B:159:0x065e  */
-        /* JADX WARN: Removed duplicated region for block: B:166:0x0672  */
-        /* JADX WARN: Removed duplicated region for block: B:170:0x0654  */
-        /* JADX WARN: Removed duplicated region for block: B:171:0x056d  */
+        /* JADX WARN: Removed duplicated region for block: B:134:0x04c1  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x04e4  */
+        /* JADX WARN: Removed duplicated region for block: B:148:0x056b  */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x0634  */
+        /* JADX WARN: Removed duplicated region for block: B:156:0x0641  */
+        /* JADX WARN: Removed duplicated region for block: B:159:0x065f  */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x0673  */
+        /* JADX WARN: Removed duplicated region for block: B:170:0x0655  */
+        /* JADX WARN: Removed duplicated region for block: B:171:0x056e  */
         /* JADX WARN: Removed duplicated region for block: B:183:0x03cb  */
-        /* JADX WARN: Removed duplicated region for block: B:225:0x0308  */
-        /* JADX WARN: Removed duplicated region for block: B:233:0x0279  */
-        /* JADX WARN: Removed duplicated region for block: B:236:0x021c  */
-        /* JADX WARN: Removed duplicated region for block: B:237:0x01ee  */
-        /* JADX WARN: Removed duplicated region for block: B:243:0x0188 A[RETURN] */
-        /* JADX WARN: Removed duplicated region for block: B:244:0x010e  */
+        /* JADX WARN: Removed duplicated region for block: B:230:0x0308  */
+        /* JADX WARN: Removed duplicated region for block: B:238:0x0279  */
+        /* JADX WARN: Removed duplicated region for block: B:241:0x021c  */
+        /* JADX WARN: Removed duplicated region for block: B:242:0x01ee  */
+        /* JADX WARN: Removed duplicated region for block: B:248:0x0188 A[RETURN] */
+        /* JADX WARN: Removed duplicated region for block: B:249:0x010e  */
         /* JADX WARN: Removed duplicated region for block: B:33:0x00c1  */
         /* JADX WARN: Removed duplicated region for block: B:69:0x01b5  */
         /* JADX WARN: Removed duplicated region for block: B:72:0x01c5  */
@@ -334,7 +334,10 @@ public class ReactionsEffectOverlay {
                                         ReactionsEffectOverlay.startShortAnimation();
                                     } else if (!reactionsEffectOverlay3.isFinished) {
                                         reactionsEffectOverlay3.isFinished = true;
-                                        performHapticFeedback(0);
+                                        try {
+                                            performHapticFeedback(0);
+                                        } catch (Exception unused) {
+                                        }
                                         ((ViewGroup) getParent()).addView(ReactionsEffectOverlay.this.nextReactionOverlay.windowView);
                                         ReactionsEffectOverlay.this.nextReactionOverlay.isStories = true;
                                         ReactionsEffectOverlay.this.nextReactionOverlay.started = true;

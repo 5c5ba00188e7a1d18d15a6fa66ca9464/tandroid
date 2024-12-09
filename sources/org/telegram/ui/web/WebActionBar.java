@@ -503,7 +503,10 @@ public abstract class WebActionBar extends FrameLayout {
         if (getParent() != null) {
             getParent().requestDisallowInterceptTouchEvent(true);
         }
-        performHapticFeedback(0, 1);
+        try {
+            performHapticFeedback(0, 1);
+        } catch (Exception unused) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

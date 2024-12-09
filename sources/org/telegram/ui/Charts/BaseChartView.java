@@ -1429,7 +1429,10 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
         this.legendSignatureView.setVisibility(0);
         this.selectionA = 1.0f;
         moveLegend((this.chartFullWidth * this.pickerDelegate.pickerStart) - HORIZONTAL_PADDING);
-        performHapticFeedback(3, 2);
+        try {
+            performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
     }
 
     /* JADX WARN: Removed duplicated region for block: B:11:0x0065  */

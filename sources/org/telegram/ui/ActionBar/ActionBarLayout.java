@@ -1861,7 +1861,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
         });
         animatorSet.start();
-        performHapticFeedback(3);
+        try {
+            performHapticFeedback(3);
+        } catch (Exception unused) {
+        }
         baseFragment2.setInPreviewMode(false);
         baseFragment2.setInMenuMode(false);
         try {
@@ -1870,7 +1873,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 z = false;
             }
             AndroidUtilities.setLightStatusBar(window, z, baseFragment2.hasForceLightStatusBar());
-        } catch (Exception unused) {
+        } catch (Exception unused2) {
         }
     }
 

@@ -296,7 +296,10 @@ public abstract class TextSelectionHelper {
                 textSelectionHelper10.textX = i8;
                 textSelectionHelper10.textY = i9;
                 textSelectionHelper10.selectedView = selectableView;
-                textSelectionHelper10.textSelectionOverlay.performHapticFeedback(0, 1);
+                try {
+                    textSelectionHelper10.textSelectionOverlay.performHapticFeedback(0, 1);
+                } catch (Exception unused) {
+                }
                 AndroidUtilities.cancelRunOnUIThread(TextSelectionHelper.this.showActionsRunnable);
                 AndroidUtilities.runOnUIThread(TextSelectionHelper.this.showActionsRunnable);
                 TextSelectionHelper.this.showHandleViews();

@@ -305,7 +305,10 @@ public class UndoView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showWithAction$7() {
-        this.leftImageView.performHapticFeedback(3, 2);
+        try {
+            this.leftImageView.performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
     }
 
     private void updatePosition() {

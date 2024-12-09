@@ -378,7 +378,7 @@ public class ContentPreviewViewer {
             ContentPreviewViewer.this.containerView.invalidate();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:45:0x0e2f  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0e36  */
         @Override // java.lang.Runnable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -591,7 +591,10 @@ public class ContentPreviewViewer {
                             int max = (int) (((int) (ContentPreviewViewer.this.moveY + Math.max(i + min2 + (ContentPreviewViewer.this.stickerEmojiLayout != null ? AndroidUtilities.dp(40.0f) : 0), ((ContentPreviewViewer.this.containerView.getHeight() - i2) - ContentPreviewViewer.this.keyboardHeight) / 2) + min2)) + (AndroidUtilities.dp(24.0f) - ContentPreviewViewer.this.moveY));
                             ContentPreviewViewer contentPreviewViewer = ContentPreviewViewer.this;
                             contentPreviewViewer.popupWindow.showAtLocation(contentPreviewViewer.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout.getMeasuredWidth()) / 2.0f), max);
-                            ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                            try {
+                                ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                            } catch (Exception unused) {
+                            }
                             if (ContentPreviewViewer.this.moveY != 0.0f) {
                                 if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
                                     ContentPreviewViewer.this.finalMoveY = 0.0f;
@@ -726,7 +729,10 @@ public class ContentPreviewViewer {
                         ContentPreviewViewer contentPreviewViewer3 = ContentPreviewViewer.this;
                         contentPreviewViewer3.popupWindow.showAtLocation(contentPreviewViewer3.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout.getMeasuredWidth()) / 2.0f), max2);
                         ActionBarPopupWindow.startAnimation(actionBarPopupWindowLayout);
-                        ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                        try {
+                            ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                        } catch (Exception unused2) {
+                        }
                         if (ContentPreviewViewer.this.moveY != 0.0f) {
                             if (ContentPreviewViewer.this.finalMoveY == 0.0f) {
                                 ContentPreviewViewer.this.finalMoveY = 0.0f;
@@ -753,8 +759,12 @@ public class ContentPreviewViewer {
                     ContentPreviewViewer.this.showUnlockPremiumView();
                     ContentPreviewViewer.this.menuVisible = true;
                     ContentPreviewViewer.this.containerView.invalidate();
-                    ContentPreviewViewer.this.containerView.performHapticFeedback(0);
-                    return;
+                    try {
+                        ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                        return;
+                    } catch (Exception unused3) {
+                        return;
+                    }
                 }
                 boolean isStickerInFavorites2 = MediaDataController.getInstance(ContentPreviewViewer.this.currentAccount).isStickerInFavorites(ContentPreviewViewer.this.currentDocument);
                 ArrayList arrayList12 = new ArrayList();
@@ -875,7 +885,10 @@ public class ContentPreviewViewer {
                 }
                 ContentPreviewViewer contentPreviewViewer5 = ContentPreviewViewer.this;
                 contentPreviewViewer5.popupWindow.showAtLocation(contentPreviewViewer5.containerView, 0, (int) ((ContentPreviewViewer.this.containerView.getMeasuredWidth() - actionBarPopupWindowLayout2.getMeasuredWidth()) / 2.0f), max3);
-                ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                try {
+                    ContentPreviewViewer.this.containerView.performHapticFeedback(0);
+                } catch (Exception unused4) {
+                }
             }
             actionBarPopupWindowLayout = actionBarPopupWindowLayout2;
             i7 = 0;
@@ -1339,7 +1352,10 @@ public class ContentPreviewViewer {
             }
             open(document, null, MessageObject.findAnimatedEmojiEmoticon(document, null, Integer.valueOf(this.currentAccount)), null, null, i, false, null, resourcesProvider);
         }
-        this.currentPreviewCell.performHapticFeedback(0, 2);
+        try {
+            this.currentPreviewCell.performHapticFeedback(0, 2);
+        } catch (Exception unused) {
+        }
         ContentPreviewViewerDelegate contentPreviewViewerDelegate4 = this.delegate;
         if (contentPreviewViewerDelegate4 != null) {
             contentPreviewViewerDelegate4.resetTouch();

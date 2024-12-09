@@ -144,7 +144,10 @@ public class SwipeGestureSettingsView extends FrameLayout {
         swapIcons();
         SharedConfig.updateChatListSwipeSetting(i2);
         invalidate();
-        numberPicker.performHapticFeedback(3, 2);
+        try {
+            numberPicker.performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

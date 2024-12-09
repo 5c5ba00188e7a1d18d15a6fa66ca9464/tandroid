@@ -885,6 +885,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     public static BaseFragment getLastFragment() {
         INavigationLayout actionBarLayout;
+        INavigationLayout iNavigationLayout;
+        BubbleActivity bubbleActivity = BubbleActivity.instance;
+        if (bubbleActivity != null && (iNavigationLayout = bubbleActivity.actionBarLayout) != null) {
+            return iNavigationLayout.getLastFragment();
+        }
         LaunchActivity launchActivity = instance;
         if (launchActivity == null || launchActivity.sheetFragmentsStack.isEmpty()) {
             LaunchActivity launchActivity2 = instance;
@@ -900,6 +905,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
 
     public static BaseFragment getSafeLastFragment() {
         INavigationLayout actionBarLayout;
+        INavigationLayout iNavigationLayout;
+        BubbleActivity bubbleActivity = BubbleActivity.instance;
+        if (bubbleActivity != null && (iNavigationLayout = bubbleActivity.actionBarLayout) != null) {
+            return iNavigationLayout.getSafeLastFragment();
+        }
         LaunchActivity launchActivity = instance;
         if (launchActivity == null || launchActivity.sheetFragmentsStack.isEmpty()) {
             LaunchActivity launchActivity2 = instance;

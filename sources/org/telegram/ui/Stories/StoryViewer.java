@@ -2831,7 +2831,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         StoryViewer storyViewer2 = StoryViewer.this;
                         if (!storyViewer2.swipeToReplyWaitingKeyboard) {
                             storyViewer2.swipeToReplyWaitingKeyboard = true;
-                            storyViewer2.windowView.performHapticFeedback(3);
+                            try {
+                                storyViewer2.windowView.performHapticFeedback(3);
+                            } catch (Exception unused) {
+                            }
                             StoryViewer.this.showKeyboard();
                         }
                     }
@@ -2868,7 +2871,10 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
                         if (storyViewer2.swipeToReplyOffset > f4 && !storyViewer2.swipeToReplyWaitingKeyboard) {
                             storyViewer2.swipeToReplyWaitingKeyboard = true;
                             storyViewer2.showKeyboard();
-                            StoryViewer.this.windowView.performHapticFeedback(3);
+                            try {
+                                StoryViewer.this.windowView.performHapticFeedback(3);
+                            } catch (Exception unused) {
+                            }
                         }
                         StoryViewer storyViewer3 = StoryViewer.this;
                         storyViewer3.swipeToReplyProgress = Utilities.clamp(storyViewer3.swipeToReplyOffset / f4, 1.0f, 0.0f);

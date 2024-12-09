@@ -50,6 +50,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheetTabs;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.web.RestrictedDomainsList;
 
@@ -689,15 +690,15 @@ public abstract class Browser {
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x00f5, code lost:
     
-        if ("https".equals(r1) != false) goto L156;
+        if ("https".equals(r1) != false) goto L159;
      */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x02fe  */
     /* JADX WARN: Removed duplicated region for block: B:102:0x02aa A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:23:0x0120 A[Catch: Exception -> 0x0166, TryCatch #3 {Exception -> 0x0166, blocks: (B:21:0x0104, B:23:0x0120, B:27:0x0152, B:29:0x015f, B:30:0x0169, B:33:0x0172, B:34:0x018a, B:36:0x0192, B:37:0x019f, B:38:0x01b1, B:40:0x01b7, B:41:0x01c9, B:42:0x01a3, B:44:0x01e0, B:46:0x01e4, B:49:0x01ea, B:51:0x01f3, B:53:0x01fd, B:55:0x0202, B:57:0x020c, B:60:0x021a, B:62:0x0226, B:65:0x0238), top: B:20:0x0104 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0303 A[Catch: Exception -> 0x02eb, TRY_ENTER, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x030c A[Catch: Exception -> 0x02eb, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x031e A[Catch: Exception -> 0x02eb, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0359 A[Catch: Exception -> 0x02eb, TRY_LEAVE, TryCatch #2 {Exception -> 0x02eb, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b4, B:109:0x02c3, B:111:0x02c9, B:113:0x02d3, B:115:0x02dd, B:77:0x02fb, B:80:0x0303, B:82:0x030c, B:84:0x0310, B:87:0x031e, B:89:0x0328, B:91:0x032e, B:93:0x0338, B:95:0x034d, B:96:0x0351, B:99:0x0359, B:74:0x02ee), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0307 A[Catch: Exception -> 0x02ef, TRY_ENTER, TryCatch #0 {Exception -> 0x02ef, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:77:0x02ff, B:80:0x0307, B:82:0x0310, B:84:0x0314, B:87:0x0322, B:89:0x032c, B:91:0x0332, B:93:0x033c, B:95:0x0351, B:96:0x0355, B:99:0x035d, B:74:0x02f2), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0310 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:77:0x02ff, B:80:0x0307, B:82:0x0310, B:84:0x0314, B:87:0x0322, B:89:0x032c, B:91:0x0332, B:93:0x033c, B:95:0x0351, B:96:0x0355, B:99:0x035d, B:74:0x02f2), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0322 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:77:0x02ff, B:80:0x0307, B:82:0x0310, B:84:0x0314, B:87:0x0322, B:89:0x032c, B:91:0x0332, B:93:0x033c, B:95:0x0351, B:96:0x0355, B:99:0x035d, B:74:0x02f2), top: B:102:0x02aa }] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x035d A[Catch: Exception -> 0x02ef, TRY_LEAVE, TryCatch #0 {Exception -> 0x02ef, blocks: (B:103:0x02aa, B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:77:0x02ff, B:80:0x0307, B:82:0x0310, B:84:0x0314, B:87:0x0322, B:89:0x032c, B:91:0x0332, B:93:0x033c, B:95:0x0351, B:96:0x0355, B:99:0x035d, B:74:0x02f2), top: B:102:0x02aa }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -885,34 +886,36 @@ public abstract class Browser {
         if (z7 || SharedConfig.inappBrowser || !SharedConfig.customTabs || isInternalUri || str3.equals("tel") || isTonsite(uri2.toString()) || (!zArr[0] && openInExternalApp(context, uri2.toString(), false) && hasAppToOpen(context, uri2.toString()))) {
             if (z5) {
                 try {
-                    if (SharedConfig.inappBrowser) {
-                        if (TextUtils.isEmpty(str2)) {
-                            if (!RestrictedDomainsList.getInstance().isRestricted(AndroidUtilities.getHostAuthority(uri2, true))) {
-                                if (uri2.getScheme() != null && !"https".equals(uri2.getScheme()) && !"http".equals(uri2.getScheme()) && !"tonsite".equals(uri2.getScheme())) {
-                                }
-                                z9 = true;
-                                if (uri2.getScheme() != null) {
-                                    uri2.getScheme().equalsIgnoreCase("intent");
-                                }
-                                if (!isInternalUri && (launchActivity = LaunchActivity.instance) != null) {
-                                    openAsInternalIntent(launchActivity, uri2.toString(), z3, z6, progress);
-                                    return;
-                                }
-                                if (z9) {
-                                    openInExternalBrowser(context, uri2.toString(), z4, str2);
-                                    return;
-                                }
-                                if (openInExternalApp(context, uri2.toString(), z4)) {
-                                    return;
-                                }
-                                if (uri2.getScheme() != null && uri2.getScheme().equalsIgnoreCase("intent")) {
-                                    String stringExtra = Intent.parseUri(uri2.toString(), 1).getStringExtra("browser_fallback_url");
-                                    if (!TextUtils.isEmpty(stringExtra)) {
-                                        uri2 = Uri.parse(stringExtra);
+                    if (BubbleActivity.instance == null) {
+                        if (SharedConfig.inappBrowser) {
+                            if (TextUtils.isEmpty(str2)) {
+                                if (!RestrictedDomainsList.getInstance().isRestricted(AndroidUtilities.getHostAuthority(uri2, true))) {
+                                    if (uri2.getScheme() != null && !"https".equals(uri2.getScheme()) && !"http".equals(uri2.getScheme()) && !"tonsite".equals(uri2.getScheme())) {
                                     }
+                                    z9 = true;
+                                    if (uri2.getScheme() != null) {
+                                        uri2.getScheme().equalsIgnoreCase("intent");
+                                    }
+                                    if (!isInternalUri && (launchActivity = LaunchActivity.instance) != null) {
+                                        openAsInternalIntent(launchActivity, uri2.toString(), z3, z6, progress);
+                                        return;
+                                    }
+                                    if (z9) {
+                                        openInExternalBrowser(context, uri2.toString(), z4, str2);
+                                        return;
+                                    }
+                                    if (openInExternalApp(context, uri2.toString(), z4)) {
+                                        return;
+                                    }
+                                    if (uri2.getScheme() != null && uri2.getScheme().equalsIgnoreCase("intent")) {
+                                        String stringExtra = Intent.parseUri(uri2.toString(), 1).getStringExtra("browser_fallback_url");
+                                        if (!TextUtils.isEmpty(stringExtra)) {
+                                            uri2 = Uri.parse(stringExtra);
+                                        }
+                                    }
+                                    openInTelegramBrowser(context, uri2.toString(), progress);
+                                    return;
                                 }
-                                openInTelegramBrowser(context, uri2.toString(), progress);
-                                return;
                             }
                         }
                     }

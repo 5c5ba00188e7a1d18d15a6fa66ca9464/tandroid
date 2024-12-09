@@ -2317,17 +2317,22 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override // android.webkit.WebViewClient
             public boolean onRenderProcessGone(WebView webView, RenderProcessGoneDetail renderProcessGoneDetail) {
-                LaunchActivity launchActivity = LaunchActivity.instance;
-                if (launchActivity != null && launchActivity.isFinishing()) {
-                    return true;
-                }
-                new AlertDialog.Builder(BlockEmbedCell.this.getContext(), null).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$3$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ArticleViewer.BlockEmbedCell.3.this.lambda$onRenderProcessGone$0();
+                try {
+                    LaunchActivity launchActivity = LaunchActivity.instance;
+                    if (launchActivity != null && launchActivity.isFinishing()) {
+                        return true;
                     }
-                })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
-                return true;
+                    new AlertDialog.Builder(BlockEmbedCell.this.getContext(), null).setTitle(LocaleController.getString(R.string.ChromeCrashTitle)).setMessage(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.ChromeCrashMessage), new Runnable() { // from class: org.telegram.ui.ArticleViewer$BlockEmbedCell$3$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            ArticleViewer.BlockEmbedCell.3.this.lambda$onRenderProcessGone$0();
+                        }
+                    })).setPositiveButton(LocaleController.getString(R.string.OK), null).show();
+                    return true;
+                } catch (Exception e) {
+                    FileLog.e(e);
+                    return false;
+                }
             }
 
             @Override // android.webkit.WebViewClient
@@ -6691,7 +6696,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             ArticleViewer.this.checkingForLongPress = false;
             if (ArticleViewer.this.pressedLink != null) {
-                ArticleViewer.this.windowView.performHapticFeedback(0, 2);
+                try {
+                    ArticleViewer.this.windowView.performHapticFeedback(0, 2);
+                } catch (Exception unused) {
+                }
                 ArticleViewer articleViewer2 = ArticleViewer.this;
                 articleViewer2.showCopyPopup(((TextPaintUrlSpan) articleViewer2.pressedLink.getSpan()).getUrl());
                 ArticleViewer.this.pressedLink = null;
@@ -6711,8 +6719,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     articleTextSelectionHelper.trySelect(articleViewer.pressedLinkOwnerView);
                     if (ArticleViewer.this.textSelectionHelper.isInSelectionMode()) {
-                        ArticleViewer.this.windowView.performHapticFeedback(0, 2);
-                        return;
+                        try {
+                            ArticleViewer.this.windowView.performHapticFeedback(0, 2);
+                            return;
+                        } catch (Exception unused2) {
+                            return;
+                        }
                     }
                     return;
                 }
@@ -6720,7 +6732,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (ArticleViewer.this.pressedLinkOwnerLayout == null || ArticleViewer.this.pressedLinkOwnerView == null) {
                 return;
             }
-            ArticleViewer.this.windowView.performHapticFeedback(0, 2);
+            try {
+                ArticleViewer.this.windowView.performHapticFeedback(0, 2);
+            } catch (Exception unused3) {
+            }
             int[] iArr = new int[2];
             ArticleViewer.this.pressedLinkOwnerView.getLocationInWindow(iArr);
             int dp = (iArr[1] + ArticleViewer.this.pressedLayoutY) - AndroidUtilities.dp(54.0f);

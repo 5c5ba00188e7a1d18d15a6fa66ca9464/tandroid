@@ -11906,7 +11906,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     /* JADX INFO: Access modifiers changed from: private */
     public void onFieldError(final View view, boolean z) {
-        view.performHapticFeedback(3, 2);
+        try {
+            view.performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
         AndroidUtilities.shakeViewSpring(view, 3.5f);
         if (z && (view instanceof OutlineTextContainerView)) {
             int i = org.telegram.messenger.R.id.timeout_callback;

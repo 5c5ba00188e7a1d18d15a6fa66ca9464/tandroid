@@ -654,7 +654,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             this.longPressRunnable = new Runnable() { // from class: org.telegram.ui.Components.ReactionsContainerLayout.ReactionHolderView.5
                 @Override // java.lang.Runnable
                 public void run() {
-                    ReactionHolderView.this.performHapticFeedback(0);
+                    try {
+                        ReactionHolderView.this.performHapticFeedback(0);
+                    } catch (Exception unused) {
+                    }
                     ReactionsContainerLayout reactionsContainerLayout = ReactionsContainerLayout.this;
                     reactionsContainerLayout.pressedReactionPosition = reactionsContainerLayout.visibleReactionsList.indexOf(ReactionHolderView.this.currentReaction);
                     ReactionHolderView reactionHolderView = ReactionHolderView.this;
@@ -1324,7 +1327,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         ReactionsContainerLayout reactionsContainerLayout2 = ReactionsContainerLayout.this;
                         reactionsContainerLayout2.pullingLeftOffset += i4;
                         if ((pullingLeftProgress > 1.0f) != (reactionsContainerLayout2.getPullingLeftProgress() > 1.0f)) {
-                            ReactionsContainerLayout.this.recyclerListView.performHapticFeedback(3);
+                            try {
+                                ReactionsContainerLayout.this.recyclerListView.performHapticFeedback(3);
+                            } catch (Exception unused) {
+                            }
                         }
                         ReactionsContainerLayout reactionsContainerLayout3 = ReactionsContainerLayout.this;
                         float f = reactionsContainerLayout3.pullingLeftOffset;
@@ -1354,7 +1360,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     ReactionsContainerLayout reactionsContainerLayout4 = ReactionsContainerLayout.this;
                     reactionsContainerLayout4.pullingLeftOffset += i4 * f2;
                     if ((pullingLeftProgress2 > 1.0f) != (reactionsContainerLayout4.getPullingLeftProgress() > 1.0f)) {
-                        ReactionsContainerLayout.this.recyclerListView.performHapticFeedback(3);
+                        try {
+                            ReactionsContainerLayout.this.recyclerListView.performHapticFeedback(3);
+                        } catch (Exception unused2) {
+                        }
                     }
                     FrameLayout frameLayout2 = ReactionsContainerLayout.this.customReactionsContainer;
                     if (frameLayout2 != null) {

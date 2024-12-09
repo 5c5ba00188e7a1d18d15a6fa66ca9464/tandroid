@@ -4143,25 +4143,25 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0464  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x0471  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x04da  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x04e9 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0516 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0523  */
-    /* JADX WARN: Removed duplicated region for block: B:201:0x0548 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:207:0x055f  */
-    /* JADX WARN: Removed duplicated region for block: B:213:0x04dd  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x04a9  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x0469  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x02ff  */
+    /* JADX WARN: Removed duplicated region for block: B:183:0x0464  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0471  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x04da  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x04e9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:197:0x0516 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x0523  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0548 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x055f  */
+    /* JADX WARN: Removed duplicated region for block: B:218:0x04dd  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x04a9  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0469  */
     /* JADX WARN: Type inference failed for: r0v76, types: [org.telegram.ui.Components.ItemOptions] */
     /* JADX WARN: Type inference failed for: r15v10 */
     /* JADX WARN: Type inference failed for: r15v3 */
     /* JADX WARN: Type inference failed for: r15v4, types: [java.lang.CharSequence, java.lang.Runnable] */
     /* JADX WARN: Type inference failed for: r15v5 */
     /* JADX WARN: Type inference failed for: r2v49, types: [org.telegram.ui.MessageSendPreview] */
-    /* JADX WARN: Type inference failed for: r2v62, types: [android.view.View, org.telegram.ui.ActionBar.ActionBarMenuSubItem] */
+    /* JADX WARN: Type inference failed for: r2v63, types: [android.view.View, org.telegram.ui.ActionBar.ActionBarMenuSubItem] */
     /* JADX WARN: Type inference failed for: r3v18, types: [org.telegram.tgnet.TLRPC$DocumentAttribute, org.telegram.tgnet.TLRPC$TL_documentAttributeVideo] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4792,8 +4792,12 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             this.messageSendPreview.allowEffectSelector(baseFragment);
         }
         this.messageSendPreview.show();
-        view.performHapticFeedback(3, 2);
-        return true;
+        try {
+            view.performHapticFeedback(3, 2);
+            return true;
+        } catch (Exception unused) {
+            return true;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

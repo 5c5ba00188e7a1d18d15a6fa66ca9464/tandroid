@@ -22,14 +22,14 @@ public class ChatMessagesMetadataController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadExtendedMediaForMessages$4(TLObject tLObject, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$loadExtendedMediaForMessages$5(TLObject tLObject, TLRPC.TL_error tL_error) {
         if (tL_error == null) {
             this.chatActivity.getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadReactionsForMessages$3(TLObject tLObject, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$loadReactionsForMessages$3(TLRPC.TL_error tL_error, TLObject tLObject) {
         if (tL_error == null) {
             TLRPC.Updates updates = (TLRPC.Updates) tLObject;
             for (int i = 0; i < updates.updates.size(); i++) {
@@ -39,6 +39,16 @@ public class ChatMessagesMetadataController {
             }
             this.chatActivity.getMessagesController().processUpdates(updates, false);
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$loadReactionsForMessages$4(final TLObject tLObject, final TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatMessagesMetadataController$$ExternalSyntheticLambda5
+            @Override // java.lang.Runnable
+            public final void run() {
+                ChatMessagesMetadataController.this.lambda$loadReactionsForMessages$3(tL_error, tLObject);
+            }
+        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -183,7 +193,7 @@ public class ChatMessagesMetadataController {
         this.extendedMediaRequests.add(Integer.valueOf(this.chatActivity.getConnectionsManager().sendRequest(tL_messages_getExtendedMedia, new RequestDelegate() { // from class: org.telegram.messenger.ChatMessagesMetadataController$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                ChatMessagesMetadataController.this.lambda$loadExtendedMediaForMessages$4(tLObject, tL_error);
+                ChatMessagesMetadataController.this.lambda$loadExtendedMediaForMessages$5(tLObject, tL_error);
             }
         })));
         if (this.extendedMediaRequests.size() > 10) {
@@ -203,7 +213,7 @@ public class ChatMessagesMetadataController {
         this.reactionsRequests.add(Integer.valueOf(this.chatActivity.getConnectionsManager().sendRequest(tL_messages_getMessagesReactions, new RequestDelegate() { // from class: org.telegram.messenger.ChatMessagesMetadataController$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                ChatMessagesMetadataController.this.lambda$loadReactionsForMessages$3(tLObject, tL_error);
+                ChatMessagesMetadataController.this.lambda$loadReactionsForMessages$4(tLObject, tL_error);
             }
         })));
         if (this.reactionsRequests.size() > 5) {

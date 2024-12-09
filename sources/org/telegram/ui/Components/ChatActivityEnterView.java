@@ -9816,7 +9816,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     /* JADX INFO: Access modifiers changed from: private */
     public void startLockTransition() {
         AnimatorSet animatorSet = new AnimatorSet();
-        performHapticFeedback(3, 2);
+        try {
+            performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
         ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "lockAnimatedTranslation", this.startTranslation);
         ofFloat.setStartDelay(100L);
         ofFloat.setDuration(350L);

@@ -2434,7 +2434,10 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             iArr[0] = 3;
             if (!this.lastNameAvailable) {
                 AndroidUtilities.shakeView(editTextBoldCursor);
-                editTextBoldCursor.performHapticFeedback(3, 2);
+                try {
+                    editTextBoldCursor.performHapticFeedback(3, 2);
+                } catch (Exception unused) {
+                }
             }
             AndroidUtilities.hideKeyboard(editTextBoldCursor);
             SendMessagesHelper.getInstance(this.currentAccount).prepareImportStickers(this.setTitle, this.lastCheckName, this.importingSoftware, this.importingStickersPaths, new MessagesStorage.StringCallback() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda40

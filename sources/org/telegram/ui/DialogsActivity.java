@@ -583,8 +583,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         
             if (r14.rightSlidingDialogContainer.hasFragment() == false) goto L54;
          */
-        /* JADX WARN: Removed duplicated region for block: B:124:0x03d8  */
-        /* JADX WARN: Removed duplicated region for block: B:154:0x0427 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:128:0x03da  */
+        /* JADX WARN: Removed duplicated region for block: B:158:0x0429 A[ADDED_TO_REGION] */
         /* JADX WARN: Removed duplicated region for block: B:54:0x0209  */
         /* JADX WARN: Removed duplicated region for block: B:60:0x022a  */
         /* JADX WARN: Removed duplicated region for block: B:62:0x022d  */
@@ -702,7 +702,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (DialogsActivity.this.canShowHiddenArchive != z3) {
                     DialogsActivity.this.canShowHiddenArchive = z3;
                     if (this.val$viewPage.archivePullViewState == 2) {
-                        this.val$viewPage.listView.performHapticFeedback(3, 2);
+                        try {
+                            this.val$viewPage.listView.performHapticFeedback(3, 2);
+                        } catch (Exception unused) {
+                        }
                         if (this.val$viewPage.pullForegroundDrawable != null) {
                             this.val$viewPage.pullForegroundDrawable.colorize(z3);
                         }
@@ -976,7 +979,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 BotWebViewVibrationEffect.APP_ERROR.vibrate();
                 return;
             }
-            view.performHapticFeedback(0);
+            try {
+                view.performHapticFeedback(0);
+            } catch (Exception unused) {
+            }
             if (j == UserConfig.getInstance(((BaseFragment) DialogsActivity.this).currentAccount).getClientUserId()) {
                 DialogsActivity dialogsActivity2 = DialogsActivity.this;
                 if (!dialogsActivity2.storiesEnabled) {
@@ -4067,7 +4073,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         if (!DialogsActivity.this.canShowHiddenArchive) {
                             DialogsActivity.this.canShowHiddenArchive = true;
-                            performHapticFeedback(3, 2);
+                            try {
+                                performHapticFeedback(3, 2);
+                            } catch (Exception unused) {
+                            }
                             if (this.parentPage.pullForegroundDrawable != null) {
                                 this.parentPage.pullForegroundDrawable.colorize(true);
                             }
@@ -7427,7 +7436,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void onArchiveLongPress(View view) {
-        view.performHapticFeedback(0, 2);
+        try {
+            view.performHapticFeedback(0, 2);
+        } catch (Exception unused) {
+        }
         BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity());
         boolean z = getMessagesStorage().getArchiveUnreadCount() != 0;
         builder.setItems(new CharSequence[]{z ? LocaleController.getString(R.string.MarkAllAsRead) : null, LocaleController.getString(SharedConfig.archiveHidden ? R.string.PinInTheList : R.string.HideAboveTheList)}, new int[]{z ? R.drawable.msg_markread : 0, SharedConfig.archiveHidden ? R.drawable.chats_pin : R.drawable.chats_unpin}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogsActivity$$ExternalSyntheticLambda91
@@ -8081,7 +8093,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         view.getLocationInWindow(iArr);
         this.sendPopupWindow.showAtLocation(view, 51, ((iArr[0] + view.getMeasuredWidth()) - linearLayout.getMeasuredWidth()) + AndroidUtilities.dp(8.0f), (iArr[1] - linearLayout.getMeasuredHeight()) - AndroidUtilities.dp(2.0f));
         this.sendPopupWindow.dimBehind();
-        view.performHapticFeedback(3, 2);
+        try {
+            view.performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
         return false;
     }
 
@@ -8944,7 +8959,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         });
         this.dialogStoriesCell.openOverscrollSelectedStory();
-        this.dialogStoriesCell.performHapticFeedback(3);
+        try {
+            this.dialogStoriesCell.performHapticFeedback(3);
+        } catch (Exception unused) {
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

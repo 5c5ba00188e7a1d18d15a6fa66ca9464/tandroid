@@ -1258,7 +1258,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 if (GroupCallActivity.this.startingGroupCall) {
                     return;
                 }
-                view.performHapticFeedback(3, 2);
+                try {
+                    view.performHapticFeedback(3, 2);
+                } catch (Exception unused) {
+                }
                 GroupCallActivity.this.startingGroupCall = true;
                 TLRPC.TL_phone_startScheduledGroupCall tL_phone_startScheduledGroupCall = new TLRPC.TL_phone_startScheduledGroupCall();
                 tL_phone_startScheduledGroupCall.call = GroupCallActivity.this.call.getInputGroupCall();
@@ -1316,15 +1319,22 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         GroupCallActivity.this.updateMuteButton(0, true);
                         VoIPService.getSharedInstance().setMicMute(true, false, true);
                     }
-                    GroupCallActivity.this.muteButton.performHapticFeedback(3, 2);
-                    return;
+                    try {
+                        GroupCallActivity.this.muteButton.performHapticFeedback(3, 2);
+                        return;
+                    } catch (Exception unused2) {
+                        return;
+                    }
                 }
                 if (GroupCallActivity.this.playingHandAnimation) {
                     return;
                 }
                 GroupCallActivity.this.playingHandAnimation = true;
                 AndroidUtilities.shakeView(GroupCallActivity.this.muteLabel[0]);
-                view.performHapticFeedback(3, 2);
+                try {
+                    view.performHapticFeedback(3, 2);
+                } catch (Exception unused3) {
+                }
                 int nextInt = Utilities.random.nextInt(100);
                 int i3 = 120;
                 if (nextInt >= 32) {
@@ -1921,7 +1931,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                                             this.ignoreTextChange = true;
                                             editable.delete(40, editable.length());
                                             AndroidUtilities.shakeView(editTextBoldCursor);
-                                            editTextBoldCursor.performHapticFeedback(3, 2);
+                                            try {
+                                                editTextBoldCursor.performHapticFeedback(3, 2);
+                                            } catch (Exception unused) {
+                                            }
                                             this.ignoreTextChange = false;
                                         }
                                     }
@@ -5221,7 +5234,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                             GroupCallActivity.this.updateMuteButton(0, true);
                             if (VoIPService.getSharedInstance() != null) {
                                 VoIPService.getSharedInstance().setMicMute(true, true, false);
-                                GroupCallActivity.this.muteButton.performHapticFeedback(3, 2);
+                                try {
+                                    GroupCallActivity.this.muteButton.performHapticFeedback(3, 2);
+                                } catch (Exception unused) {
+                                }
                             }
                             GroupCallActivity.this.attachedRenderersTmp.clear();
                             GroupCallActivity.this.attachedRenderersTmp.addAll(GroupCallActivity.this.attachedRenderers);
@@ -7195,7 +7211,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                         GroupCallActivity.this.updateMuteButton(0, true);
                         if (VoIPService.getSharedInstance() != null) {
                             VoIPService.getSharedInstance().setMicMute(true, true, false);
-                            GroupCallActivity.this.muteButton.performHapticFeedback(3, 2);
+                            try {
+                                GroupCallActivity.this.muteButton.performHapticFeedback(3, 2);
+                            } catch (Exception unused) {
+                            }
                         }
                         GroupCallActivity.this.attachedRenderersTmp.clear();
                         GroupCallActivity.this.attachedRenderersTmp.addAll(GroupCallActivity.this.attachedRenderers);
@@ -8477,7 +8496,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         if (this.call == null || !this.scheduled || VoIPService.getSharedInstance() == null) {
             return;
         }
-        this.muteButton.performHapticFeedback(3, 2);
+        try {
+            this.muteButton.performHapticFeedback(3, 2);
+        } catch (Exception unused) {
+        }
         updateMuteButton(1, true);
         AndroidUtilities.runOnUIThread(this.unmuteRunnable, 80L);
         this.scheduled = false;
@@ -8819,7 +8841,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ boolean lambda$new$25(View view, int i) {
         if (showMenuForCell(view)) {
-            this.listView.performHapticFeedback(0);
+            try {
+                this.listView.performHapticFeedback(0);
+            } catch (Exception unused) {
+            }
         }
         return false;
     }
