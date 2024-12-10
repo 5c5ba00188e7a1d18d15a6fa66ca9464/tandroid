@@ -153,6 +153,7 @@ public class MessageObject {
     public float bufferedProgress;
     public boolean business;
     public Boolean cachedIsSupergroup;
+    public VideoPlayer.VideoUri cachedQuality;
     public boolean cancelEditing;
     public CharSequence caption;
     private boolean captionTranslated;
@@ -11798,7 +11799,11 @@ public class MessageObject {
             return videoUri.document.size;
         }
         VideoPlayer.VideoUri videoUri2 = this.thumbQuality;
-        return videoUri2 != null ? videoUri2.document.size : getMessageSize(this.messageOwner);
+        if (videoUri2 != null) {
+            return videoUri2.document.size;
+        }
+        VideoPlayer.VideoUri videoUri3 = this.cachedQuality;
+        return videoUri3 != null ? videoUri3.document.size : getMessageSize(this.messageOwner);
     }
 
     public String getStickerChar() {
@@ -12105,6 +12110,7 @@ public class MessageObject {
                     this.videoQualitiesCached = Boolean.valueOf(z);
                     this.highestQuality = VideoPlayer.getQualityForPlayer(this.videoQualities);
                     this.thumbQuality = VideoPlayer.getQualityForThumb(this.videoQualities);
+                    this.cachedQuality = VideoPlayer.getCachedQuality(this.videoQualities);
                 }
                 this.videoQualitiesCached = Boolean.FALSE;
                 return false;
@@ -13736,17 +13742,23 @@ public class MessageObject {
     }
 
     public void updateQualitiesCached(boolean z) {
+        VideoPlayer.VideoUri cachedQuality;
         ArrayList<VideoPlayer.Quality> arrayList = this.videoQualities;
         if (arrayList == null) {
-            return;
-        }
-        Iterator<VideoPlayer.Quality> it = arrayList.iterator();
-        while (it.hasNext()) {
-            Iterator it2 = it.next().uris.iterator();
-            while (it2.hasNext()) {
-                ((VideoPlayer.VideoUri) it2.next()).updateCached(z);
+            cachedQuality = null;
+        } else {
+            Iterator<VideoPlayer.Quality> it = arrayList.iterator();
+            while (it.hasNext()) {
+                Iterator it2 = it.next().uris.iterator();
+                while (it2.hasNext()) {
+                    ((VideoPlayer.VideoUri) it2.next()).updateCached(z);
+                }
             }
+            this.highestQuality = VideoPlayer.getQualityForPlayer(this.videoQualities);
+            this.thumbQuality = VideoPlayer.getQualityForThumb(this.videoQualities);
+            cachedQuality = VideoPlayer.getCachedQuality(this.videoQualities);
         }
+        this.cachedQuality = cachedQuality;
     }
 
     public boolean updateTranslation() {
