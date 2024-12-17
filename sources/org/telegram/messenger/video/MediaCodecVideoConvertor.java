@@ -5,7 +5,6 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.os.Build;
-import android.os.Handler;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -268,12 +267,13 @@ public class MediaCodecVideoConvertor {
         	at jadx.core.dex.visitors.typeinference.TypeInferenceVisitor.visit(TypeInferenceVisitor.java:77)
         */
     /* JADX WARN: Finally extract failed */
-    private boolean convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor.ConvertVideoParams r85, boolean r86, int r87, android.os.Handler r88) {
+    /* JADX WARN: Unreachable blocks removed: 2, instructions: 5 */
+    private boolean convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor.ConvertVideoParams r94, boolean r95, int r96) {
         /*
-            Method dump skipped, instructions count: 7973
+            Method dump skipped, instructions count: 7962
             To view this dump add '--comments-level debug' option
         */
-        throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor$ConvertVideoParams, boolean, int, android.os.Handler):boolean");
+        throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.video.MediaCodecVideoConvertor.convertVideoInternal(org.telegram.messenger.video.MediaCodecVideoConvertor$ConvertVideoParams, boolean, int):boolean");
     }
 
     private MediaCodec createEncoderForMimeType() {
@@ -605,12 +605,12 @@ public class MediaCodecVideoConvertor {
         return j7;
     }
 
-    public boolean convertVideo(ConvertVideoParams convertVideoParams, Handler handler) {
+    public boolean convertVideo(ConvertVideoParams convertVideoParams) {
         if (convertVideoParams.isSticker) {
             return WebmEncoder.convert(convertVideoParams, 0);
         }
         this.callback = convertVideoParams.callback;
-        return convertVideoInternal(convertVideoParams, false, 0, handler);
+        return convertVideoInternal(convertVideoParams, false, 0);
     }
 
     public long getLastFrameTimestamp() {

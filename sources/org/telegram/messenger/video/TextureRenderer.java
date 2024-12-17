@@ -13,12 +13,10 @@ import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.opengl.EGLContext;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.Build;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -101,7 +99,6 @@ public class TextureRenderer {
     private int gradientTopColor;
     private int gradientTopColorHandle;
     private FloatBuffer gradientVerticesBuffer;
-    private final Handler handler;
     private int imageHeight;
     private int imageOrientation;
     private String imagePath;
@@ -123,7 +120,6 @@ public class TextureRenderer {
     private int originalWidth;
     private String paintPath;
     private int[] paintTexture;
-    private final EGLContext parentContext;
     Path path;
     private FloatBuffer renderTextureBuffer;
     private Bitmap roundBitmap;
@@ -162,18 +158,18 @@ public class TextureRenderer {
     private final RectF roundDst = new RectF();
     private boolean firstFrame = true;
 
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x03be  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0490  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x04b2  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x04ba  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x042d  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0390  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0229  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x024c  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x03b6  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0488  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x04aa  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x04b2  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0425  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0388  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public TextureRenderer(MediaController.SavedFilterState savedFilterState, String str, String str2, String str3, ArrayList<VideoEditedInfo.MediaEntity> arrayList, MediaController.CropState cropState, int i, int i2, int i3, int i4, int i5, float f, boolean z, Integer num, Integer num2, StoryEntry.HDRInfo hDRInfo, MediaCodecVideoConvertor.ConvertVideoParams convertVideoParams, Handler handler, EGLContext eGLContext) {
+    public TextureRenderer(MediaController.SavedFilterState savedFilterState, String str, String str2, String str3, ArrayList<VideoEditedInfo.MediaEntity> arrayList, MediaController.CropState cropState, int i, int i2, int i3, int i4, int i5, float f, boolean z, Integer num, Integer num2, StoryEntry.HDRInfo hDRInfo, MediaCodecVideoConvertor.ConvertVideoParams convertVideoParams) {
         int i6;
         char c;
         int i7;
@@ -188,8 +184,6 @@ public class TextureRenderer {
         this.NUM_GRADIENT_SHADER = -1;
         this.isPhoto = z;
         this.collageParts = convertVideoParams.collageParts;
-        this.handler = handler;
-        this.parentContext = eGLContext;
         float[] fArr2 = {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("start textureRenderer w = " + i9 + " h = " + i10 + " r = " + i5 + " fps = " + f3);

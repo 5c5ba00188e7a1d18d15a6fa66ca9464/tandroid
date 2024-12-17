@@ -35,8 +35,6 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.provider.MediaStore;
@@ -2084,41 +2082,35 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes3.dex */
     static class VideoConvertRunnable implements Runnable {
-        private final VideoConvertMessage convertMessage;
-        private final Handler handler;
+        private VideoConvertMessage convertMessage;
 
-        private VideoConvertRunnable(VideoConvertMessage videoConvertMessage, Handler handler) {
+        private VideoConvertRunnable(VideoConvertMessage videoConvertMessage) {
             this.convertMessage = videoConvertMessage;
-            this.handler = handler;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$runConversion$0(VideoConvertMessage videoConvertMessage, Handler handler, HandlerThread handlerThread) {
+        public static /* synthetic */ void lambda$runConversion$0(VideoConvertMessage videoConvertMessage) {
             try {
-                Thread thread = new Thread(new VideoConvertRunnable(videoConvertMessage, handler), "VideoConvertRunnable");
+                Thread thread = new Thread(new VideoConvertRunnable(videoConvertMessage), "VideoConvertRunnable");
                 thread.start();
                 thread.join();
-                handlerThread.join();
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
 
         public static void runConversion(final VideoConvertMessage videoConvertMessage) {
-            final HandlerThread handlerThread = new HandlerThread("VideoConvertRunnableThread");
-            handlerThread.start();
-            final Handler handler = new Handler(handlerThread.getLooper());
             new Thread(new Runnable() { // from class: org.telegram.messenger.MediaController$VideoConvertRunnable$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    MediaController.VideoConvertRunnable.lambda$runConversion$0(MediaController.VideoConvertMessage.this, handler, handlerThread);
+                    MediaController.VideoConvertRunnable.lambda$runConversion$0(MediaController.VideoConvertMessage.this);
                 }
             }).start();
         }
 
         @Override // java.lang.Runnable
         public void run() {
-            MediaController.getInstance().convertVideo(this.convertMessage, this.handler);
+            MediaController.getInstance().convertVideo(this.convertMessage);
         }
     }
 
@@ -2369,14 +2361,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:24:0x0101  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x013a  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x01c8  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0202 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x01b8  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01c6  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0200 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:84:0x0104  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public boolean convertVideo(final VideoConvertMessage videoConvertMessage, Handler handler) {
+    public boolean convertVideo(final VideoConvertMessage videoConvertMessage) {
         File file;
         int i;
         int i2;
@@ -2506,7 +2498,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         MediaCodecVideoConvertor mediaCodecVideoConvertor = new MediaCodecVideoConvertor();
                         MediaCodecVideoConvertor.ConvertVideoParams of = MediaCodecVideoConvertor.ConvertVideoParams.of(str2, file3, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoConvertorListener, videoEditedInfo);
                         of.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
-                        boolean convertVideo = mediaCodecVideoConvertor.convertVideo(of, handler);
+                        boolean convertVideo = mediaCodecVideoConvertor.convertVideo(of);
                         z = videoEditedInfo.canceled;
                         if (!z) {
                             synchronized (this.videoConvertSync) {
@@ -2554,7 +2546,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 MediaCodecVideoConvertor mediaCodecVideoConvertor2 = new MediaCodecVideoConvertor();
                 MediaCodecVideoConvertor.ConvertVideoParams of2 = MediaCodecVideoConvertor.ConvertVideoParams.of(str2, file32, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoConvertorListener2, videoEditedInfo);
                 of2.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
-                boolean convertVideo2 = mediaCodecVideoConvertor2.convertVideo(of2, handler);
+                boolean convertVideo2 = mediaCodecVideoConvertor2.convertVideo(of2);
                 z = videoEditedInfo.canceled;
                 if (!z) {
                 }
@@ -2610,7 +2602,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         MediaCodecVideoConvertor mediaCodecVideoConvertor22 = new MediaCodecVideoConvertor();
         MediaCodecVideoConvertor.ConvertVideoParams of22 = MediaCodecVideoConvertor.ConvertVideoParams.of(str2, file322, i9, z2, i10, i11, i2, i4, i6, i13, i, j3, j5, j4, z3, j2, videoConvertorListener22, videoEditedInfo);
         of22.soundInfos.addAll(videoEditedInfo.mixedSoundInfos);
-        boolean convertVideo22 = mediaCodecVideoConvertor22.convertVideo(of22, handler);
+        boolean convertVideo22 = mediaCodecVideoConvertor22.convertVideo(of22);
         z = videoEditedInfo.canceled;
         if (!z) {
         }
