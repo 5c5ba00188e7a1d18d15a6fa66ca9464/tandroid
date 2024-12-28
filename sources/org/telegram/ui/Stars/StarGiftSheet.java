@@ -1437,7 +1437,10 @@ public class StarGiftSheet extends BottomSheet {
             return;
         }
         StarsController.getInstance(this.currentAccount).invalidateProfileGifts(UserConfig.getInstance(this.currentAccount).getClientUserId());
-        applyNewGiftFromUpdates((TLRPC.Updates) tLObject);
+        if (!applyNewGiftFromUpdates((TLRPC.Updates) tLObject)) {
+            dismiss();
+            return;
+        }
         this.button.setLoading(false);
         this.fireworksOverlay.start(true);
         switchPage(false, true);
@@ -1523,7 +1526,10 @@ public class StarGiftSheet extends BottomSheet {
         StarsController.getInstance(this.currentAccount).invalidateTransactions(false);
         StarsController.getInstance(this.currentAccount).invalidateProfileGifts(UserConfig.getInstance(this.currentAccount).getClientUserId());
         StarsController.getInstance(this.currentAccount).invalidateBalance();
-        applyNewGiftFromUpdates(tL_payments_paymentResult.updates);
+        if (!applyNewGiftFromUpdates(tL_payments_paymentResult.updates)) {
+            dismiss();
+            return;
+        }
         this.button.setLoading(false);
         this.fireworksOverlay.start(true);
         switchPage(false, true);
@@ -2358,21 +2364,21 @@ public class StarGiftSheet extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:102:0x039b  */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x039e  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x0393  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x0448  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0479  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x028f  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x0288  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x058d  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0285  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x028c  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02a3  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0327  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0390  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0390  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x039b  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x039e  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0393  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0448  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x0479  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02e7  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x028f  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0288  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x058f  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0285  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x028c  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x02a3  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02ef  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0327  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2754,7 +2760,7 @@ public class StarGiftSheet extends BottomSheet {
                 this.beforeTableTextView.setText(LocaleController.getString(R.string.Gift2Refunded));
                 linksTextView = this.beforeTableTextView;
                 i = Theme.key_text_RedBold;
-            } else if (!z13 || z7) {
+            } else if (isOutOwner || !z13 || z7) {
                 this.beforeTableTextView.setVisibility(8);
                 if (!isOutOwner || z4 || z10 || ((starGift3 instanceof TL_stars.TL_starGiftUnique) && starGift3.owner_id != j3)) {
                     this.afterTableTextView.setVisibility(8);
@@ -2788,7 +2794,7 @@ public class StarGiftSheet extends BottomSheet {
         return this;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x045e  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0460  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2995,7 +3001,7 @@ public class StarGiftSheet extends BottomSheet {
             linksTextView = this.beforeTableTextView;
             i = Theme.key_text_RedBold;
         } else {
-            if (!(userStarGift.gift instanceof TL_stars.TL_starGift) || !userStarGift.name_hidden || z2) {
+            if (!z || !(userStarGift.gift instanceof TL_stars.TL_starGift) || !userStarGift.name_hidden || z2) {
                 this.beforeTableTextView.setVisibility(8);
                 if (z || this.dialogId != UserConfig.getInstance(this.currentAccount).getClientUserId()) {
                     z3 = false;
