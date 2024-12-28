@@ -2364,16 +2364,16 @@ public class StarGiftSheet extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0390  */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x039b  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x039e  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0393  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x0448  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x0479  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0392  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x039d  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x03a0  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0395  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x044a  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x047b  */
     /* JADX WARN: Removed duplicated region for block: B:141:0x02e7  */
     /* JADX WARN: Removed duplicated region for block: B:142:0x028f  */
     /* JADX WARN: Removed duplicated region for block: B:143:0x0288  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x058f  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0591  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x0285  */
     /* JADX WARN: Removed duplicated region for block: B:71:0x028c  */
     /* JADX WARN: Removed duplicated region for block: B:74:0x02a3  */
@@ -2618,7 +2618,7 @@ public class StarGiftSheet extends BottomSheet {
                         this.tableView.addRowDateTime(LocaleController.getString(R.string.StarsTransactionDate), i2);
                         starGift3 = starGift2;
                         if (starGift3.stars > 0) {
-                            this.tableView.addRow(LocaleController.getString(R.string.Gift2Value), StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(starGift3.stars, ','), " ", (!canConvert() || z2) ? charSequence : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) j2), new StarGiftSheet$$ExternalSyntheticLambda12(this), this.resourcesProvider)), 0.8f));
+                            this.tableView.addRow(LocaleController.getString(R.string.Gift2Value), StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(starGift3.stars + j4, ','), " ", (!canConvert() || z2) ? charSequence : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) j2), new StarGiftSheet$$ExternalSyntheticLambda12(this), this.resourcesProvider)), 0.8f));
                         }
                         if (!isOutOwner && !z4 && !z2) {
                             this.tableView.addRow(LocaleController.getString(R.string.Gift2Visibility), LocaleController.getString(!z8 ? R.string.Gift2Visible : R.string.Gift2Invisible), LocaleController.getString(!z8 ? R.string.Gift2VisibleHide : R.string.Gift2InvisibleShow), new StarGiftSheet$$ExternalSyntheticLambda13(this));
@@ -2794,7 +2794,7 @@ public class StarGiftSheet extends BottomSheet {
         return this;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0460  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0463  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2944,7 +2944,7 @@ public class StarGiftSheet extends BottomSheet {
             this.tableView.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(userStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(userStarGift.date * 1000))));
             TableView tableView = this.tableView;
             String string4 = LocaleController.getString(R.string.Gift2Value);
-            String str2 = "⭐️ " + LocaleController.formatNumber(userStarGift.gift.stars, ',');
+            String str2 = "⭐️ " + LocaleController.formatNumber(userStarGift.gift.stars + userStarGift.upgrade_stars, ',');
             if (canConvert() && !z4) {
                 charSequence3 = ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) userStarGift.convert_stars), new StarGiftSheet$$ExternalSyntheticLambda12(this), this.resourcesProvider);
             }
