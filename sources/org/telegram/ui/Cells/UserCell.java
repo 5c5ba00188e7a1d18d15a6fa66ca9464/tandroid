@@ -48,6 +48,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private TextView adminTextView;
     protected AvatarDrawable avatarDrawable;
     public BackupImageView avatarImageView;
+    private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable botVerification;
     private CheckBox2 checkBox;
     private ImageView checkBox3;
     private CheckBoxSquare checkBoxBig;
@@ -59,7 +60,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private Object currentObject;
     private CharSequence currentStatus;
     protected long dialogId;
-    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatus;
+    private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatus;
     private TLRPC.EncryptedChat encryptedChat;
     private ImageView imageView;
     private TLRPC.FileLocation lastAvatar;
@@ -88,7 +89,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this(context, i, i2, z, z2, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02f5  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0302  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -183,6 +184,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             f = (i2 != 2 ? 0 : 18) + 28 + i3;
         }
         addView(simpleTextView2, LayoutHelper.createFrame(-1, 20.0f, i7, f7, 10.0f, f, 0.0f));
+        this.botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f));
         this.emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f));
         SimpleTextView simpleTextView3 = new SimpleTextView(context);
         this.statusTextView = simpleTextView3;
@@ -323,6 +325,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         super.onAttachedToWindow();
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         this.emojiStatus.attach();
+        this.botVerification.attach();
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -330,6 +333,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         super.onDetachedFromWindow();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         this.emojiStatus.detach();
+        this.botVerification.detach();
         this.storyParams.onDetachFromWindow();
     }
 
@@ -708,14 +712,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.selfAsSavedMessages = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:116:0x03c2  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x03d4  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03ed  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0410  */
-    /* JADX WARN: Removed duplicated region for block: B:130:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x03dc  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x03c5  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x0402  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0416  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x044b  */
+    /* JADX WARN: Removed duplicated region for block: B:137:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x041c  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0405  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x0243 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -724,7 +728,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         TLRPC.Chat chat;
         TLRPC.FileLocation fileLocation;
         String str;
-        CharSequence charSequence;
         SimpleTextView simpleTextView;
         int i2;
         TLRPC.UserStatus userStatus;
@@ -758,7 +761,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             chat = null;
             fileLocation = null;
         }
-        String str2 = "";
         if (i != 0) {
             boolean z = (i & MessagesController.UPDATE_MASK_AVATAR) != 0 && (((fileLocation2 = this.lastAvatar) != null && fileLocation == null) || ((fileLocation2 == null && fileLocation != null) || !(fileLocation2 == null || (fileLocation2.volume_id == fileLocation.volume_id && fileLocation2.local_id == fileLocation.local_id))));
             if (user != null && !z && (i & MessagesController.UPDATE_MASK_STATUS) != 0) {
@@ -783,21 +785,21 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         }
         if (this.currentObject instanceof String) {
             ((FrameLayout.LayoutParams) this.nameTextView.getLayoutParams()).topMargin = AndroidUtilities.dp(19.0f);
-            String str3 = (String) this.currentObject;
-            str3.hashCode();
-            i3 = 5;
-            switch (str3) {
+            String str2 = (String) this.currentObject;
+            str2.hashCode();
+            i3 = 6;
+            switch (str2) {
                 case "archived":
                     avatarDrawable = this.avatarDrawable;
                     i3 = 11;
                     avatarDrawable.setAvatarType(i3);
                     break;
                 case "groups":
-                    this.avatarDrawable.setAvatarType(6);
-                    break;
-                case "non_contacts":
                     avatarDrawable = this.avatarDrawable;
                     avatarDrawable.setAvatarType(i3);
+                    break;
+                case "non_contacts":
+                    this.avatarDrawable.setAvatarType(5);
                     break;
                 case "contacts":
                     this.avatarDrawable.setAvatarType(4);
@@ -846,43 +848,48 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             } else if (chat != null) {
                 this.avatarDrawable.setInfo(this.currentAccount, chat);
             } else {
-                CharSequence charSequence2 = this.currentName;
-                if (charSequence2 != null) {
-                    this.avatarDrawable.setInfo(this.currentId, charSequence2.toString(), null);
+                CharSequence charSequence = this.currentName;
+                if (charSequence != null) {
+                    this.avatarDrawable.setInfo(this.currentId, charSequence.toString(), null);
                 } else {
                     this.avatarDrawable.setInfo(this.currentId, "#", null);
                 }
             }
         }
-        CharSequence charSequence3 = this.currentName;
-        if (charSequence3 != null) {
+        CharSequence charSequence2 = this.currentName;
+        if (charSequence2 != null) {
             this.lastName = null;
-            this.nameTextView.setText(charSequence3);
         } else {
-            if (user == null) {
-                if (chat != null) {
-                    if (str == null) {
-                        str = chat.title;
-                    }
+            if (user != null) {
+                if (str == null) {
+                    str = UserObject.getUserName(user);
                 }
-                this.lastName = str2;
-                charSequence = this.lastName;
-                if (charSequence != null) {
+            } else if (chat == null) {
+                this.lastName = "";
+                charSequence2 = this.lastName;
+                if (charSequence2 != null) {
                     try {
-                        charSequence = Emoji.replaceEmoji(charSequence, this.nameTextView.getPaint().getFontMetricsInt(), false);
+                        charSequence2 = Emoji.replaceEmoji(charSequence2, this.nameTextView.getPaint().getFontMetricsInt(), false);
                     } catch (Exception unused) {
                     }
                 }
-                this.nameTextView.setText(charSequence);
             } else if (str == null) {
-                str = UserObject.getUserName(user);
+                str = chat.title;
             }
-            str2 = AndroidUtilities.removeDiacritics(str);
-            this.lastName = str2;
-            charSequence = this.lastName;
-            if (charSequence != null) {
+            this.lastName = AndroidUtilities.removeDiacritics(str);
+            charSequence2 = this.lastName;
+            if (charSequence2 != null) {
             }
-            this.nameTextView.setText(charSequence);
+        }
+        this.nameTextView.setText(charSequence2);
+        long botVerificationIcon = user != null ? DialogObject.getBotVerificationIcon(user) : chat != null ? DialogObject.getBotVerificationIcon(chat) : 0L;
+        if (botVerificationIcon == 0) {
+            this.botVerification.set((Drawable) null, false);
+            this.nameTextView.setLeftDrawable((Drawable) null);
+        } else {
+            this.botVerification.set(botVerificationIcon, false);
+            this.botVerification.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
+            this.nameTextView.setLeftDrawable(this.botVerification);
         }
         if (user == null || !MessagesController.getInstance(this.currentAccount).isPremiumUser(user) || MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked()) {
             this.nameTextView.setRightDrawable((Drawable) null);
@@ -949,10 +956,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 this.imageView.setImageResource(this.currentDrawable);
             }
             this.lastAvatar = fileLocation;
+            BackupImageView backupImageView = this.avatarImageView;
             if (user != null) {
-                this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
+                backupImageView.setForUserOrChat(user, this.avatarDrawable);
             } else {
-                BackupImageView backupImageView = this.avatarImageView;
                 AvatarDrawable avatarDrawable2 = this.avatarDrawable;
                 if (chat != null) {
                     backupImageView.setForUserOrChat(chat, avatarDrawable2);
@@ -960,7 +967,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     backupImageView.setImageDrawable(avatarDrawable2);
                 }
             }
-            this.avatarImageView.setRoundRadius((chat == null && chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
+            this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
             this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
             textView2 = this.adminTextView;
             if (textView2 != null) {
@@ -977,9 +984,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
             this.imageView.setImageResource(this.currentDrawable);
             this.lastAvatar = fileLocation;
+            BackupImageView backupImageView2 = this.avatarImageView;
             if (user != null) {
             }
-            this.avatarImageView.setRoundRadius((chat == null && chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
+            this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
             this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
             textView2 = this.adminTextView;
             if (textView2 != null) {
@@ -988,9 +996,10 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.imageView.setVisibility(this.currentDrawable == 0 ? 8 : 0);
         this.imageView.setImageResource(this.currentDrawable);
         this.lastAvatar = fileLocation;
+        BackupImageView backupImageView22 = this.avatarImageView;
         if (user != null) {
         }
-        this.avatarImageView.setRoundRadius((chat == null && chat.forum) ? AndroidUtilities.dp(14.0f) : AndroidUtilities.dp(24.0f));
+        this.avatarImageView.setRoundRadius(AndroidUtilities.dp((chat == null && chat.forum) ? 14.0f : 24.0f));
         this.nameTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, this.resourcesProvider));
         textView2 = this.adminTextView;
         if (textView2 != null) {

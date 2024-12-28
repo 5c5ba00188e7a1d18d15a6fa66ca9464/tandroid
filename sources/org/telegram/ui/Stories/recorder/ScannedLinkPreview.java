@@ -25,7 +25,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -157,12 +156,7 @@ public class ScannedLinkPreview extends View {
             callback.run(fromChat);
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$resolve$1(int i, int i2) {
-            ConnectionsManager.getInstance(i).cancelRequest(i2, true);
-        }
-
-        public static Runnable resolve(final int i, final String str, final Utilities.Callback callback) {
+        public static Runnable resolve(int i, final String str, final Utilities.Callback callback) {
             if (callback == null) {
                 return null;
             }
@@ -190,18 +184,12 @@ public class ScannedLinkPreview extends View {
                         return null;
                     }
                 }
-                final int resolve = messagesController.getUserNameResolver().resolve(str3, queryParameter, new Consumer() { // from class: org.telegram.ui.Stories.recorder.ScannedLinkPreview$ResolvedLink$$ExternalSyntheticLambda0
+                return messagesController.getUserNameResolver().resolve(str3, queryParameter, new Consumer() { // from class: org.telegram.ui.Stories.recorder.ScannedLinkPreview$ResolvedLink$$ExternalSyntheticLambda0
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         ScannedLinkPreview.ResolvedLink.lambda$resolve$0(Utilities.Callback.this, messagesController, str, (Long) obj);
                     }
                 });
-                return new Runnable() { // from class: org.telegram.ui.Stories.recorder.ScannedLinkPreview$ResolvedLink$$ExternalSyntheticLambda1
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        ScannedLinkPreview.ResolvedLink.lambda$resolve$1(i, resolve);
-                    }
-                };
             } catch (Exception e) {
                 FileLog.e(e);
                 callback.run(null);
@@ -435,7 +423,7 @@ public class ScannedLinkPreview extends View {
             }
         } else {
             ResolvedLink resolvedLink = this.resolved;
-            if (resolvedLink == null || !(TextUtils.equals(resolvedLink.sourceLink, str) || TextUtils.equals(this.currentLink, str))) {
+            if ((resolvedLink == null && this.currentCancel == null) || (resolvedLink != null && !TextUtils.equals(resolvedLink.sourceLink, str) && !TextUtils.equals(this.currentLink, str))) {
                 Runnable runnable3 = this.currentCancel;
                 if (runnable3 != null) {
                     runnable3.run();

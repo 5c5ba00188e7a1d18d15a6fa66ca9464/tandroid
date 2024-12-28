@@ -74,7 +74,7 @@ public class UserNameResolver {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$resolve$1(final String str, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 UserNameResolver.this.lambda$resolve$0(str, tL_error, tLObject);
@@ -82,26 +82,32 @@ public class UserNameResolver {
         }, 2L);
     }
 
-    public int resolve(String str, Consumer consumer) {
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$resolve$2(String str, int i) {
+        this.resolvingConsumers.remove(str);
+        ConnectionsManager.getInstance(this.currentAccount).cancelRequest(i, true);
+    }
+
+    public Runnable resolve(String str, Consumer consumer) {
         return resolve(str, null, consumer);
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    public int resolve(final String str, String str2, Consumer consumer) {
+    public Runnable resolve(final String str, String str2, Consumer consumer) {
         TLRPC.TL_contacts_resolveUsername tL_contacts_resolveUsername;
         CachedPeer cachedPeer;
         if (TextUtils.isEmpty(str2) && (cachedPeer = this.resolvedCache.get(str)) != null) {
             if (System.currentTimeMillis() - cachedPeer.time < CACHE_TIME) {
                 consumer.accept(Long.valueOf(cachedPeer.peerId));
                 FileLog.d("resolve username from cache " + str + " " + cachedPeer.peerId);
-                return -1;
+                return null;
             }
             this.resolvedCache.remove(str);
         }
         ArrayList<Consumer> arrayList = this.resolvingConsumers.get(str);
         if (arrayList != null) {
             arrayList.add(consumer);
-            return -1;
+            return null;
         }
         ArrayList<Consumer> arrayList2 = new ArrayList<>();
         arrayList2.add(consumer);
@@ -119,12 +125,18 @@ public class UserNameResolver {
             }
             tL_contacts_resolveUsername = tL_contacts_resolveUsername2;
         }
-        return ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda0
+        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 UserNameResolver.this.lambda$resolve$1(str, tLObject, tL_error);
             }
         });
+        return new Runnable() { // from class: org.telegram.messenger.UserNameResolver$$ExternalSyntheticLambda1
+            @Override // java.lang.Runnable
+            public final void run() {
+                UserNameResolver.this.lambda$resolve$2(str, sendRequest);
+            }
+        };
     }
 
     public void update(TLRPC.Chat chat, TLRPC.Chat chat2) {

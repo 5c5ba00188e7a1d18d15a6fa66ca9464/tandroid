@@ -405,8 +405,8 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:67:0x03b8  */
-        /* JADX WARN: Removed duplicated region for block: B:70:0x03c4  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x03b9  */
+        /* JADX WARN: Removed duplicated region for block: B:70:0x03c5  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1972,7 +1972,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Removed duplicated region for block: B:33:0x010c A[Catch: all -> 0x00ec, TRY_LEAVE, TryCatch #2 {all -> 0x00ec, blocks: (B:23:0x00e1, B:25:0x00e7, B:26:0x00f4, B:27:0x00f6, B:29:0x00fe, B:31:0x0102, B:33:0x010c, B:99:0x00ee), top: B:21:0x00df, outer: #1 }] */
         /* JADX WARN: Removed duplicated region for block: B:45:0x01d7  */
-        /* JADX WARN: Removed duplicated region for block: B:87:0x03e9  */
+        /* JADX WARN: Removed duplicated region for block: B:87:0x03ea  */
         /* JADX WARN: Removed duplicated region for block: B:90:0x0180 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2581,7 +2581,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.measurementsCount = 0;
         this.lastWidth = -1;
         this.lastHeight = -1;
-        this.updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda15
+        this.updateRotationMatrix = new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$new$7();
@@ -2661,7 +2661,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
 
     /* JADX INFO: Access modifiers changed from: private */
     public void createCamera(final SurfaceTexture surfaceTexture, final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda13
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$createCamera$13(i, surfaceTexture);
@@ -2676,7 +2676,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 return;
             }
             this.closingDualCamera = true;
-            cameraSessionWrapper.destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda8
+            cameraSessionWrapper.destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraView.this.lambda$enableDualInternal$0();
@@ -2704,7 +2704,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         if (handler2 != null) {
             this.cameraThread.sendMessage(handler2.obtainMessage(11), 0);
         }
-        this.cameraSession[0].destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda9
+        this.cameraSession[0].destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$enableDualInternal$1(handler2);
@@ -2771,7 +2771,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             this.cameraSession[i] = CameraSessionWrapper.of(create);
             this.previewSize[i] = new Size(create.getPreviewWidth(), create.getPreviewHeight());
             cameraGLThread.setCurrentSession(this.cameraSession[i], i);
-            create.whenDone(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda10
+            create.whenDone(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraView.this.lambda$createCamera$9(i, cameraGLThread);
@@ -2793,12 +2793,12 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         this.cameraSession[i] = CameraSessionWrapper.of(cameraSession);
         cameraGLThread.setCurrentSession(this.cameraSession[i], i);
         requestLayout();
-        CameraController.getInstance().open(cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda11
+        CameraController.getInstance().open(cameraSession, surfaceTexture, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$createCamera$11(i, cameraSession, cameraGLThread);
             }
-        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda12
+        }, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 CameraView.this.lambda$createCamera$12(cameraGLThread, i);
@@ -2932,6 +2932,31 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                     CameraView.this.blurredStubView.setVisibility(8);
                 }
             }).setDuration(120L).start();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void onSurfaceTextureUpdatedInternal() {
+        boolean hasDisplayList;
+        CameraSessionWrapper cameraSessionWrapper;
+        if (!this.inited && (cameraSessionWrapper = this.cameraSession[0]) != null && cameraSessionWrapper.isInitiated()) {
+            CameraViewDelegate cameraViewDelegate = this.delegate;
+            if (cameraViewDelegate != null) {
+                cameraViewDelegate.onCameraInit();
+            }
+            this.inited = true;
+            if (this.lazy) {
+                this.textureView.setAlpha(0.0f);
+                showTexture(true, true);
+            }
+        }
+        Object obj = this.renderNode;
+        if (obj != null) {
+            hasDisplayList = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(obj).hasDisplayList();
+            if (hasDisplayList) {
+                return;
+            }
+            invalidate();
         }
     }
 
@@ -3484,24 +3509,25 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
     public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         boolean hasDisplayList;
         CameraSessionWrapper cameraSessionWrapper;
-        if (!this.inited && (cameraSessionWrapper = this.cameraSession[0]) != null && cameraSessionWrapper.isInitiated()) {
-            CameraViewDelegate cameraViewDelegate = this.delegate;
-            if (cameraViewDelegate != null) {
-                cameraViewDelegate.onCameraInit();
+        if (this.inited || (cameraSessionWrapper = this.cameraSession[0]) == null || !cameraSessionWrapper.isInitiated()) {
+            Object obj = this.renderNode;
+            if (obj == null) {
+                return;
             }
-            this.inited = true;
-            if (this.lazy) {
-                this.textureView.setAlpha(0.0f);
-                showTexture(true, true);
-            }
-        }
-        Object obj = this.renderNode;
-        if (obj != null) {
             hasDisplayList = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(obj).hasDisplayList();
             if (hasDisplayList) {
                 return;
             }
-            invalidate();
+        }
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda8
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CameraView.this.onSurfaceTextureUpdatedInternal();
+                }
+            });
+        } else {
+            onSurfaceTextureUpdatedInternal();
         }
     }
 
@@ -3525,7 +3551,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
             if (handler != null) {
                 this.cameraThread.sendMessage(handler.obtainMessage(11), 0);
             }
-            this.cameraSession[0].destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda14
+            this.cameraSession[0].destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraView.this.lambda$resetCamera$4();
@@ -3820,7 +3846,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
                 if (this.cameraSessionRecording == cameraSessionWrapper3) {
                     this.cameraSessionRecording = null;
                 }
-                cameraSessionWrapper3.destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda16
+                cameraSessionWrapper3.destroy(false, null, new Runnable() { // from class: org.telegram.messenger.camera.CameraView$$ExternalSyntheticLambda17
                     @Override // java.lang.Runnable
                     public final void run() {
                         CameraView.this.lambda$toggleDual$2();

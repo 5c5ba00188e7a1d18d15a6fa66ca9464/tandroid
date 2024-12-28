@@ -72,6 +72,7 @@ public class GroupCallUserCell extends FrameLayout {
     private int lastMuteColor;
     private boolean lastMuted;
     private boolean lastRaisedHand;
+    public final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable leftDrawable;
     private RLottieImageView muteButton;
     private RLottieDrawable muteDrawable;
     private SimpleTextView nameTextView;
@@ -80,7 +81,7 @@ public class GroupCallUserCell extends FrameLayout {
     private Drawable premiumDrawable;
     private float progressToAvatarPreview;
     private Runnable raiseHandCallback;
-    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
+    public final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable rightDrawable;
     private long selfId;
     private Runnable shakeHandCallback;
     private RLottieDrawable shakeHandDrawable;
@@ -314,32 +315,32 @@ public class GroupCallUserCell extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x01b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x01c4, code lost:
     
         if (r11 != false) goto L78;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x024f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x025c, code lost:
     
         r20 = r12;
         r21 = r13;
         r19 = r14;
         r23 = 54.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x0246, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x0253, code lost:
     
         r20 = r12;
         r21 = r13;
         r19 = r14;
         r23 = 67.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x0244, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x0251, code lost:
     
         if (r11 == false) goto L79;
      */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0236  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x023d  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0240  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0238  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0243  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0245  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -435,6 +436,7 @@ public class GroupCallUserCell extends FrameLayout {
         SimpleTextView simpleTextView4 = this.nameTextView;
         boolean z3 = LocaleController.isRTL;
         addView(simpleTextView4, LayoutHelper.createFrame(-1, 20.0f, (z3 ? 5 : 3) | 48, z3 ? 54.0f : 67.0f, 10.0f, z3 ? 67.0f : 54.0f, 0.0f));
+        this.leftDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f), 9);
         this.rightDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f), 9);
         Drawable drawable = context.getResources().getDrawable(R.drawable.voice_volume_mini);
         this.speakingDrawable = drawable;
@@ -1132,6 +1134,10 @@ public class GroupCallUserCell extends FrameLayout {
         if (swapAnimatedEmojiDrawable != null) {
             swapAnimatedEmojiDrawable.attach();
         }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.leftDrawable;
+        if (swapAnimatedEmojiDrawable2 != null) {
+            swapAnimatedEmojiDrawable2.attach();
+        }
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -1152,6 +1158,10 @@ public class GroupCallUserCell extends FrameLayout {
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.rightDrawable;
         if (swapAnimatedEmojiDrawable != null) {
             swapAnimatedEmojiDrawable.detach();
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.leftDrawable;
+        if (swapAnimatedEmojiDrawable2 != null) {
+            swapAnimatedEmojiDrawable2.detach();
         }
     }
 
@@ -1210,11 +1220,12 @@ public class GroupCallUserCell extends FrameLayout {
         this.updateRunnableScheduled = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00e4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setData(AccountInstance accountInstance, TLRPC.TL_groupCallParticipant tL_groupCallParticipant, ChatObject.Call call, long j, TLRPC.FileLocation fileLocation, boolean z) {
+        long botVerificationIcon;
         ImageLocation forChat;
         BackupImageView backupImageView;
         AvatarDrawable avatarDrawable;
@@ -1231,6 +1242,7 @@ public class GroupCallUserCell extends FrameLayout {
             this.currentChat = null;
             this.avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), this.currentUser);
             this.nameTextView.setText(UserObject.getUserName(this.currentUser));
+            botVerificationIcon = DialogObject.getBotVerificationIcon(this.currentUser);
             TLRPC.User user = this.currentUser;
             if (user == null || !user.verified) {
                 if (user == null || DialogObject.getEmojiStatusDocumentId(user.emoji_status) == 0) {
@@ -1289,6 +1301,7 @@ public class GroupCallUserCell extends FrameLayout {
             this.currentChat = this.accountInstance.getMessagesController().getChat(Long.valueOf(-peerId));
             this.currentUser = null;
             this.avatarDrawable.setInfo(this.accountInstance.getCurrentAccount(), this.currentChat);
+            botVerificationIcon = DialogObject.getBotVerificationIcon(this.currentChat);
             TLRPC.Chat chat = this.currentChat;
             if (chat != null) {
                 this.nameTextView.setText(chat.title);
@@ -1322,6 +1335,14 @@ public class GroupCallUserCell extends FrameLayout {
                 this.hasAvatar = true;
                 this.avatarImageView.setImage(ImageLocation.getForLocal(fileLocation), "50_50", this.avatarDrawable, (Object) null);
             }
+        }
+        if (botVerificationIcon != 0) {
+            this.leftDrawable.set(botVerificationIcon, z);
+            this.nameTextView.setLeftDrawable(this.leftDrawable);
+            this.leftDrawable.setColor(Integer.valueOf(Theme.getColor(Theme.key_premiumGradient1)));
+        } else {
+            this.leftDrawable.set((Drawable) null, z);
+            this.nameTextView.setLeftDrawable((Drawable) null);
         }
         applyParticipantChanges(z);
     }

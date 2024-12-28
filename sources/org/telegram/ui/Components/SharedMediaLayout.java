@@ -10268,15 +10268,15 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     
         r8 = r8 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:215:0x042b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:215:0x042c, code lost:
     
         if (r19.scrollSlidingTextTabStrip.hasTab(4) == false) goto L298;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:216:0x043d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:216:0x043e, code lost:
     
         r19.scrollSlidingTextTabStrip.addTextTab(r5, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", org.telegram.messenger.R.string.SharedMusicTab2), r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:239:0x043b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:239:0x043c, code lost:
     
         if (r19.scrollSlidingTextTabStrip.hasTab(4) == false) goto L298;
      */
