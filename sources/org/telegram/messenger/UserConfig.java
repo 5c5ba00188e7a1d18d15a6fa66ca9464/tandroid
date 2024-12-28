@@ -11,6 +11,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 
 /* loaded from: classes.dex */
 public class UserConfig extends BaseController {
@@ -68,7 +69,7 @@ public class UserConfig extends BaseController {
     public boolean suggestContacts;
     private final Object sync;
     public boolean syncContacts;
-    public TLRPC.TL_account_tmpPassword tmpPassword;
+    public TL_account.tmpPassword tmpPassword;
     boolean ttlIsLoading;
     public TLRPC.TL_help_termsOfService unacceptedTermsOfService;
     public boolean unreadDialogsLoaded;
@@ -579,7 +580,7 @@ public class UserConfig extends BaseController {
                     string = preferences.getString("tmpPassword", null);
                     if (string != null && (decode2 = Base64.decode(string, 0)) != null) {
                         SerializedData serializedData2 = new SerializedData(decode2);
-                        this.tmpPassword = TLRPC.TL_account_tmpPassword.TLdeserialize(serializedData2, serializedData2.readInt32(false), false);
+                        this.tmpPassword = TL_account.tmpPassword.TLdeserialize(serializedData2, serializedData2.readInt32(false), false);
                         serializedData2.cleanup();
                     }
                     string2 = preferences.getString("user", null);
@@ -617,7 +618,7 @@ public class UserConfig extends BaseController {
                 string = preferences.getString("tmpPassword", null);
                 if (string != null) {
                     SerializedData serializedData22 = new SerializedData(decode2);
-                    this.tmpPassword = TLRPC.TL_account_tmpPassword.TLdeserialize(serializedData22, serializedData22.readInt32(false), false);
+                    this.tmpPassword = TL_account.tmpPassword.TLdeserialize(serializedData22, serializedData22.readInt32(false), false);
                     serializedData22.cleanup();
                 }
                 string2 = preferences.getString("user", null);

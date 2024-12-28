@@ -122,7 +122,20 @@ public class RecordControl extends View implements FlashViews.Invertable {
     private final Drawable unlockDrawable;
 
     public interface Delegate {
+
+        public abstract /* synthetic */ class -CC {
+            public static long $default$getMaxVideoDuration(Delegate delegate) {
+                return 60000L;
+            }
+
+            public static boolean $default$showStoriesDrafts(Delegate delegate) {
+                return true;
+            }
+        }
+
         boolean canRecordAudio();
+
+        long getMaxVideoDuration();
 
         void onCheckClick();
 
@@ -143,6 +156,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         void onVideoRecordStart(boolean z, Runnable runnable);
 
         void onZoom(float f);
+
+        boolean showStoriesDrafts();
     }
 
     public RecordControl(Context context) {
@@ -394,8 +409,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         super.onDetachedFromWindow();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0823  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0855  */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0841  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0873  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -536,7 +551,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.outlinePaint.setStrokeWidth(lerp5);
         this.outlinePaint.setAlpha((int) (AndroidUtilities.lerp(1.0f, 0.3f, f5) * 255.0f * f33));
         canvas.drawCircle(this.cx, this.cy, lerp6, this.outlinePaint);
-        if ((f25 > 0.0f) && ((f5 > 0.0f ? 1 : (f5 == 0.0f ? 0 : -1)) > 0)) {
+        if ((f25 > 0.0f) && (f5 > 0.0f)) {
             this.outlinePaint.setAlpha(NotificationCenter.newLocationAvailable);
             rectF2 = rectF5;
             canvas.drawArc(rectF5, -90.0f, f25 * 360.0f, false, this.outlinePaint);
@@ -545,11 +560,13 @@ public class RecordControl extends View implements FlashViews.Invertable {
         }
         long currentTimeMillis = System.currentTimeMillis() - this.recordingStart;
         float f39 = this.recording ? 0.0f : 1.0f - f3;
-        float f40 = (currentTimeMillis / 60000.0f) * 360.0f;
-        float f41 = this.recordingLoadingT.set(this.recordingLoading);
+        Delegate delegate = this.delegate;
+        long maxVideoDuration = delegate != null ? delegate.getMaxVideoDuration() : 60000L;
+        float min = Math.min((currentTimeMillis / (maxVideoDuration >= 0 ? maxVideoDuration : 60000L)) * 360.0f, 360.0f);
+        float f40 = this.recordingLoadingT.set(this.recordingLoading);
         this.outlineFilledPaint.setStrokeWidth(lerp5);
-        this.outlineFilledPaint.setAlpha((int) (Math.max(f41 * 0.7f, 1.0f - f39) * 255.0f));
-        if (f41 <= 0.0f) {
+        this.outlineFilledPaint.setAlpha((int) (Math.max(f40 * 0.7f, 1.0f - f39) * 255.0f));
+        if (f40 <= 0.0f) {
             f12 = -90.0f;
             canvas2 = canvas;
             rectF3 = rectF2;
@@ -561,23 +578,23 @@ public class RecordControl extends View implements FlashViews.Invertable {
             CircularProgressDrawable.getSegments((SystemClock.elapsedRealtime() - this.recordingLoadingStart) % 5400, this.loadingSegments);
             invalidate();
             float[] fArr = this.loadingSegments;
-            float f42 = fArr[0];
-            float f43 = fArr[1];
-            float f44 = (f42 + f43) / 2.0f;
-            float abs = Math.abs(f43 - f42) / 2.0f;
+            float f41 = fArr[0];
+            float f42 = fArr[1];
+            float f43 = (f41 + f42) / 2.0f;
+            float abs = Math.abs(f42 - f41) / 2.0f;
             if (this.recordingLoading) {
-                float f45 = f40 / 2.0f;
-                f44 = AndroidUtilities.lerp((-90.0f) + f45, f44, f41);
-                abs = AndroidUtilities.lerp(f45, abs, f41);
+                float f44 = min / 2.0f;
+                f43 = AndroidUtilities.lerp((-90.0f) + f44, f43, f40);
+                abs = AndroidUtilities.lerp(f44, abs, f40);
             }
-            f12 = f44 - abs;
-            f40 = abs * 2.0f;
+            f12 = f43 - abs;
+            min = abs * 2.0f;
             paint = this.outlineFilledPaint;
             z = false;
             canvas2 = canvas;
             rectF3 = rectF2;
         }
-        canvas2.drawArc(rectF3, f12, f40, z, paint);
+        canvas2.drawArc(rectF3, f12, min, z, paint);
         if (this.recording) {
             invalidate();
             long j2 = j;
@@ -585,7 +602,7 @@ public class RecordControl extends View implements FlashViews.Invertable {
             if (j3 != this.lastDuration / 1000) {
                 this.delegate.onVideoDuration(j3);
             }
-            if (j2 >= 60000) {
+            if (maxVideoDuration > 0 && j2 >= maxVideoDuration) {
                 post(new Runnable() { // from class: org.telegram.ui.Stories.recorder.RecordControl$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -616,19 +633,19 @@ public class RecordControl extends View implements FlashViews.Invertable {
             this.galleryImage.draw(canvas);
             canvas.restore();
         }
-        float f46 = this.dualT.set(this.dual ? 1.0f : 0.0f);
-        if (f46 > 0.0f) {
+        float f45 = this.dualT.set(this.dual ? 1.0f : 0.0f);
+        if (f45 > 0.0f) {
             canvas.save();
-            float scale4 = this.flipButton.getScale(f13) * f46 * f33;
+            float scale4 = this.flipButton.getScale(f13) * f45 * f33;
             canvas.scale(scale4, scale4, this.rightCx, this.cy);
             canvas.rotate(this.flipDrawableRotateT.set(this.flipDrawableRotate), this.rightCx, this.cy);
             canvas.drawCircle(this.rightCx, this.cy, AndroidUtilities.dp(22.0f), this.buttonPaintWhite);
             this.flipDrawableBlack.draw(canvas);
             canvas.restore();
         }
-        if (f46 < 1.0f) {
+        if (f45 < 1.0f) {
             canvas.save();
-            float scale5 = this.flipButton.getScale(f13) * (1.0f - f46) * f33;
+            float scale5 = this.flipButton.getScale(f13) * (1.0f - f45) * f33;
             canvas.scale(scale5, scale5, this.rightCx, this.cy);
             canvas.rotate(this.flipDrawableRotateT.set(this.flipDrawableRotate), this.rightCx, this.cy);
             canvas.drawCircle(this.rightCx, this.cy, AndroidUtilities.dp(22.0f), this.buttonPaint);
@@ -638,29 +655,29 @@ public class RecordControl extends View implements FlashViews.Invertable {
         if (!this.longpressRecording || hasCheck()) {
             f14 = 0.0f;
         } else {
-            float f47 = f2;
-            f14 = AndroidUtilities.lerp(AndroidUtilities.dp(16.0f), AndroidUtilities.lerp(AndroidUtilities.dp(8.0f) + (AndroidUtilities.dp(8.0f) * Math.abs(clamp2)), AndroidUtilities.dp(22.0f), f47), Math.max(f47, f20)) * f4 * max * f16;
+            float f46 = f2;
+            f14 = AndroidUtilities.lerp(AndroidUtilities.dp(16.0f), AndroidUtilities.lerp(AndroidUtilities.dp(8.0f) + (AndroidUtilities.dp(8.0f) * Math.abs(clamp2)), AndroidUtilities.dp(22.0f), f46), Math.max(f46, f20)) * f4 * max * f16;
         }
-        float f48 = this.lockedT.set((this.longpressRecording || !this.recording) ? 0.0f : 1.0f);
+        float f47 = this.lockedT.set((this.longpressRecording || !this.recording) ? 0.0f : 1.0f);
         if (f14 > 0.0f) {
             this.redPaint.setAlpha(NotificationCenter.newLocationAvailable);
             canvas.drawCircle(this.touchX, this.cy, f14, this.redPaint);
-            float f49 = this.touchX;
+            float f48 = this.touchX;
             float clamp3 = Utilities.clamp(1.0f - ((Math.abs(clamp2) * f4) / 1.3f), 1.0f, 0.0f);
-            float abs2 = Math.abs(f11 - f49);
+            float abs2 = Math.abs(f11 - f48);
             if (abs2 < lerp2 + (f14 * 2.0f) && clamp3 < 0.6f) {
-                float f50 = lerp2 + f14;
-                if (abs2 < f50) {
-                    float f51 = lerp2 * lerp2;
-                    float f52 = abs2 * abs2;
-                    float f53 = f14 * f14;
-                    d = Math.acos(((f51 + f52) - f53) / ((lerp2 * 2.0f) * abs2));
-                    d2 = Math.acos(((f53 + f52) - f51) / (r0 * abs2));
+                float f49 = lerp2 + f14;
+                if (abs2 < f49) {
+                    float f50 = lerp2 * lerp2;
+                    float f51 = abs2 * abs2;
+                    float f52 = f14 * f14;
+                    d = Math.acos(((f50 + f51) - f52) / ((lerp2 * 2.0f) * abs2));
+                    d2 = Math.acos(((f52 + f51) - f50) / (r0 * abs2));
                 } else {
                     d = 0.0d;
                     d2 = 0.0d;
                 }
-                double d3 = f49 > f11 ? 0.0d : 3.141592653589793d;
+                double d3 = f48 > f11 ? 0.0d : 3.141592653589793d;
                 double acos = (float) Math.acos((lerp2 - f14) / abs2);
                 Double.isNaN(acos);
                 f15 = f16;
@@ -675,69 +692,69 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 double d8 = ((3.141592653589793d - d2) - acos) * d4;
                 double d9 = ((d3 + 3.141592653589793d) - d2) - d8;
                 double d10 = (d3 - 3.141592653589793d) + d2 + d8;
-                float f54 = f11;
-                getVector(f54, this.cy, d6, lerp2, this.p1);
-                getVector(f54, this.cy, d7, lerp2, this.p2);
-                float f55 = f14;
-                getVector(f49, this.cy, d9, f55, this.p3);
-                getVector(f49, this.cy, d10, f55, this.p4);
-                float min = Math.min(clamp3 * 2.4f, dist(this.p1, this.p3) / f50) * Math.min(1.0f, (abs2 * 2.0f) / f50);
-                float f56 = lerp2 * min;
-                float f57 = f14 * min;
+                float f53 = f11;
+                getVector(f53, this.cy, d6, lerp2, this.p1);
+                getVector(f53, this.cy, d7, lerp2, this.p2);
+                float f54 = f14;
+                getVector(f48, this.cy, d9, f54, this.p3);
+                getVector(f48, this.cy, d10, f54, this.p4);
+                float min2 = Math.min(clamp3 * 2.4f, dist(this.p1, this.p3) / f49) * Math.min(1.0f, (abs2 * 2.0f) / f49);
+                float f55 = lerp2 * min2;
+                float f56 = f14 * min2;
                 Point point2 = this.p1;
-                getVector(point2.x, point2.y, d6 - 1.5707963705062866d, f56, this.h1);
+                getVector(point2.x, point2.y, d6 - 1.5707963705062866d, f55, this.h1);
                 Point point3 = this.p2;
-                getVector(point3.x, point3.y, d7 + 1.5707963705062866d, f56, this.h2);
+                getVector(point3.x, point3.y, d7 + 1.5707963705062866d, f55, this.h2);
                 Point point4 = this.p3;
-                getVector(point4.x, point4.y, d9 + 1.5707963705062866d, f57, this.h3);
+                getVector(point4.x, point4.y, d9 + 1.5707963705062866d, f56, this.h3);
                 Point point5 = this.p4;
-                getVector(point5.x, point5.y, d10 - 1.5707963705062866d, f57, this.h4);
-                float f58 = f4 * max * f15 * f21;
-                if (f58 > 0.0f) {
+                getVector(point5.x, point5.y, d10 - 1.5707963705062866d, f56, this.h4);
+                float f57 = f4 * max * f15 * f21;
+                if (f57 > 0.0f) {
                     this.metaballsPath.rewind();
                     Path path2 = this.metaballsPath;
                     Point point6 = this.p1;
                     path2.moveTo(point6.x, point6.y);
                     Path path3 = this.metaballsPath;
                     Point point7 = this.h1;
-                    float f59 = point7.x;
-                    float f60 = point7.y;
+                    float f58 = point7.x;
+                    float f59 = point7.y;
                     Point point8 = this.h3;
-                    float f61 = point8.x;
-                    float f62 = point8.y;
+                    float f60 = point8.x;
+                    float f61 = point8.y;
                     Point point9 = this.p3;
-                    path3.cubicTo(f59, f60, f61, f62, point9.x, point9.y);
+                    path3.cubicTo(f58, f59, f60, f61, point9.x, point9.y);
                     Path path4 = this.metaballsPath;
                     Point point10 = this.p4;
                     path4.lineTo(point10.x, point10.y);
                     Path path5 = this.metaballsPath;
                     Point point11 = this.h4;
-                    float f63 = point11.x;
-                    float f64 = point11.y;
+                    float f62 = point11.x;
+                    float f63 = point11.y;
                     Point point12 = this.h2;
-                    float f65 = point12.x;
-                    float f66 = point12.y;
+                    float f64 = point12.x;
+                    float f65 = point12.y;
                     Point point13 = this.p2;
-                    path5.cubicTo(f63, f64, f65, f66, point13.x, point13.y);
+                    path5.cubicTo(f62, f63, f64, f65, point13.x, point13.y);
                     Path path6 = this.metaballsPath;
                     Point point14 = this.p1;
                     path6.lineTo(point14.x, point14.y);
-                    this.redPaint.setAlpha((int) (f58 * 255.0f));
+                    this.redPaint.setAlpha((int) (f57 * 255.0f));
                     canvas.drawPath(this.metaballsPath, this.redPaint);
-                    float f67 = this.cy;
-                    rectF6.set(f8, f67 - lerp2, f7, f67 + lerp2);
-                    float f68 = f10;
-                    canvas.drawRoundRect(rectF6, f68, f68, this.redPaint);
+                    float f66 = this.cy;
+                    rectF6.set(f8, f66 - lerp2, f7, f66 + lerp2);
+                    float f67 = f10;
+                    canvas.drawRoundRect(rectF6, f67, f67, this.redPaint);
                 }
-                if (f14 <= 0.0f || f48 > 0.0f) {
+                if (f14 <= 0.0f || f47 > 0.0f) {
                     scale = this.lockButton.getScale(0.2f) * f15 * f33;
                     canvas.save();
                     this.circlePath.rewind();
                     if (f14 > 0.0f) {
                         this.circlePath.addCircle(this.touchX, this.cy, f14, Path.Direction.CW);
                     }
-                    if (f48 > 0.0f && this.showLock) {
-                        this.circlePath.addCircle(this.leftCx, this.cy, f48 * AndroidUtilities.dp(22.0f) * scale, Path.Direction.CW);
+                    if (f47 > 0.0f && this.showLock) {
+                        this.circlePath.addCircle(this.leftCx, this.cy, f47 * AndroidUtilities.dp(22.0f) * scale, Path.Direction.CW);
                     }
                     canvas.clipPath(this.circlePath);
                     if (this.showLock) {
@@ -767,8 +784,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.circlePath.rewind();
         if (f14 > 0.0f) {
         }
-        if (f48 > 0.0f) {
-            this.circlePath.addCircle(this.leftCx, this.cy, f48 * AndroidUtilities.dp(22.0f) * scale, Path.Direction.CW);
+        if (f47 > 0.0f) {
+            this.circlePath.addCircle(this.leftCx, this.cy, f47 * AndroidUtilities.dp(22.0f) * scale, Path.Direction.CW);
         }
         canvas.clipPath(this.circlePath);
         if (this.showLock) {
@@ -993,34 +1010,32 @@ public class RecordControl extends View implements FlashViews.Invertable {
     }
 
     public void updateGalleryImage() {
-        ImageReceiver imageReceiver;
-        ImageLocation forPath;
         String str;
         ArrayList<MediaController.PhotoEntry> arrayList;
-        ArrayList arrayList2 = MessagesController.getInstance(this.galleryImage.getCurrentAccount()).getStoriesController().getDraftsController().drafts;
-        this.galleryImage.setOrientation(0, 0, true);
-        if (arrayList2 != null && !arrayList2.isEmpty() && ((StoryEntry) arrayList2.get(0)).draftThumbFile != null) {
-            this.galleryImage.setImage(ImageLocation.getForPath(((StoryEntry) arrayList2.get(0)).draftThumbFile.getAbsolutePath()), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
-            return;
+        Delegate delegate = this.delegate;
+        if (delegate != null && delegate.showStoriesDrafts()) {
+            ArrayList arrayList2 = MessagesController.getInstance(this.galleryImage.getCurrentAccount()).getStoriesController().getDraftsController().drafts;
+            this.galleryImage.setOrientation(0, 0, true);
+            if (arrayList2 != null && !arrayList2.isEmpty() && ((StoryEntry) arrayList2.get(0)).draftThumbFile != null) {
+                this.galleryImage.setImage(ImageLocation.getForPath(((StoryEntry) arrayList2.get(0)).draftThumbFile.getAbsolutePath()), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
+                return;
+            }
         }
         MediaController.AlbumEntry albumEntry = MediaController.allMediaAlbumEntry;
         MediaController.PhotoEntry photoEntry = (albumEntry == null || (arrayList = albumEntry.photos) == null || arrayList.isEmpty()) ? null : albumEntry.photos.get(0);
         if (photoEntry != null && (str = photoEntry.thumbPath) != null) {
-            imageReceiver = this.galleryImage;
-            forPath = ImageLocation.getForPath(str);
-        } else {
-            if (photoEntry == null || photoEntry.path == null) {
-                this.galleryImage.setImageBitmap(this.noGalleryDrawable);
-                return;
-            }
-            if (!photoEntry.isVideo) {
-                this.galleryImage.setOrientation(photoEntry.orientation, photoEntry.invert, true);
-                this.galleryImage.setImage(ImageLocation.getForPath("thumb://" + photoEntry.imageId + ":" + photoEntry.path), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
-                return;
-            }
-            imageReceiver = this.galleryImage;
-            forPath = ImageLocation.getForPath("vthumb://" + photoEntry.imageId + ":" + photoEntry.path);
+            this.galleryImage.setImage(ImageLocation.getForPath(str), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
+            return;
         }
-        imageReceiver.setImage(forPath, "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
+        if (photoEntry == null || photoEntry.path == null) {
+            this.galleryImage.setImageBitmap(this.noGalleryDrawable);
+            return;
+        }
+        if (photoEntry.isVideo) {
+            this.galleryImage.setImage(ImageLocation.getForPath("vthumb://" + photoEntry.imageId + ":" + photoEntry.path), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
+            return;
+        }
+        this.galleryImage.setOrientation(photoEntry.orientation, photoEntry.invert, true);
+        this.galleryImage.setImage(ImageLocation.getForPath("thumb://" + photoEntry.imageId + ":" + photoEntry.path), "80_80", null, null, this.noGalleryDrawable, 0L, null, null, 0);
     }
 }

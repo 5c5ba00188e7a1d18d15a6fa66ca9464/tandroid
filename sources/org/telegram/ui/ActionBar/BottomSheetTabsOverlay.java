@@ -236,7 +236,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
             cancelDismissAnimator();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.dismissProgress, f);
             this.dismissAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$TabPreview$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabsOverlay$TabPreview$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     BottomSheetTabsOverlay.TabPreview.this.lambda$animateDismiss$0(valueAnimator);

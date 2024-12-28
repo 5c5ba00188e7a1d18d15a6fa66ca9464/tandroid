@@ -124,7 +124,7 @@ public class ReactedUserHolderView extends FrameLayout {
         SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.ReactedUserHolderView.3
             @Override // org.telegram.ui.ActionBar.SimpleTextView
             public boolean setText(CharSequence charSequence) {
-                return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false));
+                return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false));
             }
         };
         this.titleView = simpleTextView;

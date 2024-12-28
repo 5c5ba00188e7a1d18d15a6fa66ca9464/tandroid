@@ -64,7 +64,7 @@ public class BotCommandsMenuView extends View {
             TextView textView = new TextView(context) { // from class: org.telegram.ui.bots.BotCommandsMenuView.BotCommandView.1
                 @Override // android.widget.TextView
                 public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                    super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
+                    super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
                 }
             };
             this.description = textView;

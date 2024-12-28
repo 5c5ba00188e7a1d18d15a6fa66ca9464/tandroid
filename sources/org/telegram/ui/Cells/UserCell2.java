@@ -71,7 +71,7 @@ public class UserCell2 extends FrameLayout {
         SimpleTextView simpleTextView = new SimpleTextView(context) { // from class: org.telegram.ui.Cells.UserCell2.1
             @Override // org.telegram.ui.ActionBar.SimpleTextView
             public boolean setText(CharSequence charSequence) {
-                return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
+                return super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false));
             }
         };
         this.nameTextView = simpleTextView;

@@ -231,17 +231,17 @@ public class ThanosEffect extends TextureView {
             }
 
             /* JADX WARN: Can't wrap try/catch for region: R(15:0|1|(1:3)|4|(1:6)|7|(2:9|(8:11|12|(3:14|(1:18)|19)|(1:21)(1:(1:31))|22|23|24|25))|(2:33|(1:35))|12|(0)|(0)(0)|22|23|24|25) */
-            /* JADX WARN: Code restructure failed: missing block: B:28:0x012a, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:28:0x012d, code lost:
             
                 r7 = move-exception;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:29:0x012b, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:29:0x012e, code lost:
             
                 org.telegram.messenger.FileLog.e(r7);
              */
-            /* JADX WARN: Removed duplicated region for block: B:14:0x00f3  */
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0117  */
-            /* JADX WARN: Removed duplicated region for block: B:30:0x011e  */
+            /* JADX WARN: Removed duplicated region for block: B:14:0x00f6  */
+            /* JADX WARN: Removed duplicated region for block: B:21:0x011a  */
+            /* JADX WARN: Removed duplicated region for block: B:30:0x0121  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -297,6 +297,7 @@ public class ThanosEffect extends TextureView {
                     ChatActionCell chatActionCell = (ChatActionCell) view;
                     if (chatActionCell.hasGradientService()) {
                         chatActionCell.drawBackground(canvas, true);
+                        chatActionCell.drawReactions(canvas, true);
                         view.draw(canvas);
                         if (z) {
                             ChatMessageCell chatMessageCell = (ChatMessageCell) view;

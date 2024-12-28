@@ -32,6 +32,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
@@ -305,11 +306,11 @@ public class MessageSeenView extends FrameLayout {
     /* JADX WARN: Multi-variable type inference failed */
     public /* synthetic */ void lambda$new$4(TLRPC.TL_error tL_error, TLObject tLObject, long j, final int i, TLRPC.Chat chat) {
         RequestDelegate requestDelegate;
-        TLRPC.TL_messages_getFullChat tL_messages_getFullChat;
         ConnectionsManager connectionsManager;
+        TLRPC.TL_messages_getFullChat tL_messages_getFullChat;
         Long l;
-        if (tL_error == null) {
-            TLRPC.Vector vector = (TLRPC.Vector) tLObject;
+        if (tL_error == null && (tLObject instanceof Vector)) {
+            Vector vector = (Vector) tLObject;
             ArrayList arrayList = new ArrayList();
             ArrayList arrayList2 = new ArrayList();
             final HashMap hashMap = new HashMap();
@@ -360,8 +361,8 @@ public class MessageSeenView extends FrameLayout {
                             MessageSeenView.this.lambda$new$1(i, hashMap, arrayList3, tLObject2, tL_error2);
                         }
                     };
-                    connectionsManager = connectionsManager2;
                     tL_messages_getFullChat = tL_channels_getParticipants;
+                    connectionsManager = connectionsManager2;
                 } else {
                     TLRPC.TL_messages_getFullChat tL_messages_getFullChat2 = new TLRPC.TL_messages_getFullChat();
                     tL_messages_getFullChat2.chat_id = chat.id;
@@ -372,8 +373,8 @@ public class MessageSeenView extends FrameLayout {
                             MessageSeenView.this.lambda$new$3(i, hashMap, arrayList3, tLObject2, tL_error2);
                         }
                     };
-                    connectionsManager = connectionsManager3;
                     tL_messages_getFullChat = tL_messages_getFullChat2;
+                    connectionsManager = connectionsManager3;
                 }
                 connectionsManager.sendRequest(tL_messages_getFullChat, requestDelegate);
                 return;

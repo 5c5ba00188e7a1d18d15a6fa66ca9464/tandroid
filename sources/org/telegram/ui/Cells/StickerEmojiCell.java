@@ -333,7 +333,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                     String str = documentAttribute.alt;
                     if (str != null && str.length() > 0) {
                         TextView textView = this.emojiTextView;
-                        textView.setText(Emoji.replaceEmoji((CharSequence) documentAttribute.alt, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false));
+                        textView.setText(Emoji.replaceEmoji(documentAttribute.alt, textView.getPaint().getFontMetricsInt(), false));
                         string = documentAttribute.alt + " " + string;
                     }
                 } else {
@@ -375,11 +375,11 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
         setSticker(document, importingSticker, obj, str, z, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x009d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0099, code lost:
     
-        if (r28 != null) goto L65;
+        if (r27 != null) goto L65;
      */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x017d  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0171  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -502,14 +502,14 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                         textView = this.emojiTextView;
                         emojiForSticker = MediaDataController.getInstance(this.currentAccount).getEmojiForSticker(this.sticker.id);
                         paint = this.emojiTextView.getPaint();
-                        replaceEmoji = Emoji.replaceEmoji((CharSequence) emojiForSticker, paint.getFontMetricsInt(), AndroidUtilities.dp(16.0f), false);
+                        replaceEmoji = Emoji.replaceEmoji(emojiForSticker, paint.getFontMetricsInt(), false);
                         textView.setText(replaceEmoji);
                         this.emojiTextView.setVisibility(0);
                     }
                     this.emojiTextView.setVisibility(4);
                 }
                 textView = this.emojiTextView;
-                replaceEmoji = Emoji.replaceEmoji((CharSequence) str, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false);
+                replaceEmoji = Emoji.replaceEmoji(str, textView.getPaint().getFontMetricsInt(), false);
                 textView.setText(replaceEmoji);
                 this.emojiTextView.setVisibility(0);
             } else if (svgThumb != null) {
@@ -517,7 +517,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 if (str == null) {
                 }
                 textView = this.emojiTextView;
-                replaceEmoji = Emoji.replaceEmoji((CharSequence) str, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false);
+                replaceEmoji = Emoji.replaceEmoji(str, textView.getPaint().getFontMetricsInt(), false);
                 textView.setText(replaceEmoji);
                 this.emojiTextView.setVisibility(0);
             } else {
@@ -529,7 +529,7 @@ public abstract class StickerEmojiCell extends FrameLayout implements Notificati
                 if (str == null) {
                 }
                 textView = this.emojiTextView;
-                replaceEmoji = Emoji.replaceEmoji((CharSequence) str, textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16.0f), false);
+                replaceEmoji = Emoji.replaceEmoji(str, textView.getPaint().getFontMetricsInt(), false);
                 textView.setText(replaceEmoji);
                 this.emojiTextView.setVisibility(0);
             }

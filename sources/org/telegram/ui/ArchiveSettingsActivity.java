@@ -18,6 +18,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -342,9 +343,9 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
         getNotificationCenter().removeObserver(this, NotificationCenter.privacyRulesUpdated);
         super.onFragmentDestroy();
         if (this.changed) {
-            TLRPC.TL_account_setGlobalPrivacySettings tL_account_setGlobalPrivacySettings = new TLRPC.TL_account_setGlobalPrivacySettings();
-            tL_account_setGlobalPrivacySettings.settings = this.settings;
-            getConnectionsManager().sendRequest(tL_account_setGlobalPrivacySettings, new RequestDelegate() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda0
+            TL_account.setGlobalPrivacySettings setglobalprivacysettings = new TL_account.setGlobalPrivacySettings();
+            setglobalprivacysettings.settings = this.settings;
+            getConnectionsManager().sendRequest(setglobalprivacysettings, new RequestDelegate() { // from class: org.telegram.ui.ArchiveSettingsActivity$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     ArchiveSettingsActivity.lambda$onFragmentDestroy$2(tLObject, tL_error);

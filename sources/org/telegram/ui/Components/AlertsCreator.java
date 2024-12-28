@@ -89,6 +89,8 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
+import org.telegram.tgnet.tl.TL_phone;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -664,7 +666,7 @@ public abstract class AlertsCreator {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static BottomSheet.Builder createBirthdayPickerDialog(Context context, String str, String str2, TLRPC.TL_birthday tL_birthday, final Utilities.Callback callback, Runnable runnable, Theme.ResourcesProvider resourcesProvider) {
+    public static BottomSheet.Builder createBirthdayPickerDialog(Context context, String str, String str2, TL_account.TL_birthday tL_birthday, final Utilities.Callback callback, Runnable runnable, Theme.ResourcesProvider resourcesProvider) {
         LinearLayout linearLayout;
         int i;
         if (context == null) {
@@ -716,7 +718,7 @@ public abstract class AlertsCreator {
         textView.setTextSize(1, 20.0f);
         textView.setTypeface(AndroidUtilities.bold());
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, 51, 0.0f, 12.0f, 0.0f, 0.0f));
-        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda28
+        textView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createBirthdayPickerDialog$91;
@@ -736,7 +738,7 @@ public abstract class AlertsCreator {
         final int i4 = calendar.get(2);
         final int i5 = calendar.get(1);
         final int i6 = i5 + 1;
-        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda29
+        final Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda31
             @Override // java.lang.Runnable
             public final void run() {
                 AlertsCreator.lambda$createBirthdayPickerDialog$92(NumberPicker.this, i6, numberPicker, numberPicker2, i5, i4, i3);
@@ -753,7 +755,7 @@ public abstract class AlertsCreator {
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(31);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda30
+        numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda32
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i7) {
                 String lambda$createBirthdayPickerDialog$93;
@@ -761,7 +763,7 @@ public abstract class AlertsCreator {
                 return lambda$createBirthdayPickerDialog$93;
             }
         });
-        NumberPicker.OnScrollListener onScrollListener = new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda31
+        NumberPicker.OnScrollListener onScrollListener = new NumberPicker.OnScrollListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda33
             @Override // org.telegram.ui.Components.NumberPicker.OnScrollListener
             public final void onScrollStateChange(NumberPicker numberPicker4, int i7) {
                 AlertsCreator.lambda$createBirthdayPickerDialog$94(runnable2, numberPicker4, i7);
@@ -772,7 +774,7 @@ public abstract class AlertsCreator {
         numberPicker2.setMaxValue(11);
         numberPicker2.setWrapSelectorWheel(false);
         linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
-        numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda32
+        numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda34
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i7) {
                 String lambda$createBirthdayPickerDialog$95;
@@ -784,7 +786,7 @@ public abstract class AlertsCreator {
         numberPicker3.setMinValue(i2);
         numberPicker3.setMaxValue(i6);
         numberPicker3.setWrapSelectorWheel(false);
-        numberPicker3.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda33
+        numberPicker3.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda35
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i7) {
                 String lambda$createBirthdayPickerDialog$96;
@@ -813,14 +815,14 @@ public abstract class AlertsCreator {
                     linearLayout = linearLayout2;
                     linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, -2));
                     final int i7 = UserConfig.selectedAccount;
-                    final Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda34
+                    final Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda36
                         @Override // java.lang.Runnable
                         public final void run() {
                             AlertsCreator.lambda$createBirthdayPickerDialog$98(i7, linksTextView);
                         }
                     };
                     runnable3.run();
-                    NotificationCenter.getInstance(i7).listen(frameLayout2, NotificationCenter.privacyRulesUpdated, new Utilities.Callback() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda35
+                    NotificationCenter.getInstance(i7).listen(frameLayout2, NotificationCenter.privacyRulesUpdated, new Utilities.Callback() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda37
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             runnable3.run();
@@ -839,7 +841,7 @@ public abstract class AlertsCreator {
                 textView2.setText(str2);
                 textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), Theme.getColor(Theme.key_featuredStickers_addButtonPressed, resourcesProvider)));
                 linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda36
+                textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda38
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         AlertsCreator.lambda$createBirthdayPickerDialog$100(NumberPicker.this, numberPicker2, numberPicker3, i6, builder, callback, view);
@@ -864,7 +866,7 @@ public abstract class AlertsCreator {
         textView2.setText(str2);
         textView2.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8.0f), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), Theme.getColor(Theme.key_featuredStickers_addButtonPressed, resourcesProvider)));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, 48, 83, 16, 15, 16, 16));
-        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda36
+        textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda38
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AlertsCreator.lambda$createBirthdayPickerDialog$100(NumberPicker.this, numberPicker2, numberPicker3, i6, builder, callback, view);
@@ -3103,7 +3105,7 @@ public abstract class AlertsCreator {
                     radioColorCell.setCheckColor(colorOrDefault, resourcesProvider != null ? resourcesProvider.getColorOrDefault(i5) : Theme.getColor(i5));
                     radioColorCell.setTextAndValue(strArr[i2], iArr[0] == i2);
                     linearLayout.addView(radioColorCell);
-                    radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda37
+                    radioColorCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda28
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             AlertsCreator.lambda$createLocationUpdateDialog$135(iArr, linearLayout, view);
@@ -3118,7 +3120,7 @@ public abstract class AlertsCreator {
                     builder.setTitle(LocaleController.getString(R.string.LiveLocationAlertExpandTitle));
                 }
                 builder.setView(linearLayout);
-                builder.setPositiveButton(LocaleController.getString(R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda38
+                builder.setPositiveButton(LocaleController.getString(R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda29
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i6) {
                         AlertsCreator.lambda$createLocationUpdateDialog$136(iArr, intCallback, dialogInterface, i6);
@@ -3143,7 +3145,7 @@ public abstract class AlertsCreator {
         if (z) {
         }
         builder2.setView(linearLayout);
-        builder2.setPositiveButton(LocaleController.getString(R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda38
+        builder2.setPositiveButton(LocaleController.getString(R.string.ShareFile), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda29
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i6) {
                 AlertsCreator.lambda$createLocationUpdateDialog$136(iArr, intCallback, dialogInterface, i6);
@@ -4706,7 +4708,7 @@ public abstract class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createBirthdayPickerDialog$100(NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3, int i, BottomSheet.Builder builder, Utilities.Callback callback, View view) {
-        TLRPC.TL_birthday tL_birthday = new TLRPC.TL_birthday();
+        TL_account.TL_birthday tL_birthday = new TL_account.TL_birthday();
         tL_birthday.day = numberPicker.getValue();
         tL_birthday.month = numberPicker2.getValue() + 1;
         if (numberPicker3.getValue() != i) {
@@ -5025,11 +5027,11 @@ public abstract class AlertsCreator {
                 dialogInterface.dismiss();
                 return;
             }
-            TLRPC.TL_account_updateProfile tL_account_updateProfile = new TLRPC.TL_account_updateProfile();
-            tL_account_updateProfile.about = trim;
-            tL_account_updateProfile.flags = 4 | tL_account_updateProfile.flags;
+            TL_account.updateProfile updateprofile = new TL_account.updateProfile();
+            updateprofile.about = trim;
+            updateprofile.flags = 4 | updateprofile.flags;
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 2, Long.valueOf(j));
-            ConnectionsManager.getInstance(i).sendRequest(tL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda160
+            ConnectionsManager.getInstance(i).sendRequest(updateprofile, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda160
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     AlertsCreator.lambda$createChangeBioAlert$43(tLObject, tL_error);
@@ -5092,21 +5094,21 @@ public abstract class AlertsCreator {
                 dialogInterface.dismiss();
                 return;
             }
-            TLRPC.TL_account_updateProfile tL_account_updateProfile = new TLRPC.TL_account_updateProfile();
-            tL_account_updateProfile.flags = 3;
-            tL_account_updateProfile.first_name = obj;
+            TL_account.updateProfile updateprofile = new TL_account.updateProfile();
+            updateprofile.flags = 3;
+            updateprofile.first_name = obj;
             user.first_name = obj;
-            tL_account_updateProfile.last_name = obj2;
+            updateprofile.last_name = obj2;
             user.last_name = obj2;
             TLRPC.User user2 = MessagesController.getInstance(i).getUser(Long.valueOf(UserConfig.getInstance(i).getClientUserId()));
             if (user2 != null) {
-                user2.first_name = tL_account_updateProfile.first_name;
-                user2.last_name = tL_account_updateProfile.last_name;
+                user2.first_name = updateprofile.first_name;
+                user2.last_name = updateprofile.last_name;
             }
             UserConfig.getInstance(i).saveConfig(true);
             NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.mainUserInfoChanged, new Object[0]);
             NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-            ConnectionsManager.getInstance(i).sendRequest(tL_account_updateProfile, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda159
+            ConnectionsManager.getInstance(i).sendRequest(updateprofile, new RequestDelegate() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda159
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     AlertsCreator.lambda$createChangeNameAlert$47(tLObject, tL_error);
@@ -6692,7 +6694,7 @@ public abstract class AlertsCreator {
                         showFloodWaitAlert(tL_error.text, lastFragment);
                     }
                     showSimpleAlert(lastFragment, string, LocaleController.getString(i2));
-                } else if ((tLObject instanceof TLRPC.TL_account_saveSecureValue) || (tLObject instanceof TLRPC.TL_account_getAuthorizationForm)) {
+                } else if ((tLObject instanceof TL_account.saveSecureValue) || (tLObject instanceof TL_account.getAuthorizationForm)) {
                     lastFragment2 = baseFragment == null ? LaunchActivity.getLastFragment() : baseFragment;
                     if (tL_error.text.contains("PHONE_NUMBER_INVALID")) {
                         i3 = R.string.InvalidPhoneNumber;
@@ -6713,7 +6715,7 @@ public abstract class AlertsCreator {
                     }
                 } else {
                     boolean z4 = tLObject instanceof TLRPC.TL_channels_joinChannel;
-                    if (z4 || (tLObject instanceof TLRPC.TL_channels_editAdmin) || (tLObject instanceof TLRPC.TL_channels_inviteToChannel) || (tLObject instanceof TLRPC.TL_messages_addChatUser) || (tLObject instanceof TLRPC.TL_messages_startBot) || (tLObject instanceof TLRPC.TL_channels_editBanned) || (tLObject instanceof TLRPC.TL_messages_editChatDefaultBannedRights) || (tLObject instanceof TLRPC.TL_messages_editChatAdmin) || (tLObject instanceof TLRPC.TL_messages_migrateChat) || (tLObject instanceof TLRPC.TL_phone_inviteToGroupCall)) {
+                    if (z4 || (tLObject instanceof TLRPC.TL_channels_editAdmin) || (tLObject instanceof TLRPC.TL_channels_inviteToChannel) || (tLObject instanceof TLRPC.TL_messages_addChatUser) || (tLObject instanceof TLRPC.TL_messages_startBot) || (tLObject instanceof TLRPC.TL_channels_editBanned) || (tLObject instanceof TLRPC.TL_messages_editChatDefaultBannedRights) || (tLObject instanceof TLRPC.TL_messages_editChatAdmin) || (tLObject instanceof TLRPC.TL_messages_migrateChat) || (tLObject instanceof TL_phone.inviteToGroupCall)) {
                         if (baseFragment != null && tL_error.text.equals("CHANNELS_TOO_MUCH")) {
                             if (baseFragment.getParentActivity() != null) {
                                 baseFragment.showDialog(new LimitReachedBottomSheet(baseFragment, baseFragment.getParentActivity(), 5, i, null));
@@ -6965,7 +6967,7 @@ public abstract class AlertsCreator {
                             showSimpleAlert(lastFragment2, str2);
                         } else {
                             if (!(tLObject instanceof TLRPC.TL_messages_getAttachedStickers)) {
-                                if ((tLObject instanceof TLRPC.TL_account_confirmPhone) || (tLObject instanceof TLRPC.TL_account_verifyPhone) || (tLObject instanceof TLRPC.TL_account_verifyEmail)) {
+                                if ((tLObject instanceof TL_account.confirmPhone) || (tLObject instanceof TL_account.verifyPhone) || (tLObject instanceof TL_account.verifyEmail)) {
                                     if (!tL_error.text.contains("PHONE_CODE_EMPTY") && !tL_error.text.contains("PHONE_CODE_INVALID") && !tL_error.text.contains("CODE_INVALID") && !tL_error.text.contains("CODE_EMPTY")) {
                                         if (!tL_error.text.contains("PHONE_CODE_EXPIRED") && !tL_error.text.contains("EMAIL_VERIFY_EXPIRED")) {
                                             if (!tL_error.text.startsWith("FLOOD_WAIT")) {
@@ -6995,7 +6997,7 @@ public abstract class AlertsCreator {
                                         }
                                         i6 = R.string.InvalidCode;
                                     }
-                                } else if (tLObject instanceof TLRPC.TL_account_sendConfirmPhoneCode) {
+                                } else if (tLObject instanceof TL_account.sendConfirmPhoneCode) {
                                     if (tL_error.code == 400) {
                                         i6 = R.string.CancelLinkExpired;
                                     } else {
@@ -7004,8 +7006,8 @@ public abstract class AlertsCreator {
                                         }
                                         i6 = R.string.FloodWait;
                                     }
-                                } else if (!(tLObject instanceof TLRPC.TL_account_changePhone)) {
-                                    if (tLObject instanceof TLRPC.TL_account_sendChangePhoneCode) {
+                                } else if (!(tLObject instanceof TL_account.changePhone)) {
+                                    if (tLObject instanceof TL_account.sendChangePhoneCode) {
                                         if (tL_error.text.contains("PHONE_NUMBER_INVALID")) {
                                             LoginActivity.needShowInvalidAlert(baseFragment, (String) objArr[0], false);
                                         } else {
@@ -7028,7 +7030,7 @@ public abstract class AlertsCreator {
                                             }
                                             i8 = R.string.InvalidCode;
                                         }
-                                    } else if (tLObject instanceof TLRPC.TL_account_updateUsername) {
+                                    } else if (tLObject instanceof TL_account.updateUsername) {
                                         String str11 = tL_error.text;
                                         str11.hashCode();
                                         if (str11.equals("USERNAME_INVALID")) {
@@ -7047,7 +7049,7 @@ public abstract class AlertsCreator {
                                             }
                                             i8 = R.string.FloodWait;
                                         } else {
-                                            if ((tLObject instanceof TLRPC.TL_account_getPassword) || (tLObject instanceof TLRPC.TL_account_getTmpPassword)) {
+                                            if ((tLObject instanceof TL_account.getPassword) || (tLObject instanceof TL_account.getTmpPassword)) {
                                                 if (tL_error.text.startsWith("FLOOD_WAIT")) {
                                                     str5 = getFloodWaitString(tL_error.text);
                                                 }

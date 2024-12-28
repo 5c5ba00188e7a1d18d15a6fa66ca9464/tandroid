@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,6 +58,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -1506,7 +1506,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$0(TLRPC.TL_error tL_error, TLObject tLObject) {
             TLRPC.StickerSet stickerSet;
-            if (tL_error != null || !(tLObject instanceof TLRPC.Vector)) {
+            if (tL_error != null || !(tLObject instanceof Vector)) {
                 EmojiPacksAlert.this.dismiss();
                 if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
                     return;
@@ -1514,7 +1514,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 BulletinFactory.of(EmojiPacksAlert.this.fragment).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
                 return;
             }
-            TLRPC.Vector vector = (TLRPC.Vector) tLObject;
+            Vector vector = (Vector) tLObject;
             if (this.inputStickerSets == null) {
                 this.inputStickerSets = new ArrayList();
             }
@@ -1834,7 +1834,6 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         float dp2 = AndroidUtilities.dp(3.5f);
         int i = Theme.key_featuredStickers_addButton;
         this.progressDrawable = new CircularProgressDrawable(dp, dp2, getThemedColor(i));
-        new PorterDuffColorFilter(ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundWhiteLinkText), NotificationCenter.filterSettingsUpdated), PorterDuff.Mode.MULTIPLY);
         ContentView contentView = new ContentView(context);
         this.contentView = contentView;
         this.containerView = contentView;

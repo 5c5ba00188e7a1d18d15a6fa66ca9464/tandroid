@@ -56,6 +56,7 @@ import org.telegram.messenger.camera.CameraView;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -258,7 +259,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         private ImageView imageView2;
         public boolean isSelected;
         private final Theme.ResourcesProvider resourcesProvider;
-        private TextView textView;
+        private AnimatedEmojiSpan.TextViewEmojis textView;
 
         public BottomSheetCell(Context context, int i) {
             this(context, i, null);
@@ -266,7 +267,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
 
         public BottomSheetCell(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
             super(context);
-            TextView textView;
+            AnimatedEmojiSpan.TextViewEmojis textViewEmojis;
             FrameLayout.LayoutParams createFrame;
             this.isSelected = false;
             this.resourcesProvider = resourcesProvider;
@@ -285,23 +286,23 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             imageView2.setScaleType(scaleType);
             this.imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_radioBackgroundChecked, resourcesProvider), PorterDuff.Mode.SRC_IN));
             addView(this.imageView2, LayoutHelper.createFrame(56, 48, (LocaleController.isRTL ? 3 : 5) | 16));
-            TextView textView2 = new TextView(context);
-            this.textView = textView2;
-            textView2.setLines(1);
+            AnimatedEmojiSpan.TextViewEmojis textViewEmojis2 = new AnimatedEmojiSpan.TextViewEmojis(context);
+            this.textView = textViewEmojis2;
+            textViewEmojis2.setLines(1);
             this.textView.setSingleLine(true);
             this.textView.setGravity(1);
             this.textView.setEllipsize(TextUtils.TruncateAt.END);
             if (i == 0 || i == Builder.CELL_TYPE_CALL) {
                 this.textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                 this.textView.setTextSize(1, 16.0f);
-                textView = this.textView;
+                textViewEmojis = this.textView;
                 createFrame = LayoutHelper.createFrame(-2, -2, (LocaleController.isRTL ? 5 : 3) | 16);
             } else if (i == 1) {
                 this.textView.setGravity(17);
                 this.textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                 this.textView.setTextSize(1, 14.0f);
                 this.textView.setTypeface(AndroidUtilities.bold());
-                textView = this.textView;
+                textViewEmojis = this.textView;
                 createFrame = LayoutHelper.createFrame(-1, -1.0f);
             } else {
                 if (i != 2) {
@@ -312,17 +313,17 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 this.textView.setTextSize(1, 14.0f);
                 this.textView.setTypeface(AndroidUtilities.bold());
                 this.textView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(Theme.key_featuredStickers_addButton), 6.0f));
-                textView = this.textView;
+                textViewEmojis = this.textView;
                 createFrame = LayoutHelper.createFrame(-1, -1.0f, 0, 16.0f, 16.0f, 16.0f, 16.0f);
             }
-            addView(textView, createFrame);
+            addView(textViewEmojis, createFrame);
         }
 
         public ImageView getImageView() {
             return this.imageView;
         }
 
-        public TextView getTextView() {
+        public AnimatedEmojiSpan.TextViewEmojis getTextView() {
             return this.textView;
         }
 
@@ -569,6 +570,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 animatorSet.cancel();
                 this.currentAnimation = null;
             }
+            BottomSheet.this.onSwipeStarts();
         }
 
         private void checkDismiss(float f, float f2) {
@@ -580,6 +582,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 BottomSheet.this.allowCustomAnimation = z;
                 return;
             }
+            this.maybeStartTracking = false;
             this.currentAnimation = new AnimatorSet();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.BottomSheet$ContainerView$$ExternalSyntheticLambda1
@@ -2450,6 +2453,10 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         return ColorUtils.blendARGB(i, this.navBarColor, f);
     }
 
+    public Theme.ResourcesProvider getResourcesProvider() {
+        return this.resourcesProvider;
+    }
+
     public int getRightInset() {
         int systemWindowInsetRight;
         WindowInsets windowInsets = this.lastInsets;
@@ -2615,6 +2622,9 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     @Override // android.app.Dialog
     protected void onStart() {
         super.onStart();
+    }
+
+    protected void onSwipeStarts() {
     }
 
     public void release() {

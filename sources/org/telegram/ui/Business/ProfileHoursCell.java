@@ -22,6 +22,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ClickableAnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -206,7 +207,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void set(TLRPC.TL_businessWorkHours tL_businessWorkHours, boolean z, boolean z2, boolean z3) {
+    public void set(TL_account.TL_businessWorkHours tL_businessWorkHours, boolean z, boolean z2, boolean z3) {
         boolean z4;
         ArrayList[] arrayListArr;
         boolean z5;
@@ -295,7 +296,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
         ArrayList adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tL_businessWorkHours.weekly_open, offset);
         int i13 = i12 + (i11 * 60) + (i10 * 1440);
         for (int i14 = 0; i14 < adaptWeeklyOpen.size(); i14++) {
-            TLRPC.TL_businessWeeklyOpen tL_businessWeeklyOpen = (TLRPC.TL_businessWeeklyOpen) adaptWeeklyOpen.get(i14);
+            TL_account.TL_businessWeeklyOpen tL_businessWeeklyOpen = (TL_account.TL_businessWeeklyOpen) adaptWeeklyOpen.get(i14);
             int i15 = tL_businessWeeklyOpen.start_minute;
             if ((i13 >= i15 && i13 <= tL_businessWeeklyOpen.end_minute) || (((i3 = i13 + 10080) >= i15 && i3 <= tL_businessWeeklyOpen.end_minute) || (i13 - 10080 >= i15 && i4 <= tL_businessWeeklyOpen.end_minute))) {
                 z4 = true;
@@ -342,7 +343,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
                                     i2 = -1;
                                     break;
                                 }
-                                i2 = ((TLRPC.TL_businessWeeklyOpen) adaptWeeklyOpen.get(i22)).start_minute;
+                                i2 = ((TL_account.TL_businessWeeklyOpen) adaptWeeklyOpen.get(i22)).start_minute;
                                 if (i13 < i2) {
                                     break;
                                 }
@@ -350,7 +351,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
                                 z6 = z5;
                             }
                             if (i2 == -1 && !adaptWeeklyOpen.isEmpty()) {
-                                i2 = ((TLRPC.TL_businessWeeklyOpen) adaptWeeklyOpen.get(0)).start_minute;
+                                i2 = ((TL_account.TL_businessWeeklyOpen) adaptWeeklyOpen.get(0)).start_minute;
                             }
                             if (i2 != -1) {
                                 int i23 = i2 < i13 ? i2 + (10080 - i13) : i2 - i13;

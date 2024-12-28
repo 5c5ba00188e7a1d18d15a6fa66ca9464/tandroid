@@ -897,7 +897,7 @@ public class AnimatedTextView extends View {
         public void setEmojiColor(int i) {
             if (this.emojiColor != i) {
                 this.emojiColor = i;
-                this.emojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY);
+                this.emojiColorFilter = new PorterDuffColorFilter(i, PorterDuff.Mode.SRC_IN);
             }
         }
 

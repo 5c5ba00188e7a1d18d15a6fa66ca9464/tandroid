@@ -45,6 +45,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -55,6 +56,7 @@ public class AnimatedEmojiDrawable extends Drawable {
     private static boolean LOG_MEMORY_LEAK = false;
     public static int attachedCount;
     public static ArrayList attachedDrawable;
+    private static boolean disabledToggleableAnimations;
     private static HashMap dominantColors;
     private static HashMap fetchers;
     private static SparseArray globalEmojiCache;
@@ -111,8 +113,8 @@ public class AnimatedEmojiDrawable extends Drawable {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadFromServer$4(ArrayList arrayList, TLObject tLObject) {
             HashSet hashSet = new HashSet(arrayList);
-            if (tLObject instanceof TLRPC.Vector) {
-                ArrayList<Object> arrayList2 = ((TLRPC.Vector) tLObject).objects;
+            if (tLObject instanceof Vector) {
+                ArrayList arrayList2 = ((Vector) tLObject).objects;
                 putToStorage(arrayList2);
                 processDocuments(arrayList2);
                 for (int i = 0; i < arrayList2.size(); i++) {
@@ -622,6 +624,10 @@ public class AnimatedEmojiDrawable extends Drawable {
             invalidateSelf();
         }
 
+        public boolean isEmpty() {
+            return this.drawables[0] == null;
+        }
+
         public float isNotEmpty() {
             return (this.drawables[1] != null ? 1.0f - this.changeProgress.get() : 0.0f) + (this.drawables[0] != null ? this.changeProgress.get() : 0.0f);
         }
@@ -991,9 +997,9 @@ public class AnimatedEmojiDrawable extends Drawable {
         return num.intValue();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:139:0x020a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:147:0x021b, code lost:
     
-        if (r3 != null) goto L116;
+        if (r3 != null) goto L122;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1007,35 +1013,23 @@ public class AnimatedEmojiDrawable extends Drawable {
         ImageLocation imageLocation2;
         Drawable emojiDrawable;
         ImageLocation forDocument;
+        ImageLocation forDocument2;
         String str2;
+        TLRPC.Document document;
+        long j;
         String str3;
         int i3;
         String str4;
         ImageReceiver imageReceiver;
         ImageLocation imageLocation3;
-        Drawable drawable;
-        long j;
-        TLRPC.Document document;
-        ImageLocation forDocument2;
         String str5;
-        TLRPC.Document document2;
-        String str6;
-        int i4;
-        ImageLocation imageLocation4;
-        String str7;
-        String str8;
-        ImageReceiver imageReceiver2;
-        ImageLocation imageLocation5;
-        Drawable drawable2;
-        long j2;
-        TLRPC.Document document3;
         float f;
-        int i5;
-        TLRPC.Document document4 = this.document;
-        if (document4 != null) {
+        int i4;
+        TLRPC.Document document2 = this.document;
+        if (document2 != null) {
             if (this.imageReceiver == null || this.imageReceiverEmojiThumb || z) {
-                int i6 = this.cacheType;
-                if ((i6 == 20 || i6 == 21) && (document4 instanceof TLRPC.TL_documentEmpty)) {
+                int i5 = this.cacheType;
+                if ((i5 == 20 || i5 == 21) && (document2 instanceof TLRPC.TL_documentEmpty)) {
                     return;
                 }
                 this.imageReceiverEmojiThumb = false;
@@ -1043,41 +1037,41 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if (this.colorFilterToSet != null && canOverrideColor()) {
                     this.imageReceiver.setColorFilter(this.colorFilterToSet);
                 }
-                int i7 = this.cacheType;
-                if (i7 != 0) {
-                    if (i7 == 12) {
-                        i7 = 2;
+                int i6 = this.cacheType;
+                if (i6 != 0) {
+                    if (i6 == 12) {
+                        i6 = 2;
                     }
-                    this.imageReceiver.setUniqKeyPrefix(i7 + "_");
+                    this.imageReceiver.setUniqKeyPrefix(i6 + "_");
                 }
                 this.imageReceiver.setVideoThumbIsSame(true);
-                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || ((i = this.cacheType) == 2 && !liteModeKeyboard) || (i == 3 && !liteModeReactions);
-                int i8 = this.cacheType;
-                if (i8 == 13 || i8 == 16) {
+                boolean z2 = (SharedConfig.getDevicePerformanceClass() == 0 && this.cacheType == 5) || (((i = this.cacheType) == 2 || i == 25) && !liteModeKeyboard) || (i == 3 && !liteModeReactions);
+                int i7 = this.cacheType;
+                if (i7 == 13 || i7 == 16) {
                     z2 = true;
                 }
-                if (i8 == 24) {
+                if (i7 == 24) {
                     z2 = false;
                 }
-                String str9 = this.sizedp + "_" + this.sizedp;
+                String str6 = this.sizedp + "_" + this.sizedp;
                 if (this.cacheType == 12) {
-                    str9 = str9 + "_d_nostream";
+                    str6 = str6 + "_d_nostream";
+                }
+                int i8 = this.cacheType;
+                if (i8 != 17 && i8 != 15 && i8 != 14 && i8 != 8 && ((i8 != 1 || SharedConfig.getDevicePerformanceClass() < 2) && this.cacheType != 12)) {
+                    str6 = str6 + "_pcache";
                 }
                 int i9 = this.cacheType;
-                if (i9 != 17 && i9 != 15 && i9 != 14 && i9 != 8 && ((i9 != 1 || SharedConfig.getDevicePerformanceClass() < 2) && this.cacheType != 12)) {
-                    str9 = str9 + "_pcache";
-                }
-                int i10 = this.cacheType;
-                if (i10 != 17 && i10 != 0 && i10 != 1 && i10 != 14 && i10 != 15 && i10 != 19 && i10 != 20 && i10 != 21) {
-                    str9 = str9 + "_compress";
+                if (i9 != 17 && i9 != 0 && i9 != 26 && i9 != 1 && i9 != 14 && i9 != 15 && i9 != 19 && i9 != 20 && i9 != 21) {
+                    str6 = str6 + "_compress";
                 }
                 if (this.cacheType == 8) {
-                    str9 = str9 + "firstframe";
+                    str6 = str6 + "firstframe";
                 }
                 TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(this.document.thumbs, 90);
                 if ("video/webm".equals(this.document.mime_type)) {
                     imageLocation = ImageLocation.getForDocument(this.document);
-                    str9 = str9 + "_" + ImageLoader.AUTOPLAY_FILTER;
+                    str6 = str6 + "_" + ImageLoader.AUTOPLAY_FILTER;
                     svgThumb = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, 0.2f, true);
                 } else if ("application/x-tgsticker".equals(this.document.mime_type)) {
                     StringBuilder sb = new StringBuilder();
@@ -1089,9 +1083,9 @@ public class AnimatedEmojiDrawable extends Drawable {
                     sb.append(str);
                     sb.append(this.documentId);
                     sb.append("@");
-                    sb.append(str9);
+                    sb.append(str6);
                     String sb2 = sb.toString();
-                    if (SharedConfig.getDevicePerformanceClass() != 0 || (i2 = this.cacheType) == 2 || i2 == 22 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
+                    if (SharedConfig.getDevicePerformanceClass() != 0 || (i2 = this.cacheType) == 2 || i2 == 25 || i2 == 22 || !ImageLoader.getInstance().hasLottieMemCache(sb2)) {
                         SvgHelper.SvgDrawable svgThumb2 = DocumentObject.getSvgThumb(this.document.thumbs, Theme.key_windowBackgroundWhiteGrayIcon, this.cacheType == 22 ? 0.8f : 0.2f);
                         if (svgThumb2 != null && MessageObject.isAnimatedStickerDocument(this.document, true)) {
                             svgThumb2.overrideWidthAndHeight(512, 512);
@@ -1108,8 +1102,8 @@ public class AnimatedEmojiDrawable extends Drawable {
                     }
                     imageLocation = null;
                 }
-                int i11 = this.cacheType;
-                if (i11 == 20 || i11 == 21) {
+                int i10 = this.cacheType;
+                if (i10 == 20 || i10 == 21) {
                     imageLocation2 = null;
                     emojiDrawable = Emoji.getEmojiDrawable(MessageObject.findAnimatedEmojiEmoticon(this.document, null));
                 } else {
@@ -1119,102 +1113,70 @@ public class AnimatedEmojiDrawable extends Drawable {
                 if (this.absolutePath != null) {
                     this.imageReceiver.setImageBitmap(new AnimatedFileDrawable(new File(this.absolutePath), true, 0L, 0, null, null, null, 0L, this.currentAccount, true, 512, 512, null));
                 } else {
-                    int i12 = this.cacheType;
-                    if (i12 == 8) {
-                        ImageReceiver imageReceiver3 = this.imageReceiver;
-                        TLRPC.Document document5 = this.document;
-                        str6 = null;
-                        i4 = 1;
-                        imageLocation4 = null;
-                        str7 = null;
-                        imageLocation5 = null;
-                        str8 = null;
-                        imageReceiver2 = imageReceiver3;
+                    int i11 = this.cacheType;
+                    if (i11 == 8) {
+                        ImageReceiver imageReceiver2 = this.imageReceiver;
+                        document = this.document;
+                        j = document.size;
+                        str3 = null;
+                        i3 = 1;
+                        imageLocation3 = null;
+                        str5 = null;
+                        forDocument = null;
+                        str4 = null;
+                        imageReceiver = imageReceiver2;
                         forDocument2 = imageLocation;
-                        str5 = str9;
-                        drawable2 = emojiDrawable;
-                        j2 = document5.size;
-                        document3 = document5;
-                    } else {
-                        if (z2 || !(liteModeKeyboard || i12 == 14)) {
-                            if (i12 == 16) {
-                                imageLocation2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
-                            }
-                            if ("video/webm".equals(this.document.mime_type)) {
-                                ImageReceiver imageReceiver4 = this.imageReceiver;
-                                forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
-                                str5 = this.sizedp + "_" + this.sizedp;
-                                document2 = this.document;
-                                str6 = null;
-                                i4 = 1;
-                                imageLocation4 = null;
-                                str7 = null;
-                                str8 = null;
-                                imageReceiver2 = imageReceiver4;
-                                imageLocation5 = imageLocation2;
-                                drawable2 = emojiDrawable;
-                                j2 = document2.size;
-                            } else {
-                                if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
-                                    ImageReceiver imageReceiver5 = this.imageReceiver;
-                                    str2 = str9 + "_firstframe";
-                                    TLRPC.Document document6 = this.document;
-                                    str3 = null;
-                                    i3 = 1;
-                                    str4 = null;
-                                    imageReceiver = imageReceiver5;
-                                    forDocument = imageLocation;
-                                    imageLocation3 = imageLocation2;
-                                    drawable = emojiDrawable;
-                                    j = document6.size;
-                                    document = document6;
-                                } else {
-                                    ImageReceiver imageReceiver6 = this.imageReceiver;
-                                    forDocument = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
-                                    str2 = this.sizedp + "_" + this.sizedp;
-                                    TLRPC.Document document7 = this.document;
-                                    str3 = null;
-                                    i3 = 1;
-                                    str4 = null;
-                                    imageReceiver = imageReceiver6;
-                                    imageLocation3 = imageLocation2;
-                                    drawable = emojiDrawable;
-                                    j = document7.size;
-                                    document = document7;
-                                }
-                                imageReceiver.setImage(forDocument, str2, imageLocation3, str4, drawable, j, str3, document, i3);
-                            }
-                        } else {
-                            imageLocation5 = i12 == 17 ? ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document) : imageLocation2;
-                            ImageReceiver imageReceiver7 = this.imageReceiver;
-                            forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
-                            str5 = this.sizedp + "_" + this.sizedp;
-                            document2 = this.document;
-                            str6 = null;
-                            i4 = 1;
-                            str8 = null;
-                            imageReceiver2 = imageReceiver7;
-                            imageLocation4 = imageLocation;
-                            str7 = str9;
-                            drawable2 = emojiDrawable;
-                            j2 = document2.size;
+                        str2 = str6;
+                    } else if (z2 || !(liteModeKeyboard || i11 == 14)) {
+                        if (i11 == 16) {
+                            imageLocation2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
                         }
-                        document3 = document2;
+                        if ("video/webm".equals(this.document.mime_type)) {
+                            ImageReceiver imageReceiver3 = this.imageReceiver;
+                            ImageLocation forDocument3 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
+                            String str7 = this.sizedp + "_" + this.sizedp;
+                            TLRPC.Document document3 = this.document;
+                            imageReceiver3.setImage(null, null, forDocument3, str7, imageLocation2, null, emojiDrawable, document3.size, null, document3, 1);
+                        } else if (MessageObject.isAnimatedStickerDocument(this.document, true)) {
+                            ImageReceiver imageReceiver4 = this.imageReceiver;
+                            String str8 = str6 + "_firstframe";
+                            TLRPC.Document document4 = this.document;
+                            imageReceiver4.setImage(imageLocation, str8, imageLocation2, null, emojiDrawable, document4.size, null, document4, 1);
+                        } else {
+                            ImageReceiver imageReceiver5 = this.imageReceiver;
+                            ImageLocation forDocument4 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
+                            String str9 = this.sizedp + "_" + this.sizedp;
+                            TLRPC.Document document5 = this.document;
+                            imageReceiver5.setImage(forDocument4, str9, imageLocation2, null, emojiDrawable, document5.size, null, document5, 1);
+                        }
+                    } else {
+                        forDocument = i11 == 17 ? ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document) : imageLocation2;
+                        ImageReceiver imageReceiver6 = this.imageReceiver;
+                        forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, this.document);
+                        str2 = this.sizedp + "_" + this.sizedp;
+                        document = this.document;
+                        j = document.size;
+                        str3 = null;
+                        i3 = 1;
+                        str4 = null;
+                        imageReceiver = imageReceiver6;
+                        imageLocation3 = imageLocation;
+                        str5 = str6;
                     }
-                    imageReceiver2.setImage(imageLocation4, str7, forDocument2, str5, imageLocation5, str8, drawable2, j2, str6, document3, i4);
+                    imageReceiver.setImage(imageLocation3, str5, forDocument2, str2, forDocument, str4, emojiDrawable, j, str3, document, i3);
                 }
                 updateAutoRepeat(this.imageReceiver);
-                int i13 = this.cacheType;
-                if (i13 == 13 || i13 == 16 || i13 == 3 || i13 == 5 || i13 == 4 || i13 == 24) {
+                int i12 = this.cacheType;
+                if (i12 == 13 || i12 == 16 || i12 == 3 || i12 == 5 || i12 == 4 || i12 == 24) {
                     this.imageReceiver.setLayerNum(7);
                 }
-                int i14 = this.cacheType;
-                if (i14 == 9 || i14 == 21) {
+                int i13 = this.cacheType;
+                if (i13 == 9 || i13 == 21) {
                     this.imageReceiver.setLayerNum(6656);
                 }
                 this.imageReceiver.setAspectFit(true);
-                int i15 = this.cacheType;
-                if (i15 == 12 || i15 == 18 || i15 == 8 || i15 == 6 || i15 == 5) {
+                int i14 = this.cacheType;
+                if (i14 == 12 || i14 == 26 || i14 == 18 || i14 == 8 || i14 == 6 || i14 == 5 || (i14 == 25 && disabledToggleableAnimations)) {
                     this.imageReceiver.setAllowStartAnimation(false);
                     this.imageReceiver.setAllowStartLottieAnimation(false);
                     this.imageReceiver.setAutoRepeat(0);
@@ -1224,20 +1186,20 @@ public class AnimatedEmojiDrawable extends Drawable {
                     this.imageReceiver.setAutoRepeat(1);
                 }
                 this.imageReceiver.setAllowDecodeSingleFrame(true);
-                int i16 = this.cacheType;
-                if (i16 == 5 || i16 == 6) {
+                int i15 = this.cacheType;
+                if (i15 == 5 || i15 == 6) {
                     f = 6.0f;
                 } else {
-                    if (i16 != 24) {
-                        i5 = 0;
-                        this.imageReceiver.setRoundRadius(i5);
+                    if (i15 != 24) {
+                        i4 = 0;
+                        this.imageReceiver.setRoundRadius(i4);
                         updateAttachState();
                         invalidate();
                     }
                     f = 14.0f;
                 }
-                i5 = AndroidUtilities.dp(f);
-                this.imageReceiver.setRoundRadius(i5);
+                i4 = AndroidUtilities.dp(f);
+                this.imageReceiver.setRoundRadius(i4);
                 updateAttachState();
                 invalidate();
             }
@@ -1305,6 +1267,44 @@ public class AnimatedEmojiDrawable extends Drawable {
         AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(i2, i, document);
         longSparseArray.put(j, animatedEmojiDrawable2);
         return animatedEmojiDrawable2;
+    }
+
+    public static void toggleAnimations(int i, boolean z) {
+        LongSparseArray longSparseArray;
+        ImageReceiver imageReceiver;
+        boolean z2 = !z;
+        if (disabledToggleableAnimations == z2) {
+            return;
+        }
+        disabledToggleableAnimations = z2;
+        if (globalEmojiCache == null || (longSparseArray = (LongSparseArray) globalEmojiCache.get(Objects.hash(Integer.valueOf(i), 25))) == null) {
+            return;
+        }
+        for (int i2 = 0; i2 < longSparseArray.size(); i2++) {
+            AnimatedEmojiDrawable animatedEmojiDrawable = (AnimatedEmojiDrawable) longSparseArray.valueAt(i2);
+            if (animatedEmojiDrawable != null && (imageReceiver = animatedEmojiDrawable.getImageReceiver()) != null) {
+                if (z) {
+                    imageReceiver.setAllowStartLottieAnimation(true);
+                    imageReceiver.setAllowStartAnimation(true);
+                    imageReceiver.setAutoRepeat(1);
+                    AnimatedFileDrawable animation = imageReceiver.getAnimation();
+                    if (animation != null) {
+                        animation.setUseSharedQueue(imageReceiver.useSharedAnimationQueue);
+                        animation.start();
+                    } else {
+                        RLottieDrawable lottieAnimation = imageReceiver.getLottieAnimation();
+                        if (lottieAnimation != null) {
+                            lottieAnimation.start();
+                        }
+                    }
+                } else {
+                    imageReceiver.setAllowStartAnimation(false);
+                    imageReceiver.setAllowStartLottieAnimation(false);
+                    imageReceiver.setAutoRepeat(0);
+                    imageReceiver.stopAnimation();
+                }
+            }
+        }
     }
 
     public static void updateAll() {
@@ -1379,36 +1379,36 @@ public class AnimatedEmojiDrawable extends Drawable {
     }
 
     private void updateSize() {
-        int i;
-        float abs;
+        int abs;
+        float abs2;
         TextPaint textPaint;
-        int i2 = this.cacheType;
-        if (i2 == 0) {
-            i = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
+        int i = this.cacheType;
+        if (i == 0 || i == 26) {
+            abs = (int) (((Math.abs(Theme.chat_msgTextPaint.ascent()) + Math.abs(Theme.chat_msgTextPaint.descent())) * 1.15f) / AndroidUtilities.density);
         } else {
             TextPaint[] textPaintArr = Theme.chat_msgTextPaintEmoji;
-            if (textPaintArr != null && (i2 == 1 || i2 == 4 || i2 == 19 || i2 == 20)) {
-                abs = Math.abs(textPaintArr[2].ascent());
+            if (textPaintArr != null && (i == 1 || i == 4 || i == 19 || i == 20)) {
+                abs2 = Math.abs(textPaintArr[2].ascent());
                 textPaint = Theme.chat_msgTextPaintEmoji[2];
-            } else if (textPaintArr != null && i2 == 8) {
-                abs = Math.abs(textPaintArr[0].ascent());
+            } else if (textPaintArr != null && i == 8) {
+                abs2 = Math.abs(textPaintArr[0].ascent());
                 textPaint = Theme.chat_msgTextPaintEmoji[0];
-            } else if (i2 == 14 || i2 == 15 || i2 == 17) {
-                i = 100;
-            } else if (i2 == 11 || i2 == 22) {
-                i = 56;
-            } else if (i2 == 24) {
-                i = NotificationCenter.filePreparingStarted;
+            } else if (i == 14 || i == 15 || i == 17) {
+                abs = 100;
+            } else if (i == 11 || i == 22) {
+                abs = 56;
+            } else if (i == 24) {
+                abs = NotificationCenter.filePreparingStarted;
             } else {
-                if (i2 == 23) {
+                if (i == 23) {
                     this.sizedp = 14;
                     return;
                 }
-                i = 34;
+                abs = 34;
             }
-            i = (int) (((abs + Math.abs(textPaint.descent())) * 1.15f) / AndroidUtilities.density);
+            abs = (int) (((abs2 + Math.abs(textPaint.descent())) * 1.15f) / AndroidUtilities.density);
         }
-        this.sizedp = i;
+        this.sizedp = abs;
     }
 
     public void addView(View view) {

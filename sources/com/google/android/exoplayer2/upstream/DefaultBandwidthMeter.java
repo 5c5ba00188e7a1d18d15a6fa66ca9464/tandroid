@@ -2911,7 +2911,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case 159:
+            case NotificationCenter.audioRecordTooShort /* 159 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
                 iArr[1] = 0;
@@ -2929,7 +2929,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.didStartedCall /* 161 */:
+            case 161:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 0;
@@ -3128,7 +3128,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 3;
                 iArr[5] = 2;
                 break;
-            case 195:
+            case NotificationCenter.savedReactionTagsUpdate /* 195 */:
                 // fill-array-data instruction
                 iArr[0] = 3;
                 iArr[1] = 2;
@@ -3137,7 +3137,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 4;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.userIsPremiumBlockedUpadted /* 196 */:
+            case 196:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 4;

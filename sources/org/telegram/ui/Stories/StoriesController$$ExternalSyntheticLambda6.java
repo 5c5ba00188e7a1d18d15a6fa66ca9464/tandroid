@@ -1,7 +1,7 @@
 package org.telegram.ui.Stories;
 
 /* loaded from: classes5.dex */
-public final /* synthetic */ class StoriesController$$ExternalSyntheticLambda5 implements Runnable {
+public final /* synthetic */ class StoriesController$$ExternalSyntheticLambda6 implements Runnable {
     public final /* synthetic */ StoriesController f$0;
 
     @Override // java.lang.Runnable

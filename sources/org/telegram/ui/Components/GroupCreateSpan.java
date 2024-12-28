@@ -70,7 +70,7 @@ public class GroupCreateSpan extends View {
     /* JADX WARN: Removed duplicated region for block: B:20:0x02df  */
     /* JADX WARN: Removed duplicated region for block: B:23:0x02eb  */
     /* JADX WARN: Removed duplicated region for block: B:26:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0362  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x035c  */
     /* JADX WARN: Removed duplicated region for block: B:46:0x030e  */
     /* JADX WARN: Removed duplicated region for block: B:50:0x02e2  */
     /* JADX WARN: Removed duplicated region for block: B:51:0x02d2  */
@@ -160,7 +160,7 @@ public class GroupCreateSpan extends View {
             } else {
                 min = AndroidUtilities.dp(398 - (z ? 28 : 32)) / 2;
             }
-            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
@@ -345,7 +345,7 @@ public class GroupCreateSpan extends View {
         this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
         if (AndroidUtilities.isTablet()) {
         }
-        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
         }

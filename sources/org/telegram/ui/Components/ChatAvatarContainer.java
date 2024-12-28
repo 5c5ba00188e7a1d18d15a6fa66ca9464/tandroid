@@ -64,11 +64,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     private AnimatedTextView animatedSubtitleTextView;
     private AvatarDrawable avatarDrawable;
     public BackupImageView avatarImageView;
+    private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable botVerificationDrawable;
     public ButtonBounce bounce;
     private int currentAccount;
     private int currentConnectionState;
     StatusDrawable currentTypingDrawable;
-    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable;
+    private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable;
     public boolean ignoreTouches;
     private boolean[] isOnline;
     private int largerWidth;
@@ -427,6 +428,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             }
         }
         this.emojiStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.titleTextView, AndroidUtilities.dp(24.0f));
+        this.botVerificationDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.titleTextView, AndroidUtilities.dp(18.0f));
     }
 
     private void fadeOutToLessWidth(int i) {
@@ -965,6 +967,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         if (swapAnimatedEmojiDrawable != null) {
             swapAnimatedEmojiDrawable.attach();
         }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.botVerificationDrawable;
+        if (swapAnimatedEmojiDrawable2 != null) {
+            swapAnimatedEmojiDrawable2.attach();
+        }
     }
 
     protected boolean onAvatarClick() {
@@ -991,6 +997,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatusDrawable;
         if (swapAnimatedEmojiDrawable != null) {
             swapAnimatedEmojiDrawable.detach();
+        }
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.botVerificationDrawable;
+        if (swapAnimatedEmojiDrawable2 != null) {
+            swapAnimatedEmojiDrawable2.detach();
         }
     }
 
@@ -1480,12 +1490,12 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void setTitle(CharSequence charSequence) {
-        setTitle(charSequence, false, false, false, false, null, false);
+        setTitle(charSequence, false, false, false, false, null, 0L, false);
     }
 
-    public void setTitle(CharSequence charSequence, boolean z, boolean z2, boolean z3, boolean z4, TLRPC.EmojiStatus emojiStatus, boolean z5) {
+    public void setTitle(CharSequence charSequence, boolean z, boolean z2, boolean z3, boolean z4, TLRPC.EmojiStatus emojiStatus, long j, boolean z5) {
         if (charSequence != null) {
-            charSequence = Emoji.replaceEmoji(charSequence, this.titleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(24.0f), false);
+            charSequence = Emoji.replaceEmoji(charSequence, this.titleTextView.getPaint().getFontMetricsInt(), false);
         }
         this.titleTextView.setText(charSequence);
         if (z || z2) {
@@ -1510,6 +1520,14 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.titleTextView.setRightDrawable2(null);
             this.rightDrawableIsScamOrVerified = false;
             this.rightDrawable2ContentDescription = null;
+        }
+        if (j != 0) {
+            this.botVerificationDrawable.set(j, z5);
+            this.botVerificationDrawable.setColor(Integer.valueOf(getThemedColor(Theme.key_profile_verifiedBackground)));
+            this.titleTextView.setLeftDrawableOutside(true);
+            this.titleTextView.setLeftDrawable(this.botVerificationDrawable);
+        } else {
+            this.titleTextView.setLeftDrawable((Drawable) null);
         }
         if (!z4 && DialogObject.getEmojiStatusDocumentId(emojiStatus) == 0) {
             this.titleTextView.setRightDrawable((Drawable) null);
@@ -1707,7 +1725,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
                     getSubtitleTextView().setAlpha(1.0f);
                 }
             }
-            charSequence = MessagesController.getInstance(this.currentAccount).getPrintingStringType(this.parentFragment.getDialogId(), this.parentFragment.getThreadId()).intValue() == 5 ? Emoji.replaceEmoji(printingString, getSubtitlePaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false) : printingString;
+            charSequence = MessagesController.getInstance(this.currentAccount).getPrintingStringType(this.parentFragment.getDialogId(), this.parentFragment.getThreadId()).intValue() == 5 ? Emoji.replaceEmoji(printingString, getSubtitlePaint().getFontMetricsInt(), false) : printingString;
             setTypingAnimation(true);
             z2 = true;
         } else {

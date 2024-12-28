@@ -12,9 +12,11 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
+import org.telegram.tgnet.OutputSerializedData;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 
 /* loaded from: classes3.dex */
 public class UnconfirmedAuthController {
@@ -93,10 +95,10 @@ public class UnconfirmedAuthController {
         }
 
         public void confirm(final Utilities.Callback<Boolean> callback) {
-            TLRPC.TL_account_changeAuthorizationSettings tL_account_changeAuthorizationSettings = new TLRPC.TL_account_changeAuthorizationSettings();
-            tL_account_changeAuthorizationSettings.hash = this.hash;
-            tL_account_changeAuthorizationSettings.confirmed = true;
-            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(tL_account_changeAuthorizationSettings, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda3
+            TL_account.changeAuthorizationSettings changeauthorizationsettings = new TL_account.changeAuthorizationSettings();
+            changeauthorizationsettings.hash = this.hash;
+            changeauthorizationsettings.confirmed = true;
+            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(changeauthorizationsettings, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     UnconfirmedAuthController.UnconfirmedAuth.this.lambda$confirm$1(callback, tLObject, tL_error);
@@ -105,9 +107,9 @@ public class UnconfirmedAuthController {
         }
 
         public void deny(final Utilities.Callback<Boolean> callback) {
-            TLRPC.TL_account_resetAuthorization tL_account_resetAuthorization = new TLRPC.TL_account_resetAuthorization();
-            tL_account_resetAuthorization.hash = this.hash;
-            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(tL_account_resetAuthorization, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda1
+            TL_account.resetAuthorization resetauthorization = new TL_account.resetAuthorization();
+            resetauthorization.hash = this.hash;
+            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(resetauthorization, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     UnconfirmedAuthController.UnconfirmedAuth.this.lambda$deny$3(callback, tLObject, tL_error);
@@ -124,12 +126,12 @@ public class UnconfirmedAuthController {
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(2058772876);
-            abstractSerializedData.writeInt64(this.hash);
-            abstractSerializedData.writeInt32(this.date);
-            abstractSerializedData.writeString(this.device);
-            abstractSerializedData.writeString(this.location);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(2058772876);
+            outputSerializedData.writeInt64(this.hash);
+            outputSerializedData.writeInt32(this.date);
+            outputSerializedData.writeString(this.device);
+            outputSerializedData.writeString(this.location);
         }
     }
 

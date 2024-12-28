@@ -1321,6 +1321,13 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
         }
     }
 
+    public void onShown() {
+        DialogsSearchAdapter dialogsSearchAdapter = this.dialogsSearchAdapter;
+        if (dialogsSearchAdapter != null) {
+            dialogsSearchAdapter.resetFilter();
+        }
+    }
+
     public void onTextChanged(String str) {
         View currentView = getCurrentView();
         boolean z = TextUtils.isEmpty(this.lastSearchString) ? true : !this.attached;

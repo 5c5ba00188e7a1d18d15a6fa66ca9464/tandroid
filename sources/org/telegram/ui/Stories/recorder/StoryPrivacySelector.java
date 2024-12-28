@@ -15,6 +15,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet;
 
 /* loaded from: classes5.dex */
@@ -148,23 +149,23 @@ public abstract class StoryPrivacySelector extends View {
 
     private static void write(AbstractSerializedData abstractSerializedData, StoryPrivacyBottomSheet.StoryPrivacy storyPrivacy) {
         abstractSerializedData.writeInt32(storyPrivacy.type);
-        abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        abstractSerializedData.writeInt32(Vector.constructor);
         abstractSerializedData.writeInt32(storyPrivacy.selectedInputUsers.size());
         Iterator it = storyPrivacy.selectedInputUsers.iterator();
         while (it.hasNext()) {
             ((TLRPC.InputUser) it.next()).serializeToStream(abstractSerializedData);
         }
-        abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        abstractSerializedData.writeInt32(Vector.constructor);
         abstractSerializedData.writeInt32(storyPrivacy.selectedUserIds.size());
         Iterator it2 = storyPrivacy.selectedUserIds.iterator();
         while (it2.hasNext()) {
             abstractSerializedData.writeInt64(((Long) it2.next()).longValue());
         }
-        abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        abstractSerializedData.writeInt32(Vector.constructor);
         abstractSerializedData.writeInt32(storyPrivacy.selectedUserIdsByGroup.size());
         for (Map.Entry entry : storyPrivacy.selectedUserIdsByGroup.entrySet()) {
             abstractSerializedData.writeInt64(((Long) entry.getKey()).longValue());
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+            abstractSerializedData.writeInt32(Vector.constructor);
             abstractSerializedData.writeInt32(((ArrayList) entry.getValue()).size());
             Iterator it3 = ((ArrayList) entry.getValue()).iterator();
             while (it3.hasNext()) {

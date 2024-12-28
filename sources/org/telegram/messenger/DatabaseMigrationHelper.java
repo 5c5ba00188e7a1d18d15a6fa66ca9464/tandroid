@@ -1395,17 +1395,27 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("PRAGMA user_version = 158").stepThis().dispose();
             i7 = NotificationCenter.audioDidSent;
         }
-        if (i7 != 158) {
+        if (i7 == 158) {
+            sQLiteDatabase.executeFast("DELETE FROM star_gifts2").stepThis().dispose();
+            sQLiteDatabase.executeFast("ALTER TABLE star_gifts2 ADD COLUMN pos INTEGER default 0;").stepThis().dispose();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 159").stepThis().dispose();
+            i7 = NotificationCenter.audioRecordTooShort;
+        }
+        if (i7 == 159) {
+            sQLiteDatabase.executeFast("ALTER TABLE dialog_filter ADD COLUMN entities BLOB").stepThis().dispose();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 160").stepThis().dispose();
+            i7 = NotificationCenter.audioRouteChanged;
+        }
+        if (i7 != 160) {
             return i7;
         }
-        sQLiteDatabase.executeFast("DELETE FROM star_gifts2").stepThis().dispose();
-        sQLiteDatabase.executeFast("ALTER TABLE star_gifts2 ADD COLUMN pos INTEGER default 0;").stepThis().dispose();
-        sQLiteDatabase.executeFast("PRAGMA user_version = 159").stepThis().dispose();
-        return 159;
+        sQLiteDatabase.executeFast("ALTER TABLE dialog_filter ADD COLUMN noanimate INTEGER").stepThis().dispose();
+        sQLiteDatabase.executeFast("PRAGMA user_version = 161").stepThis().dispose();
+        return 161;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x02bd A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x02bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x02be A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x02c0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1457,7 +1467,7 @@ public class DatabaseMigrationHelper {
             e = e4;
             j = 0;
         }
-        if (intValue != 159) {
+        if (intValue != 161) {
             FileLog.e("can't restore database from version " + intValue);
             return false;
         }

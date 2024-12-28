@@ -1064,7 +1064,7 @@ public class LinkEditActivity extends BaseFragment {
                             editText2.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.9
                                 @Override // android.text.TextWatcher
                                 public void afterTextChanged(Editable editable) {
-                                    Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                                    Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), false);
                                 }
 
                                 @Override // android.text.TextWatcher
@@ -1277,7 +1277,7 @@ public class LinkEditActivity extends BaseFragment {
                     editText22.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.9
                         @Override // android.text.TextWatcher
                         public void afterTextChanged(Editable editable) {
-                            Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                            Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), false);
                         }
 
                         @Override // android.text.TextWatcher
@@ -1592,7 +1592,7 @@ public class LinkEditActivity extends BaseFragment {
                     editText222.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.9
                         @Override // android.text.TextWatcher
                         public void afterTextChanged(Editable editable) {
-                            Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                            Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), false);
                         }
 
                         @Override // android.text.TextWatcher
@@ -1869,7 +1869,7 @@ public class LinkEditActivity extends BaseFragment {
                 editText2222.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.9
                     @Override // android.text.TextWatcher
                     public void afterTextChanged(Editable editable) {
-                        Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                        Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), false);
                     }
 
                     @Override // android.text.TextWatcher
@@ -2267,7 +2267,7 @@ public class LinkEditActivity extends BaseFragment {
             editText22222.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.9
                 @Override // android.text.TextWatcher
                 public void afterTextChanged(Editable editable) {
-                    Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                    Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), false);
                 }
 
                 @Override // android.text.TextWatcher
@@ -2689,7 +2689,7 @@ public class LinkEditActivity extends BaseFragment {
         editText222222.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.9
             @Override // android.text.TextWatcher
             public void afterTextChanged(Editable editable) {
-                Emoji.replaceEmoji((CharSequence) editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), (int) LinkEditActivity.this.nameEditText.getPaint().getTextSize(), false);
+                Emoji.replaceEmoji(editable, LinkEditActivity.this.nameEditText.getPaint().getFontMetricsInt(), false);
             }
 
             @Override // android.text.TextWatcher
@@ -2852,7 +2852,7 @@ public class LinkEditActivity extends BaseFragment {
         setUsesVisible(!tL_chatInviteExported.request_needed);
         if (!TextUtils.isEmpty(tL_chatInviteExported.title)) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(tL_chatInviteExported.title);
-            Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.nameEditText.getPaint().getFontMetricsInt(), (int) this.nameEditText.getPaint().getTextSize(), false);
+            Emoji.replaceEmoji(spannableStringBuilder, this.nameEditText.getPaint().getFontMetricsInt(), false);
             this.nameEditText.setText(spannableStringBuilder);
         }
         TextCheckCell textCheckCell2 = this.subCell;

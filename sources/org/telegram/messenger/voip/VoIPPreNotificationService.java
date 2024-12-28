@@ -38,6 +38,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_phone;
 import org.telegram.ui.Components.PermissionRequest;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.VoIPFragment;
@@ -47,19 +48,19 @@ import org.webrtc.MediaStreamTrack;
 /* loaded from: classes3.dex */
 public class VoIPPreNotificationService {
     public static State currentState;
-    public static TLRPC.PhoneCall pendingCall;
+    public static TL_phone.PhoneCall pendingCall;
     public static Intent pendingVoIP;
     private static MediaPlayer ringtonePlayer;
     private static final Object sync = new Object();
     private static Vibrator vibrator;
 
     public static final class State implements VoIPServiceState {
-        private final TLRPC.PhoneCall call;
+        private final TL_phone.PhoneCall call;
         private final int currentAccount;
         private boolean destroyed;
         private final long userId;
 
-        public State(int i, long j, TLRPC.PhoneCall phoneCall) {
+        public State(int i, long j, TL_phone.PhoneCall phoneCall) {
             this.currentAccount = i;
             this.userId = j;
             this.call = phoneCall;
@@ -96,7 +97,7 @@ public class VoIPPreNotificationService {
         }
 
         @Override // org.telegram.messenger.voip.VoIPServiceState
-        public TLRPC.PhoneCall getPrivateCall() {
+        public TL_phone.PhoneCall getPrivateCall() {
             return this.call;
         }
 
@@ -116,8 +117,8 @@ public class VoIPPreNotificationService {
         }
     }
 
-    private static void acknowledge(final Context context, int i, TLRPC.PhoneCall phoneCall, final Runnable runnable) {
-        if (phoneCall instanceof TLRPC.TL_phoneCallDiscarded) {
+    private static void acknowledge(final Context context, int i, TL_phone.PhoneCall phoneCall, final Runnable runnable) {
+        if (phoneCall instanceof TL_phone.TL_phoneCallDiscarded) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.w("Call " + phoneCall.id + " was discarded before the voip pre notification started, stopping");
             }
@@ -131,12 +132,12 @@ public class VoIPPreNotificationService {
             return;
         }
         if (!XiaomiUtilities.isMIUI() || XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_SHOW_WHEN_LOCKED) || !((KeyguardManager) context.getSystemService("keyguard")).inKeyguardRestrictedInputMode()) {
-            TLRPC.TL_phone_receivedCall tL_phone_receivedCall = new TLRPC.TL_phone_receivedCall();
+            TL_phone.receivedCall receivedcall = new TL_phone.receivedCall();
             TLRPC.TL_inputPhoneCall tL_inputPhoneCall = new TLRPC.TL_inputPhoneCall();
-            tL_phone_receivedCall.peer = tL_inputPhoneCall;
+            receivedcall.peer = tL_inputPhoneCall;
             tL_inputPhoneCall.id = phoneCall.id;
             tL_inputPhoneCall.access_hash = phoneCall.access_hash;
-            ConnectionsManager.getInstance(i).sendRequest(tL_phone_receivedCall, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda14
+            ConnectionsManager.getInstance(i).sendRequest(receivedcall, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     VoIPPreNotificationService.lambda$acknowledge$3(context, runnable, tLObject, tL_error);
@@ -198,17 +199,17 @@ public class VoIPPreNotificationService {
             return;
         }
         final int intExtra = intent.getIntExtra("account", UserConfig.selectedAccount);
-        TLRPC.TL_phone_discardCall tL_phone_discardCall = new TLRPC.TL_phone_discardCall();
+        TL_phone.discardCall discardcall = new TL_phone.discardCall();
         TLRPC.TL_inputPhoneCall tL_inputPhoneCall = new TLRPC.TL_inputPhoneCall();
-        tL_phone_discardCall.peer = tL_inputPhoneCall;
-        TLRPC.PhoneCall phoneCall = pendingCall;
+        discardcall.peer = tL_inputPhoneCall;
+        TL_phone.PhoneCall phoneCall = pendingCall;
         tL_inputPhoneCall.access_hash = phoneCall.access_hash;
         tL_inputPhoneCall.id = phoneCall.id;
-        tL_phone_discardCall.duration = 0;
-        tL_phone_discardCall.connection_id = 0L;
-        tL_phone_discardCall.reason = i != 2 ? i != 3 ? i != 4 ? new TLRPC.TL_phoneCallDiscardReasonHangup() : new TLRPC.TL_phoneCallDiscardReasonBusy() : new TLRPC.TL_phoneCallDiscardReasonMissed() : new TLRPC.TL_phoneCallDiscardReasonDisconnect();
-        FileLog.e("discardCall " + tL_phone_discardCall.reason);
-        ConnectionsManager.getInstance(intExtra).sendRequest(tL_phone_discardCall, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda13
+        discardcall.duration = 0;
+        discardcall.connection_id = 0L;
+        discardcall.reason = i != 2 ? i != 3 ? i != 4 ? new TLRPC.TL_phoneCallDiscardReasonHangup() : new TLRPC.TL_phoneCallDiscardReasonBusy() : new TLRPC.TL_phoneCallDiscardReasonMissed() : new TLRPC.TL_phoneCallDiscardReasonDisconnect();
+        FileLog.e("discardCall " + discardcall.reason);
+        ConnectionsManager.getInstance(intExtra).sendRequest(discardcall, new RequestDelegate() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda14
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 VoIPPreNotificationService.lambda$decline$4(intExtra, tLObject, tL_error);
@@ -270,7 +271,7 @@ public class VoIPPreNotificationService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$acknowledge$3(final Context context, final Runnable runnable, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 VoIPPreNotificationService.lambda$acknowledge$2(TLObject.this, tL_error, context, runnable);
@@ -296,7 +297,7 @@ public class VoIPPreNotificationService {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$1(Intent intent, TLRPC.PhoneCall phoneCall, Context context, int i, long j, boolean z) {
+    public static /* synthetic */ void lambda$show$1(Intent intent, TL_phone.PhoneCall phoneCall, Context context, int i, long j, boolean z) {
         pendingVoIP = intent;
         pendingCall = phoneCall;
         ((NotificationManager) context.getSystemService("notification")).notify(203, makeNotification(context, i, j, phoneCall.id, z));
@@ -514,14 +515,14 @@ public class VoIPPreNotificationService {
         return true;
     }
 
-    public static void show(final Context context, final Intent intent, final TLRPC.PhoneCall phoneCall) {
+    public static void show(final Context context, final Intent intent, final TL_phone.PhoneCall phoneCall) {
         FileLog.d("VoIPPreNotification.show()");
         if (phoneCall == null || intent == null) {
             dismiss(context, false);
             FileLog.d("VoIPPreNotification.show(): call or intent is null");
             return;
         }
-        TLRPC.PhoneCall phoneCall2 = pendingCall;
+        TL_phone.PhoneCall phoneCall2 = pendingCall;
         if (phoneCall2 == null || phoneCall2.id != phoneCall.id) {
             dismiss(context, false);
             pendingVoIP = intent;
@@ -530,7 +531,7 @@ public class VoIPPreNotificationService {
             final long longExtra = intent.getLongExtra("user_id", 0L);
             final boolean z = phoneCall.video;
             currentState = new State(intExtra, longExtra, phoneCall);
-            acknowledge(context, intExtra, phoneCall, new Runnable() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda12
+            acknowledge(context, intExtra, phoneCall, new Runnable() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     VoIPPreNotificationService.lambda$show$1(intent, phoneCall, context, intExtra, longExtra, z);
@@ -574,7 +575,7 @@ public class VoIPPreNotificationService {
                 }
                 MediaPlayer mediaPlayer2 = new MediaPlayer();
                 ringtonePlayer = mediaPlayer2;
-                mediaPlayer2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda10
+                mediaPlayer2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() { // from class: org.telegram.messenger.voip.VoIPPreNotificationService$$ExternalSyntheticLambda11
                     @Override // android.media.MediaPlayer.OnPreparedListener
                     public final void onPrepared(MediaPlayer mediaPlayer3) {
                         VoIPPreNotificationService.lambda$startRinging$0(mediaPlayer3);

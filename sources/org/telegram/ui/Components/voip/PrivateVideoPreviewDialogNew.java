@@ -523,11 +523,11 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
     
         if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x007c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x007d, code lost:
     
         org.telegram.messenger.voip.VoIPService.getSharedInstance().switchCamera();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x007a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x007b, code lost:
     
         if (org.telegram.messenger.voip.VoIPService.getSharedInstance() != null) goto L22;
      */

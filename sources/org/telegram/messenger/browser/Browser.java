@@ -45,6 +45,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -743,13 +744,13 @@ public abstract class Browser {
                         }
                     }
                     final AlertDialog[] alertDialogArr = {new AlertDialog(context, 3)};
-                    TLRPC.TL_messages_getWebPagePreview tL_messages_getWebPagePreview = new TLRPC.TL_messages_getWebPagePreview();
-                    tL_messages_getWebPagePreview.message = uri.toString();
+                    TL_account.getWebPagePreview getwebpagepreview = new TL_account.getWebPagePreview();
+                    getwebpagepreview.message = uri.toString();
                     str2 = browserPackageName;
                     zArr = zArr2;
                     final boolean z10 = z7;
                     try {
-                        final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
+                        final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(getwebpagepreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i, uri, context, z10, tLObject, tL_error);

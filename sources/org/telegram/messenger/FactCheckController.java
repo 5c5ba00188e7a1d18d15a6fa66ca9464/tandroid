@@ -29,6 +29,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -251,8 +252,8 @@ public class FactCheckController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMissing$1(TLObject tLObject, TLRPC.TL_getFactCheck tL_getFactCheck, ArrayList arrayList, HashMap hashMap) {
         ArrayList arrayList2 = new ArrayList();
-        if (tLObject instanceof TLRPC.Vector) {
-            ArrayList<Object> arrayList3 = ((TLRPC.Vector) tLObject).objects;
+        if (tLObject instanceof Vector) {
+            ArrayList<T> arrayList3 = ((Vector) tLObject).objects;
             for (int i = 0; i < arrayList3.size(); i++) {
                 if (arrayList3.get(i) instanceof TLRPC.TL_factCheck) {
                     arrayList2.add((TLRPC.TL_factCheck) arrayList3.get(i));

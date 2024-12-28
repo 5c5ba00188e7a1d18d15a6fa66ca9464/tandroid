@@ -17,6 +17,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -41,7 +42,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     int selectorRad;
     public TextView subtextView;
     private int textColor;
-    public TextView textView;
+    public AnimatedEmojiSpan.TextViewEmojis textView;
     boolean top;
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x00ec, code lost:
@@ -65,7 +66,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     */
     public ActionBarMenuSubItem(Context context, int i, boolean z, boolean z2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        TextView textView;
+        AnimatedEmojiSpan.TextViewEmojis textViewEmojis;
         int dp;
         int i2;
         this.selectorRad = 6;
@@ -83,9 +84,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         this.imageView.setColorFilter(new PorterDuffColorFilter(this.iconColor, PorterDuff.Mode.MULTIPLY));
         addView(this.imageView, LayoutHelper.createFrame(-2, 40, (LocaleController.isRTL ? 5 : 3) | 16));
-        TextView textView2 = new TextView(context);
-        this.textView = textView2;
-        textView2.setLines(1);
+        AnimatedEmojiSpan.TextViewEmojis textViewEmojis2 = new AnimatedEmojiSpan.TextViewEmojis(context);
+        this.textView = textViewEmojis2;
+        textViewEmojis2.setLines(1);
         this.textView.setSingleLine(true);
         this.textView.setGravity(3);
         this.textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -103,14 +104,14 @@ public class ActionBarMenuSubItem extends FrameLayout {
                 boolean z3 = LocaleController.isRTL;
                 this.checkViewLeft = !z3;
                 addView(this.checkView, LayoutHelper.createFrame(26, -1, (z3 ? 5 : 3) | 16));
-                textView = this.textView;
+                textViewEmojis = this.textView;
                 dp = !LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0;
             } else {
                 addView(this.checkView, LayoutHelper.createFrame(26, -1, (LocaleController.isRTL ? 3 : 5) | 16));
-                textView = this.textView;
+                textViewEmojis = this.textView;
                 dp = LocaleController.isRTL ? AndroidUtilities.dp(34.0f) : 0;
             }
-            textView.setPadding(dp, 0, i2, 0);
+            textViewEmojis.setPadding(dp, 0, i2, 0);
         }
     }
 
@@ -157,7 +158,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
         return this.rightIcon;
     }
 
-    public TextView getTextView() {
+    public AnimatedEmojiSpan.TextViewEmojis getTextView() {
         return this.textView;
     }
 
@@ -217,6 +218,10 @@ public class ActionBarMenuSubItem extends FrameLayout {
         setTextColor(i);
         setIconColor(i2);
         return this;
+    }
+
+    public void setEmojiCacheType(int i) {
+        this.textView.setCacheType(i);
     }
 
     public void setEnabledByColor(final boolean z, final int i, final int i2) {
@@ -370,7 +375,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             this.imageView.setImageResource(i);
         }
         this.imageView.setVisibility(0);
-        TextView textView = this.textView;
+        AnimatedEmojiSpan.TextViewEmojis textViewEmojis = this.textView;
         if (this.checkViewLeft) {
             dp = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
         } else {
@@ -381,14 +386,14 @@ public class ActionBarMenuSubItem extends FrameLayout {
         } else {
             dp2 = this.checkView != null ? AndroidUtilities.dp(43.0f) : 0;
         }
-        textView.setPadding(dp, 0, dp2, 0);
+        textViewEmojis.setPadding(dp, 0, dp2, 0);
     }
 
     public void setTextColor(int i) {
         if (this.textColor != i) {
-            TextView textView = this.textView;
+            AnimatedEmojiSpan.TextViewEmojis textViewEmojis = this.textView;
             this.textColor = i;
-            textView.setTextColor(i);
+            textViewEmojis.setTextColor(i);
         }
     }
 

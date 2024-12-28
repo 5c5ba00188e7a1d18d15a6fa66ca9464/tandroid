@@ -24,6 +24,7 @@ import org.telegram.tgnet.TLObject;
 /* loaded from: classes3.dex */
 public class BackupImageView extends View {
     public AnimatedEmojiDrawable animatedEmojiDrawable;
+    public ColorFilter animatedEmojiDrawableColorFilter;
     public boolean applyAttach;
     boolean attached;
     private AvatarDrawable avatarDrawable;
@@ -205,8 +206,8 @@ public class BackupImageView extends View {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0092  */
-    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:26:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -216,10 +217,15 @@ public class BackupImageView extends View {
         float width;
         int height;
         int i;
+        ColorFilter colorFilter;
         AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
         ImageReceiver imageReceiver2 = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
         if (imageReceiver2 == null) {
             return;
+        }
+        AnimatedEmojiDrawable animatedEmojiDrawable2 = this.animatedEmojiDrawable;
+        if (animatedEmojiDrawable2 != null && (colorFilter = this.animatedEmojiDrawableColorFilter) != null) {
+            animatedEmojiDrawable2.setColorFilter(colorFilter);
         }
         int i2 = this.width;
         if (i2 == -1 || (i = this.height) == -1) {
@@ -316,6 +322,11 @@ public class BackupImageView extends View {
 
     public void setColorFilter(ColorFilter colorFilter) {
         this.imageReceiver.setColorFilter(colorFilter);
+    }
+
+    public void setEmojiColorFilter(ColorFilter colorFilter) {
+        this.animatedEmojiDrawableColorFilter = colorFilter;
+        invalidate();
     }
 
     public void setForUserOrChat(TLObject tLObject, AvatarDrawable avatarDrawable) {

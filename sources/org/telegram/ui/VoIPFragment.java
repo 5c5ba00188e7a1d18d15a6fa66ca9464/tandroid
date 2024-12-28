@@ -73,6 +73,7 @@ import org.telegram.messenger.voip.VoIPService;
 import org.telegram.messenger.voip.VoIPServiceState;
 import org.telegram.messenger.voip.VoipAudioManager;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_phone;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.DarkAlertDialog;
@@ -869,7 +870,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setVideoAction$36(final VoIPService voIPService, View view) {
-        TLRPC.PhoneCall phoneCall;
+        TL_phone.PhoneCall phoneCall;
         int checkSelfPermission;
         AndroidUtilities.cancelRunOnUIThread(this.hideUIRunnable);
         this.hideUiRunnableWaiting = false;
@@ -1884,7 +1885,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
         int i2 = 0;
         if (i == 15 || i == 17) {
-            TLRPC.PhoneCall phoneCall = sharedInstance.privateCall;
+            TL_phone.PhoneCall phoneCall = sharedInstance.privateCall;
             if (phoneCall != null && phoneCall.video && i == 15) {
                 if (sharedInstance.isScreencast() || !(this.currentUserIsVideo || this.callingUserIsVideo)) {
                     setSpeakerPhoneAction(this.bottomSpeakerBtn, sharedInstance, z);
@@ -2100,7 +2101,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         View view;
         int i3;
         int i4;
-        TLRPC.PhoneCall phoneCall;
+        TL_phone.PhoneCall phoneCall;
         VoIPService.SharedUIParams sharedUIParams;
         long j;
         Layout layout;
@@ -3243,7 +3244,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.callingUserTitle = textView3;
         textView3.setTextSize(1, 28.0f);
         TLRPC.User user = this.callingUser;
-        this.callingUserTitle.setText(Emoji.replaceEmoji((CharSequence) ContactsController.formatName(user.first_name, user.last_name), this.callingUserTitle.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
+        this.callingUserTitle.setText(Emoji.replaceEmoji(ContactsController.formatName(user.first_name, user.last_name), this.callingUserTitle.getPaint().getFontMetricsInt(), false));
         this.callingUserTitle.setMaxLines(2);
         this.callingUserTitle.setEllipsize(TextUtils.TruncateAt.END);
         this.callingUserTitle.setTextColor(-1);
@@ -3376,7 +3377,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         VoIPService sharedInstance = VoIPService.getSharedInstance();
         if (sharedInstance != null) {
             if (!this.isVideoCall) {
-                TLRPC.PhoneCall phoneCall = sharedInstance.privateCall;
+                TL_phone.PhoneCall phoneCall = sharedInstance.privateCall;
                 this.isVideoCall = phoneCall != null && phoneCall.video;
             }
             initRenderers();

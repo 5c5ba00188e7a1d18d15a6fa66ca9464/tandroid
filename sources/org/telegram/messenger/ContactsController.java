@@ -36,6 +36,8 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Components.Bulletin;
 
@@ -1221,10 +1223,10 @@ public class ContactsController extends BaseController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadPrivacySettings$64(TLRPC.TL_error tL_error, TLObject tLObject, int i) {
         if (tL_error == null) {
-            TLRPC.TL_account_privacyRules tL_account_privacyRules = (TLRPC.TL_account_privacyRules) tLObject;
-            getMessagesController().putUsers(tL_account_privacyRules.users, false);
-            getMessagesController().putChats(tL_account_privacyRules.chats, false);
-            ArrayList<TLRPC.PrivacyRule> arrayList = tL_account_privacyRules.rules;
+            TL_account.privacyRules privacyrules = (TL_account.privacyRules) tLObject;
+            getMessagesController().putUsers(privacyrules.users, false);
+            getMessagesController().putChats(privacyrules.chats, false);
+            ArrayList<TLRPC.PrivacyRule> arrayList = privacyrules.rules;
             switch (i) {
                 case 0:
                     this.lastseenPrivacyRules = arrayList;
@@ -2479,10 +2481,10 @@ public class ContactsController extends BaseController {
         int i;
         TLRPC.User user;
         editor.remove("needGetStatuses").commit();
-        TLRPC.Vector vector = (TLRPC.Vector) tLObject;
+        Vector vector = (Vector) tLObject;
         if (!vector.objects.isEmpty()) {
             ArrayList<TLRPC.User> arrayList = new ArrayList<>();
-            Iterator<Object> it = vector.objects.iterator();
+            Iterator it = vector.objects.iterator();
             while (it.hasNext()) {
                 Object next = it.next();
                 TLRPC.TL_user tL_user = new TLRPC.TL_user();
@@ -2519,7 +2521,7 @@ public class ContactsController extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$reloadContactsStatuses$59(final SharedPreferences.Editor editor, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        if (tL_error == null) {
+        if (tLObject instanceof Vector) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda24
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -3208,7 +3210,7 @@ public class ContactsController extends BaseController {
     public void loadGlobalPrivacySetting() {
         if (this.loadingGlobalSettings == 0) {
             this.loadingGlobalSettings = 1;
-            getConnectionsManager().sendRequest(new TLRPC.TL_account_getGlobalPrivacySettings(), new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda29
+            getConnectionsManager().sendRequest(new TL_account.getGlobalPrivacySettings(), new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda29
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     ContactsController.this.lambda$loadGlobalPrivacySetting$61(tLObject, tL_error);
@@ -3221,7 +3223,7 @@ public class ContactsController extends BaseController {
         TLRPC.InputPrivacyKey tL_inputPrivacyKeyStatusTimestamp;
         if (this.loadingDeleteInfo == 0) {
             this.loadingDeleteInfo = 1;
-            getConnectionsManager().sendRequest(new TLRPC.TL_account_getAccountTTL(), new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda13
+            getConnectionsManager().sendRequest(new TL_account.getAccountTTL(), new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     ContactsController.this.lambda$loadPrivacySettings$63(tLObject, tL_error);
@@ -3238,12 +3240,12 @@ public class ContactsController extends BaseController {
             }
             if (iArr[i] == 0) {
                 iArr[i] = 1;
-                TLRPC.TL_account_getPrivacy tL_account_getPrivacy = new TLRPC.TL_account_getPrivacy();
+                TL_account.getPrivacy getprivacy = new TL_account.getPrivacy();
                 switch (i) {
                     case 0:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyStatusTimestamp();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3252,8 +3254,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 1:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyChatInvite();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3262,8 +3264,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 2:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyPhoneCall();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3272,8 +3274,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 3:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyPhoneP2P();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3282,8 +3284,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 4:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyProfilePhoto();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3292,8 +3294,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 5:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyForwards();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3302,8 +3304,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 6:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyPhoneNumber();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3312,8 +3314,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 7:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyAddedByPhone();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3322,8 +3324,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 8:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyVoiceMessages();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3332,8 +3334,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 9:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyAbout();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3342,8 +3344,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 11:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyBirthday();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);
@@ -3352,8 +3354,8 @@ public class ContactsController extends BaseController {
                         break;
                     case 12:
                         tL_inputPrivacyKeyStatusTimestamp = new TLRPC.TL_inputPrivacyKeyStarGiftsAutoSave();
-                        tL_account_getPrivacy.key = tL_inputPrivacyKeyStatusTimestamp;
-                        getConnectionsManager().sendRequest(tL_account_getPrivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
+                        getprivacy.key = tL_inputPrivacyKeyStatusTimestamp;
+                        getConnectionsManager().sendRequest(getprivacy, new RequestDelegate() { // from class: org.telegram.messenger.ContactsController$$ExternalSyntheticLambda14
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 ContactsController.this.lambda$loadPrivacySettings$65(i, tLObject, tL_error);

@@ -30,6 +30,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
@@ -58,9 +59,9 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
     private static ArrayList layerFragmentsStack = new ArrayList();
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$handleIntent$10(int[] iArr, final int i, final AlertDialog alertDialog, final TLRPC.TL_account_getAuthorizationForm tL_account_getAuthorizationForm, final String str, final String str2, TLObject tLObject, final TLRPC.TL_error tL_error) {
-        final TLRPC.TL_account_authorizationForm tL_account_authorizationForm = (TLRPC.TL_account_authorizationForm) tLObject;
-        if (tL_account_authorizationForm == null) {
+    public /* synthetic */ void lambda$handleIntent$10(int[] iArr, final int i, final AlertDialog alertDialog, final TL_account.getAuthorizationForm getauthorizationform, final String str, final String str2, TLObject tLObject, final TLRPC.TL_error tL_error) {
+        final TL_account.authorizationForm authorizationform = (TL_account.authorizationForm) tLObject;
+        if (authorizationform == null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -68,10 +69,10 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                 }
             });
         } else {
-            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda7
+            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
-                    ExternalActionActivity.this.lambda$handleIntent$7(alertDialog, i, tL_account_authorizationForm, tL_account_getAuthorizationForm, str, str2, tLObject2, tL_error2);
+                    ExternalActionActivity.this.lambda$handleIntent$7(alertDialog, i, authorizationform, getauthorizationform, str, str2, tLObject2, tL_error2);
                 }
             });
         }
@@ -97,15 +98,15 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$handleIntent$6(AlertDialog alertDialog, TLObject tLObject, int i, TLRPC.TL_account_authorizationForm tL_account_authorizationForm, TLRPC.TL_account_getAuthorizationForm tL_account_getAuthorizationForm, String str, String str2) {
+    public /* synthetic */ void lambda$handleIntent$6(AlertDialog alertDialog, TLObject tLObject, int i, TL_account.authorizationForm authorizationform, TL_account.getAuthorizationForm getauthorizationform, String str, String str2) {
         try {
             alertDialog.dismiss();
         } catch (Exception e) {
             FileLog.e(e);
         }
         if (tLObject != null) {
-            MessagesController.getInstance(i).putUsers(tL_account_authorizationForm.users, false);
-            PassportActivity passportActivity = new PassportActivity(5, tL_account_getAuthorizationForm.bot_id, tL_account_getAuthorizationForm.scope, tL_account_getAuthorizationForm.public_key, str, str2, (String) null, tL_account_authorizationForm, (TLRPC.account_Password) tLObject);
+            MessagesController.getInstance(i).putUsers(authorizationform.users, false);
+            PassportActivity passportActivity = new PassportActivity(5, getauthorizationform.bot_id, getauthorizationform.scope, getauthorizationform.public_key, str, str2, (String) null, authorizationform, (TL_account.Password) tLObject);
             passportActivity.setNeedActivityResult(true);
             (AndroidUtilities.isTablet() ? this.layersActionBarLayout : this.actionBarLayout).addFragmentToStack(passportActivity);
             if (!AndroidUtilities.isTablet()) {
@@ -119,11 +120,11 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$handleIntent$7(final AlertDialog alertDialog, final int i, final TLRPC.TL_account_authorizationForm tL_account_authorizationForm, final TLRPC.TL_account_getAuthorizationForm tL_account_getAuthorizationForm, final String str, final String str2, final TLObject tLObject, TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$handleIntent$7(final AlertDialog alertDialog, final int i, final TL_account.authorizationForm authorizationform, final TL_account.getAuthorizationForm getauthorizationform, final String str, final String str2, final TLObject tLObject, TLRPC.TL_error tL_error) {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                ExternalActionActivity.this.lambda$handleIntent$6(alertDialog, tLObject, i, tL_account_authorizationForm, tL_account_getAuthorizationForm, str, str2);
+                ExternalActionActivity.this.lambda$handleIntent$6(alertDialog, tLObject, i, authorizationform, getauthorizationform, str, str2);
             }
         });
     }
@@ -384,11 +385,11 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
             long longExtra = intent.getLongExtra("bot_id", intent.getIntExtra("bot_id", 0));
             final String stringExtra = intent.getStringExtra("nonce");
             final String stringExtra2 = intent.getStringExtra("payload");
-            final TLRPC.TL_account_getAuthorizationForm tL_account_getAuthorizationForm = new TLRPC.TL_account_getAuthorizationForm();
-            tL_account_getAuthorizationForm.bot_id = longExtra;
-            tL_account_getAuthorizationForm.scope = intent.getStringExtra("scope");
-            tL_account_getAuthorizationForm.public_key = intent.getStringExtra("public_key");
-            if (longExtra == 0 || ((TextUtils.isEmpty(stringExtra2) && TextUtils.isEmpty(stringExtra)) || TextUtils.isEmpty(tL_account_getAuthorizationForm.scope) || TextUtils.isEmpty(tL_account_getAuthorizationForm.public_key))) {
+            final TL_account.getAuthorizationForm getauthorizationform = new TL_account.getAuthorizationForm();
+            getauthorizationform.bot_id = longExtra;
+            getauthorizationform.scope = intent.getStringExtra("scope");
+            getauthorizationform.public_key = intent.getStringExtra("public_key");
+            if (longExtra == 0 || ((TextUtils.isEmpty(stringExtra2) && TextUtils.isEmpty(stringExtra)) || TextUtils.isEmpty(getauthorizationform.scope) || TextUtils.isEmpty(getauthorizationform.public_key))) {
                 finish();
                 return false;
             }
@@ -401,10 +402,10 @@ public class ExternalActionActivity extends Activity implements INavigationLayou
                 }
             });
             alertDialog.show();
-            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(tL_account_getAuthorizationForm, new RequestDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda6
+            iArr[0] = ConnectionsManager.getInstance(i).sendRequest(getauthorizationform, new RequestDelegate() { // from class: org.telegram.ui.ExternalActionActivity$$ExternalSyntheticLambda6
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    ExternalActionActivity.this.lambda$handleIntent$10(iArr, i, alertDialog, tL_account_getAuthorizationForm, stringExtra2, stringExtra, tLObject, tL_error);
+                    ExternalActionActivity.this.lambda$handleIntent$10(iArr, i, alertDialog, getauthorizationform, stringExtra2, stringExtra, tLObject, tL_error);
                 }
             }, 10);
         } else if (AndroidUtilities.isTablet()) {

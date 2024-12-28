@@ -286,7 +286,7 @@ public class ManageChatUserCell extends FrameLayout {
         this.avatarImageView.setOnClickListener(onClickListener);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:105:0x0173, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:105:0x016d, code lost:
     
         if (r12.equals(r6) == false) goto L118;
      */
@@ -357,7 +357,7 @@ public class ManageChatUserCell extends FrameLayout {
                 }
                 this.lastName = str2;
                 SimpleTextView simpleTextView2 = this.nameTextView;
-                simpleTextView2.setText(Emoji.replaceEmoji((CharSequence) str2, simpleTextView2.getPaint().getFontMetricsInt(), AndroidUtilities.dp(15.0f), false));
+                simpleTextView2.setText(Emoji.replaceEmoji(str2, simpleTextView2.getPaint().getFontMetricsInt(), false));
             }
             chat = user;
             if (this.currentStatus == null) {

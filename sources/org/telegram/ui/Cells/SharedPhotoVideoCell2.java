@@ -195,7 +195,6 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         this.viewsAlpha = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator);
         this.viewsText = new AnimatedTextView.AnimatedTextDrawable(false, true, true);
         this.path = new Path();
-        this.mediaSpoilerEffect = new SpoilerEffect();
         this.style = 0;
         this.scrimPaint = new Paint(1);
         this.progressPaint = new Paint(1);
@@ -579,9 +578,9 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:103:0x03fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:106:0x0405, code lost:
     
-        if (r1.getProgress() != 0.0f) goto L140;
+        if (r1.getProgress() != 0.0f) goto L143;
      */
     @Override // android.view.View
     /*
@@ -705,6 +704,9 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
                     canvas.clipRect(this.imageReceiver.getImageX(), this.imageReceiver.getImageY(), this.imageReceiver.getImageX2(), this.imageReceiver.getImageY2());
                     this.mediaSpoilerEffect2.draw(canvas, this, (int) this.imageReceiver.getImageWidth(), (int) this.imageReceiver.getImageHeight());
                 } else {
+                    if (this.mediaSpoilerEffect == null) {
+                        this.mediaSpoilerEffect = new SpoilerEffect();
+                    }
                     this.mediaSpoilerEffect.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(-1) * 0.325f)));
                     this.mediaSpoilerEffect.setBounds((int) this.imageReceiver.getImageX(), (int) this.imageReceiver.getImageY(), (int) this.imageReceiver.getImageX2(), (int) this.imageReceiver.getImageY2());
                     this.mediaSpoilerEffect.draw(canvas);

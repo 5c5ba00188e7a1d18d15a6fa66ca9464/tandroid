@@ -526,34 +526,34 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
         return onTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Can't wrap try/catch for region: R(43:0|1|(1:3)(1:101)|4|(2:5|6)|(33:97|14|(1:16)|17|(1:96)|19|20|(1:22)(1:95)|23|(1:25)(1:94)|26|27|(3:29|(5:31|(1:33)(1:39)|34|(1:36)(1:38)|37)|40)|41|42|(21:78|(1:80)|81|(1:83)|84|(1:86)(1:89)|87|88|54|(1:56)(1:76)|57|(1:59)|60|61|(1:63)|64|(1:66)(1:74)|67|(1:69)(1:73)|70|71)|49|(1:51)(1:77)|52|53|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71)|13|14|(0)|17|(0)|19|20|(0)(0)|23|(0)(0)|26|27|(0)|41|42|(2:44|46)|78|(0)|81|(0)|84|(0)(0)|87|88|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71) */
-    /* JADX WARN: Code restructure failed: missing block: B:90:0x01ad, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(44:0|1|(1:3)(1:101)|4|5|6|(33:97|14|(1:16)|17|(1:96)|19|20|(1:22)(1:95)|23|(1:25)(1:94)|26|27|(3:29|(5:31|(1:33)(1:39)|34|(1:36)(1:38)|37)|40)|41|42|(21:78|(1:80)|81|(1:83)|84|(1:86)(1:89)|87|88|54|(1:56)(1:76)|57|(1:59)|60|61|(1:63)|64|(1:66)(1:74)|67|(1:69)(1:73)|70|71)|49|(1:51)(1:77)|52|53|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71)|13|14|(0)|17|(0)|19|20|(0)(0)|23|(0)(0)|26|27|(0)|41|42|(2:44|46)|78|(0)|81|(0)|84|(0)(0)|87|88|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)|70|71) */
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x01a9, code lost:
     
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:92:0x0271, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:92:0x026d, code lost:
     
         org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Removed duplicated region for block: B:16:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00cd A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00df A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00cd A[Catch: Exception -> 0x007d, TryCatch #0 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x00df A[Catch: Exception -> 0x007d, TryCatch #0 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0103  */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0248 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x025a A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0285  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x029a  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x02dd  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x02a5  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01f8  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01fd A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x021e A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0222 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:42:0x0198, B:44:0x019c, B:46:0x01a4, B:49:0x01b0, B:51:0x01bf, B:53:0x01c6, B:54:0x0240, B:56:0x0248, B:57:0x0250, B:59:0x025a, B:60:0x0260, B:77:0x01c3, B:78:0x01e2, B:81:0x01f9, B:83:0x01fd, B:84:0x021a, B:86:0x021e, B:88:0x0225, B:89:0x0222), top: B:41:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0244 A[Catch: Exception -> 0x01a9, TryCatch #1 {Exception -> 0x01a9, blocks: (B:42:0x0194, B:44:0x0198, B:46:0x01a0, B:49:0x01ac, B:51:0x01bb, B:53:0x01c2, B:54:0x023c, B:56:0x0244, B:57:0x024c, B:59:0x0256, B:60:0x025c, B:77:0x01bf, B:78:0x01de, B:81:0x01f5, B:83:0x01f9, B:84:0x0216, B:86:0x021a, B:88:0x0221, B:89:0x021e), top: B:41:0x0194 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0256 A[Catch: Exception -> 0x01a9, TryCatch #1 {Exception -> 0x01a9, blocks: (B:42:0x0194, B:44:0x0198, B:46:0x01a0, B:49:0x01ac, B:51:0x01bb, B:53:0x01c2, B:54:0x023c, B:56:0x0244, B:57:0x024c, B:59:0x0256, B:60:0x025c, B:77:0x01bf, B:78:0x01de, B:81:0x01f5, B:83:0x01f9, B:84:0x0216, B:86:0x021a, B:88:0x0221, B:89:0x021e), top: B:41:0x0194 }] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0281  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0296  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x02d9  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01f4  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01f9 A[Catch: Exception -> 0x01a9, TryCatch #1 {Exception -> 0x01a9, blocks: (B:42:0x0194, B:44:0x0198, B:46:0x01a0, B:49:0x01ac, B:51:0x01bb, B:53:0x01c2, B:54:0x023c, B:56:0x0244, B:57:0x024c, B:59:0x0256, B:60:0x025c, B:77:0x01bf, B:78:0x01de, B:81:0x01f5, B:83:0x01f9, B:84:0x0216, B:86:0x021a, B:88:0x0221, B:89:0x021e), top: B:41:0x0194 }] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x021a A[Catch: Exception -> 0x01a9, TryCatch #1 {Exception -> 0x01a9, blocks: (B:42:0x0194, B:44:0x0198, B:46:0x01a0, B:49:0x01ac, B:51:0x01bb, B:53:0x01c2, B:54:0x023c, B:56:0x0244, B:57:0x024c, B:59:0x0256, B:60:0x025c, B:77:0x01bf, B:78:0x01de, B:81:0x01f5, B:83:0x01f9, B:84:0x0216, B:86:0x021a, B:88:0x0221, B:89:0x021e), top: B:41:0x0194 }] */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x021e A[Catch: Exception -> 0x01a9, TryCatch #1 {Exception -> 0x01a9, blocks: (B:42:0x0194, B:44:0x0198, B:46:0x01a0, B:49:0x01ac, B:51:0x01bb, B:53:0x01c2, B:54:0x023c, B:56:0x0244, B:57:0x024c, B:59:0x0256, B:60:0x025c, B:77:0x01bf, B:78:0x01de, B:81:0x01f5, B:83:0x01f9, B:84:0x0216, B:86:0x021a, B:88:0x0221, B:89:0x021e), top: B:41:0x0194 }] */
     /* JADX WARN: Removed duplicated region for block: B:94:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:95:0x00d4  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x00a4 A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x00a4 A[Catch: Exception -> 0x007d, TryCatch #0 {Exception -> 0x007d, blocks: (B:6:0x0068, B:8:0x006c, B:10:0x0074, B:13:0x0080, B:14:0x0091, B:17:0x009e, B:20:0x00a7, B:22:0x00cd, B:23:0x00d5, B:25:0x00df, B:26:0x00e7, B:96:0x00a4, B:97:0x0087), top: B:5:0x0068 }] */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -600,7 +600,7 @@ public abstract class SharedAudioCell extends FrameLayout implements DownloadCon
             this.titleLayoutWidth = this.titleLayout.getLineCount() <= 0 ? this.titleLayout.getLineWidth(0) : 0.0f;
             this.titleLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.titleLayoutEmojis, this.titleLayout);
             if (this.currentMessageObject.hasHighlightedWords()) {
-                CharSequence highlightText3 = AndroidUtilities.highlightText(Emoji.replaceEmoji((CharSequence) this.currentMessageObject.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.currentMessageObject.highlightedWords, this.resourcesProvider);
+                CharSequence highlightText3 = AndroidUtilities.highlightText(Emoji.replaceEmoji(this.currentMessageObject.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), false), this.currentMessageObject.highlightedWords, this.resourcesProvider);
                 if (highlightText3 != null) {
                     StaticLayout staticLayout3 = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText3, this.currentMessageObject.highlightedWords.get(0), size, this.captionTextPaint, NotificationCenter.walletSyncProgressChanged), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                     this.captionLayout = staticLayout3;

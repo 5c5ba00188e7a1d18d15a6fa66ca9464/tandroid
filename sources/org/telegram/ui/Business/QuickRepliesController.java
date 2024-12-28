@@ -24,6 +24,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.Business.QuickRepliesController;
 
 /* loaded from: classes4.dex */
@@ -944,7 +945,7 @@ public class QuickRepliesController {
                 }
             });
             if ("hello".equals(findReply.name)) {
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_updateBusinessGreetingMessage(), null);
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TL_account.updateBusinessGreetingMessage(), null);
                 userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
                 if (userFull != null) {
                     userFull.flags2 &= -5;
@@ -953,7 +954,7 @@ public class QuickRepliesController {
                 }
             } else {
                 if ("away".equals(findReply.name)) {
-                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_account_updateBusinessAwayMessage(), null);
+                    ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TL_account.updateBusinessAwayMessage(), null);
                     userFull = MessagesController.getInstance(this.currentAccount).getUserFull(UserConfig.getInstance(this.currentAccount).getClientUserId());
                     if (userFull != null) {
                         userFull.flags2 &= -9;

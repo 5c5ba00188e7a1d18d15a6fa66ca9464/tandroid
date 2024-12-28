@@ -96,6 +96,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_phone;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -1263,9 +1264,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 } catch (Exception unused) {
                 }
                 GroupCallActivity.this.startingGroupCall = true;
-                TLRPC.TL_phone_startScheduledGroupCall tL_phone_startScheduledGroupCall = new TLRPC.TL_phone_startScheduledGroupCall();
-                tL_phone_startScheduledGroupCall.call = GroupCallActivity.this.call.getInputGroupCall();
-                GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(tL_phone_startScheduledGroupCall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda1
+                TL_phone.startScheduledGroupCall startscheduledgroupcall = new TL_phone.startScheduledGroupCall();
+                startscheduledgroupcall.call = GroupCallActivity.this.call.getInputGroupCall();
+                GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(startscheduledgroupcall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                         GroupCallActivity.20.this.lambda$onClick$1(tLObject, tL_error);
@@ -1277,14 +1278,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 if (GroupCallActivity.this.muteButtonState == 6 && GroupCallActivity.this.reminderHintView != null) {
                     GroupCallActivity.this.reminderHintView.hide();
                 }
-                TLRPC.TL_phone_toggleGroupCallStartSubscription tL_phone_toggleGroupCallStartSubscription = new TLRPC.TL_phone_toggleGroupCallStartSubscription();
-                tL_phone_toggleGroupCallStartSubscription.call = GroupCallActivity.this.call.getInputGroupCall();
+                TL_phone.toggleGroupCallStartSubscription togglegroupcallstartsubscription = new TL_phone.toggleGroupCallStartSubscription();
+                togglegroupcallstartsubscription.call = GroupCallActivity.this.call.getInputGroupCall();
                 GroupCallActivity groupCallActivity3 = GroupCallActivity.this;
                 TLRPC.GroupCall groupCall = groupCallActivity3.call.call;
                 boolean z = !groupCall.schedule_start_subscribed;
                 groupCall.schedule_start_subscribed = z;
-                tL_phone_toggleGroupCallStartSubscription.subscribed = z;
-                groupCallActivity3.accountInstance.getConnectionsManager().sendRequest(tL_phone_toggleGroupCallStartSubscription, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda3
+                togglegroupcallstartsubscription.subscribed = z;
+                groupCallActivity3.accountInstance.getConnectionsManager().sendRequest(togglegroupcallstartsubscription, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$20$$ExternalSyntheticLambda3
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                         GroupCallActivity.20.this.lambda$onClick$2(tLObject, tL_error);
@@ -1698,9 +1699,9 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                     chatFull.call = null;
                     GroupCallActivity.this.accountInstance.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallUpdated, Long.valueOf(GroupCallActivity.this.currentChat.id), Long.valueOf(GroupCallActivity.this.call.call.id), Boolean.FALSE);
                 }
-                TLRPC.TL_phone_discardGroupCall tL_phone_discardGroupCall = new TLRPC.TL_phone_discardGroupCall();
-                tL_phone_discardGroupCall.call = GroupCallActivity.this.call.getInputGroupCall();
-                GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(tL_phone_discardGroupCall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$7$$ExternalSyntheticLambda10
+                TL_phone.discardGroupCall discardgroupcall = new TL_phone.discardGroupCall();
+                discardgroupcall.call = GroupCallActivity.this.call.getInputGroupCall();
+                GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(discardgroupcall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$7$$ExternalSyntheticLambda10
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                         GroupCallActivity.7.this.lambda$onItemClick$0(tLObject, tL_error);
@@ -1799,10 +1800,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
                 }
                 chatFull.flags = i | i2;
             }
-            TLRPC.TL_phone_saveDefaultGroupCallJoinAs tL_phone_saveDefaultGroupCallJoinAs = new TLRPC.TL_phone_saveDefaultGroupCallJoinAs();
-            tL_phone_saveDefaultGroupCallJoinAs.peer = MessagesController.getInputPeer(GroupCallActivity.this.currentChat);
-            tL_phone_saveDefaultGroupCallJoinAs.join_as = inputPeer;
-            GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(tL_phone_saveDefaultGroupCallJoinAs, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$7$$ExternalSyntheticLambda9
+            TL_phone.saveDefaultGroupCallJoinAs savedefaultgroupcalljoinas = new TL_phone.saveDefaultGroupCallJoinAs();
+            savedefaultgroupcalljoinas.peer = MessagesController.getInputPeer(GroupCallActivity.this.currentChat);
+            savedefaultgroupcalljoinas.join_as = inputPeer;
+            GroupCallActivity.this.accountInstance.getConnectionsManager().sendRequest(savedefaultgroupcalljoinas, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$7$$ExternalSyntheticLambda9
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
                     GroupCallActivity.7.lambda$onItemClick$8(tLObject2, tL_error);
@@ -8119,10 +8120,10 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             }
             final int i = 0;
             while (i < 2) {
-                TLRPC.TL_phone_exportGroupCallInvite tL_phone_exportGroupCallInvite = new TLRPC.TL_phone_exportGroupCallInvite();
-                tL_phone_exportGroupCallInvite.call = this.call.getInputGroupCall();
-                tL_phone_exportGroupCallInvite.can_self_unmute = i == 1;
-                this.accountInstance.getConnectionsManager().sendRequest(tL_phone_exportGroupCallInvite, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda36
+                TL_phone.exportGroupCallInvite exportgroupcallinvite = new TL_phone.exportGroupCallInvite();
+                exportgroupcallinvite.call = this.call.getInputGroupCall();
+                exportgroupcallinvite.can_self_unmute = i == 1;
+                this.accountInstance.getConnectionsManager().sendRequest(exportgroupcallinvite, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda36
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                         GroupCallActivity.this.lambda$getLink$42(i, z, tLObject, tL_error);
@@ -8236,16 +8237,16 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             return;
         }
         final AlertDialog[] alertDialogArr = {new AlertDialog(getContext(), 3)};
-        final TLRPC.TL_phone_inviteToGroupCall tL_phone_inviteToGroupCall = new TLRPC.TL_phone_inviteToGroupCall();
-        tL_phone_inviteToGroupCall.call = this.call.getInputGroupCall();
+        final TL_phone.inviteToGroupCall invitetogroupcall = new TL_phone.inviteToGroupCall();
+        invitetogroupcall.call = this.call.getInputGroupCall();
         TLRPC.TL_inputUser tL_inputUser = new TLRPC.TL_inputUser();
         tL_inputUser.user_id = user.id;
         tL_inputUser.access_hash = user.access_hash;
-        tL_phone_inviteToGroupCall.users.add(tL_inputUser);
-        final int sendRequest = this.accountInstance.getConnectionsManager().sendRequest(tL_phone_inviteToGroupCall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda62
+        invitetogroupcall.users.add(tL_inputUser);
+        final int sendRequest = this.accountInstance.getConnectionsManager().sendRequest(invitetogroupcall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda62
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                GroupCallActivity.this.lambda$inviteUserToCall$47(j, alertDialogArr, user, z, tL_phone_inviteToGroupCall, tLObject, tL_error);
+                GroupCallActivity.this.lambda$inviteUserToCall$47(j, alertDialogArr, user, z, invitetogroupcall, tLObject, tL_error);
             }
         });
         if (sendRequest != 0) {
@@ -8331,8 +8332,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getLink$41(TLObject tLObject, int i, boolean z) {
-        if (tLObject instanceof TLRPC.TL_phone_exportedGroupCallInvite) {
-            this.invites[i] = ((TLRPC.TL_phone_exportedGroupCallInvite) tLObject).link;
+        if (tLObject instanceof TL_phone.exportedGroupCallInvite) {
+            this.invites[i] = ((TL_phone.exportedGroupCallInvite) tLObject).link;
         } else {
             this.invites[i] = "";
         }
@@ -8388,7 +8389,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$inviteUserToCall$46(AlertDialog[] alertDialogArr, boolean z, TLRPC.TL_error tL_error, long j, TLRPC.TL_phone_inviteToGroupCall tL_phone_inviteToGroupCall) {
+    public /* synthetic */ void lambda$inviteUserToCall$46(AlertDialog[] alertDialogArr, boolean z, TLRPC.TL_error tL_error, long j, TL_phone.inviteToGroupCall invitetogroupcall) {
         try {
             alertDialogArr[0].dismiss();
         } catch (Throwable unused) {
@@ -8397,22 +8398,22 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         if (z && "USER_NOT_PARTICIPANT".equals(tL_error.text)) {
             processSelectedOption(null, j, 3);
         } else {
-            AlertsCreator.processError(this.currentAccount, tL_error, (BaseFragment) this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1), tL_phone_inviteToGroupCall, new Object[0]);
+            AlertsCreator.processError(this.currentAccount, tL_error, (BaseFragment) this.parentActivity.getActionBarLayout().getFragmentStack().get(this.parentActivity.getActionBarLayout().getFragmentStack().size() - 1), invitetogroupcall, new Object[0]);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$inviteUserToCall$47(final long j, final AlertDialog[] alertDialogArr, final TLRPC.User user, final boolean z, final TLRPC.TL_phone_inviteToGroupCall tL_phone_inviteToGroupCall, TLObject tLObject, final TLRPC.TL_error tL_error) {
+    public /* synthetic */ void lambda$inviteUserToCall$47(final long j, final AlertDialog[] alertDialogArr, final TLRPC.User user, final boolean z, final TL_phone.inviteToGroupCall invitetogroupcall, TLObject tLObject, final TLRPC.TL_error tL_error) {
         if (tLObject == null) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda67
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda66
                 @Override // java.lang.Runnable
                 public final void run() {
-                    GroupCallActivity.this.lambda$inviteUserToCall$46(alertDialogArr, z, tL_error, j, tL_phone_inviteToGroupCall);
+                    GroupCallActivity.this.lambda$inviteUserToCall$46(alertDialogArr, z, tL_error, j, invitetogroupcall);
                 }
             });
         } else {
             this.accountInstance.getMessagesController().processUpdates((TLRPC.Updates) tLObject, false);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda66
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda65
                 @Override // java.lang.Runnable
                 public final void run() {
                     GroupCallActivity.this.lambda$inviteUserToCall$45(j, alertDialogArr, user);
@@ -8432,7 +8433,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         if (alertDialog == null) {
             return;
         }
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda65
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda67
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 GroupCallActivity.this.lambda$inviteUserToCall$48(i, dialogInterface);
@@ -8964,12 +8965,12 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
         this.scheduleStartAt = (int) (calendar.getTimeInMillis() / 1000);
         updateScheduleUI(false);
-        TLRPC.TL_phone_createGroupCall tL_phone_createGroupCall = new TLRPC.TL_phone_createGroupCall();
-        tL_phone_createGroupCall.peer = MessagesController.getInputPeer(chat);
-        tL_phone_createGroupCall.random_id = Utilities.random.nextInt();
-        tL_phone_createGroupCall.schedule_date = this.scheduleStartAt;
-        tL_phone_createGroupCall.flags |= 2;
-        accountInstance.getConnectionsManager().sendRequest(tL_phone_createGroupCall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda34
+        TL_phone.createGroupCall creategroupcall = new TL_phone.createGroupCall();
+        creategroupcall.peer = MessagesController.getInputPeer(chat);
+        creategroupcall.random_id = Utilities.random.nextInt();
+        creategroupcall.schedule_date = this.scheduleStartAt;
+        creategroupcall.flags |= 2;
+        accountInstance.getConnectionsManager().sendRequest(creategroupcall, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda34
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 GroupCallActivity.this.lambda$new$29(chat, inputPeer, tLObject, tL_error);
@@ -10725,11 +10726,11 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
     /* JADX INFO: Access modifiers changed from: private */
     public void toggleAdminSpeak() {
-        TLRPC.TL_phone_toggleGroupCallSettings tL_phone_toggleGroupCallSettings = new TLRPC.TL_phone_toggleGroupCallSettings();
-        tL_phone_toggleGroupCallSettings.call = this.call.getInputGroupCall();
-        tL_phone_toggleGroupCallSettings.join_muted = this.call.call.join_muted;
-        tL_phone_toggleGroupCallSettings.flags |= 1;
-        this.accountInstance.getConnectionsManager().sendRequest(tL_phone_toggleGroupCallSettings, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda54
+        TL_phone.toggleGroupCallSettings togglegroupcallsettings = new TL_phone.toggleGroupCallSettings();
+        togglegroupcallsettings.call = this.call.getInputGroupCall();
+        togglegroupcallsettings.join_muted = this.call.call.join_muted;
+        togglegroupcallsettings.flags |= 1;
+        this.accountInstance.getConnectionsManager().sendRequest(togglegroupcallsettings, new RequestDelegate() { // from class: org.telegram.ui.GroupCallActivity$$ExternalSyntheticLambda54
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 GroupCallActivity.this.lambda$toggleAdminSpeak$64(tLObject, tL_error);

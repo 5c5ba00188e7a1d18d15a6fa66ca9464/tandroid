@@ -34,6 +34,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -63,7 +64,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     private static AlertDialog currentDialog;
 
     public static class BusinessLinkView extends FrameLayout {
-        private TLRPC.TL_businessChatLink businessLink;
+        private TL_account.TL_businessChatLink businessLink;
         private final SimpleTextView clicksCountTextView;
         private final ImageView imageView;
         private final SpoilersTextView messagePreviewTextView;
@@ -117,7 +118,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
-            TLRPC.TL_businessChatLink tL_businessChatLink = this.businessLink;
+            TL_account.TL_businessChatLink tL_businessChatLink = this.businessLink;
             if (tL_businessChatLink != null) {
                 AndroidUtilities.addToClipboard(tL_businessChatLink.link);
                 BulletinFactory.of(LaunchActivity.getLastFragment()).createCopyLinkBulletin().show();
@@ -155,7 +156,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
             SimpleTextView simpleTextView;
             String stripHttps;
             this.needDivider = z;
-            TLRPC.TL_businessChatLink tL_businessChatLink = businessLinkWrapper.link;
+            TL_account.TL_businessChatLink tL_businessChatLink = businessLinkWrapper.link;
             this.businessLink = tL_businessChatLink;
             if (TextUtils.isEmpty(tL_businessChatLink.title)) {
                 simpleTextView = this.titleTextView;
@@ -166,7 +167,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
             }
             simpleTextView.setText(stripHttps);
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.businessLink.message);
-            TLRPC.TL_businessChatLink tL_businessChatLink2 = this.businessLink;
+            TL_account.TL_businessChatLink tL_businessChatLink2 = this.businessLink;
             MediaDataController.addTextStyleRuns(tL_businessChatLink2.entities, tL_businessChatLink2.message, spannableStringBuilder);
             CharSequence replaceEmoji = Emoji.replaceEmoji(spannableStringBuilder, this.messagePreviewTextView.getPaint().getFontMetricsInt(), false);
             MessageObject.replaceAnimatedEmoji(replaceEmoji, this.businessLink.entities, this.messagePreviewTextView.getPaint().getFontMetricsInt());
@@ -183,9 +184,9 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     }
 
     public static class BusinessLinkWrapper {
-        TLRPC.TL_businessChatLink link;
+        TL_account.TL_businessChatLink link;
 
-        public BusinessLinkWrapper(TLRPC.TL_businessChatLink tL_businessChatLink) {
+        public BusinessLinkWrapper(TL_account.TL_businessChatLink tL_businessChatLink) {
             this.link = tL_businessChatLink;
         }
 
@@ -197,9 +198,9 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
                 return false;
             }
             BusinessLinkWrapper businessLinkWrapper = (BusinessLinkWrapper) obj;
-            TLRPC.TL_businessChatLink tL_businessChatLink = this.link;
+            TL_account.TL_businessChatLink tL_businessChatLink = this.link;
             int i = tL_businessChatLink.views;
-            TLRPC.TL_businessChatLink tL_businessChatLink2 = businessLinkWrapper.link;
+            TL_account.TL_businessChatLink tL_businessChatLink2 = businessLinkWrapper.link;
             return i == tL_businessChatLink2.views && TextUtils.equals(tL_businessChatLink.link, tL_businessChatLink2.link) && TextUtils.equals(this.link.title, businessLinkWrapper.link.title) && TextUtils.equals(this.link.message, businessLinkWrapper.link.message) && MediaDataController.entitiesEqual(this.link.entities, businessLinkWrapper.link.entities);
         }
     }
@@ -238,17 +239,17 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onLongClick$10(TLRPC.TL_businessChatLink tL_businessChatLink) {
+    public /* synthetic */ void lambda$onLongClick$10(TL_account.TL_businessChatLink tL_businessChatLink) {
         openRenameAlert(getContext(), this.currentAccount, tL_businessChatLink, this.resourceProvider, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onLongClick$11(TLRPC.TL_businessChatLink tL_businessChatLink, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onLongClick$11(TL_account.TL_businessChatLink tL_businessChatLink, DialogInterface dialogInterface, int i) {
         BusinessLinksController.getInstance(this.currentAccount).deleteLinkUndoable(this, tL_businessChatLink.link);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onLongClick$12(final TLRPC.TL_businessChatLink tL_businessChatLink) {
+    public /* synthetic */ void lambda$onLongClick$12(final TL_account.TL_businessChatLink tL_businessChatLink) {
         AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BusinessLinksDeleteTitle)).setMessage(LocaleController.getString(R.string.BusinessLinksDeleteMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda12
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
@@ -263,13 +264,13 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$onLongClick$8(TLRPC.TL_businessChatLink tL_businessChatLink) {
+    public static /* synthetic */ void lambda$onLongClick$8(TL_account.TL_businessChatLink tL_businessChatLink) {
         AndroidUtilities.addToClipboard(tL_businessChatLink.link);
         BulletinFactory.of(LaunchActivity.getLastFragment()).createCopyLinkBulletin().show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onLongClick$9(TLRPC.TL_businessChatLink tL_businessChatLink) {
+    public /* synthetic */ void lambda$onLongClick$9(TL_account.TL_businessChatLink tL_businessChatLink) {
         Intent intent = new Intent(getContext(), (Class<?>) LaunchActivity.class);
         intent.setAction("android.intent.action.SEND");
         intent.setType("text/plain");
@@ -278,7 +279,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ boolean lambda$openRenameAlert$0(EditTextBoldCursor editTextBoldCursor, int i, TLRPC.TL_businessChatLink tL_businessChatLink, AlertDialog[] alertDialogArr, View view, TextView textView, int i2, KeyEvent keyEvent) {
+    public static /* synthetic */ boolean lambda$openRenameAlert$0(EditTextBoldCursor editTextBoldCursor, int i, TL_account.TL_businessChatLink tL_businessChatLink, AlertDialog[] alertDialogArr, View view, TextView textView, int i2, KeyEvent keyEvent) {
         if (i2 != 6) {
             return false;
         }
@@ -302,7 +303,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$openRenameAlert$1(EditTextBoldCursor editTextBoldCursor, int i, TLRPC.TL_businessChatLink tL_businessChatLink, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$openRenameAlert$1(EditTextBoldCursor editTextBoldCursor, int i, TL_account.TL_businessChatLink tL_businessChatLink, DialogInterface dialogInterface, int i2) {
         String obj = editTextBoldCursor.getText().toString();
         if (obj.length() > 32) {
             AndroidUtilities.shakeView(editTextBoldCursor);
@@ -346,7 +347,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r11v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    public static void openRenameAlert(Context context, final int i, final TLRPC.TL_businessChatLink tL_businessChatLink, final Theme.ResourcesProvider resourcesProvider, boolean z) {
+    public static void openRenameAlert(Context context, final int i, final TL_account.TL_businessChatLink tL_businessChatLink, final Theme.ResourcesProvider resourcesProvider, boolean z) {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         Activity findActivity = AndroidUtilities.findActivity(context);
         final View currentFocus = findActivity != null ? findActivity.getCurrentFocus() : null;
@@ -504,10 +505,10 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
         }
         if (i != NotificationCenter.businessLinkCreated) {
             if (i == NotificationCenter.needDeleteBusinessLink) {
-                BusinessLinksController.getInstance(this.currentAccount).deleteLinkUndoable(this, ((TLRPC.TL_businessChatLink) objArr[0]).link);
+                BusinessLinksController.getInstance(this.currentAccount).deleteLinkUndoable(this, ((TL_account.TL_businessChatLink) objArr[0]).link);
             }
         } else {
-            TLRPC.TL_businessChatLink tL_businessChatLink = (TLRPC.TL_businessChatLink) objArr[0];
+            TL_account.TL_businessChatLink tL_businessChatLink = (TL_account.TL_businessChatLink) objArr[0];
             Bundle bundle = new Bundle();
             bundle.putInt("chatMode", 6);
             bundle.putString("business_link", tL_businessChatLink.link);
@@ -524,7 +525,7 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
         }
         Iterator it = BusinessLinksController.getInstance(this.currentAccount).links.iterator();
         while (it.hasNext()) {
-            arrayList.add(UItem.asBusinessChatLink(new BusinessLinkWrapper((TLRPC.TL_businessChatLink) it.next())));
+            arrayList.add(UItem.asBusinessChatLink(new BusinessLinkWrapper((TL_account.TL_businessChatLink) it.next())));
         }
         universalAdapter.whiteSectionEnd();
         TLRPC.User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
@@ -615,12 +616,12 @@ public class BusinessLinksActivity extends UniversalFragment implements Notifica
         if (!(obj instanceof BusinessLinkWrapper)) {
             return false;
         }
-        final TLRPC.TL_businessChatLink tL_businessChatLink = ((BusinessLinkWrapper) obj).link;
+        final TL_account.TL_businessChatLink tL_businessChatLink = ((BusinessLinkWrapper) obj).link;
         ItemOptions makeOptions = ItemOptions.makeOptions(this, view);
         makeOptions.add(R.drawable.msg_copy, LocaleController.getString(R.string.Copy), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
-                BusinessLinksActivity.lambda$onLongClick$8(TLRPC.TL_businessChatLink.this);
+                BusinessLinksActivity.lambda$onLongClick$8(TL_account.TL_businessChatLink.this);
             }
         });
         makeOptions.add(R.drawable.msg_share, LocaleController.getString(R.string.LinkActionShare), new Runnable() { // from class: org.telegram.ui.Business.BusinessLinksActivity$$ExternalSyntheticLambda9

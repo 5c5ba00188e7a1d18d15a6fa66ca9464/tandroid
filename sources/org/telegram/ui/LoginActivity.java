@@ -132,6 +132,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -1036,11 +1037,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$18(TLObject tLObject, Bundle bundle) {
-            if ((tLObject instanceof TLRPC.TL_account_emailVerified) && LoginActivity.this.activityMode == 3) {
+            if ((tLObject instanceof TL_account.TL_emailVerified) && LoginActivity.this.activityMode == 3) {
                 LoginActivity.this.lambda$onBackPressed$321();
                 LoginActivity.this.emailChangeFinishCallback.run();
-            } else if (tLObject instanceof TLRPC.TL_account_emailVerifiedLogin) {
-                LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, ((TLRPC.TL_account_emailVerifiedLogin) tLObject).sent_code);
+            } else if (tLObject instanceof TL_account.TL_emailVerifiedLogin) {
+                LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, ((TL_account.TL_emailVerifiedLogin) tLObject).sent_code);
             } else if (tLObject instanceof TLRPC.TL_auth_authorization) {
                 LoginActivity.this.onAuthSuccess((TLRPC.TL_auth_authorization) tLObject);
             }
@@ -1059,14 +1060,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 LoginActivity.this.needShowAlert(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle), tL_error.text);
                 return;
             }
-            TLRPC.account_Password account_password = (TLRPC.account_Password) tLObject;
-            if (!TwoStepVerificationActivity.canHandleCurrentPassword(account_password, true)) {
+            TL_account.Password password = (TL_account.Password) tLObject;
+            if (!TwoStepVerificationActivity.canHandleCurrentPassword(password, true)) {
                 AlertsCreator.showUpdateAppAlert(LoginActivity.this.getParentActivity(), LocaleController.getString("UpdateAppAlert", org.telegram.messenger.R.string.UpdateAppAlert), true);
                 return;
             }
             final Bundle bundle = new Bundle();
-            SerializedData serializedData = new SerializedData(account_password.getObjectSize());
-            account_password.serializeToStream(serializedData);
+            SerializedData serializedData = new SerializedData(password.getObjectSize());
+            password.serializeToStream(serializedData);
             bundle.putString("password", Utilities.bytesToHex(serializedData.toByteArray()));
             bundle.putString("phoneFormated", this.requestPhone);
             bundle.putString("phoneHash", this.phoneHash);
@@ -1134,7 +1135,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
                 animateSuccess(runnable);
             } else if (tL_error.text.contains("SESSION_PASSWORD_NEEDED")) {
-                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda23
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda23
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
                         LoginActivity.LoginActivityEmailCodeView.this.lambda$onNextPressed$21(str, tLObject2, tL_error2);
@@ -1481,7 +1482,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TLRPC.TL_emailVerificationCode tL_emailVerificationCode2;
             TLRPC.TL_auth_signIn tL_auth_signIn;
             CodeNumberField[] codeNumberFieldArr;
-            TLRPC.TL_account_verifyEmail tL_account_verifyEmail;
+            TL_account.verifyEmail verifyemail;
             if (this.nextPressed) {
                 return;
             }
@@ -1502,10 +1503,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.nextPressed = true;
             LoginActivity.this.needShowProgress(0);
             if (LoginActivity.this.activityMode == 3) {
-                TLRPC.TL_account_verifyEmail tL_account_verifyEmail2 = new TLRPC.TL_account_verifyEmail();
-                tL_account_verifyEmail2.purpose = new TLRPC.TL_emailVerifyPurposeLoginChange();
+                TL_account.verifyEmail verifyemail2 = new TL_account.verifyEmail();
+                verifyemail2.purpose = new TLRPC.TL_emailVerifyPurposeLoginChange();
                 tL_emailVerificationCode2 = new TLRPC.TL_emailVerificationCode();
-                tL_account_verifyEmail = tL_account_verifyEmail2;
+                verifyemail = verifyemail2;
             } else {
                 if (!this.isFromSetup) {
                     TLRPC.TL_auth_signIn tL_auth_signIn2 = new TLRPC.TL_auth_signIn();
@@ -1538,17 +1539,17 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         }
                     }, 10);
                 }
-                TLRPC.TL_account_verifyEmail tL_account_verifyEmail3 = new TLRPC.TL_account_verifyEmail();
+                TL_account.verifyEmail verifyemail3 = new TL_account.verifyEmail();
                 TLRPC.TL_emailVerifyPurposeLoginSetup tL_emailVerifyPurposeLoginSetup = new TLRPC.TL_emailVerifyPurposeLoginSetup();
                 tL_emailVerifyPurposeLoginSetup.phone_number = this.requestPhone;
                 tL_emailVerifyPurposeLoginSetup.phone_code_hash = this.phoneHash;
-                tL_account_verifyEmail3.purpose = tL_emailVerifyPurposeLoginSetup;
+                verifyemail3.purpose = tL_emailVerifyPurposeLoginSetup;
                 tL_emailVerificationCode2 = new TLRPC.TL_emailVerificationCode();
-                tL_account_verifyEmail = tL_account_verifyEmail3;
+                verifyemail = verifyemail3;
             }
             tL_emailVerificationCode2.code = code;
-            tL_account_verifyEmail.verification = tL_emailVerificationCode2;
-            tL_auth_signIn = tL_account_verifyEmail;
+            verifyemail.verification = tL_emailVerificationCode2;
+            tL_auth_signIn = verifyemail;
             CodeFieldContainer codeFieldContainer22 = this.codeFieldContainer;
             codeFieldContainer22.isFocusSuppressed = true;
             codeNumberFieldArr = codeFieldContainer22.codeField;
@@ -1761,7 +1762,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private EditTextBoldCursor[] codeField;
         private TextView confirmTextView;
         private Bundle currentParams;
-        private TLRPC.account_Password currentPassword;
+        private TL_account.Password currentPassword;
         private int currentStage;
         private String emailCode;
         private boolean isPasswordVisible;
@@ -1976,9 +1977,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$recoverPassword$4(TLRPC.TL_error tL_error, TLObject tLObject, String str, String str2) {
             if (tL_error == null) {
-                TLRPC.account_Password account_password = (TLRPC.account_Password) tLObject;
-                this.currentPassword = account_password;
-                TwoStepVerificationActivity.initPasswordNewAlgo(account_password);
+                TL_account.Password password = (TL_account.Password) tLObject;
+                this.currentPassword = password;
+                TwoStepVerificationActivity.initPasswordNewAlgo(password);
                 recoverPassword(str, str2);
             }
         }
@@ -2004,7 +2005,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             String string;
             String str3;
             if (tL_error != null && ("SRP_ID_INVALID".equals(tL_error.text) || "NEW_SALT_INVALID".equals(tL_error.text))) {
-                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityNewPasswordView$$ExternalSyntheticLambda8
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityNewPasswordView$$ExternalSyntheticLambda8
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
                         LoginActivity.LoginActivityNewPasswordView.this.lambda$recoverPassword$5(str, str2, tLObject2, tL_error2);
@@ -2101,11 +2102,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             tL_auth_recoverPassword.code = this.emailCode;
             if (!TextUtils.isEmpty(str)) {
                 tL_auth_recoverPassword.flags |= 1;
-                TLRPC.TL_account_passwordInputSettings tL_account_passwordInputSettings = new TLRPC.TL_account_passwordInputSettings();
-                tL_auth_recoverPassword.new_settings = tL_account_passwordInputSettings;
-                tL_account_passwordInputSettings.flags |= 1;
-                tL_account_passwordInputSettings.hint = str2 != null ? str2 : "";
-                tL_account_passwordInputSettings.new_algo = this.currentPassword.new_algo;
+                TL_account.passwordInputSettings passwordinputsettings = new TL_account.passwordInputSettings();
+                tL_auth_recoverPassword.new_settings = passwordinputsettings;
+                passwordinputsettings.flags |= 1;
+                passwordinputsettings.hint = str2 != null ? str2 : "";
+                passwordinputsettings.new_algo = this.currentPassword.new_algo;
             }
             Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityNewPasswordView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
@@ -2213,7 +2214,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.passwordString = string;
             if (string != null) {
                 SerializedData serializedData = new SerializedData(Utilities.hexToBytes(string));
-                TLRPC.account_Password TLdeserialize = TLRPC.account_Password.TLdeserialize(serializedData, serializedData.readInt32(false), false);
+                TL_account.Password TLdeserialize = TL_account.Password.TLdeserialize(serializedData, serializedData.readInt32(false), false);
                 this.currentPassword = TLdeserialize;
                 TwoStepVerificationActivity.initPasswordNewAlgo(TLdeserialize);
             }
@@ -2247,7 +2248,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private EditTextBoldCursor codeField;
         private TextView confirmTextView;
         private Bundle currentParams;
-        private TLRPC.account_Password currentPassword;
+        private TL_account.Password currentPassword;
         private RLottieImageView lockImageView;
         private boolean nextPressed;
         private OutlineTextContainerView outlineCodeField;
@@ -2532,7 +2533,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         public /* synthetic */ void lambda$onNextPressed$10(TLRPC.TL_error tL_error, final TLObject tLObject) {
             this.nextPressed = false;
             if (tL_error != null && "SRP_ID_INVALID".equals(tL_error.text)) {
-                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityPasswordView$$ExternalSyntheticLambda11
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityPasswordView$$ExternalSyntheticLambda11
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
                         LoginActivity.LoginActivityPasswordView.this.lambda$onNextPressed$8(tLObject2, tL_error2);
@@ -2583,8 +2584,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
             };
             if (z) {
-                TLRPC.account_Password account_password = this.currentPassword;
-                TLRPC.TL_inputCheckPasswordSRP startCheck = SRPHelper.startCheck(x, account_password.srp_id, account_password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
+                TL_account.Password password = this.currentPassword;
+                TLRPC.TL_inputCheckPasswordSRP startCheck = SRPHelper.startCheck(x, password.srp_id, password.srp_B, (TLRPC.TL_passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) passwordKdfAlgo);
                 if (startCheck == null) {
                     TLRPC.TL_error tL_error = new TLRPC.TL_error();
                     tL_error.text = "PASSWORD_HASH_INVALID";
@@ -2600,7 +2601,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$7(TLRPC.TL_error tL_error, TLObject tLObject) {
             if (tL_error == null) {
-                this.currentPassword = (TLRPC.account_Password) tLObject;
+                this.currentPassword = (TL_account.Password) tLObject;
                 lambda$onNextPressed$14(null);
             }
         }
@@ -2742,13 +2743,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.passwordString = string;
             if (string != null) {
                 SerializedData serializedData = new SerializedData(Utilities.hexToBytes(string));
-                this.currentPassword = TLRPC.account_Password.TLdeserialize(serializedData, serializedData.readInt32(false), false);
+                this.currentPassword = TL_account.Password.TLdeserialize(serializedData, serializedData.readInt32(false), false);
             }
             this.requestPhone = bundle.getString("phoneFormated");
             this.phoneHash = bundle.getString("phoneHash");
             this.phoneCode = bundle.getString("code");
-            TLRPC.account_Password account_password = this.currentPassword;
-            if (account_password == null || TextUtils.isEmpty(account_password.hint)) {
+            TL_account.Password password = this.currentPassword;
+            if (password == null || TextUtils.isEmpty(password.hint)) {
                 editTextBoldCursor = this.codeField;
                 str = null;
             } else {
@@ -3735,7 +3736,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     }
                     return;
                 }
-                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda14
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityPhraseView$$ExternalSyntheticLambda14
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
                         LoginActivity.LoginActivityPhraseView.this.lambda$onNextPressed$10(tL_auth_signIn, tLObject2, tL_error2);
@@ -3767,14 +3768,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 LoginActivity.this.needShowAlert(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle), tL_error.text);
                 return;
             }
-            TLRPC.account_Password account_password = (TLRPC.account_Password) tLObject;
-            if (!TwoStepVerificationActivity.canHandleCurrentPassword(account_password, true)) {
+            TL_account.Password password = (TL_account.Password) tLObject;
+            if (!TwoStepVerificationActivity.canHandleCurrentPassword(password, true)) {
                 AlertsCreator.showUpdateAppAlert(LoginActivity.this.getParentActivity(), LocaleController.getString("UpdateAppAlert", org.telegram.messenger.R.string.UpdateAppAlert), true);
                 return;
             }
             Bundle bundle = new Bundle();
-            SerializedData serializedData = new SerializedData(account_password.getObjectSize());
-            account_password.serializeToStream(serializedData);
+            SerializedData serializedData = new SerializedData(password.getObjectSize());
+            password.serializeToStream(serializedData);
             bundle.putString("password", Utilities.bytesToHex(serializedData.toByteArray()));
             bundle.putString("phoneFormated", this.requestPhone);
             bundle.putString("phoneHash", this.phoneHash);
@@ -5609,9 +5610,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(DialogInterface dialogInterface, int i) {
             LoginActivity.this.needShowProgress(0);
-            TLRPC.TL_account_deleteAccount tL_account_deleteAccount = new TLRPC.TL_account_deleteAccount();
-            tL_account_deleteAccount.reason = "Forgot password";
-            ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_account_deleteAccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityResetWaitView$$ExternalSyntheticLambda2
+            TL_account.deleteAccount deleteaccount = new TL_account.deleteAccount();
+            deleteaccount.reason = "Forgot password";
+            ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(deleteaccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityResetWaitView$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     LoginActivity.LoginActivityResetWaitView.this.lambda$new$1(tLObject, tL_error);
@@ -6005,19 +6006,19 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$5(TLObject tLObject, Bundle bundle, TLRPC.TL_error tL_error, TLRPC.TL_account_verifyEmail tL_account_verifyEmail) {
+        public /* synthetic */ void lambda$onNextPressed$5(TLObject tLObject, Bundle bundle, TLRPC.TL_error tL_error, TL_account.verifyEmail verifyemail) {
             LoginActivity loginActivity;
             String string;
             int i;
-            if ((tLObject instanceof TLRPC.TL_account_emailVerified) && LoginActivity.this.activityMode == 3) {
+            if ((tLObject instanceof TL_account.TL_emailVerified) && LoginActivity.this.activityMode == 3) {
                 LoginActivity.this.lambda$onBackPressed$321();
                 LoginActivity.this.emailChangeFinishCallback.run();
                 return;
             }
-            if (tLObject instanceof TLRPC.TL_account_emailVerifiedLogin) {
-                TLRPC.TL_account_emailVerifiedLogin tL_account_emailVerifiedLogin = (TLRPC.TL_account_emailVerifiedLogin) tLObject;
-                bundle.putString("email", tL_account_emailVerifiedLogin.email);
-                LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, tL_account_emailVerifiedLogin.sent_code);
+            if (tLObject instanceof TL_account.TL_emailVerifiedLogin) {
+                TL_account.TL_emailVerifiedLogin tL_emailVerifiedLogin = (TL_account.TL_emailVerifiedLogin) tLObject;
+                bundle.putString("email", tL_emailVerifiedLogin.email);
+                LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, tL_emailVerifiedLogin.sent_code);
                 return;
             }
             if (tL_error != null) {
@@ -6027,7 +6028,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     i = org.telegram.messenger.R.string.EmailNotAllowed;
                 } else if (!tL_error.text.contains("EMAIL_TOKEN_INVALID")) {
                     if (tL_error.code != -1000) {
-                        AlertsCreator.processError(((BaseFragment) LoginActivity.this).currentAccount, tL_error, LoginActivity.this, tL_account_verifyEmail, new Object[0]);
+                        AlertsCreator.processError(((BaseFragment) LoginActivity.this).currentAccount, tL_error, LoginActivity.this, verifyemail, new Object[0]);
                         return;
                     }
                     return;
@@ -6041,17 +6042,17 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$6(final Bundle bundle, final TLRPC.TL_account_verifyEmail tL_account_verifyEmail, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda6
+        public /* synthetic */ void lambda$onNextPressed$6(final Bundle bundle, final TL_account.verifyEmail verifyemail, final TLObject tLObject, final TLRPC.TL_error tL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$5(tLObject, bundle, tL_error, tL_account_verifyEmail);
+                    LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$5(tLObject, bundle, tL_error, verifyemail);
                 }
             });
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$7(TLObject tLObject, Bundle bundle, TLRPC.TL_error tL_error, TLRPC.TL_account_sendVerifyEmailCode tL_account_sendVerifyEmailCode) {
+        public /* synthetic */ void lambda$onNextPressed$7(TLObject tLObject, Bundle bundle, TLRPC.TL_error tL_error, TL_account.sendVerifyEmailCode sendverifyemailcode) {
             LoginActivity loginActivity;
             String string;
             int i;
@@ -6059,8 +6060,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             String string2;
             LoginActivity.this.needHideProgress(false);
             this.nextPressed = false;
-            if (tLObject instanceof TLRPC.TL_account_sentEmailCode) {
-                LoginActivity.this.fillNextCodeParams(bundle, (TLRPC.TL_account_sentEmailCode) tLObject);
+            if (tLObject instanceof TL_account.sentEmailCode) {
+                LoginActivity.this.fillNextCodeParams(bundle, (TL_account.sentEmailCode) tLObject);
                 return;
             }
             String str2 = tL_error.text;
@@ -6094,7 +6095,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             str = "CodeExpired";
                         } else if (!tL_error.text.startsWith("FLOOD_WAIT")) {
                             if (tL_error.code != -1000) {
-                                AlertsCreator.processError(((BaseFragment) LoginActivity.this).currentAccount, tL_error, LoginActivity.this, tL_account_sendVerifyEmailCode, this.requestPhone);
+                                AlertsCreator.processError(((BaseFragment) LoginActivity.this).currentAccount, tL_error, LoginActivity.this, sendverifyemailcode, this.requestPhone);
                                 return;
                             }
                             return;
@@ -6112,11 +6113,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$8(final Bundle bundle, final TLRPC.TL_account_sendVerifyEmailCode tL_account_sendVerifyEmailCode, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda8
+        public /* synthetic */ void lambda$onNextPressed$8(final Bundle bundle, final TL_account.sendVerifyEmailCode sendverifyemailcode, final TLObject tLObject, final TLRPC.TL_error tL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$7(tLObject, bundle, tL_error, tL_account_sendVerifyEmailCode);
+                    LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$7(tLObject, bundle, tL_error, sendverifyemailcode);
                 }
             });
         }
@@ -6147,7 +6148,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             this.emailField.requestFocus();
             LoginActivity.this.onFieldError(this.emailOutlineView, true);
-            postDelayed(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda7
+            postDelayed(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.LoginActivitySetupEmail.this.lambda$onPasscodeError$4();
@@ -6183,7 +6184,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             bundle.putString("email", email);
             bundle.putBoolean("setup", true);
             if (this.googleAccount != null) {
-                final TLRPC.TL_account_verifyEmail tL_account_verifyEmail = new TLRPC.TL_account_verifyEmail();
+                final TL_account.verifyEmail verifyemail = new TL_account.verifyEmail();
                 if (LoginActivity.this.activityMode == 3) {
                     emailVerifyPurpose2 = new TLRPC.TL_emailVerifyPurposeLoginChange();
                 } else {
@@ -6192,15 +6193,15 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     tL_emailVerifyPurposeLoginSetup.phone_code_hash = this.phoneHash;
                     emailVerifyPurpose2 = tL_emailVerifyPurposeLoginSetup;
                 }
-                tL_account_verifyEmail.purpose = emailVerifyPurpose2;
+                verifyemail.purpose = emailVerifyPurpose2;
                 TLRPC.TL_emailVerificationGoogle tL_emailVerificationGoogle = new TLRPC.TL_emailVerificationGoogle();
                 tL_emailVerificationGoogle.token = this.googleAccount.getIdToken();
-                tL_account_verifyEmail.verification = tL_emailVerificationGoogle;
+                verifyemail.verification = tL_emailVerificationGoogle;
                 this.googleAccount = null;
-                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_account_verifyEmail, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda1
+                ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(verifyemail, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                        LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$6(bundle, tL_account_verifyEmail, tLObject, tL_error);
+                        LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$6(bundle, verifyemail, tLObject, tL_error);
                     }
                 }, 10);
                 return;
@@ -6211,7 +6212,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             this.nextPressed = true;
             LoginActivity.this.needShowProgress(0);
-            final TLRPC.TL_account_sendVerifyEmailCode tL_account_sendVerifyEmailCode = new TLRPC.TL_account_sendVerifyEmailCode();
+            final TL_account.sendVerifyEmailCode sendverifyemailcode = new TL_account.sendVerifyEmailCode();
             if (LoginActivity.this.activityMode == 3) {
                 emailVerifyPurpose = new TLRPC.TL_emailVerifyPurposeLoginChange();
             } else {
@@ -6220,12 +6221,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 tL_emailVerifyPurposeLoginSetup2.phone_code_hash = this.phoneHash;
                 emailVerifyPurpose = tL_emailVerifyPurposeLoginSetup2;
             }
-            tL_account_sendVerifyEmailCode.purpose = emailVerifyPurpose;
-            tL_account_sendVerifyEmailCode.email = email;
-            ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_account_sendVerifyEmailCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda2
+            sendverifyemailcode.purpose = emailVerifyPurpose;
+            sendverifyemailcode.email = email;
+            ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(sendverifyemailcode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySetupEmail$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$8(bundle, tL_account_sendVerifyEmailCode, tLObject, tL_error);
+                    LoginActivity.LoginActivitySetupEmail.this.lambda$onNextPressed$8(bundle, sendverifyemailcode, tLObject, tL_error);
                 }
             }, 10);
         }
@@ -7023,7 +7024,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$4(final Bundle bundle, final TLObject tLObject, final TLRPC.TL_error tL_error) {
             if (tLObject != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda24
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda25
                     @Override // java.lang.Runnable
                     public final void run() {
                         LoginActivity.LoginActivitySmsView.this.lambda$new$2(bundle, tLObject);
@@ -7033,7 +7034,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 if (tL_error == null || tL_error.text == null) {
                     return;
                 }
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda25
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda26
                     @Override // java.lang.Runnable
                     public final void run() {
                         LoginActivity.LoginActivitySmsView.this.lambda$new$3(tL_error);
@@ -7272,7 +7273,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 if (this.currentType == 3) {
                     AndroidUtilities.endIncomingCall();
                 }
-                animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda23
+                animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda24
                     @Override // java.lang.Runnable
                     public final void run() {
                         LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$23();
@@ -7363,7 +7364,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$25(final TLObject tLObject, final TLRPC.TL_error tL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda14
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$24(tL_error, tLObject);
@@ -7391,7 +7392,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public /* synthetic */ void lambda$onNextPressed$28(TLRPC.TL_error tL_error, TLRPC.TL_account_confirmPhone tL_account_confirmPhone) {
+        public /* synthetic */ void lambda$onNextPressed$28(TLRPC.TL_error tL_error, TL_account.confirmPhone confirmphone) {
             int i;
             int i2;
             NotificationCenter globalInstance;
@@ -7404,7 +7405,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 if (parentActivity == null) {
                     return;
                 }
-                animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda31
+                animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda23
                     @Override // java.lang.Runnable
                     public final void run() {
                         LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$27(parentActivity);
@@ -7428,7 +7429,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     }
                     this.waitingForEvent = true;
                     if (this.currentType != 3) {
-                        AlertsCreator.processError(((BaseFragment) LoginActivity.this).currentAccount, tL_error, LoginActivity.this, tL_account_confirmPhone, new Object[0]);
+                        AlertsCreator.processError(((BaseFragment) LoginActivity.this).currentAccount, tL_error, LoginActivity.this, confirmphone, new Object[0]);
                     }
                     if (!tL_error.text.contains("PHONE_CODE_EMPTY") || tL_error.text.contains("PHONE_CODE_INVALID")) {
                         shakeWrongCode();
@@ -7455,11 +7456,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$29(final TLRPC.TL_account_confirmPhone tL_account_confirmPhone, TLObject tLObject, final TLRPC.TL_error tL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda15
+        public /* synthetic */ void lambda$onNextPressed$29(final TL_account.confirmPhone confirmphone, TLObject tLObject, final TLRPC.TL_error tL_error) {
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda13
                 @Override // java.lang.Runnable
                 public final void run() {
-                    LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$28(tL_error, tL_account_confirmPhone);
+                    LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$28(tL_error, confirmphone);
                 }
             });
         }
@@ -7487,14 +7488,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 LoginActivity.this.needShowAlert(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle), tL_error.text);
                 return;
             }
-            TLRPC.account_Password account_password = (TLRPC.account_Password) tLObject;
-            if (!TwoStepVerificationActivity.canHandleCurrentPassword(account_password, true)) {
+            TL_account.Password password = (TL_account.Password) tLObject;
+            if (!TwoStepVerificationActivity.canHandleCurrentPassword(password, true)) {
                 AlertsCreator.showUpdateAppAlert(LoginActivity.this.getParentActivity(), LocaleController.getString("UpdateAppAlert", org.telegram.messenger.R.string.UpdateAppAlert), true);
                 return;
             }
             final Bundle bundle = new Bundle();
-            SerializedData serializedData = new SerializedData(account_password.getObjectSize());
-            account_password.serializeToStream(serializedData);
+            SerializedData serializedData = new SerializedData(password.getObjectSize());
+            password.serializeToStream(serializedData);
             bundle.putString("password", Utilities.bytesToHex(serializedData.toByteArray()));
             bundle.putString("phoneFormated", this.requestPhone);
             bundle.putString("phoneHash", this.phoneHash);
@@ -7550,14 +7551,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     bundle.putString("phoneFormated", this.requestPhone);
                     bundle.putString("phoneHash", this.phoneHash);
                     bundle.putString("code", tL_auth_signIn.phone_code);
-                    animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda26
+                    animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda27
                         @Override // java.lang.Runnable
                         public final void run() {
                             LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$30(bundle);
                         }
                     });
                 } else {
-                    animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda27
+                    animateSuccess(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda28
                         @Override // java.lang.Runnable
                         public final void run() {
                             LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$31(tLObject);
@@ -7568,7 +7569,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 String str2 = tL_error.text;
                 this.lastError = str2;
                 if (str2.contains("SESSION_PASSWORD_NEEDED")) {
-                    ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda28
+                    ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda29
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject2, TLRPC.TL_error tL_error2) {
                             LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$34(tL_auth_signIn, tLObject2, tL_error2);
@@ -7591,7 +7592,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             if (i7 == 3) {
                                 AndroidUtilities.setWaitingForCall(true);
                                 NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didReceiveCall);
-                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda29
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda30
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         CallReceiver.checkLastReceivedCall();
@@ -7876,7 +7877,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             TLRPC.TL_auth_resendCode tL_auth_resendCode = new TLRPC.TL_auth_resendCode();
             tL_auth_resendCode.phone_number = this.requestPhone;
             tL_auth_resendCode.phone_code_hash = this.phoneHash;
-            tryShowProgress(ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda30
+            tryShowProgress(ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_auth_resendCode, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda31
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     LoginActivity.LoginActivitySmsView.this.lambda$resendCode$11(bundle, tLObject, tL_error);
@@ -7938,7 +7939,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 this.isDotsAnimationVisible = false;
                 this.blueImageView.setAutoRepeat(false);
                 this.dotsDrawable.setAutoRepeat(0);
-                this.dotsDrawable.setOnFinishCallback(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda13
+                this.dotsDrawable.setOnFinishCallback(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda14
                     @Override // java.lang.Runnable
                     public final void run() {
                         LoginActivity.LoginActivitySmsView.this.lambda$tryHideProgress$19();
@@ -8197,9 +8198,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     i2 = LoginActivity.this.activityMode;
                     if (i2 != 1) {
                         this.requestPhone = LoginActivity.this.cancelDeletionPhone;
-                        final TLRPC.TL_account_confirmPhone tL_account_confirmPhone = new TLRPC.TL_account_confirmPhone();
-                        tL_account_confirmPhone.phone_code = str;
-                        tL_account_confirmPhone.phone_code_hash = this.phoneHash;
+                        final TL_account.confirmPhone confirmphone = new TL_account.confirmPhone();
+                        confirmphone.phone_code = str;
+                        confirmphone.phone_code_hash = this.phoneHash;
                         destroyTimer();
                         CodeFieldContainer codeFieldContainer = this.codeFieldContainer;
                         codeFieldContainer.isFocusSuppressed = true;
@@ -8209,10 +8210,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             codeNumberFieldArr[i3].animateFocusedProgress(0.0f);
                             i3++;
                         }
-                        tryShowProgress(ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_account_confirmPhone, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda10
+                        tryShowProgress(ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(confirmphone, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda10
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                                LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$29(tL_account_confirmPhone, tLObject, tL_error);
+                                LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$29(confirmphone, tLObject, tL_error);
                             }
                         }, 2));
                         return;
@@ -8239,10 +8240,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             }
                         }, 10);
                     } else {
-                        TLRPC.TL_account_changePhone tL_account_changePhone = new TLRPC.TL_account_changePhone();
-                        tL_account_changePhone.phone_number = this.requestPhone;
-                        tL_account_changePhone.phone_code = str;
-                        tL_account_changePhone.phone_code_hash = this.phoneHash;
+                        TL_account.changePhone changephone = new TL_account.changePhone();
+                        changephone.phone_number = this.requestPhone;
+                        changephone.phone_code = str;
+                        changephone.phone_code_hash = this.phoneHash;
                         destroyTimer();
                         CodeFieldContainer codeFieldContainer3 = this.codeFieldContainer;
                         codeFieldContainer3.isFocusSuppressed = true;
@@ -8252,7 +8253,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                             codeNumberFieldArr3[i3].animateFocusedProgress(0.0f);
                             i3++;
                         }
-                        sendRequest = ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(tL_account_changePhone, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda9
+                        sendRequest = ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(changephone, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda9
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                                 LoginActivity.LoginActivitySmsView.this.lambda$onNextPressed$25(tLObject, tL_error);
@@ -10186,14 +10187,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 LoginActivity.this.needShowAlert(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle), tL_error.text);
                 return;
             }
-            TLRPC.account_Password account_password = (TLRPC.account_Password) tLObject;
-            if (!TwoStepVerificationActivity.canHandleCurrentPassword(account_password, true)) {
+            TL_account.Password password = (TL_account.Password) tLObject;
+            if (!TwoStepVerificationActivity.canHandleCurrentPassword(password, true)) {
                 AlertsCreator.showUpdateAppAlert(LoginActivity.this.getParentActivity(), LocaleController.getString("UpdateAppAlert", org.telegram.messenger.R.string.UpdateAppAlert), true);
                 return;
             }
             Bundle bundle = new Bundle();
-            SerializedData serializedData = new SerializedData(account_password.getObjectSize());
-            account_password.serializeToStream(serializedData);
+            SerializedData serializedData = new SerializedData(password.getObjectSize());
+            password.serializeToStream(serializedData);
             bundle.putString("password", Utilities.bytesToHex(serializedData.toByteArray()));
             bundle.putString("phoneFormated", str);
             LoginActivity.this.setPage(6, true, bundle, false);
@@ -10220,7 +10221,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 String str3 = tL_error.text;
                 if (str3 != null) {
                     if (str3.contains("SESSION_PASSWORD_NEEDED")) {
-                        ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TLRPC.TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda19
+                        ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).sendRequest(new TL_account.getPassword(), new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda19
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject3, TLRPC.TL_error tL_error2) {
                                 LoginActivity.PhoneView.this.lambda$onNextPressed$18(str, tLObject3, tL_error2);
@@ -10383,7 +10384,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }, languageFlag.length(), languageFlag.length() + 1, 0);
             }
             spannableStringBuilder.append((CharSequence) country.name);
-            setCountryButtonText(Emoji.replaceEmoji((CharSequence) spannableStringBuilder, this.countryButton.getCurrentView().getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false));
+            setCountryButtonText(Emoji.replaceEmoji(spannableStringBuilder, this.countryButton.getCurrentView().getPaint().getFontMetricsInt(), false));
             this.countryCodeForHint = str;
             this.wasCountryHintIndex = -1;
             invalidateCountryHint();
@@ -10839,10 +10840,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
             }
             if (LoginActivity.this.activityMode == 2) {
-                TLRPC.TL_account_sendChangePhoneCode tL_account_sendChangePhoneCode = new TLRPC.TL_account_sendChangePhoneCode();
-                tL_account_sendChangePhoneCode.phone_number = stripExceptNumbers;
-                tL_account_sendChangePhoneCode.settings = tL_codeSettings;
-                tL_auth_sendCode = tL_account_sendChangePhoneCode;
+                TL_account.sendChangePhoneCode sendchangephonecode = new TL_account.sendChangePhoneCode();
+                sendchangephonecode.phone_number = stripExceptNumbers;
+                sendchangephonecode.settings = tL_codeSettings;
+                tL_auth_sendCode = sendchangephonecode;
             } else {
                 ConnectionsManager.getInstance(((BaseFragment) LoginActivity.this).currentAccount).cleanup(false);
                 TLRPC.TL_auth_sendCode tL_auth_sendCode2 = new TLRPC.TL_auth_sendCode();
@@ -11062,13 +11063,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void fillNextCodeParams(Bundle bundle, TLRPC.TL_account_sentEmailCode tL_account_sentEmailCode) {
-        bundle.putString("emailPattern", tL_account_sentEmailCode.email_pattern);
-        bundle.putInt("length", tL_account_sentEmailCode.length);
-        setPage(13, true, bundle, false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fillNextCodeParams, reason: merged with bridge method [inline-methods] */
     public void lambda$resendCodeFromSafetyNet$19(Bundle bundle, TLRPC.auth_SentCode auth_sentcode) {
         lambda$fillNextCodeParams$27(bundle, auth_sentcode, true);
@@ -11198,6 +11192,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
         setPage(i, z, bundle, false);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void fillNextCodeParams(Bundle bundle, TL_account.sentEmailCode sentemailcode) {
+        bundle.putString("emailPattern", sentemailcode.email_pattern);
+        bundle.putInt("length", sentemailcode.length);
+        setPage(13, true, bundle, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -11652,9 +11653,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$tryResetAccount$34(final String str, final String str2, final String str3, DialogInterface dialogInterface, int i) {
         needShowProgress(0);
-        TLRPC.TL_account_deleteAccount tL_account_deleteAccount = new TLRPC.TL_account_deleteAccount();
-        tL_account_deleteAccount.reason = "Forgot password";
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_account_deleteAccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda34
+        TL_account.deleteAccount deleteaccount = new TL_account.deleteAccount();
+        deleteaccount.reason = "Forgot password";
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(deleteaccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda34
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 LoginActivity.this.lambda$tryResetAccount$33(str, str2, str3, tLObject, tL_error);

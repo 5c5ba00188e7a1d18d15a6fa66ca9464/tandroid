@@ -1056,10 +1056,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     /* JADX WARN: Removed duplicated region for block: B:137:0x0615  */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0082  */
     /* JADX WARN: Removed duplicated region for block: B:143:0x063b  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x08d3  */
-    /* JADX WARN: Removed duplicated region for block: B:222:0x094a  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x0951  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x08d6  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x08cf  */
+    /* JADX WARN: Removed duplicated region for block: B:222:0x0946  */
+    /* JADX WARN: Removed duplicated region for block: B:225:0x094d  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x08d2  */
     /* JADX WARN: Removed duplicated region for block: B:253:0x05c0  */
     /* JADX WARN: Removed duplicated region for block: B:258:0x04e1  */
     /* JADX WARN: Removed duplicated region for block: B:285:0x0414  */
@@ -1533,7 +1533,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         textView4.setTextColor(getThemedColor(this.dialogButtonColorKey));
                         textView4.setGravity(17);
                         textView4.setTypeface(AndroidUtilities.bold());
-                        textView4.setText(this.positiveButtonText.toString());
+                        textView4.setText(this.positiveButtonText);
                         textView4.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
                         textView4.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                         if (this.verticalButtons) {

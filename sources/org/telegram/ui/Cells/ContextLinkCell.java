@@ -747,42 +747,42 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         accessibilityNodeInfo.setChecked(true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:231:0x01e0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:231:0x01d4, code lost:
     
         if (r0 == r43.currentPhotoObject) goto L80;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x01aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x019e, code lost:
     
         if (r0 != 3) goto L73;
      */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0670  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0664  */
     /* JADX WARN: Removed duplicated region for block: B:104:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x05a2  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x031b  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x03ad  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x03b7  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x0541  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0469  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x03af  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x039f  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x02e3  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x02ed  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0289  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x02ad  */
-    /* JADX WARN: Removed duplicated region for block: B:226:0x01c8  */
-    /* JADX WARN: Removed duplicated region for block: B:232:0x0143 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x00e0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0188  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01e9  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x023c  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x026b  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x02a6  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x02b4  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02dd A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0302 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x030d  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0565  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0596  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x030f  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x03a1  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x03ab  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x0535  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x045d  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x03a3  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x0393  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x02d7  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x027d  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0129  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x02a1  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x0137 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x00da A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01dd  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0230  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x025f  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x02a8  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x02d1 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x02f6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0301  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0559  */
     @Override // android.widget.FrameLayout, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -853,59 +853,59 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                     if (botInlineResult2.title != null) {
                         try {
                             arrayList4 = arrayList;
-                        } catch (Exception e) {
-                            e = e;
-                            arrayList4 = arrayList;
-                        }
-                        try {
-                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(r0)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            try {
+                                this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(r0)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            } catch (Exception e) {
+                                e = e;
+                                FileLog.e(e);
+                                this.letterDrawable.setTitle(this.inlineResult.title);
+                                str10 = this.inlineResult.description;
+                                if (str10 == null) {
+                                }
+                                if (this.inlineResult.url != null) {
+                                }
+                                document = this.documentAttach;
+                                if (document == null) {
+                                }
+                                closestPhotoSizeWithSize = null;
+                                str = null;
+                                botInlineResult = this.inlineResult;
+                                if (botInlineResult != null) {
+                                }
+                                if (this.documentAttach != null) {
+                                }
+                                i3 = 0;
+                                i4 = 0;
+                                if (i3 != 0) {
+                                }
+                                photoSize = this.currentPhotoObject;
+                                if (photoSize != null) {
+                                }
+                                if (i3 != 0) {
+                                }
+                                i3 = AndroidUtilities.dp(80.0f);
+                                i4 = i3;
+                                if (this.documentAttach == null) {
+                                }
+                                if (this.mediaWebpage) {
+                                }
+                                this.linkImageView.setAspectFit(this.documentAttachType == 6);
+                                if (this.documentAttachType == 2) {
+                                }
+                                if (SharedConfig.isAutoplayGifs()) {
+                                }
+                                this.linkImageView.setAllowStartAnimation(true);
+                                this.linkImageView.startAnimation();
+                                this.drawLinkImageView = true;
+                                if (this.mediaWebpage) {
+                                }
+                                checkBox2 = this.checkBox;
+                                if (checkBox2 != null) {
+                                }
+                            }
                         } catch (Exception e2) {
                             e = e2;
-                            FileLog.e(e);
-                            this.letterDrawable.setTitle(this.inlineResult.title);
-                            str10 = this.inlineResult.description;
-                            if (str10 == null) {
-                            }
-                            if (this.inlineResult.url != null) {
-                            }
-                            document = this.documentAttach;
-                            if (document == null) {
-                            }
-                            closestPhotoSizeWithSize = null;
-                            str = null;
-                            botInlineResult = this.inlineResult;
-                            if (botInlineResult != null) {
-                            }
-                            if (this.documentAttach != null) {
-                            }
-                            i3 = 0;
-                            i4 = 0;
-                            if (i3 != 0) {
-                            }
-                            photoSize = this.currentPhotoObject;
-                            if (photoSize != null) {
-                            }
-                            if (i3 != 0) {
-                            }
-                            i3 = AndroidUtilities.dp(80.0f);
-                            i4 = i3;
-                            if (this.documentAttach == null) {
-                            }
-                            if (this.mediaWebpage) {
-                            }
-                            this.linkImageView.setAspectFit(this.documentAttachType == 6);
-                            if (this.documentAttachType == 2) {
-                            }
-                            if (SharedConfig.isAutoplayGifs()) {
-                            }
-                            this.linkImageView.setAllowStartAnimation(true);
-                            this.linkImageView.startAnimation();
-                            this.drawLinkImageView = true;
-                            if (this.mediaWebpage) {
-                            }
-                            checkBox2 = this.checkBox;
-                            if (checkBox2 != null) {
-                            }
+                            arrayList4 = arrayList;
                         }
                         this.letterDrawable.setTitle(this.inlineResult.title);
                     } else {
@@ -924,7 +924,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             c2 = '\n';
                         }
                         try {
-                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji((CharSequence) str10, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
+                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji(str10, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
                             this.descriptionLayout = generateStaticLayout;
                             if (generateStaticLayout.getLineCount() > 0) {
                                 int i8 = this.descriptionY;

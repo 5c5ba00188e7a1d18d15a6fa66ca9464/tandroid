@@ -214,8 +214,8 @@ public class PaintingOverlay extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x01d3  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x01f3 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x01c9  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x01e9 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -281,7 +281,7 @@ public class PaintingOverlay extends FrameLayout {
                 editTextOutline.setPadding(AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f), AndroidUtilities.dp(7.0f));
                 editTextOutline.setTextSize(0, mediaEntity.fontSize);
                 editTextOutline.setTypeface(mediaEntity.textTypeface.getTypeface());
-                SpannableString spannableString = new SpannableString(Emoji.replaceEmoji((CharSequence) mediaEntity.text, editTextOutline.getPaint().getFontMetricsInt(), (int) (editTextOutline.getTextSize() * 0.8f), false));
+                SpannableString spannableString = new SpannableString(Emoji.replaceEmoji(mediaEntity.text, editTextOutline.getPaint().getFontMetricsInt(), false));
                 Iterator<VideoEditedInfo.EmojiEntity> it = mediaEntity.entities.iterator();
                 while (it.hasNext()) {
                     VideoEditedInfo.EmojiEntity next = it.next();

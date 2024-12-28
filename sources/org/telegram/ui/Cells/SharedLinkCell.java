@@ -490,24 +490,24 @@ public class SharedLinkCell extends FrameLayout {
     /* JADX WARN: Removed duplicated region for block: B:130:0x02ad  */
     /* JADX WARN: Removed duplicated region for block: B:135:0x033c  */
     /* JADX WARN: Removed duplicated region for block: B:138:0x034d  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x045d  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x047d  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x054e  */
-    /* JADX WARN: Removed duplicated region for block: B:194:0x0572  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x05f8  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0694  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x06a2  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x06c4  */
-    /* JADX WARN: Removed duplicated region for block: B:246:0x061c  */
-    /* JADX WARN: Removed duplicated region for block: B:247:0x05f3  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x0559  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0457  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0477  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x0548  */
+    /* JADX WARN: Removed duplicated region for block: B:194:0x056c  */
+    /* JADX WARN: Removed duplicated region for block: B:205:0x05f2  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x068e  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x069c  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x06be  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x0616  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x05ed  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x0553  */
     /* JADX WARN: Removed duplicated region for block: B:250:0x03a3 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:261:0x0355 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:272:0x0350  */
     /* JADX WARN: Removed duplicated region for block: B:273:0x0341  */
     /* JADX WARN: Removed duplicated region for block: B:274:0x02e8 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:286:0x02e3  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x01ef A[Catch: Exception -> 0x010f, TryCatch #1 {Exception -> 0x010f, blocks: (B:47:0x00f9, B:49:0x00fd, B:52:0x0102, B:55:0x0108, B:58:0x0112, B:60:0x0145, B:63:0x01ef, B:65:0x01f7, B:67:0x0207, B:69:0x0217, B:70:0x022b, B:71:0x023e, B:73:0x0244, B:82:0x0259, B:87:0x0282, B:90:0x0153, B:91:0x015d, B:92:0x01e9, B:94:0x0164, B:96:0x0168, B:98:0x017c, B:100:0x0182, B:102:0x0190, B:104:0x0197, B:106:0x019f, B:108:0x01a9, B:109:0x01af, B:110:0x01cb, B:112:0x01cf, B:114:0x01dd, B:115:0x0178), top: B:46:0x00f9 }] */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x01ef A[Catch: Exception -> 0x010f, TryCatch #0 {Exception -> 0x010f, blocks: (B:47:0x00f9, B:49:0x00fd, B:52:0x0102, B:55:0x0108, B:58:0x0112, B:60:0x0145, B:63:0x01ef, B:65:0x01f7, B:67:0x0207, B:69:0x0217, B:70:0x022b, B:71:0x023e, B:73:0x0244, B:82:0x0259, B:87:0x0282, B:90:0x0153, B:91:0x015d, B:92:0x01e9, B:94:0x0164, B:96:0x0168, B:98:0x017c, B:100:0x0182, B:102:0x0190, B:104:0x0197, B:106:0x019f, B:108:0x01a9, B:109:0x01af, B:110:0x01cb, B:112:0x01cf, B:114:0x01dd, B:115:0x0178), top: B:46:0x00f9 }] */
     /* JADX WARN: Type inference failed for: r2v125 */
     /* JADX WARN: Type inference failed for: r2v126 */
     /* JADX WARN: Type inference failed for: r2v99, types: [android.text.Spannable] */
@@ -538,6 +538,7 @@ public class SharedLinkCell extends FrameLayout {
         int i6;
         int i7;
         TLRPC.PhotoSize photoSize2;
+        CharSequence ellipsize;
         int i8;
         String str5;
         int lastIndexOf;
@@ -749,7 +750,7 @@ public class SharedLinkCell extends FrameLayout {
                     photoSize = null;
                 } else {
                     photoSize = null;
-                    CharSequence highlightText2 = AndroidUtilities.highlightText(Emoji.replaceEmoji((CharSequence) this.message.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.message.highlightedWords, (Theme.ResourcesProvider) null);
+                    CharSequence highlightText2 = AndroidUtilities.highlightText(Emoji.replaceEmoji(this.message.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), false), this.message.highlightedWords, (Theme.ResourcesProvider) null);
                     if (highlightText2 != null) {
                         this.captionLayout = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText2, this.message.highlightedWords.get(0), size, this.captionTextPaint, NotificationCenter.walletSyncProgressChanged), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                     }
@@ -770,34 +771,34 @@ public class SharedLinkCell extends FrameLayout {
                     int i25 = 0;
                     while (i25 < this.links.size()) {
                         try {
-                            CharSequence ellipsize = TextUtils.ellipsize(AndroidUtilities.replaceNewLines(SpannableStringBuilder.valueOf((CharSequence) this.links.get(i25))), this.descriptionTextPaint, Math.min((int) Math.ceil(this.descriptionTextPaint.measureText(r0, 0, r0.length())), size), TextUtils.TruncateAt.MIDDLE);
+                            ellipsize = TextUtils.ellipsize(AndroidUtilities.replaceNewLines(SpannableStringBuilder.valueOf((CharSequence) this.links.get(i25))), this.descriptionTextPaint, Math.min((int) Math.ceil(this.descriptionTextPaint.measureText(r0, 0, r0.length())), size), TextUtils.TruncateAt.MIDDLE);
                             photoSize2 = photoSize;
-                            try {
-                                StaticLayout staticLayout9 = new StaticLayout(ellipsize, this.descriptionTextPaint, size, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                                this.linkY = this.description2Y;
-                                StaticLayout staticLayout10 = this.descriptionLayout2;
-                                if (staticLayout10 != null && staticLayout10.getLineCount() != 0) {
-                                    int i26 = this.linkY;
-                                    StaticLayout staticLayout11 = this.descriptionLayout2;
-                                    this.linkY = i26 + staticLayout11.getLineBottom(staticLayout11.getLineCount() - 1) + AndroidUtilities.dp(5.0f);
-                                }
-                                if (!this.message.isSpoilersRevealed) {
-                                    ArrayList arrayList = new ArrayList();
-                                    if (ellipsize instanceof Spannable) {
-                                        SpoilerEffect.addSpoilers(this, staticLayout9, (Spannable) ellipsize, this.spoilersPool, arrayList);
-                                    }
-                                    this.linkSpoilers.put(i25, arrayList);
-                                }
-                                this.linkLayout.add(staticLayout9);
-                            } catch (Exception e5) {
-                                e = e5;
-                                FileLog.e(e);
-                                i25++;
-                                photoSize = photoSize2;
+                        } catch (Exception e5) {
+                            e = e5;
+                            photoSize2 = photoSize;
+                        }
+                        try {
+                            StaticLayout staticLayout9 = new StaticLayout(ellipsize, this.descriptionTextPaint, size, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            this.linkY = this.description2Y;
+                            StaticLayout staticLayout10 = this.descriptionLayout2;
+                            if (staticLayout10 != null && staticLayout10.getLineCount() != 0) {
+                                int i26 = this.linkY;
+                                StaticLayout staticLayout11 = this.descriptionLayout2;
+                                this.linkY = i26 + staticLayout11.getLineBottom(staticLayout11.getLineCount() - 1) + AndroidUtilities.dp(5.0f);
                             }
+                            if (!this.message.isSpoilersRevealed) {
+                                ArrayList arrayList = new ArrayList();
+                                if (ellipsize instanceof Spannable) {
+                                    SpoilerEffect.addSpoilers(this, staticLayout9, (Spannable) ellipsize, this.spoilersPool, arrayList);
+                                }
+                                this.linkSpoilers.put(i25, arrayList);
+                            }
+                            this.linkLayout.add(staticLayout9);
                         } catch (Exception e6) {
                             e = e6;
-                            photoSize2 = photoSize;
+                            FileLog.e(e);
+                            i25++;
+                            photoSize = photoSize2;
                         }
                         i25++;
                         photoSize = photoSize2;

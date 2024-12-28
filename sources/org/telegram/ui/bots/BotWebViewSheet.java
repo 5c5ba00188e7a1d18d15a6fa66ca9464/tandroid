@@ -1131,6 +1131,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     BotWebViewSheet.this.sensors.attachWebView(myWebView);
                 }
                 BotWebViewSheet.this.fullscreenButtons.setWebView(myWebView);
+                BotWebViewSheet.this.updateWebViewBackgroundColor();
             }
 
             @Override // org.telegram.ui.web.BotWebViewContainer
@@ -1827,6 +1828,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(this.backgroundPaint.getColor()) <= 0.721f, false);
             this.errorContainer.setBackgroundColor(this.backgroundPaint.getColor());
         }
+        updateWebViewBackgroundColor();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2187,6 +2189,16 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 this.windowView.setSystemUiVisibility(z ? systemUiVisibility | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM : systemUiVisibility & (-8193));
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateWebViewBackgroundColor() {
+        BotWebViewContainer.MyWebView webView;
+        BotWebViewContainer botWebViewContainer = this.webViewContainer;
+        if (botWebViewContainer == null || (webView = botWebViewContainer.getWebView()) == null) {
+            return;
+        }
+        webView.setBackgroundColor(this.backgroundPaint.getColor());
     }
 
     public void checkNavBarColor() {
@@ -3143,6 +3155,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                         BotWebViewSheet.this.errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(BotWebViewSheet.this.backgroundPaint.getColor()) <= 0.721f, false);
                         BotWebViewSheet.this.errorContainer.setBackgroundColor(BotWebViewSheet.this.backgroundPaint.getColor());
                     }
+                    BotWebViewSheet.this.updateWebViewBackgroundColor();
                 }
             });
             this.backgroundColorAnimator.start();
@@ -3156,6 +3169,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(this.backgroundPaint.getColor()) <= 0.721f, false);
             this.errorContainer.setBackgroundColor(this.backgroundPaint.getColor());
         }
+        updateWebViewBackgroundColor();
     }
 
     public void setDefaultFullsize(boolean z) {

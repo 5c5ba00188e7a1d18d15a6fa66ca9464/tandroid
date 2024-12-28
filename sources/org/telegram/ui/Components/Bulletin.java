@@ -1123,7 +1123,7 @@ public class Bulletin {
 
                 @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                 public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                    super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
+                    super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
                 }
             };
             this.textView = linksTextView;
@@ -2025,7 +2025,7 @@ public class Bulletin {
                 LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.2
                     @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                     public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
+                        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
                     }
                 };
                 this.textView = linksTextView;
@@ -2053,7 +2053,7 @@ public class Bulletin {
                 LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(context) { // from class: org.telegram.ui.Components.Bulletin.UsersLayout.1
                     @Override // org.telegram.ui.Components.LinkSpanDrawable.LinksTextView, android.widget.TextView
                     public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), bufferType);
+                        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
                     }
                 };
                 this.textView = linksTextView3;

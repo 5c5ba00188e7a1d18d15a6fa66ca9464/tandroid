@@ -3,9 +3,13 @@ package org.telegram.tgnet.tl;
 import android.graphics.Path;
 import java.util.ArrayList;
 import org.telegram.messenger.SvgHelper;
-import org.telegram.tgnet.AbstractSerializedData;
+import org.telegram.tgnet.InputSerializedData;
+import org.telegram.tgnet.OutputSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.TLRPC$TL_attachMenuBots$$ExternalSyntheticLambda1;
+import org.telegram.tgnet.Vector;
+import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.tgnet.tl.TL_payments;
 
 /* loaded from: classes3.dex */
@@ -22,9 +26,10 @@ public class TL_bots {
         public BotMenuButton menu_button;
         public String privacy_policy_url;
         public long user_id;
+        public botVerifierSettings verifier_settings;
         public int version;
 
-        public static BotInfo TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        public static BotInfo TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
             BotInfo tL_botInfo_layer192;
             switch (i) {
                 case TL_botInfo_layer192.constructor /* -2109505932 */:
@@ -48,7 +53,10 @@ public class TL_bots {
                 case TL_botInfo_layer139.constructor /* 460632885 */:
                     tL_botInfo_layer192 = new TL_botInfo_layer139();
                     break;
-                case TL_botInfo.constructor /* 912290611 */:
+                case TL_botInfo_layer195.constructor /* 912290611 */:
+                    tL_botInfo_layer192 = new TL_botInfo_layer195();
+                    break;
+                case TL_botInfo.constructor /* 1300890265 */:
                     tL_botInfo_layer192 = new TL_botInfo();
                     break;
                 default:
@@ -59,56 +67,56 @@ public class TL_bots {
                 throw new RuntimeException(String.format("can't parse magic %x in BotInfo", Integer.valueOf(i)));
             }
             if (tL_botInfo_layer192 != null) {
-                tL_botInfo_layer192.readParams(abstractSerializedData, z);
+                tL_botInfo_layer192.readParams(inputSerializedData, z);
             }
             return tL_botInfo_layer192;
         }
     }
 
     public static abstract class BotMenuButton extends TLObject {
-        public static BotMenuButton TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        public static BotMenuButton TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
             BotMenuButton tL_botMenuButtonDefault = i != -944407322 ? i != 1113113093 ? i != 1966318984 ? null : new TL_botMenuButtonDefault() : new TL_botMenuButtonCommands() : new TL_botMenuButton();
             if (tL_botMenuButtonDefault == null && z) {
                 throw new RuntimeException(String.format("can't parse magic %x in BotMenuButton", Integer.valueOf(i)));
             }
             if (tL_botMenuButtonDefault != null) {
-                tL_botMenuButtonDefault.readParams(abstractSerializedData, z);
+                tL_botMenuButtonDefault.readParams(inputSerializedData, z);
             }
             return tL_botMenuButtonDefault;
         }
     }
 
     public static class TL_botInfo extends BotInfo {
-        public static final int constructor = 912290611;
+        public static final int constructor = 1300890265;
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
             this.flags = readInt32;
             this.has_preview_medias = (readInt32 & 64) != 0;
             if ((readInt32 & 1) != 0) {
-                this.user_id = abstractSerializedData.readInt64(z);
+                this.user_id = inputSerializedData.readInt64(z);
             }
             if ((this.flags & 2) != 0) {
-                this.description = abstractSerializedData.readString(z);
+                this.description = inputSerializedData.readString(z);
             }
             if ((this.flags & 16) != 0) {
-                this.description_photo = TLRPC.Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.description_photo = TLRPC.Photo.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 32) != 0) {
-                this.description_document = TLRPC.Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = abstractSerializedData.readInt32(z);
+                int readInt322 = inputSerializedData.readInt32(z);
                 if (readInt322 != 481674261) {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
                     }
                     return;
                 }
-                int readInt323 = abstractSerializedData.readInt32(z);
+                int readInt323 = inputSerializedData.readInt32(z);
                 for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                     if (TLdeserialize == null) {
                         return;
                     }
@@ -116,50 +124,56 @@ public class TL_bots {
                 }
             }
             if ((this.flags & 8) != 0) {
-                this.menu_button = BotMenuButton.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 128) != 0) {
-                this.privacy_policy_url = abstractSerializedData.readString(z);
+                this.privacy_policy_url = inputSerializedData.readString(z);
             }
             if ((this.flags & 256) != 0) {
-                this.app_settings = botAppSettings.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.app_settings = botAppSettings.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 512) != 0) {
+                this.verifier_settings = botVerifierSettings.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
             int i = this.has_preview_medias ? this.flags | 64 : this.flags & (-65);
             this.flags = i;
-            abstractSerializedData.writeInt32(i);
+            outputSerializedData.writeInt32(i);
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeInt64(this.user_id);
+                outputSerializedData.writeInt64(this.user_id);
             }
             if ((this.flags & 2) != 0) {
-                abstractSerializedData.writeString(this.description);
+                outputSerializedData.writeString(this.description);
             }
             if ((this.flags & 16) != 0) {
-                this.description_photo.serializeToStream(abstractSerializedData);
+                this.description_photo.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 32) != 0) {
-                this.description_document.serializeToStream(abstractSerializedData);
+                this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+                outputSerializedData.writeInt32(Vector.constructor);
                 int size = this.commands.size();
-                abstractSerializedData.writeInt32(size);
+                outputSerializedData.writeInt32(size);
                 for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(abstractSerializedData);
+                    this.commands.get(i2).serializeToStream(outputSerializedData);
                 }
             }
             if ((this.flags & 8) != 0) {
-                this.menu_button.serializeToStream(abstractSerializedData);
+                this.menu_button.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 128) != 0) {
-                abstractSerializedData.writeString(this.privacy_policy_url);
+                outputSerializedData.writeString(this.privacy_policy_url);
             }
             if ((this.flags & 256) != 0) {
-                this.app_settings.serializeToStream(abstractSerializedData);
+                this.app_settings.serializeToStream(outputSerializedData);
+            }
+            if ((this.flags & 512) != 0) {
+                this.verifier_settings.serializeToStream(outputSerializedData);
             }
         }
     }
@@ -168,8 +182,8 @@ public class TL_bots {
         public static final int constructor = -1154598962;
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
         }
     }
 
@@ -177,19 +191,19 @@ public class TL_bots {
         public static final int constructor = -1729618630;
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.user_id = abstractSerializedData.readInt32(z);
-            this.description = abstractSerializedData.readString(z);
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.user_id = inputSerializedData.readInt32(z);
+            this.description = inputSerializedData.readString(z);
+            int readInt32 = inputSerializedData.readInt32(z);
             if (readInt32 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                 }
                 return;
             }
-            int readInt322 = abstractSerializedData.readInt32(z);
+            int readInt322 = inputSerializedData.readInt32(z);
             for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
@@ -198,15 +212,15 @@ public class TL_bots {
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32((int) this.user_id);
-            abstractSerializedData.writeString(this.description);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32((int) this.user_id);
+            outputSerializedData.writeString(this.description);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.commands.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(abstractSerializedData);
+                this.commands.get(i).serializeToStream(outputSerializedData);
             }
         }
     }
@@ -215,19 +229,19 @@ public class TL_bots {
         public static final int constructor = 460632885;
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.user_id = abstractSerializedData.readInt64(z);
-            this.description = abstractSerializedData.readString(z);
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.user_id = inputSerializedData.readInt64(z);
+            this.description = inputSerializedData.readString(z);
+            int readInt32 = inputSerializedData.readInt32(z);
             if (readInt32 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                 }
                 return;
             }
-            int readInt322 = abstractSerializedData.readInt32(z);
+            int readInt322 = inputSerializedData.readInt32(z);
             for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
@@ -236,15 +250,15 @@ public class TL_bots {
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt64(this.user_id);
-            abstractSerializedData.writeString(this.description);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt64(this.user_id);
+            outputSerializedData.writeString(this.description);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.commands.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(abstractSerializedData);
+                this.commands.get(i).serializeToStream(outputSerializedData);
             }
         }
     }
@@ -253,39 +267,39 @@ public class TL_bots {
         public static final int constructor = -468280483;
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.user_id = abstractSerializedData.readInt64(z);
-            this.description = abstractSerializedData.readString(z);
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.user_id = inputSerializedData.readInt64(z);
+            this.description = inputSerializedData.readString(z);
+            int readInt32 = inputSerializedData.readInt32(z);
             if (readInt32 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                 }
                 return;
             }
-            int readInt322 = abstractSerializedData.readInt32(z);
+            int readInt322 = inputSerializedData.readInt32(z);
             for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
                 this.commands.add(TLdeserialize);
             }
-            this.menu_button = BotMenuButton.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+            this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt64(this.user_id);
-            abstractSerializedData.writeString(this.description);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt64(this.user_id);
+            outputSerializedData.writeString(this.description);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.commands.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(abstractSerializedData);
+                this.commands.get(i).serializeToStream(outputSerializedData);
             }
-            this.menu_button.serializeToStream(abstractSerializedData);
+            this.menu_button.serializeToStream(outputSerializedData);
         }
     }
 
@@ -293,33 +307,33 @@ public class TL_bots {
         public static final int constructor = -1892676777;
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
             this.flags = readInt32;
             this.has_preview_medias = (readInt32 & 64) != 0;
             if ((readInt32 & 1) != 0) {
-                this.user_id = abstractSerializedData.readInt64(z);
+                this.user_id = inputSerializedData.readInt64(z);
             }
             if ((this.flags & 2) != 0) {
-                this.description = abstractSerializedData.readString(z);
+                this.description = inputSerializedData.readString(z);
             }
             if ((this.flags & 16) != 0) {
-                this.description_photo = TLRPC.Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.description_photo = TLRPC.Photo.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 32) != 0) {
-                this.description_document = TLRPC.Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = abstractSerializedData.readInt32(z);
+                int readInt322 = inputSerializedData.readInt32(z);
                 if (readInt322 != 481674261) {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
                     }
                     return;
                 }
-                int readInt323 = abstractSerializedData.readInt32(z);
+                int readInt323 = inputSerializedData.readInt32(z);
                 for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                     if (TLdeserialize == null) {
                         return;
                     }
@@ -327,38 +341,38 @@ public class TL_bots {
                 }
             }
             if ((this.flags & 8) != 0) {
-                this.menu_button = BotMenuButton.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
             int i = this.has_preview_medias ? this.flags | 64 : this.flags & (-65);
             this.flags = i;
-            abstractSerializedData.writeInt32(i);
+            outputSerializedData.writeInt32(i);
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeInt64(this.user_id);
+                outputSerializedData.writeInt64(this.user_id);
             }
             if ((this.flags & 2) != 0) {
-                abstractSerializedData.writeString(this.description);
+                outputSerializedData.writeString(this.description);
             }
             if ((this.flags & 16) != 0) {
-                this.description_photo.serializeToStream(abstractSerializedData);
+                this.description_photo.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 32) != 0) {
-                this.description_document.serializeToStream(abstractSerializedData);
+                this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+                outputSerializedData.writeInt32(Vector.constructor);
                 int size = this.commands.size();
-                abstractSerializedData.writeInt32(size);
+                outputSerializedData.writeInt32(size);
                 for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(abstractSerializedData);
+                    this.commands.get(i2).serializeToStream(outputSerializedData);
                 }
             }
             if ((this.flags & 8) != 0) {
-                this.menu_button.serializeToStream(abstractSerializedData);
+                this.menu_button.serializeToStream(outputSerializedData);
             }
         }
     }
@@ -367,33 +381,33 @@ public class TL_bots {
         public static final int constructor = -2109505932;
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
             this.flags = readInt32;
             this.has_preview_medias = (readInt32 & 64) != 0;
             if ((readInt32 & 1) != 0) {
-                this.user_id = abstractSerializedData.readInt64(z);
+                this.user_id = inputSerializedData.readInt64(z);
             }
             if ((this.flags & 2) != 0) {
-                this.description = abstractSerializedData.readString(z);
+                this.description = inputSerializedData.readString(z);
             }
             if ((this.flags & 16) != 0) {
-                this.description_photo = TLRPC.Photo.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.description_photo = TLRPC.Photo.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 32) != 0) {
-                this.description_document = TLRPC.Document.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = abstractSerializedData.readInt32(z);
+                int readInt322 = inputSerializedData.readInt32(z);
                 if (readInt322 != 481674261) {
                     if (z) {
                         throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
                     }
                     return;
                 }
-                int readInt323 = abstractSerializedData.readInt32(z);
+                int readInt323 = inputSerializedData.readInt32(z);
                 for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                     if (TLdeserialize == null) {
                         return;
                     }
@@ -401,44 +415,130 @@ public class TL_bots {
                 }
             }
             if ((this.flags & 8) != 0) {
-                this.menu_button = BotMenuButton.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 128) != 0) {
-                this.privacy_policy_url = abstractSerializedData.readString(z);
+                this.privacy_policy_url = inputSerializedData.readString(z);
             }
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
             int i = this.has_preview_medias ? this.flags | 64 : this.flags & (-65);
             this.flags = i;
-            abstractSerializedData.writeInt32(i);
+            outputSerializedData.writeInt32(i);
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeInt64(this.user_id);
+                outputSerializedData.writeInt64(this.user_id);
             }
             if ((this.flags & 2) != 0) {
-                abstractSerializedData.writeString(this.description);
+                outputSerializedData.writeString(this.description);
             }
             if ((this.flags & 16) != 0) {
-                this.description_photo.serializeToStream(abstractSerializedData);
+                this.description_photo.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 32) != 0) {
-                this.description_document.serializeToStream(abstractSerializedData);
+                this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+                outputSerializedData.writeInt32(Vector.constructor);
                 int size = this.commands.size();
-                abstractSerializedData.writeInt32(size);
+                outputSerializedData.writeInt32(size);
                 for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(abstractSerializedData);
+                    this.commands.get(i2).serializeToStream(outputSerializedData);
                 }
             }
             if ((this.flags & 8) != 0) {
-                this.menu_button.serializeToStream(abstractSerializedData);
+                this.menu_button.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 128) != 0) {
-                abstractSerializedData.writeString(this.privacy_policy_url);
+                outputSerializedData.writeString(this.privacy_policy_url);
+            }
+        }
+    }
+
+    public static class TL_botInfo_layer195 extends TL_botInfo {
+        public static final int constructor = 912290611;
+
+        @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
+            this.flags = readInt32;
+            this.has_preview_medias = (readInt32 & 64) != 0;
+            if ((readInt32 & 1) != 0) {
+                this.user_id = inputSerializedData.readInt64(z);
+            }
+            if ((this.flags & 2) != 0) {
+                this.description = inputSerializedData.readString(z);
+            }
+            if ((this.flags & 16) != 0) {
+                this.description_photo = TLRPC.Photo.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 32) != 0) {
+                this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 4) != 0) {
+                int readInt322 = inputSerializedData.readInt32(z);
+                if (readInt322 != 481674261) {
+                    if (z) {
+                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
+                    }
+                    return;
+                }
+                int readInt323 = inputSerializedData.readInt32(z);
+                for (int i = 0; i < readInt323; i++) {
+                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+                    if (TLdeserialize == null) {
+                        return;
+                    }
+                    this.commands.add(TLdeserialize);
+                }
+            }
+            if ((this.flags & 8) != 0) {
+                this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 128) != 0) {
+                this.privacy_policy_url = inputSerializedData.readString(z);
+            }
+            if ((this.flags & 256) != 0) {
+                this.app_settings = botAppSettings.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+            }
+        }
+
+        @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            int i = this.has_preview_medias ? this.flags | 64 : this.flags & (-65);
+            this.flags = i;
+            outputSerializedData.writeInt32(i);
+            if ((this.flags & 1) != 0) {
+                outputSerializedData.writeInt64(this.user_id);
+            }
+            if ((this.flags & 2) != 0) {
+                outputSerializedData.writeString(this.description);
+            }
+            if ((this.flags & 16) != 0) {
+                this.description_photo.serializeToStream(outputSerializedData);
+            }
+            if ((this.flags & 32) != 0) {
+                this.description_document.serializeToStream(outputSerializedData);
+            }
+            if ((this.flags & 4) != 0) {
+                outputSerializedData.writeInt32(Vector.constructor);
+                int size = this.commands.size();
+                outputSerializedData.writeInt32(size);
+                for (int i2 = 0; i2 < size; i2++) {
+                    this.commands.get(i2).serializeToStream(outputSerializedData);
+                }
+            }
+            if ((this.flags & 8) != 0) {
+                this.menu_button.serializeToStream(outputSerializedData);
+            }
+            if ((this.flags & 128) != 0) {
+                outputSerializedData.writeString(this.privacy_policy_url);
+            }
+            if ((this.flags & 256) != 0) {
+                this.app_settings.serializeToStream(outputSerializedData);
             }
         }
     }
@@ -447,21 +547,21 @@ public class TL_bots {
         public static final int constructor = 164583517;
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.user_id = abstractSerializedData.readInt32(z);
-            this.version = abstractSerializedData.readInt32(z);
-            abstractSerializedData.readString(z);
-            this.description = abstractSerializedData.readString(z);
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.user_id = inputSerializedData.readInt32(z);
+            this.version = inputSerializedData.readInt32(z);
+            inputSerializedData.readString(z);
+            this.description = inputSerializedData.readString(z);
+            int readInt32 = inputSerializedData.readInt32(z);
             if (readInt32 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                 }
                 return;
             }
-            int readInt322 = abstractSerializedData.readInt32(z);
+            int readInt322 = inputSerializedData.readInt32(z);
             for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
@@ -470,17 +570,17 @@ public class TL_bots {
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32((int) this.user_id);
-            abstractSerializedData.writeInt32(this.version);
-            abstractSerializedData.writeString("");
-            abstractSerializedData.writeString(this.description);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32((int) this.user_id);
+            outputSerializedData.writeInt32(this.version);
+            outputSerializedData.writeString("");
+            outputSerializedData.writeString(this.description);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.commands.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(abstractSerializedData);
+                this.commands.get(i).serializeToStream(outputSerializedData);
             }
         }
     }
@@ -491,16 +591,16 @@ public class TL_bots {
         public String url;
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.text = abstractSerializedData.readString(z);
-            this.url = abstractSerializedData.readString(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.text = inputSerializedData.readString(z);
+            this.url = inputSerializedData.readString(z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeString(this.text);
-            abstractSerializedData.writeString(this.url);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeString(this.text);
+            outputSerializedData.writeString(this.url);
         }
     }
 
@@ -508,8 +608,8 @@ public class TL_bots {
         public static final int constructor = 1113113093;
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
         }
     }
 
@@ -517,8 +617,8 @@ public class TL_bots {
         public static final int constructor = 1966318984;
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
         }
     }
 
@@ -528,16 +628,16 @@ public class TL_bots {
         public BotMenuButton button;
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.bot_id = abstractSerializedData.readInt64(z);
-            this.button = BotMenuButton.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.bot_id = inputSerializedData.readInt64(z);
+            this.button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt64(this.bot_id);
-            this.button.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt64(this.bot_id);
+            this.button.serializeToStream(outputSerializedData);
         }
     }
 
@@ -548,16 +648,16 @@ public class TL_bots {
         public TLRPC.InputMedia media;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return botPreviewMedia.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return botPreviewMedia.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.lang_code);
-            this.media.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.lang_code);
+            this.media.serializeToStream(outputSerializedData);
         }
     }
 
@@ -566,14 +666,14 @@ public class TL_bots {
         public TLRPC.InputUser bot;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Updates.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Updates.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
         }
     }
 
@@ -587,7 +687,7 @@ public class TL_bots {
         public byte[] placeholder_path;
         public Path placeholder_svg_path;
 
-        public static botAppSettings TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        public static botAppSettings TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
             if (-912582320 != i) {
                 if (z) {
                     throw new RuntimeException(String.format("can't parse magic %x in botAppSettings", Integer.valueOf(i)));
@@ -595,51 +695,51 @@ public class TL_bots {
                 return null;
             }
             botAppSettings botappsettings = new botAppSettings();
-            botappsettings.readParams(abstractSerializedData, z);
+            botappsettings.readParams(inputSerializedData, z);
             return botappsettings;
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
             this.flags = readInt32;
             if ((readInt32 & 1) != 0) {
-                byte[] readByteArray = abstractSerializedData.readByteArray(z);
+                byte[] readByteArray = inputSerializedData.readByteArray(z);
                 this.placeholder_path = readByteArray;
                 this.placeholder_svg_path = SvgHelper.doPath(SvgHelper.decompress(readByteArray));
             }
             if ((this.flags & 2) != 0) {
-                this.background_color = abstractSerializedData.readInt32(z);
+                this.background_color = inputSerializedData.readInt32(z);
             }
             if ((this.flags & 4) != 0) {
-                this.background_dark_color = abstractSerializedData.readInt32(z);
+                this.background_dark_color = inputSerializedData.readInt32(z);
             }
             if ((this.flags & 8) != 0) {
-                this.header_color = abstractSerializedData.readInt32(z);
+                this.header_color = inputSerializedData.readInt32(z);
             }
             if ((this.flags & 16) != 0) {
-                this.header_dark_color = abstractSerializedData.readInt32(z);
+                this.header_dark_color = inputSerializedData.readInt32(z);
             }
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(this.flags);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.flags);
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeByteArray(this.placeholder_path);
+                outputSerializedData.writeByteArray(this.placeholder_path);
             }
             if ((this.flags & 2) != 0) {
-                abstractSerializedData.writeInt32(this.background_color);
+                outputSerializedData.writeInt32(this.background_color);
             }
             if ((this.flags & 4) != 0) {
-                abstractSerializedData.writeInt32(this.background_dark_color);
+                outputSerializedData.writeInt32(this.background_dark_color);
             }
             if ((this.flags & 8) != 0) {
-                abstractSerializedData.writeInt32(this.header_color);
+                outputSerializedData.writeInt32(this.header_color);
             }
             if ((this.flags & 16) != 0) {
-                abstractSerializedData.writeInt32(this.header_dark_color);
+                outputSerializedData.writeInt32(this.header_dark_color);
             }
         }
     }
@@ -649,7 +749,7 @@ public class TL_bots {
         public int date;
         public TLRPC.MessageMedia media;
 
-        public static botPreviewMedia TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        public static botPreviewMedia TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
             if (602479523 != i) {
                 if (z) {
                     throw new RuntimeException(String.format("can't parse magic %x in botPreviewMedia", Integer.valueOf(i)));
@@ -657,21 +757,100 @@ public class TL_bots {
                 return null;
             }
             botPreviewMedia botpreviewmedia = new botPreviewMedia();
-            botpreviewmedia.readParams(abstractSerializedData, z);
+            botpreviewmedia.readParams(inputSerializedData, z);
             return botpreviewmedia;
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            this.date = abstractSerializedData.readInt32(z);
-            this.media = TLRPC.MessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.date = inputSerializedData.readInt32(z);
+            this.media = TLRPC.MessageMedia.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(this.date);
-            this.media.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.date);
+            this.media.serializeToStream(outputSerializedData);
+        }
+    }
+
+    public static class botVerification extends TLObject {
+        public static final int constructor = -113453988;
+        public long bot_id;
+        public String description;
+        public long icon;
+
+        public static botVerification TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
+            if (-113453988 != i) {
+                if (z) {
+                    throw new RuntimeException(String.format("can't parse magic %x in TL_bots.botVerification", Integer.valueOf(i)));
+                }
+                return null;
+            }
+            botVerification botverification = new botVerification();
+            botverification.readParams(inputSerializedData, z);
+            return botverification;
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.bot_id = inputSerializedData.readInt64(z);
+            this.icon = inputSerializedData.readInt64(z);
+            this.description = inputSerializedData.readString(z);
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt64(this.bot_id);
+            outputSerializedData.writeInt64(this.icon);
+            outputSerializedData.writeString(this.description);
+        }
+    }
+
+    public static class botVerifierSettings extends TLObject {
+        public static final int constructor = -1328716265;
+        public boolean can_modify_custom_description;
+        public String company;
+        public String custom_description;
+        public int flags;
+        public long icon;
+
+        public static botVerifierSettings TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
+            if (-1328716265 != i) {
+                if (z) {
+                    throw new RuntimeException(String.format("can't parse magic %x in TL_bots.botVerifierSettings", Integer.valueOf(i)));
+                }
+                return null;
+            }
+            botVerifierSettings botverifiersettings = new botVerifierSettings();
+            botverifiersettings.readParams(inputSerializedData, z);
+            return botverifiersettings;
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
+            this.flags = readInt32;
+            this.can_modify_custom_description = (readInt32 & 2) != 0;
+            this.icon = inputSerializedData.readInt64(z);
+            this.company = inputSerializedData.readString(z);
+            if ((this.flags & 1) != 0) {
+                this.custom_description = inputSerializedData.readString(z);
+            }
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            int i = this.can_modify_custom_description ? this.flags | 2 : this.flags & (-3);
+            this.flags = i;
+            outputSerializedData.writeInt32(i);
+            outputSerializedData.writeString(this.company);
+            if ((this.flags & 1) != 0) {
+                outputSerializedData.writeString(this.custom_description);
+            }
         }
     }
 
@@ -680,14 +859,14 @@ public class TL_bots {
         public TLRPC.InputUser bot;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
         }
     }
 
@@ -698,16 +877,16 @@ public class TL_bots {
         public String url;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.file_name);
-            abstractSerializedData.writeString(this.url);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.file_name);
+            outputSerializedData.writeString(this.url);
         }
     }
 
@@ -718,20 +897,20 @@ public class TL_bots {
         public ArrayList<TLRPC.InputMedia> media = new ArrayList<>();
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.lang_code);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.lang_code);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.media.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.media.get(i).serializeToStream(abstractSerializedData);
+                this.media.get(i).serializeToStream(outputSerializedData);
             }
         }
     }
@@ -744,17 +923,17 @@ public class TL_bots {
         public TLRPC.InputMedia new_media;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return botPreviewMedia.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return botPreviewMedia.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.lang_code);
-            this.media.serializeToStream(abstractSerializedData);
-            this.new_media.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.lang_code);
+            this.media.serializeToStream(outputSerializedData);
+            this.new_media.serializeToStream(outputSerializedData);
         }
     }
 
@@ -762,18 +941,13 @@ public class TL_bots {
         public static final int constructor = -1334764157;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            TLRPC.Vector vector = new TLRPC.Vector();
-            int readInt32 = abstractSerializedData.readInt32(z);
-            for (int i2 = 0; i2 < readInt32; i2++) {
-                vector.objects.add(TLRPC.User.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z));
-            }
-            return vector;
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return Vector.TLDeserialize(inputSerializedData, i, z, new TLRPC$TL_attachMenuBots$$ExternalSyntheticLambda1());
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
         }
     }
 
@@ -784,18 +958,18 @@ public class TL_bots {
         public String lang_code;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return BotInfo.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return BotInfo.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(this.flags);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.flags);
             if ((this.flags & 1) != 0) {
-                this.bot.serializeToStream(abstractSerializedData);
+                this.bot.serializeToStream(outputSerializedData);
             }
-            abstractSerializedData.writeString(this.lang_code);
+            outputSerializedData.writeString(this.lang_code);
         }
     }
 
@@ -804,14 +978,14 @@ public class TL_bots {
         public TLRPC.InputUser user_id;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return BotMenuButton.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return BotMenuButton.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.user_id.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.user_id.serializeToStream(outputSerializedData);
         }
     }
 
@@ -821,15 +995,15 @@ public class TL_bots {
         public String offset;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return popularAppBots.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return popularAppBots.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeString(this.offset);
-            abstractSerializedData.writeInt32(this.limit);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeString(this.offset);
+            outputSerializedData.writeInt32(this.limit);
         }
     }
 
@@ -839,15 +1013,15 @@ public class TL_bots {
         public String lang_code = "";
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return previewInfo.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return previewInfo.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.lang_code);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.lang_code);
         }
     }
 
@@ -856,19 +1030,19 @@ public class TL_bots {
         public TLRPC.InputUser bot;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            TLRPC.Vector vector = new TLRPC.Vector();
-            int readInt32 = abstractSerializedData.readInt32(z);
-            for (int i2 = 0; i2 < readInt32; i2++) {
-                vector.objects.add(botPreviewMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z));
-            }
-            return vector;
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return Vector.TLDeserialize(inputSerializedData, i, z, new Vector.TLDeserializer() { // from class: org.telegram.tgnet.tl.TL_bots$getPreviewMedias$$ExternalSyntheticLambda0
+                @Override // org.telegram.tgnet.Vector.TLDeserializer
+                public final TLObject deserialize(InputSerializedData inputSerializedData2, int i2, boolean z2) {
+                    return TL_bots.botPreviewMedia.TLdeserialize(inputSerializedData2, i2, z2);
+                }
+            });
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
         }
     }
 
@@ -879,16 +1053,16 @@ public class TL_bots {
         public TLRPC.TL_dataJSON params;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.TL_dataJSON.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.TL_dataJSON.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.custom_method);
-            this.params.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.custom_method);
+            this.params.serializeToStream(outputSerializedData);
         }
     }
 
@@ -898,7 +1072,7 @@ public class TL_bots {
         public String next_offset;
         public ArrayList<TLRPC.User> users = new ArrayList<>();
 
-        public static popularAppBots TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        public static popularAppBots TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
             if (428978491 != i) {
                 if (z) {
                     throw new RuntimeException(String.format("can't parse magic %x in TL_bots_popularAppBots", Integer.valueOf(i)));
@@ -906,27 +1080,27 @@ public class TL_bots {
                 return null;
             }
             popularAppBots popularappbots = new popularAppBots();
-            popularappbots.readParams(abstractSerializedData, z);
+            popularappbots.readParams(inputSerializedData, z);
             return popularappbots;
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
             this.flags = readInt32;
             if ((readInt32 & 1) != 0) {
-                this.next_offset = abstractSerializedData.readString(z);
+                this.next_offset = inputSerializedData.readString(z);
             }
-            int readInt322 = abstractSerializedData.readInt32(z);
+            int readInt322 = inputSerializedData.readInt32(z);
             if (readInt322 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
                 }
                 return;
             }
-            int readInt323 = abstractSerializedData.readInt32(z);
+            int readInt323 = inputSerializedData.readInt32(z);
             for (int i = 0; i < readInt323; i++) {
-                TLRPC.User TLdeserialize = TLRPC.User.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                TLRPC.User TLdeserialize = TLRPC.User.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
@@ -935,17 +1109,17 @@ public class TL_bots {
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(this.flags);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.flags);
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeString(this.next_offset);
+                outputSerializedData.writeString(this.next_offset);
             }
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.users.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.users.get(i).serializeToStream(abstractSerializedData);
+                this.users.get(i).serializeToStream(outputSerializedData);
             }
         }
     }
@@ -955,7 +1129,7 @@ public class TL_bots {
         public ArrayList<botPreviewMedia> media = new ArrayList<>();
         public ArrayList<String> lang_codes = new ArrayList<>();
 
-        public static previewInfo TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
+        public static previewInfo TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
             if (212278628 != i) {
                 if (z) {
                     throw new RuntimeException(String.format("can't parse magic %x in previewInfo", Integer.valueOf(i)));
@@ -963,54 +1137,54 @@ public class TL_bots {
                 return null;
             }
             previewInfo previewinfo = new previewInfo();
-            previewinfo.readParams(abstractSerializedData, z);
+            previewinfo.readParams(inputSerializedData, z);
             return previewinfo;
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void readParams(AbstractSerializedData abstractSerializedData, boolean z) {
-            int readInt32 = abstractSerializedData.readInt32(z);
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            int readInt32 = inputSerializedData.readInt32(z);
             if (readInt32 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
                 }
                 return;
             }
-            int readInt322 = abstractSerializedData.readInt32(z);
+            int readInt322 = inputSerializedData.readInt32(z);
             for (int i = 0; i < readInt322; i++) {
-                botPreviewMedia TLdeserialize = botPreviewMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
+                botPreviewMedia TLdeserialize = botPreviewMedia.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
                 if (TLdeserialize == null) {
                     return;
                 }
                 this.media.add(TLdeserialize);
             }
-            int readInt323 = abstractSerializedData.readInt32(z);
+            int readInt323 = inputSerializedData.readInt32(z);
             if (readInt323 != 481674261) {
                 if (z) {
                     throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
                 }
             } else {
-                int readInt324 = abstractSerializedData.readInt32(z);
+                int readInt324 = inputSerializedData.readInt32(z);
                 for (int i2 = 0; i2 < readInt324; i2++) {
-                    this.lang_codes.add(abstractSerializedData.readString(z));
+                    this.lang_codes.add(inputSerializedData.readString(z));
                 }
             }
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.media.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.media.get(i).serializeToStream(abstractSerializedData);
+                this.media.get(i).serializeToStream(outputSerializedData);
             }
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size2 = this.lang_codes.size();
-            abstractSerializedData.writeInt32(size2);
+            outputSerializedData.writeInt32(size2);
             for (int i2 = 0; i2 < size2; i2++) {
-                abstractSerializedData.writeString(this.lang_codes.get(i2));
+                outputSerializedData.writeString(this.lang_codes.get(i2));
             }
         }
     }
@@ -1022,20 +1196,20 @@ public class TL_bots {
         public ArrayList<TLRPC.InputMedia> order = new ArrayList<>();
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.lang_code);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.lang_code);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.order.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                this.order.get(i).serializeToStream(abstractSerializedData);
+                this.order.get(i).serializeToStream(outputSerializedData);
             }
         }
     }
@@ -1046,19 +1220,19 @@ public class TL_bots {
         public ArrayList<String> order = new ArrayList<>();
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeInt32(TLRPC.Vector.constructor);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeInt32(Vector.constructor);
             int size = this.order.size();
-            abstractSerializedData.writeInt32(size);
+            outputSerializedData.writeInt32(size);
             for (int i = 0; i < size; i++) {
-                abstractSerializedData.writeString(this.order.get(i));
+                outputSerializedData.writeString(this.order.get(i));
             }
         }
     }
@@ -1073,26 +1247,26 @@ public class TL_bots {
         public String name;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(this.flags);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.flags);
             if ((this.flags & 4) != 0) {
-                this.bot.serializeToStream(abstractSerializedData);
+                this.bot.serializeToStream(outputSerializedData);
             }
-            abstractSerializedData.writeString(this.lang_code);
+            outputSerializedData.writeString(this.lang_code);
             if ((this.flags & 8) != 0) {
-                abstractSerializedData.writeString(this.name);
+                outputSerializedData.writeString(this.name);
             }
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeString(this.about);
+                outputSerializedData.writeString(this.about);
             }
             if ((this.flags & 2) != 0) {
-                abstractSerializedData.writeString(this.description);
+                outputSerializedData.writeString(this.description);
             }
         }
     }
@@ -1103,15 +1277,44 @@ public class TL_bots {
         public TLRPC.InputUser user_id;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.user_id.serializeToStream(abstractSerializedData);
-            this.button.serializeToStream(abstractSerializedData);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.user_id.serializeToStream(outputSerializedData);
+            this.button.serializeToStream(outputSerializedData);
+        }
+    }
+
+    public static class setCustomVerification extends TLObject {
+        public static final int constructor = -1953898563;
+        public TLRPC.InputUser bot;
+        public String custom_description;
+        public boolean enabled;
+        public int flags;
+        public TLRPC.InputPeer peer;
+
+        @Override // org.telegram.tgnet.TLObject
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            int i = this.enabled ? this.flags | 2 : this.flags & (-3);
+            this.flags = i;
+            outputSerializedData.writeInt32(i);
+            if ((this.flags & 1) != 0) {
+                this.bot.serializeToStream(outputSerializedData);
+            }
+            this.peer.serializeToStream(outputSerializedData);
+            if ((this.flags & 4) != 0) {
+                outputSerializedData.writeString(this.custom_description);
+            }
         }
     }
 
@@ -1121,15 +1324,15 @@ public class TL_bots {
         public boolean enabled;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeBool(this.enabled);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeBool(this.enabled);
         }
     }
 
@@ -1140,16 +1343,16 @@ public class TL_bots {
         public String username;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TLRPC.Bool.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Bool.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeString(this.username);
-            abstractSerializedData.writeBool(this.active);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeString(this.username);
+            outputSerializedData.writeBool(this.active);
         }
     }
 
@@ -1161,18 +1364,18 @@ public class TL_bots {
         public int flags;
 
         @Override // org.telegram.tgnet.TLObject
-        public TLObject deserializeResponse(AbstractSerializedData abstractSerializedData, int i, boolean z) {
-            return TL_payments.starRefProgram.TLdeserialize(abstractSerializedData, i, z);
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TL_payments.starRefProgram.TLdeserialize(inputSerializedData, i, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
-        public void serializeToStream(AbstractSerializedData abstractSerializedData) {
-            abstractSerializedData.writeInt32(constructor);
-            abstractSerializedData.writeInt32(this.flags);
-            this.bot.serializeToStream(abstractSerializedData);
-            abstractSerializedData.writeInt32(this.commission_permille);
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.flags);
+            this.bot.serializeToStream(outputSerializedData);
+            outputSerializedData.writeInt32(this.commission_permille);
             if ((this.flags & 1) != 0) {
-                abstractSerializedData.writeInt32(this.duration_months);
+                outputSerializedData.writeInt32(this.duration_months);
             }
         }
     }

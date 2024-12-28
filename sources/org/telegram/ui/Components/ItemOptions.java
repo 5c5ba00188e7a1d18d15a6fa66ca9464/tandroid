@@ -40,6 +40,7 @@ import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.UserCell;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BlurringShader;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.MessagePreviewView;
@@ -74,6 +75,7 @@ public class ItemOptions {
     private int minWidthDp;
     private float offsetX;
     private float offsetY;
+    public boolean onTopOfScrim;
     private final float[] point;
     private ViewTreeObserver.OnPreDrawListener preDrawListener;
     private Theme.ResourcesProvider resourcesProvider;
@@ -605,7 +607,7 @@ public class ItemOptions {
                 actionBarMenuSubItem.setColors(r1, num2 == null ? num2.intValue() : Theme.getColor(i5, this.resourcesProvider));
                 Integer num3 = this.selectorColor;
                 actionBarMenuSubItem.setSelectorColor(num3 == null ? num3.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
+                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ItemOptions.this.lambda$addChat$3(runnable, view);
@@ -635,7 +637,7 @@ public class ItemOptions {
             actionBarMenuSubItem.setColors(r1, num22 == null ? num22.intValue() : Theme.getColor(i5, this.resourcesProvider));
             Integer num32 = this.selectorColor;
             actionBarMenuSubItem.setSelectorColor(num32 == null ? num32.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ItemOptions.this.lambda$addChat$3(runnable, view);
@@ -673,7 +675,7 @@ public class ItemOptions {
             actionBarMenuSubItem.setColors(intValue, num222 == null ? num222.intValue() : Theme.getColor(i5, this.resourcesProvider));
             Integer num322 = this.selectorColor;
             actionBarMenuSubItem.setSelectorColor(num322 == null ? num322.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ItemOptions.this.lambda$addChat$3(runnable, view2);
@@ -711,7 +713,7 @@ public class ItemOptions {
         actionBarMenuSubItem.setColors(intValue, num2222 == null ? num2222.intValue() : Theme.getColor(i5, this.resourcesProvider));
         Integer num3222 = this.selectorColor;
         actionBarMenuSubItem.setSelectorColor(num3222 == null ? num3222.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ItemOptions.this.lambda$addChat$3(runnable, view2);
@@ -741,7 +743,7 @@ public class ItemOptions {
         actionBarMenuSubItem.setColors(intValue, num2 != null ? num2.intValue() : Theme.getColor(i3, this.resourcesProvider));
         Integer num3 = this.selectorColor;
         actionBarMenuSubItem.setSelectorColor(num3 != null ? num3.intValue() : Theme.multAlpha(Theme.getColor(i2, this.resourcesProvider), 0.12f));
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ItemOptions.this.lambda$addChecked$2(runnable, view);
@@ -912,7 +914,7 @@ public class ItemOptions {
         if (this.context != null && this.lastLayout.getItemsCount() > 0) {
             View itemAt = this.lastLayout.getItemAt(r0.getItemsCount() - 1);
             if (itemAt instanceof ActionBarMenuSubItem) {
-                TextView textView = ((ActionBarMenuSubItem) itemAt).getTextView();
+                AnimatedEmojiSpan.TextViewEmojis textView = ((ActionBarMenuSubItem) itemAt).getTextView();
                 textView.setMaxWidth(HintView2.cutInFancyHalf(textView.getText(), textView.getPaint()) + textView.getPaddingLeft() + textView.getPaddingRight());
             }
         }
@@ -1178,6 +1180,11 @@ public class ItemOptions {
         return this;
     }
 
+    public ItemOptions setOnTopOfScrim() {
+        this.onTopOfScrim = true;
+        return this;
+    }
+
     public ItemOptions setRoundRadius(int i, int i2) {
         this.scrimViewRoundRadius = i;
         this.scrimViewPadding = i2;
@@ -1392,16 +1399,17 @@ public class ItemOptions {
             } else {
                 width = (viewGroup2.getWidth() - this.layout.getMeasuredWidth()) / 2;
             }
+            float height2 = this.onTopOfScrim ? 0.0f : rectF.height();
             if (this.forceBottom) {
-                height = (int) ((Math.min(f6 + rectF.height(), AndroidUtilities.displaySize.y) - this.layout.getMeasuredHeight()) + viewGroup2.getY());
+                height = (int) ((Math.min(f6 + height2, AndroidUtilities.displaySize.y) - this.layout.getMeasuredHeight()) + viewGroup2.getY());
             } else if (this.scrimView != null) {
-                if (this.forceTop || rectF.height() + f6 + this.layout.getMeasuredHeight() + AndroidUtilities.dp(16.0f) > AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) {
-                    f6 = (f6 - rectF.height()) - this.layout.getMeasuredHeight();
-                    if (this.allowCenter && Math.max(0.0f, rectF.height() + f6) + this.layout.getMeasuredHeight() > this.point[1] + rectF.top && rectF.height() == this.scrimView.getHeight()) {
-                        f6 = (((viewGroup2.getHeight() - this.layout.getMeasuredHeight()) / 2.0f) - rectF.height()) - viewGroup2.getY();
+                if (this.forceTop || f6 + height2 + this.layout.getMeasuredHeight() + AndroidUtilities.dp(16.0f) > AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) {
+                    f6 = (f6 - height2) - this.layout.getMeasuredHeight();
+                    if (this.allowCenter && Math.max(0.0f, f6 + height2) + this.layout.getMeasuredHeight() > this.point[1] + rectF.top && rectF.height() == this.scrimView.getHeight()) {
+                        f6 = (((viewGroup2.getHeight() - this.layout.getMeasuredHeight()) / 2.0f) - height2) - viewGroup2.getY();
                     }
                 }
-                height = (int) (f6 + rectF.height() + viewGroup2.getY());
+                height = (int) (f6 + height2 + viewGroup2.getY());
             } else {
                 height = (viewGroup2.getHeight() - this.layout.getMeasuredHeight()) / 2;
             }

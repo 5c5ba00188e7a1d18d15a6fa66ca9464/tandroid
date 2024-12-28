@@ -909,12 +909,12 @@ public class Emoji {
         }
     }
 
-    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, int i, boolean z) {
+    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z) {
         return replaceEmoji(charSequence, fontMetricsInt, z, (int[]) null);
     }
 
-    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z) {
-        return replaceEmoji(charSequence, fontMetricsInt, z, (int[]) null);
+    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z, float f) {
+        return replaceEmoji(charSequence, fontMetricsInt, z, null, 0, f);
     }
 
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z, int[] iArr) {
@@ -922,6 +922,10 @@ public class Emoji {
     }
 
     public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z, int[] iArr, int i) {
+        return replaceEmoji(charSequence, fontMetricsInt, z, iArr, i, 1.0f);
+    }
+
+    public static CharSequence replaceEmoji(CharSequence charSequence, Paint.FontMetricsInt fontMetricsInt, boolean z, int[] iArr, int i, float f) {
         int i2;
         int i3;
         if (SharedConfig.useSystemEmoji || charSequence == null || charSequence.length() == 0) {
@@ -955,6 +959,7 @@ public class Emoji {
                     EmojiSpan emojiSpan = new EmojiSpan(emojiDrawable, i, fontMetricsInt);
                     CharSequence charSequence2 = emojiSpanRange.code;
                     emojiSpan.emoji = charSequence2 == null ? null : charSequence2.toString();
+                    emojiSpan.scale = f;
                     newSpannable.setSpan(emojiSpan, emojiSpanRange.start, emojiSpanRange.end, 33);
                 }
             } catch (Exception e) {

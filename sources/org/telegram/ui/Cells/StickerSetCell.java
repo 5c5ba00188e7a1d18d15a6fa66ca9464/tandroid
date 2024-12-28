@@ -198,7 +198,7 @@ public class StickerSetCell extends FrameLayout {
         TextView textView4 = new TextView(context) { // from class: org.telegram.ui.Cells.StickerSetCell.1
             @Override // android.widget.TextView
             public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
+                super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
             }
         };
         this.textView = textView4;

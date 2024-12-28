@@ -155,7 +155,7 @@ public class PreviewButtons extends FrameLayout {
             if (!PreviewButtons.this.appearing || PreviewButtons.this.onClickListener == null) {
                 return;
             }
-            PreviewButtons.this.onClickListener.run(4);
+            PreviewButtons.this.onClickListener.run(5);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -256,7 +256,8 @@ public class PreviewButtons extends FrameLayout {
         addButton(0, R.drawable.media_draw, LocaleController.getString(R.string.AccDescrPaint));
         addButton(2, R.drawable.msg_photo_sticker, LocaleController.getString(R.string.AccDescrStickers));
         addButton(1, R.drawable.msg_photo_text2, LocaleController.getString(R.string.AccDescrPlaceText));
-        addButton(3, R.drawable.msg_photo_settings, LocaleController.getString(R.string.AccDescrPhotoAdjust));
+        addButton(3, R.drawable.media_crop, LocaleController.getString(R.string.Crop));
+        addButton(4, R.drawable.msg_photo_settings, LocaleController.getString(R.string.AccDescrPhotoAdjust));
         int i = R.string.Send;
         String string = LocaleController.getString(i);
         this.shareText = string;
@@ -275,10 +276,10 @@ public class PreviewButtons extends FrameLayout {
         addView(buttonView);
     }
 
-    private boolean isFiltersVisible() {
-        for (int i = 0; i < this.buttons.size(); i++) {
-            ButtonView buttonView = (ButtonView) this.buttons.get(i);
-            if (buttonView.id == 3) {
+    private boolean isButtonVisible(int i) {
+        for (int i2 = 0; i2 < this.buttons.size(); i2++) {
+            ButtonView buttonView = (ButtonView) this.buttons.get(i2);
+            if (buttonView.id == i) {
                 return buttonView.getVisibility() == 0;
             }
         }
@@ -360,10 +361,10 @@ public class PreviewButtons extends FrameLayout {
                 i7++;
             }
         }
-        int min = Math.min(AndroidUtilities.dp(isFiltersVisible() ? 20.0f : 30.0f), i7 < 2 ? 0 : (dp - (AndroidUtilities.dp(40.0f) * i7)) / (i7 - 1));
+        int min = Math.min(AndroidUtilities.dp(isButtonVisible(4) ? 20.0f : 30.0f), i7 < 2 ? 0 : (dp - (AndroidUtilities.dp(40.0f) * i7)) / (i7 - 1));
         int dp2 = (i6 - AndroidUtilities.dp(40.0f)) / 2;
         int dp3 = (i6 + AndroidUtilities.dp(40.0f)) / 2;
-        int dp4 = AndroidUtilities.dp(12.33f) + (!isFiltersVisible() ? ((dp - (AndroidUtilities.dp(40.0f) * i7)) - ((i7 - 1) * min)) / 2 : 0);
+        int dp4 = AndroidUtilities.dp(12.33f) + (!isButtonVisible(4) ? ((dp - (AndroidUtilities.dp(40.0f) * i7)) - ((i7 - 1) * min)) / 2 : 0);
         for (int i9 = 0; i9 < this.buttons.size(); i9++) {
             if (((ButtonView) this.buttons.get(i9)).getVisibility() == 0) {
                 ((ButtonView) this.buttons.get(i9)).layout(dp4, dp2, AndroidUtilities.dp(40.0f) + dp4, dp3);
@@ -377,10 +378,10 @@ public class PreviewButtons extends FrameLayout {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(52.0f), 1073741824));
     }
 
-    public void setFiltersVisible(boolean z) {
-        for (int i = 0; i < this.buttons.size(); i++) {
-            ButtonView buttonView = (ButtonView) this.buttons.get(i);
-            if (buttonView.id == 3) {
+    public void setButtonVisible(int i, boolean z) {
+        for (int i2 = 0; i2 < this.buttons.size(); i2++) {
+            ButtonView buttonView = (ButtonView) this.buttons.get(i2);
+            if (buttonView.id == i) {
                 buttonView.setVisibility(z ? 0 : 8);
             }
         }

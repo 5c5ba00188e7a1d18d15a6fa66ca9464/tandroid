@@ -156,7 +156,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00a3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -169,7 +169,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         this.avatarDrawable.setInfo(i, currentUser);
         CharSequence formatName = ContactsController.formatName(currentUser.first_name, currentUser.last_name);
         try {
-            formatName = Emoji.replaceEmoji(formatName, this.textView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+            formatName = Emoji.replaceEmoji(formatName, this.textView.getPaint().getFontMetricsInt(), false);
         } catch (Exception unused) {
         }
         this.textView.setText(formatName);

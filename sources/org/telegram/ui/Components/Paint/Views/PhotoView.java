@@ -13,10 +13,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -34,8 +31,7 @@ import java.io.FileOutputStream;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.ImageLocation;
-import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MediaController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -44,7 +40,6 @@ import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.Paint.Views.EntityView;
 import org.telegram.ui.Components.Point;
-import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.Size;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 
@@ -52,8 +47,10 @@ import org.telegram.ui.Stories.recorder.StoryEntry;
 public class PhotoView extends EntityView {
     private int anchor;
     public Size baseSize;
-    public final ImageReceiver centerImage;
-    private final FrameLayoutDrawer containerView;
+    public Bitmap bitmap;
+    private final Paint bitmapPaint;
+    public final FrameLayoutDrawer containerView;
+    public MediaController.CropState crop;
     private final RectF dest;
     private LinearGradient highlightGradient;
     private Matrix highlightGradientMatrix;
@@ -77,7 +74,7 @@ public class PhotoView extends EntityView {
     private boolean segmentingLoading;
     private final Rect src;
 
-    private class FrameLayoutDrawer extends FrameLayout {
+    public class FrameLayoutDrawer extends FrameLayout {
         public FrameLayoutDrawer(Context context) {
             super(context);
             setWillNotDraw(false);
@@ -185,20 +182,11 @@ public class PhotoView extends EntityView {
         this.mirrored = false;
         this.overridenSegmented = false;
         this.segmented = false;
-        ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView.1
-            @Override // org.telegram.messenger.ImageReceiver
-            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
-                if (i3 == 0 && (drawable instanceof BitmapDrawable)) {
-                    PhotoView.this.lambda$segmentImage$1(((BitmapDrawable) drawable).getBitmap());
-                }
-                return super.setImageBitmapByKey(drawable, str2, i3, z, i4);
-            }
-        };
-        this.centerImage = imageReceiver;
         this.src = new Rect();
         this.dest = new RectF();
         this.segmentPaint = new Paint(3);
         this.highlightStart = -1L;
+        this.bitmapPaint = new Paint(3);
         setRotation(f);
         setScale(f2);
         this.path = str;
@@ -211,12 +199,11 @@ public class PhotoView extends EntityView {
         this.segmentedT = new AnimatedFloat(frameLayoutDrawer, 0L, 350L, cubicBezierInterpolator);
         this.orientation = i;
         this.invert = i2;
-        imageReceiver.setAspectFit(true);
-        imageReceiver.setInvalidateAll(true);
-        imageReceiver.setParentView(frameLayoutDrawer);
-        imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
-        imageReceiver.setOrientation(i, i2, true);
-        imageReceiver.setImage(ImageLocation.getForPath(str), getImageFilter(), null, null, null, 1);
+        Bitmap decodeFile = BitmapFactory.decodeFile(str);
+        this.bitmap = decodeFile;
+        if (decodeFile != null) {
+            lambda$segmentImage$1(decodeFile);
+        }
         updatePosition();
     }
 
@@ -226,20 +213,11 @@ public class PhotoView extends EntityView {
         this.mirrored = false;
         this.overridenSegmented = false;
         this.segmented = false;
-        ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.Paint.Views.PhotoView.1
-            @Override // org.telegram.messenger.ImageReceiver
-            protected boolean setImageBitmapByKey(Drawable drawable, String str2, int i3, boolean z, int i4) {
-                if (i3 == 0 && (drawable instanceof BitmapDrawable)) {
-                    PhotoView.this.lambda$segmentImage$1(((BitmapDrawable) drawable).getBitmap());
-                }
-                return super.setImageBitmapByKey(drawable, str2, i3, z, i4);
-            }
-        };
-        this.centerImage = imageReceiver;
         this.src = new Rect();
         this.dest = new RectF();
         this.segmentPaint = new Paint(3);
         this.highlightStart = -1L;
+        this.bitmapPaint = new Paint(3);
         setRotation(f);
         setScale(f2);
         this.object = tLObject;
@@ -250,15 +228,6 @@ public class PhotoView extends EntityView {
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.mirrorT = new AnimatedFloat(frameLayoutDrawer, 0L, 500L, cubicBezierInterpolator);
         this.segmentedT = new AnimatedFloat(frameLayoutDrawer, 0L, 350L, cubicBezierInterpolator);
-        imageReceiver.setAspectFit(true);
-        imageReceiver.setInvalidateAll(true);
-        imageReceiver.setParentView(frameLayoutDrawer);
-        imageReceiver.setRoundRadius(AndroidUtilities.dp(12.0f));
-        TLObject tLObject2 = this.object;
-        if (tLObject2 instanceof TLRPC.Photo) {
-            TLRPC.Photo photo = (TLRPC.Photo) tLObject2;
-            imageReceiver.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 1000), photo), getImageFilter(), ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 90), photo), getImageFilter(), (String) null, (Object) null, 1);
-        }
         updatePosition();
     }
 
@@ -313,8 +282,6 @@ public class PhotoView extends EntityView {
     public /* synthetic */ void lambda$segmentImage$0(SubjectSegmentationResult subjectSegmentationResult) {
         this.segmentingLoaded = true;
         this.segmentingLoading = false;
-        this.segmentedImage = subjectSegmentationResult.getForegroundBitmap();
-        highlightSegmented();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -349,6 +316,14 @@ public class PhotoView extends EntityView {
         }
     }
 
+    public void drawContent(Canvas canvas) {
+        if (this.bitmap == null) {
+            return;
+        }
+        this.bitmapPaint.setAlpha(NotificationCenter.newLocationAvailable);
+        canvas.drawBitmap(this.bitmap, 0.0f, 0.0f, this.bitmapPaint);
+    }
+
     public int getAnchor() {
         return this.anchor;
     }
@@ -357,15 +332,24 @@ public class PhotoView extends EntityView {
         return this.baseSize;
     }
 
-    public long getDuration() {
-        RLottieDrawable lottieAnimation = this.centerImage.getLottieAnimation();
-        if (lottieAnimation != null) {
-            return lottieAnimation.getDuration();
+    public int getContentHeight() {
+        Bitmap bitmap = this.bitmap;
+        if (bitmap == null) {
+            return 1;
         }
-        if (this.centerImage.getAnimation() != null) {
-            return r0.getDurationMs();
+        return bitmap.getHeight();
+    }
+
+    public int getContentWidth() {
+        Bitmap bitmap = this.bitmap;
+        if (bitmap == null) {
+            return 1;
         }
-        return 0L;
+        return bitmap.getWidth();
+    }
+
+    public int getOrientation() {
+        return this.orientation;
     }
 
     public String getPath(int i) {
@@ -380,20 +364,16 @@ public class PhotoView extends EntityView {
     }
 
     public Bitmap getSegmentedOutBitmap() {
-        if (!(this.centerImage.getImageDrawable() instanceof BitmapDrawable)) {
+        Bitmap bitmap;
+        Bitmap bitmap2 = this.bitmap;
+        if (bitmap2 == null || (bitmap = this.segmentedImage) == null) {
             return null;
         }
-        Bitmap bitmap = ((BitmapDrawable) this.centerImage.getImageDrawable()).getBitmap();
-        Bitmap bitmap2 = this.segmentedImage;
-        if (bitmap == null || bitmap2 == null) {
-            return null;
-        }
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int i = this.orientation;
-        if (i == 90 || i == 270 || i == -90 || i == -270) {
-            width = bitmap.getHeight();
-            height = bitmap.getWidth();
+        int width = bitmap2.getWidth();
+        int height = bitmap2.getHeight();
+        if ((this.orientation / 90) % 2 == 1) {
+            width = bitmap2.getHeight();
+            height = bitmap2.getWidth();
         }
         Bitmap createBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(createBitmap);
@@ -410,14 +390,14 @@ public class PhotoView extends EntityView {
         canvas.clipPath(this.roundRectPath);
         canvas.translate(f4, f2 / 2.0f);
         canvas.rotate(this.orientation);
-        canvas.translate((-bitmap.getWidth()) / 2.0f, (-bitmap.getHeight()) / 2.0f);
-        rectF.set(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight());
+        canvas.translate((-bitmap2.getWidth()) / 2.0f, (-bitmap2.getHeight()) / 2.0f);
+        rectF.set(0.0f, 0.0f, bitmap2.getWidth(), bitmap2.getHeight());
         canvas.saveLayerAlpha(rectF, NotificationCenter.newLocationAvailable, 31);
-        canvas.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
+        canvas.drawBitmap(bitmap2, 0.0f, 0.0f, (Paint) null);
         Paint paint = new Paint(3);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         canvas.save();
-        canvas.drawBitmap(bitmap2, 0.0f, 0.0f, paint);
+        canvas.drawBitmap(bitmap, 0.0f, 0.0f, paint);
         canvas.restore();
         canvas.restore();
         return createBitmap;
@@ -432,8 +412,12 @@ public class PhotoView extends EntityView {
         float scaleX = viewGroup.getScaleX();
         float measuredWidth = (getMeasuredWidth() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
         float measuredHeight = (getMeasuredHeight() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
+        float measuredWidth2 = (getMeasuredWidth() * getScale()) + (AndroidUtilities.dp(64.0f) / scaleX);
+        getMeasuredHeight();
+        getScale();
+        AndroidUtilities.dp(64.0f);
         float positionX = (getPositionX() - (measuredWidth / 2.0f)) * scaleX;
-        return new org.telegram.ui.Components.Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth * scaleX) + positionX) - positionX, measuredHeight * scaleX);
+        return new org.telegram.ui.Components.Rect(positionX, (getPositionY() - (measuredHeight / 2.0f)) * scaleX, ((measuredWidth2 * scaleX) + positionX) - positionX, measuredHeight * scaleX);
     }
 
     public boolean hasSegmentedImage() {
@@ -478,18 +462,24 @@ public class PhotoView extends EntityView {
     @Override // android.view.ViewGroup, android.view.View
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.centerImage.onAttachedToWindow();
     }
 
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        this.centerImage.onDetachedFromWindow();
     }
 
     @Override // android.widget.FrameLayout, android.view.View
     protected void onMeasure(int i, int i2) {
-        super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) this.baseSize.width, 1073741824), View.MeasureSpec.makeMeasureSpec((int) this.baseSize.height, 1073741824));
+        Size size = this.baseSize;
+        float f = size.width;
+        float f2 = size.height;
+        MediaController.CropState cropState = this.crop;
+        if (cropState != null) {
+            f *= cropState.cropPw;
+            f2 *= cropState.cropPh;
+        }
+        super.onMeasure(View.MeasureSpec.makeMeasureSpec((int) f, 1073741824), View.MeasureSpec.makeMeasureSpec((int) f2, 1073741824));
     }
 
     public void onSwitchSegmentedAnimationStarted(boolean z) {
@@ -501,24 +491,6 @@ public class PhotoView extends EntityView {
     }
 
     public void preloadSegmented(String str) {
-        if (TextUtils.isEmpty(str)) {
-            return;
-        }
-        this.segmentingLoading = true;
-        android.graphics.Point point = AndroidUtilities.displaySize;
-        int round = Math.round((Math.min(point.x, point.y) * 0.8f) / AndroidUtilities.density);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(str, options);
-        options.inSampleSize = StoryEntry.calculateInSampleSize(options, round, round);
-        options.inJustDecodeBounds = false;
-        options.inDither = true;
-        Bitmap decodeFile = BitmapFactory.decodeFile(str, options);
-        this.segmentedImage = decodeFile;
-        if (decodeFile != null) {
-            this.segmentedFile = new File(str);
-            this.segmentingLoaded = true;
-        }
         this.segmentingLoading = false;
     }
 
@@ -569,54 +541,77 @@ public class PhotoView extends EntityView {
         if (this.segmented) {
             this.highlightStart = -1L;
             this.needHighlight = false;
-            if (!this.overridenSegmented) {
-                ImageReceiver imageReceiver = this.centerImage;
-                Size size = this.baseSize;
-                imageReceiver.setImageCoords(0.0f, 0.0f, (int) size.width, (int) size.height);
-                this.centerImage.setAlpha(1.0f);
-                this.centerImage.draw(canvas);
-            }
             drawSegmented(canvas);
         } else {
-            this.centerImage.setAlpha(1.0f - f2);
-            ImageReceiver imageReceiver2 = this.centerImage;
-            Size size2 = this.baseSize;
-            imageReceiver2.setImageCoords(0.0f, 0.0f, (int) size2.width, (int) size2.height);
-            this.centerImage.draw(canvas);
+            canvas.save();
+            this.bitmapPaint.setAlpha((int) ((1.0f - f2) * 255.0f));
+            if (this.bitmap != null) {
+                canvas.translate(this.containerView.getWidth() / 2.0f, this.containerView.getHeight() / 2.0f);
+                canvas.rotate(this.orientation);
+                float max = Math.max(this.baseSize.width / this.bitmap.getWidth(), this.baseSize.height / this.bitmap.getHeight());
+                canvas.scale(max, max);
+                if (this.crop != null) {
+                    canvas.rotate(-getOrientation());
+                    int contentWidth = getContentWidth();
+                    int contentHeight = getContentHeight();
+                    if (((getOrientation() + this.crop.transformRotation) / 90) % 2 == 1) {
+                        contentWidth = getContentHeight();
+                        contentHeight = getContentWidth();
+                    }
+                    MediaController.CropState cropState = this.crop;
+                    float f3 = cropState.cropPw;
+                    float f4 = cropState.cropPh;
+                    float f5 = contentWidth;
+                    float f6 = contentHeight;
+                    canvas.clipRect(((-contentWidth) * f3) / 2.0f, ((-contentHeight) * f4) / 2.0f, (f3 * f5) / 2.0f, (f4 * f6) / 2.0f);
+                    float f7 = this.crop.cropScale;
+                    canvas.scale(f7, f7);
+                    MediaController.CropState cropState2 = this.crop;
+                    canvas.translate(cropState2.cropPx * f5, cropState2.cropPy * f6);
+                    canvas.rotate(this.crop.cropRotate + r2.transformRotation);
+                    if (this.crop.mirrored) {
+                        canvas.scale(-1.0f, 1.0f);
+                    }
+                    canvas.rotate(getOrientation());
+                }
+                canvas.translate((-this.bitmap.getWidth()) / 2.0f, (-this.bitmap.getHeight()) / 2.0f);
+                canvas.drawBitmap(this.bitmap, 0.0f, 0.0f, this.bitmapPaint);
+            }
+            canvas.restore();
             if (f2 > 0.0f) {
                 drawSegmented(canvas);
             }
             if (this.segmentedImage != null) {
-                Size size3 = this.baseSize;
-                canvas.saveLayerAlpha(0.0f, 0.0f, size3.width, size3.height, NotificationCenter.newLocationAvailable, 31);
+                Size size = this.baseSize;
+                canvas.saveLayerAlpha(0.0f, 0.0f, size.width, size.height, NotificationCenter.newLocationAvailable, 31);
                 drawSegmented(canvas);
                 canvas.save();
                 long currentTimeMillis = System.currentTimeMillis();
                 if (this.highlightStart <= 0) {
                     this.highlightStart = currentTimeMillis;
                 }
-                float f3 = this.baseSize.width;
-                float f4 = f3 * 0.8f;
-                float f5 = (currentTimeMillis - this.highlightStart) / 1000.0f;
-                float f6 = (((2.0f * f4) + f3) * f5) - f4;
+                float f8 = this.baseSize.width;
+                float f9 = f8 * 0.8f;
+                float f10 = (currentTimeMillis - this.highlightStart) / 1000.0f;
+                float f11 = (((2.0f * f9) + f8) * f10) - f9;
                 if (this.highlightPaint == null) {
                     Paint paint = new Paint(1);
                     this.highlightPaint = paint;
                     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-                    this.highlightGradient = new LinearGradient(0.0f, 0.0f, f4, 0.0f, new int[]{16707212, 1727983244, 1727983244, 16707212}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
+                    this.highlightGradient = new LinearGradient(0.0f, 0.0f, f9, 0.0f, new int[]{16707212, 1727983244, 1727983244, 16707212}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
                     Matrix matrix = new Matrix();
                     this.highlightGradientMatrix = matrix;
                     this.highlightGradient.setLocalMatrix(matrix);
                     this.highlightPaint.setShader(this.highlightGradient);
                 }
                 this.highlightGradientMatrix.reset();
-                this.highlightGradientMatrix.postTranslate(f6, 0.0f);
+                this.highlightGradientMatrix.postTranslate(f11, 0.0f);
                 this.highlightGradient.setLocalMatrix(this.highlightGradientMatrix);
-                Size size4 = this.baseSize;
-                canvas.drawRect(0.0f, 0.0f, (int) size4.width, (int) size4.height, this.highlightPaint);
+                Size size2 = this.baseSize;
+                canvas.drawRect(0.0f, 0.0f, (int) size2.width, (int) size2.height, this.highlightPaint);
                 canvas.restore();
                 canvas.restore();
-                if ((f5 > 0.0f || this.needHighlight) && f5 < 1.0f) {
+                if ((f10 > 0.0f || this.needHighlight) && f10 < 1.0f) {
                     this.needHighlight = false;
                     this.containerView.invalidate();
                 }
@@ -641,10 +636,15 @@ public class PhotoView extends EntityView {
     }
 
     @Override // org.telegram.ui.Components.Paint.Views.EntityView
-    protected void updatePosition() {
+    public void updatePosition() {
         Size size = this.baseSize;
         float f = size.width / 2.0f;
         float f2 = size.height / 2.0f;
+        MediaController.CropState cropState = this.crop;
+        if (cropState != null) {
+            f *= cropState.cropPw;
+            f2 *= cropState.cropPh;
+        }
         setX(getPositionX() - f);
         setY(getPositionY() - f2);
         updateSelectionView();

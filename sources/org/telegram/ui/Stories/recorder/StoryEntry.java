@@ -46,6 +46,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFileDrawable;
@@ -73,6 +74,7 @@ public class StoryEntry {
     public ArrayList collageContent;
     public Bitmap coverBitmap;
     public boolean coverSet;
+    public MediaController.CropState crop;
     public long draftDate;
     public long draftId;
     public File draftThumbFile;
@@ -539,9 +541,9 @@ public class StoryEntry {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkStickers$14(TLObject tLObject) {
         this.checkStickersReqId = 0;
-        if (tLObject instanceof TLRPC.Vector) {
+        if (tLObject instanceof Vector) {
             this.editStickers = new ArrayList();
-            TLRPC.Vector vector = (TLRPC.Vector) tLObject;
+            Vector vector = (Vector) tLObject;
             for (int i = 0; i < vector.objects.size(); i++) {
                 TLRPC.StickerSetCovered stickerSetCovered = (TLRPC.StickerSetCovered) vector.objects.get(i);
                 TLRPC.Document document = stickerSetCovered.cover;
@@ -865,9 +867,9 @@ public class StoryEntry {
         videoEditedInfo.wallpaperPeerId = this.backgroundWallpaperPeerId;
         videoEditedInfo.isDark = this.isDark;
         videoEditedInfo.avatarStartTime = -1L;
-        MediaController.CropState cropState = new MediaController.CropState();
-        videoEditedInfo.cropState = cropState;
-        cropState.useMatrix = new Matrix();
+        MediaController.CropState cropState = this.crop;
+        videoEditedInfo.cropState = cropState != null ? cropState.clone() : new MediaController.CropState();
+        videoEditedInfo.cropState.useMatrix = new Matrix();
         videoEditedInfo.cropState.useMatrix.set(this.matrix);
         videoEditedInfo.mediaEntities = this.mediaEntities;
         videoEditedInfo.gradientTopColor = Integer.valueOf(this.gradientTopColor);
@@ -1114,25 +1116,23 @@ public class StoryEntry {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x00ea  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x00fe  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x023e A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0210 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x00ec  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0181  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0350 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0321 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public Bitmap buildBitmap(float f, Bitmap bitmap) {
-        Bitmap bitmap2;
-        Paint paint;
-        float f2;
+        Canvas canvas;
         boolean z;
         Bitmap scaledBitmap;
         Matrix matrix = new Matrix();
-        Paint paint2 = new Paint(7);
+        Paint paint = new Paint(7);
         int i = (int) (this.resultWidth * f);
         int i2 = (int) (this.resultHeight * f);
         Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(createBitmap);
+        Canvas canvas2 = new Canvas(createBitmap);
         if (this.backgroundFile != null) {
             try {
                 Bitmap scaledBitmap2 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda2
@@ -1143,12 +1143,12 @@ public class StoryEntry {
                         return lambda$buildBitmap$0;
                     }
                 }, i, i2, false, true);
-                canvas.save();
+                canvas2.save();
                 float width = this.resultWidth / scaledBitmap2.getWidth();
-                canvas.scale(width, width);
+                canvas2.scale(width, width);
                 matrix.postScale(f, f);
-                canvas.drawBitmap(scaledBitmap2, 0.0f, 0.0f, paint2);
-                canvas.restore();
+                canvas2.drawBitmap(scaledBitmap2, 0.0f, 0.0f, paint);
+                canvas2.restore();
                 scaledBitmap2.recycle();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -1160,25 +1160,55 @@ public class StoryEntry {
                 if (drawable == null) {
                     drawable = PreviewView.getBackgroundDrawableFromTheme(this.currentAccount, str, this.isDark);
                 }
-                drawBackgroundDrawable(canvas, drawable, canvas.getWidth(), canvas.getHeight());
+                drawBackgroundDrawable(canvas2, drawable, canvas2.getWidth(), canvas2.getHeight());
             } else {
                 long j = this.backgroundWallpaperPeerId;
                 if (j == Long.MIN_VALUE) {
-                    Paint paint3 = new Paint(1);
-                    paint3.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, canvas.getHeight(), new int[]{this.gradientTopColor, this.gradientBottomColor}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
-                    bitmap2 = createBitmap;
-                    paint = null;
-                    canvas.drawRect(0.0f, 0.0f, canvas.getWidth(), canvas.getHeight(), paint3);
+                    Paint paint2 = new Paint(1);
+                    paint2.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, canvas2.getHeight(), new int[]{this.gradientTopColor, this.gradientBottomColor}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+                    canvas = canvas2;
+                    canvas2.drawRect(0.0f, 0.0f, canvas2.getWidth(), canvas2.getHeight(), paint2);
                     matrix.set(this.matrix);
                     if (bitmap == null) {
                         float width2 = this.width / bitmap.getWidth();
-                        matrix.preScale(width2, width2);
-                        matrix.postScale(f, f);
-                        canvas.drawBitmap(bitmap, matrix, paint2);
+                        canvas.save();
+                        Canvas canvas3 = canvas;
+                        canvas3.scale(f, f);
+                        canvas3.concat(this.matrix);
+                        if (this.crop != null) {
+                            canvas3.translate(this.width / 2.0f, this.height / 2.0f);
+                            int i3 = this.width;
+                            int i4 = this.height;
+                            MediaController.CropState cropState = this.crop;
+                            if ((cropState.transformRotation / 90) % 2 != 1) {
+                                i4 = i3;
+                                i3 = i4;
+                            }
+                            float f2 = cropState.cropPw;
+                            float f3 = cropState.cropPh;
+                            float f4 = i4;
+                            float f5 = i3;
+                            canvas3.clipRect(((-i4) * f2) / 2.0f, ((-i3) * f3) / 2.0f, (f2 * f4) / 2.0f, (f3 * f5) / 2.0f);
+                            float f6 = this.crop.cropScale;
+                            canvas3.scale(f6, f6);
+                            MediaController.CropState cropState2 = this.crop;
+                            canvas3.translate(cropState2.cropPx * f4, cropState2.cropPy * f5);
+                            canvas3.rotate(this.crop.cropRotate + r2.transformRotation);
+                            if (this.crop.mirrored) {
+                                canvas3.scale(-1.0f, 1.0f);
+                            }
+                            canvas3.translate((-this.width) / 2.0f, (-this.height) / 2.0f);
+                        }
+                        canvas3.scale(width2, width2);
+                        canvas3.drawBitmap(bitmap, 0.0f, 0.0f, paint);
+                        canvas3.restore();
                     } else {
+                        Canvas canvas4 = canvas;
+                        boolean z2 = true;
                         if (isCollage()) {
-                            for (int i3 = 0; i3 < this.collageContent.size(); i3++) {
-                                StoryEntry storyEntry = (StoryEntry) this.collageContent.get(i3);
+                            int i5 = 0;
+                            while (i5 < this.collageContent.size()) {
+                                StoryEntry storyEntry = (StoryEntry) this.collageContent.get(i5);
                                 final File file = storyEntry.filterFile;
                                 if (file == null) {
                                     file = storyEntry.file;
@@ -1192,30 +1222,32 @@ public class StoryEntry {
                                                 lambda$buildBitmap$1 = StoryEntry.lambda$buildBitmap$1(file, options);
                                                 return lambda$buildBitmap$1;
                                             }
-                                        }, i, i2, true, true);
-                                        canvas.save();
+                                        }, i, i2, z2, z2);
+                                        canvas4.save();
                                         RectF rectF = new RectF();
-                                        ((CollageLayout.Part) this.collage.parts.get(i3)).bounds(rectF, i, i2);
-                                        canvas.translate(rectF.centerX(), rectF.centerY());
-                                        canvas.clipRect((-rectF.width()) / 2.0f, (-rectF.height()) / 2.0f, rectF.width() / 2.0f, rectF.height() / 2.0f);
+                                        ((CollageLayout.Part) this.collage.parts.get(i5)).bounds(rectF, i, i2);
+                                        canvas4.translate(rectF.centerX(), rectF.centerY());
+                                        canvas4.clipRect((-rectF.width()) / 2.0f, (-rectF.height()) / 2.0f, rectF.width() / 2.0f, rectF.height() / 2.0f);
                                         float max = Math.max(rectF.width() / scaledBitmap.getWidth(), rectF.height() / scaledBitmap.getHeight());
-                                        canvas.scale(max, max);
-                                        canvas.translate((-scaledBitmap.getWidth()) / 2.0f, (-scaledBitmap.getHeight()) / 2.0f);
+                                        canvas4.scale(max, max);
+                                        canvas4.translate((-scaledBitmap.getWidth()) / 2.0f, (-scaledBitmap.getHeight()) / 2.0f);
                                     } catch (Exception e2) {
                                         e = e2;
                                     }
                                     try {
-                                        canvas.drawBitmap(scaledBitmap, 0.0f, 0.0f, paint);
-                                        canvas.restore();
+                                        canvas4.drawBitmap(scaledBitmap, 0.0f, 0.0f, (Paint) null);
+                                        canvas4.restore();
                                     } catch (Exception e3) {
                                         e = e3;
                                         FileLog.e(e);
+                                        i5++;
+                                        z2 = true;
                                     }
                                 }
+                                i5++;
+                                z2 = true;
                             }
-                            f2 = 0.0f;
                         } else {
-                            f2 = 0.0f;
                             final File file2 = this.filterFile;
                             if (file2 == null) {
                                 file2 = this.file;
@@ -1231,9 +1263,36 @@ public class StoryEntry {
                                         }
                                     }, i, i2, true, true);
                                     float width3 = this.width / scaledBitmap3.getWidth();
-                                    matrix.preScale(width3, width3);
-                                    matrix.postScale(f, f);
-                                    canvas.drawBitmap(scaledBitmap3, matrix, paint2);
+                                    canvas4.save();
+                                    canvas4.scale(f, f);
+                                    canvas4.concat(this.matrix);
+                                    if (this.crop != null) {
+                                        canvas4.translate(this.width / 2.0f, this.height / 2.0f);
+                                        int i6 = this.width;
+                                        int i7 = this.height;
+                                        MediaController.CropState cropState3 = this.crop;
+                                        if ((cropState3.transformRotation / 90) % 2 != 1) {
+                                            i7 = i6;
+                                            i6 = i7;
+                                        }
+                                        float f7 = cropState3.cropPw;
+                                        float f8 = cropState3.cropPh;
+                                        float f9 = i7;
+                                        float f10 = i6;
+                                        canvas4.clipRect(((-i7) * f7) / 2.0f, ((-i6) * f8) / 2.0f, (f7 * f9) / 2.0f, (f8 * f10) / 2.0f);
+                                        float f11 = this.crop.cropScale;
+                                        canvas4.scale(f11, f11);
+                                        MediaController.CropState cropState4 = this.crop;
+                                        canvas4.translate(cropState4.cropPx * f9, cropState4.cropPy * f10);
+                                        canvas4.rotate(this.crop.cropRotate + r0.transformRotation);
+                                        if (this.crop.mirrored) {
+                                            canvas4.scale(-1.0f, 1.0f);
+                                        }
+                                        canvas4.translate((-this.width) / 2.0f, (-this.height) / 2.0f);
+                                    }
+                                    canvas4.scale(width3, width3);
+                                    canvas4.drawBitmap(scaledBitmap3, 0.0f, 0.0f, paint);
+                                    canvas4.restore();
                                     scaledBitmap3.recycle();
                                 } catch (Exception e4) {
                                     FileLog.e(e4);
@@ -1256,12 +1315,12 @@ public class StoryEntry {
                                         return lambda$buildBitmap$3;
                                     }
                                 }, i, i2, false, true);
-                                canvas.save();
+                                canvas4.save();
                                 float width4 = this.resultWidth / scaledBitmap4.getWidth();
-                                canvas.scale(width4, width4);
+                                canvas4.scale(width4, width4);
                                 matrix.postScale(f, f);
-                                canvas.drawBitmap(scaledBitmap4, f2, f2, paint2);
-                                canvas.restore();
+                                canvas4.drawBitmap(scaledBitmap4, 0.0f, 0.0f, paint);
+                                canvas4.restore();
                                 scaledBitmap4.recycle();
                             } catch (Exception e6) {
                                 e = e6;
@@ -1270,7 +1329,7 @@ public class StoryEntry {
                                 }
                                 if (this.paintEntitiesFile != null) {
                                 }
-                                return bitmap2;
+                                return createBitmap;
                             }
                         } else {
                             z = false;
@@ -1285,12 +1344,12 @@ public class StoryEntry {
                                         return lambda$buildBitmap$4;
                                     }
                                 }, i, i2, z, true);
-                                canvas.save();
+                                canvas4.save();
                                 float width5 = this.resultWidth / scaledBitmap5.getWidth();
-                                canvas.scale(width5, width5);
+                                canvas4.scale(width5, width5);
                                 matrix.postScale(f, f);
-                                canvas.drawBitmap(scaledBitmap5, f2, f2, paint2);
-                                canvas.restore();
+                                canvas4.drawBitmap(scaledBitmap5, 0.0f, 0.0f, paint);
+                                canvas4.restore();
                                 scaledBitmap5.recycle();
                             } catch (Exception e7) {
                                 FileLog.e(e7);
@@ -1306,33 +1365,32 @@ public class StoryEntry {
                                         return lambda$buildBitmap$5;
                                     }
                                 }, i, i2, z, true);
-                                canvas.save();
+                                canvas4.save();
                                 float width6 = this.resultWidth / scaledBitmap6.getWidth();
-                                canvas.scale(width6, width6);
+                                canvas4.scale(width6, width6);
                                 matrix.postScale(f, f);
-                                canvas.drawBitmap(scaledBitmap6, f2, f2, paint2);
-                                canvas.restore();
+                                canvas4.drawBitmap(scaledBitmap6, 0.0f, 0.0f, paint);
+                                canvas4.restore();
                                 scaledBitmap6.recycle();
                             } catch (Exception e8) {
                                 FileLog.e(e8);
                             }
                         }
                     }
-                    return bitmap2;
+                    return createBitmap;
                 }
                 Drawable drawable2 = this.backgroundDrawable;
                 if (drawable2 == null) {
                     drawable2 = PreviewView.getBackgroundDrawable((Drawable) null, this.currentAccount, j, this.isDark);
                 }
-                drawBackgroundDrawable(canvas, drawable2, canvas.getWidth(), canvas.getHeight());
+                drawBackgroundDrawable(canvas2, drawable2, canvas2.getWidth(), canvas2.getHeight());
             }
         }
-        bitmap2 = createBitmap;
-        paint = null;
+        canvas = canvas2;
         matrix.set(this.matrix);
         if (bitmap == null) {
         }
-        return bitmap2;
+        return createBitmap;
     }
 
     public void buildPhoto(File file) {

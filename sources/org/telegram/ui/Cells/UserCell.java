@@ -511,7 +511,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             try {
                 SimpleTextView simpleTextView = this.nameTextView;
                 if (simpleTextView != null) {
-                    charSequence = Emoji.replaceEmoji(charSequence, simpleTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false);
+                    charSequence = Emoji.replaceEmoji(charSequence, simpleTextView.getPaint().getFontMetricsInt(), false);
                 }
             } catch (Exception unused) {
             }
@@ -708,13 +708,13 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.selfAsSavedMessages = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:116:0x03c8  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x03da  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x03f3  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0416  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x03c2  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x03d4  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03ed  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0410  */
     /* JADX WARN: Removed duplicated region for block: B:130:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x03e2  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x03cb  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x03dc  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x03c5  */
     /* JADX WARN: Removed duplicated region for block: B:178:0x0240 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -869,7 +869,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 charSequence = this.lastName;
                 if (charSequence != null) {
                     try {
-                        charSequence = Emoji.replaceEmoji(charSequence, this.nameTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(18.0f), false);
+                        charSequence = Emoji.replaceEmoji(charSequence, this.nameTextView.getPaint().getFontMetricsInt(), false);
                     } catch (Exception unused) {
                     }
                 }

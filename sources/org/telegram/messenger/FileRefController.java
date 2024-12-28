@@ -12,6 +12,8 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
@@ -765,7 +767,7 @@ public class FileRefController extends BaseController {
         boolean z9 = tLObject instanceof TLRPC.TL_help_premiumPromo;
         if (z9) {
             str4 = "premium_promo";
-        } else if (tLObject instanceof TLRPC.TL_account_wallPapers) {
+        } else if (tLObject instanceof TL_account.TL_wallPapers) {
             str4 = "wallpaper";
         } else if (tLObject instanceof TLRPC.TL_messages_savedGifs) {
             str4 = "gif";
@@ -1164,17 +1166,17 @@ public class FileRefController extends BaseController {
                                                 webPage = tL_messages_webPage.webpage;
                                             } else if (tLObject instanceof TLRPC.WebPage) {
                                                 webPage = (TLRPC.WebPage) tLObject;
-                                            } else if (tLObject instanceof TLRPC.TL_account_wallPapers) {
-                                                TLRPC.TL_account_wallPapers tL_account_wallPapers = (TLRPC.TL_account_wallPapers) tLObject;
-                                                int size4 = tL_account_wallPapers.wallpapers.size();
+                                            } else if (tLObject instanceof TL_account.TL_wallPapers) {
+                                                TL_account.TL_wallPapers tL_wallPapers = (TL_account.TL_wallPapers) tLObject;
+                                                int size4 = tL_wallPapers.wallpapers.size();
                                                 for (int i16 = 0; i16 < size4; i16++) {
-                                                    bArr2 = getFileReference(tL_account_wallPapers.wallpapers.get(i16).document, null, requester.location, zArr2, inputFileLocationArr);
+                                                    bArr2 = getFileReference(tL_wallPapers.wallpapers.get(i16).document, null, requester.location, zArr2, inputFileLocationArr);
                                                     if (bArr2 != null) {
                                                         break;
                                                     }
                                                 }
                                                 if (bArr2 != null && z) {
-                                                    getMessagesStorage().putWallpapers(tL_account_wallPapers.wallpapers, 1);
+                                                    getMessagesStorage().putWallpapers(tL_wallPapers.wallpapers, 1);
                                                 }
                                             } else {
                                                 if (tLObject instanceof TLRPC.TL_wallPaper) {
@@ -1197,8 +1199,8 @@ public class FileRefController extends BaseController {
                                                         });
                                                     }
                                                 } else {
-                                                    if (tLObject instanceof TLRPC.Vector) {
-                                                        TLRPC.Vector vector = (TLRPC.Vector) tLObject;
+                                                    if (tLObject instanceof Vector) {
+                                                        Vector vector = (Vector) tLObject;
                                                         if (!vector.objects.isEmpty()) {
                                                             int size5 = vector.objects.size();
                                                             for (int i17 = 0; i17 < size5; i17++) {
@@ -1882,11 +1884,11 @@ public class FileRefController extends BaseController {
             }
         } else if (obj instanceof TLRPC.TL_wallPaper) {
             TLRPC.TL_wallPaper tL_wallPaper = (TLRPC.TL_wallPaper) obj;
-            TLRPC.TL_account_getWallPaper tL_account_getWallPaper = new TLRPC.TL_account_getWallPaper();
+            TL_account.getWallPaper getwallpaper = new TL_account.getWallPaper();
             TLRPC.TL_inputWallPaper tL_inputWallPaper = new TLRPC.TL_inputWallPaper();
             tL_inputWallPaper.id = tL_wallPaper.id;
             tL_inputWallPaper.access_hash = tL_wallPaper.access_hash;
-            tL_account_getWallPaper.wallpaper = tL_inputWallPaper;
+            getwallpaper.wallpaper = tL_inputWallPaper;
             ConnectionsManager connectionsManager11 = getConnectionsManager();
             requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda17
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -1895,15 +1897,15 @@ public class FileRefController extends BaseController {
                 }
             };
             connectionsManager = connectionsManager11;
-            tLObject = tL_account_getWallPaper;
+            tLObject = getwallpaper;
         } else if (obj instanceof TLRPC.TL_theme) {
             TLRPC.TL_theme tL_theme = (TLRPC.TL_theme) obj;
-            TLRPC.TL_account_getTheme tL_account_getTheme = new TLRPC.TL_account_getTheme();
+            TL_account.getTheme gettheme = new TL_account.getTheme();
             TLRPC.TL_inputTheme tL_inputTheme = new TLRPC.TL_inputTheme();
             tL_inputTheme.id = tL_theme.id;
             tL_inputTheme.access_hash = tL_theme.access_hash;
-            tL_account_getTheme.theme = tL_inputTheme;
-            tL_account_getTheme.format = "android";
+            gettheme.theme = tL_inputTheme;
+            gettheme.format = "android";
             ConnectionsManager connectionsManager12 = getConnectionsManager();
             requestDelegate = new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda18
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -1912,7 +1914,7 @@ public class FileRefController extends BaseController {
                 }
             };
             connectionsManager = connectionsManager12;
-            tLObject = tL_account_getTheme;
+            tLObject = gettheme;
         } else if (obj instanceof TLRPC.WebPage) {
             TLRPC.TL_messages_getWebPage tL_messages_getWebPage = new TLRPC.TL_messages_getWebPage();
             tL_messages_getWebPage.url = ((TLRPC.WebPage) obj).url;
@@ -1973,7 +1975,7 @@ public class FileRefController extends BaseController {
                 String str3 = (String) obj;
                 if ("wallpaper".equals(str3)) {
                     if (this.wallpaperWaiters.isEmpty()) {
-                        getConnectionsManager().sendRequest(new TLRPC.TL_account_getWallPapers(), new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda23
+                        getConnectionsManager().sendRequest(new TL_account.getWallPapers(), new RequestDelegate() { // from class: org.telegram.messenger.FileRefController$$ExternalSyntheticLambda23
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject2, TLRPC.TL_error tL_error) {
                                 FileRefController.this.lambda$requestReferenceFromServer$17(tLObject2, tL_error);

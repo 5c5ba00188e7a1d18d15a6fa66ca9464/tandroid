@@ -46,6 +46,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
@@ -397,12 +398,12 @@ public abstract class ThemesHorizontalListCell extends RecyclerListView implemen
             HashMap hashMap = ThemesHorizontalListCell.this.loadingWallpapers;
             Theme.ThemeInfo themeInfo4 = this.themeInfo;
             hashMap.put(themeInfo4, themeInfo4.slug);
-            TLRPC.TL_account_getWallPaper tL_account_getWallPaper = new TLRPC.TL_account_getWallPaper();
+            TL_account.getWallPaper getwallpaper = new TL_account.getWallPaper();
             TLRPC.TL_inputWallPaperSlug tL_inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
             Theme.ThemeInfo themeInfo5 = this.themeInfo;
             tL_inputWallPaperSlug.slug = themeInfo5.slug;
-            tL_account_getWallPaper.wallpaper = tL_inputWallPaperSlug;
-            ConnectionsManager.getInstance(themeInfo5.account).sendRequest(tL_account_getWallPaper, new RequestDelegate() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$InnerThemeView$$ExternalSyntheticLambda1
+            getwallpaper.wallpaper = tL_inputWallPaperSlug;
+            ConnectionsManager.getInstance(themeInfo5.account).sendRequest(getwallpaper, new RequestDelegate() { // from class: org.telegram.ui.Cells.ThemesHorizontalListCell$InnerThemeView$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     ThemesHorizontalListCell.InnerThemeView.this.lambda$parseTheme$1(tLObject, tL_error);

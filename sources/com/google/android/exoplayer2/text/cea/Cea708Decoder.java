@@ -586,7 +586,7 @@ public final class Cea708Decoder extends CeaDecoder {
             case NotificationCenter.screenshotTook /* 156 */:
             case NotificationCenter.albumsDidLoad /* 157 */:
             case NotificationCenter.audioDidSent /* 158 */:
-            case 159:
+            case NotificationCenter.audioRecordTooShort /* 159 */:
                 int i7 = i - 152;
                 handleDefineWindow(i7);
                 if (this.currentWindow != i7) {

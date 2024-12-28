@@ -41,7 +41,9 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DispatchQueue;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -528,25 +530,25 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x01f8  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x0213  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x02da  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x02ec  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x02fc  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x01f6  */
+        /* JADX WARN: Removed duplicated region for block: B:38:0x0212  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x02ee  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x0300  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x0312  */
         /* JADX WARN: Removed duplicated region for block: B:77:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:78:0x02ef  */
-        /* JADX WARN: Removed duplicated region for block: B:79:0x02e0  */
-        /* JADX WARN: Removed duplicated region for block: B:84:0x01fe  */
+        /* JADX WARN: Removed duplicated region for block: B:78:0x0303  */
+        /* JADX WARN: Removed duplicated region for block: B:79:0x02f4  */
+        /* JADX WARN: Removed duplicated region for block: B:84:0x01fc  */
         /* JADX WARN: Type inference failed for: r7v0 */
         /* JADX WARN: Type inference failed for: r7v1 */
-        /* JADX WARN: Type inference failed for: r7v10, types: [java.lang.StringBuilder] */
+        /* JADX WARN: Type inference failed for: r7v10 */
         /* JADX WARN: Type inference failed for: r7v11 */
         /* JADX WARN: Type inference failed for: r7v12 */
         /* JADX WARN: Type inference failed for: r7v13 */
         /* JADX WARN: Type inference failed for: r7v14 */
         /* JADX WARN: Type inference failed for: r7v15 */
-        /* JADX WARN: Type inference failed for: r7v16 */
         /* JADX WARN: Type inference failed for: r7v2 */
+        /* JADX WARN: Type inference failed for: r7v9, types: [android.text.SpannableStringBuilder] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -624,14 +626,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder();
                                 spannableStringBuilder5.append((CharSequence) "d");
                                 spannableStringBuilder5.setSpan(new ColoredImageSpan(R.drawable.msg_mini_fireon), 0, 1, 0);
-                                spannableStringBuilder5.append((CharSequence) LocaleController.formatString("AutoDeleteAfter", R.string.AutoDeleteAfter, LocaleController.formatTTLString(i3)).toLowerCase());
+                                spannableStringBuilder5.append((CharSequence) LocaleController.formatString(R.string.AutoDeleteAfter, LocaleController.formatTTLString(i3)).toLowerCase());
                                 z = true;
                                 spannableStringBuilder3 = spannableStringBuilder5;
                             } else {
                                 SpannableStringBuilder spannableStringBuilder6 = new SpannableStringBuilder();
                                 spannableStringBuilder6.append((CharSequence) "d");
                                 spannableStringBuilder6.setSpan(new ColoredImageSpan(R.drawable.msg_mini_fireoff), 0, 1, 0);
-                                spannableStringBuilder6.append((CharSequence) LocaleController.formatString("AutoDeleteDisabled", R.string.AutoDeleteDisabled, new Object[0]));
+                                spannableStringBuilder6.append((CharSequence) LocaleController.getString(R.string.AutoDeleteDisabled));
                                 spannableStringBuilder3 = spannableStringBuilder6;
                                 z = false;
                             }
@@ -657,7 +659,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             if (j == 0) {
                             }
                         } else if (!this.searching) {
-                            r7 = new StringBuilder();
+                            Paint.FontMetricsInt fontMetricsInt = groupCreateUserCell.getStatusTextView().getPaint().getFontMetricsInt();
+                            r7 = new SpannableStringBuilder();
                             ArrayList<MessagesController.DialogFilter> arrayList = UsersSelectActivity.this.getMessagesController().dialogFilters;
                             int size4 = arrayList.size();
                             for (int i4 = 0; i4 < size4; i4++) {
@@ -666,7 +669,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                     if (r7.length() > 0) {
                                         r7.append(", ");
                                     }
-                                    r7.append(dialogFilter.name);
+                                    r7.append(MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji(new SpannableStringBuilder(dialogFilter.name), fontMetricsInt, false), dialogFilter.entities, fontMetricsInt));
                                 }
                             }
                         }

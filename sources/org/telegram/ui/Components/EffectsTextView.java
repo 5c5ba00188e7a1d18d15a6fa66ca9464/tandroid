@@ -48,6 +48,7 @@ public class EffectsTextView extends SpoilersTextView {
         this.links.clear();
     }
 
+    @Override // org.telegram.ui.Components.spoilers.SpoilersTextView
     public ClickableSpan hit(int i, int i2) {
         Layout layout = getLayout();
         if (layout == null) {
@@ -129,14 +130,17 @@ public class EffectsTextView extends SpoilersTextView {
         return this.pressedLink != null || super.onTouchEvent(motionEvent);
     }
 
+    @Override // org.telegram.ui.Components.spoilers.SpoilersTextView
     public void setDisablePaddingsOffset(boolean z) {
         this.disablePaddingsOffset = z;
     }
 
+    @Override // org.telegram.ui.Components.spoilers.SpoilersTextView
     public void setDisablePaddingsOffsetX(boolean z) {
         this.disablePaddingsOffsetX = z;
     }
 
+    @Override // org.telegram.ui.Components.spoilers.SpoilersTextView
     public void setDisablePaddingsOffsetY(boolean z) {
         this.disablePaddingsOffsetY = z;
     }
@@ -151,6 +155,6 @@ public class EffectsTextView extends SpoilersTextView {
 
     @Override // org.telegram.ui.Components.spoilers.SpoilersTextView, android.widget.TextView
     public void setText(CharSequence charSequence, TextView.BufferType bufferType) {
-        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14.0f), false), bufferType);
+        super.setText(Emoji.replaceEmoji(charSequence, getPaint().getFontMetricsInt(), false), bufferType);
     }
 }

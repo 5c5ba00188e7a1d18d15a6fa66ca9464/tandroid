@@ -2389,7 +2389,7 @@ public class MatroskaExtractor implements Extractor {
             case NotificationCenter.httpFileDidLoad /* 131 */:
             case NotificationCenter.fileUploadProgressChanged /* 136 */:
             case NotificationCenter.recordResumed /* 155 */:
-            case 159:
+            case NotificationCenter.audioRecordTooShort /* 159 */:
             case NotificationCenter.themeUploadError /* 176 */:
             case NotificationCenter.suggestedFiltersLoaded /* 179 */:
             case NotificationCenter.didUpdatePremiumGiftFieldIcon /* 186 */:
@@ -2457,7 +2457,7 @@ public class MatroskaExtractor implements Extractor {
             case 475249515:
             case 524531317:
                 return 1;
-            case NotificationCenter.didStartedCall /* 161 */:
+            case 161:
             case NotificationCenter.groupCallSpeakingUsersUpdated /* 163 */:
             case NotificationCenter.activeGroupCallsUpdated /* 165 */:
             case 16877:
@@ -2535,7 +2535,7 @@ public class MatroskaExtractor implements Extractor {
             case NotificationCenter.recordResumed /* 155 */:
                 this.blockDurationUs = scaleTimecodeToUs(j);
                 return;
-            case 159:
+            case NotificationCenter.audioRecordTooShort /* 159 */:
                 getCurrentTrack(i).channelCount = (int) j;
                 return;
             case NotificationCenter.themeUploadError /* 176 */:

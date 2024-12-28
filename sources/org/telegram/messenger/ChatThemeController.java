@@ -20,6 +20,7 @@ import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatBackgroundDrawable;
@@ -205,18 +206,18 @@ public class ChatThemeController extends BaseController {
     public /* synthetic */ void lambda$requestAllChatThemes$2(TLObject tLObject, final ResultCallback resultCallback, final TLRPC.TL_error tL_error, boolean z) {
         boolean z2;
         final List<EmojiThemes> list;
-        if (tLObject instanceof TLRPC.TL_account_themes) {
-            TLRPC.TL_account_themes tL_account_themes = (TLRPC.TL_account_themes) tLObject;
-            this.themesHash = tL_account_themes.hash;
+        if (tLObject instanceof TL_account.TL_themes) {
+            TL_account.TL_themes tL_themes = (TL_account.TL_themes) tLObject;
+            this.themesHash = tL_themes.hash;
             this.lastReloadTimeMs = System.currentTimeMillis();
             SharedPreferences.Editor edit = getSharedPreferences().edit();
             edit.clear();
             edit.putLong("hash", this.themesHash);
             edit.putLong("lastReload", this.lastReloadTimeMs);
-            edit.putInt(NotificationBadge.NewHtcHomeBadger.COUNT, tL_account_themes.themes.size());
-            list = new ArrayList<>(tL_account_themes.themes.size());
-            for (int i = 0; i < tL_account_themes.themes.size(); i++) {
-                TLRPC.TL_theme tL_theme = tL_account_themes.themes.get(i);
+            edit.putInt(NotificationBadge.NewHtcHomeBadger.COUNT, tL_themes.themes.size());
+            list = new ArrayList<>(tL_themes.themes.size());
+            for (int i = 0; i < tL_themes.themes.size(); i++) {
+                TLRPC.TL_theme tL_theme = tL_themes.themes.get(i);
                 Emoji.preloadEmoji(tL_theme.emoticon);
                 SerializedData serializedData = new SerializedData(tL_theme.getObjectSize());
                 tL_theme.serializeToStream(serializedData);
@@ -227,7 +228,7 @@ public class ChatThemeController extends BaseController {
             }
             edit.apply();
         } else {
-            if (!(tLObject instanceof TLRPC.TL_account_themesNotModified)) {
+            if (!(tLObject instanceof TL_account.TL_themesNotModified)) {
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -595,9 +596,9 @@ public class ChatThemeController extends BaseController {
         boolean z2 = System.currentTimeMillis() - this.lastReloadTimeMs > 7200000;
         List<EmojiThemes> list = this.allChatThemes;
         if (list == null || list.isEmpty() || z2) {
-            TLRPC.TL_account_getChatThemes tL_account_getChatThemes = new TLRPC.TL_account_getChatThemes();
-            tL_account_getChatThemes.hash = this.themesHash;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tL_account_getChatThemes, new RequestDelegate() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda10
+            TL_account.getChatThemes getchatthemes = new TL_account.getChatThemes();
+            getchatthemes.hash = this.themesHash;
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(getchatthemes, new RequestDelegate() { // from class: org.telegram.messenger.ChatThemeController$$ExternalSyntheticLambda10
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     ChatThemeController.this.lambda$requestAllChatThemes$3(resultCallback, z, tLObject, tL_error);

@@ -135,17 +135,17 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData, org.telegram.tgnet.OutputSerializedData
     public int getPosition() {
         return this.len;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public int length() {
         return !this.justCalc ? this.isOut ? this.outbuf.size() : this.inbuf.available() : this.len;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public boolean readBool(boolean z) {
         int readInt32 = readInt32(z);
         if (readInt32 == -1720552011) {
@@ -163,7 +163,7 @@ public class SerializedData extends AbstractSerializedData {
         return false;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public byte readByte(boolean z) {
         try {
             byte readByte = this.in.readByte();
@@ -182,7 +182,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public byte[] readByteArray(boolean z) {
         int i;
         try {
@@ -217,12 +217,12 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public NativeByteBuffer readByteBuffer(boolean z) {
         return null;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public void readBytes(byte[] bArr, boolean z) {
         try {
             this.in.read(bArr);
@@ -238,14 +238,14 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public byte[] readData(int i, boolean z) {
         byte[] bArr = new byte[i];
         readBytes(bArr, z);
         return bArr;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public double readDouble(boolean z) {
         try {
             return Double.longBitsToDouble(readInt64(z));
@@ -262,7 +262,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public float readFloat(boolean z) {
         try {
             return Float.intBitsToFloat(readInt32(z));
@@ -279,7 +279,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public int readInt32(boolean z) {
         int i = 0;
         for (int i2 = 0; i2 < 4; i2++) {
@@ -300,7 +300,7 @@ public class SerializedData extends AbstractSerializedData {
         return i;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public long readInt64(boolean z) {
         long j = 0;
         for (int i = 0; i < 8; i++) {
@@ -321,7 +321,7 @@ public class SerializedData extends AbstractSerializedData {
         return j;
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public String readString(boolean z) {
         int i;
         try {
@@ -356,7 +356,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData
     public int remaining() {
         try {
             return this.in.available();
@@ -371,7 +371,7 @@ public class SerializedData extends AbstractSerializedData {
         this.in = new DataInputStream(this.inbuf);
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.InputSerializedData, org.telegram.tgnet.OutputSerializedData
     public void skip(int i) {
         if (i == 0) {
             return;
@@ -394,7 +394,7 @@ public class SerializedData extends AbstractSerializedData {
         return this.outbuf.toByteArray();
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeBool(boolean z) {
         if (this.justCalc) {
             this.len += 4;
@@ -403,7 +403,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeByte(byte b) {
         try {
             if (this.justCalc) {
@@ -419,7 +419,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeByte(int i) {
         try {
             if (this.justCalc) {
@@ -435,7 +435,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeByteArray(byte[] bArr) {
         int i;
         DataOutputStream dataOutputStream;
@@ -486,7 +486,7 @@ public class SerializedData extends AbstractSerializedData {
     /* JADX WARN: Removed duplicated region for block: B:26:0x004d  */
     /* JADX WARN: Removed duplicated region for block: B:27:0x0044 A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:7:0x003a, B:9:0x003e, B:13:0x004e, B:15:0x0053, B:17:0x0057, B:20:0x005e, B:27:0x0044, B:28:0x0012, B:29:0x0038, B:30:0x0016, B:32:0x001a, B:33:0x0035), top: B:2:0x0004 }] */
     /* JADX WARN: Removed duplicated region for block: B:9:0x003e A[Catch: Exception -> 0x0010, TryCatch #0 {Exception -> 0x0010, blocks: (B:4:0x0006, B:6:0x000a, B:7:0x003a, B:9:0x003e, B:13:0x004e, B:15:0x0053, B:17:0x0057, B:20:0x005e, B:27:0x0044, B:28:0x0012, B:29:0x0038, B:30:0x0016, B:32:0x001a, B:33:0x0035), top: B:2:0x0004 }] */
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -547,11 +547,11 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeByteBuffer(NativeByteBuffer nativeByteBuffer) {
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeBytes(byte[] bArr) {
         try {
             if (this.justCalc) {
@@ -567,7 +567,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeBytes(byte[] bArr, int i, int i2) {
         try {
             if (this.justCalc) {
@@ -583,7 +583,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeDouble(double d) {
         try {
             writeInt64(Double.doubleToRawLongBits(d));
@@ -595,7 +595,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeFloat(float f) {
         try {
             writeInt32(Float.floatToIntBits(f));
@@ -607,7 +607,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeInt32(int i) {
         if (this.justCalc) {
             this.len += 4;
@@ -616,7 +616,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeInt64(long j) {
         if (this.justCalc) {
             this.len += 8;
@@ -625,7 +625,7 @@ public class SerializedData extends AbstractSerializedData {
         }
     }
 
-    @Override // org.telegram.tgnet.AbstractSerializedData
+    @Override // org.telegram.tgnet.AbstractSerializedData, org.telegram.tgnet.OutputSerializedData
     public void writeString(String str) {
         try {
             writeByteArray(str.getBytes("UTF-8"));

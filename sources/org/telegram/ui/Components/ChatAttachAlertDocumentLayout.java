@@ -1700,12 +1700,12 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:115:0x017d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x017e, code lost:
     
         if (r3 == null) goto L112;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0228 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x0229 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r3v11, types: [java.io.BufferedReader] */
     /* JADX WARN: Type inference failed for: r3v12, types: [java.io.BufferedReader] */
     /* JADX WARN: Type inference failed for: r3v13 */

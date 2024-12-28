@@ -13,9 +13,12 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.RecordingCanvas;
 import android.graphics.RectF;
+import android.graphics.RenderEffect;
 import android.graphics.RenderNode;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.view.MotionEvent;
@@ -46,6 +49,7 @@ import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Stories.recorder.CollageLayout;
 import org.telegram.ui.Stories.recorder.CollageLayoutView2;
+import org.telegram.ui.Stories.recorder.QRScanner;
 
 /* loaded from: classes5.dex */
 public abstract class CollageLayoutView2 extends FrameLayout implements ItemOptions.ScrimView {
@@ -54,6 +58,9 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     private final AnimatedFloat animatedRows;
     private boolean attached;
     private final BlurringShader.BlurManager blurManager;
+    private Object blurRenderNode;
+    private Drawable cameraThumbDrawable;
+    private boolean cameraThumbVisible;
     public CameraView cameraView;
     private Object cameraViewBlurRenderNode;
     private Runnable cancelGestures;
@@ -77,6 +84,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     public Part longPressedPart;
     private boolean needsBlur;
     public Part nextPart;
+    private Runnable onCameraThumbClick;
     public Runnable onLongPressPart;
     private Runnable onResetState;
     public final ArrayList parts;
@@ -85,9 +93,11 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     private boolean preview;
     private long previewStartTime;
     private PreviewView previewView;
+    public final QRScanner.QrRegionDrawer qrDrawer;
     private final float[] radii;
     private final RectF rect;
     public final ArrayList removingParts;
+    private Object renderNode;
     public boolean reordering;
     public Part reorderingPart;
     public boolean reorderingTouch;
@@ -308,6 +318,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
 
     public CollageLayoutView2(Context context, BlurringShader.BlurManager blurManager, FrameLayout frameLayout, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.qrDrawer = new QRScanner.QrRegionDrawer(new CollageLayoutView2$$ExternalSyntheticLambda1(this));
         this.currentLayout = new CollageLayout(".");
         ArrayList arrayList = new ArrayList();
         this.parts = arrayList;
@@ -316,7 +327,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         this.highlightPaint = paint;
         this.highlightPath = new Path();
         this.radii = new float[8];
-        this.resetReordering = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda1
+        this.resetReordering = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 CollageLayoutView2.this.lambda$new$0();
@@ -330,9 +341,10 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         this.rights = new float[5];
         this.rect = new RectF();
         this.clipPath = new Path();
+        this.cameraThumbVisible = true;
         this.playing = true;
         this.restorePositionOnPlaying = true;
-        this.syncRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda2
+        this.syncRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 CollageLayoutView2.this.lambda$new$7();
@@ -363,6 +375,26 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         setWillNotDraw(false);
     }
 
+    private void drawDrawable(Canvas canvas, Drawable drawable, RectF rectF, float f) {
+        if (drawable == null) {
+            return;
+        }
+        int intrinsicWidth = drawable.getIntrinsicWidth();
+        int intrinsicHeight = drawable.getIntrinsicHeight();
+        float max = Math.max(rectF.width() / intrinsicWidth, rectF.height() / intrinsicHeight);
+        canvas.save();
+        canvas.translate(rectF.centerX(), rectF.centerY());
+        canvas.clipRect((-rectF.width()) / 2.0f, (-rectF.height()) / 2.0f, rectF.width() / 2.0f, rectF.height() / 2.0f);
+        canvas.scale(max, max);
+        canvas.translate((-intrinsicWidth) / 2.0f, (-intrinsicHeight) / 2.0f);
+        drawable.setBounds(0, 0, intrinsicWidth, intrinsicHeight);
+        drawable.draw(canvas);
+        if (f > 0.0f) {
+            canvas.drawColor(Theme.multAlpha(-16777216, drawable.getAlpha() * f));
+        }
+        canvas.restore();
+    }
+
     /* JADX WARN: Removed duplicated region for block: B:21:0x015c  */
     /* JADX WARN: Removed duplicated region for block: B:23:? A[RETURN, SYNTHETIC] */
     /*
@@ -373,13 +405,10 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         ImageView imageView;
         int width;
         int height;
-        int width2;
-        int height2;
         View view;
         if (AndroidUtilities.makingGlobalBlurBitmap && part == this.longPressedPart) {
             return;
         }
-        float f = 0.0f;
         if (part != this.reorderingPart || this.animatedReordering.get() <= 0.0f) {
             z = false;
         } else {
@@ -393,39 +422,23 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             canvas.clipPath(this.clipPath);
             z = true;
         }
-        if (part != null && part.content != null) {
-            view = part.textureView;
-            if (view == null || !part.textureViewReady) {
-                part.imageReceiver.setImageCoords(rectF.left, rectF.top, rectF.width(), rectF.height());
-                if (!part.imageReceiver.draw(canvas)) {
-                    drawView(canvas, this.cameraView, rectF, 0.0f);
-                }
-                if (z) {
-                }
-            }
-            drawView(canvas, view, rectF, f);
-            if (z) {
-            }
-        } else {
+        if (part == null || part.content == null) {
             if ((part == null || !part.current) && !AndroidUtilities.makingGlobalBlurBitmap) {
                 setCameraNeedsBlur(!this.preview);
                 if (this.cameraViewBlurRenderNode == null || Build.VERSION.SDK_INT < 29 || !canvas.isHardwareAccelerated()) {
                     drawView(canvas, this.cameraView, rectF, 0.75f);
                 } else {
                     RenderNode m = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(this.cameraViewBlurRenderNode);
-                    float width3 = rectF.width();
+                    float width2 = rectF.width();
                     width = m.getWidth();
-                    float f2 = width3 / width;
-                    float height3 = rectF.height();
+                    float f = width2 / width;
+                    float height2 = rectF.height();
                     height = m.getHeight();
-                    float max = Math.max(f2, height3 / height);
+                    float max = Math.max(f, height2 / height);
                     canvas.save();
-                    canvas.translate(rectF.centerX(), rectF.centerY());
-                    canvas.clipRect((-rectF.width()) / 2.0f, (-rectF.height()) / 2.0f, rectF.width() / 2.0f, rectF.height() / 2.0f);
+                    canvas.translate(rectF.left, rectF.top);
+                    canvas.clipRect(0.0f, 0.0f, rectF.width(), rectF.height());
                     canvas.scale(max, max);
-                    width2 = m.getWidth();
-                    height2 = m.getHeight();
-                    canvas.translate((-width2) / 2.0f, (-height2) / 2.0f);
                     canvas.drawRenderNode(m);
                     canvas.drawColor(1677721600);
                     canvas.restore();
@@ -434,23 +447,44 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
                 if (cameraView != null && (imageView = cameraView.blurredStubView) != null && imageView.getVisibility() == 0 && this.cameraView.blurredStubView.getAlpha() > 0.0f) {
                     drawView(canvas, this.cameraView.blurredStubView, rectF, 0.4f);
                 }
-                if (z) {
-                    return;
+            } else {
+                view = this.cameraView;
+                if (view == null && this.cameraThumbVisible) {
+                    drawDrawable(canvas, this.cameraThumbDrawable, rectF, (part == null || !part.current) ? 0.4f : 0.0f);
+                } else {
+                    if (part == null || !part.current) {
+                        r2 = 0.4f;
+                    }
+                    drawView(canvas, view, rectF, r2);
                 }
+            }
+            if (z) {
                 canvas.restore();
                 return;
             }
-            view = this.cameraView;
-            if (part == null || !part.current) {
-                f = 0.4f;
+            return;
+        }
+        view = part.textureView;
+        if (view == null || !part.textureViewReady) {
+            part.imageReceiver.setImageCoords(rectF.left, rectF.top, rectF.width(), rectF.height());
+            if (!part.imageReceiver.draw(canvas)) {
+                CameraView cameraView2 = this.cameraView;
+                if (cameraView2 == null && this.cameraThumbVisible) {
+                    drawDrawable(canvas, this.cameraThumbDrawable, rectF, 0.0f);
+                } else {
+                    drawView(canvas, cameraView2, rectF, 0.0f);
+                }
             }
-            drawView(canvas, view, rectF, f);
             if (z) {
             }
+        }
+        drawView(canvas, view, rectF, r2);
+        if (z) {
         }
     }
 
     private void drawView(Canvas canvas, View view, RectF rectF, float f) {
+        QRScanner.QrRegionDrawer qrRegionDrawer;
         Bitmap bitmap;
         if (view == null) {
             return;
@@ -474,6 +508,28 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             canvas.drawColor(Theme.multAlpha(-16777216, view.getAlpha() * f));
         }
         canvas.restore();
+        if (view != this.cameraView || (qrRegionDrawer = this.qrDrawer) == null) {
+            return;
+        }
+        qrRegionDrawer.draw(canvas, rectF);
+    }
+
+    private void finishNode(Canvas canvas) {
+        RecordingCanvas beginRecording;
+        if (this.renderNode == null || Build.VERSION.SDK_INT < 29 || !canvas.isHardwareAccelerated()) {
+            return;
+        }
+        RenderNode m = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(this.renderNode);
+        m.endRecording();
+        canvas.drawRenderNode(m);
+        Object obj = this.blurRenderNode;
+        if (obj != null) {
+            RenderNode m2 = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(obj);
+            m2.setPosition(0, 0, getWidth(), getHeight());
+            beginRecording = m2.beginRecording();
+            beginRecording.drawRenderNode(m);
+            m2.endRecording();
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -756,14 +812,15 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0312  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x02a3  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x02d4  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x02e0  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0343  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
+        Canvas canvas2;
         double d;
         float f;
         int i;
@@ -771,15 +828,23 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         float f2;
         Part part;
         boolean z;
-        super.dispatchDraw(canvas);
-        if (!hasLayout() && !this.reordering && !this.reorderingTouch && this.animatedRows.get() == this.currentLayout.h && this.animatedColumns[0].get() == this.currentLayout.columns[0]) {
+        if (this.renderNode == null || Build.VERSION.SDK_INT < 29 || !canvas.isHardwareAccelerated()) {
+            canvas2 = canvas;
+        } else {
+            RenderNode m = BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(this.renderNode);
+            m.setPosition(0, 0, getWidth(), getHeight());
+            canvas2 = m.beginRecording();
+        }
+        super.dispatchDraw(canvas2);
+        if (!hasLayout() && !this.reordering && !this.reorderingTouch && this.animatedRows.get() == this.currentLayout.h && this.animatedColumns[0].get() == this.currentLayout.columns[0] && this.qrDrawer.hasNoDraw()) {
             setCameraNeedsBlur(false);
+            finishNode(canvas);
             return;
         }
         if (this.preview) {
             setCameraNeedsBlur(false);
         }
-        canvas.drawColor(-14737633);
+        canvas2.drawColor(-14737633);
         float f3 = this.animatedReordering.set(this.reorderingTouch);
         float f4 = this.animatedRows.set(this.currentLayout.h);
         int i2 = 0;
@@ -806,7 +871,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         for (int i4 = 0; i4 < this.parts.size(); i4++) {
             Part part2 = (Part) this.parts.get(i4);
             CollageLayout.Part part3 = part2.part;
-            float f6 = this.animatedColumns[part3.y].set(part3.layout.columns[r3]);
+            float f6 = this.animatedColumns[part3.y].set(part3.layout.columns[r2]);
             if (this.reordering || this.reorderingTouch) {
                 z = z2;
                 AndroidUtilities.lerp(part2.fromBounds, part2.bounds, part2.boundsTransition, this.rect);
@@ -823,7 +888,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             f5 = Math.max(f5, this.rect.bottom);
             if (f3 <= 0.0f || part2 != this.reorderingPart) {
                 z2 = (!this.preview || part2.videoPlayer == null) ? z : true;
-                drawPart(canvas, this.rect, part2);
+                drawPart(canvas2, this.rect, part2);
             } else {
                 z2 = z;
             }
@@ -844,24 +909,24 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             fArr4[i10] = Math.max(fArr4[i10], this.rect.right);
             f5 = Math.max(f5, this.rect.bottom);
             z2 = (!this.preview || part4.videoPlayer == null) ? z3 : true;
-            drawPart(canvas, this.rect, part4);
+            drawPart(canvas2, this.rect, part4);
         }
         boolean z4 = z2;
         if (!this.reorderingTouch) {
             for (int i11 = 0; i11 < Math.ceil(d); i11++) {
                 if (this.lefts[i11] >= 0.0f) {
                     this.rect.set(0.0f, (getMeasuredHeight() / f4) * i11, this.lefts[i11], (getMeasuredHeight() / f4) * (i11 + 1));
-                    drawPart(canvas, this.rect, null);
+                    drawPart(canvas2, this.rect, null);
                 }
                 if (this.rights[i11] < getMeasuredWidth()) {
                     this.rect.set(this.rights[i11], (getMeasuredHeight() / f4) * i11, getMeasuredWidth(), (getMeasuredHeight() / f4) * (i11 + 1));
-                    drawPart(canvas, this.rect, null);
+                    drawPart(canvas2, this.rect, null);
                 }
             }
             if (f5 < getMeasuredHeight()) {
                 f = 0.0f;
                 this.rect.set(0.0f, f5, getMeasuredWidth(), getMeasuredHeight());
-                drawPart(canvas, this.rect, null);
+                drawPart(canvas2, this.rect, null);
                 if (f3 > f && (part = this.reorderingPart) != null) {
                     CollageLayout.Part part6 = part.part;
                     float f8 = this.animatedColumns[part6.y].set(this.currentLayout.columns[r7]);
@@ -870,10 +935,10 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
                     } else {
                         AndroidUtilities.lerp(part.fromBounds, part.bounds, part.boundsTransition, this.rect);
                     }
-                    canvas.save();
-                    canvas.translate(AndroidUtilities.lerp(this.ldx, this.dx, part.boundsTransition) * f3, AndroidUtilities.lerp(this.ldy, this.dy, part.boundsTransition) * f3);
-                    drawPart(canvas, this.rect, part);
-                    canvas.restore();
+                    canvas2.save();
+                    canvas2.translate(AndroidUtilities.lerp(this.ldx, this.dx, part.boundsTransition) * f3, AndroidUtilities.lerp(this.ldy, this.dy, part.boundsTransition) * f3);
+                    drawPart(canvas2, this.rect, part);
+                    canvas2.restore();
                 }
                 for (i = 0; i < this.parts.size(); i++) {
                     Part part7 = (Part) this.parts.get(i);
@@ -923,19 +988,19 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
                             fArr8[6] = f2;
                             fArr8[5] = f2;
                             this.highlightPath.addRoundRect(rectF, this.radii, Path.Direction.CW);
-                            canvas.drawPath(this.highlightPath, this.highlightPaint);
+                            canvas2.drawPath(this.highlightPath, this.highlightPaint);
                         }
                         f2 = 0.0f;
                         fArr8[6] = f2;
                         fArr8[5] = f2;
                         this.highlightPath.addRoundRect(rectF, this.radii, Path.Direction.CW);
-                        canvas.drawPath(this.highlightPath, this.highlightPaint);
+                        canvas2.drawPath(this.highlightPath, this.highlightPaint);
                     }
                 }
-                if (z4 || (blurManager = this.blurManager) == null) {
+                if (z4 && (blurManager = this.blurManager) != null) {
+                    blurManager.invalidate();
                 }
-                blurManager.invalidate();
-                return;
+                finishNode(canvas);
             }
         }
         f = 0.0f;
@@ -944,15 +1009,17 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             float f82 = this.animatedColumns[part62.y].set(this.currentLayout.columns[r7]);
             if (this.reorderingTouch) {
             }
-            canvas.save();
-            canvas.translate(AndroidUtilities.lerp(this.ldx, this.dx, part.boundsTransition) * f3, AndroidUtilities.lerp(this.ldy, this.dy, part.boundsTransition) * f3);
-            drawPart(canvas, this.rect, part);
-            canvas.restore();
+            canvas2.save();
+            canvas2.translate(AndroidUtilities.lerp(this.ldx, this.dx, part.boundsTransition) * f3, AndroidUtilities.lerp(this.ldy, this.dy, part.boundsTransition) * f3);
+            drawPart(canvas2, this.rect, part);
+            canvas2.restore();
         }
         while (i < this.parts.size()) {
         }
         if (z4) {
+            blurManager.invalidate();
         }
+        finishNode(canvas);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -1067,6 +1134,23 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
     }
 
     public void forceNotRestorePosition() {
+    }
+
+    public Object getBlurRenderNode() {
+        Shader.TileMode tileMode;
+        RenderEffect createBlurEffect;
+        if (this.renderNode == null && Build.VERSION.SDK_INT >= 31) {
+            this.renderNode = new RenderNode("CameraViewRenderNode");
+            RenderNode renderNode = new RenderNode("CameraViewRenderNodeBlur");
+            this.blurRenderNode = renderNode;
+            BotFullscreenButtons$$ExternalSyntheticApiModelOutline2.m(renderNode);
+            float dp = AndroidUtilities.dp(32.0f);
+            float dp2 = AndroidUtilities.dp(32.0f);
+            tileMode = Shader.TileMode.DECAL;
+            createBlurEffect = RenderEffect.createBlurEffect(dp, dp2, tileMode);
+            renderNode.setRenderEffect(createBlurEffect);
+        }
+        return this.blurRenderNode;
     }
 
     @Override // org.telegram.ui.Components.ItemOptions.ScrimView
@@ -1388,15 +1472,20 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         updateCameraNeedsBlur();
     }
 
+    public void setCameraThumb(Drawable drawable) {
+        this.cameraThumbDrawable = drawable;
+        invalidate();
+    }
+
+    public void setCameraThumbVisible(boolean z) {
+        this.cameraThumbVisible = z;
+        invalidate();
+    }
+
     public void setCameraView(CameraView cameraView) {
         CameraView cameraView2 = this.cameraView;
         if (cameraView2 != cameraView && cameraView2 != null) {
-            cameraView2.unlistenDraw(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    CollageLayoutView2.this.invalidate();
-                }
-            });
+            cameraView2.unlistenDraw(new CollageLayoutView2$$ExternalSyntheticLambda1(this));
             AndroidUtilities.removeFromParent(this.cameraView);
             this.cameraView = null;
             updateCameraNeedsBlur();
@@ -1407,21 +1496,11 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
         }
         CameraView cameraView3 = this.cameraView;
         if (cameraView3 != null) {
-            cameraView3.unlistenDraw(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    CollageLayoutView2.this.invalidate();
-                }
-            });
+            cameraView3.unlistenDraw(new CollageLayoutView2$$ExternalSyntheticLambda1(this));
         }
         this.cameraView = cameraView;
         if (cameraView != null) {
-            cameraView.listenDraw(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CollageLayoutView2$$ExternalSyntheticLambda3
-                @Override // java.lang.Runnable
-                public final void run() {
-                    CollageLayoutView2.this.invalidate();
-                }
-            });
+            cameraView.listenDraw(new CollageLayoutView2$$ExternalSyntheticLambda1(this));
         }
         updateCameraNeedsBlur();
         invalidate();
@@ -1470,6 +1549,10 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
             return;
         }
         this.isMuted = z;
+    }
+
+    public void setOnCameraThumbClick(Runnable runnable) {
+        this.onCameraThumbClick = runnable;
     }
 
     public void setPlaying(boolean z) {

@@ -5638,7 +5638,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             canvas.drawRoundRect(rectF, AndroidUtilities.dpf2(12.0f), AndroidUtilities.dpf2(12.0f), this.backgroundPaint);
             this.backgroundPaint.setAlpha(alpha);
             canvas.save();
-            canvas.translate(((getWidth() - currentWidth) / 2.0f) + AndroidUtilities.dp(9.0f), f2 + AndroidUtilities.dp(10.0f));
+            canvas.translate(((getWidth() - currentWidth) / 2.0f) + AndroidUtilities.dp(9.0f), f2 + AndroidUtilities.dp(9.5f));
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = this.left;
             animatedTextDrawable.setBounds(0, 0, (int) animatedTextDrawable.getCurrentWidth(), AndroidUtilities.dp(23.0f));
             int i = (int) (f * 255.0f);
@@ -17974,7 +17974,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (messageObject == null || messageObject.messageOwner == null) {
             return "";
         }
-        Spannable replaceAnimatedEmoji = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji((CharSequence) new SpannableStringBuilder(messageObject.messageOwner.translatedText.text), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), messageObject.messageOwner.translatedText.entities, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
+        Spannable replaceAnimatedEmoji = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji(new SpannableStringBuilder(messageObject.messageOwner.translatedText.text), Theme.chat_msgTextPaint.getFontMetricsInt(), false), messageObject.messageOwner.translatedText.entities, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
         if (MessageObject.containsUrls(replaceAnimatedEmoji)) {
             try {
                 AndroidUtilities.addLinksSafe(replaceAnimatedEmoji, 5, false, true);
@@ -19373,7 +19373,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 MessageObject.addUrlsByPattern(messageObject.isOutOwner(), spannableStringBuilder, false, 3, (int) messageObject.getDuration(), false);
                             }
                         }
-                        cloneSpans = Emoji.replaceEmoji(spannableStringBuilder, nextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20.0f), false);
+                        cloneSpans = Emoji.replaceEmoji(spannableStringBuilder, nextView.getPaint().getFontMetricsInt(), false);
                     }
                     if (messageObject != null && messageObject.isSponsored()) {
                         cloneSpans = sponsoredCaption(messageObject, cloneSpans);
@@ -28177,7 +28177,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.resetButton.setGravity(17);
         this.resetButton.setBackgroundDrawable(Theme.createSelectorDrawable(-12763843, 0));
         this.resetButton.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
-        this.resetButton.setText(LocaleController.getString("Reset", R.string.CropReset).toUpperCase());
+        this.resetButton.setText(LocaleController.getString(R.string.CropReset).toUpperCase());
         this.resetButton.setTypeface(AndroidUtilities.bold());
         this.editorDoneLayout.addView(this.resetButton, LayoutHelper.createFrame(-2, -1, 49));
         this.resetButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda70
@@ -28387,16 +28387,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     /* JADX WARN: Removed duplicated region for block: B:195:0x0282  */
     /* JADX WARN: Removed duplicated region for block: B:203:0x02a0  */
     /* JADX WARN: Removed duplicated region for block: B:204:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:285:0x07c8  */
-    /* JADX WARN: Removed duplicated region for block: B:299:0x07d7  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x07ce  */
-    /* JADX WARN: Removed duplicated region for block: B:334:0x090b  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x0921  */
-    /* JADX WARN: Removed duplicated region for block: B:377:0x0a7e  */
-    /* JADX WARN: Removed duplicated region for block: B:380:0x0a94  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x0bc6  */
-    /* JADX WARN: Removed duplicated region for block: B:419:0x0bdc  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0c03  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x07c6  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x07d5  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x07cc  */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0909  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x091f  */
+    /* JADX WARN: Removed duplicated region for block: B:377:0x0a7c  */
+    /* JADX WARN: Removed duplicated region for block: B:380:0x0a92  */
+    /* JADX WARN: Removed duplicated region for block: B:416:0x0bc4  */
+    /* JADX WARN: Removed duplicated region for block: B:419:0x0bda  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0c01  */
     /* JADX WARN: Removed duplicated region for block: B:91:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -28746,7 +28746,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 this.previousCropPh = this.cropTransform.getCropPh();
                 this.previousCropMirrored = this.cropTransform.isMirrored();
                 this.photoCropView.onAppear();
-                this.editorDoneLayout.doneButton.setText(LocaleController.getString("Crop", R.string.Crop));
+                this.editorDoneLayout.doneButton.setText(LocaleController.getString(R.string.Crop));
                 this.editorDoneLayout.doneButton.setTextColor(getThemedColor(Theme.key_chat_editMediaButton));
                 this.changeModeAnimation = new AnimatorSet();
                 ArrayList arrayList2 = new ArrayList();
