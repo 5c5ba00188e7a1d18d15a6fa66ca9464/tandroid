@@ -1,10 +1,10 @@
 Signature-Version: 1.0
 Created-By: Android Gradle 8.4.2
-SHA-256-Digest-Manifest: 6PQND5NYwejNtX1FI3a94HvsLe2+yPgsdkJ3om9Q73Y=
+SHA-256-Digest-Manifest: Wjqm90ztzaXgNwziIXCDS3A2OhuFOvv/vBaa/dKOn9c=
 X-Android-APK-Signed: 2
 
 Name: AndroidManifest.xml
-SHA-256-Digest: ryde/Nxw+jqZ40BL1ymLXbvikr2gW7DJK0hy5U1YUfU=
+SHA-256-Digest: DrHp+67Zq+RhTXIgX1T/EMR+uNA3k5k6gbJoDzXSBlY=
 
 Name: DebugProbesKt.bin
 SHA-256-Digest: EuE0exWn1BqnXy7yBXKn/kXjNj4uFZgQCPqj16JeTqQ=
@@ -140,7 +140,7 @@ Name: META-INF/services/kotlinx.coroutines.internal.MainDispatcherFact
 SHA-256-Digest: CvpiKzNhVHqONkAL//lJVL9QOZGQGXeAZRDX9l7tM4E=
 
 Name: META-INF/version-control-info.textproto
-SHA-256-Digest: GaXwDGVnHI/uuU+3T3ibNXnQ7C0gwKtjDNf6f4WSMWk=
+SHA-256-Digest: yFZ460EiszXp8bE1+CA15RkmhF/1pYU8nat3ZmOTEpY=
 
 Name: androidsupportmultidexversion.txt
 SHA-256-Digest: /ozB4iWCv4KQhBIH6rZJtXMfwltgyz6k/votYXVgXCA=
@@ -170,10 +170,10 @@ Name: assets/day.attheme
 SHA-256-Digest: 775k0SFxdCx9/BwniTINPU9ZzTjH95iW0lbwnbvceSI=
 
 Name: assets/dexopt/baseline.prof
-SHA-256-Digest: GufMcrjPLQIN06rpQNQbPvi6Po5dt7kiYJjSVUQkYp0=
+SHA-256-Digest: 27DmbiBd32uS1hc/U1xY+AP1WdzS/tkeblbDHSIjmxM=
 
 Name: assets/dexopt/baseline.profm
-SHA-256-Digest: 7VEHchIH+a/hfC6jQHgrhv+TnNItWOha7rJ9Kk+85D8=
+SHA-256-Digest: /YqajsVpFMBkU56M7zWdX4S1EWOfQ/EV/sgffQteN2w=
 
 Name: assets/emoji/0_0.png
 SHA-256-Digest: FFGFTJbXaeReRgKogyPqZYP4FU2skp84PODIGXmkkic=
@@ -11048,19 +11048,19 @@ Name: builddef.lst
 SHA-256-Digest: nV5pCcT+/FvcW5d37qA0E7yBBIkqNsX7vFJzDLqlDuY=
 
 Name: classes.dex
-SHA-256-Digest: TC8/iLcKHO5g/oBMxHoEH1vjsPehUF130ZSeeO2isLk=
+SHA-256-Digest: LVpBojSKN04dqB2gJ0zyunl6Tj5e9jvR060815PBAVE=
 
 Name: classes2.dex
 SHA-256-Digest: j5ZNObVlO0gUBoxublsui2pLky0lrFe+CVbRQ0RNriE=
 
 Name: classes3.dex
-SHA-256-Digest: bUu5+l10Vco1e4giJLA9IL9OtWdngY5HvZL94GY/O2s=
+SHA-256-Digest: YNt61y0BE80NeAmUo5gfHKS7xg6zbSDyuzRRdYNdRE4=
 
 Name: classes4.dex
-SHA-256-Digest: id9HA+W+/BpDnLUEBxJreMe+hDp1FllhOJl1cuOtD78=
+SHA-256-Digest: FMyrrjXF/6hPeGTybvxw2b+ticZ2Ff400VIltmkxNmQ=
 
 Name: classes5.dex
-SHA-256-Digest: eTFc+H40NeyR1lU7KNF5pGUDhSj37ONxtbGt7cm2poM=
+SHA-256-Digest: lUPOl7tA5gF6OKIXUdUmuJsR0rL0tVGqF3u6W02ox4k=
 
 Name: com/google/android/search/verification/client/R.java
 SHA-256-Digest: EsMVPn34QVRran564KJSlepygKDiuNN7iY8qEXPZd6k=
