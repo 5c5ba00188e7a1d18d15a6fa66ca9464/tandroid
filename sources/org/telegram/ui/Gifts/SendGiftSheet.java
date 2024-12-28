@@ -304,7 +304,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
         if (messageAction instanceof TLRPC.TL_messageActionStarGift) {
             TLRPC.TL_messageActionStarGift tL_messageActionStarGift2 = (TLRPC.TL_messageActionStarGift) messageAction;
             boolean z3 = this.upgrade;
-            tL_messageActionStarGift2.can_upgrade = z3 || z2;
+            tL_messageActionStarGift2.can_upgrade = z3 || (z2 && starGift != null && starGift.can_upgrade);
             tL_messageActionStarGift2.upgrade_stars = (!z2 && z3) ? starGift.upgrade_stars : 0L;
             tL_messageActionStarGift2.convert_stars = z3 ? 0L : starGift.convert_stars;
         }
@@ -486,7 +486,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
             this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda2
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view3, int i7) {
-                    SendGiftSheet.this.lambda$new$1(view3, i7);
+                    SendGiftSheet.this.lambda$new$1(starGift, view3, i7);
                 }
             });
             this.actionBar.setTitle(getTitle());
@@ -509,7 +509,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
         this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Gifts.SendGiftSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view3, int i7) {
-                SendGiftSheet.this.lambda$new$1(view3, i7);
+                SendGiftSheet.this.lambda$new$1(starGift, view3, i7);
             }
         });
         this.actionBar.setTitle(getTitle());
@@ -735,7 +735,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(View view, int i) {
+    public /* synthetic */ void lambda$new$1(TL_stars.StarGift starGift, View view, int i) {
         UniversalAdapter universalAdapter = this.adapter;
         if (!this.reverseLayout) {
             i--;
@@ -763,7 +763,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
             TLRPC.MessageAction messageAction2 = this.action;
             if (messageAction2 instanceof TLRPC.TL_messageActionStarGift) {
                 TLRPC.TL_messageActionStarGift tL_messageActionStarGift = (TLRPC.TL_messageActionStarGift) messageAction2;
-                tL_messageActionStarGift.can_upgrade = z2 || this.self;
+                tL_messageActionStarGift.can_upgrade = z2 || (this.self && starGift != null && starGift.can_upgrade);
                 tL_messageActionStarGift.upgrade_stars = (!this.self && z2) ? this.starGift.upgrade_stars : 0L;
                 tL_messageActionStarGift.convert_stars = z2 ? 0L : this.starGift.convert_stars;
             }
@@ -772,8 +772,8 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView {
             this.adapter.update(true);
             ButtonWithCounterView buttonWithCounterView = this.button;
             String str = this.self ? "Gift2SendSelf" : "Gift2Send";
-            TL_stars.StarGift starGift = this.starGift;
-            buttonWithCounterView.setText(StarsIntroActivity.replaceStars(LocaleController.formatPluralStringComma(str, (int) (starGift.stars + (this.upgrade ? starGift.upgrade_stars : 0L))), this.cachedStarSpan), true);
+            TL_stars.StarGift starGift2 = this.starGift;
+            buttonWithCounterView.setText(StarsIntroActivity.replaceStars(LocaleController.formatPluralStringComma(str, (int) (starGift2.stars + (this.upgrade ? starGift2.upgrade_stars : 0L))), this.cachedStarSpan), true);
         }
     }
 
