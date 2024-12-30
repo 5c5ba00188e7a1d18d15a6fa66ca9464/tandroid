@@ -8209,7 +8209,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     z8 = z12;
                     tL_jsonObject5 = tL_jsonObject6;
                     i10 = i13;
-                case 161:
+                case NotificationCenter.didStartedCall /* 161 */:
                     TLRPC.JSONValue jSONValue176 = tL_jsonObjectValue.value;
                     if (jSONValue176 instanceof TLRPC.TL_jsonNumber) {
                         double d99 = ((TLRPC.TL_jsonNumber) jSONValue176).value;
@@ -8233,7 +8233,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     z8 = z12;
                     tL_jsonObject5 = tL_jsonObject6;
                     i10 = i13;
-                case NotificationCenter.groupCallUpdated /* 162 */:
+                case 162:
                     try {
                         hashMap = new HashMap<>();
                         TLRPC.JSONValue jSONValue177 = tL_jsonObjectValue.value;

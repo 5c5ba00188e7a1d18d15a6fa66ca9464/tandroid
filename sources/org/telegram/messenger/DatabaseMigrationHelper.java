@@ -1406,12 +1406,18 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("PRAGMA user_version = 160").stepThis().dispose();
             i7 = NotificationCenter.audioRouteChanged;
         }
-        if (i7 != 160) {
+        if (i7 == 160) {
+            sQLiteDatabase.executeFast("ALTER TABLE dialog_filter ADD COLUMN noanimate INTEGER").stepThis().dispose();
+            sQLiteDatabase.executeFast("PRAGMA user_version = 161").stepThis().dispose();
+            i7 = NotificationCenter.didStartedCall;
+        }
+        if (i7 != 161) {
             return i7;
         }
-        sQLiteDatabase.executeFast("ALTER TABLE dialog_filter ADD COLUMN noanimate INTEGER").stepThis().dispose();
-        sQLiteDatabase.executeFast("PRAGMA user_version = 161").stepThis().dispose();
-        return 161;
+        sQLiteDatabase.executeFast("DELETE FROM popular_bots").stepThis().dispose();
+        sQLiteDatabase.executeFast("ALTER TABLE popular_bots ADD COLUMN pos INTEGER").stepThis().dispose();
+        sQLiteDatabase.executeFast("PRAGMA user_version = 162").stepThis().dispose();
+        return 162;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:58:0x02be A[RETURN] */
@@ -1467,7 +1473,7 @@ public class DatabaseMigrationHelper {
             e = e4;
             j = 0;
         }
-        if (intValue != 161) {
+        if (intValue != 162) {
             FileLog.e("can't restore database from version " + intValue);
             return false;
         }

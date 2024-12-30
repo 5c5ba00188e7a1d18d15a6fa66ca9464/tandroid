@@ -2929,7 +2929,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case 161:
+            case NotificationCenter.didStartedCall /* 161 */:
                 // fill-array-data instruction
                 iArr[0] = 1;
                 iArr[1] = 0;
@@ -2938,7 +2938,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 4;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.groupCallUpdated /* 162 */:
+            case 162:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 3;
