@@ -132,7 +132,8 @@ public abstract class AboutLinkCell extends FrameLayout {
             AboutLinkCell.this.resetPressedLink();
         }
 
-        /* JADX WARN: Can't wrap try/catch for region: R(8:3|(1:5)(2:15|(1:17)(6:18|7|8|9|10|11))|6|7|8|9|10|11) */
+        /* JADX WARN: Can't wrap try/catch for region: R(10:3|(1:5)(2:18|(1:20)(8:21|7|8|9|10|(1:12)|13|14))|6|7|8|9|10|(0)|13|14) */
+        /* JADX WARN: Removed duplicated region for block: B:12:0x006f  */
         @Override // java.lang.Runnable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -150,22 +151,24 @@ public abstract class AboutLinkCell extends FrameLayout {
                         AboutLinkCell.this.performHapticFeedback(0, 2);
                         final Layout layout = AboutLinkCell.this.pressedLinkLayout;
                         final float f = AboutLinkCell.this.pressedLinkYOffset;
-                        final ClickableSpan clickableSpan = (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan();
-                        BottomSheet.Builder builder = new BottomSheet.Builder(AboutLinkCell.this.parentFragment.getParentActivity());
-                        builder.setTitle(str);
-                        builder.setItems(new CharSequence[]{LocaleController.getString(R.string.Open), LocaleController.getString(R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda0
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i) {
-                                AboutLinkCell.2.this.lambda$run$0(clickableSpan, layout, f, str, dialogInterface, i);
-                            }
-                        });
-                        builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda1
-                            @Override // android.content.DialogInterface.OnDismissListener
-                            public final void onDismiss(DialogInterface dialogInterface) {
-                                AboutLinkCell.2.this.lambda$run$1(dialogInterface);
-                            }
-                        });
-                        builder.show();
+                        if (AboutLinkCell.this.getContext() != null) {
+                            final ClickableSpan clickableSpan = (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan();
+                            BottomSheet.Builder builder = new BottomSheet.Builder(AboutLinkCell.this.getContext());
+                            builder.setTitle(str);
+                            builder.setItems(new CharSequence[]{LocaleController.getString(R.string.Open), LocaleController.getString(R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda0
+                                @Override // android.content.DialogInterface.OnClickListener
+                                public final void onClick(DialogInterface dialogInterface, int i) {
+                                    AboutLinkCell.2.this.lambda$run$0(clickableSpan, layout, f, str, dialogInterface, i);
+                                }
+                            });
+                            builder.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda1
+                                @Override // android.content.DialogInterface.OnDismissListener
+                                public final void onDismiss(DialogInterface dialogInterface) {
+                                    AboutLinkCell.2.this.lambda$run$1(dialogInterface);
+                                }
+                            });
+                            builder.show();
+                        }
                         AboutLinkCell.this.pressedLink = null;
                     }
                     uRLSpan = (URLSpan) AboutLinkCell.this.pressedLink.getSpan();
@@ -175,22 +178,8 @@ public abstract class AboutLinkCell extends FrameLayout {
                 AboutLinkCell.this.performHapticFeedback(0, 2);
                 final Layout layout2 = AboutLinkCell.this.pressedLinkLayout;
                 final float f2 = AboutLinkCell.this.pressedLinkYOffset;
-                final ClickableSpan clickableSpan2 = (ClickableSpan) AboutLinkCell.this.pressedLink.getSpan();
-                BottomSheet.Builder builder2 = new BottomSheet.Builder(AboutLinkCell.this.parentFragment.getParentActivity());
-                builder2.setTitle(str2);
-                builder2.setItems(new CharSequence[]{LocaleController.getString(R.string.Open), LocaleController.getString(R.string.Copy)}, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        AboutLinkCell.2.this.lambda$run$0(clickableSpan2, layout2, f2, str2, dialogInterface, i);
-                    }
-                });
-                builder2.setOnPreDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Cells.AboutLinkCell$2$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnDismissListener
-                    public final void onDismiss(DialogInterface dialogInterface) {
-                        AboutLinkCell.2.this.lambda$run$1(dialogInterface);
-                    }
-                });
-                builder2.show();
+                if (AboutLinkCell.this.getContext() != null) {
+                }
                 AboutLinkCell.this.pressedLink = null;
             }
         }

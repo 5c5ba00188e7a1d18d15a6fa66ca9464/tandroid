@@ -23042,7 +23042,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -23051,156 +23051,148 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int i;
         int i2;
         int i3;
-        int i4 = 0;
-        while (true) {
-            if (i4 >= this.messages.size()) {
-                i4 = -1;
-                break;
-            }
-            if (((MessageObject) this.messages.get(i4)) == this.unreadMessageObject) {
-                break;
-            }
-            i4++;
-        }
-        ArrayList arrayList2 = new ArrayList();
+        ArrayList arrayList2 = new ArrayList(this.messages.size());
+        int indexOf = this.messages.indexOf(this.unreadMessageObject);
         ArrayList arrayList3 = new ArrayList();
         ArrayList arrayList4 = new ArrayList();
+        ArrayList arrayList5 = new ArrayList();
         HashSet hashSet = new HashSet();
+        int i4 = 0;
         int i5 = 0;
-        int i6 = 0;
-        int i7 = -1;
-        for (int i8 = 0; i8 < this.messages.size(); i8++) {
-            MessageObject messageObject = (MessageObject) this.messages.get(i8);
-            int approximateHeight = messageObject.getApproximateHeight();
-            if (messageObject.isSponsored() || i8 == i4) {
-                if (i8 == i4) {
-                    i7 = i5;
+        int i6 = -1;
+        for (int i7 = 0; i7 < this.messages.size(); i7++) {
+            MessageObject messageObject = (MessageObject) this.messages.get(i7);
+            int approximateHeight = messageObject.getApproximateHeight(true);
+            arrayList2.add(Integer.valueOf(approximateHeight));
+            if (messageObject.isSponsored() || i7 == indexOf) {
+                if (i7 == indexOf) {
+                    i6 = i4;
                 }
-                arrayList3.add(Integer.valueOf(i8));
-                arrayList2.add(Integer.valueOf(i5));
-                arrayList4.add(Integer.valueOf(i6));
+                arrayList4.add(Integer.valueOf(i7));
+                arrayList3.add(Integer.valueOf(i4));
+                arrayList5.add(Integer.valueOf(i5));
             }
-            if (messageObject.hasValidGroupId()) {
+            if (messageObject.hasValidGroupIdFast()) {
                 if (!hashSet.contains(Long.valueOf(messageObject.getGroupId()))) {
                     hashSet.add(Long.valueOf(messageObject.getGroupId()));
                 }
             }
-            i6++;
-            i5 += approximateHeight;
+            i5++;
+            i4 += approximateHeight;
         }
-        if (arrayList3.size() + (i4 >= 0 ? 1 : 0) <= 0) {
+        if (arrayList4.size() + (indexOf >= 0 ? 1 : 0) <= 0) {
             return 0;
         }
         hashSet.clear();
-        int i9 = 0;
-        while (i4 >= 0) {
-            MessageObject messageObject2 = (MessageObject) this.messages.get(i4);
-            int approximateHeight2 = messageObject2.getApproximateHeight();
-            if (messageObject2.hasValidGroupId()) {
+        int i8 = 0;
+        while (indexOf >= 0) {
+            MessageObject messageObject2 = (MessageObject) this.messages.get(indexOf);
+            int intValue = ((Integer) arrayList2.get(indexOf)).intValue();
+            if (messageObject2.hasValidGroupIdFast()) {
                 if (!hashSet.contains(Long.valueOf(messageObject2.getGroupId()))) {
                     hashSet.add(Long.valueOf(messageObject2.getGroupId()));
                 }
-                if (!messageObject2.isSponsored() && !messageObject2.hasValidGroupId() && messageObject2 != this.unreadMessageObject) {
-                    int i10 = -1;
+                if (!messageObject2.isSponsored() && !messageObject2.hasValidGroupIdFast() && messageObject2 != this.unreadMessageObject) {
+                    int i9 = -1;
                     i3 = -1;
+                    int i10 = -1;
                     int i11 = -1;
                     int i12 = -1;
                     int i13 = -1;
-                    int i14 = -1;
-                    for (i2 = 0; i2 < arrayList3.size(); i2++) {
-                        int intValue = ((Integer) arrayList3.get(i2)).intValue();
-                        if (intValue >= i4 && (i3 == -1 || i3 > intValue)) {
-                            i12 = ((Integer) arrayList2.get(i2)).intValue();
-                            i11 = ((Integer) arrayList4.get(i2)).intValue();
-                            i3 = intValue;
+                    for (i2 = 0; i2 < arrayList4.size(); i2++) {
+                        int intValue2 = ((Integer) arrayList4.get(i2)).intValue();
+                        if (intValue2 >= indexOf && (i3 == -1 || i3 > intValue2)) {
+                            i11 = ((Integer) arrayList3.get(i2)).intValue();
+                            i10 = ((Integer) arrayList5.get(i2)).intValue();
+                            i3 = intValue2;
                         }
-                        if (intValue <= i4 && (i10 == -1 || i10 < intValue)) {
-                            i13 = ((Integer) arrayList2.get(i2)).intValue();
-                            i14 = ((Integer) arrayList4.get(i2)).intValue();
-                            i10 = intValue;
+                        if (intValue2 <= indexOf && (i9 == -1 || i9 < intValue2)) {
+                            i12 = ((Integer) arrayList3.get(i2)).intValue();
+                            i13 = ((Integer) arrayList5.get(i2)).intValue();
+                            i9 = intValue2;
                         }
                     }
-                    if ((i3 != -1 || (Math.abs(i3 - i4) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i11 - i9) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i12 - (approximateHeight2 + i7)) > AndroidUtilities.displaySize.y)) && (i10 == -1 || (Math.abs(i10 - i4) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i14 - i9) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i13 - i7) > AndroidUtilities.displaySize.y))) {
-                        return i4;
+                    if ((i3 != -1 || (Math.abs(i3 - indexOf) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i10 - i8) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i11 - (intValue + i6)) > AndroidUtilities.displaySize.y)) && (i9 == -1 || (Math.abs(i9 - indexOf) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i13 - i8) > this.sponsoredMessagesPostsBetween + 1 && Math.abs(i12 - i6) > AndroidUtilities.displaySize.y))) {
+                        return indexOf;
                     }
                 }
-                i4--;
+                indexOf--;
             }
-            i9--;
-            i7 -= approximateHeight2;
+            i8--;
+            i6 -= intValue;
             if (!messageObject2.isSponsored()) {
-                int i102 = -1;
+                int i92 = -1;
                 i3 = -1;
+                int i102 = -1;
                 int i112 = -1;
                 int i122 = -1;
                 int i132 = -1;
-                int i142 = -1;
-                while (i2 < arrayList3.size()) {
+                while (i2 < arrayList4.size()) {
                 }
                 if (i3 != -1) {
                 }
-                return i4;
+                return indexOf;
             }
-            i4--;
+            indexOf--;
         }
         hashSet.clear();
+        int i14 = 0;
         int i15 = 0;
         int i16 = 0;
-        int i17 = 0;
-        while (i15 < this.messages.size()) {
-            MessageObject messageObject3 = (MessageObject) this.messages.get(i15);
-            int approximateHeight3 = messageObject3.getApproximateHeight();
-            if (!messageObject3.hasValidGroupId()) {
-                i17++;
-                i16 += approximateHeight3;
+        while (i14 < this.messages.size()) {
+            MessageObject messageObject3 = (MessageObject) this.messages.get(i14);
+            int intValue3 = ((Integer) arrayList2.get(i14)).intValue();
+            if (!messageObject3.hasValidGroupIdFast()) {
+                i16++;
+                i15 += intValue3;
             } else if (!hashSet.contains(Long.valueOf(messageObject3.getGroupId()))) {
                 hashSet.add(Long.valueOf(messageObject3.getGroupId()));
-                i17++;
+                i16++;
             }
-            if (messageObject3.isSponsored() || messageObject3.hasValidGroupId() || messageObject3 == this.unreadMessageObject) {
-                arrayList = arrayList3;
+            if (messageObject3.isSponsored() || messageObject3.hasValidGroupIdFast() || messageObject3 == this.unreadMessageObject) {
+                arrayList = arrayList2;
             } else {
-                int i18 = 0;
+                int i17 = 0;
+                int i18 = -1;
                 int i19 = -1;
                 int i20 = -1;
                 int i21 = -1;
                 int i22 = -1;
                 int i23 = -1;
-                int i24 = -1;
-                while (i18 < arrayList3.size()) {
-                    int intValue2 = ((Integer) arrayList3.get(i18)).intValue();
-                    ArrayList arrayList5 = arrayList3;
-                    if (intValue2 >= i15 && (i19 == -1 || i19 > intValue2)) {
-                        i21 = ((Integer) arrayList2.get(i18)).intValue();
-                        i20 = ((Integer) arrayList4.get(i18)).intValue();
-                        i19 = intValue2;
+                while (i17 < arrayList4.size()) {
+                    int intValue4 = ((Integer) arrayList4.get(i17)).intValue();
+                    ArrayList arrayList6 = arrayList2;
+                    if (intValue4 >= i14 && (i18 == -1 || i18 > intValue4)) {
+                        i20 = ((Integer) arrayList3.get(i17)).intValue();
+                        i19 = ((Integer) arrayList5.get(i17)).intValue();
+                        i18 = intValue4;
                     }
-                    if (intValue2 <= i15 && (i22 == -1 || i22 < intValue2)) {
-                        i23 = ((Integer) arrayList2.get(i18)).intValue();
-                        i24 = ((Integer) arrayList4.get(i18)).intValue();
-                        i22 = intValue2;
+                    if (intValue4 <= i14 && (i21 == -1 || i21 < intValue4)) {
+                        i22 = ((Integer) arrayList3.get(i17)).intValue();
+                        i23 = ((Integer) arrayList5.get(i17)).intValue();
+                        i21 = intValue4;
                     }
-                    i18++;
-                    arrayList3 = arrayList5;
+                    i17++;
+                    arrayList2 = arrayList6;
                 }
-                arrayList = arrayList3;
-                if (i19 != -1) {
-                    if (Math.abs(i19 - i15) < this.sponsoredMessagesPostsBetween + 1) {
+                arrayList = arrayList2;
+                if (i18 != -1) {
+                    if (Math.abs(i18 - i14) < this.sponsoredMessagesPostsBetween + 1) {
                         continue;
-                        i15++;
-                        arrayList3 = arrayList;
+                        i14++;
+                        arrayList2 = arrayList;
                     } else {
-                        i = (Math.abs(i20 - i17) >= this.sponsoredMessagesPostsBetween + 1 && Math.abs(i21 - (approximateHeight3 + i16)) > AndroidUtilities.displaySize.y) ? -1 : -1;
+                        i = (Math.abs(i19 - i16) >= this.sponsoredMessagesPostsBetween + 1 && Math.abs(i20 - (intValue3 + i15)) > AndroidUtilities.displaySize.y) ? -1 : -1;
                     }
                 }
-                if (i22 == i || (Math.abs(i22 - i15) >= this.sponsoredMessagesPostsBetween + 1 && Math.abs(i24 - i17) >= this.sponsoredMessagesPostsBetween + 1 && Math.abs(i23 - i16) > AndroidUtilities.displaySize.y)) {
-                    return i15;
+                if (i21 == i || (Math.abs(i21 - i14) >= this.sponsoredMessagesPostsBetween + 1 && Math.abs(i23 - i16) >= this.sponsoredMessagesPostsBetween + 1 && Math.abs(i22 - i15) > AndroidUtilities.displaySize.y)) {
+                    return i14;
                 }
-                i15++;
-                arrayList3 = arrayList;
+                i14++;
+                arrayList2 = arrayList;
             }
-            i15++;
-            arrayList3 = arrayList;
+            i14++;
+            arrayList2 = arrayList;
         }
         return -1;
     }

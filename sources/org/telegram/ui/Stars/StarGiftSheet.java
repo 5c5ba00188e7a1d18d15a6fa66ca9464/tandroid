@@ -1006,7 +1006,7 @@ public class StarGiftSheet extends BottomSheet {
             TLRPC.MessageAction messageAction = messageObject.messageOwner.action;
             if (messageAction instanceof TLRPC.TL_messageActionStarGift) {
                 TLRPC.TL_messageActionStarGift tL_messageActionStarGift = (TLRPC.TL_messageActionStarGift) messageAction;
-                return !messageObject.isOutOwner() && !tL_messageActionStarGift.converted && tL_messageActionStarGift.convert_stars > 0 && MessagesController.getInstance(this.currentAccount).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - this.messageObject.messageOwner.date) > 0;
+                return (!messageObject.isOutOwner() || ((this.messageObject.getDialogId() > UserConfig.getInstance(this.currentAccount).getClientUserId() ? 1 : (this.messageObject.getDialogId() == UserConfig.getInstance(this.currentAccount).getClientUserId() ? 0 : -1)) == 0)) && !tL_messageActionStarGift.converted && tL_messageActionStarGift.convert_stars > 0 && MessagesController.getInstance(this.currentAccount).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - this.messageObject.messageOwner.date) > 0;
             }
         } else {
             TL_stars.UserStarGift userStarGift = this.userStarGift;
@@ -2241,8 +2241,8 @@ public class StarGiftSheet extends BottomSheet {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:11:0x0096  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x009b  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x009d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2313,72 +2313,74 @@ public class StarGiftSheet extends BottomSheet {
         TLRPC.MessageAction messageAction = message.action;
         if (messageAction instanceof TLRPC.TL_messageActionStarGiftUnique) {
             TLRPC.TL_messageActionStarGiftUnique tL_messageActionStarGiftUnique = (TLRPC.TL_messageActionStarGiftUnique) messageAction;
-            TL_stars.TL_starGiftUnique tL_starGiftUnique2 = (TL_stars.TL_starGiftUnique) tL_messageActionStarGiftUnique.gift;
-            int i2 = tL_messageActionStarGiftUnique.can_export_at;
-            messageObject.getId();
-            j = tL_messageActionStarGiftUnique.transfer_stars;
-            tL_starGiftUnique = tL_starGiftUnique2;
-            i = i2;
-            final int currentTime2 = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
-            final String formatString2 = LocaleController.formatString(R.string.Gift2Transfer, tL_starGiftUnique.title + " #" + LocaleController.formatNumber(tL_starGiftUnique.num, ','));
-            UserSelectorBottomSheet userSelectorBottomSheet2 = new UserSelectorBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stars.StarGiftSheet.4
-                @Override // org.telegram.ui.ActionBar.BaseFragment
-                public Context getContext() {
-                    return StarGiftSheet.this.getContext();
-                }
-
-                @Override // org.telegram.ui.ActionBar.BaseFragment
-                public Activity getParentActivity() {
-                    LaunchActivity launchActivity = LaunchActivity.instance;
-                    return launchActivity == null ? AndroidUtilities.findActivity(StarGiftSheet.this.getContext()) : launchActivity;
-                }
-
-                @Override // org.telegram.ui.ActionBar.BaseFragment
-                public Theme.ResourcesProvider getResourceProvider() {
-                    return ((BottomSheet) StarGiftSheet.this).resourcesProvider;
-                }
-
-                @Override // org.telegram.ui.ActionBar.BaseFragment
-                public boolean presentFragment(BaseFragment baseFragment) {
-                    userSelectorBottomSheetArr[0].dismiss();
-                    StarGiftSheet.this.dismiss();
-                    BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
-                    if (safeLastFragment != null) {
-                        return safeLastFragment.presentFragment(safeLastFragment);
+            TL_stars.StarGift starGift2 = tL_messageActionStarGiftUnique.gift;
+            if (starGift2 instanceof TL_stars.TL_starGiftUnique) {
+                int i2 = tL_messageActionStarGiftUnique.can_export_at;
+                messageObject.getId();
+                j = tL_messageActionStarGiftUnique.transfer_stars;
+                tL_starGiftUnique = (TL_stars.TL_starGiftUnique) starGift2;
+                i = i2;
+                final int currentTime2 = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
+                final String formatString2 = LocaleController.formatString(R.string.Gift2Transfer, tL_starGiftUnique.title + " #" + LocaleController.formatNumber(tL_starGiftUnique.num, ','));
+                UserSelectorBottomSheet userSelectorBottomSheet2 = new UserSelectorBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stars.StarGiftSheet.4
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public Context getContext() {
+                        return StarGiftSheet.this.getContext();
                     }
-                    return false;
+
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public Activity getParentActivity() {
+                        LaunchActivity launchActivity = LaunchActivity.instance;
+                        return launchActivity == null ? AndroidUtilities.findActivity(StarGiftSheet.this.getContext()) : launchActivity;
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public Theme.ResourcesProvider getResourceProvider() {
+                        return ((BottomSheet) StarGiftSheet.this).resourcesProvider;
+                    }
+
+                    @Override // org.telegram.ui.ActionBar.BaseFragment
+                    public boolean presentFragment(BaseFragment baseFragment) {
+                        userSelectorBottomSheetArr[0].dismiss();
+                        StarGiftSheet.this.dismiss();
+                        BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
+                        if (safeLastFragment != null) {
+                            return safeLastFragment.presentFragment(safeLastFragment);
+                        }
+                        return false;
+                    }
+                }, 0L, BirthdayController.getInstance(this.currentAccount).getState(), 3, true);
+                final UserSelectorBottomSheet[] userSelectorBottomSheetArr2 = {userSelectorBottomSheet2};
+                userSelectorBottomSheet2.setTitle(formatString2);
+                if (currentTime2 <= i) {
                 }
-            }, 0L, BirthdayController.getInstance(this.currentAccount).getState(), 3, true);
-            final UserSelectorBottomSheet[] userSelectorBottomSheetArr2 = {userSelectorBottomSheet2};
-            userSelectorBottomSheet2.setTitle(formatString2);
-            if (currentTime2 <= i) {
+                userSelectorBottomSheetArr2[0].addTONOption(max);
+                userSelectorBottomSheetArr2[0].setOnUserSelector(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda51
+                    @Override // org.telegram.messenger.Utilities.Callback
+                    public final void run(Object obj) {
+                        StarGiftSheet.this.lambda$openTransfer$50(currentTime2, i, max, tL_starGiftUnique, j, formatString2, userSelectorBottomSheetArr2, (Long) obj);
+                    }
+                });
+                userSelectorBottomSheetArr2[0].show();
             }
-            userSelectorBottomSheetArr2[0].addTONOption(max);
-            userSelectorBottomSheetArr2[0].setOnUserSelector(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda51
-                @Override // org.telegram.messenger.Utilities.Callback
-                public final void run(Object obj) {
-                    StarGiftSheet.this.lambda$openTransfer$50(currentTime2, i, max, tL_starGiftUnique, j, formatString2, userSelectorBottomSheetArr2, (Long) obj);
-                }
-            });
-            userSelectorBottomSheetArr2[0].show();
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0392  */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x039d  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x03a0  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0395  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x044a  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x047b  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x028f  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0288  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0591  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0285  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x028c  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x02a3  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02ef  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0327  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0397  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x03a2  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x03a5  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x039a  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x044f  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0480  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x02ec  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0294  */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x028d  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0596  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x028a  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x02a8  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x02f4  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x032c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2741,7 +2743,11 @@ public class StarGiftSheet extends BottomSheet {
                     return this;
                 }
                 TLRPC.TL_messageActionStarGiftUnique tL_messageActionStarGiftUnique2 = (TLRPC.TL_messageActionStarGiftUnique) messageAction;
-                TL_stars.TL_starGiftUnique tL_starGiftUnique = (TL_stars.TL_starGiftUnique) tL_messageActionStarGiftUnique2.gift;
+                TL_stars.StarGift starGift4 = tL_messageActionStarGiftUnique2.gift;
+                if (!(starGift4 instanceof TL_stars.TL_starGiftUnique)) {
+                    return this;
+                }
+                TL_stars.TL_starGiftUnique tL_starGiftUnique = (TL_stars.TL_starGiftUnique) starGift4;
                 boolean z19 = (tL_messageActionStarGiftUnique2.flags & 16) != 0;
                 z10 = tL_messageActionStarGiftUnique2.refunded;
                 set(tL_starGiftUnique, z19, z10);

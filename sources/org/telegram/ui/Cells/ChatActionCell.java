@@ -484,13 +484,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x03d4  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x03e8 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x02b0  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x023b  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x03d6  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x03ea A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x02b2  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x023b  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x02a7  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x03aa  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03ac  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -637,7 +637,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                     forcedFirstName = LocaleController.getString(R.string.Gift2ActionSelfTitle);
                                 }
                                 spannableStringBuilder2.append((CharSequence) forcedFirstName);
-                                boolean z7 = !(messageObject.isOutOwner() && tL_messageActionStarGift.converted) && tL_messageActionStarGift.convert_stars > 0 && MessagesController.getInstance(this.currentAccount).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - messageObject.messageOwner.date) > 0 && !tL_messageActionStarGift.refunded;
+                                boolean z7 = !((messageObject.isOutOwner() || z6) && tL_messageActionStarGift.converted) && tL_messageActionStarGift.convert_stars > 0 && MessagesController.getInstance(this.currentAccount).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - messageObject.messageOwner.date) > 0 && !tL_messageActionStarGift.refunded;
                                 if (tL_messageActionStarGift.refunded) {
                                     TLRPC.TL_textWithEntities tL_textWithEntities = tL_messageActionStarGift.message;
                                     if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text)) {

@@ -863,7 +863,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
         };
         this.storyParams = avatarStoryParams;
-        this.thumbSpoiler = new SpoilerEffect();
         this.visibleOnScreen = true;
         this.collapseOffset = 0.0f;
         this.hasUnmutedTopics = false;
@@ -5992,23 +5991,23 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     
         if (r3.lastKnownTypingType >= 0) goto L390;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:579:0x184e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:582:0x1859, code lost:
     
-        if (r57.avatarDrawable.getAvatarType() == 2) goto L973;
+        if (r57.avatarDrawable.getAvatarType() == 2) goto L976;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:581:0x186a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:584:0x1875, code lost:
     
         r57.avatarDrawable.setArchivedAvatarHiddenProgress(org.telegram.ui.Components.CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(r57.archiveBackgroundProgress));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:619:0x1868, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:622:0x1873, code lost:
     
-        if (r57.avatarDrawable.getAvatarType() == 2) goto L973;
+        if (r57.avatarDrawable.getAvatarType() == 2) goto L976;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:673:0x13ab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:676:0x13ab, code lost:
     
         if (r57.reactionsMentionsChangeProgress != r14) goto L776;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:858:0x082e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:861:0x082e, code lost:
     
         if (r1.type != 2) goto L266;
      */
@@ -6034,49 +6033,49 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     /* JADX WARN: Removed duplicated region for block: B:405:0x11bd  */
     /* JADX WARN: Removed duplicated region for block: B:409:0x11e1  */
     /* JADX WARN: Removed duplicated region for block: B:414:0x1437  */
-    /* JADX WARN: Removed duplicated region for block: B:455:0x15c7  */
-    /* JADX WARN: Removed duplicated region for block: B:460:0x15f7  */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x1608  */
-    /* JADX WARN: Removed duplicated region for block: B:467:0x162d  */
-    /* JADX WARN: Removed duplicated region for block: B:479:0x1649  */
-    /* JADX WARN: Removed duplicated region for block: B:481:0x164b  */
-    /* JADX WARN: Removed duplicated region for block: B:484:0x1659  */
+    /* JADX WARN: Removed duplicated region for block: B:458:0x15d2  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x1602  */
+    /* JADX WARN: Removed duplicated region for block: B:467:0x1613  */
+    /* JADX WARN: Removed duplicated region for block: B:470:0x1638  */
+    /* JADX WARN: Removed duplicated region for block: B:482:0x1654  */
+    /* JADX WARN: Removed duplicated region for block: B:484:0x1656  */
     /* JADX WARN: Removed duplicated region for block: B:487:0x1664  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x1673  */
-    /* JADX WARN: Removed duplicated region for block: B:496:0x167b  */
-    /* JADX WARN: Removed duplicated region for block: B:499:0x167f  */
-    /* JADX WARN: Removed duplicated region for block: B:512:0x16e8  */
-    /* JADX WARN: Removed duplicated region for block: B:515:0x16f1  */
-    /* JADX WARN: Removed duplicated region for block: B:518:0x16f8  */
-    /* JADX WARN: Removed duplicated region for block: B:533:0x173a  */
-    /* JADX WARN: Removed duplicated region for block: B:562:0x17b7  */
-    /* JADX WARN: Removed duplicated region for block: B:568:0x1807  */
-    /* JADX WARN: Removed duplicated region for block: B:573:0x1837  */
-    /* JADX WARN: Removed duplicated region for block: B:584:0x187c  */
-    /* JADX WARN: Removed duplicated region for block: B:590:0x188f  */
-    /* JADX WARN: Removed duplicated region for block: B:602:0x18d1  */
-    /* JADX WARN: Removed duplicated region for block: B:604:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x18b3  */
-    /* JADX WARN: Removed duplicated region for block: B:613:0x1851  */
-    /* JADX WARN: Removed duplicated region for block: B:621:0x180f  */
-    /* JADX WARN: Removed duplicated region for block: B:627:0x1820  */
+    /* JADX WARN: Removed duplicated region for block: B:490:0x166f  */
+    /* JADX WARN: Removed duplicated region for block: B:495:0x167e  */
+    /* JADX WARN: Removed duplicated region for block: B:499:0x1686  */
+    /* JADX WARN: Removed duplicated region for block: B:502:0x168a  */
+    /* JADX WARN: Removed duplicated region for block: B:515:0x16f3  */
+    /* JADX WARN: Removed duplicated region for block: B:518:0x16fc  */
+    /* JADX WARN: Removed duplicated region for block: B:521:0x1703  */
+    /* JADX WARN: Removed duplicated region for block: B:536:0x1745  */
+    /* JADX WARN: Removed duplicated region for block: B:565:0x17c2  */
+    /* JADX WARN: Removed duplicated region for block: B:571:0x1812  */
+    /* JADX WARN: Removed duplicated region for block: B:576:0x1842  */
+    /* JADX WARN: Removed duplicated region for block: B:587:0x1887  */
+    /* JADX WARN: Removed duplicated region for block: B:593:0x189a  */
+    /* JADX WARN: Removed duplicated region for block: B:605:0x18dc  */
+    /* JADX WARN: Removed duplicated region for block: B:607:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:608:0x18be  */
+    /* JADX WARN: Removed duplicated region for block: B:616:0x185c  */
+    /* JADX WARN: Removed duplicated region for block: B:624:0x181a  */
     /* JADX WARN: Removed duplicated region for block: B:62:0x0586  */
-    /* JADX WARN: Removed duplicated region for block: B:633:0x1627  */
-    /* JADX WARN: Removed duplicated region for block: B:635:0x122c  */
+    /* JADX WARN: Removed duplicated region for block: B:630:0x182b  */
+    /* JADX WARN: Removed duplicated region for block: B:636:0x1632  */
+    /* JADX WARN: Removed duplicated region for block: B:638:0x122c  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x0598  */
-    /* JADX WARN: Removed duplicated region for block: B:660:0x1309  */
-    /* JADX WARN: Removed duplicated region for block: B:672:0x13a7  */
-    /* JADX WARN: Removed duplicated region for block: B:676:0x13e2  */
-    /* JADX WARN: Removed duplicated region for block: B:696:0x1087  */
-    /* JADX WARN: Removed duplicated region for block: B:713:0x1099  */
-    /* JADX WARN: Removed duplicated region for block: B:728:0x10e5  */
-    /* JADX WARN: Removed duplicated region for block: B:780:0x0f20  */
-    /* JADX WARN: Removed duplicated region for block: B:781:0x0f18  */
-    /* JADX WARN: Removed duplicated region for block: B:793:0x0f25  */
-    /* JADX WARN: Removed duplicated region for block: B:813:0x0e64  */
-    /* JADX WARN: Removed duplicated region for block: B:816:0x0b38  */
-    /* JADX WARN: Removed duplicated region for block: B:839:0x0c53  */
-    /* JADX WARN: Removed duplicated region for block: B:894:0x15fd  */
+    /* JADX WARN: Removed duplicated region for block: B:663:0x1309  */
+    /* JADX WARN: Removed duplicated region for block: B:675:0x13a7  */
+    /* JADX WARN: Removed duplicated region for block: B:679:0x13e2  */
+    /* JADX WARN: Removed duplicated region for block: B:699:0x1087  */
+    /* JADX WARN: Removed duplicated region for block: B:716:0x1099  */
+    /* JADX WARN: Removed duplicated region for block: B:731:0x10e5  */
+    /* JADX WARN: Removed duplicated region for block: B:783:0x0f20  */
+    /* JADX WARN: Removed duplicated region for block: B:784:0x0f18  */
+    /* JADX WARN: Removed duplicated region for block: B:796:0x0f25  */
+    /* JADX WARN: Removed duplicated region for block: B:816:0x0e64  */
+    /* JADX WARN: Removed duplicated region for block: B:819:0x0b38  */
+    /* JADX WARN: Removed duplicated region for block: B:842:0x0c53  */
+    /* JADX WARN: Removed duplicated region for block: B:897:0x1608  */
     /* JADX WARN: Type inference failed for: r10v1 */
     /* JADX WARN: Type inference failed for: r10v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r10v58 */
@@ -7350,6 +7349,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                         this.thumbPath.addRoundRect(rectF7, this.thumbImage[i38].getRoundRadius()[c], this.thumbImage[i38].getRoundRadius()[i6], Path.Direction.CW);
                                                         canvas.save();
                                                         canvas3.clipPath(this.thumbPath);
+                                                        if (this.thumbSpoiler == null) {
+                                                            this.thumbSpoiler = new SpoilerEffect();
+                                                        }
                                                         this.thumbSpoiler.setColor(ColorUtils.setAlphaComponent(-1, (int) (Color.alpha(i11) * 0.325f)));
                                                         this.thumbSpoiler.setBounds((int) this.thumbImage[i38].getImageX(), (int) this.thumbImage[i38].getImageY(), (int) this.thumbImage[i38].getImageX2(), (int) this.thumbImage[i38].getImageY2());
                                                         this.thumbSpoiler.draw(canvas3);

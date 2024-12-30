@@ -67,7 +67,7 @@ public class SpoilerEffect extends Drawable {
     private final Paint[] particlePaints;
     float[][] particlePoints;
     private final float[] particleRands;
-    private ArrayList particles;
+    private final ArrayList particles;
     private final Stack particlesPool;
     private final int[] renderCount;
     private boolean reverseAnimator;
@@ -472,6 +472,7 @@ public class SpoilerEffect extends Drawable {
 
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
+        RectF rectF;
         Particle particle;
         int i;
         float f;
@@ -566,8 +567,7 @@ public class SpoilerEffect extends Drawable {
             int i13 = 0;
             for (int i14 = 0; i14 < this.particles.size(); i14++) {
                 Particle particle4 = (Particle) this.particles.get(i14);
-                RectF rectF = this.visibleRect;
-                if ((rectF == null || rectF.contains(particle4.x, particle4.y)) && (particle4.alpha == length || !this.enableAlpha)) {
+                if (particle4 != null && (((rectF = this.visibleRect) == null || rectF.contains(particle4.x, particle4.y)) && (particle4.alpha == length || !this.enableAlpha))) {
                     float[] fArr2 = this.particlePoints[length];
                     if (i13 < fArr2.length - 2) {
                         fArr2[i13] = particle4.x;
