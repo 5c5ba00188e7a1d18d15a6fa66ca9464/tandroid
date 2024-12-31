@@ -13883,17 +13883,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         for (int i = 0; i < 2; i++) {
             MessagesController.PeerColor peerColor = this.peerColor;
             int offsetColor = (peerColor == null || i != 1) ? AndroidUtilities.getOffsetColor(getThemedColor(Theme.key_profile_verifiedBackground), getThemedColor(Theme.key_player_actionBarTitle), this.mediaHeaderAnimationProgress, 1.0f) : ColorUtils.blendARGB(peerColor.getColor2(), this.peerColor.hasColor6(Theme.isCurrentThemeDark()) ? this.peerColor.getColor5() : this.peerColor.getColor3(), 0.5f);
-            int blendARGB = ColorUtils.blendARGB(ColorUtils.blendARGB(offsetColor, -1, f), getThemedColor(Theme.key_player_actionBarTitle), this.mediaHeaderAnimationProgress);
+            int blendARGB = ColorUtils.blendARGB(offsetColor, -1, f);
+            int i2 = Theme.key_player_actionBarTitle;
+            int blendARGB2 = ColorUtils.blendARGB(blendARGB, getThemedColor(i2), this.mediaHeaderAnimationProgress);
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.emojiStatusDrawable[i];
             if (swapAnimatedEmojiDrawable != null) {
-                swapAnimatedEmojiDrawable.setColor(Integer.valueOf(blendARGB));
+                swapAnimatedEmojiDrawable.setColor(Integer.valueOf(blendARGB2));
             }
             AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = this.botVerificationDrawable[i];
             if (swapAnimatedEmojiDrawable2 != null) {
-                swapAnimatedEmojiDrawable2.setColor(Integer.valueOf(ColorUtils.blendARGB(ColorUtils.blendARGB(offsetColor, -1711276033, f), -1711276033, this.mediaHeaderAnimationProgress)));
+                swapAnimatedEmojiDrawable2.setColor(Integer.valueOf(ColorUtils.blendARGB(ColorUtils.blendARGB(offsetColor, -1711276033, f), getThemedColor(i2), this.mediaHeaderAnimationProgress)));
             }
             if (i == 1) {
-                this.animatedStatusView.setColor(blendARGB);
+                this.animatedStatusView.setColor(blendARGB2);
             }
         }
         this.lastEmojiStatusProgress = f;
@@ -14067,70 +14069,70 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:350:0x06b0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:352:0x06b4, code lost:
     
-        if (r32.chatInfo.can_view_participants != false) goto L359;
+        if (r32.chatInfo.can_view_participants != false) goto L361;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:374:0x0885, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:376:0x0889, code lost:
     
-        if (r32.nameTextView[r8].setText(r15) != false) goto L444;
+        if (r32.nameTextView[r8].setText(r15) != false) goto L446;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:421:0x0a2a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:423:0x0a2e, code lost:
     
-        if (r8 == 0) goto L543;
+        if (r8 == 0) goto L545;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:422:0x0b06, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:424:0x0b0a, code lost:
     
         r5 = r17;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:424:0x0b03, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:426:0x0b07, code lost:
     
         r5 = r18;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:459:0x0b01, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:461:0x0b05, code lost:
     
-        if (r8 == 0) goto L543;
+        if (r8 == 0) goto L545;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:483:0x08a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:485:0x08ab, code lost:
     
         r13 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:495:0x08a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:497:0x08a9, code lost:
     
-        if (r32.nameTextView[r8].setText(r4) != false) goto L444;
+        if (r32.nameTextView[r8].setText(r4) != false) goto L446;
      */
     /* JADX WARN: Removed duplicated region for block: B:13:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x040c  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0425  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x0540  */
-    /* JADX WARN: Removed duplicated region for block: B:218:0x05eb  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x05f6  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0605  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0620  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x0c22  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x055f  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x01a8  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0623  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x0847  */
-    /* JADX WARN: Removed duplicated region for block: B:390:0x0915  */
-    /* JADX WARN: Removed duplicated region for block: B:406:0x0b0f  */
-    /* JADX WARN: Removed duplicated region for block: B:410:0x0b17  */
-    /* JADX WARN: Removed duplicated region for block: B:411:0x0b22  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x040c  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0425  */
+    /* JADX WARN: Removed duplicated region for block: B:216:0x0544  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x05ef  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x05fa  */
+    /* JADX WARN: Removed duplicated region for block: B:226:0x0609  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x0624  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0c26  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x0563  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x01a8  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x0627  */
+    /* JADX WARN: Removed duplicated region for block: B:361:0x084b  */
+    /* JADX WARN: Removed duplicated region for block: B:392:0x0919  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x0b13  */
+    /* JADX WARN: Removed duplicated region for block: B:412:0x0b1b  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x0b26  */
     /* JADX WARN: Removed duplicated region for block: B:45:0x00d6  */
-    /* JADX WARN: Removed duplicated region for block: B:461:0x0955  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x0959  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x00df  */
-    /* JADX WARN: Removed duplicated region for block: B:501:0x0b44  */
-    /* JADX WARN: Removed duplicated region for block: B:504:0x0b4b  */
-    /* JADX WARN: Removed duplicated region for block: B:509:0x0b57  */
-    /* JADX WARN: Removed duplicated region for block: B:512:0x0b83 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:515:0x0ba9  */
-    /* JADX WARN: Removed duplicated region for block: B:520:0x0bb9  */
-    /* JADX WARN: Removed duplicated region for block: B:524:0x0bd2  */
-    /* JADX WARN: Removed duplicated region for block: B:531:0x0bfd  */
-    /* JADX WARN: Removed duplicated region for block: B:538:0x0c16  */
-    /* JADX WARN: Removed duplicated region for block: B:539:0x0c19  */
-    /* JADX WARN: Removed duplicated region for block: B:546:0x0b95  */
-    /* JADX WARN: Removed duplicated region for block: B:547:0x0b63  */
+    /* JADX WARN: Removed duplicated region for block: B:503:0x0b48  */
+    /* JADX WARN: Removed duplicated region for block: B:506:0x0b4f  */
+    /* JADX WARN: Removed duplicated region for block: B:511:0x0b5b  */
+    /* JADX WARN: Removed duplicated region for block: B:514:0x0b87 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:517:0x0bad  */
+    /* JADX WARN: Removed duplicated region for block: B:522:0x0bbd  */
+    /* JADX WARN: Removed duplicated region for block: B:526:0x0bd6  */
+    /* JADX WARN: Removed duplicated region for block: B:533:0x0c01  */
+    /* JADX WARN: Removed duplicated region for block: B:540:0x0c1a  */
+    /* JADX WARN: Removed duplicated region for block: B:541:0x0c1d  */
+    /* JADX WARN: Removed duplicated region for block: B:548:0x0b99  */
+    /* JADX WARN: Removed duplicated region for block: B:549:0x0b67  */
     /* JADX WARN: Removed duplicated region for block: B:57:0x011e  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x0130  */
     /* JADX WARN: Removed duplicated region for block: B:68:0x0160  */
@@ -15042,11 +15044,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                                 z10 = false;
                                                 z9 = false;
                                             }
-                                            if (lockIconDrawable != null || user.bot_verification_icon == 0) {
-                                                this.nameTextView[i14].setLeftDrawableOutside(false);
-                                            } else {
+                                            if (lockIconDrawable == null && this.currentEncryptedChat == null && user.bot_verification_icon != 0) {
                                                 this.nameTextView[i14].setLeftDrawableOutside(true);
                                                 lockIconDrawable = getBotVerificationDrawable(user.bot_verification_icon, false, i14);
+                                            } else {
+                                                this.nameTextView[i14].setLeftDrawableOutside(false);
                                             }
                                             this.nameTextView[i14].setLeftDrawable(lockIconDrawable);
                                             if (i14 == 1 && (z9 || z10)) {

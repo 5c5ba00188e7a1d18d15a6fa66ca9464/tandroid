@@ -39823,121 +39823,121 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:195:0x0786, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:197:0x0790, code lost:
     
-        if (r0.getVisibility() == 8) goto L339;
+        if (r0.getVisibility() == 8) goto L341;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:199:0x0793, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:201:0x079d, code lost:
     
-        if (r0.getVisibility() != r1) goto L360;
+        if (r0.getVisibility() != r1) goto L362;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:203:0x079d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:205:0x07a7, code lost:
     
-        if (r0.getVisibility() != r1) goto L360;
+        if (r0.getVisibility() != r1) goto L362;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:207:0x07a7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:209:0x07b1, code lost:
     
-        if (r0.getVisibility() != r1) goto L360;
+        if (r0.getVisibility() != r1) goto L362;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:211:0x07b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:213:0x07bb, code lost:
     
-        if (r0.getVisibility() != r1) goto L360;
+        if (r0.getVisibility() != r1) goto L362;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:215:0x07bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:217:0x07c5, code lost:
     
-        if (r0.getVisibility() != r1) goto L360;
+        if (r0.getVisibility() != r1) goto L362;
      */
     /* JADX WARN: Code restructure failed: missing block: B:31:0x0189, code lost:
     
         if (r10 > ((int) (java.lang.System.currentTimeMillis() / 1000))) goto L41;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:41:0x01c3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x01cd, code lost:
     
-        if (r2 != null) goto L64;
+        if (r2 != null) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:454:0x06a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:456:0x06ad, code lost:
     
-        if (r0 != null) goto L273;
+        if (r0 != null) goto L275;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:463:0x06e3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:465:0x06ed, code lost:
     
-        if (android.os.Build.VERSION.SDK_INT >= 21) goto L318;
+        if (android.os.Build.VERSION.SDK_INT >= 21) goto L320;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:464:0x0756, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:466:0x0760, code lost:
     
         r38.reportSpamButton.setTag(java.lang.Integer.valueOf(r3));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:468:0x0747, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:470:0x0751, code lost:
     
         org.telegram.ui.ActionBar.Theme.setSelectorDrawableColor(r38.reportSpamButton.getBackground(), 436207615 & getThemedColor(r3), true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:478:0x0745, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:480:0x074f, code lost:
     
-        if (android.os.Build.VERSION.SDK_INT >= 21) goto L318;
+        if (android.os.Build.VERSION.SDK_INT >= 21) goto L320;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:499:0x0297, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:501:0x02a1, code lost:
     
         r9 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:504:0x0295, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:506:0x029f, code lost:
     
-        if (r0.getInt("dialog_show_translate_count" + r13, 5) <= 0) goto L101;
+        if (r0.getInt("dialog_show_translate_count" + r13, 5) <= 0) goto L103;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:513:0x01cc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:515:0x01d6, code lost:
     
-        if (r2 != null) goto L64;
+        if (r2 != null) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:518:0x01bb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:520:0x01bb, code lost:
     
-        if (r0.getBoolean("dialog_bar_botver" + r13, true) == false) goto L63;
+        if (r0.getBoolean("dialog_bar_botver" + r13, true) == false) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x0269, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:69:0x0273, code lost:
     
-        if (getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) == false) goto L101;
+        if (getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) == false) goto L103;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x031a  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0369  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0375  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0396  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x03b4  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x03c6  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x03d3  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x03e0  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x03ed  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x03fa  */
-    /* JADX WARN: Removed duplicated region for block: B:164:0x0411  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0415 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x041f  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0434  */
-    /* JADX WARN: Removed duplicated region for block: B:185:0x076d  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x077a  */
-    /* JADX WARN: Removed duplicated region for block: B:219:0x07cf A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x083f  */
-    /* JADX WARN: Removed duplicated region for block: B:231:0x0886  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0897  */
-    /* JADX WARN: Removed duplicated region for block: B:286:0x0b36  */
-    /* JADX WARN: Removed duplicated region for block: B:300:0x0ba0  */
-    /* JADX WARN: Removed duplicated region for block: B:326:0x09a7 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x09a8  */
-    /* JADX WARN: Removed duplicated region for block: B:356:0x085f  */
-    /* JADX WARN: Removed duplicated region for block: B:365:0x08a6  */
-    /* JADX WARN: Removed duplicated region for block: B:386:0x0978  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x0500  */
-    /* JADX WARN: Removed duplicated region for block: B:407:0x054c  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x06aa  */
-    /* JADX WARN: Removed duplicated region for block: B:467:0x0763  */
-    /* JADX WARN: Removed duplicated region for block: B:477:0x0732  */
-    /* JADX WARN: Removed duplicated region for block: B:485:0x0431  */
-    /* JADX WARN: Removed duplicated region for block: B:491:0x0317 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:501:0x026f  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0241  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x02ce  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x02eb A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x02f3  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0304 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0373  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x037f  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x03a0  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x03be  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x03d0  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x03dd  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x03ea  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x03f7  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0404  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x041f A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x0429  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x043e  */
+    /* JADX WARN: Removed duplicated region for block: B:187:0x0777  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x0784  */
+    /* JADX WARN: Removed duplicated region for block: B:221:0x07d9 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:230:0x0849  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x0890  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x08a1  */
+    /* JADX WARN: Removed duplicated region for block: B:288:0x0b40  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x0baa  */
+    /* JADX WARN: Removed duplicated region for block: B:328:0x09b1 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:329:0x09b2  */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x0869  */
+    /* JADX WARN: Removed duplicated region for block: B:367:0x08b0  */
+    /* JADX WARN: Removed duplicated region for block: B:388:0x0982  */
+    /* JADX WARN: Removed duplicated region for block: B:401:0x050a  */
+    /* JADX WARN: Removed duplicated region for block: B:409:0x0556  */
+    /* JADX WARN: Removed duplicated region for block: B:418:0x06b4  */
+    /* JADX WARN: Removed duplicated region for block: B:469:0x076d  */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x073c  */
+    /* JADX WARN: Removed duplicated region for block: B:487:0x043b  */
+    /* JADX WARN: Removed duplicated region for block: B:493:0x0321 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:503:0x0279  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x02d1  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x02d8  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x02f1  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x02f5 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x030e A[ADDED_TO_REGION] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -40055,9 +40055,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else {
                 z5 = z22;
             }
-            TLRPC.UserFull userFull = this.userInfo;
-            if (userFull != null) {
-                botverification = userFull.bot_verification;
+            if (this.userInfo != null) {
+                if (!UserObject.isUserSelf(this.currentUser)) {
+                    botverification = this.userInfo.bot_verification;
+                }
             }
             TLRPC.ChatFull chatFull = this.chatInfo;
             if (chatFull != null) {

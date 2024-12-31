@@ -1492,6 +1492,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (DialogsActivity.this.switchItem != null) {
                 DialogsActivity.this.switchItem.setVisibility(8);
             }
+            DialogsActivity.this.createSearchViewPager();
             if (DialogsActivity.this.proxyItem != null && DialogsActivity.this.proxyItemVisible) {
                 DialogsActivity.this.proxyItem.setVisibility(8);
             }
@@ -1534,6 +1535,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (DialogsActivity.this.searchViewPager != null) {
                 DialogsActivity.this.searchViewPager.onShown();
             }
+            if ((DialogsActivity.this.searchViewPager == null || DialogsActivity.this.searchViewPager.dialogsSearchAdapter == null || !DialogsActivity.this.searchViewPager.dialogsSearchAdapter.hasRecentSearch()) && DialogsActivity.this.getMessagesController().getTotalDialogsCount() <= 10 && !DialogsActivity.this.searchFiltersWasShowed && !DialogsActivity.this.hasStories) {
+                return;
+            }
+            DialogsActivity.this.searchWas = true;
+            if (DialogsActivity.this.searchIsShowed) {
+                return;
+            }
+            DialogsActivity.this.showSearch(true, false, true);
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener

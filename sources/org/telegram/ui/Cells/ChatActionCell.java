@@ -484,13 +484,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x03d6  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x03ea A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x03d2  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x03e6 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:122:0x02b2  */
     /* JADX WARN: Removed duplicated region for block: B:168:0x023b  */
     /* JADX WARN: Removed duplicated region for block: B:80:0x0231  */
     /* JADX WARN: Removed duplicated region for block: B:93:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x03ac  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x03a8  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -527,9 +527,9 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         int i5;
         String str7;
         int i6;
-        CharSequence formatPluralStringComma;
         String formatString;
         int i7;
+        CharSequence replaceTags2;
         TL_stars.StarGift starGift;
         String str8;
         String str9;
@@ -572,7 +572,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.currentMessageObject.getDialogId()));
                     TLRPC.MessageAction messageAction = messageObject.messageOwner.action;
                     if (messageAction instanceof TLRPC.TL_messageActionGiftStars) {
-                        String formatPluralStringComma2 = LocaleController.formatPluralStringComma("ActionGiftStarsTitle", (int) ((TLRPC.TL_messageActionGiftStars) messageAction).stars);
+                        String formatPluralStringComma = LocaleController.formatPluralStringComma("ActionGiftStarsTitle", (int) ((TLRPC.TL_messageActionGiftStars) messageAction).stars);
                         string = AndroidUtilities.replaceTags(this.currentMessageObject.isOutOwner() ? LocaleController.formatString(R.string.ActionGiftStarsSubtitle, UserObject.getForcedFirstName(user)) : LocaleController.getString(R.string.ActionGiftStarsSubtitleYou));
                         string2 = LocaleController.getString(R.string.ActionGiftStarsView);
                         i3 = this.giftRectSize;
@@ -580,7 +580,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         z3 = true;
                         charSequence4 = null;
                         z4 = false;
-                        str6 = formatPluralStringComma2;
+                        str6 = formatPluralStringComma;
                         i4 = 11;
                         str5 = str6;
                         chatActionCell = this;
@@ -644,8 +644,17 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                         SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(tL_messageActionStarGift.message.text);
                                         this.giftTextPaint.setTextSize(AndroidUtilities.dp(13.0f));
                                         MessageObject.addEntitiesToText(spannableStringBuilder3, tL_messageActionStarGift.message.entities, false, false, true, true);
-                                        formatPluralStringComma = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji((CharSequence) spannableStringBuilder3, this.giftTextPaint.getFontMetricsInt(), false, (int[]) null), tL_messageActionStarGift.message.entities, this.giftTextPaint.getFontMetricsInt());
-                                    } else if (!z6) {
+                                        replaceTags2 = MessageObject.replaceAnimatedEmoji(Emoji.replaceEmoji((CharSequence) spannableStringBuilder3, this.giftTextPaint.getFontMetricsInt(), false, (int[]) null), tL_messageActionStarGift.message.entities, this.giftTextPaint.getFontMetricsInt());
+                                    } else if (z6) {
+                                        if (!tL_messageActionStarGift.converted || j <= 0) {
+                                            i7 = tL_messageActionStarGift.can_upgrade ? R.string.Gift2ActionSelfInfoUpgrade : R.string.Gift2ActionSelfInfoNoConvert;
+                                            formatString = LocaleController.getString(i7);
+                                            replaceTags2 = AndroidUtilities.replaceTags(formatString);
+                                        }
+                                        i5 = (int) j;
+                                        str7 = "Gift2ActionConvertedInfo";
+                                        replaceTags2 = LocaleController.formatPluralStringComma(str7, i5);
+                                    } else {
                                         if (z5) {
                                             if (messageObject.isOutOwner()) {
                                                 formatString = LocaleController.formatString(R.string.Gift2ActionUpgradeOut, UserObject.getForcedFirstName(user));
@@ -656,29 +665,24 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                         } else if (messageObject.isOutOwner()) {
                                             formatString = (!z7 || j <= 0) ? tL_messageActionStarGift.can_upgrade ? LocaleController.formatString(R.string.Gift2ActionOutInfoUpgrade, UserObject.getForcedFirstName(user)) : LocaleController.formatString(R.string.Gift2ActionOutInfoNoConvert, UserObject.getForcedFirstName(user)) : LocaleController.formatPluralStringComma("Gift2ActionOutInfo", (int) j, UserObject.getForcedFirstName(user));
                                         } else {
-                                            if (tL_messageActionStarGift.converted) {
-                                                i5 = (int) j;
-                                                str7 = "Gift2ActionConvertedInfo";
-                                            } else if (tL_messageActionStarGift.saved) {
-                                                i6 = !z7 ? R.string.Gift2ActionBotSavedInfo : R.string.Gift2ActionSavedInfo;
-                                            } else if (z7) {
-                                                i5 = (int) j;
-                                                str7 = "Gift2ActionInfo";
-                                            } else {
-                                                i6 = R.string.Gift2ActionBotInfo;
+                                            if (!tL_messageActionStarGift.converted) {
+                                                if (tL_messageActionStarGift.saved) {
+                                                    i6 = !z7 ? R.string.Gift2ActionBotSavedInfo : R.string.Gift2ActionSavedInfo;
+                                                } else if (z7) {
+                                                    i5 = (int) j;
+                                                    str7 = "Gift2ActionInfo";
+                                                    replaceTags2 = LocaleController.formatPluralStringComma(str7, i5);
+                                                } else {
+                                                    i6 = R.string.Gift2ActionBotInfo;
+                                                }
                                             }
-                                            formatPluralStringComma = LocaleController.formatPluralStringComma(str7, i5);
+                                            i5 = (int) j;
+                                            str7 = "Gift2ActionConvertedInfo";
+                                            replaceTags2 = LocaleController.formatPluralStringComma(str7, i5);
                                         }
-                                        formatPluralStringComma = AndroidUtilities.replaceTags(formatString);
-                                    } else if (!z7 || j <= 0) {
-                                        i7 = tL_messageActionStarGift.can_upgrade ? R.string.Gift2ActionSelfInfoUpgrade : R.string.Gift2ActionSelfInfoNoConvert;
-                                        formatString = LocaleController.getString(i7);
-                                        formatPluralStringComma = AndroidUtilities.replaceTags(formatString);
-                                    } else {
-                                        formatString = LocaleController.formatPluralStringComma("Gift2ActionSelfInfo", (int) j);
-                                        formatPluralStringComma = AndroidUtilities.replaceTags(formatString);
+                                        replaceTags2 = AndroidUtilities.replaceTags(formatString);
                                     }
-                                    string = formatPluralStringComma;
+                                    string = replaceTags2;
                                     starGift = tL_messageActionStarGift.gift;
                                     if (starGift == null && starGift.limited) {
                                         int i10 = R.string.Gift2Limited1OfRibbon;
@@ -739,8 +743,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                 } else {
                                     i6 = R.string.Gift2ActionConvertRefundedText;
                                 }
-                                formatPluralStringComma = LocaleController.getString(i6);
-                                string = formatPluralStringComma;
+                                replaceTags2 = LocaleController.getString(i6);
+                                string = replaceTags2;
                                 starGift = tL_messageActionStarGift.gift;
                                 if (starGift == null) {
                                 }
@@ -785,8 +789,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         }
                         if (tL_messageActionStarGift.refunded) {
                         }
-                        formatPluralStringComma = LocaleController.getString(i6);
-                        string = formatPluralStringComma;
+                        replaceTags2 = LocaleController.getString(i6);
+                        string = replaceTags2;
                         starGift = tL_messageActionStarGift.gift;
                         if (starGift == null) {
                         }
@@ -832,13 +836,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     }
                     string = spannable == null ? LocaleController.getString(R.string.ActionGiftPremiumText) : spannable;
                     string2 = LocaleController.getString((!isGiftCode() || isSelfGiftCode()) ? R.string.ActionGiftPremiumView : R.string.GiftPremiumUseGiftBtn);
-                    String formatPluralStringComma3 = LocaleController.formatPluralStringComma("ActionGiftPremiumTitle2", messageObject.messageOwner.action.months);
+                    String formatPluralStringComma2 = LocaleController.formatPluralStringComma("ActionGiftPremiumTitle2", messageObject.messageOwner.action.months);
                     i3 = this.giftRectSize;
                     str3 = null;
                     z3 = false;
                     charSequence4 = null;
                     z4 = true;
-                    str6 = formatPluralStringComma3;
+                    str6 = formatPluralStringComma2;
                     i4 = 11;
                     str5 = str6;
                     chatActionCell = this;
@@ -2056,6 +2060,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             setMessageObject(messageObject, true);
         }
         this.starGiftLayout.attach();
+        this.reactionsLayoutInBubble.onAttachToWindow();
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -2076,6 +2081,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.avatarStoryParams.onDetachFromWindow();
         this.transitionParams.onDetach();
         this.starGiftLayout.detach();
+        this.reactionsLayoutInBubble.onDetachFromWindow();
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:308:0x0312, code lost:

@@ -76,7 +76,6 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
     private ArrayList filterDialogIds;
     private FilteredSearchView.Delegate filtersDelegate;
     private int folderId;
-    private boolean forceEmptyMessages;
     private boolean forceLoadingMessages;
     private RecyclerListView innerListView;
     private DefaultItemAnimator itemAnimator;
@@ -673,7 +672,6 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         graySectionCell.setRightText(getFilterFromString(filter));
         graySectionCell.setRightTextMargin(6);
         this.searchResultMessages.clear();
-        this.forceEmptyMessages = true;
         this.forceLoadingMessages = true;
         notifyDataSetChanged();
         loadMoreSearchMessages();
@@ -1017,9 +1015,6 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                 if (emptyLayout != null) {
                     emptyLayout.setQuery(this.lastMessagesSearchString);
                 }
-                if (!this.searchResultMessages.isEmpty()) {
-                    this.forceEmptyMessages = false;
-                }
                 notifyDataSetChanged();
             }
         }
@@ -1155,7 +1150,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                     }
                 });
             }
-            if (resentSearchAvailable() && !(obj instanceof TLRPC.EncryptedChat)) {
+            if (recentSearchAvailable() && !(obj instanceof TLRPC.EncryptedChat)) {
                 DialogsSearchAdapterDelegate dialogsSearchAdapterDelegate = this.delegate;
                 boolean z = dialogsSearchAdapterDelegate != null && dialogsSearchAdapterDelegate.getSearchForumDialogId() == j;
                 for (int i4 = 0; !z && i4 < size; i4++) {
@@ -1193,7 +1188,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         });
     }
 
-    private boolean resentSearchAvailable() {
+    private boolean recentSearchAvailable() {
         int i = this.dialogsType;
         return (i == 2 || i == 4 || i == 5 || i == 6 || i == 1 || i == 11 || i == 15) ? false : true;
     }
@@ -1306,7 +1301,6 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
             tL_messages_searchGlobal.flags |= 1;
             tL_messages_searchGlobal.folder_id = this.folderId;
             if (!str.equals(this.lastMessagesSearchString)) {
-                this.forceEmptyMessages = false;
                 this.forceLoadingMessages = false;
             }
             if (str.equals(this.lastMessagesSearchString) && this.lastMessagesSearchFilterFlags == this.currentMessagesFilter.flags && !this.searchResultMessages.isEmpty() && this.lastMessagesSearchId == this.lastSearchId) {
@@ -1652,7 +1646,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
             this.localMessagesLoadingRow = i2;
         }
         int size7 = this.searchResultMessages.size();
-        if ((!this.forceEmptyMessages && !this.forceLoadingMessages) || !this.searchResultMessages.isEmpty()) {
+        if ((this.currentMessagesFilter == Filter.All && !this.forceLoadingMessages) || !this.searchResultMessages.isEmpty()) {
             i = size7;
         } else if (!this.forceLoadingMessages) {
             i = 1;
@@ -1673,23 +1667,23 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         return i;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:109:0x0166, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:109:0x0168, code lost:
     
-        if (r11 != 0) goto L129;
+        if (r12 != 0) goto L129;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x016a, code lost:
     
         return 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:111:0x0169, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x016b, code lost:
     
-        if (r11 != r8) goto L131;
+        if (r12 != r8) goto L131;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:112:0x016b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x016d, code lost:
     
         return 4;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x016c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x016e, code lost:
     
         return 2;
      */
@@ -1759,7 +1753,9 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
             size4 = 4;
         }
         int size5 = this.searchResultMessages.isEmpty() ? 0 : this.searchResultMessages.size() + 1;
-        if ((this.forceLoadingMessages || this.forceEmptyMessages) && this.searchResultMessages.isEmpty()) {
+        Filter filter = this.currentMessagesFilter;
+        Filter filter2 = Filter.All;
+        if ((filter != filter2 || this.forceLoadingMessages) && this.searchResultMessages.isEmpty()) {
             size5 = this.forceLoadingMessages ? 4 : 2;
         }
         if (!this.searchForumResultMessages.isEmpty() && !this.localMessagesSearchEndReached) {
@@ -1802,7 +1798,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         if (this.forceLoadingMessages && this.searchResultMessages.isEmpty()) {
             return 4;
         }
-        return (this.forceEmptyMessages && this.searchResultMessages.isEmpty()) ? 10 : 2;
+        return (this.currentMessagesFilter == filter2 || !this.searchResultMessages.isEmpty()) ? 2 : 10;
     }
 
     public String getLastSearchString() {
@@ -1823,7 +1819,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
     }
 
     public boolean hasRecentSearch() {
-        return resentSearchAvailable() && getRecentItemsCount() > 0;
+        return recentSearchAvailable() && getRecentItemsCount() > 0;
     }
 
     @Override // org.telegram.ui.Components.RecyclerListView.SelectionAdapter
@@ -1832,7 +1828,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         return (itemViewType == 1 || itemViewType == 4 || itemViewType == 10) ? false : true;
     }
 
-    /* JADX WARN: Type inference failed for: r0v21, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r0v22, types: [boolean] */
     public boolean isGlobalSearch(int i) {
         if (!this.searchWas || !this.searchResultHashtags.isEmpty()) {
             return false;
@@ -1896,7 +1892,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         if (!this.searchResultMessages.isEmpty()) {
             this.searchResultMessages.size();
         }
-        if (this.forceEmptyMessages || this.forceLoadingMessages) {
+        if (this.currentMessagesFilter != Filter.All || this.forceLoadingMessages) {
             this.searchResultMessages.isEmpty();
         }
         return false;
@@ -1946,33 +1942,33 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         });
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:212:0x04f9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:211:0x0505, code lost:
     
-        if (r8.startsWith("@" + r5) != false) goto L224;
+        if (r8.startsWith("@" + r5) != false) goto L223;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:154:0x03f4  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0402  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0427  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x046e  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0479  */
-    /* JADX WARN: Removed duplicated region for block: B:187:0x048d  */
-    /* JADX WARN: Removed duplicated region for block: B:189:0x0498  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x049f  */
-    /* JADX WARN: Removed duplicated region for block: B:204:0x04c6  */
-    /* JADX WARN: Removed duplicated region for block: B:215:0x0504  */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x059b  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x05bb  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x0643  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x0664  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x0646  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x05fc  */
-    /* JADX WARN: Removed duplicated region for block: B:286:0x061b  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0490  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x0475  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x041e  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0341  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0346  */
+    /* JADX WARN: Removed duplicated region for block: B:153:0x0400  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x040e  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x047a  */
+    /* JADX WARN: Removed duplicated region for block: B:181:0x0485  */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x0499  */
+    /* JADX WARN: Removed duplicated region for block: B:188:0x04a4  */
+    /* JADX WARN: Removed duplicated region for block: B:192:0x04ab  */
+    /* JADX WARN: Removed duplicated region for block: B:203:0x04d2  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x0510  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x05a7  */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x05c7  */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x064f  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x0670  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x0652  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x0608  */
+    /* JADX WARN: Removed duplicated region for block: B:285:0x0627  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x049c  */
+    /* JADX WARN: Removed duplicated region for block: B:303:0x0481  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x042a  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x034d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x0352  */
     /* JADX WARN: Type inference failed for: r0v16, types: [android.text.SpannableStringBuilder] */
     /* JADX WARN: Type inference failed for: r2v26, types: [java.lang.CharSequence] */
     /* JADX WARN: Type inference failed for: r6v16, types: [boolean] */
@@ -2016,6 +2012,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
         String string2;
         View.OnClickListener onClickListener;
         String str6;
+        String str7;
         CharSequence charSequence2;
         final Runnable runnable;
         long dialogId;
@@ -2416,7 +2413,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                         ?? hasHints = hasHints();
                         if (i6 >= hasHints) {
                             if (i6 != hasHints || !isRecentSearchDisplayed()) {
-                                if (i6 == getRecentItemsCount() + (this.searchTopics.isEmpty() ? 0 : this.searchTopics.size() + 1) + (this.searchContacts.isEmpty() ? 0 : this.searchContacts.size() + 1) && !globalSearch2.isEmpty()) {
+                                if (i6 == getRecentItemsCount() + (this.searchTopics.isEmpty() ? 0 : this.searchTopics.size() + 1) + (this.searchContacts.isEmpty() ? 0 : this.searchContacts.size() + 1) && !this.searchResult.isEmpty()) {
                                     graySectionCell.setText(LocaleController.getString(R.string.SearchAllChatsShort));
                                     break;
                                 } else {
@@ -2462,7 +2459,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                     if (!this.searchResultMessages.isEmpty()) {
                         this.searchResultMessages.size();
                     }
-                    if (this.forceEmptyMessages || this.forceLoadingMessages) {
+                    if (this.currentMessagesFilter != Filter.All || this.forceLoadingMessages) {
                         this.searchResultMessages.isEmpty();
                     }
                     if (this.searchTopics.isEmpty()) {
@@ -2485,25 +2482,27 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                                 str6 = LocaleController.getString(R.string.GlobalSearch);
                                 if (this.searchAdapterHelper.getGlobalSearch().size() > 3) {
                                     r11 = this.globalSearchCollapsed;
-                                    runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda15
+                                    Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda15
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             DialogsSearchAdapter.this.lambda$onBindViewHolder$31(globalSearch2, i8, graySectionCell);
                                         }
                                     };
                                     charSequence2 = null;
+                                    runnable = runnable2;
+                                    str7 = str6;
                                 }
                             } else if (this.delegate == null || size9 <= 0 || i12 - i10 > 1) {
                                 this.messagesSectionPosition = i12;
                                 CharSequence filterFromString = getFilterFromString(this.currentMessagesFilter);
-                                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
+                                Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda16
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         DialogsSearchAdapter.this.lambda$onBindViewHolder$33(graySectionCell);
                                     }
                                 };
-                                str6 = LocaleController.getString(R.string.SearchMessages);
-                                runnable = runnable2;
+                                str7 = LocaleController.getString(R.string.SearchMessages);
+                                runnable = runnable3;
                                 charSequence2 = filterFromString;
                             } else {
                                 TLRPC.Chat chat4 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.delegate.getSearchForumDialogId()));
@@ -2513,6 +2512,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                             str6 = LocaleController.getString(R.string.PhoneNumberSearch);
                             if (this.searchAdapterHelper.getPhoneSearch().size() > 3) {
                                 r11 = this.phoneCollapsed;
+                                str7 = str6;
                                 runnable = new Runnable() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda14
                                     @Override // java.lang.Runnable
                                     public final void run() {
@@ -2524,7 +2524,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                         }
                         if (runnable == null) {
                             if (charSequence2 == null) {
-                                graySectionCell.setText(str6, LocaleController.getString(r11 ? R.string.ShowMore : R.string.ShowLess), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
+                                graySectionCell.setText(str7, LocaleController.getString(r11 ? R.string.ShowMore : R.string.ShowLess), new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda18
                                     @Override // android.view.View.OnClickListener
                                     public final void onClick(View view) {
                                         runnable.run();
@@ -2533,7 +2533,7 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                                 graySectionCell.setRightTextMargin(16);
                                 break;
                             } else {
-                                graySectionCell.setText(str6, charSequence2, new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda17
+                                graySectionCell.setText(str7, charSequence2, new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsSearchAdapter$$ExternalSyntheticLambda17
                                     @Override // android.view.View.OnClickListener
                                     public final void onClick(View view) {
                                         runnable.run();
@@ -2543,10 +2543,11 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                                 break;
                             }
                         } else {
-                            graySectionCell.setText(str6);
+                            graySectionCell.setText(str7);
                             break;
                         }
                     }
+                    str7 = str6;
                     charSequence2 = null;
                     runnable = null;
                     if (runnable == null) {
@@ -2587,10 +2588,10 @@ public abstract class DialogsSearchAdapter extends RecyclerListView.SelectionAda
                 ((CategoryAdapterRecycler) ((RecyclerListView) viewHolder.itemView).getAdapter()).setIndex(i8 / 2);
                 break;
             case 7:
-                String str7 = (String) getItem(i8);
+                String str8 = (String) getItem(i8);
                 TextCell textCell = (TextCell) viewHolder.itemView;
                 textCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText2);
-                textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + str7)), false);
+                textCell.setText(LocaleController.formatString("AddContactByPhone", R.string.AddContactByPhone, PhoneFormat.getInstance().format("+" + str8)), false);
                 break;
             case 8:
                 ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
