@@ -3,6 +3,7 @@ package org.telegram.ui.Components.Paint.Views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.core.util.Consumer;
@@ -58,6 +59,11 @@ public class PaintTypefaceListView extends RecyclerListView implements Notificat
         }
     }
 
+    @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
+    public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+        return super.dispatchTouchEvent(motionEvent);
+    }
+
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
     public void draw(Canvas canvas) {
         Consumer consumer = this.maskProvider;
@@ -92,6 +98,11 @@ public class PaintTypefaceListView extends RecyclerListView implements Notificat
     @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
     protected void onMeasure(int i, int i2) {
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec((Math.min(PaintTypeface.get().size(), 6) * AndroidUtilities.dp(48.0f)) + AndroidUtilities.dp(16.0f), 1073741824));
+    }
+
+    @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.View
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        return super.onTouchEvent(motionEvent);
     }
 
     public void setMaskProvider(Consumer consumer) {

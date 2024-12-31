@@ -8672,30 +8672,28 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
         	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:496)
         */
     /* JADX WARN: Removed duplicated region for block: B:105:0x04d3  */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x04e6  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x04fb  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x0513 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x052a  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x056a  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x057f  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0592  */
-    /* JADX WARN: Removed duplicated region for block: B:131:0x05a5  */
-    /* JADX WARN: Removed duplicated region for block: B:134:0x05b8  */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x05cf  */
-    /* JADX WARN: Removed duplicated region for block: B:142:0x05e7  */
-    /* JADX WARN: Removed duplicated region for block: B:153:0x0604  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0635 A[LOOP:0: B:158:0x0635->B:160:0x063b, LOOP_START, PHI: r4
-      0x0635: PHI (r4v1 int) = (r4v0 int), (r4v2 int) binds: [B:152:0x0602, B:160:0x063b] A[DONT_GENERATE, DONT_INLINE]] */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x05a8  */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0595  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x0582  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x056d  */
-    /* JADX WARN: Removed duplicated region for block: B:170:0x0532  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x04fd  */
-    /* JADX WARN: Removed duplicated region for block: B:173:0x04e9  */
-    /* JADX WARN: Removed duplicated region for block: B:174:0x04d6  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0472  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x0431  */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x04e6 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x04ff A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x051b A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0531  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0571  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0586  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x0599  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x05ac  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x05bf  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x05d6  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x05ee  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x060b  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x063c A[LOOP:0: B:160:0x063c->B:162:0x0642, LOOP_START, PHI: r4
+      0x063c: PHI (r4v1 int) = (r4v0 int), (r4v2 int) binds: [B:154:0x0609, B:162:0x0642] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x05af  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x059c  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x0589  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x0574  */
+    /* JADX WARN: Removed duplicated region for block: B:172:0x0539  */
+    /* JADX WARN: Removed duplicated region for block: B:176:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x0472  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0431  */
     /* JADX WARN: Removed duplicated region for block: B:39:0x01d5  */
     /* JADX WARN: Removed duplicated region for block: B:47:0x02ae  */
     /* JADX WARN: Removed duplicated region for block: B:68:0x03e3  */
@@ -8707,9 +8705,9 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public void switchToEditMode(final int r18, boolean r19, boolean r20) {
+    public void switchToEditMode(final int r17, boolean r18, boolean r19) {
         /*
-            Method dump skipped, instructions count: 1706
+            Method dump skipped, instructions count: 1712
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.Stories.recorder.StoryRecorder.switchToEditMode(int, boolean, boolean):void");
