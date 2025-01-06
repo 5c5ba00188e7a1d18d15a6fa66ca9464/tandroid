@@ -48,6 +48,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
     public boolean loadingBots;
     public boolean loadingMessages;
     private int nextRate;
+    private final Utilities.Callback openBotCallback;
     private final PopularBots popular;
     public String query;
     private final Theme.ResourcesProvider resourcesProvider;
@@ -333,7 +334,13 @@ public class DialogsBotsAdapter extends UniversalAdapter {
             }
         };
         this.first = true;
-        this.fillItems = new Utilities.Callback2() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda1
+        this.openBotCallback = new Utilities.Callback() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda1
+            @Override // org.telegram.messenger.Utilities.Callback
+            public final void run(Object obj) {
+                DialogsBotsAdapter.this.openBot((TLRPC.User) obj);
+            }
+        };
+        this.fillItems = new Utilities.Callback2() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 DialogsBotsAdapter.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
@@ -344,13 +351,13 @@ public class DialogsBotsAdapter extends UniversalAdapter {
         this.folderId = i2;
         this.resourcesProvider = resourcesProvider;
         this.showOnlyPopular = z;
-        this.popular = new PopularBots(i, new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda2
+        this.popular = new PopularBots(i, new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsBotsAdapter.this.lambda$new$0();
             }
         });
-        this.infoText = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.AppsTabInfo), new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda3
+        this.infoText = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.AppsTabInfo), new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsBotsAdapter.this.lambda$new$2(resourcesProvider, context);
@@ -376,7 +383,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(Theme.ResourcesProvider resourcesProvider, final Context context) {
         final AlertDialog[] alertDialogArr = new AlertDialog[1];
-        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(AndroidUtilities.replaceLinks(LocaleController.getString(R.string.AppsTabInfoText), resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda6
+        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(AndroidUtilities.replaceLinks(LocaleController.getString(R.string.AppsTabInfoText), resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsBotsAdapter.lambda$new$1(alertDialogArr);
@@ -438,7 +445,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessages$4(final int i, final TLRPC.TL_messages_searchGlobal tL_messages_searchGlobal, final boolean z, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsBotsAdapter.this.lambda$searchMessages$3(i, tL_messages_searchGlobal, z, tLObject);
@@ -449,7 +456,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessages$5(final int i, final TLRPC.TL_messages_searchGlobal tL_messages_searchGlobal, final boolean z) {
         if (i == this.searchBotsId && TextUtils.equals(tL_messages_searchGlobal.q, this.query)) {
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda10
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     DialogsBotsAdapter.this.lambda$searchMessages$4(i, tL_messages_searchGlobal, z, tLObject, tL_error);
@@ -507,7 +514,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessages$7(final TLRPC.TL_contacts_search tL_contacts_search, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsBotsAdapter.this.lambda$searchMessages$6(tL_contacts_search, tLObject);
@@ -542,7 +549,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
             tL_inputPeerEmpty = messageObject.messageOwner.peer_id == null ? new TLRPC.TL_inputPeerEmpty() : MessagesController.getInstance(this.currentAccount).getInputPeer(messageObject.messageOwner.peer_id);
         }
         tL_messages_searchGlobal.offset_peer = tL_inputPeerEmpty;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsBotsAdapter.this.lambda$searchMessages$5(i, tL_messages_searchGlobal, z);
@@ -555,7 +562,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
         final TLRPC.TL_contacts_search tL_contacts_search = new TLRPC.TL_contacts_search();
         tL_contacts_search.limit = 30;
         tL_contacts_search.q = this.query;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda8
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 DialogsBotsAdapter.this.lambda$searchMessages$7(tL_contacts_search, tLObject, tL_error);
@@ -603,7 +610,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
             }
             this.topPeersStart = arrayList.size();
             if (!arrayList3.isEmpty() && !this.showOnlyPopular) {
-                arrayList.add(arrayList3.size() > 5 ? UItem.asGraySection(LocaleController.getString(R.string.SearchAppsMine), LocaleController.getString(this.expandedMyBots ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda5
+                arrayList.add(arrayList3.size() > 5 ? UItem.asGraySection(LocaleController.getString(R.string.SearchAppsMine), LocaleController.getString(this.expandedMyBots ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda6
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         DialogsBotsAdapter.this.toggleExpandedMyBots(view);
@@ -613,10 +620,11 @@ public class DialogsBotsAdapter extends UniversalAdapter {
                     TLRPC.User user2 = (TLRPC.User) arrayList3.get(i3);
                     if (!hashSet.contains(Long.valueOf(user2.id))) {
                         hashSet.add(Long.valueOf(user2.id));
-                        arrayList.add(UItem.asProfileCell(user2).accent());
+                        arrayList.add(UItem.asProfileCell(user2).accent().withOpenButton(this.openBotCallback));
                     }
                 }
             }
+            hashSet.clear();
             this.topPeersEnd = arrayList.size();
             if (!this.popular.bots.isEmpty()) {
                 if (!this.showOnlyPopular) {
@@ -627,7 +635,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
                     TLRPC.User user3 = (TLRPC.User) this.popular.bots.get(i);
                     if (!hashSet.contains(Long.valueOf(user3.id))) {
                         hashSet.add(Long.valueOf(user3.id));
-                        arrayList.add(UItem.asProfileCell(user3).accent().red());
+                        arrayList.add(UItem.asProfileCell(user3).accent().red().withOpenButton(this.openBotCallback));
                         i4 = 1;
                     }
                     i++;
@@ -657,7 +665,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
             arrayList4.addAll(this.searchMine);
             arrayList4.addAll(this.searchGlobal);
             if (!arrayList4.isEmpty()) {
-                arrayList.add((arrayList4.size() <= 5 || this.searchMessages.isEmpty() || this.showOnlyPopular) ? UItem.asGraySection(LocaleController.getString(R.string.SearchApps)) : UItem.asGraySection(LocaleController.getString(R.string.SearchApps), LocaleController.getString(this.expandedSearchBots ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda4
+                arrayList.add((arrayList4.size() <= 5 || this.searchMessages.isEmpty() || this.showOnlyPopular) ? UItem.asGraySection(LocaleController.getString(R.string.SearchApps)) : UItem.asGraySection(LocaleController.getString(R.string.SearchApps), LocaleController.getString(this.expandedSearchBots ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsBotsAdapter$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         DialogsBotsAdapter.this.toggleExpandedSearchBots(view);
@@ -668,7 +676,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
                     size = Math.min(5, size);
                 }
                 while (i < size) {
-                    arrayList.add(UItem.asProfileCell((TLObject) arrayList4.get(i)));
+                    arrayList.add(UItem.asProfileCell((TLObject) arrayList4.get(i)).withOpenButton(this.openBotCallback));
                     i++;
                 }
             }
@@ -699,6 +707,10 @@ public class DialogsBotsAdapter extends UniversalAdapter {
 
     public Object getTopPeerObject(int i) {
         return (i < this.topPeersStart || i >= this.topPeersEnd) ? Boolean.FALSE : getObject(i);
+    }
+
+    public void openBot(TLRPC.User user) {
+        MessagesController.getInstance(this.currentAccount).openApp(user, 0);
     }
 
     public void search(String str) {

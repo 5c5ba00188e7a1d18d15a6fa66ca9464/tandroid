@@ -8,8 +8,8 @@ import org.telegram.tgnet.OutputSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.TLRPC$TL_attachMenuBots$$ExternalSyntheticLambda1;
+import org.telegram.tgnet.TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0;
 import org.telegram.tgnet.Vector;
-import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.tgnet.tl.TL_payments;
 
 /* loaded from: classes3.dex */
@@ -107,21 +107,7 @@ public class TL_bots {
                 this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = inputSerializedData.readInt32(z);
-                if (readInt322 != 481674261) {
-                    if (z) {
-                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
-                    }
-                    return;
-                }
-                int readInt323 = inputSerializedData.readInt32(z);
-                for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                    if (TLdeserialize == null) {
-                        return;
-                    }
-                    this.commands.add(TLdeserialize);
-                }
+                this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
@@ -156,12 +142,7 @@ public class TL_bots {
                 this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                outputSerializedData.writeInt32(Vector.constructor);
-                int size = this.commands.size();
-                outputSerializedData.writeInt32(size);
-                for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(outputSerializedData);
-                }
+                Vector.serialize(outputSerializedData, this.commands);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button.serializeToStream(outputSerializedData);
@@ -194,21 +175,7 @@ public class TL_bots {
         public void readParams(InputSerializedData inputSerializedData, boolean z) {
             this.user_id = inputSerializedData.readInt32(z);
             this.description = inputSerializedData.readString(z);
-            int readInt32 = inputSerializedData.readInt32(z);
-            if (readInt32 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
-                }
-                return;
-            }
-            int readInt322 = inputSerializedData.readInt32(z);
-            for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                if (TLdeserialize == null) {
-                    return;
-                }
-                this.commands.add(TLdeserialize);
-            }
+            this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
@@ -216,12 +183,7 @@ public class TL_bots {
             outputSerializedData.writeInt32(constructor);
             outputSerializedData.writeInt32((int) this.user_id);
             outputSerializedData.writeString(this.description);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.commands.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.commands);
         }
     }
 
@@ -232,21 +194,7 @@ public class TL_bots {
         public void readParams(InputSerializedData inputSerializedData, boolean z) {
             this.user_id = inputSerializedData.readInt64(z);
             this.description = inputSerializedData.readString(z);
-            int readInt32 = inputSerializedData.readInt32(z);
-            if (readInt32 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
-                }
-                return;
-            }
-            int readInt322 = inputSerializedData.readInt32(z);
-            for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                if (TLdeserialize == null) {
-                    return;
-                }
-                this.commands.add(TLdeserialize);
-            }
+            this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -254,12 +202,7 @@ public class TL_bots {
             outputSerializedData.writeInt32(constructor);
             outputSerializedData.writeInt64(this.user_id);
             outputSerializedData.writeString(this.description);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.commands.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.commands);
         }
     }
 
@@ -270,21 +213,7 @@ public class TL_bots {
         public void readParams(InputSerializedData inputSerializedData, boolean z) {
             this.user_id = inputSerializedData.readInt64(z);
             this.description = inputSerializedData.readString(z);
-            int readInt32 = inputSerializedData.readInt32(z);
-            if (readInt32 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
-                }
-                return;
-            }
-            int readInt322 = inputSerializedData.readInt32(z);
-            for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                if (TLdeserialize == null) {
-                    return;
-                }
-                this.commands.add(TLdeserialize);
-            }
+            this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
             this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
         }
 
@@ -293,12 +222,7 @@ public class TL_bots {
             outputSerializedData.writeInt32(constructor);
             outputSerializedData.writeInt64(this.user_id);
             outputSerializedData.writeString(this.description);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.commands.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.commands);
             this.menu_button.serializeToStream(outputSerializedData);
         }
     }
@@ -324,21 +248,7 @@ public class TL_bots {
                 this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = inputSerializedData.readInt32(z);
-                if (readInt322 != 481674261) {
-                    if (z) {
-                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
-                    }
-                    return;
-                }
-                int readInt323 = inputSerializedData.readInt32(z);
-                for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                    if (TLdeserialize == null) {
-                        return;
-                    }
-                    this.commands.add(TLdeserialize);
-                }
+                this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
@@ -364,12 +274,7 @@ public class TL_bots {
                 this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                outputSerializedData.writeInt32(Vector.constructor);
-                int size = this.commands.size();
-                outputSerializedData.writeInt32(size);
-                for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(outputSerializedData);
-                }
+                Vector.serialize(outputSerializedData, this.commands);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button.serializeToStream(outputSerializedData);
@@ -398,21 +303,7 @@ public class TL_bots {
                 this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = inputSerializedData.readInt32(z);
-                if (readInt322 != 481674261) {
-                    if (z) {
-                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
-                    }
-                    return;
-                }
-                int readInt323 = inputSerializedData.readInt32(z);
-                for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                    if (TLdeserialize == null) {
-                        return;
-                    }
-                    this.commands.add(TLdeserialize);
-                }
+                this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
@@ -441,12 +332,7 @@ public class TL_bots {
                 this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                outputSerializedData.writeInt32(Vector.constructor);
-                int size = this.commands.size();
-                outputSerializedData.writeInt32(size);
-                for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(outputSerializedData);
-                }
+                Vector.serialize(outputSerializedData, this.commands);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button.serializeToStream(outputSerializedData);
@@ -478,21 +364,7 @@ public class TL_bots {
                 this.description_document = TLRPC.Document.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
             }
             if ((this.flags & 4) != 0) {
-                int readInt322 = inputSerializedData.readInt32(z);
-                if (readInt322 != 481674261) {
-                    if (z) {
-                        throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
-                    }
-                    return;
-                }
-                int readInt323 = inputSerializedData.readInt32(z);
-                for (int i = 0; i < readInt323; i++) {
-                    TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                    if (TLdeserialize == null) {
-                        return;
-                    }
-                    this.commands.add(TLdeserialize);
-                }
+                this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button = BotMenuButton.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
@@ -524,12 +396,7 @@ public class TL_bots {
                 this.description_document.serializeToStream(outputSerializedData);
             }
             if ((this.flags & 4) != 0) {
-                outputSerializedData.writeInt32(Vector.constructor);
-                int size = this.commands.size();
-                outputSerializedData.writeInt32(size);
-                for (int i2 = 0; i2 < size; i2++) {
-                    this.commands.get(i2).serializeToStream(outputSerializedData);
-                }
+                Vector.serialize(outputSerializedData, this.commands);
             }
             if ((this.flags & 8) != 0) {
                 this.menu_button.serializeToStream(outputSerializedData);
@@ -552,21 +419,7 @@ public class TL_bots {
             this.version = inputSerializedData.readInt32(z);
             inputSerializedData.readString(z);
             this.description = inputSerializedData.readString(z);
-            int readInt32 = inputSerializedData.readInt32(z);
-            if (readInt32 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
-                }
-                return;
-            }
-            int readInt322 = inputSerializedData.readInt32(z);
-            for (int i = 0; i < readInt322; i++) {
-                TLRPC.TL_botCommand TLdeserialize = TLRPC.TL_botCommand.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                if (TLdeserialize == null) {
-                    return;
-                }
-                this.commands.add(TLdeserialize);
-            }
+            this.commands = Vector.deserialize(inputSerializedData, new TLRPC$TL_updateBotCommands$$ExternalSyntheticLambda0(), z);
         }
 
         @Override // org.telegram.tgnet.tl.TL_bots.TL_botInfo, org.telegram.tgnet.TLObject
@@ -576,12 +429,7 @@ public class TL_bots {
             outputSerializedData.writeInt32(this.version);
             outputSerializedData.writeString("");
             outputSerializedData.writeString(this.description);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.commands.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.commands.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.commands);
         }
     }
 
@@ -906,12 +754,7 @@ public class TL_bots {
             outputSerializedData.writeInt32(constructor);
             this.bot.serializeToStream(outputSerializedData);
             outputSerializedData.writeString(this.lang_code);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.media.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.media.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.media);
         }
     }
 
@@ -989,6 +832,22 @@ public class TL_bots {
         }
     }
 
+    public static class getBotRecommendations extends TLObject {
+        public static final int constructor = -1581840363;
+        public TLRPC.InputUser bot;
+
+        @Override // org.telegram.tgnet.TLObject
+        public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
+            return TLRPC.Users.TLdeserialize(inputSerializedData, i, z);
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.bot.serializeToStream(outputSerializedData);
+        }
+    }
+
     public static class getPopularAppBots extends TLObject {
         public static final int constructor = -1034878574;
         public int limit;
@@ -1031,12 +890,7 @@ public class TL_bots {
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
-            return Vector.TLDeserialize(inputSerializedData, i, z, new Vector.TLDeserializer() { // from class: org.telegram.tgnet.tl.TL_bots$getPreviewMedias$$ExternalSyntheticLambda0
-                @Override // org.telegram.tgnet.Vector.TLDeserializer
-                public final TLObject deserialize(InputSerializedData inputSerializedData2, int i2, boolean z2) {
-                    return TL_bots.botPreviewMedia.TLdeserialize(inputSerializedData2, i2, z2);
-                }
-            });
+            return Vector.TLDeserialize(inputSerializedData, i, z, new TL_bots$getPreviewMedias$$ExternalSyntheticLambda0());
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -1091,21 +945,7 @@ public class TL_bots {
             if ((readInt32 & 1) != 0) {
                 this.next_offset = inputSerializedData.readString(z);
             }
-            int readInt322 = inputSerializedData.readInt32(z);
-            if (readInt322 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt322)));
-                }
-                return;
-            }
-            int readInt323 = inputSerializedData.readInt32(z);
-            for (int i = 0; i < readInt323; i++) {
-                TLRPC.User TLdeserialize = TLRPC.User.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                if (TLdeserialize == null) {
-                    return;
-                }
-                this.users.add(TLdeserialize);
-            }
+            this.users = Vector.deserialize(inputSerializedData, new TLRPC$TL_attachMenuBots$$ExternalSyntheticLambda1(), z);
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -1115,12 +955,7 @@ public class TL_bots {
             if ((this.flags & 1) != 0) {
                 outputSerializedData.writeString(this.next_offset);
             }
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.users.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.users.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.users);
         }
     }
 
@@ -1143,49 +978,15 @@ public class TL_bots {
 
         @Override // org.telegram.tgnet.TLObject
         public void readParams(InputSerializedData inputSerializedData, boolean z) {
-            int readInt32 = inputSerializedData.readInt32(z);
-            if (readInt32 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt32)));
-                }
-                return;
-            }
-            int readInt322 = inputSerializedData.readInt32(z);
-            for (int i = 0; i < readInt322; i++) {
-                botPreviewMedia TLdeserialize = botPreviewMedia.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
-                if (TLdeserialize == null) {
-                    return;
-                }
-                this.media.add(TLdeserialize);
-            }
-            int readInt323 = inputSerializedData.readInt32(z);
-            if (readInt323 != 481674261) {
-                if (z) {
-                    throw new RuntimeException(String.format("wrong Vector magic, got %x", Integer.valueOf(readInt323)));
-                }
-            } else {
-                int readInt324 = inputSerializedData.readInt32(z);
-                for (int i2 = 0; i2 < readInt324; i2++) {
-                    this.lang_codes.add(inputSerializedData.readString(z));
-                }
-            }
+            this.media = Vector.deserialize(inputSerializedData, new TL_bots$getPreviewMedias$$ExternalSyntheticLambda0(), z);
+            this.lang_codes = Vector.deserializeString(inputSerializedData, z);
         }
 
         @Override // org.telegram.tgnet.TLObject
         public void serializeToStream(OutputSerializedData outputSerializedData) {
             outputSerializedData.writeInt32(constructor);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.media.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.media.get(i).serializeToStream(outputSerializedData);
-            }
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size2 = this.lang_codes.size();
-            outputSerializedData.writeInt32(size2);
-            for (int i2 = 0; i2 < size2; i2++) {
-                outputSerializedData.writeString(this.lang_codes.get(i2));
-            }
+            Vector.serialize(outputSerializedData, this.media);
+            Vector.serializeString(outputSerializedData, this.lang_codes);
         }
     }
 
@@ -1205,12 +1006,7 @@ public class TL_bots {
             outputSerializedData.writeInt32(constructor);
             this.bot.serializeToStream(outputSerializedData);
             outputSerializedData.writeString(this.lang_code);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.order.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                this.order.get(i).serializeToStream(outputSerializedData);
-            }
+            Vector.serialize(outputSerializedData, this.order);
         }
     }
 
@@ -1228,12 +1024,7 @@ public class TL_bots {
         public void serializeToStream(OutputSerializedData outputSerializedData) {
             outputSerializedData.writeInt32(constructor);
             this.bot.serializeToStream(outputSerializedData);
-            outputSerializedData.writeInt32(Vector.constructor);
-            int size = this.order.size();
-            outputSerializedData.writeInt32(size);
-            for (int i = 0; i < size; i++) {
-                outputSerializedData.writeString(this.order.get(i));
-            }
+            Vector.serializeString(outputSerializedData, this.order);
         }
     }
 

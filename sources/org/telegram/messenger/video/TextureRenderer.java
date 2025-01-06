@@ -160,11 +160,11 @@ public class TextureRenderer {
 
     /* JADX WARN: Removed duplicated region for block: B:18:0x0229  */
     /* JADX WARN: Removed duplicated region for block: B:21:0x0250  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x04d2  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x05a5  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x05ac  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0543  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x04a6  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x04d3  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x05a6  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x05ad  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0544  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x04a7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -487,7 +487,7 @@ public class TextureRenderer {
                     fArr6[i25] = ((((float) ((sin4 * d10) + (d12 * cos4))) / f17) / f33) + 0.5f;
                     i22++;
                 }
-                if (this.filterShaders != null || !this.isPhoto) {
+                if (this.filterShaders == null && !this.isPhoto && this.messageVideoMaskPath == null) {
                     fArr6[1] = 1.0f - fArr6[1];
                     fArr6[3] = 1.0f - fArr6[3];
                     fArr6[5] = 1.0f - fArr6[5];

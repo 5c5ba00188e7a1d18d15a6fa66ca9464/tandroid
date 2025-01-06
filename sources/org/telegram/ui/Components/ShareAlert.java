@@ -2911,7 +2911,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     @Override // androidx.arch.core.util.Function
                     public final Object apply(Object obj) {
                         Bulletin lambda$copyLink$24;
-                        lambda$copyLink$24 = ShareAlert.this.lambda$copyLink$24(z, (BulletinFactory) obj);
+                        lambda$copyLink$24 = ShareAlert.lambda$copyLink$24(z, (BulletinFactory) obj);
                         return lambda$copyLink$24;
                     }
                 });
@@ -3029,8 +3029,8 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ Bulletin lambda$copyLink$24(boolean z, BulletinFactory bulletinFactory) {
-        return bulletinFactory.createCopyLinkBulletin(z, this.resourcesProvider);
+    public static /* synthetic */ Bulletin lambda$copyLink$24(boolean z, BulletinFactory bulletinFactory) {
+        return bulletinFactory.createCopyLinkBulletin(z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

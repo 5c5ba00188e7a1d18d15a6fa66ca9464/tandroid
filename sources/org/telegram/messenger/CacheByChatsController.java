@@ -22,7 +22,8 @@ public class CacheByChatsController {
     public static final int KEEP_MEDIA_TYPE_STORIES = 3;
     public static final int KEEP_MEDIA_TYPE_USER = 0;
     private final int currentAccount;
-    int[] keepMediaByTypes = {-1, -1, -1, -1};
+    private boolean gotKeepMediaByTypes = false;
+    private final int[] keepMediaByTypes = {-1, -1, -1, -1};
 
     public static class KeepMediaException {
         public final long dialogId;
@@ -47,9 +48,6 @@ public class CacheByChatsController {
 
     public CacheByChatsController(int i) {
         this.currentAccount = i;
-        for (int i2 = 0; i2 < 4; i2++) {
-            this.keepMediaByTypes[i2] = SharedConfig.getPreferences().getInt("keep_media_type_" + i2, getDefault(i2));
-        }
     }
 
     public static long getDaysInSeconds(int i) {
@@ -77,8 +75,14 @@ public class CacheByChatsController {
     }
 
     public int getKeepMedia(int i) {
-        int i2 = this.keepMediaByTypes[i];
-        return i2 == -1 ? SharedConfig.keepMedia : i2;
+        if (!this.gotKeepMediaByTypes) {
+            this.gotKeepMediaByTypes = true;
+            for (int i2 = 0; i2 < 4; i2++) {
+                this.keepMediaByTypes[i2] = SharedConfig.getPreferences().getInt("keep_media_type_" + i2, getDefault(i2));
+            }
+        }
+        int i3 = this.keepMediaByTypes[i];
+        return i3 == -1 ? SharedConfig.keepMedia : i3;
     }
 
     public ArrayList<KeepMediaException> getKeepMediaExceptions(int i) {
@@ -162,6 +166,12 @@ public class CacheByChatsController {
     }
 
     public void setKeepMedia(int i, int i2) {
+        if (!this.gotKeepMediaByTypes) {
+            this.gotKeepMediaByTypes = true;
+            for (int i3 = 0; i3 < 4; i3++) {
+                this.keepMediaByTypes[i3] = SharedConfig.getPreferences().getInt("keep_media_type_" + i3, getDefault(i3));
+            }
+        }
         this.keepMediaByTypes[i] = i2;
         SharedConfig.getPreferences().edit().putInt("keep_media_type_" + i, i2).apply();
     }

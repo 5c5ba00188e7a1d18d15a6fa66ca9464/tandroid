@@ -82,6 +82,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -90,6 +91,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BubbleActivity;
+import org.telegram.ui.Cells.ChatActionCell;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
@@ -147,6 +149,8 @@ import org.telegram.ui.Components.SizeNotifierFrameLayoutPhoto;
 import org.telegram.ui.Components.TrendingStickersLayout;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
+import org.telegram.ui.Stars.StarGiftUniqueActionLayout;
+import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.PaintView;
 import org.telegram.ui.Stories.recorder.PreviewView;
@@ -4866,12 +4870,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         return AndroidUtilities.dp(48.0f);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:120:0x07ee  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x096d  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0977  */
-    /* JADX WARN: Removed duplicated region for block: B:290:0x0596  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0729  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0993  */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0a10  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0b92  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0b9d  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x078e  */
+    /* JADX WARN: Removed duplicated region for block: B:314:0x0792  */
+    /* JADX WARN: Removed duplicated region for block: B:323:0x07c0  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x0949  */
     /* JADX WARN: Removed duplicated region for block: B:7:0x0057  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -4880,18 +4885,31 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         Bitmap bitmap;
         Bitmap resultBitmap;
         Bitmap createBitmap;
+        PaintView paintView;
+        Bitmap bitmap2;
         int i3;
         int i4;
         View view;
         boolean z5;
-        boolean z6;
-        View view2;
-        View view3;
         ImageReceiver imageReceiver;
-        ArrayList arrayList2;
+        boolean z6;
+        Bitmap bitmap3;
+        Canvas canvas;
+        View view2;
+        EntityView entityView;
+        MessageEntityView messageEntityView;
+        TL_stories.TL_inputMediaAreaChannelPost tL_inputMediaAreaChannelPost;
         boolean z7;
+        View view3;
+        ImageReceiver imageReceiver2;
+        TLRPC.Message message;
+        ChatActionCell chatActionCell;
+        StarGiftUniqueActionLayout starGiftUniqueActionLayout;
+        ImageReceiver imageReceiver3;
+        ImageReceiver imageReceiver4;
         File saveSegmentedImage;
         float scaleX;
+        EntityView entityView2;
         boolean z8;
         TL_stories.MediaAreaCoordinates mediaAreaCoordinates;
         float f;
@@ -4906,31 +4924,32 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
         int i7;
         Spanned spanned;
         boolean z9;
-        ArrayList arrayList3 = arrayList;
+        PaintView paintView2 = this;
+        ArrayList arrayList2 = arrayList;
         StoryEntry storyEntry2 = storyEntry;
         int i8 = 0;
         byte b = 1;
         if (z) {
-            createBitmap = this.renderView.getResultBitmap(false, z4);
+            createBitmap = paintView2.renderView.getResultBitmap(false, z4);
         } else if (z3) {
-            createBitmap = Bitmap.createBitmap(Math.max(1, this.entitiesView.getMeasuredWidth()), Math.max(1, this.entitiesView.getMeasuredHeight()), Bitmap.Config.ARGB_8888);
+            createBitmap = Bitmap.createBitmap(Math.max(1, paintView2.entitiesView.getMeasuredWidth()), Math.max(1, paintView2.entitiesView.getMeasuredHeight()), Bitmap.Config.ARGB_8888);
         } else {
-            if (!z2 || (resultBitmap = this.renderView.getResultBitmap(false, false)) == null) {
+            if (!z2 || (resultBitmap = paintView2.renderView.getResultBitmap(false, false)) == null) {
                 bitmap = null;
-                this.lcm = BigInteger.ONE;
-                if (this.entitiesView.entitiesCount() > 0) {
-                    int childCount = this.entitiesView.getChildCount();
+                paintView2.lcm = BigInteger.ONE;
+                if (paintView2.entitiesView.entitiesCount() > 0) {
+                    int childCount = paintView2.entitiesView.getChildCount();
                     int i9 = 0;
                     while (i9 < childCount) {
-                        View childAt = this.entitiesView.getChildAt(i9);
+                        View childAt = paintView2.entitiesView.getChildAt(i9);
                         if (childAt instanceof EntityView) {
-                            EntityView entityView = (EntityView) childAt;
-                            entityView.getPosition();
+                            EntityView entityView3 = (EntityView) childAt;
+                            entityView3.getPosition();
                             VideoEditedInfo.MediaEntity mediaEntity = new VideoEditedInfo.MediaEntity();
-                            if (arrayList3 != null) {
-                                if (entityView instanceof TextPaintView) {
+                            if (arrayList2 != null) {
+                                if (entityView3 instanceof TextPaintView) {
                                     mediaEntity.type = b;
-                                    TextPaintView textPaintView = (TextPaintView) entityView;
+                                    TextPaintView textPaintView = (TextPaintView) entityView3;
                                     CharSequence text = textPaintView.getText();
                                     if (text instanceof Spanned) {
                                         Spanned spanned2 = (Spanned) text;
@@ -4943,13 +4962,13 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                                 if (document == null) {
                                                     i6 = childCount;
                                                     i7 = i9;
-                                                    document = AnimatedEmojiDrawable.findDocument(this.currentAccount, animatedEmojiSpan.getDocumentId());
+                                                    document = AnimatedEmojiDrawable.findDocument(paintView2.currentAccount, animatedEmojiSpan.getDocumentId());
                                                 } else {
                                                     i6 = childCount;
                                                     i7 = i9;
                                                 }
                                                 if (document != null) {
-                                                    AnimatedEmojiDrawable.getDocumentFetcher(this.currentAccount).putDocument(document);
+                                                    AnimatedEmojiDrawable.getDocumentFetcher(paintView2.currentAccount).putDocument(document);
                                                 }
                                                 VideoEditedInfo.EmojiEntity emojiEntity = new VideoEditedInfo.EmojiEntity();
                                                 View view4 = childAt;
@@ -4957,16 +4976,16 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                                 emojiEntity.document = document;
                                                 emojiEntity.offset = spanned2.getSpanStart(animatedEmojiSpan);
                                                 emojiEntity.length = spanned2.getSpanEnd(animatedEmojiSpan) - emojiEntity.offset;
-                                                emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(document, true).getAbsolutePath();
+                                                emojiEntity.documentAbsolutePath = FileLoader.getInstance(paintView2.currentAccount).getPathToAttach(document, true).getAbsolutePath();
                                                 int i11 = 0;
                                                 while (document != null) {
-                                                    ArrayList<TLRPC.PhotoSize> arrayList4 = document.thumbs;
-                                                    if (arrayList4 == null || arrayList4.isEmpty() || new File(emojiEntity.documentAbsolutePath).exists()) {
+                                                    ArrayList<TLRPC.PhotoSize> arrayList3 = document.thumbs;
+                                                    if (arrayList3 == null || arrayList3.isEmpty() || new File(emojiEntity.documentAbsolutePath).exists()) {
                                                         break;
                                                     }
                                                     spanned = spanned2;
                                                     z9 = true;
-                                                    emojiEntity.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(document.thumbs.get(i11), true).getAbsolutePath();
+                                                    emojiEntity.documentAbsolutePath = FileLoader.getInstance(paintView2.currentAccount).getPathToAttach(document.thumbs.get(i11), true).getAbsolutePath();
                                                     i11++;
                                                     if (i11 >= document.thumbs.size()) {
                                                         break;
@@ -4985,7 +5004,7 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                                 mediaEntity.entities.add(emojiEntity);
                                                 if (document != null) {
                                                     BigInteger valueOf = BigInteger.valueOf(5000L);
-                                                    this.lcm = this.lcm.multiply(valueOf).divide(this.lcm.gcd(valueOf));
+                                                    paintView2.lcm = paintView2.lcm.multiply(valueOf).divide(paintView2.lcm.gcd(valueOf));
                                                 }
                                                 i10++;
                                                 childCount = i6;
@@ -5008,9 +5027,9 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                     i3 = childCount;
                                     i4 = i9;
                                     view = childAt;
-                                    if (entityView instanceof StickerView) {
+                                    if (entityView3 instanceof StickerView) {
                                         mediaEntity.type = (byte) 0;
-                                        StickerView stickerView = (StickerView) entityView;
+                                        StickerView stickerView = (StickerView) entityView3;
                                         Size baseSize = stickerView.getBaseSize();
                                         mediaEntity.width = baseSize.width;
                                         mediaEntity.height = baseSize.height;
@@ -5021,10 +5040,10 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                         if (MessageObject.isAnimatedStickerDocument(sticker, true) || isVideoStickerDocument(sticker)) {
                                             boolean isAnimatedStickerDocument2 = MessageObject.isAnimatedStickerDocument(sticker, true);
                                             mediaEntity.subType = (byte) (mediaEntity.subType | (isAnimatedStickerDocument2 ? (byte) 1 : (byte) 4));
-                                            long duration = (isAnimatedStickerDocument2 || isVideoStickerDocument(sticker)) ? stickerView.getDuration() : 5000L;
-                                            if (duration != 0) {
-                                                BigInteger valueOf2 = BigInteger.valueOf(duration);
-                                                this.lcm = this.lcm.multiply(valueOf2).divide(this.lcm.gcd(valueOf2));
+                                            r21 = (isAnimatedStickerDocument2 || isVideoStickerDocument(sticker)) ? stickerView.getDuration() : 5000L;
+                                            if (r21 != 0) {
+                                                BigInteger valueOf2 = BigInteger.valueOf(r21);
+                                                paintView2.lcm = paintView2.lcm.multiply(valueOf2).divide(paintView2.lcm.gcd(valueOf2));
                                             }
                                         }
                                         if (MessageObject.isTextColorEmoji(sticker)) {
@@ -5034,24 +5053,29 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                         if (stickerView.isMirrored()) {
                                             z5 = false;
                                             mediaEntity.subType = (byte) (mediaEntity.subType | 2);
+                                            entityView = entityView3;
+                                            bitmap2 = bitmap;
+                                            z7 = true;
+                                            imageReceiver = null;
+                                            paintView = paintView2;
                                         }
-                                    } else if (entityView instanceof PhotoView) {
-                                        PhotoView photoView = (PhotoView) entityView;
+                                    } else if (entityView3 instanceof PhotoView) {
+                                        PhotoView photoView = (PhotoView) entityView3;
                                         mediaEntity.type = (byte) 2;
                                         Size baseSize2 = photoView.getBaseSize();
                                         mediaEntity.width = baseSize2.width;
                                         mediaEntity.height = baseSize2.height;
-                                        mediaEntity.text = photoView.getPath(this.currentAccount);
+                                        mediaEntity.text = photoView.getPath(paintView2.currentAccount);
                                         mediaEntity.crop = photoView.crop;
                                         if (photoView.isMirrored()) {
                                             mediaEntity.subType = (byte) (mediaEntity.subType | 2);
                                         }
-                                        if (photoView.hasSegmentedImage() && photoView.isSegmented() && (saveSegmentedImage = photoView.saveSegmentedImage(this.currentAccount)) != null) {
+                                        if (photoView.hasSegmentedImage() && photoView.isSegmented() && (saveSegmentedImage = photoView.saveSegmentedImage(paintView2.currentAccount)) != null) {
                                             mediaEntity.subType = (byte) (mediaEntity.subType | 16);
                                             mediaEntity.segmentedPath = saveSegmentedImage.getPath();
                                         }
-                                    } else if (entityView instanceof LocationView) {
-                                        LocationView locationView = (LocationView) entityView;
+                                    } else if (entityView3 instanceof LocationView) {
+                                        LocationView locationView = (LocationView) entityView3;
                                         mediaEntity.type = (byte) 3;
                                         mediaEntity.subType = (byte) locationView.getType();
                                         mediaEntity.width = locationView.marker.getWidth();
@@ -5068,15 +5092,15 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                             VideoEditedInfo.EmojiEntity emojiEntity2 = new VideoEditedInfo.EmojiEntity();
                                             emojiEntity2.document_id = codeEmojiDocument.id;
                                             emojiEntity2.document = codeEmojiDocument;
-                                            emojiEntity2.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(codeEmojiDocument, true).getAbsolutePath();
+                                            emojiEntity2.documentAbsolutePath = FileLoader.getInstance(paintView2.currentAccount).getPathToAttach(codeEmojiDocument, true).getAbsolutePath();
                                             boolean isAnimatedStickerDocument3 = MessageObject.isAnimatedStickerDocument(emojiEntity2.document, true);
                                             if (isAnimatedStickerDocument3 || isVideoStickerDocument(emojiEntity2.document)) {
                                                 emojiEntity2.subType = (byte) (emojiEntity2.subType | (isAnimatedStickerDocument3 ? (byte) 1 : (byte) 4));
                                             }
                                             mediaEntity.entities.add(emojiEntity2);
                                         }
-                                    } else if (entityView instanceof WeatherView) {
-                                        WeatherView weatherView = (WeatherView) entityView;
+                                    } else if (entityView3 instanceof WeatherView) {
+                                        WeatherView weatherView = (WeatherView) entityView3;
                                         mediaEntity.type = (byte) 8;
                                         mediaEntity.subType = (byte) weatherView.getType();
                                         mediaEntity.width = weatherView.marker.getWidth();
@@ -5096,147 +5120,22 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                             VideoEditedInfo.EmojiEntity emojiEntity3 = new VideoEditedInfo.EmojiEntity();
                                             emojiEntity3.document_id = codeEmojiDocument2.id;
                                             emojiEntity3.document = codeEmojiDocument2;
-                                            emojiEntity3.documentAbsolutePath = FileLoader.getInstance(this.currentAccount).getPathToAttach(codeEmojiDocument2, true).getAbsolutePath();
+                                            emojiEntity3.documentAbsolutePath = FileLoader.getInstance(paintView2.currentAccount).getPathToAttach(codeEmojiDocument2, true).getAbsolutePath();
                                             boolean isAnimatedStickerDocument4 = MessageObject.isAnimatedStickerDocument(emojiEntity3.document, true);
                                             if (isAnimatedStickerDocument4 || isVideoStickerDocument(emojiEntity3.document)) {
                                                 emojiEntity3.subType = (byte) (emojiEntity3.subType | (isAnimatedStickerDocument4 ? (byte) 1 : (byte) 4));
                                             }
                                             mediaEntity.entities.add(emojiEntity3);
                                         }
-                                        z5 = false;
+                                        entityView = entityView3;
+                                        bitmap2 = bitmap;
                                         z7 = false;
-                                        arrayList3.add(mediaEntity);
-                                        scaleX = view.getScaleX();
-                                        float scaleY = view.getScaleY();
-                                        float x = view.getX();
-                                        float y = view.getY();
-                                        mediaEntity.viewWidth = view.getWidth();
-                                        mediaEntity.viewHeight = view.getHeight();
-                                        mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.height = (view.getHeight() * scaleY) / this.entitiesView.getMeasuredHeight();
-                                        mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.y = (((view.getHeight() * (1.0f - scaleY)) / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
-                                        double d2 = -view.getRotation();
-                                        Double.isNaN(d2);
-                                        mediaEntity.rotation = (float) (d2 * 0.017453292519943295d);
-                                        mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x) / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y) / this.entitiesView.getMeasuredHeight();
-                                        mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
-                                        mediaEntity.scale = scaleX;
-                                        if (entityView instanceof MessageEntityView) {
-                                            if (entityView instanceof StickerView) {
-                                                float imageAspectRatio = ((StickerView) entityView).centerImage.getImageAspectRatio();
-                                                float f2 = mediaEntity.x + (mediaEntity.width / 2.0f);
-                                                float f3 = mediaEntity.y + (mediaEntity.height / 2.0f);
-                                                float measuredWidth = this.entitiesView.getMeasuredWidth() / this.entitiesView.getMeasuredHeight();
-                                                if (imageAspectRatio > 1.0f) {
-                                                    float f4 = (mediaEntity.width * measuredWidth) / imageAspectRatio;
-                                                    mediaEntity.height = f4;
-                                                    mediaEntity.viewHeight = (int) (mediaEntity.viewWidth / imageAspectRatio);
-                                                    mediaEntity.y = f3 - (f4 / 2.0f);
-                                                } else if (imageAspectRatio < 1.0f) {
-                                                    float f5 = (mediaEntity.height / measuredWidth) * imageAspectRatio;
-                                                    mediaEntity.width = f5;
-                                                    mediaEntity.viewWidth = (int) (mediaEntity.viewHeight * imageAspectRatio);
-                                                    mediaEntity.x = f2 - (f5 / 2.0f);
-                                                }
-                                            } else {
-                                                TL_stories.MediaArea mediaArea3 = mediaEntity.mediaArea;
-                                                if (mediaArea3 != null && (((z8 = entityView instanceof LocationView)) || (entityView instanceof WeatherView) || (entityView instanceof LinkView) || (entityView instanceof ReactionWidgetEntityView))) {
-                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates3 = mediaArea3.coordinates;
-                                                    float f6 = mediaEntity.x;
-                                                    float f7 = mediaEntity.width;
-                                                    mediaAreaCoordinates3.x = (f6 + (f7 / 2.0f)) * 100.0f;
-                                                    mediaAreaCoordinates3.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
-                                                    if (z8) {
-                                                        mediaAreaCoordinates3.w = (f7 - (((r9.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
-                                                        mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                                        f = mediaEntity.height;
-                                                        locationMarker = ((LocationView) entityView).marker;
-                                                    } else if (entityView instanceof WeatherView) {
-                                                        mediaAreaCoordinates3.w = (f7 - (((r9.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
-                                                        mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                                        f = mediaEntity.height;
-                                                        locationMarker = ((WeatherView) entityView).marker;
-                                                    } else if (entityView instanceof LinkView) {
-                                                        mediaAreaCoordinates3.w = (f7 - (((r9.marker.padx * 2) * scaleX) / this.entitiesView.getMeasuredWidth())) * 100.0f;
-                                                        mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
-                                                        f = mediaEntity.height;
-                                                        i5 = ((LinkView) entityView).marker.pady;
-                                                        mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
-                                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates4 = mediaEntity.mediaArea.coordinates;
-                                                        double d3 = -mediaEntity.rotation;
-                                                        Double.isNaN(d3);
-                                                        mediaAreaCoordinates4.rotation = (d3 / 3.141592653589793d) * 180.0d;
-                                                        if (z8) {
-                                                            locationMarker2 = ((LocationView) entityView).marker;
-                                                        } else if (entityView instanceof WeatherView) {
-                                                            locationMarker2 = ((WeatherView) entityView).marker;
-                                                        } else if (entityView instanceof LinkView) {
-                                                            radius = ((LinkView) entityView).marker.getRadius();
-                                                            d = radius;
-                                                        }
-                                                        radius = locationMarker2.getRadius();
-                                                        d = radius;
-                                                    } else {
-                                                        if (entityView instanceof ReactionWidgetEntityView) {
-                                                            ReactionWidgetEntityView reactionWidgetEntityView = (ReactionWidgetEntityView) entityView;
-                                                            float padding = ((reactionWidgetEntityView.getPadding() * 2) * scaleX) / this.entitiesView.getMeasuredWidth();
-                                                            float padding2 = ((reactionWidgetEntityView.getPadding() * 2) * scaleX) / this.entitiesView.getMeasuredHeight();
-                                                            TL_stories.MediaAreaCoordinates mediaAreaCoordinates5 = mediaEntity.mediaArea.coordinates;
-                                                            mediaAreaCoordinates5.w = (mediaEntity.width - padding) * 100.0f;
-                                                            mediaAreaCoordinates5.h = (mediaEntity.height - padding2) * 100.0f;
-                                                        }
-                                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates42 = mediaEntity.mediaArea.coordinates;
-                                                        double d32 = -mediaEntity.rotation;
-                                                        Double.isNaN(d32);
-                                                        mediaAreaCoordinates42.rotation = (d32 / 3.141592653589793d) * 180.0d;
-                                                        if (z8) {
-                                                        }
-                                                        radius = locationMarker2.getRadius();
-                                                        d = radius;
-                                                    }
-                                                    i5 = locationMarker.pady;
-                                                    mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY) / this.entitiesView.getMeasuredHeight())) * 100.0f;
-                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates422 = mediaEntity.mediaArea.coordinates;
-                                                    double d322 = -mediaEntity.rotation;
-                                                    Double.isNaN(d322);
-                                                    mediaAreaCoordinates422.rotation = (d322 / 3.141592653589793d) * 180.0d;
-                                                    if (z8) {
-                                                    }
-                                                    radius = locationMarker2.getRadius();
-                                                    d = radius;
-                                                }
-                                            }
-                                            d = -1.0d;
-                                        } else {
-                                            MessageEntityView messageEntityView = (MessageEntityView) entityView;
-                                            RectF rectF = AndroidUtilities.rectTmp;
-                                            d = messageEntityView.getBubbleBounds(rectF);
-                                            rectF.offset(messageEntityView.container.getX(), messageEntityView.container.getY());
-                                            rectF.offset(messageEntityView.listView.getX(), messageEntityView.listView.getY());
-                                            mediaEntity.mediaArea.coordinates.x = ((((x + (view.getWidth() / 2.0f)) - ((view.getWidth() / 2.0f) * scaleX)) + (rectF.centerX() * scaleX)) / this.entitiesView.getMeasuredWidth()) * 100.0f;
-                                            mediaEntity.mediaArea.coordinates.y = ((((y + (view.getHeight() / 2.0f)) - ((view.getHeight() / 2.0f) * scaleY)) + (rectF.centerY() * scaleY)) / this.entitiesView.getMeasuredHeight()) * 100.0f;
-                                            mediaEntity.mediaArea.coordinates.w = ((rectF.width() * scaleX) / this.entitiesView.getMeasuredWidth()) * 100.0f;
-                                            mediaEntity.mediaArea.coordinates.h = ((rectF.height() * scaleY) / this.entitiesView.getMeasuredHeight()) * 100.0f;
-                                            TL_stories.MediaAreaCoordinates mediaAreaCoordinates6 = mediaEntity.mediaArea.coordinates;
-                                            double d4 = -mediaEntity.rotation;
-                                            Double.isNaN(d4);
-                                            mediaAreaCoordinates6.rotation = (d4 / 3.141592653589793d) * 180.0d;
-                                        }
-                                        mediaArea = mediaEntity.mediaArea;
-                                        if (mediaArea != null && (mediaAreaCoordinates2 = mediaArea.coordinates) != null && d > 0.0d) {
-                                            mediaAreaCoordinates2.flags |= 1;
-                                            double d5 = scaleX;
-                                            Double.isNaN(d5);
-                                            Double.isNaN(r8);
-                                            mediaAreaCoordinates2.radius = ((d5 * d) / r8) * 100.0d;
-                                        }
-                                        z6 = z7;
+                                        z5 = false;
+                                        imageReceiver = null;
+                                        paintView = paintView2;
                                     } else {
-                                        if (entityView instanceof LinkView) {
-                                            LinkView linkView = (LinkView) entityView;
+                                        if (entityView3 instanceof LinkView) {
+                                            LinkView linkView = (LinkView) entityView3;
                                             mediaEntity.type = (byte) 7;
                                             mediaEntity.subType = (byte) (linkView.marker.withPreview() ? linkView.marker.getPreviewType() : linkView.getType());
                                             mediaEntity.width = linkView.marker.getWidth();
@@ -5259,19 +5158,18 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                                 tL_mediaAreaUrl.url = (webPage == null || TextUtils.isEmpty(webPage.url)) ? linkView.link.url : linkView.link.webpage.url;
                                                 mediaEntity.mediaArea.coordinates = new TL_stories.TL_mediaAreaCoordinates();
                                             }
-                                            b = 1;
                                         } else {
-                                            if (entityView instanceof ReactionWidgetEntityView) {
-                                                ReactionWidgetEntityView reactionWidgetEntityView2 = (ReactionWidgetEntityView) entityView;
+                                            if (entityView3 instanceof ReactionWidgetEntityView) {
+                                                ReactionWidgetEntityView reactionWidgetEntityView = (ReactionWidgetEntityView) entityView3;
                                                 mediaEntity.type = (byte) 4;
                                                 TL_stories.TL_mediaAreaSuggestedReaction tL_mediaAreaSuggestedReaction = new TL_stories.TL_mediaAreaSuggestedReaction();
                                                 mediaEntity.mediaArea = tL_mediaAreaSuggestedReaction;
-                                                tL_mediaAreaSuggestedReaction.reaction = ReactionsUtils.toTLReaction(reactionWidgetEntityView2.getCurrentReaction());
-                                                mediaEntity.mediaArea.dark = reactionWidgetEntityView2.isDark();
-                                                mediaEntity.mediaArea.flipped = reactionWidgetEntityView2.isMirrored();
+                                                tL_mediaAreaSuggestedReaction.reaction = ReactionsUtils.toTLReaction(reactionWidgetEntityView.getCurrentReaction());
+                                                mediaEntity.mediaArea.dark = reactionWidgetEntityView.isDark();
+                                                mediaEntity.mediaArea.flipped = reactionWidgetEntityView.isMirrored();
                                                 mediaEntity.mediaArea.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                            } else if (entityView instanceof RoundView) {
-                                                RoundView roundView = (RoundView) entityView;
+                                            } else if (entityView3 instanceof RoundView) {
+                                                RoundView roundView = (RoundView) entityView3;
                                                 Size baseSize3 = roundView.getBaseSize();
                                                 mediaEntity.width = baseSize3.width;
                                                 mediaEntity.height = baseSize3.height;
@@ -5281,213 +5179,464 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
                                                     mediaEntity.roundOffset = storyEntry2.roundOffset;
                                                     long j = storyEntry2.roundDuration;
                                                     mediaEntity.roundDuration = j;
-                                                    float f8 = j;
-                                                    mediaEntity.roundLeft = (long) (storyEntry2.roundLeft * f8);
-                                                    mediaEntity.roundRight = (long) (storyEntry2.roundRight * f8);
+                                                    float f2 = j;
+                                                    mediaEntity.roundLeft = (long) (storyEntry2.roundLeft * f2);
+                                                    mediaEntity.roundRight = (long) (storyEntry2.roundRight * f2);
                                                 }
                                                 mediaEntity.subType = (byte) 4;
                                                 if (roundView.isMirrored()) {
                                                     z5 = true;
                                                     mediaEntity.subType = (byte) (mediaEntity.subType | 2);
+                                                    entityView = entityView3;
+                                                    bitmap2 = bitmap;
+                                                    z7 = true;
+                                                    imageReceiver = null;
+                                                    paintView = paintView2;
                                                 }
-                                            } else {
-                                                if (entityView instanceof MessageEntityView) {
-                                                    MessageEntityView messageEntityView2 = (MessageEntityView) entityView;
-                                                    mediaEntity.type = (byte) 6;
-                                                    int width = messageEntityView2.getWidth();
-                                                    mediaEntity.viewWidth = width;
-                                                    mediaEntity.width = width;
-                                                    int height = messageEntityView2.getHeight();
-                                                    mediaEntity.viewHeight = height;
-                                                    mediaEntity.height = height;
-                                                    TL_stories.TL_inputMediaAreaChannelPost tL_inputMediaAreaChannelPost = new TL_stories.TL_inputMediaAreaChannelPost();
-                                                    mediaEntity.mediaArea = tL_inputMediaAreaChannelPost;
-                                                    tL_inputMediaAreaChannelPost.coordinates = new TL_stories.TL_mediaAreaCoordinates();
-                                                    if (storyEntry2 != null && (arrayList2 = storyEntry2.messageObjects) != null) {
-                                                        MessageObject messageObject = (MessageObject) arrayList2.get(0);
-                                                        ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-StoryEntry.getRepostDialogId(messageObject));
-                                                        ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).msg_id = StoryEntry.getRepostMessageId(messageObject);
-                                                    }
-                                                    if (z3) {
-                                                        if (storyEntry2 != null && storyEntry2.isVideo) {
-                                                            storyEntry2.matrix.reset();
-                                                            if (messageEntityView2.listView.getChildCount() == 1) {
-                                                                view3 = messageEntityView2.listView.getChildAt(0);
-                                                                if (view3 instanceof ChatMessageCell) {
-                                                                    imageReceiver = ((ChatMessageCell) view3).getPhotoImage();
-                                                                    if (imageReceiver != null) {
-                                                                        float max = Math.max(imageReceiver.getImageWidth() / Math.max(1, storyEntry2.width), imageReceiver.getImageHeight() / Math.max(1, storyEntry2.height));
-                                                                        storyEntry2.matrix.postScale(max, max);
-                                                                        storyEntry2.matrix.postTranslate(imageReceiver.getCenterX() - ((storyEntry2.width * max) / 2.0f), imageReceiver.getCenterY() - ((storyEntry2.height * max) / 2.0f));
-                                                                        storyEntry2.matrix.postTranslate(messageEntityView2.container.getX(), messageEntityView2.container.getY());
-                                                                        storyEntry2.matrix.postTranslate(messageEntityView2.listView.getX(), messageEntityView2.listView.getY());
-                                                                        storyEntry2.matrix.postTranslate(view3.getX(), view3.getY());
-                                                                        storyEntry2.matrix.postScale(messageEntityView2.getScaleX(), messageEntityView2.getScaleY(), messageEntityView2.getPivotX(), messageEntityView2.getPivotY());
-                                                                        storyEntry2.matrix.postRotate(messageEntityView2.getRotation(), messageEntityView2.getPivotX(), messageEntityView2.getPivotY());
-                                                                        storyEntry2.matrix.postTranslate(messageEntityView2.getX(), messageEntityView2.getY());
-                                                                        storyEntry2.matrix.postScale(1.0f / this.entitiesView.getWidth(), 1.0f / this.entitiesView.getHeight());
-                                                                        storyEntry2.matrix.postScale(storyEntry2.resultWidth, storyEntry2.resultHeight);
+                                            } else if (entityView3 instanceof MessageEntityView) {
+                                                MessageEntityView messageEntityView2 = (MessageEntityView) entityView3;
+                                                mediaEntity.type = (byte) 6;
+                                                int width = messageEntityView2.getWidth();
+                                                mediaEntity.viewWidth = width;
+                                                mediaEntity.width = width;
+                                                int height = messageEntityView2.getHeight();
+                                                mediaEntity.viewHeight = height;
+                                                mediaEntity.height = height;
+                                                MessageObject messageObject = messageEntityView2.messageObjects.size() > 0 ? (MessageObject) messageEntityView2.messageObjects.get(0) : null;
+                                                if (messageObject != null && (message = messageObject.messageOwner) != null) {
+                                                    TLRPC.MessageAction messageAction = message.action;
+                                                    if (messageAction instanceof TLRPC.TL_messageActionStarGiftUnique) {
+                                                        TL_stars.StarGift starGift = ((TLRPC.TL_messageActionStarGiftUnique) messageAction).gift;
+                                                        TL_stories.TL_mediaAreaStarGift tL_mediaAreaStarGift = new TL_stories.TL_mediaAreaStarGift();
+                                                        mediaEntity.mediaArea = tL_mediaAreaStarGift;
+                                                        tL_mediaAreaStarGift.slug = starGift.slug;
+                                                        tL_mediaAreaStarGift.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                                        int i12 = 0;
+                                                        while (true) {
+                                                            if (i12 >= messageEntityView2.listView.getChildCount()) {
+                                                                chatActionCell = null;
+                                                                break;
+                                                            }
+                                                            View childAt2 = messageEntityView2.listView.getChildAt(i12);
+                                                            if (childAt2 instanceof ChatActionCell) {
+                                                                chatActionCell = (ChatActionCell) childAt2;
+                                                                break;
+                                                            }
+                                                            i12++;
+                                                        }
+                                                        if (chatActionCell == null || (starGiftUniqueActionLayout = chatActionCell.starGiftLayout) == null || (imageReceiver3 = starGiftUniqueActionLayout.imageReceiver) == null) {
+                                                            entityView = entityView3;
+                                                            paintView = paintView2;
+                                                            messageEntityView = messageEntityView2;
+                                                            bitmap2 = bitmap;
+                                                            imageReceiver = null;
+                                                            if (z3) {
+                                                                if (storyEntry != null && storyEntry.isVideo) {
+                                                                    storyEntry.matrix.reset();
+                                                                    MessageEntityView messageEntityView3 = messageEntityView;
+                                                                    if (messageEntityView3.listView.getChildCount() == 1) {
+                                                                        view3 = messageEntityView3.listView.getChildAt(0);
+                                                                        if (view3 instanceof ChatMessageCell) {
+                                                                            imageReceiver2 = ((ChatMessageCell) view3).getPhotoImage();
+                                                                            if (imageReceiver2 != null) {
+                                                                                float max = Math.max(imageReceiver2.getImageWidth() / Math.max(1, storyEntry.width), imageReceiver2.getImageHeight() / Math.max(1, storyEntry.height));
+                                                                                storyEntry.matrix.postScale(max, max);
+                                                                                storyEntry.matrix.postTranslate(imageReceiver2.getCenterX() - ((storyEntry.width * max) / 2.0f), imageReceiver2.getCenterY() - ((storyEntry.height * max) / 2.0f));
+                                                                                storyEntry.matrix.postTranslate(messageEntityView3.container.getX(), messageEntityView3.container.getY());
+                                                                                storyEntry.matrix.postTranslate(messageEntityView3.listView.getX(), messageEntityView3.listView.getY());
+                                                                                storyEntry.matrix.postTranslate(view3.getX(), view3.getY());
+                                                                                storyEntry.matrix.postScale(messageEntityView3.getScaleX(), messageEntityView3.getScaleY(), messageEntityView3.getPivotX(), messageEntityView3.getPivotY());
+                                                                                storyEntry.matrix.postRotate(messageEntityView3.getRotation(), messageEntityView3.getPivotX(), messageEntityView3.getPivotY());
+                                                                                storyEntry.matrix.postTranslate(messageEntityView3.getX(), messageEntityView3.getY());
+                                                                                storyEntry.matrix.postScale(1.0f / paintView.entitiesView.getWidth(), 1.0f / paintView.entitiesView.getHeight());
+                                                                                storyEntry.matrix.postScale(storyEntry.resultWidth, storyEntry.resultHeight);
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        view3 = null;
+                                                                    }
+                                                                    imageReceiver2 = null;
+                                                                    if (imageReceiver2 != null) {
                                                                     }
                                                                 }
+                                                                z7 = true;
+                                                                z5 = false;
                                                             } else {
-                                                                view3 = null;
+                                                                z7 = true;
+                                                                z5 = true;
                                                             }
-                                                            imageReceiver = null;
-                                                            if (imageReceiver != null) {
+                                                        } else {
+                                                            imageReceiver3.setVisible(false, false);
+                                                            TL_stars.starGiftAttributeModel stargiftattributemodel = (TL_stars.starGiftAttributeModel) StarsController.findAttribute(starGift.attributes, TL_stars.starGiftAttributeModel.class);
+                                                            if (stargiftattributemodel != null) {
+                                                                float dp = AndroidUtilities.dp(110.0f);
+                                                                float x = messageEntityView2.listView.getX() + chatActionCell.getX() + chatActionCell.starGiftLayoutX + imageReceiver3.getCenterX();
+                                                                float y = messageEntityView2.listView.getY() + chatActionCell.getY() + chatActionCell.starGiftLayoutY + imageReceiver3.getCenterY();
+                                                                VideoEditedInfo.MediaEntity mediaEntity2 = new VideoEditedInfo.MediaEntity();
+                                                                mediaEntity2.type = (byte) 0;
+                                                                mediaEntity2.width = dp;
+                                                                mediaEntity2.height = dp;
+                                                                TLRPC.Document document2 = stargiftattributemodel.document;
+                                                                mediaEntity2.document = document2;
+                                                                mediaEntity2.parentObject = starGift;
+                                                                mediaEntity2.text = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document2, true).getAbsolutePath();
+                                                                if (MessageObject.isAnimatedStickerDocument(document2, true) || isVideoStickerDocument(document2)) {
+                                                                    boolean isAnimatedStickerDocument5 = MessageObject.isAnimatedStickerDocument(document2, true);
+                                                                    mediaEntity2.subType = (byte) (mediaEntity2.subType | (isAnimatedStickerDocument5 ? (byte) 1 : (byte) 4));
+                                                                    RLottieDrawable lottieAnimation = imageReceiver3.getLottieAnimation();
+                                                                    if (lottieAnimation != null && (isAnimatedStickerDocument5 || isVideoStickerDocument(document2))) {
+                                                                        r21 = lottieAnimation.getDuration();
+                                                                    }
+                                                                    if (r21 != 0) {
+                                                                        BigInteger valueOf3 = BigInteger.valueOf(r21);
+                                                                        paintView2.lcm = paintView2.lcm.multiply(valueOf3).divide(paintView2.lcm.gcd(valueOf3));
+                                                                    }
+                                                                }
+                                                                float scaleX2 = view.getScaleX();
+                                                                float scaleY = view.getScaleY();
+                                                                float x2 = view.getX();
+                                                                float y2 = view.getY();
+                                                                imageReceiver4 = imageReceiver3;
+                                                                int i13 = (int) dp;
+                                                                mediaEntity2.viewWidth = i13;
+                                                                mediaEntity2.viewHeight = i13;
+                                                                bitmap2 = bitmap;
+                                                                mediaEntity2.width = (dp * scaleX2) / paintView2.entitiesView.getMeasuredWidth();
+                                                                mediaEntity2.height = (dp * scaleY) / paintView2.entitiesView.getMeasuredHeight();
+                                                                mediaEntity2.x = x2 + (view.getWidth() / 2.0f);
+                                                                mediaEntity2.y = y2 + (view.getHeight() / 2.0f);
+                                                                double rotation = view.getRotation() / 180.0f;
+                                                                Double.isNaN(rotation);
+                                                                float f3 = (float) (rotation * 3.141592653589793d);
+                                                                double d2 = mediaEntity2.x;
+                                                                messageEntityView = messageEntityView2;
+                                                                double width2 = (x * scaleX2) - ((view.getWidth() / 2.0f) * scaleX2);
+                                                                entityView = entityView3;
+                                                                double d3 = f3;
+                                                                double cos = Math.cos(d3);
+                                                                Double.isNaN(width2);
+                                                                double height2 = (y * scaleY) - ((view.getHeight() / 2.0f) * scaleY);
+                                                                double sin = Math.sin(d3);
+                                                                Double.isNaN(height2);
+                                                                Double.isNaN(d2);
+                                                                mediaEntity2.x = (float) (d2 + ((cos * width2) - (sin * height2)));
+                                                                double d4 = mediaEntity2.y;
+                                                                double sin2 = Math.sin(d3);
+                                                                Double.isNaN(width2);
+                                                                double cos2 = Math.cos(d3);
+                                                                Double.isNaN(height2);
+                                                                Double.isNaN(d4);
+                                                                float f4 = (float) (d4 + (width2 * sin2) + (height2 * cos2));
+                                                                float f5 = (-dp) / 2.0f;
+                                                                float f6 = mediaEntity2.x + (f5 * scaleX2);
+                                                                mediaEntity2.x = f6;
+                                                                mediaEntity2.y = f4 + (f5 * scaleY);
+                                                                paintView = this;
+                                                                mediaEntity2.x = f6 / paintView.entitiesView.getMeasuredWidth();
+                                                                mediaEntity2.y /= paintView.entitiesView.getMeasuredHeight();
+                                                                double d5 = -view.getRotation();
+                                                                Double.isNaN(d5);
+                                                                mediaEntity2.rotation = (float) (d5 * 0.017453292519943295d);
+                                                                mediaEntity2.scale = scaleX2;
+                                                                arrayList2.add(mediaEntity2);
+                                                            } else {
+                                                                entityView = entityView3;
+                                                                paintView = paintView2;
+                                                                messageEntityView = messageEntityView2;
+                                                                bitmap2 = bitmap;
+                                                                imageReceiver4 = imageReceiver3;
+                                                            }
+                                                            imageReceiver = imageReceiver4;
+                                                            if (z3) {
                                                             }
                                                         }
                                                     }
                                                 }
-                                                b = 1;
+                                                entityView = entityView3;
+                                                paintView = paintView2;
+                                                messageEntityView = messageEntityView2;
+                                                bitmap2 = bitmap;
+                                                if (messageObject != null) {
+                                                    tL_inputMediaAreaChannelPost = new TL_stories.TL_inputMediaAreaChannelPost();
+                                                    mediaEntity.mediaArea = tL_inputMediaAreaChannelPost;
+                                                    tL_inputMediaAreaChannelPost.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                                    ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).channel = MessagesController.getInstance(paintView.currentAccount).getInputChannel(-StoryEntry.getRepostDialogId(messageObject));
+                                                    ((TL_stories.TL_inputMediaAreaChannelPost) mediaEntity.mediaArea).msg_id = StoryEntry.getRepostMessageId(messageObject);
+                                                } else {
+                                                    tL_inputMediaAreaChannelPost = new TL_stories.TL_inputMediaAreaChannelPost();
+                                                    mediaEntity.mediaArea = tL_inputMediaAreaChannelPost;
+                                                    tL_inputMediaAreaChannelPost.coordinates = new TL_stories.TL_mediaAreaCoordinates();
+                                                }
+                                                imageReceiver = null;
+                                                if (z3) {
+                                                }
                                             }
+                                            entityView = entityView3;
+                                            bitmap2 = bitmap;
+                                            z7 = true;
                                             z5 = true;
+                                            imageReceiver = null;
+                                            paintView = paintView2;
                                         }
-                                        arrayList3.add(mediaEntity);
-                                        scaleX = view.getScaleX();
-                                        float scaleY2 = view.getScaleY();
-                                        float x2 = view.getX();
-                                        float y2 = view.getY();
-                                        mediaEntity.viewWidth = view.getWidth();
-                                        mediaEntity.viewHeight = view.getHeight();
-                                        mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.height = (view.getHeight() * scaleY2) / this.entitiesView.getMeasuredHeight();
-                                        mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.y = (((view.getHeight() * (1.0f - scaleY2)) / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
-                                        double d22 = -view.getRotation();
-                                        Double.isNaN(d22);
-                                        mediaEntity.rotation = (float) (d22 * 0.017453292519943295d);
-                                        mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x2) / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y2) / this.entitiesView.getMeasuredHeight();
-                                        mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
-                                        mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
-                                        mediaEntity.scale = scaleX;
-                                        if (entityView instanceof MessageEntityView) {
-                                        }
-                                        mediaArea = mediaEntity.mediaArea;
-                                        if (mediaArea != null) {
-                                            mediaAreaCoordinates2.flags |= 1;
-                                            double d52 = scaleX;
-                                            Double.isNaN(d52);
-                                            Double.isNaN(r8);
-                                            mediaAreaCoordinates2.radius = ((d52 * d) / r8) * 100.0d;
-                                        }
-                                        z6 = z7;
+                                        paintView = paintView2;
+                                        bitmap3 = bitmap;
                                     }
-                                    z7 = true;
-                                    arrayList3.add(mediaEntity);
+                                    arrayList2.add(mediaEntity);
                                     scaleX = view.getScaleX();
-                                    float scaleY22 = view.getScaleY();
-                                    float x22 = view.getX();
-                                    float y22 = view.getY();
+                                    float scaleY2 = view.getScaleY();
+                                    float x3 = view.getX();
+                                    float y3 = view.getY();
                                     mediaEntity.viewWidth = view.getWidth();
                                     mediaEntity.viewHeight = view.getHeight();
-                                    mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.height = (view.getHeight() * scaleY22) / this.entitiesView.getMeasuredHeight();
-                                    mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x22) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.y = (((view.getHeight() * (1.0f - scaleY22)) / 2.0f) + y22) / this.entitiesView.getMeasuredHeight();
-                                    double d222 = -view.getRotation();
-                                    Double.isNaN(d222);
-                                    mediaEntity.rotation = (float) (d222 * 0.017453292519943295d);
-                                    mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x22) / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y22) / this.entitiesView.getMeasuredHeight();
-                                    mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
-                                    mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
+                                    mediaEntity.width = (view.getWidth() * scaleX) / paintView.entitiesView.getMeasuredWidth();
+                                    mediaEntity.height = (view.getHeight() * scaleY2) / paintView.entitiesView.getMeasuredHeight();
+                                    mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x3) / paintView.entitiesView.getMeasuredWidth();
+                                    mediaEntity.y = (((view.getHeight() * (1.0f - scaleY2)) / 2.0f) + y3) / paintView.entitiesView.getMeasuredHeight();
+                                    double d6 = -view.getRotation();
+                                    Double.isNaN(d6);
+                                    mediaEntity.rotation = (float) (d6 * 0.017453292519943295d);
+                                    mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x3) / paintView.entitiesView.getMeasuredWidth();
+                                    mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y3) / paintView.entitiesView.getMeasuredHeight();
+                                    mediaEntity.textViewWidth = mediaEntity.viewWidth / paintView.entitiesView.getMeasuredWidth();
+                                    mediaEntity.textViewHeight = mediaEntity.viewHeight / paintView.entitiesView.getMeasuredHeight();
                                     mediaEntity.scale = scaleX;
-                                    if (entityView instanceof MessageEntityView) {
+                                    entityView2 = entityView;
+                                    if (entityView2 instanceof MessageEntityView) {
+                                        z6 = z7;
+                                        if (entityView2 instanceof StickerView) {
+                                            float imageAspectRatio = ((StickerView) entityView2).centerImage.getImageAspectRatio();
+                                            float f7 = mediaEntity.x + (mediaEntity.width / 2.0f);
+                                            float f8 = mediaEntity.y + (mediaEntity.height / 2.0f);
+                                            float measuredWidth = paintView.entitiesView.getMeasuredWidth() / paintView.entitiesView.getMeasuredHeight();
+                                            if (imageAspectRatio > 1.0f) {
+                                                float f9 = (mediaEntity.width * measuredWidth) / imageAspectRatio;
+                                                mediaEntity.height = f9;
+                                                mediaEntity.viewHeight = (int) (mediaEntity.viewWidth / imageAspectRatio);
+                                                mediaEntity.y = f8 - (f9 / 2.0f);
+                                            } else if (imageAspectRatio < 1.0f) {
+                                                float f10 = (mediaEntity.height / measuredWidth) * imageAspectRatio;
+                                                mediaEntity.width = f10;
+                                                mediaEntity.viewWidth = (int) (mediaEntity.viewHeight * imageAspectRatio);
+                                                mediaEntity.x = f7 - (f10 / 2.0f);
+                                            }
+                                        } else {
+                                            TL_stories.MediaArea mediaArea3 = mediaEntity.mediaArea;
+                                            if (mediaArea3 != null && (((z8 = entityView2 instanceof LocationView)) || (entityView2 instanceof WeatherView) || (entityView2 instanceof LinkView) || (entityView2 instanceof ReactionWidgetEntityView))) {
+                                                TL_stories.MediaAreaCoordinates mediaAreaCoordinates3 = mediaArea3.coordinates;
+                                                float f11 = mediaEntity.x;
+                                                float f12 = mediaEntity.width;
+                                                mediaAreaCoordinates3.x = (f11 + (f12 / 2.0f)) * 100.0f;
+                                                mediaAreaCoordinates3.y = (mediaEntity.y + (mediaEntity.height / 2.0f)) * 100.0f;
+                                                if (z8) {
+                                                    mediaAreaCoordinates3.w = (f12 - (((r2.marker.padx * 2) * scaleX) / paintView.entitiesView.getMeasuredWidth())) * 100.0f;
+                                                    mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                                    f = mediaEntity.height;
+                                                    locationMarker = ((LocationView) entityView2).marker;
+                                                } else if (entityView2 instanceof WeatherView) {
+                                                    mediaAreaCoordinates3.w = (f12 - (((r2.marker.padx * 2) * scaleX) / paintView.entitiesView.getMeasuredWidth())) * 100.0f;
+                                                    mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                                    f = mediaEntity.height;
+                                                    locationMarker = ((WeatherView) entityView2).marker;
+                                                } else if (entityView2 instanceof LinkView) {
+                                                    mediaAreaCoordinates3.w = (f12 - (((r2.marker.padx * 2) * scaleX) / paintView.entitiesView.getMeasuredWidth())) * 100.0f;
+                                                    mediaAreaCoordinates = mediaEntity.mediaArea.coordinates;
+                                                    f = mediaEntity.height;
+                                                    i5 = ((LinkView) entityView2).marker.pady;
+                                                    mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY2) / paintView.entitiesView.getMeasuredHeight())) * 100.0f;
+                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates4 = mediaEntity.mediaArea.coordinates;
+                                                    double d7 = -mediaEntity.rotation;
+                                                    Double.isNaN(d7);
+                                                    mediaAreaCoordinates4.rotation = (d7 / 3.141592653589793d) * 180.0d;
+                                                    if (z8) {
+                                                        locationMarker2 = ((LocationView) entityView2).marker;
+                                                    } else if (entityView2 instanceof WeatherView) {
+                                                        locationMarker2 = ((WeatherView) entityView2).marker;
+                                                    } else if (entityView2 instanceof LinkView) {
+                                                        radius = ((LinkView) entityView2).marker.getRadius();
+                                                        d = radius;
+                                                    }
+                                                    radius = locationMarker2.getRadius();
+                                                    d = radius;
+                                                } else {
+                                                    if (entityView2 instanceof ReactionWidgetEntityView) {
+                                                        ReactionWidgetEntityView reactionWidgetEntityView2 = (ReactionWidgetEntityView) entityView2;
+                                                        float padding = ((reactionWidgetEntityView2.getPadding() * 2) * scaleX) / paintView.entitiesView.getMeasuredWidth();
+                                                        float padding2 = ((reactionWidgetEntityView2.getPadding() * 2) * scaleX) / paintView.entitiesView.getMeasuredHeight();
+                                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates5 = mediaEntity.mediaArea.coordinates;
+                                                        mediaAreaCoordinates5.w = (mediaEntity.width - padding) * 100.0f;
+                                                        mediaAreaCoordinates5.h = (mediaEntity.height - padding2) * 100.0f;
+                                                    }
+                                                    TL_stories.MediaAreaCoordinates mediaAreaCoordinates42 = mediaEntity.mediaArea.coordinates;
+                                                    double d72 = -mediaEntity.rotation;
+                                                    Double.isNaN(d72);
+                                                    mediaAreaCoordinates42.rotation = (d72 / 3.141592653589793d) * 180.0d;
+                                                    if (z8) {
+                                                    }
+                                                    radius = locationMarker2.getRadius();
+                                                    d = radius;
+                                                }
+                                                i5 = locationMarker.pady;
+                                                mediaAreaCoordinates.h = (f - (((i5 * 2) * scaleY2) / paintView.entitiesView.getMeasuredHeight())) * 100.0f;
+                                                TL_stories.MediaAreaCoordinates mediaAreaCoordinates422 = mediaEntity.mediaArea.coordinates;
+                                                double d722 = -mediaEntity.rotation;
+                                                Double.isNaN(d722);
+                                                mediaAreaCoordinates422.rotation = (d722 / 3.141592653589793d) * 180.0d;
+                                                if (z8) {
+                                                }
+                                                radius = locationMarker2.getRadius();
+                                                d = radius;
+                                            }
+                                        }
+                                        d = -1.0d;
+                                    } else {
+                                        MessageEntityView messageEntityView4 = (MessageEntityView) entityView2;
+                                        RectF rectF = AndroidUtilities.rectTmp;
+                                        d = messageEntityView4.getBubbleBounds(rectF);
+                                        z6 = z7;
+                                        rectF.offset(messageEntityView4.container.getX(), messageEntityView4.container.getY());
+                                        rectF.offset(messageEntityView4.listView.getX(), messageEntityView4.listView.getY());
+                                        mediaEntity.mediaArea.coordinates.x = ((((x3 + (view.getWidth() / 2.0f)) - ((view.getWidth() / 2.0f) * scaleX)) + (rectF.centerX() * scaleX)) / paintView.entitiesView.getMeasuredWidth()) * 100.0f;
+                                        mediaEntity.mediaArea.coordinates.y = ((((y3 + (view.getHeight() / 2.0f)) - ((view.getHeight() / 2.0f) * scaleY2)) + (rectF.centerY() * scaleY2)) / paintView.entitiesView.getMeasuredHeight()) * 100.0f;
+                                        mediaEntity.mediaArea.coordinates.w = ((rectF.width() * scaleX) / paintView.entitiesView.getMeasuredWidth()) * 100.0f;
+                                        mediaEntity.mediaArea.coordinates.h = ((rectF.height() * scaleY2) / paintView.entitiesView.getMeasuredHeight()) * 100.0f;
+                                        TL_stories.MediaAreaCoordinates mediaAreaCoordinates6 = mediaEntity.mediaArea.coordinates;
+                                        double d8 = -mediaEntity.rotation;
+                                        Double.isNaN(d8);
+                                        mediaAreaCoordinates6.rotation = (d8 / 3.141592653589793d) * 180.0d;
                                     }
                                     mediaArea = mediaEntity.mediaArea;
-                                    if (mediaArea != null) {
+                                    if (mediaArea != null && (mediaAreaCoordinates2 = mediaArea.coordinates) != null && d > 0.0d) {
+                                        mediaAreaCoordinates2.flags |= 1;
+                                        double d9 = scaleX;
+                                        Double.isNaN(d9);
+                                        Double.isNaN(r5);
+                                        mediaAreaCoordinates2.radius = ((d9 * d) / r5) * 100.0d;
                                     }
-                                    z6 = z7;
                                 }
-                                z5 = false;
+                                entityView = entityView3;
+                                bitmap2 = bitmap;
                                 z7 = true;
-                                arrayList3.add(mediaEntity);
+                                z5 = false;
+                                imageReceiver = null;
+                                paintView = paintView2;
+                                arrayList2.add(mediaEntity);
                                 scaleX = view.getScaleX();
-                                float scaleY222 = view.getScaleY();
-                                float x222 = view.getX();
-                                float y222 = view.getY();
+                                float scaleY22 = view.getScaleY();
+                                float x32 = view.getX();
+                                float y32 = view.getY();
                                 mediaEntity.viewWidth = view.getWidth();
                                 mediaEntity.viewHeight = view.getHeight();
-                                mediaEntity.width = (view.getWidth() * scaleX) / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.height = (view.getHeight() * scaleY222) / this.entitiesView.getMeasuredHeight();
-                                mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x222) / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.y = (((view.getHeight() * (1.0f - scaleY222)) / 2.0f) + y222) / this.entitiesView.getMeasuredHeight();
-                                double d2222 = -view.getRotation();
-                                Double.isNaN(d2222);
-                                mediaEntity.rotation = (float) (d2222 * 0.017453292519943295d);
-                                mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x222) / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y222) / this.entitiesView.getMeasuredHeight();
-                                mediaEntity.textViewWidth = mediaEntity.viewWidth / this.entitiesView.getMeasuredWidth();
-                                mediaEntity.textViewHeight = mediaEntity.viewHeight / this.entitiesView.getMeasuredHeight();
+                                mediaEntity.width = (view.getWidth() * scaleX) / paintView.entitiesView.getMeasuredWidth();
+                                mediaEntity.height = (view.getHeight() * scaleY22) / paintView.entitiesView.getMeasuredHeight();
+                                mediaEntity.x = (((view.getWidth() * (1.0f - scaleX)) / 2.0f) + x32) / paintView.entitiesView.getMeasuredWidth();
+                                mediaEntity.y = (((view.getHeight() * (1.0f - scaleY22)) / 2.0f) + y32) / paintView.entitiesView.getMeasuredHeight();
+                                double d62 = -view.getRotation();
+                                Double.isNaN(d62);
+                                mediaEntity.rotation = (float) (d62 * 0.017453292519943295d);
+                                mediaEntity.textViewX = ((view.getWidth() / 2.0f) + x32) / paintView.entitiesView.getMeasuredWidth();
+                                mediaEntity.textViewY = ((view.getHeight() / 2.0f) + y32) / paintView.entitiesView.getMeasuredHeight();
+                                mediaEntity.textViewWidth = mediaEntity.viewWidth / paintView.entitiesView.getMeasuredWidth();
+                                mediaEntity.textViewHeight = mediaEntity.viewHeight / paintView.entitiesView.getMeasuredHeight();
                                 mediaEntity.scale = scaleX;
-                                if (entityView instanceof MessageEntityView) {
+                                entityView2 = entityView;
+                                if (entityView2 instanceof MessageEntityView) {
                                 }
                                 mediaArea = mediaEntity.mediaArea;
                                 if (mediaArea != null) {
+                                    mediaAreaCoordinates2.flags |= 1;
+                                    double d92 = scaleX;
+                                    Double.isNaN(d92);
+                                    Double.isNaN(r5);
+                                    mediaAreaCoordinates2.radius = ((d92 * d) / r5) * 100.0d;
                                 }
-                                z6 = z7;
                             } else {
+                                paintView = paintView2;
+                                bitmap2 = bitmap;
                                 i3 = childCount;
                                 i4 = i9;
                                 view = childAt;
                                 z5 = false;
+                                imageReceiver = null;
                                 z6 = true;
                             }
-                            if (z6 && ((z2 || (z3 && mediaEntity.type == 6)) && bitmap != null)) {
-                                Canvas canvas = new Canvas(bitmap);
-                                float width2 = bitmap.getWidth() / this.entitiesView.getMeasuredWidth();
-                                int i12 = 0;
-                                while (i12 < 2) {
-                                    Canvas canvas2 = i12 == 0 ? canvas : null;
-                                    if (canvas2 == null || (i12 == 0 && z5)) {
+                            if (!z6 || (!(z2 || (z3 && mediaEntity.type == 6)) || bitmap2 == null)) {
+                                bitmap3 = bitmap2;
+                            } else {
+                                bitmap3 = bitmap2;
+                                Canvas canvas2 = new Canvas(bitmap3);
+                                float width3 = bitmap3.getWidth() / paintView.entitiesView.getMeasuredWidth();
+                                int i14 = 0;
+                                while (i14 < 2) {
+                                    Canvas canvas3 = i14 == 0 ? canvas2 : null;
+                                    if (canvas3 == null || (i14 == 0 && z5)) {
+                                        canvas = canvas2;
                                         view2 = view;
                                     } else {
-                                        canvas2.save();
-                                        canvas2.scale(width2, width2);
-                                        canvas2.translate(mediaEntity.x * this.entitiesView.getMeasuredWidth(), mediaEntity.y * this.entitiesView.getMeasuredHeight());
-                                        canvas2.scale(view.getScaleX(), view.getScaleY());
-                                        canvas2.rotate(view.getRotation(), ((mediaEntity.width / 2.0f) / view.getScaleX()) * this.entitiesView.getMeasuredWidth(), ((mediaEntity.height / 2.0f) / view.getScaleY()) * this.entitiesView.getMeasuredHeight());
+                                        canvas3.save();
+                                        canvas3.scale(width3, width3);
+                                        canvas3.translate(mediaEntity.x * paintView.entitiesView.getMeasuredWidth(), mediaEntity.y * paintView.entitiesView.getMeasuredHeight());
+                                        canvas3.scale(view.getScaleX(), view.getScaleY());
+                                        canvas3.rotate(view.getRotation(), ((mediaEntity.width / 2.0f) / view.getScaleX()) * paintView.entitiesView.getMeasuredWidth(), ((mediaEntity.height / 2.0f) / view.getScaleY()) * paintView.entitiesView.getMeasuredHeight());
                                         view2 = view;
-                                        if ((view2 instanceof TextPaintView) && view2.getHeight() > 0 && view2.getWidth() > 0) {
-                                            int width3 = (int) (view2.getWidth() * view2.getScaleX());
-                                            int height2 = (int) (view2.getHeight() * view2.getScaleY());
-                                            Bitmap createBitmap2 = Bitmaps.createBitmap(width3, height2, Bitmap.Config.ARGB_8888);
-                                            Canvas canvas3 = new Canvas(createBitmap2);
-                                            canvas3.scale(view2.getScaleX(), view2.getScaleY());
-                                            view2.draw(canvas3);
-                                            canvas2.scale(1.0f / view2.getScaleX(), 1.0f / view2.getScaleY());
-                                            canvas2.drawBitmap(createBitmap2, (Rect) null, new Rect(0, 0, width3, height2), new Paint(3));
+                                        if (!(view2 instanceof TextPaintView) || view2.getHeight() <= 0 || view2.getWidth() <= 0) {
+                                            canvas = canvas2;
+                                            if (view2 instanceof MessageEntityView) {
+                                                MessageEntityView messageEntityView5 = (MessageEntityView) view2;
+                                                messageEntityView5.prepareToDraw(true);
+                                                view2.draw(canvas3);
+                                                messageEntityView5.prepareToDraw(false);
+                                            } else {
+                                                view2.draw(canvas3);
+                                            }
+                                        } else {
+                                            int width4 = (int) (view2.getWidth() * view2.getScaleX());
+                                            int height3 = (int) (view2.getHeight() * view2.getScaleY());
+                                            Bitmap createBitmap2 = Bitmaps.createBitmap(width4, height3, Bitmap.Config.ARGB_8888);
+                                            Canvas canvas4 = new Canvas(createBitmap2);
+                                            canvas4.scale(view2.getScaleX(), view2.getScaleY());
+                                            view2.draw(canvas4);
+                                            canvas = canvas2;
+                                            canvas3.scale(1.0f / view2.getScaleX(), 1.0f / view2.getScaleY());
+                                            canvas3.drawBitmap(createBitmap2, (Rect) null, new Rect(0, 0, width4, height3), new Paint(3));
                                             try {
-                                                canvas3.setBitmap(null);
+                                                canvas4.setBitmap(null);
                                             } catch (Exception e) {
                                                 FileLog.e(e);
                                             }
                                             createBitmap2.recycle();
-                                        } else if (view2 instanceof MessageEntityView) {
-                                            MessageEntityView messageEntityView3 = (MessageEntityView) view2;
-                                            messageEntityView3.prepareToDraw(true);
-                                            view2.draw(canvas2);
-                                            messageEntityView3.prepareToDraw(false);
-                                        } else {
-                                            view2.draw(canvas2);
                                         }
-                                        canvas2.restore();
+                                        canvas3.restore();
                                     }
-                                    i12++;
+                                    i14++;
+                                    canvas2 = canvas;
                                     view = view2;
                                 }
+                                if (imageReceiver != null) {
+                                    imageReceiver.setVisible(true, false);
+                                }
+                                i9 = i4 + 1;
+                                bitmap = bitmap3;
+                                paintView2 = paintView;
+                                childCount = i3;
+                                i8 = 0;
+                                b = 1;
+                                arrayList2 = arrayList;
+                                storyEntry2 = storyEntry;
                             }
-                            b = 1;
                         } else {
+                            paintView = paintView2;
+                            bitmap3 = bitmap;
                             i3 = childCount;
                             i4 = i9;
                         }
                         i9 = i4 + 1;
-                        arrayList3 = arrayList;
-                        storyEntry2 = storyEntry;
+                        bitmap = bitmap3;
+                        paintView2 = paintView;
                         childCount = i3;
                         i8 = 0;
+                        b = 1;
+                        arrayList2 = arrayList;
+                        storyEntry2 = storyEntry;
                     }
                 }
                 return bitmap;
@@ -5495,8 +5644,8 @@ public abstract class PaintView extends SizeNotifierFrameLayoutPhoto implements 
             createBitmap = Bitmap.createBitmap(resultBitmap.getWidth(), resultBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         }
         bitmap = createBitmap;
-        this.lcm = BigInteger.ONE;
-        if (this.entitiesView.entitiesCount() > 0) {
+        paintView2.lcm = BigInteger.ONE;
+        if (paintView2.entitiesView.entitiesCount() > 0) {
         }
         return bitmap;
     }

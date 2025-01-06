@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -16,6 +17,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -29,12 +31,13 @@ import org.telegram.ui.Components.Premium.PremiumGradient;
 /* loaded from: classes4.dex */
 public class DrawerUserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private int accountNumber;
-    private AvatarDrawable avatarDrawable;
-    private GroupCreateCheckBox checkBox;
-    private BackupImageView imageView;
-    private RectF rect;
-    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
-    private SimpleTextView textView;
+    private final AvatarDrawable avatarDrawable;
+    private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable botVerification;
+    private final GroupCreateCheckBox checkBox;
+    private final BackupImageView imageView;
+    private final RectF rect;
+    private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
+    private final SimpleTextView textView;
 
     public DrawerUserCell(Context context) {
         super(context);
@@ -45,27 +48,28 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         BackupImageView backupImageView = new BackupImageView(context);
         this.imageView = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(18.0f));
-        addView(this.imageView, LayoutHelper.createFrame(36, 36.0f, 51, 14.0f, 6.0f, 0.0f, 0.0f));
+        addView(backupImageView, LayoutHelper.createFrame(36, 36.0f, 51, 14.0f, 6.0f, 0.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.textView = simpleTextView;
         simpleTextView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
-        this.textView.setTextColor(Theme.getColor(Theme.key_chats_menuItemText));
-        this.textView.setTextSize(15);
-        this.textView.setTypeface(AndroidUtilities.bold());
-        this.textView.setMaxLines(1);
-        this.textView.setGravity(19);
-        this.textView.setEllipsizeByGradient(24);
-        addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 19, 72.0f, 0.0f, 14.0f, 0.0f));
-        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.textView, AndroidUtilities.dp(20.0f));
+        simpleTextView.setTextColor(Theme.getColor(Theme.key_chats_menuItemText));
+        simpleTextView.setTextSize(15);
+        simpleTextView.setTypeface(AndroidUtilities.bold());
+        simpleTextView.setMaxLines(1);
+        simpleTextView.setGravity(19);
+        simpleTextView.setEllipsizeByGradient(24);
+        addView(simpleTextView, LayoutHelper.createFrame(-1, -2.0f, 19, 72.0f, 0.0f, 14.0f, 0.0f));
+        this.botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(simpleTextView, AndroidUtilities.dp(18.0f));
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(simpleTextView, AndroidUtilities.dp(20.0f));
         this.status = swapAnimatedEmojiDrawable;
-        this.textView.setRightDrawable(swapAnimatedEmojiDrawable);
+        simpleTextView.setRightDrawable(swapAnimatedEmojiDrawable);
         GroupCreateCheckBox groupCreateCheckBox = new GroupCreateCheckBox(context);
         this.checkBox = groupCreateCheckBox;
         groupCreateCheckBox.setChecked(true, false);
-        this.checkBox.setCheckScale(0.9f);
-        this.checkBox.setInnerRadDiff(AndroidUtilities.dp(1.5f));
-        this.checkBox.setColorKeysOverrides(Theme.key_chats_unreadCounterText, Theme.key_chats_unreadCounter, Theme.key_chats_menuBackground);
-        addView(this.checkBox, LayoutHelper.createFrame(18, 18.0f, 51, 37.0f, 27.0f, 0.0f, 0.0f));
+        groupCreateCheckBox.setCheckScale(0.9f);
+        groupCreateCheckBox.setInnerRadDiff(AndroidUtilities.dp(1.5f));
+        groupCreateCheckBox.setColorKeysOverrides(Theme.key_chats_unreadCounterText, Theme.key_chats_unreadCounter, Theme.key_chats_menuBackground);
+        addView(groupCreateCheckBox, LayoutHelper.createFrame(18, 18.0f, 51, 37.0f, 27.0f, 0.0f, 0.0f));
         setWillNotDraw(false);
     }
 
@@ -97,6 +101,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         super.onAttachedToWindow();
         this.textView.setTextColor(Theme.getColor(Theme.key_chats_menuItemText));
         this.status.attach();
+        this.botVerification.attach();
         for (int i = 0; i < 4; i++) {
             NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
             NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.updateInterfaces);
@@ -108,6 +113,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         this.status.detach();
+        this.botVerification.detach();
         for (int i = 0; i < 4; i++) {
             NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
             NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.updateInterfaces);
@@ -156,11 +162,13 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void setAccount(int i) {
+        long botVerificationIcon;
+        SimpleTextView simpleTextView;
         this.accountNumber = i;
         TLRPC.User currentUser = UserConfig.getInstance(i).getCurrentUser();
         if (currentUser == null) {
@@ -174,6 +182,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         }
         this.textView.setText(formatName);
         Long emojiStatusDocumentId = UserObject.getEmojiStatusDocumentId(currentUser);
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = null;
         if (emojiStatusDocumentId != null) {
             this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
             this.status.set(emojiStatusDocumentId.longValue(), true);
@@ -181,6 +190,17 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
             if (!MessagesController.getInstance(i).isPremiumUser(currentUser)) {
                 this.status.set((Drawable) null, true);
                 this.textView.setRightDrawableOutside(false);
+                botVerificationIcon = DialogObject.getBotVerificationIcon(currentUser);
+                if (botVerificationIcon == 0 && ConnectionsManager.getInstance(i).isTestBackend() == ConnectionsManager.getInstance(UserConfig.selectedAccount).isTestBackend()) {
+                    this.botVerification.set(botVerificationIcon, false);
+                    this.botVerification.setColor(Integer.valueOf(Theme.getColor(Theme.key_featuredStickers_addButton)));
+                    simpleTextView = this.textView;
+                    swapAnimatedEmojiDrawable = this.botVerification;
+                } else {
+                    this.botVerification.set((Drawable) null, false);
+                    simpleTextView = this.textView;
+                }
+                simpleTextView.setLeftDrawable(swapAnimatedEmojiDrawable);
                 this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
                 this.imageView.getImageReceiver().setCurrentAccount(i);
                 this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);
@@ -190,6 +210,12 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
             this.status.set(PremiumGradient.getInstance().premiumStarDrawableMini, true);
         }
         this.textView.setRightDrawableOutside(true);
+        botVerificationIcon = DialogObject.getBotVerificationIcon(currentUser);
+        if (botVerificationIcon == 0) {
+        }
+        this.botVerification.set((Drawable) null, false);
+        simpleTextView = this.textView;
+        simpleTextView.setLeftDrawable(swapAnimatedEmojiDrawable);
         this.status.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground)));
         this.imageView.getImageReceiver().setCurrentAccount(i);
         this.imageView.setForUserOrChat(currentUser, this.avatarDrawable);

@@ -1116,26 +1116,35 @@ public class StoryEntry {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x00ec  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0181  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0350 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0321 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00fd  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x026b  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x029e A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:69:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0270 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x023c A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public Bitmap buildBitmap(float f, Bitmap bitmap) {
         Canvas canvas;
-        boolean z;
+        Bitmap bitmap2;
+        float f2;
+        float f3;
         Bitmap scaledBitmap;
+        boolean z;
+        Paint paint;
+        Bitmap bitmap3;
+        Bitmap scaledBitmap2;
         Matrix matrix = new Matrix();
-        Paint paint = new Paint(7);
+        Paint paint2 = new Paint(7);
         int i = (int) (this.resultWidth * f);
         int i2 = (int) (this.resultHeight * f);
         Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
         Canvas canvas2 = new Canvas(createBitmap);
         if (this.backgroundFile != null) {
             try {
-                Bitmap scaledBitmap2 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda2
+                Bitmap scaledBitmap3 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda2
                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
                     public final Bitmap decode(BitmapFactory.Options options) {
                         Bitmap lambda$buildBitmap$0;
@@ -1144,12 +1153,12 @@ public class StoryEntry {
                     }
                 }, i, i2, false, true);
                 canvas2.save();
-                float width = this.resultWidth / scaledBitmap2.getWidth();
+                float width = this.resultWidth / scaledBitmap3.getWidth();
                 canvas2.scale(width, width);
                 matrix.postScale(f, f);
-                canvas2.drawBitmap(scaledBitmap2, 0.0f, 0.0f, paint);
+                canvas2.drawBitmap(scaledBitmap3, 0.0f, 0.0f, paint2);
                 canvas2.restore();
-                scaledBitmap2.recycle();
+                scaledBitmap3.recycle();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -1164,220 +1173,227 @@ public class StoryEntry {
             } else {
                 long j = this.backgroundWallpaperPeerId;
                 if (j == Long.MIN_VALUE) {
-                    Paint paint2 = new Paint(1);
-                    paint2.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, canvas2.getHeight(), new int[]{this.gradientTopColor, this.gradientBottomColor}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+                    Paint paint3 = new Paint(1);
+                    paint3.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, canvas2.getHeight(), new int[]{this.gradientTopColor, this.gradientBottomColor}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
                     canvas = canvas2;
-                    canvas2.drawRect(0.0f, 0.0f, canvas2.getWidth(), canvas2.getHeight(), paint2);
+                    canvas2.drawRect(0.0f, 0.0f, canvas2.getWidth(), canvas2.getHeight(), paint3);
                     matrix.set(this.matrix);
                     if (bitmap == null) {
                         float width2 = this.width / bitmap.getWidth();
-                        canvas.save();
-                        Canvas canvas3 = canvas;
-                        canvas3.scale(f, f);
-                        canvas3.concat(this.matrix);
-                        if (this.crop != null) {
-                            canvas3.translate(this.width / 2.0f, this.height / 2.0f);
-                            int i3 = this.width;
-                            int i4 = this.height;
-                            MediaController.CropState cropState = this.crop;
-                            if ((cropState.transformRotation / 90) % 2 != 1) {
-                                i4 = i3;
-                                i3 = i4;
+                        matrix.preScale(width2, width2);
+                        matrix.postScale(f, f);
+                        canvas.drawBitmap(bitmap, matrix, paint2);
+                        return createBitmap;
+                    }
+                    if (isCollage()) {
+                        int i3 = 0;
+                        while (i3 < this.collageContent.size()) {
+                            StoryEntry storyEntry = (StoryEntry) this.collageContent.get(i3);
+                            final File file = storyEntry.filterFile;
+                            if (file == null) {
+                                file = storyEntry.file;
                             }
-                            float f2 = cropState.cropPw;
-                            float f3 = cropState.cropPh;
-                            float f4 = i4;
-                            float f5 = i3;
-                            canvas3.clipRect(((-i4) * f2) / 2.0f, ((-i3) * f3) / 2.0f, (f2 * f4) / 2.0f, (f3 * f5) / 2.0f);
-                            float f6 = this.crop.cropScale;
-                            canvas3.scale(f6, f6);
-                            MediaController.CropState cropState2 = this.crop;
-                            canvas3.translate(cropState2.cropPx * f4, cropState2.cropPy * f5);
-                            canvas3.rotate(this.crop.cropRotate + r2.transformRotation);
-                            if (this.crop.mirrored) {
-                                canvas3.scale(-1.0f, 1.0f);
-                            }
-                            canvas3.translate((-this.width) / 2.0f, (-this.height) / 2.0f);
-                        }
-                        canvas3.scale(width2, width2);
-                        canvas3.drawBitmap(bitmap, 0.0f, 0.0f, paint);
-                        canvas3.restore();
-                    } else {
-                        Canvas canvas4 = canvas;
-                        boolean z2 = true;
-                        if (isCollage()) {
-                            int i5 = 0;
-                            while (i5 < this.collageContent.size()) {
-                                StoryEntry storyEntry = (StoryEntry) this.collageContent.get(i5);
-                                final File file = storyEntry.filterFile;
-                                if (file == null) {
-                                    file = storyEntry.file;
-                                }
-                                if (file != null) {
+                            if (file != null) {
+                                try {
+                                    scaledBitmap2 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda3
+                                        @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                                        public final Bitmap decode(BitmapFactory.Options options) {
+                                            Bitmap lambda$buildBitmap$1;
+                                            lambda$buildBitmap$1 = StoryEntry.lambda$buildBitmap$1(file, options);
+                                            return lambda$buildBitmap$1;
+                                        }
+                                    }, i, i2, true, true);
+                                    canvas.save();
+                                    RectF rectF = new RectF();
+                                    int width3 = scaledBitmap2.getWidth();
+                                    int height = scaledBitmap2.getHeight();
+                                    if ((((Integer) AndroidUtilities.getImageOrientation(file).first).intValue() / 90) % 2 == 1) {
+                                        width3 = scaledBitmap2.getHeight();
+                                        height = scaledBitmap2.getWidth();
+                                    }
+                                    bitmap3 = createBitmap;
                                     try {
-                                        scaledBitmap = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda3
-                                            @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
-                                            public final Bitmap decode(BitmapFactory.Options options) {
-                                                Bitmap lambda$buildBitmap$1;
-                                                lambda$buildBitmap$1 = StoryEntry.lambda$buildBitmap$1(file, options);
-                                                return lambda$buildBitmap$1;
-                                            }
-                                        }, i, i2, z2, z2);
-                                        canvas4.save();
-                                        RectF rectF = new RectF();
-                                        ((CollageLayout.Part) this.collage.parts.get(i5)).bounds(rectF, i, i2);
-                                        canvas4.translate(rectF.centerX(), rectF.centerY());
-                                        canvas4.clipRect((-rectF.width()) / 2.0f, (-rectF.height()) / 2.0f, rectF.width() / 2.0f, rectF.height() / 2.0f);
-                                        float max = Math.max(rectF.width() / scaledBitmap.getWidth(), rectF.height() / scaledBitmap.getHeight());
-                                        canvas4.scale(max, max);
-                                        canvas4.translate((-scaledBitmap.getWidth()) / 2.0f, (-scaledBitmap.getHeight()) / 2.0f);
+                                        ((CollageLayout.Part) this.collage.parts.get(i3)).bounds(rectF, i, i2);
+                                        canvas.translate(rectF.centerX(), rectF.centerY());
+                                        paint = paint2;
                                     } catch (Exception e2) {
                                         e = e2;
+                                        paint = paint2;
                                     }
                                     try {
-                                        canvas4.drawBitmap(scaledBitmap, 0.0f, 0.0f, (Paint) null);
-                                        canvas4.restore();
+                                        canvas.clipRect((-rectF.width()) / 2.0f, (-rectF.height()) / 2.0f, rectF.width() / 2.0f, rectF.height() / 2.0f);
+                                        float max = Math.max(rectF.width() / width3, rectF.height() / height);
+                                        canvas.scale(max, max);
+                                        canvas.rotate(((Integer) r3.first).intValue());
+                                        canvas.translate((-scaledBitmap2.getWidth()) / 2.0f, (-scaledBitmap2.getHeight()) / 2.0f);
                                     } catch (Exception e3) {
                                         e = e3;
                                         FileLog.e(e);
-                                        i5++;
-                                        z2 = true;
+                                        i3++;
+                                        createBitmap = bitmap3;
+                                        paint2 = paint;
                                     }
-                                }
-                                i5++;
-                                z2 = true;
-                            }
-                        } else {
-                            final File file2 = this.filterFile;
-                            if (file2 == null) {
-                                file2 = this.file;
-                            }
-                            if (file2 != null) {
-                                try {
-                                    Bitmap scaledBitmap3 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda4
-                                        @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
-                                        public final Bitmap decode(BitmapFactory.Options options) {
-                                            Bitmap lambda$buildBitmap$2;
-                                            lambda$buildBitmap$2 = StoryEntry.lambda$buildBitmap$2(file2, options);
-                                            return lambda$buildBitmap$2;
-                                        }
-                                    }, i, i2, true, true);
-                                    float width3 = this.width / scaledBitmap3.getWidth();
-                                    canvas4.save();
-                                    canvas4.scale(f, f);
-                                    canvas4.concat(this.matrix);
-                                    if (this.crop != null) {
-                                        canvas4.translate(this.width / 2.0f, this.height / 2.0f);
-                                        int i6 = this.width;
-                                        int i7 = this.height;
-                                        MediaController.CropState cropState3 = this.crop;
-                                        if ((cropState3.transformRotation / 90) % 2 != 1) {
-                                            i7 = i6;
-                                            i6 = i7;
-                                        }
-                                        float f7 = cropState3.cropPw;
-                                        float f8 = cropState3.cropPh;
-                                        float f9 = i7;
-                                        float f10 = i6;
-                                        canvas4.clipRect(((-i7) * f7) / 2.0f, ((-i6) * f8) / 2.0f, (f7 * f9) / 2.0f, (f8 * f10) / 2.0f);
-                                        float f11 = this.crop.cropScale;
-                                        canvas4.scale(f11, f11);
-                                        MediaController.CropState cropState4 = this.crop;
-                                        canvas4.translate(cropState4.cropPx * f9, cropState4.cropPy * f10);
-                                        canvas4.rotate(this.crop.cropRotate + r0.transformRotation);
-                                        if (this.crop.mirrored) {
-                                            canvas4.scale(-1.0f, 1.0f);
-                                        }
-                                        canvas4.translate((-this.width) / 2.0f, (-this.height) / 2.0f);
-                                    }
-                                    canvas4.scale(width3, width3);
-                                    canvas4.drawBitmap(scaledBitmap3, 0.0f, 0.0f, paint);
-                                    canvas4.restore();
-                                    scaledBitmap3.recycle();
                                 } catch (Exception e4) {
-                                    FileLog.e(e4);
+                                    e = e4;
+                                    paint = paint2;
+                                    bitmap3 = createBitmap;
                                 }
+                                try {
+                                    canvas.drawBitmap(scaledBitmap2, 0.0f, 0.0f, (Paint) null);
+                                    canvas.restore();
+                                } catch (Exception e5) {
+                                    e = e5;
+                                    FileLog.e(e);
+                                    i3++;
+                                    createBitmap = bitmap3;
+                                    paint2 = paint;
+                                }
+                            } else {
+                                paint = paint2;
+                                bitmap3 = createBitmap;
                             }
+                            i3++;
+                            createBitmap = bitmap3;
+                            paint2 = paint;
                         }
-                        if (this.paintFile != null) {
+                        bitmap2 = createBitmap;
+                        f2 = 0.0f;
+                        f3 = f;
+                    } else {
+                        bitmap2 = createBitmap;
+                        f2 = 0.0f;
+                        final File file2 = this.filterFile;
+                        if (file2 == null) {
+                            file2 = this.file;
+                        }
+                        if (file2 != null) {
                             try {
-                                z = false;
-                            } catch (Exception e5) {
-                                e = e5;
-                                z = false;
-                            }
-                            try {
-                                Bitmap scaledBitmap4 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda5
+                                scaledBitmap = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda4
                                     @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
                                     public final Bitmap decode(BitmapFactory.Options options) {
-                                        Bitmap lambda$buildBitmap$3;
-                                        lambda$buildBitmap$3 = StoryEntry.this.lambda$buildBitmap$3(options);
-                                        return lambda$buildBitmap$3;
+                                        Bitmap lambda$buildBitmap$2;
+                                        lambda$buildBitmap$2 = StoryEntry.lambda$buildBitmap$2(file2, options);
+                                        return lambda$buildBitmap$2;
                                     }
-                                }, i, i2, false, true);
-                                canvas4.save();
-                                float width4 = this.resultWidth / scaledBitmap4.getWidth();
-                                canvas4.scale(width4, width4);
-                                matrix.postScale(f, f);
-                                canvas4.drawBitmap(scaledBitmap4, 0.0f, 0.0f, paint);
-                                canvas4.restore();
-                                scaledBitmap4.recycle();
+                                }, i, i2, true, true);
+                                float width4 = this.width / scaledBitmap.getWidth();
+                                matrix.preScale(width4, width4);
+                                f3 = f;
                             } catch (Exception e6) {
                                 e = e6;
+                                f3 = f;
+                            }
+                            try {
+                                matrix.postScale(f3, f3);
+                                paint2 = paint2;
+                            } catch (Exception e7) {
+                                e = e7;
+                                paint2 = paint2;
                                 FileLog.e(e);
+                                if (this.paintFile != null) {
+                                }
                                 if (this.messageFile != null) {
                                 }
                                 if (this.paintEntitiesFile != null) {
                                 }
-                                return createBitmap;
+                            }
+                            try {
+                                canvas.drawBitmap(scaledBitmap, matrix, paint2);
+                                scaledBitmap.recycle();
+                            } catch (Exception e8) {
+                                e = e8;
+                                FileLog.e(e);
+                                if (this.paintFile != null) {
+                                }
+                                if (this.messageFile != null) {
+                                }
+                                if (this.paintEntitiesFile != null) {
+                                }
                             }
                         } else {
-                            z = false;
-                        }
-                        if (this.messageFile != null) {
-                            try {
-                                Bitmap scaledBitmap5 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda6
-                                    @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
-                                    public final Bitmap decode(BitmapFactory.Options options) {
-                                        Bitmap lambda$buildBitmap$4;
-                                        lambda$buildBitmap$4 = StoryEntry.this.lambda$buildBitmap$4(options);
-                                        return lambda$buildBitmap$4;
-                                    }
-                                }, i, i2, z, true);
-                                canvas4.save();
-                                float width5 = this.resultWidth / scaledBitmap5.getWidth();
-                                canvas4.scale(width5, width5);
-                                matrix.postScale(f, f);
-                                canvas4.drawBitmap(scaledBitmap5, 0.0f, 0.0f, paint);
-                                canvas4.restore();
-                                scaledBitmap5.recycle();
-                            } catch (Exception e7) {
-                                FileLog.e(e7);
-                            }
-                        }
-                        if (this.paintEntitiesFile != null) {
-                            try {
-                                Bitmap scaledBitmap6 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda7
-                                    @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
-                                    public final Bitmap decode(BitmapFactory.Options options) {
-                                        Bitmap lambda$buildBitmap$5;
-                                        lambda$buildBitmap$5 = StoryEntry.this.lambda$buildBitmap$5(options);
-                                        return lambda$buildBitmap$5;
-                                    }
-                                }, i, i2, z, true);
-                                canvas4.save();
-                                float width6 = this.resultWidth / scaledBitmap6.getWidth();
-                                canvas4.scale(width6, width6);
-                                matrix.postScale(f, f);
-                                canvas4.drawBitmap(scaledBitmap6, 0.0f, 0.0f, paint);
-                                canvas4.restore();
-                                scaledBitmap6.recycle();
-                            } catch (Exception e8) {
-                                FileLog.e(e8);
-                            }
+                            f3 = f;
+                            paint2 = paint2;
                         }
                     }
-                    return createBitmap;
+                    if (this.paintFile != null) {
+                        try {
+                            z = false;
+                        } catch (Exception e9) {
+                            e = e9;
+                            z = false;
+                        }
+                        try {
+                            Bitmap scaledBitmap4 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda5
+                                @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                                public final Bitmap decode(BitmapFactory.Options options) {
+                                    Bitmap lambda$buildBitmap$3;
+                                    lambda$buildBitmap$3 = StoryEntry.this.lambda$buildBitmap$3(options);
+                                    return lambda$buildBitmap$3;
+                                }
+                            }, i, i2, false, true);
+                            canvas.save();
+                            float width5 = this.resultWidth / scaledBitmap4.getWidth();
+                            canvas.scale(width5, width5);
+                            matrix.postScale(f3, f3);
+                            canvas.drawBitmap(scaledBitmap4, f2, f2, paint2);
+                            canvas.restore();
+                            scaledBitmap4.recycle();
+                        } catch (Exception e10) {
+                            e = e10;
+                            FileLog.e(e);
+                            if (this.messageFile != null) {
+                            }
+                            if (this.paintEntitiesFile != null) {
+                            }
+                        }
+                    } else {
+                        z = false;
+                    }
+                    if (this.messageFile != null) {
+                        try {
+                            Bitmap scaledBitmap5 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda6
+                                @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                                public final Bitmap decode(BitmapFactory.Options options) {
+                                    Bitmap lambda$buildBitmap$4;
+                                    lambda$buildBitmap$4 = StoryEntry.this.lambda$buildBitmap$4(options);
+                                    return lambda$buildBitmap$4;
+                                }
+                            }, i, i2, z, true);
+                            canvas.save();
+                            float width6 = this.resultWidth / scaledBitmap5.getWidth();
+                            canvas.scale(width6, width6);
+                            matrix.postScale(f3, f3);
+                            canvas.drawBitmap(scaledBitmap5, f2, f2, paint2);
+                            canvas.restore();
+                            scaledBitmap5.recycle();
+                        } catch (Exception e11) {
+                            FileLog.e(e11);
+                        }
+                    }
+                    if (this.paintEntitiesFile != null) {
+                        return bitmap2;
+                    }
+                    try {
+                        Bitmap scaledBitmap6 = getScaledBitmap(new DecodeBitmap() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda7
+                            @Override // org.telegram.ui.Stories.recorder.StoryEntry.DecodeBitmap
+                            public final Bitmap decode(BitmapFactory.Options options) {
+                                Bitmap lambda$buildBitmap$5;
+                                lambda$buildBitmap$5 = StoryEntry.this.lambda$buildBitmap$5(options);
+                                return lambda$buildBitmap$5;
+                            }
+                        }, i, i2, z, true);
+                        canvas.save();
+                        float width7 = this.resultWidth / scaledBitmap6.getWidth();
+                        canvas.scale(width7, width7);
+                        matrix.postScale(f3, f3);
+                        canvas.drawBitmap(scaledBitmap6, f2, f2, paint2);
+                        canvas.restore();
+                        scaledBitmap6.recycle();
+                        return bitmap2;
+                    } catch (Exception e12) {
+                        FileLog.e(e12);
+                        return bitmap2;
+                    }
                 }
                 Drawable drawable2 = this.backgroundDrawable;
                 if (drawable2 == null) {
@@ -1390,7 +1406,6 @@ public class StoryEntry {
         matrix.set(this.matrix);
         if (bitmap == null) {
         }
-        return createBitmap;
     }
 
     public void buildPhoto(File file) {
@@ -1946,7 +1961,13 @@ public class StoryEntry {
 
     public boolean wouldBeVideo(ArrayList arrayList) {
         ArrayList<VideoEditedInfo.EmojiEntity> arrayList2;
+        MessageObject messageObject;
+        TLRPC.Message message;
         if (this.isVideo || this.audioPath != null || this.round != null) {
+            return true;
+        }
+        ArrayList arrayList3 = this.messageObjects;
+        if (arrayList3 != null && arrayList3.size() == 1 && (messageObject = (MessageObject) this.messageObjects.get(0)) != null && (message = messageObject.messageOwner) != null && (message.action instanceof TLRPC.TL_messageActionStarGiftUnique)) {
             return true;
         }
         if (arrayList != null && !arrayList.isEmpty()) {

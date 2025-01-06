@@ -46,10 +46,11 @@ public class StarGiftUniqueActionLayout {
     private RadialGradient gradient;
     private int gradientRadius;
     int height;
-    private final ImageReceiver imageReceiver;
+    public final ImageReceiver imageReceiver;
     private TL_stars.starGiftAttributeModel model;
     private float nameWidth;
     private TL_stars.starGiftAttributePattern pattern;
+    public boolean repost;
     private final Theme.ResourcesProvider resourcesProvider;
     private final GiftSheet.RibbonDrawable ribbon;
     private Text subtitle;
@@ -165,24 +166,29 @@ public class StarGiftUniqueActionLayout {
             text3.draw(canvas, (f2 + this.nameWidth) - text3.getCurrentWidth(), row.y, i, 1.0f);
             row.value.draw(canvas, f2 + this.nameWidth + AndroidUtilities.dp(9.0f), row.y, -1, 1.0f);
         }
-        this.buttonRect.set(width - ((this.buttonText.getCurrentWidth() + AndroidUtilities.dp(30.0f)) / 2.0f), this.buttonY, width + ((this.buttonText.getCurrentWidth() + AndroidUtilities.dp(30.0f)) / 2.0f), this.buttonY + this.buttonHeight);
-        this.buttonPath.rewind();
-        Path path = this.buttonPath;
-        RectF rectF = this.buttonRect;
-        float f3 = this.buttonHeight / 2.0f;
-        path.addRoundRect(rectF, f3, f3, Path.Direction.CW);
-        this.buttonBackgroundPaint.setColor(Theme.multAlpha(-16777216, 0.13f));
-        float scale2 = this.buttonBounce.getScale(0.075f);
-        canvas.scale(scale2, scale2, this.buttonRect.centerX(), this.buttonRect.centerY());
-        canvas.drawPath(this.buttonPath, this.buttonBackgroundPaint);
-        canvas.restore();
-        this.ribbon.setBounds(((int) this.backgroundRect.right) - AndroidUtilities.dp(46.67f), ((int) this.backgroundRect.top) - AndroidUtilities.dp(1.33f), ((int) this.backgroundRect.right) + AndroidUtilities.dp(1.33f), ((int) this.backgroundRect.top) + AndroidUtilities.dp(46.67f));
-        this.ribbon.setTextColor(i);
-        this.ribbon.draw(canvas);
+        if (!this.repost) {
+            this.buttonRect.set(width - ((this.buttonText.getCurrentWidth() + AndroidUtilities.dp(30.0f)) / 2.0f), this.buttonY, width + ((this.buttonText.getCurrentWidth() + AndroidUtilities.dp(30.0f)) / 2.0f), this.buttonY + this.buttonHeight);
+            this.buttonPath.rewind();
+            Path path = this.buttonPath;
+            RectF rectF = this.buttonRect;
+            float f3 = this.buttonHeight / 2.0f;
+            path.addRoundRect(rectF, f3, f3, Path.Direction.CW);
+            this.buttonBackgroundPaint.setColor(Theme.multAlpha(-16777216, 0.13f));
+            float scale2 = this.buttonBounce.getScale(0.075f);
+            canvas.scale(scale2, scale2, this.buttonRect.centerX(), this.buttonRect.centerY());
+            canvas.drawPath(this.buttonPath, this.buttonBackgroundPaint);
+            canvas.restore();
+            this.ribbon.setBounds(((int) this.backgroundRect.right) - AndroidUtilities.dp(46.67f), ((int) this.backgroundRect.top) - AndroidUtilities.dp(1.33f), ((int) this.backgroundRect.right) + AndroidUtilities.dp(1.33f), ((int) this.backgroundRect.top) + AndroidUtilities.dp(46.67f));
+            this.ribbon.setTextColor(i);
+            this.ribbon.draw(canvas);
+        }
         canvas.restore();
     }
 
     public void drawOutbounds(Canvas canvas) {
+        if (this.repost) {
+            return;
+        }
         canvas.save();
         float scale = this.bounce.getScale(0.0125f);
         canvas.scale(scale, scale, this.backgroundRect.centerX(), this.backgroundRect.centerY());
@@ -245,13 +251,16 @@ public class StarGiftUniqueActionLayout {
         return this.buttonBounce.isPressed() || this.bounce.isPressed();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x003a A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0045 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0046  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void set(MessageObject messageObject, boolean z) {
         TLRPC.TL_messageActionStarGiftUnique tL_messageActionStarGiftUnique;
+        int dp;
+        Text text;
+        int dp2;
         TLRPC.Message message;
         this.currentMessageObject = messageObject;
         if (messageObject != null && (message = messageObject.messageOwner) != null) {
@@ -266,6 +275,7 @@ public class StarGiftUniqueActionLayout {
                     this.emoji.attach();
                 }
                 this.action = tL_messageActionStarGiftUnique;
+                this.repost = messageObject == null && messageObject.isRepostPreview;
                 if (tL_messageActionStarGiftUnique != null) {
                     return;
                 }
@@ -292,22 +302,34 @@ public class StarGiftUniqueActionLayout {
                 }
                 this.ribbon.setBackdrop(this.backdrop, true);
                 this.ribbon.setText(11, LocaleController.getString(R.string.Gift2UniqueRibbon), true);
-                this.width = Math.min((int) (AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() * 0.6f : (AndroidUtilities.displaySize.x * 0.62f) - AndroidUtilities.dp(34.0f)), ((AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(64.0f));
-                if (!AndroidUtilities.isTablet()) {
-                    this.width = (int) (this.width * 1.2f);
+                if (this.repost) {
+                    dp = AndroidUtilities.dp(200.0f);
+                } else {
+                    this.width = Math.min((int) (AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() * 0.6f : (AndroidUtilities.displaySize.x * 0.62f) - AndroidUtilities.dp(34.0f)), ((AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(64.0f));
+                    if (!AndroidUtilities.isTablet()) {
+                        this.width = (int) (this.width * 1.2f);
+                    }
+                    dp = this.width - AndroidUtilities.dp(8.0f);
                 }
-                int dp = this.width - AndroidUtilities.dp(8.0f);
                 this.width = dp;
-                float f = dp;
-                float dp2 = AndroidUtilities.dp(10.0f) + 0.0f + AndroidUtilities.dp(110.0f) + AndroidUtilities.dp(9.33f);
-                Text text = new Text(LocaleController.formatString(R.string.Gift2UniqueTitle, UserObject.getForcedFirstName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf((tL_messageActionStarGiftUnique.upgrade ^ true) == messageObject.isOutOwner() ? UserConfig.getInstance(this.currentAccount).getClientUserId() : messageObject.getDialogId())))), 14.0f, AndroidUtilities.bold());
-                this.title = text;
-                this.titleY = (text.getHeight() / 2.0f) + dp2;
-                float height = dp2 + this.title.getHeight() + AndroidUtilities.dp(3.0f);
-                Text text2 = new Text(tL_starGiftUnique.title + " #" + LocaleController.formatNumber(tL_starGiftUnique.num, ','), 12.0f);
-                this.subtitle = text2;
-                this.subtitleY = (text2.getHeight() / 2.0f) + height;
-                float height2 = height + this.subtitle.getHeight() + ((float) AndroidUtilities.dp(11.0f));
+                float f = this.width;
+                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf((tL_messageActionStarGiftUnique.upgrade ^ true) == messageObject.isOutOwner() ? UserConfig.getInstance(this.currentAccount).getClientUserId() : messageObject.getDialogId()));
+                float dp3 = AndroidUtilities.dp(10.0f) + 0.0f + AndroidUtilities.dp(110.0f) + AndroidUtilities.dp(9.33f);
+                if (this.repost) {
+                    this.title = new Text(tL_starGiftUnique.title, 14.0f, AndroidUtilities.bold());
+                } else {
+                    this.title = new Text(LocaleController.formatString(R.string.Gift2UniqueTitle, UserObject.getForcedFirstName(user)), 14.0f, AndroidUtilities.bold());
+                }
+                this.titleY = (this.title.getHeight() / 2.0f) + dp3;
+                float height = dp3 + this.title.getHeight() + AndroidUtilities.dp(3.0f);
+                if (this.repost) {
+                    text = new Text(LocaleController.formatPluralStringComma("Gift2CollectionNumber", tL_starGiftUnique.num), 12.0f, AndroidUtilities.bold());
+                } else {
+                    text = new Text(tL_starGiftUnique.title + " #" + LocaleController.formatNumber(tL_starGiftUnique.num, ','), 12.0f);
+                }
+                this.subtitle = text;
+                this.subtitleY = (this.subtitle.getHeight() / 2.0f) + height;
+                float height2 = height + this.subtitle.getHeight() + AndroidUtilities.dp(this.repost ? 14.0f : 11.0f);
                 this.table.clear();
                 this.nameWidth = 0.0f;
                 this.valueWidth = 0.0f;
@@ -350,12 +372,18 @@ public class StarGiftUniqueActionLayout {
                     this.valueWidth = Math.max(this.valueWidth, row3.value.getCurrentWidth());
                     height2 += row3.getHeight();
                 }
-                float dp3 = height2 + AndroidUtilities.dp(11.66f);
-                this.buttonY = dp3;
-                this.buttonText = new Text(LocaleController.getString(R.string.Gift2UniqueView), 14.0f, AndroidUtilities.bold());
-                float dp4 = AndroidUtilities.dp(30.0f);
-                this.buttonHeight = dp4;
-                this.height = (int) (dp3 + dp4 + AndroidUtilities.dp(11.0f));
+                float dp4 = height2 + AndroidUtilities.dp(11.66f);
+                if (this.repost) {
+                    dp2 = AndroidUtilities.dp(10.0f);
+                } else {
+                    this.buttonY = dp4;
+                    this.buttonText = new Text(LocaleController.getString(R.string.Gift2UniqueView), 14.0f, AndroidUtilities.bold());
+                    float dp5 = AndroidUtilities.dp(30.0f);
+                    this.buttonHeight = dp5;
+                    dp4 += dp5;
+                    dp2 = AndroidUtilities.dp(11.0f);
+                }
+                this.height = (int) (dp4 + dp2);
                 return;
             }
         }
@@ -368,6 +396,7 @@ public class StarGiftUniqueActionLayout {
             this.emoji.attach();
         }
         this.action = tL_messageActionStarGiftUnique;
+        this.repost = messageObject == null && messageObject.isRepostPreview;
         if (tL_messageActionStarGiftUnique != null) {
         }
     }

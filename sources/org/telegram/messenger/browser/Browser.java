@@ -499,12 +499,17 @@ public abstract class Browser {
             }
             alertDialogArr[0] = null;
         }
-        if (tLObject instanceof TLRPC.TL_messageMediaWebPage) {
-            TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage = (TLRPC.TL_messageMediaWebPage) tLObject;
-            TLRPC.WebPage webPage = tL_messageMediaWebPage.webpage;
-            if ((webPage instanceof TLRPC.TL_webPage) && webPage.cached_page != null) {
-                NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.openArticle, tL_messageMediaWebPage.webpage, uri.toString());
-                return;
+        if (tLObject instanceof TL_account.webPagePreview) {
+            TL_account.webPagePreview webpagepreview = (TL_account.webPagePreview) tLObject;
+            MessagesController.getInstance(i).putUsers(webpagepreview.users, false);
+            TLRPC.MessageMedia messageMedia = webpagepreview.media;
+            if (messageMedia instanceof TLRPC.TL_messageMediaWebPage) {
+                TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage = (TLRPC.TL_messageMediaWebPage) messageMedia;
+                TLRPC.WebPage webPage = tL_messageMediaWebPage.webpage;
+                if ((webPage instanceof TLRPC.TL_webPage) && webPage.cached_page != null) {
+                    NotificationCenter.getInstance(i).lambda$postNotificationNameOnUIThread$1(NotificationCenter.openArticle, tL_messageMediaWebPage.webpage, uri.toString());
+                    return;
+                }
             }
         }
         openUrl(context, uri, z, false);

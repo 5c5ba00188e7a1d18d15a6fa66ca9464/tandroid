@@ -1566,13 +1566,16 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
             }
         }
-        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
-        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
-        TLRPC.PhotoSize photoSize = closestPhotoSizeWithSize != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize2 : null;
-        if (photoSize == null || !DownloadController.getInstance(this.currentAccount).canDownloadMedia(1, photoSize.size)) {
-            photoSize = closestPhotoSizeWithSize;
+        TLRPC.PhotoSize strippedPhotoSize = FileLoader.getStrippedPhotoSize(arrayList);
+        if (strippedPhotoSize == null) {
+            strippedPhotoSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
         }
-        if (closestPhotoSizeWithSize != null) {
+        TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
+        TLRPC.PhotoSize photoSize = strippedPhotoSize != closestPhotoSizeWithSize ? closestPhotoSizeWithSize : null;
+        if (photoSize == null || !DownloadController.getInstance(this.currentAccount).canDownloadMedia(messageObject)) {
+            photoSize = strippedPhotoSize;
+        }
+        if (strippedPhotoSize != null) {
             this.hasVideoThumb = this.hasVideoThumb || messageObject.isVideo() || messageObject.isRoundVideo();
             int i2 = this.thumbsCount;
             if (i2 < 3) {
@@ -1581,7 +1584,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 this.drawSpoiler[i] = messageObject.hasMediaSpoilers();
                 int i3 = (messageObject.type != 1 || photoSize == null) ? 0 : photoSize.size;
                 String str = messageObject.hasMediaSpoilers() ? "5_5_b" : "20_20";
-                this.thumbImage[i].setImage(ImageLocation.getForObject(photoSize, tLObject), str, ImageLocation.getForObject(closestPhotoSizeWithSize, tLObject), str, i3, null, messageObject, 0);
+                this.thumbImage[i].setImage(ImageLocation.getForObject(photoSize, tLObject), str, ImageLocation.getForObject(strippedPhotoSize, tLObject), str, i3, null, messageObject, 0);
                 this.thumbImage[i].setRoundRadius(AndroidUtilities.dp(messageObject.isRoundVideo() ? 18.0f : 2.0f));
                 this.needEmoji = false;
             }
@@ -1589,9 +1592,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x004e  */
-    /* JADX WARN: Removed duplicated region for block: B:28:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:7:0x0039  */
+    /* JADX WARN: Removed duplicated region for block: B:10:0x003f  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x002d  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1600,7 +1604,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         ArrayList<TLRPC.PhotoSize> arrayList;
         boolean z;
         TLRPC.Document document2;
-        TLRPC.PhotoSize closestPhotoSizeWithSize;
+        TLRPC.PhotoSize strippedPhotoSize;
         TLRPC.PhotoSize photoSize;
         if (messageMedia instanceof TLRPC.TL_messageMediaPhoto) {
             TLRPC.Photo photo = messageMedia.photo;
@@ -1613,20 +1617,23 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 z = isVideoDocument;
                 arrayList = document3.thumbs;
                 document2 = document3;
-                closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
-                TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
-                photoSize = closestPhotoSizeWithSize != closestPhotoSizeWithSize2 ? closestPhotoSizeWithSize2 : null;
-                if (photoSize != null || !DownloadController.getInstance(this.currentAccount).canDownloadMedia(1, photoSize.size)) {
-                    photoSize = closestPhotoSizeWithSize;
+                strippedPhotoSize = FileLoader.getStrippedPhotoSize(arrayList);
+                if (strippedPhotoSize == null) {
+                    strippedPhotoSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
                 }
-                if (closestPhotoSizeWithSize == null) {
+                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
+                photoSize = strippedPhotoSize != closestPhotoSizeWithSize ? closestPhotoSizeWithSize : null;
+                if (photoSize != null || !DownloadController.getInstance(this.currentAccount).canDownloadMedia(1, photoSize.size)) {
+                    photoSize = strippedPhotoSize;
+                }
+                if (strippedPhotoSize == null) {
                     this.hasVideoThumb = this.hasVideoThumb || z;
                     int i2 = this.thumbsCount;
                     if (i2 < 3) {
                         this.thumbsCount = i2 + 1;
                         this.drawPlay[i] = z;
                         this.drawSpoiler[i] = false;
-                        this.thumbImage[i].setImage(ImageLocation.getForObject(photoSize, document2), "20_20", ImageLocation.getForObject(closestPhotoSizeWithSize, document2), "20_20", (z || photoSize == null) ? 0 : photoSize.size, null, this.message, 0);
+                        this.thumbImage[i].setImage(ImageLocation.getForObject(photoSize, document2), "20_20", ImageLocation.getForObject(strippedPhotoSize, document2), "20_20", (z || photoSize == null) ? 0 : photoSize.size, null, this.message, 0);
                         this.thumbImage[i].setRoundRadius(AndroidUtilities.dp(2.0f));
                         this.needEmoji = false;
                         return;
@@ -1640,14 +1647,16 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
         z = false;
         document2 = document;
-        closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 40);
-        TLRPC.PhotoSize closestPhotoSizeWithSize22 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
-        if (closestPhotoSizeWithSize != closestPhotoSizeWithSize22) {
+        strippedPhotoSize = FileLoader.getStrippedPhotoSize(arrayList);
+        if (strippedPhotoSize == null) {
+        }
+        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, AndroidUtilities.getPhotoSize(), false, null, true);
+        if (strippedPhotoSize != closestPhotoSizeWithSize2) {
         }
         if (photoSize != null) {
         }
-        photoSize = closestPhotoSizeWithSize;
-        if (closestPhotoSizeWithSize == null) {
+        photoSize = strippedPhotoSize;
+        if (strippedPhotoSize == null) {
         }
     }
 

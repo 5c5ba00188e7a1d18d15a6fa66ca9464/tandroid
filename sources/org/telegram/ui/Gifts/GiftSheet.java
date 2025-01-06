@@ -58,6 +58,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CompatDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.ExtendedGridLayoutManager;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$GiftTier;
@@ -179,8 +180,8 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             this.clipPath.rewind();
             this.clipPath.addRoundRect(this.rect, AndroidUtilities.dp(11.0f), AndroidUtilities.dp(11.0f), Path.Direction.CW);
             canvas.clipPath(this.clipPath);
-            canvas.translate(bounds.centerX(), Math.min(AndroidUtilities.dp(50.0f), bounds.centerY()));
-            StarGiftPatterns.drawPatterns(canvas, this.pattern, bounds.width(), bounds.height(), 1.0f, 0.65f);
+            canvas.translate(bounds.centerX(), bounds.centerY());
+            StarGiftPatterns.drawPatterns(canvas, 2, this.pattern, bounds.width(), bounds.height(), 1.0f, 1.0f);
             canvas.restore();
         }
 
@@ -223,12 +224,13 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
     }
 
-    public static class GiftCell extends FrameLayout {
+    public static class GiftCell extends FrameLayout implements ItemOptions.ScrimView {
         private final AvatarDrawable avatarDrawable;
         private final BackupImageView avatarView;
         private Runnable cancel;
         private final FrameLayout card;
         private final CardBackground cardBackground;
+        private final Rect cardBackgroundPadding;
         private final int currentAccount;
         private final BackupImageView imageView;
         private final FrameLayout.LayoutParams imageViewLayoutParams;
@@ -317,6 +319,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
 
         public GiftCell(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
             super(context);
+            this.cardBackgroundPadding = new Rect();
             this.currentAccount = i;
             this.resourcesProvider = resourcesProvider;
             ScaleStateListAnimator.apply(this, 0.04f, 1.5f);
@@ -332,7 +335,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             BackupImageView backupImageView = new BackupImageView(context);
             this.imageView = backupImageView;
             backupImageView.getImageReceiver().setAutoRepeat(0);
-            FrameLayout.LayoutParams createFrame = LayoutHelper.createFrame(100, 100.0f, 49, 0.0f, 0.0f, 0.0f, 0.0f);
+            FrameLayout.LayoutParams createFrame = LayoutHelper.createFrame(96, 96.0f, 49, 0.0f, 2.0f, 0.0f, 2.0f);
             this.imageViewLayoutParams = createFrame;
             frameLayout.addView(backupImageView, createFrame);
             PremiumLockIconView premiumLockIconView = new PremiumLockIconView(context, PremiumLockIconView.TYPE_GIFT_LOCK, resourcesProvider);
@@ -384,6 +387,18 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, AndroidUtilities.dp(100.0f));
                 this.imageView.setImage(ImageLocation.getForDocument(document), "100_100", ImageLocation.getForDocument(closestPhotoSizeWithSize, document), "100_100", DocumentObject.getSvgThumb(document, Theme.key_windowBackgroundGray, 0.3f), obj);
             }
+        }
+
+        @Override // org.telegram.ui.Components.ItemOptions.ScrimView
+        public /* synthetic */ void drawScrim(Canvas canvas, float f) {
+            ItemOptions.ScrimView.-CC.$default$drawScrim(this, canvas, f);
+        }
+
+        @Override // org.telegram.ui.Components.ItemOptions.ScrimView
+        public void getBounds(RectF rectF) {
+            this.cardBackground.getPadding(this.cardBackgroundPadding);
+            Rect rect = this.cardBackgroundPadding;
+            rectF.set(rect.left, rect.top, getWidth() - this.cardBackgroundPadding.right, getHeight() - this.cardBackgroundPadding.bottom);
         }
 
         public void setPremiumGift(GiftPremiumBottomSheet$GiftTier giftPremiumBottomSheet$GiftTier) {
@@ -464,13 +479,13 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             this.lastTier = null;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:21:0x0121  */
-        /* JADX WARN: Removed duplicated region for block: B:26:0x0170  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x0197  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0207  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0209  */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x01b3  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x0186  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0139  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0188  */
+        /* JADX WARN: Removed duplicated region for block: B:32:0x01af  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x021f  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0221  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x01cb  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x019e  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -492,6 +507,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             this.subtitleView.setVisibility(8);
             this.imageView.setTranslationY(0.0f);
             this.lockView.setWaitingImage();
+            this.lockView.setBlendWithColor(stargiftattributebackdrop != null ? Integer.valueOf(Theme.multAlpha(stargiftattributebackdrop.center_color | (-16777216), 0.75f)) : null);
             this.lockView.setVisibility(0);
             if (this.lastUserGift == userStarGift) {
                 this.lockView.animate().alpha(userStarGift.unsaved ? 1.0f : 0.0f).scaleX(userStarGift.unsaved ? 1.0f : 0.4f).scaleY(userStarGift.unsaved ? 1.0f : 0.4f).setDuration(350L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();

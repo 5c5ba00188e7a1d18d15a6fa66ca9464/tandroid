@@ -65,7 +65,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         private float backScaleY;
         private int backgroundColor;
         protected Drawable backgroundDrawable;
-        private Rect bgPaddings;
+        private final Rect bgPaddings;
         public boolean clipChildren;
         private boolean fitItems;
         private int gapEndY;
@@ -110,7 +110,8 @@ public class ActionBarPopupWindow extends PopupWindow {
             this.positions = new HashMap();
             this.gapStartY = -1000000;
             this.gapEndY = -1000000;
-            this.bgPaddings = new Rect();
+            Rect rect = new Rect();
+            this.bgPaddings = rect;
             this.reactionsEnterProgress = 1.0f;
             this.backgroundColor = -1;
             this.resourcesProvider = resourcesProvider;
@@ -120,7 +121,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
             Drawable drawable = this.backgroundDrawable;
             if (drawable != null) {
-                drawable.getPadding(this.bgPaddings);
+                drawable.getPadding(rect);
                 setBackgroundColor(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
             }
             setWillNotDraw(false);
@@ -508,6 +509,10 @@ public class ActionBarPopupWindow extends PopupWindow {
 
         public int getItemsCount() {
             return this.linearLayout.getChildCount();
+        }
+
+        public Rect getPadding() {
+            return this.bgPaddings;
         }
 
         public PopupSwipeBackLayout getSwipeBack() {

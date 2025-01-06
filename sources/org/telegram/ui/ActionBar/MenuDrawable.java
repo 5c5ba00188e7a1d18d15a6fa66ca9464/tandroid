@@ -19,7 +19,7 @@ public class MenuDrawable extends Drawable {
     private int alpha;
     private float animatedDownloadProgress;
     private int backColor;
-    private Paint backPaint;
+    private final Paint backPaint;
     private int currentAnimationTime;
     private float currentRotation;
     private float downloadProgress;
@@ -31,7 +31,7 @@ public class MenuDrawable extends Drawable {
     private DecelerateInterpolator interpolator;
     private long lastFrameTime;
     private boolean miniIcon;
-    private Paint paint;
+    private final Paint paint;
     private int previousType;
     private RectF rect;
     private boolean reverseAngle;
@@ -45,33 +45,35 @@ public class MenuDrawable extends Drawable {
     }
 
     public MenuDrawable(int i) {
-        this.paint = new Paint(1);
-        this.backPaint = new Paint(1);
+        Paint paint = new Paint(1);
+        this.paint = paint;
+        Paint paint2 = new Paint(1);
+        this.backPaint = paint2;
         this.rotateToBack = true;
         this.interpolator = new DecelerateInterpolator();
         this.rect = new RectF();
         this.alpha = NotificationCenter.newLocationAvailable;
-        this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-        this.backPaint.setStrokeWidth(AndroidUtilities.density * 1.66f);
-        this.backPaint.setStrokeCap(Paint.Cap.ROUND);
-        this.backPaint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
+        paint2.setStrokeWidth(AndroidUtilities.density * 1.66f);
+        paint2.setStrokeCap(Paint.Cap.ROUND);
+        paint2.setStyle(Paint.Style.STROKE);
         this.previousType = TYPE_DEFAULT;
         this.type = i;
         this.typeAnimationProgress = 1.0f;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:34:0x0109  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0376  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x03e3  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0400  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0461  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x04ca  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x0416  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0426  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0395  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0374  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x03e1  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x044b  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x045f  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x04c8  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x046e  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x0414  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0424  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0393  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x021e  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -191,7 +193,7 @@ public class MenuDrawable extends Drawable {
                         dp6 += (this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation);
                         float dp7 = dp3 + (AndroidUtilities.dp(0.5f) * this.currentRotation);
                         dp4 -= (AndroidUtilities.dp(0.5f) * this.currentRotation) + ((this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation));
-                        dp5 -= AndroidUtilities.dp(0.75f) * this.currentRotation;
+                        dp5 -= AndroidUtilities.dp(0.25f) * this.currentRotation;
                         dp3 = dp7 + (AndroidUtilities.dp(0.25f) * this.currentRotation);
                     }
                 }

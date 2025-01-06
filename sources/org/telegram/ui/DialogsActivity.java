@@ -247,7 +247,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public final Property SCROLL_Y;
     public final Property SEARCH_TRANSLATION_Y;
     private ValueAnimator actionBarColorAnimator;
-    private Paint actionBarDefaultPaint;
+    private final Paint actionBarDefaultPaint;
     private int actionModeAdditionalHeight;
     private boolean actionModeFullyShowed;
     private final ArrayList actionModeViews;
@@ -5053,36 +5053,31 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean checkCanWrite(long j) {
         AlertDialog.Builder builder;
         int i;
-        if (this.addToGroupAlertString != null || this.initialDialogsType == 15 || !this.checkCanWrite) {
-            return true;
+        int i2 = this.initialDialogsType;
+        if (i2 != 15 && i2 != 16 && this.addToGroupAlertString == null && this.checkCanWrite) {
+            if (DialogObject.isChatDialog(j)) {
+                long j2 = -j;
+                TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(j2));
+                if (ChatObject.isChannel(chat) && !chat.megagroup && (this.cantSendToChannels || !ChatObject.isCanWriteToChannel(j2, this.currentAccount) || this.hasPoll == 2)) {
+                    builder = new AlertDialog.Builder(getParentActivity());
+                    builder.setTitle(LocaleController.getString(R.string.SendMessageTitle));
+                    i = this.hasPoll == 2 ? R.string.PublicPollCantForward : R.string.ChannelCantSendMessage;
+                    builder.setMessage(LocaleController.getString(i));
+                    builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
+                    showDialog(builder.create());
+                    return false;
+                }
+            } else if (DialogObject.isEncryptedDialog(j) && (this.hasPoll != 0 || this.hasInvoice)) {
+                builder = new AlertDialog.Builder(getParentActivity());
+                builder.setTitle(LocaleController.getString(R.string.SendMessageTitle));
+                i = this.hasPoll != 0 ? R.string.PollCantForwardSecretChat : R.string.InvoiceCantForwardSecretChat;
+                builder.setMessage(LocaleController.getString(i));
+                builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
+                showDialog(builder.create());
+                return false;
+            }
         }
-        if (DialogObject.isChatDialog(j)) {
-            long j2 = -j;
-            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(j2));
-            if (!ChatObject.isChannel(chat) || chat.megagroup) {
-                return true;
-            }
-            if (!this.cantSendToChannels && ChatObject.isCanWriteToChannel(j2, this.currentAccount) && this.hasPoll != 2) {
-                return true;
-            }
-            builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.SendMessageTitle));
-            i = this.hasPoll == 2 ? R.string.PublicPollCantForward : R.string.ChannelCantSendMessage;
-        } else {
-            if (!DialogObject.isEncryptedDialog(j)) {
-                return true;
-            }
-            if (this.hasPoll == 0 && !this.hasInvoice) {
-                return true;
-            }
-            builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString(R.string.SendMessageTitle));
-            i = this.hasPoll != 0 ? R.string.PollCantForwardSecretChat : R.string.InvoiceCantForwardSecretChat;
-        }
-        builder.setMessage(LocaleController.getString(i));
-        builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
-        showDialog(builder.create());
-        return false;
+        return true;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5810,11 +5805,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public /* synthetic */ void lambda$createSearchViewPager$137(View view, int i, float f, float f2) {
         String str;
         BaseFragment highlightFoundQuote;
-        Object topPeerObject = this.searchViewPager.botsSearchAdapter.getTopPeerObject(i);
-        if (topPeerObject instanceof TLRPC.User) {
-            getMessagesController().openApp((TLRPC.User) topPeerObject, getClassGuid());
-            return;
-        }
         Object object = this.searchViewPager.botsSearchAdapter.getObject(i);
         if (object instanceof TLRPC.User) {
             highlightFoundQuote = ProfileActivity.of(((TLRPC.User) object).id);
@@ -14314,8 +14304,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return this.slideBackTransitionAnimator;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:272:0x0276 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0234 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:287:0x0276 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:291:0x0234 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -14466,8 +14456,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             while (it4.hasNext()) {
                 TLRPC.Dialog next4 = it4.next();
                 TLRPC.Chat chat2 = messagesController.getChat(Long.valueOf(-next4.id));
-                if (chat2 != null && !ChatObject.isChannelAndNotMegaGroup(chat2) && (c != 0 || messagesController.canAddToForward(next4))) {
-                    this.botShareDialogs.add(next4);
+                if (chat2 != null && !ChatObject.isChannelAndNotMegaGroup(chat2)) {
+                    if (c != 0) {
+                        if (ChatObject.isMegagroup(chat2)) {
+                            this.botShareDialogs.add(next4);
+                        }
+                    } else if (messagesController.canAddToForward(next4)) {
+                        this.botShareDialogs.add(next4);
+                    }
                 }
             }
         } else if (z2 || this.allowMegagroups || c != 0) {
@@ -14475,8 +14471,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             while (it5.hasNext()) {
                 TLRPC.Dialog next5 = it5.next();
                 TLRPC.Chat chat3 = messagesController.getChat(Long.valueOf(-next5.id));
-                if (chat3 != null && !ChatObject.isChannelAndNotMegaGroup(chat3) && (c != 0 || (messagesController.canAddToForward(next5) && ((this.allowLegacyGroups && !ChatObject.isMegagroup(chat3)) || (this.allowMegagroups && ChatObject.isMegagroup(chat3)))))) {
-                    this.botShareDialogs.add(next5);
+                if (chat3 != null && !ChatObject.isChannelAndNotMegaGroup(chat3)) {
+                    if (c != 0) {
+                        if (ChatObject.isMegagroup(chat3)) {
+                            this.botShareDialogs.add(next5);
+                        }
+                    } else if (messagesController.canAddToForward(next5)) {
+                        if (this.allowLegacyGroups) {
+                            if (!ChatObject.isMegagroup(chat3)) {
+                                this.botShareDialogs.add(next5);
+                            }
+                        }
+                        if (this.allowMegagroups && ChatObject.isMegagroup(chat3)) {
+                            this.botShareDialogs.add(next5);
+                        }
+                    }
                 }
             }
         }
@@ -14484,7 +14493,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             Iterator<TLRPC.Dialog> it6 = messagesController.dialogsChannelsOnly.iterator();
             while (it6.hasNext()) {
                 TLRPC.Dialog next6 = it6.next();
-                if (c != 0 || messagesController.canAddToForward(next6)) {
+                TLRPC.Chat chat4 = messagesController.getChat(Long.valueOf(-next6.id));
+                if (c != 0) {
+                    if (chat4 instanceof TLRPC.TL_channel) {
+                        this.botShareDialogs.add(next6);
+                    }
+                } else if (messagesController.canAddToForward(next6)) {
                     this.botShareDialogs.add(next6);
                 }
             }

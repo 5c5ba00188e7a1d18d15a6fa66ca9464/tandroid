@@ -20804,153 +20804,144 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         paintingOverlay.setData(str, arrayList, z, false, this.sendPhotoType != 11);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:127:0x03c2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x03af, code lost:
     
-        r2.updateShow(false, r43);
+        r12.updateShow(false, r42);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x03c0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:133:0x03ad, code lost:
     
-        if (r2 != null) goto L222;
+        if (r12 != null) goto L219;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:571:0x0c90, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:438:0x078a, code lost:
     
-        if (r2.mirrored == false) goto L646;
+        if (org.telegram.messenger.MessageObject.canDeleteMessage(r39.currentAccount, false, (org.telegram.tgnet.TLRPC.Message) r39.imagesArrMessages.get(r40), r1) == false) goto L407;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:572:0x0ca1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:554:0x0c7c, code lost:
     
-        r1 = r11;
+        if (r4.mirrored == false) goto L646;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:592:0x0c96, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:555:0x0c8d, code lost:
     
-        if (r2.mirrored != false) goto L646;
+        r2 = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:597:0x0c9f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:575:0x0c82, code lost:
     
-        if (r2.mirrored != false) goto L646;
+        if (r4.mirrored != false) goto L646;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x03ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:580:0x0c8b, code lost:
     
-        if (r2 != null) goto L222;
+        if (r4.mirrored != false) goto L646;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x039d, code lost:
+    
+        if (r12 != null) goto L219;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x03b3  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x01ed  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x0348  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:444:0x07d0  */
-    /* JADX WARN: Removed duplicated region for block: B:454:0x0827  */
-    /* JADX WARN: Removed duplicated region for block: B:457:0x082e  */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x084f  */
-    /* JADX WARN: Removed duplicated region for block: B:471:0x0877  */
-    /* JADX WARN: Removed duplicated region for block: B:482:0x0885  */
-    /* JADX WARN: Removed duplicated region for block: B:484:0x0851  */
-    /* JADX WARN: Removed duplicated region for block: B:492:0x0822  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x036e  */
-    /* JADX WARN: Removed duplicated region for block: B:517:0x0b85  */
-    /* JADX WARN: Removed duplicated region for block: B:520:0x0b94  */
-    /* JADX WARN: Removed duplicated region for block: B:523:0x0b9c  */
-    /* JADX WARN: Removed duplicated region for block: B:527:0x0bb1  */
-    /* JADX WARN: Removed duplicated region for block: B:557:0x0c68  */
-    /* JADX WARN: Removed duplicated region for block: B:560:0x0c72  */
-    /* JADX WARN: Removed duplicated region for block: B:563:0x0c7c  */
-    /* JADX WARN: Removed duplicated region for block: B:566:0x0c86  */
-    /* JADX WARN: Removed duplicated region for block: B:594:0x0c99  */
-    /* JADX WARN: Removed duplicated region for block: B:598:0x0c7e  */
-    /* JADX WARN: Removed duplicated region for block: B:599:0x0c74  */
-    /* JADX WARN: Removed duplicated region for block: B:600:0x0c6a  */
-    /* JADX WARN: Removed duplicated region for block: B:605:0x0bac  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x03ab  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x0680  */
-    /* JADX WARN: Type inference failed for: r0v132, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r0v68, types: [org.telegram.messenger.MediaController$MediaEditState, org.telegram.messenger.MediaController$PhotoEntry] */
-    /* JADX WARN: Type inference failed for: r15v9, types: [java.lang.CharSequence] */
-    /* JADX WARN: Type inference failed for: r1v266 */
-    /* JADX WARN: Type inference failed for: r1v267, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r1v284 */
-    /* JADX WARN: Type inference failed for: r2v68, types: [org.telegram.ui.PhotoViewer$PhotoCountView] */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x0e61  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x03a0  */
+    /* JADX WARN: Removed duplicated region for block: B:306:0x01ec  */
+    /* JADX WARN: Removed duplicated region for block: B:309:0x0339  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x01fd  */
+    /* JADX WARN: Removed duplicated region for block: B:442:0x07ae  */
+    /* JADX WARN: Removed duplicated region for block: B:453:0x0807  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x080e  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x082f  */
+    /* JADX WARN: Removed duplicated region for block: B:470:0x0857  */
+    /* JADX WARN: Removed duplicated region for block: B:481:0x0865  */
+    /* JADX WARN: Removed duplicated region for block: B:483:0x0831  */
+    /* JADX WARN: Removed duplicated region for block: B:491:0x0802  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x039b  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0e0d  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0e1e  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0e37  */
+    /* JADX WARN: Removed duplicated region for block: B:96:0x0e44  */
+    /* JADX WARN: Type inference failed for: r5v40 */
+    /* JADX WARN: Type inference failed for: r5v41, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r5v56 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void setIsAboutToSwitchToIndex(final int i, boolean z, boolean z2) {
         CharSequence charSequence;
         int i2;
-        final MessageObject messageObject;
-        String str;
+        MessageObject messageObject;
+        CharSequence charSequence2;
         boolean z3;
-        String string;
         boolean z4;
+        String string;
         MessageObject messageObject2;
         MediaController.CropState cropState;
         boolean z5;
         boolean z6;
         boolean z7;
-        CharSequence charSequence2;
+        CharSequence charSequence3;
         int i3;
-        boolean z8;
         int i4;
+        CharSequence charSequence4;
         MediaController.CropState cropState2;
-        boolean z9;
+        boolean z8;
         int i5;
+        boolean z9;
         boolean z10;
         boolean z11;
-        CharSequence charSequence3;
+        CharSequence charSequence5;
         MediaController.SearchImage searchImage;
         boolean z12;
-        boolean z13;
         float f;
+        float f2;
         int i6;
         int i7;
         int i8;
         VideoEditedInfo videoEditedInfo;
-        PhotoCountView photoCountView;
-        ChatActivity chatActivity;
-        int i9;
+        String str;
+        Object obj;
+        CharSequence charSequence6;
         ImageView imageView;
         PorterDuffColorFilter porterDuffColorFilter;
-        int i10;
+        int i9;
         TLRPC.User currentUser;
         TLRPC.Chat currentChat;
-        int i11;
-        int i12;
-        ActionBarMenuItem actionBarMenuItem;
+        int i10;
         long j;
-        String str2;
+        CharSequence charSequence7;
         MessagesController.DialogPhotos dialogPhotos;
-        PhotoCountView photoCountView2;
-        ?? r0;
-        boolean z14;
-        int i13;
+        PhotoCountView photoCountView;
+        CharSequence charSequence8;
+        boolean z13;
+        int i11;
+        String str2;
         TLRPC.Photo photo;
-        boolean z15;
-        boolean z16;
         FrameLayout frameLayout;
         Integer num;
-        int i14;
-        ActionBarMenuItem actionBarMenuItem2;
-        ChatActivity chatActivity2;
-        int i15;
+        int i12;
+        ChatActivity chatActivity;
+        TLRPC.Chat chat;
+        boolean z14;
+        int i13;
+        float f3;
+        boolean z15;
         CharSequence restrictionReason;
+        boolean z16;
         TLRPC.Message message;
-        CharSequence charSequence4;
+        int i14;
         String str3;
-        ?? r1;
-        int i16;
+        ?? r5;
+        int i15;
         int id;
-        int i17;
+        int i16;
         boolean z17;
         int id2;
-        int i18;
+        int i17;
         boolean z18;
+        int i18;
+        PhotoCountView photoCountView2;
         int i19;
-        PhotoCountView photoCountView3;
-        int i20;
-        TLRPC.Chat chat;
-        boolean z19;
         TLRPC.Message message2;
         TLRPC.Message message3;
         if (z || this.switchingToIndex != i) {
-            int i21 = this.switchingToIndex;
-            boolean z20 = i >= i21;
+            int i20 = this.switchingToIndex;
+            boolean z19 = i >= i20;
             this.switchingToIndex = i;
             getFileName(i);
             if (z2) {
@@ -20963,32 +20954,392 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 TransitionManager.beginDelayedTransition(this.itemsLayout, transitionSet);
             }
             this.editing = false;
-            if (this.imagesArr.isEmpty()) {
-                charSequence = null;
-                float f2 = 0.0f;
-                if (!this.secureDocuments.isEmpty()) {
+            if (!this.imagesArr.isEmpty()) {
+                int i21 = this.switchingToIndex;
+                if (i21 < 0 || i21 >= this.imagesArr.size()) {
+                    return;
+                }
+                final MessageObject messageObject3 = (MessageObject) this.imagesArr.get(this.switchingToIndex);
+                messageObject3.updateTranslation();
+                boolean isVideo = messageObject3.isVideo();
+                CharSequence createFromInfoString = FilteredSearchView.createFromInfoString(messageObject3, this.opennedFromMedia && !this.openedFromProfile, 0);
+                this.actionBarContainer.setSubtitle((messageObject3.isQuickReply() || messageObject3.isSponsored() || (message3 = messageObject3.messageOwner) == null) ? null : LocaleController.formatDateAudio(message3.date, false), z2);
+                boolean isInvoice = messageObject3.isInvoice();
+                boolean z20 = MessagesController.getInstance(this.currentAccount).isChatNoForwards(messageObject3.getChatId()) || ((message2 = messageObject3.messageOwner) != null && message2.noforwards) || messageObject3.hasRevealedExtendedMedia();
+                FrameLayout frameLayout2 = this.bottomLayout;
+                if (isVideo) {
+                    frameLayout2.setVisibility(0);
+                    frameLayout = this.bottomLayout;
+                    num = 1;
+                } else {
+                    frameLayout2.setVisibility(8);
+                    frameLayout = this.bottomLayout;
+                    num = null;
+                }
+                frameLayout.setTag(num);
+                if (isInvoice) {
+                    setItemVisible(this.masksItem, false, z2);
+                    setItemVisible(this.editItem, false, z2);
+                    this.menuItem.hideSubItem(7);
+                    this.menuItem.hideSubItem(10);
+                    restrictionReason = MessageObject.getMedia(messageObject3.messageOwner).description;
                     this.allowShare = false;
-                    this.menuItem.showSubItem(7);
-                    this.galleryButton.setVisibility(8);
-                    this.galleryGap.setVisibility(8);
                     this.menuItem.hideSubItem(19);
                     this.menuItem.hideSubItem(20);
-                    PhotoCountView photoCountView4 = this.countView;
-                    if (photoCountView4 != null) {
-                        photoCountView4.updateShow(this.secureDocuments.size() > 1, true);
-                        this.countView.set(this.switchingToIndex + 1, this.secureDocuments.size());
+                } else {
+                    final TranslateController translateController = MessagesController.getInstance(this.currentAccount).getTranslateController();
+                    if (i20 != this.switchingToIndex) {
+                        this.captionTranslated = false;
+                        this.captionDetectedLanguage = null;
                     }
-                    this.actionBarContainer.setTitle("");
-                    this.actionBarContainer.setSubtitle("", z2);
-                    messageObject = null;
-                    str = null;
-                } else if (this.imagesArrLocations.isEmpty()) {
+                    if (translateController.isContextTranslateEnabled()) {
+                        translateController.detectPhotoLanguage(messageObject3, new Utilities.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda18
+                            @Override // org.telegram.messenger.Utilities.Callback
+                            public final void run(Object obj2) {
+                                PhotoViewer.this.lambda$setIsAboutToSwitchToIndex$103(i, translateController, messageObject3, (String) obj2);
+                            }
+                        });
+                    }
+                    if (!translateController.isContextTranslateEnabled() || !translateController.canTranslatePhoto(messageObject3, this.captionDetectedLanguage)) {
+                        i12 = 20;
+                        this.menuItem.hideSubItem(19);
+                    } else if (this.captionTranslated) {
+                        this.menuItem.showSubItem(20);
+                        this.menuItem.hideSubItem(19);
+                        this.allowShare = !z20;
+                        if (messageObject3.isNewGif() && this.allowShare && !DialogObject.isEncryptedDialog(messageObject3.getDialogId())) {
+                            this.menuItem.showSubItem(12);
+                        }
+                        chatActivity = this.parentChatActivity;
+                        if (chatActivity == null && chatActivity.isInScheduleMode()) {
+                            chat = null;
+                            z14 = true;
+                        } else {
+                            chat = null;
+                            z14 = false;
+                        }
+                        if (messageObject3.canDeleteMessage(z14, chat) || this.slideshowMessageId != 0) {
+                            this.menuItem.hideSubItem(7);
+                        } else {
+                            this.menuItem.showSubItem(7);
+                        }
+                        this.menuItem.checkHideMenuItem();
+                        boolean z21 = (messageObject3.getDocument() != null || messageObject3.canPreviewDocument() || messageObject3.getMimeType().startsWith("video/")) && !this.isEmbedVideo && ((i13 = messageObject3.messageOwner.ttl) == 0 || i13 >= 3600) && !z20 && canSendMediaToParentChatActivity() && !this.opennedFromMedia;
+                        if (!this.isEmbedVideo) {
+                            this.menuItem.showSubItem(10);
+                            setItemVisible(this.editItem, false, false);
+                            setItemVisible(this.pipItem, true, false);
+                        } else if (isVideo) {
+                            if (!z20 || (this.slideshowMessageId != 0 ? !(MessageObject.getMedia(((MessageObject) this.imagesArr.get(0)).messageOwner).webpage == null || MessageObject.getMedia(((MessageObject) this.imagesArr.get(0)).messageOwner).webpage.url == null) : !(MessageObject.getMedia(messageObject3.messageOwner).webpage == null || MessageObject.getMedia(messageObject3.messageOwner).webpage.url == null))) {
+                                this.menuItem.showSubItem(10);
+                            } else {
+                                this.menuItem.hideSubItem(10);
+                            }
+                            boolean z22 = this.masksItem.getVisibility() == 0;
+                            if (z22) {
+                                setItemVisible(this.masksItem, false, false);
+                            }
+                            if (z20) {
+                                setItemVisible(this.pipItem, false, true);
+                            } else if (this.pipAvailable) {
+                                setItemVisible(this.pipItem, true, !z22 && this.editItem.getAlpha() <= 0.0f);
+                            } else {
+                                this.pipItem.setEnabled(false);
+                                ActionBarMenuSubItem actionBarMenuSubItem = this.pipItem;
+                                if (z22 || this.editItem.getAlpha() > 0.0f) {
+                                    f3 = 0.5f;
+                                    z15 = false;
+                                } else {
+                                    f3 = 0.5f;
+                                    z15 = true;
+                                }
+                                setItemVisible(actionBarMenuSubItem, true, z15, f3);
+                            }
+                            setItemVisible(this.editItem, false, false);
+                            if (!messageObject3.hasAttachedStickers() || DialogObject.isEncryptedDialog(messageObject3.getDialogId())) {
+                                this.menuItem.hideSubItem(13);
+                            } else {
+                                this.menuItem.showSubItem(13);
+                            }
+                            this.menuItem.checkHideMenuItem();
+                        } else {
+                            this.speedItem.setVisibility(8);
+                            this.videoItem.setVisibility(8);
+                            this.speedGap.setVisibility(8);
+                            this.menuItem.hideSubItem(10);
+                            this.menuItem.checkHideMenuItem();
+                            boolean z23 = this.pipItem.getVisibility() == 0;
+                            boolean z24 = messageObject3.hasAttachedStickers() && !DialogObject.isEncryptedDialog(messageObject3.getDialogId());
+                            if (z23) {
+                                setItemVisible(this.pipItem, false, (z24 || z21) ? false : true);
+                            }
+                            setItemVisible(this.editItem, z21, (!z2 || z23 || z24) ? false : true);
+                            setItemVisible(this.masksItem, z24, !z23);
+                        }
+                        restrictionReason = MessagesController.getInstance(messageObject3.currentAccount).getRestrictionReason(messageObject3.messageOwner.restriction_reason);
+                        if (TextUtils.isEmpty(restrictionReason)) {
+                            if (!this.captionTranslated || (message = messageObject3.messageOwner) == null || message.translatedText == null || !TextUtils.equals(message.translatedToLanguage, TranslateAlert2.getToLanguage())) {
+                                restrictionReason = messageObject3.caption;
+                                z16 = this.captionTranslated;
+                                if (this.currentAnimation != null) {
+                                    this.galleryButton.setVisibility(8);
+                                    this.galleryGap.setVisibility(8);
+                                    this.menuItem.hideSubItem(9);
+                                    setItemVisible(this.editItem, false, z2);
+                                    ChatActivity chatActivity2 = this.parentChatActivity;
+                                    if (!messageObject3.canDeleteMessage(chatActivity2 != null && chatActivity2.isInScheduleMode(), null)) {
+                                        this.menuItem.hideSubItem(7);
+                                    }
+                                    this.allowShare = !z20;
+                                }
+                                if (messageObject3.isSponsored()) {
+                                    ChatActivity chatActivity3 = this.parentChatActivity;
+                                    if (chatActivity3 != null && chatActivity3.getChatMode() == 5) {
+                                        photoCountView2 = this.countView;
+                                    } else if (this.currentFiltered && (this.currentFilterTag != null || !TextUtils.isEmpty(this.currentFilterQuery))) {
+                                        PhotoCountView photoCountView3 = this.countView;
+                                        if (photoCountView3 != null) {
+                                            photoCountView3.updateShow(true, z2);
+                                            this.countView.set(this.switchingToIndex + 1, this.imagesArr.size());
+                                        }
+                                    } else if (this.totalImagesCount + this.totalImagesCountMerge == 0 || this.needSearchImageInArr) {
+                                        if (this.slideshowMessageId == 0 && (MessageObject.getMedia(messageObject3.messageOwner) instanceof TLRPC.TL_messageMediaWebPage)) {
+                                            PhotoCountView photoCountView4 = this.countView;
+                                            if (photoCountView4 != null) {
+                                                photoCountView4.updateShow(false, z2);
+                                            }
+                                            if (this.isEmbedVideo) {
+                                                createFromInfoString = "YouTube";
+                                            } else {
+                                                createFromInfoString = LocaleController.getString(messageObject3.canPreviewDocument() ? R.string.AttachDocument : messageObject3.isVideo() ? R.string.AttachVideo : messageObject3.isGif() ? R.string.AttachGif : R.string.AttachPhoto);
+                                            }
+                                        } else if (isInvoice) {
+                                            PhotoCountView photoCountView5 = this.countView;
+                                            if (photoCountView5 != null) {
+                                                photoCountView5.updateShow(false, z2);
+                                            }
+                                            createFromInfoString = MessageObject.getMedia(messageObject3.messageOwner).title;
+                                        } else {
+                                            if (messageObject3.isVideo()) {
+                                                PhotoCountView photoCountView6 = this.countView;
+                                                if (photoCountView6 != null) {
+                                                    photoCountView6.updateShow(false, z2);
+                                                }
+                                                i14 = R.string.AttachVideo;
+                                                str3 = "AttachVideo";
+                                            } else if (messageObject3.isGif()) {
+                                                PhotoCountView photoCountView7 = this.countView;
+                                                if (photoCountView7 != null) {
+                                                    photoCountView7.updateShow(false, z2);
+                                                }
+                                                i14 = R.string.AttachGif;
+                                                str3 = "AttachGif";
+                                            } else if (messageObject3.getDocument() != null) {
+                                                PhotoCountView photoCountView8 = this.countView;
+                                                if (photoCountView8 != null) {
+                                                    photoCountView8.updateShow(false, z2);
+                                                }
+                                                createFromInfoString = LocaleController.getString("AttachDocument", R.string.AttachDocument);
+                                            }
+                                            createFromInfoString = LocaleController.getString(str3, i14);
+                                        }
+                                    } else if (this.opennedFromMedia) {
+                                        if (this.startOffset + this.imagesArr.size() < this.totalImagesCount + this.totalImagesCountMerge && !this.loadingMoreImages && this.switchingToIndex > this.imagesArr.size() - 5) {
+                                            if (this.imagesArr.isEmpty()) {
+                                                id2 = 0;
+                                            } else {
+                                                ArrayList arrayList = this.imagesArr;
+                                                id2 = ((MessageObject) arrayList.get(arrayList.size() - 1)).getId();
+                                            }
+                                            if (!this.endReached[0] || this.mergeDialogId == 0) {
+                                                i17 = id2;
+                                                z18 = false;
+                                            } else {
+                                                if (this.imagesArr.isEmpty()) {
+                                                    i18 = id2;
+                                                } else {
+                                                    ArrayList arrayList2 = this.imagesArr;
+                                                    i18 = id2;
+                                                    if (((MessageObject) arrayList2.get(arrayList2.size() - 1)).getDialogId() != this.mergeDialogId) {
+                                                        z18 = true;
+                                                        i17 = 0;
+                                                    }
+                                                }
+                                                i17 = i18;
+                                                z18 = true;
+                                            }
+                                            if (!this.placeProvider.loadMore()) {
+                                                MediaDataController.getInstance(this.currentAccount).loadMedia(!z18 ? this.currentDialogId : this.mergeDialogId, 40, i17, 0, this.sharedMediaType, this.topicId, 1, this.classGuid, 0, this.currentFilterTag, null);
+                                                this.loadingMoreImages = true;
+                                            }
+                                        }
+                                        if (this.startOffset > 0 && this.switchingToIndex < 5 && !this.imagesArr.isEmpty()) {
+                                            int id3 = ((MessageObject) this.imagesArr.get(0)).getId();
+                                            if (!this.placeProvider.loadMore()) {
+                                                MediaDataController.getInstance(this.currentAccount).loadMedia(this.currentDialogId, 40, 0, id3, this.sharedMediaType, this.topicId, 1, this.classGuid, 0, this.currentFilterTag, null);
+                                                this.loadingMoreImages = true;
+                                            }
+                                        }
+                                        PhotoCountView photoCountView9 = this.countView;
+                                        if (photoCountView9 != null) {
+                                            photoCountView9.updateShow(this.openedFromProfile, z2);
+                                            PhotoCountView photoCountView10 = this.countView;
+                                            int i22 = this.totalImagesCount + this.totalImagesCountMerge;
+                                            photoCountView10.set(i22 - (this.startOffset + this.switchingToIndex), i22);
+                                        }
+                                    } else {
+                                        if (this.imagesArr.size() >= this.totalImagesCount + this.totalImagesCountMerge || this.loadingMoreImages || this.switchingToIndex >= 5) {
+                                            r5 = 1;
+                                        } else {
+                                            if (this.imagesArr.isEmpty()) {
+                                                id = 0;
+                                                i15 = 0;
+                                            } else {
+                                                i15 = 0;
+                                                id = ((MessageObject) this.imagesArr.get(0)).getId();
+                                            }
+                                            if (!this.endReached[i15] || this.mergeDialogId == 0) {
+                                                i16 = id;
+                                                z17 = false;
+                                            } else if (this.imagesArr.isEmpty() || ((MessageObject) this.imagesArr.get(i15)).getDialogId() == this.mergeDialogId) {
+                                                i16 = id;
+                                                z17 = true;
+                                            } else {
+                                                z17 = true;
+                                                i16 = 0;
+                                            }
+                                            MediaDataController.getInstance(this.currentAccount).loadMedia(!z17 ? this.currentDialogId : this.mergeDialogId, 80, i16, 0, this.sharedMediaType, this.topicId, 1, this.classGuid, 0, this.currentFilterTag, null);
+                                            r5 = 1;
+                                            this.loadingMoreImages = true;
+                                        }
+                                        PhotoCountView photoCountView11 = this.countView;
+                                        if (photoCountView11 != 0) {
+                                            photoCountView11.updateShow(r5, z2);
+                                            this.countView.set(((this.totalImagesCount + this.totalImagesCountMerge) - this.imagesArr.size()) + this.switchingToIndex + r5, this.totalImagesCount + this.totalImagesCountMerge);
+                                        }
+                                    }
+                                    if ((DialogObject.isEncryptedDialog(this.currentDialogId) && !this.isEmbedVideo) || z20) {
+                                        setItemVisible(this.sendItem, false, false);
+                                    }
+                                    if (this.isEmbedVideo || (((i19 = messageObject3.messageOwner.ttl) != 0 && i19 < 3600) || z20)) {
+                                        this.allowShare = false;
+                                        this.galleryButton.setVisibility(8);
+                                        this.galleryGap.setVisibility(8);
+                                        this.menuItem.hideSubItem(9);
+                                        setItemVisible(this.editItem, false, z2);
+                                    } else {
+                                        this.allowShare = true;
+                                        this.galleryButton.setVisibility(0);
+                                        this.galleryGap.setVisibility(0);
+                                        this.menuItem.showSubItem(9);
+                                    }
+                                    this.groupedPhotosListView.fillList();
+                                    messageObject = messageObject3;
+                                    charSequence = restrictionReason;
+                                    z4 = z16;
+                                    charSequence2 = createFromInfoString;
+                                    z3 = z2;
+                                } else {
+                                    photoCountView2 = this.countView;
+                                }
+                                boolean z25 = (!this.editing && this.setAvatarFor == null) || this.sendPhotoType == 11;
+                                this.fancyShadows = z25;
+                                this.actionBar.setBackgroundColor((z25 && this.setAvatarFor == null) ? 2130706432 : 0);
+                                this.actionBarContainer.setTextShadows(this.fancyShadows);
+                                View view = this.navigationBar;
+                                if (this.fancyShadows || this.sendPhotoType == 11) {
+                                    i2 = 0;
+                                }
+                                view.setVisibility(i2);
+                                if (this.currentEditMode == 0) {
+                                    this.navigationBar.setBackgroundColor(this.fancyShadows ? this.sendPhotoType == 11 ? 1711276032 : 0 : this.sendPhotoType == 11 ? -16777216 : 2130706432);
+                                }
+                                if (charSequence2 != null) {
+                                    if (!z2) {
+                                        this.actionBarContainer.setTitle(charSequence2);
+                                    } else if (i20 == i) {
+                                        this.actionBarContainer.setTitleAnimated(charSequence2, true, true);
+                                    } else {
+                                        this.actionBarContainer.setTitleAnimated(charSequence2, false, i20 > i);
+                                    }
+                                }
+                                setCurrentCaption(messageObject, charSequence, z4, z3);
+                            }
+                            restrictionReason = postProcessTranslated(messageObject3);
+                        }
+                    } else {
+                        i12 = 20;
+                        this.menuItem.showSubItem(19);
+                    }
+                    this.menuItem.hideSubItem(i12);
+                    this.allowShare = !z20;
+                    if (messageObject3.isNewGif()) {
+                        this.menuItem.showSubItem(12);
+                    }
+                    chatActivity = this.parentChatActivity;
+                    if (chatActivity == null) {
+                    }
+                    chat = null;
+                    z14 = false;
+                    if (messageObject3.canDeleteMessage(z14, chat)) {
+                    }
+                    this.menuItem.hideSubItem(7);
+                    this.menuItem.checkHideMenuItem();
+                    if (messageObject3.getDocument() != null) {
+                    }
+                    if (!this.isEmbedVideo) {
+                    }
+                    restrictionReason = MessagesController.getInstance(messageObject3.currentAccount).getRestrictionReason(messageObject3.messageOwner.restriction_reason);
+                    if (TextUtils.isEmpty(restrictionReason)) {
+                    }
+                }
+                z16 = false;
+                if (this.currentAnimation != null) {
+                }
+                if (messageObject3.isSponsored()) {
+                }
+                if (this.editing) {
+                }
+                this.fancyShadows = z25;
+                this.actionBar.setBackgroundColor((z25 && this.setAvatarFor == null) ? 2130706432 : 0);
+                this.actionBarContainer.setTextShadows(this.fancyShadows);
+                View view2 = this.navigationBar;
+                if (this.fancyShadows) {
+                }
+                i2 = 0;
+                view2.setVisibility(i2);
+                if (this.currentEditMode == 0) {
+                }
+                if (charSequence2 != null) {
+                }
+                setCurrentCaption(messageObject, charSequence, z4, z3);
+            }
+            charSequence = null;
+            if (!this.secureDocuments.isEmpty()) {
+                this.allowShare = false;
+                this.menuItem.showSubItem(7);
+                this.galleryButton.setVisibility(8);
+                this.galleryGap.setVisibility(8);
+                this.menuItem.hideSubItem(19);
+                this.menuItem.hideSubItem(20);
+                PhotoCountView photoCountView12 = this.countView;
+                if (photoCountView12 != null) {
+                    photoCountView12.updateShow(this.secureDocuments.size() > 1, true);
+                    this.countView.set(this.switchingToIndex + 1, this.secureDocuments.size());
+                }
+                this.actionBarContainer.setTitle("");
+                this.actionBarContainer.setSubtitle("", z2);
+                z3 = z2;
+                charSequence2 = null;
+                messageObject = null;
+            } else {
+                if (this.imagesArrLocations.isEmpty()) {
                     if (this.imagesArrLocals.isEmpty()) {
                         PageBlocksAdapter pageBlocksAdapter = this.pageBlocksAdapter;
                         if (pageBlocksAdapter != null) {
                             int itemsCount = pageBlocksAdapter.getItemsCount();
-                            int i22 = this.switchingToIndex;
-                            if (i22 < 0 || i22 >= itemsCount) {
+                            int i23 = this.switchingToIndex;
+                            if (i23 < 0 || i23 >= itemsCount) {
                                 return;
                             }
                             this.menuItem.hideSubItem(19);
@@ -20996,8 +21347,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             this.allowShare = !MessagesController.getInstance(this.currentAccount).isChatNoForwards(-this.currentDialogId) && ((messageObject2 = this.currentMessageObject) == null || !messageObject2.hasRevealedExtendedMedia());
                             TLRPC.PageBlock pageBlock = this.pageBlocksAdapter.get(this.switchingToIndex);
                             CharSequence caption = this.pageBlocksAdapter.getCaption(this.switchingToIndex);
-                            boolean isVideo = this.pageBlocksAdapter.isVideo(this.switchingToIndex);
-                            if (isVideo) {
+                            boolean isVideo2 = this.pageBlocksAdapter.isVideo(this.switchingToIndex);
+                            if (isVideo2) {
                                 if (this.allowShare) {
                                     this.menuItem.showSubItem(10);
                                 } else {
@@ -21017,10 +21368,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             if (this.bottomLayout.getVisibility() != 8) {
                                 this.bottomLayout.setVisibility(8);
                             }
+                            messageObject = null;
                             this.bottomLayout.setTag(null);
-                            PhotoCountView photoCountView5 = this.countView;
-                            if (photoCountView5 != null) {
-                                photoCountView5.updateShow(itemsCount > 1, true);
+                            PhotoCountView photoCountView13 = this.countView;
+                            if (photoCountView13 != null) {
+                                photoCountView13.updateShow(itemsCount > 1, true);
                                 this.countView.set(this.switchingToIndex + 1, itemsCount);
                             }
                             if (this.currentAnimation != null || (!this.pageBlocksAdapter.isVideo(i) && this.pageBlocksAdapter.isHardwarePlayer(i))) {
@@ -21033,9 +21385,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     this.menuItem.hideSubItem(12);
                                 }
                                 this.menuItem.checkHideMenuItem();
-                                string = LocaleController.getString("AttachGif", R.string.AttachGif);
+                                string = LocaleController.getString(R.string.AttachGif);
                             } else {
-                                string = itemsCount == 1 ? isVideo ? LocaleController.getString("AttachVideo", R.string.AttachVideo) : LocaleController.getString("AttachPhoto", R.string.AttachPhoto) : null;
+                                if (itemsCount == 1) {
+                                    string = LocaleController.getString(isVideo2 ? R.string.AttachVideo : R.string.AttachPhoto);
+                                } else {
+                                    string = null;
+                                }
                                 this.galleryButton.setVisibility(0);
                                 this.galleryGap.setVisibility(0);
                                 this.menuItem.hideSubItem(12);
@@ -21044,51 +21400,52 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             }
                             this.groupedPhotosListView.fillList();
                             this.pageBlocksAdapter.updateSlideshowCell(pageBlock);
-                            z3 = z2;
-                            z4 = false;
-                            str = string;
-                            messageObject = null;
                             charSequence = caption;
+                            z3 = z2;
+                            charSequence2 = string;
                         } else {
                             i2 = 8;
-                            charSequence = null;
+                            messageObject = null;
                             this.menuItem.hideSubItem(19);
                             this.menuItem.hideSubItem(20);
-                            messageObject = null;
-                            str = null;
+                            charSequence2 = null;
+                            charSequence = null;
                             z3 = z2;
-                            z4 = false;
                         }
+                        z4 = false;
                     } else {
                         if (i < 0 || i >= this.imagesArrLocals.size()) {
                             return;
                         }
                         this.menuItem.hideSubItem(19);
                         this.menuItem.hideSubItem(20);
-                        Object obj = this.imagesArrLocals.get(i);
-                        if (obj instanceof TLRPC.BotInlineResult) {
-                            TLRPC.BotInlineResult botInlineResult = (TLRPC.BotInlineResult) obj;
+                        Object obj2 = this.imagesArrLocals.get(i);
+                        if (obj2 instanceof TLRPC.BotInlineResult) {
+                            TLRPC.BotInlineResult botInlineResult = (TLRPC.BotInlineResult) obj2;
                             this.currentBotInlineResult = botInlineResult;
                             TLRPC.Document document = botInlineResult.document;
-                            z9 = document != null ? MessageObject.isVideoDocument(document) : botInlineResult.content instanceof TLRPC.TL_webDocument ? botInlineResult.type.equals(MediaStreamTrack.VIDEO_TRACK_KIND) : false;
+                            z8 = document != null ? MessageObject.isVideoDocument(document) : botInlineResult.content instanceof TLRPC.TL_webDocument ? botInlineResult.type.equals(MediaStreamTrack.VIDEO_TRACK_KIND) : false;
+                            z3 = z2;
+                            charSequence4 = null;
                             cropState2 = null;
-                            z8 = z2;
+                            charSequence3 = null;
                             i5 = 0;
+                            z9 = false;
                             z10 = false;
                             z11 = false;
                             i3 = 8;
                         } else {
-                            boolean z21 = obj instanceof MediaController.PhotoEntry;
-                            if (z21) {
-                                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj;
+                            boolean z26 = obj2 instanceof MediaController.PhotoEntry;
+                            if (z26) {
+                                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) obj2;
                                 this.currentPathObject = photoEntry.path;
-                                boolean z22 = photoEntry.isVideo;
+                                boolean z27 = photoEntry.isVideo;
                                 cropState = photoEntry.cropState;
-                                z6 = z22;
+                                z6 = z27;
                                 z5 = false;
                             } else {
-                                if (obj instanceof MediaController.SearchImage) {
-                                    MediaController.SearchImage searchImage2 = (MediaController.SearchImage) obj;
+                                if (obj2 instanceof MediaController.SearchImage) {
+                                    MediaController.SearchImage searchImage2 = (MediaController.SearchImage) obj2;
                                     this.currentPathObject = searchImage2.getPathToAttach();
                                     cropState = searchImage2.cropState;
                                     if (searchImage2.type == 1) {
@@ -21102,27 +21459,30 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 z6 = false;
                             }
                             if (z6) {
-                                z8 = !this.isCurrentVideo ? false : z2;
-                                int i23 = this.sendPhotoType;
-                                if (i23 != -1) {
+                                z3 = !this.isCurrentVideo ? false : z2;
+                                int i24 = this.sendPhotoType;
+                                if (i24 != -1) {
                                     this.isCurrentVideo = true;
                                 }
-                                if (!z21 || (videoEditedInfo = ((MediaController.PhotoEntry) obj).editedInfo) == null) {
-                                    z13 = false;
-                                    f = 1.0f;
+                                if (!z26 || (videoEditedInfo = ((MediaController.PhotoEntry) obj2).editedInfo) == null) {
+                                    z12 = false;
+                                    f = 0.0f;
+                                    f2 = 1.0f;
                                     i6 = -1;
                                 } else {
-                                    z13 = videoEditedInfo.muted;
-                                    f2 = videoEditedInfo.start;
-                                    f = videoEditedInfo.end;
+                                    z12 = videoEditedInfo.muted;
+                                    float f4 = videoEditedInfo.start;
+                                    float f5 = videoEditedInfo.end;
                                     i6 = videoEditedInfo.compressQuality;
+                                    f2 = f5;
+                                    f = f4;
                                 }
-                                if (i23 != -1) {
-                                    z7 = z21;
-                                    float f3 = f2;
+                                if (i24 != -1) {
                                     i3 = 8;
-                                    charSequence2 = null;
-                                    processOpenVideo(this.currentPathObject, z13, f3, f, i6);
+                                    charSequence3 = null;
+                                    float f6 = f2;
+                                    z7 = z26;
+                                    processOpenVideo(this.currentPathObject, z12, f, f6, i6);
                                     if (this.isDocumentsPicker) {
                                         showVideoTimeline(false, z2);
                                         this.videoAvatarTooltip.setVisibility(8);
@@ -21171,18 +21531,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                         this.paintItem.setTag(Integer.valueOf(i8));
                                     }
                                 } else {
-                                    z7 = z21;
-                                    charSequence2 = null;
+                                    z7 = z26;
+                                    charSequence3 = null;
                                     i3 = 8;
                                 }
                             } else {
-                                z7 = z21;
-                                charSequence2 = null;
+                                z7 = z26;
+                                charSequence3 = null;
                                 i3 = 8;
                                 showVideoTimeline(false, z2);
                                 this.videoAvatarTooltip.setVisibility(8);
                                 AndroidUtilities.updateViewVisibilityAnimated(this.muteItem, false, 1.0f, z2);
-                                boolean z23 = this.isCurrentVideo ? false : z2;
+                                boolean z28 = this.isCurrentVideo ? false : z2;
                                 this.isCurrentVideo = false;
                                 this.compressItem.setVisibility(8);
                                 if (z5 || (i4 = this.sendPhotoType) == 10 || this.isDocumentsPicker) {
@@ -21213,627 +21573,251 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                     this.actionBar.beginDelayedTransition();
                                 }
                                 this.actionBarContainer.setSubtitle("");
-                                z8 = z23;
+                                z3 = z28;
                             }
                             if (z7) {
-                                ?? r02 = (MediaController.PhotoEntry) obj;
-                                this.fromCamera = r02.bucketId == 0 && r02.dateTaken == 0 && this.imagesArrLocals.size() == 1;
-                                charSequence3 = this.hasCaptionForAllMedia ? this.captionForAllMedia : r02.caption;
-                                searchImage = r02;
-                            } else if (obj instanceof MediaController.SearchImage) {
-                                MediaController.SearchImage searchImage3 = (MediaController.SearchImage) obj;
-                                charSequence3 = searchImage3.caption;
+                                MediaController.PhotoEntry photoEntry2 = (MediaController.PhotoEntry) obj2;
+                                this.fromCamera = photoEntry2.bucketId == 0 && photoEntry2.dateTaken == 0 && this.imagesArrLocals.size() == 1;
+                                charSequence5 = this.hasCaptionForAllMedia ? this.captionForAllMedia : photoEntry2.caption;
+                                searchImage = photoEntry2;
+                            } else if (obj2 instanceof MediaController.SearchImage) {
+                                MediaController.SearchImage searchImage3 = (MediaController.SearchImage) obj2;
+                                charSequence5 = searchImage3.caption;
                                 searchImage = searchImage3;
                             } else {
-                                charSequence = charSequence2;
+                                charSequence4 = charSequence3;
                                 cropState2 = cropState;
-                                z9 = z6;
+                                z8 = z6;
                                 i5 = 0;
+                                z9 = false;
                                 z10 = false;
                                 z11 = false;
                             }
-                            i5 = searchImage.ttl;
-                            z10 = searchImage.isFiltered;
-                            z11 = searchImage.isPainted;
-                            z12 = searchImage.isCropped;
-                            charSequence = charSequence3;
+                            int i25 = searchImage.ttl;
+                            boolean z29 = searchImage.isFiltered;
+                            boolean z30 = searchImage.isPainted;
+                            z11 = searchImage.isCropped;
+                            z10 = z30;
+                            z8 = z6;
+                            z9 = z29;
+                            i5 = i25;
+                            charSequence4 = charSequence5;
                             cropState2 = cropState;
-                            z9 = z6;
-                            if (this.bottomLayout.getVisibility() != i3) {
-                                this.bottomLayout.setVisibility(i3);
-                            }
-                            this.bottomLayout.setTag(null);
-                            photoCountView = this.countView;
-                            if (photoCountView != null) {
-                                photoCountView.updateShow(false, z2);
-                            }
-                            String string2 = !this.fromCamera ? z9 ? LocaleController.getString("AttachVideo", R.string.AttachVideo) : LocaleController.getString("AttachPhoto", R.string.AttachPhoto) : null;
-                            chatActivity = this.parentChatActivity;
-                            if (chatActivity != null) {
-                                if (chatActivity.getChatMode() == 3) {
-                                    long savedDialogId = this.parentChatActivity.getSavedDialogId();
-                                    MessagesController messagesController = this.parentChatActivity.getMessagesController();
-                                    if (savedDialogId >= 0) {
-                                        currentUser = messagesController.getUser(Long.valueOf(savedDialogId));
-                                        currentChat = null;
-                                    } else {
-                                        currentChat = messagesController.getChat(Long.valueOf(-savedDialogId));
-                                        currentUser = null;
-                                    }
-                                } else {
-                                    currentUser = this.parentChatActivity.getCurrentUser();
-                                    currentChat = this.parentChatActivity.getCurrentChat();
-                                }
-                                if (currentChat != null) {
-                                    string2 = currentChat.title;
-                                } else {
-                                    if (UserObject.isUserSelf(currentUser)) {
-                                        i11 = this.parentChatActivity.getChatMode() == 3 ? R.string.MyNotes : R.string.SavedMessages;
-                                    } else if (UserObject.isAnonymous(currentUser)) {
-                                        i11 = R.string.AnonymousForward;
-                                    } else {
-                                        string2 = UserObject.getUserName(currentUser);
-                                    }
-                                    string2 = LocaleController.getString(i11);
-                                }
-                            }
-                            i9 = this.sendPhotoType;
-                            if (i9 != 0 || i9 == 4 || ((i9 == 2 || i9 == 5) && this.imagesArrLocals.size() > 1)) {
-                                this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
-                            }
-                            updateCaptionTextForCurrentPhoto(obj);
-                            PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY);
-                            this.captionEdit.setIsVideo(z9);
-                            this.captionEdit.setTimer(i5);
-                            this.topCaptionEdit.setIsVideo(z9);
-                            this.topCaptionEdit.setTimer(i5);
-                            this.paintItem.setColorFilter(!z11 ? porterDuffColorFilter2 : null);
-                            this.cropItem.setColorFilter(!z12 ? porterDuffColorFilter2 : null);
-                            this.tuneItem.setColorFilter(!z10 ? porterDuffColorFilter2 : null);
-                            if (this.fromCamera) {
-                                imageView = this.mirrorItem;
-                                if (cropState2 != null) {
-                                }
-                                porterDuffColorFilter = null;
-                            } else {
-                                imageView = this.mirrorItem;
-                                if (cropState2 != null) {
-                                    boolean z24 = this.isCurrentVideo;
-                                    if (z24) {
-                                    }
-                                    if (!z24) {
-                                    }
-                                }
-                                porterDuffColorFilter = null;
-                            }
-                            imageView.setColorFilter(porterDuffColorFilter);
-                            this.rotateItem.setColorFilter((cropState2 != null || cropState2.transformRotation == 0) ? null : porterDuffColorFilter2);
-                            this.editing = !this.needCaptionLayout && ((i10 = this.sendPhotoType) == 0 || i10 == 2 || i10 == -1);
-                            str = string2;
-                            z3 = z8;
-                            messageObject = null;
-                            i2 = 8;
-                            z4 = false;
                         }
-                        z12 = false;
                         if (this.bottomLayout.getVisibility() != i3) {
+                            this.bottomLayout.setVisibility(i3);
                         }
-                        this.bottomLayout.setTag(null);
-                        photoCountView = this.countView;
-                        if (photoCountView != null) {
+                        this.bottomLayout.setTag(charSequence3);
+                        PhotoCountView photoCountView14 = this.countView;
+                        if (photoCountView14 != null) {
+                            photoCountView14.updateShow(false, z2);
                         }
-                        if (!this.fromCamera) {
-                        }
-                        chatActivity = this.parentChatActivity;
-                        if (chatActivity != null) {
-                        }
-                        i9 = this.sendPhotoType;
-                        if (i9 != 0) {
-                        }
-                        this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
-                        updateCaptionTextForCurrentPhoto(obj);
-                        PorterDuffColorFilter porterDuffColorFilter22 = new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY);
-                        this.captionEdit.setIsVideo(z9);
-                        this.captionEdit.setTimer(i5);
-                        this.topCaptionEdit.setIsVideo(z9);
-                        this.topCaptionEdit.setTimer(i5);
-                        this.paintItem.setColorFilter(!z11 ? porterDuffColorFilter22 : null);
-                        this.cropItem.setColorFilter(!z12 ? porterDuffColorFilter22 : null);
-                        this.tuneItem.setColorFilter(!z10 ? porterDuffColorFilter22 : null);
                         if (this.fromCamera) {
+                            str = LocaleController.getString(z8 ? R.string.AttachVideo : R.string.AttachPhoto);
+                        } else {
+                            str = null;
+                        }
+                        ChatActivity chatActivity4 = this.parentChatActivity;
+                        if (chatActivity4 != null) {
+                            if (chatActivity4.getChatMode() == 3) {
+                                obj = obj2;
+                                long savedDialogId = this.parentChatActivity.getSavedDialogId();
+                                if (savedDialogId >= 0) {
+                                    currentUser = this.parentChatActivity.getMessagesController().getUser(Long.valueOf(savedDialogId));
+                                    currentChat = null;
+                                } else {
+                                    currentChat = this.parentChatActivity.getMessagesController().getChat(Long.valueOf(-savedDialogId));
+                                    currentUser = null;
+                                }
+                            } else {
+                                obj = obj2;
+                                currentUser = this.parentChatActivity.getCurrentUser();
+                                currentChat = this.parentChatActivity.getCurrentChat();
+                            }
+                            if (currentChat != null) {
+                                str = currentChat.title;
+                            } else {
+                                if (UserObject.isUserSelf(currentUser)) {
+                                    i10 = this.parentChatActivity.getChatMode() == 3 ? R.string.MyNotes : R.string.SavedMessages;
+                                } else if (UserObject.isAnonymous(currentUser)) {
+                                    i10 = R.string.AnonymousForward;
+                                } else {
+                                    str = UserObject.getUserName(currentUser);
+                                }
+                                str = LocaleController.getString(i10);
+                            }
+                        } else {
+                            obj = obj2;
+                        }
+                        int i26 = this.sendPhotoType;
+                        if (i26 == 0 || i26 == 4 || ((i26 == 2 || i26 == 5) && this.imagesArrLocals.size() > 1)) {
+                            charSequence6 = charSequence4;
+                            this.checkImageView.setChecked(this.placeProvider.isPhotoChecked(this.switchingToIndex), false);
+                        } else {
+                            charSequence6 = charSequence4;
+                        }
+                        updateCaptionTextForCurrentPhoto(obj);
+                        PorterDuffColorFilter porterDuffColorFilter2 = new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY);
+                        this.captionEdit.setIsVideo(z8);
+                        this.captionEdit.setTimer(i5);
+                        this.topCaptionEdit.setIsVideo(z8);
+                        this.topCaptionEdit.setTimer(i5);
+                        this.paintItem.setColorFilter(z10 ? porterDuffColorFilter2 : null);
+                        this.cropItem.setColorFilter(z11 ? porterDuffColorFilter2 : null);
+                        this.tuneItem.setColorFilter(z9 ? porterDuffColorFilter2 : null);
+                        if (this.fromCamera) {
+                            imageView = this.mirrorItem;
+                            if (cropState2 != null) {
+                                boolean z31 = this.isCurrentVideo;
+                                if (z31) {
+                                }
+                                if (!z31) {
+                                }
+                            }
+                            porterDuffColorFilter = null;
+                        } else {
+                            imageView = this.mirrorItem;
+                            if (cropState2 != null) {
+                            }
+                            porterDuffColorFilter = null;
                         }
                         imageView.setColorFilter(porterDuffColorFilter);
-                        this.rotateItem.setColorFilter((cropState2 != null || cropState2.transformRotation == 0) ? null : porterDuffColorFilter22);
-                        this.editing = !this.needCaptionLayout && ((i10 = this.sendPhotoType) == 0 || i10 == 2 || i10 == -1);
-                        str = string2;
-                        z3 = z8;
-                        messageObject = null;
-                        i2 = 8;
+                        this.rotateItem.setColorFilter((cropState2 == null || cropState2.transformRotation == 0) ? null : porterDuffColorFilter2);
+                        this.editing = this.needCaptionLayout && ((i9 = this.sendPhotoType) == 0 || i9 == 2 || i9 == -1);
+                        charSequence = charSequence6;
+                        charSequence2 = str;
                         z4 = false;
-                    }
-                } else {
-                    if (i < 0 || i >= this.imagesArrLocations.size()) {
-                        return;
-                    }
-                    this.menuItem.hideSubItem(19);
-                    this.menuItem.hideSubItem(20);
-                    if (!this.canEditAvatar || this.avatarsArr.isEmpty()) {
-                        i12 = 7;
-                        this.menuItem.hideSubItem(15);
-                        this.menuItem.hideSubItem(14);
-                        actionBarMenuItem = this.menuItem;
-                    } else {
-                        this.menuItem.showSubItem(15);
-                        if (isCurrentAvatarSet()) {
-                            this.menuItem.hideSubItem(14);
-                        } else {
-                            this.menuItem.showSubItem(14);
-                        }
-                        if (this.avatarsDialogId <= 0) {
-                            TLRPC.Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.avatarsDialogId));
-                            if (!isCurrentAvatarSet() && !MessageObject.canDeleteMessage(this.currentAccount, false, (TLRPC.Message) this.imagesArrMessages.get(i), chat2)) {
-                                actionBarMenuItem = this.menuItem;
-                                i12 = 7;
-                            }
-                        }
-                        this.menuItem.showSubItem(7);
-                        j = this.avatarsDialogId;
-                        if (j == 0) {
-                            if (j >= 0) {
-                                str2 = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.avatarsDialogId)));
-                            } else {
-                                TLRPC.Chat chat3 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.avatarsDialogId));
-                                str2 = chat3 != null ? chat3.title : "";
-                            }
-                            ImageLocation imageLocation = (ImageLocation) this.imagesArrLocations.get(i);
-                            if (imageLocation == null || (photo = imageLocation.photo) == null) {
-                                this.actionBarContainer.setSubtitle("", z2);
-                            } else {
-                                this.actionBarContainer.setSubtitle(LocaleController.formatDateTime(photo.date, true), z2);
-                            }
-                        } else {
-                            str2 = null;
-                        }
-                        dialogPhotos = this.dialogPhotos;
-                        if (dialogPhotos != null) {
-                            dialogPhotos.loadAfter(i, z20);
-                        }
-                        photoCountView2 = this.countView;
-                        if (photoCountView2 != null) {
-                            photoCountView2.updateShow(this.imagesArrLocations.size() > 1, true);
-                            this.countView.set(this.switchingToIndex + 1, this.imagesArrLocations.size());
-                        }
-                        r0 = this.customTitle;
-                        if (r0 == 0) {
-                            str2 = r0;
-                        } else if (this.isEvent) {
-                            str2 = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
-                        }
-                        z14 = this.avatarsDialogId == 0 && MessagesController.getInstance(this.currentAccount).isChatNoForwards(-this.avatarsDialogId);
-                        if (z14) {
-                            this.galleryButton.setVisibility(0);
-                            this.galleryGap.setVisibility(0);
-                        } else {
-                            this.galleryButton.setVisibility(8);
-                            this.galleryGap.setVisibility(8);
-                        }
-                        this.allowShare = !z14;
-                        this.menuItem.showSubItem(9);
-                        this.menuItem.checkHideMenuItem();
-                        this.groupedPhotosListView.fillList();
-                        this.editing = !this.needCaptionLayout && ((i13 = this.sendPhotoType) == 0 || i13 == 2 || i13 == -1);
-                        str = str2;
+                        i2 = 8;
                         messageObject = null;
                     }
-                    actionBarMenuItem.hideSubItem(i12);
+                    if (this.editing) {
+                    }
+                    this.fancyShadows = z25;
+                    this.actionBar.setBackgroundColor((z25 && this.setAvatarFor == null) ? 2130706432 : 0);
+                    this.actionBarContainer.setTextShadows(this.fancyShadows);
+                    View view22 = this.navigationBar;
+                    if (this.fancyShadows) {
+                    }
+                    i2 = 0;
+                    view22.setVisibility(i2);
+                    if (this.currentEditMode == 0) {
+                    }
+                    if (charSequence2 != null) {
+                    }
+                    setCurrentCaption(messageObject, charSequence, z4, z3);
+                }
+                if (i < 0 || i >= this.imagesArrLocations.size()) {
+                    return;
+                }
+                this.menuItem.hideSubItem(19);
+                this.menuItem.hideSubItem(20);
+                if (!this.canEditAvatar || this.avatarsArr.isEmpty()) {
+                    this.menuItem.hideSubItem(15);
+                    this.menuItem.hideSubItem(14);
+                } else {
+                    this.menuItem.showSubItem(15);
+                    if (isCurrentAvatarSet()) {
+                        this.menuItem.hideSubItem(14);
+                    } else {
+                        this.menuItem.showSubItem(14);
+                    }
+                    if (this.avatarsDialogId <= 0) {
+                        TLRPC.Chat chat2 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.avatarsDialogId));
+                        if (!isCurrentAvatarSet()) {
+                        }
+                    }
+                    this.menuItem.showSubItem(7);
                     j = this.avatarsDialogId;
                     if (j == 0) {
+                        if (j >= 0) {
+                            str2 = UserObject.getUserName(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(this.avatarsDialogId)));
+                        } else {
+                            TLRPC.Chat chat3 = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.avatarsDialogId));
+                            str2 = chat3 != null ? chat3.title : "";
+                        }
+                        charSequence7 = str2;
+                        ImageLocation imageLocation = (ImageLocation) this.imagesArrLocations.get(i);
+                        if (imageLocation == null || (photo = imageLocation.photo) == null) {
+                            this.actionBarContainer.setSubtitle("", z2);
+                        } else {
+                            this.actionBarContainer.setSubtitle(LocaleController.formatDateTime(photo.date, true), z2);
+                        }
+                    } else {
+                        charSequence7 = null;
                     }
                     dialogPhotos = this.dialogPhotos;
                     if (dialogPhotos != null) {
+                        dialogPhotos.loadAfter(i, z19);
                     }
-                    photoCountView2 = this.countView;
-                    if (photoCountView2 != null) {
+                    photoCountView = this.countView;
+                    if (photoCountView != null) {
+                        photoCountView.updateShow(this.imagesArrLocations.size() > 1, true);
+                        this.countView.set(this.switchingToIndex + 1, this.imagesArrLocations.size());
                     }
-                    r0 = this.customTitle;
-                    if (r0 == 0) {
+                    charSequence8 = this.customTitle;
+                    if (charSequence8 == null) {
+                        charSequence7 = charSequence8;
+                    } else if (this.isEvent) {
+                        charSequence7 = LocaleController.getString(R.string.AttachPhoto);
                     }
-                    if (this.avatarsDialogId == 0) {
+                    z13 = this.avatarsDialogId == 0 && MessagesController.getInstance(this.currentAccount).isChatNoForwards(-this.avatarsDialogId);
+                    if (z13) {
+                        this.galleryButton.setVisibility(0);
+                        this.galleryGap.setVisibility(0);
+                    } else {
+                        this.galleryButton.setVisibility(8);
+                        this.galleryGap.setVisibility(8);
                     }
-                    if (z14) {
-                    }
-                    this.allowShare = !z14;
+                    this.allowShare = !z13;
                     this.menuItem.showSubItem(9);
                     this.menuItem.checkHideMenuItem();
                     this.groupedPhotosListView.fillList();
-                    this.editing = !this.needCaptionLayout && ((i13 = this.sendPhotoType) == 0 || i13 == 2 || i13 == -1);
-                    str = str2;
+                    this.editing = !this.needCaptionLayout && ((i11 = this.sendPhotoType) == 0 || i11 == 2 || i11 == -1);
+                    z3 = z2;
+                    charSequence2 = charSequence7;
                     messageObject = null;
                 }
-                z3 = z2;
-                i2 = 8;
-                z4 = false;
-            } else {
-                int i24 = this.switchingToIndex;
-                if (i24 < 0 || i24 >= this.imagesArr.size()) {
-                    return;
+                this.menuItem.hideSubItem(7);
+                j = this.avatarsDialogId;
+                if (j == 0) {
                 }
-                messageObject = (MessageObject) this.imagesArr.get(this.switchingToIndex);
-                messageObject.updateTranslation();
-                boolean isVideo2 = messageObject.isVideo();
-                ?? createFromInfoString = FilteredSearchView.createFromInfoString(messageObject, this.opennedFromMedia && !this.openedFromProfile, 0);
-                this.actionBarContainer.setSubtitle((messageObject.isQuickReply() || messageObject.isSponsored() || (message3 = messageObject.messageOwner) == null) ? null : LocaleController.formatDateAudio(message3.date, false), z2);
-                boolean isInvoice = messageObject.isInvoice();
-                boolean z25 = MessagesController.getInstance(this.currentAccount).isChatNoForwards(messageObject.getChatId()) || ((message2 = messageObject.messageOwner) != null && message2.noforwards) || messageObject.hasRevealedExtendedMedia();
-                FrameLayout frameLayout2 = this.bottomLayout;
-                if (isVideo2) {
-                    frameLayout2.setVisibility(0);
-                    frameLayout = this.bottomLayout;
-                    num = 1;
-                } else {
-                    frameLayout2.setVisibility(8);
-                    frameLayout = this.bottomLayout;
-                    num = null;
+                dialogPhotos = this.dialogPhotos;
+                if (dialogPhotos != null) {
                 }
-                frameLayout.setTag(num);
-                if (isInvoice) {
-                    setItemVisible(this.masksItem, false, z2);
-                    setItemVisible(this.editItem, false, z2);
-                    this.menuItem.hideSubItem(7);
-                    this.menuItem.hideSubItem(10);
-                    restrictionReason = MessageObject.getMedia(messageObject.messageOwner).description;
-                    this.allowShare = false;
-                    this.menuItem.hideSubItem(19);
-                    this.menuItem.hideSubItem(20);
-                } else {
-                    final TranslateController translateController = MessagesController.getInstance(this.currentAccount).getTranslateController();
-                    if (i21 != this.switchingToIndex) {
-                        this.captionTranslated = false;
-                        this.captionDetectedLanguage = null;
-                    }
-                    if (translateController.isContextTranslateEnabled()) {
-                        translateController.detectPhotoLanguage(messageObject, new Utilities.Callback() { // from class: org.telegram.ui.PhotoViewer$$ExternalSyntheticLambda18
-                            @Override // org.telegram.messenger.Utilities.Callback
-                            public final void run(Object obj2) {
-                                PhotoViewer.this.lambda$setIsAboutToSwitchToIndex$103(i, translateController, messageObject, (String) obj2);
-                            }
-                        });
-                    }
-                    if (!translateController.isContextTranslateEnabled() || !translateController.canTranslatePhoto(messageObject, this.captionDetectedLanguage)) {
-                        i14 = 20;
-                        this.menuItem.hideSubItem(19);
-                    } else if (this.captionTranslated) {
-                        this.menuItem.showSubItem(20);
-                        actionBarMenuItem2 = this.menuItem;
-                        i14 = 19;
-                        actionBarMenuItem2.hideSubItem(i14);
-                        this.allowShare = !z25;
-                        if (messageObject.isNewGif() && this.allowShare && !DialogObject.isEncryptedDialog(messageObject.getDialogId())) {
-                            this.menuItem.showSubItem(12);
-                        }
-                        chatActivity2 = this.parentChatActivity;
-                        if (messageObject.canDeleteMessage(chatActivity2 == null && chatActivity2.isInScheduleMode(), null) || this.slideshowMessageId != 0) {
-                            this.menuItem.hideSubItem(7);
-                        } else {
-                            this.menuItem.showSubItem(7);
-                        }
-                        this.menuItem.checkHideMenuItem();
-                        boolean z26 = (messageObject.getDocument() != null || messageObject.canPreviewDocument() || messageObject.getMimeType().startsWith("video/")) && !this.isEmbedVideo && ((i15 = messageObject.messageOwner.ttl) == 0 || i15 >= 3600) && !z25 && canSendMediaToParentChatActivity() && !this.opennedFromMedia;
-                        if (!this.isEmbedVideo) {
-                            this.menuItem.showSubItem(10);
-                            setItemVisible(this.editItem, false, false);
-                            setItemVisible(this.pipItem, true, false);
-                        } else if (isVideo2) {
-                            if (!z25 || (this.slideshowMessageId != 0 ? !(MessageObject.getMedia(((MessageObject) this.imagesArr.get(0)).messageOwner).webpage == null || MessageObject.getMedia(((MessageObject) this.imagesArr.get(0)).messageOwner).webpage.url == null) : !(MessageObject.getMedia(messageObject.messageOwner).webpage == null || MessageObject.getMedia(messageObject.messageOwner).webpage.url == null))) {
-                                this.menuItem.showSubItem(10);
-                            } else {
-                                this.menuItem.hideSubItem(10);
-                            }
-                            boolean z27 = this.masksItem.getVisibility() == 0;
-                            if (z27) {
-                                setItemVisible(this.masksItem, false, false);
-                            }
-                            if (z25) {
-                                setItemVisible(this.pipItem, false, true);
-                            } else if (this.pipAvailable) {
-                                setItemVisible(this.pipItem, true, !z27 && this.editItem.getAlpha() <= 0.0f);
-                            } else {
-                                this.pipItem.setEnabled(false);
-                                setItemVisible(this.pipItem, true, !z27 && this.editItem.getAlpha() <= 0.0f, 0.5f);
-                            }
-                            setItemVisible(this.editItem, false, false);
-                            if (!messageObject.hasAttachedStickers() || DialogObject.isEncryptedDialog(messageObject.getDialogId())) {
-                                this.menuItem.hideSubItem(13);
-                            } else {
-                                this.menuItem.showSubItem(13);
-                            }
-                            this.menuItem.checkHideMenuItem();
-                        } else {
-                            this.speedItem.setVisibility(8);
-                            this.videoItem.setVisibility(8);
-                            this.speedGap.setVisibility(8);
-                            this.menuItem.hideSubItem(10);
-                            this.menuItem.checkHideMenuItem();
-                            boolean z28 = this.pipItem.getVisibility() == 0;
-                            boolean z29 = messageObject.hasAttachedStickers() && !DialogObject.isEncryptedDialog(messageObject.getDialogId());
-                            if (z28) {
-                                setItemVisible(this.pipItem, false, (z29 || z26) ? false : true);
-                            }
-                            setItemVisible(this.editItem, z26, (!z2 || z28 || z29) ? false : true);
-                            setItemVisible(this.masksItem, z29, !z28);
-                        }
-                        restrictionReason = MessagesController.getInstance(messageObject.currentAccount).getRestrictionReason(messageObject.messageOwner.restriction_reason);
-                        if (TextUtils.isEmpty(restrictionReason)) {
-                            if (!this.captionTranslated || (message = messageObject.messageOwner) == null || message.translatedText == null || !TextUtils.equals(message.translatedToLanguage, TranslateAlert2.getToLanguage())) {
-                                restrictionReason = messageObject.caption;
-                                z4 = this.captionTranslated;
-                                if (this.currentAnimation != null) {
-                                    this.galleryButton.setVisibility(8);
-                                    this.galleryGap.setVisibility(8);
-                                    this.menuItem.hideSubItem(9);
-                                    setItemVisible(this.editItem, false, z2);
-                                    ChatActivity chatActivity3 = this.parentChatActivity;
-                                    if (chatActivity3 == null || !chatActivity3.isInScheduleMode()) {
-                                        chat = null;
-                                        z19 = false;
-                                    } else {
-                                        chat = null;
-                                        z19 = true;
-                                    }
-                                    if (!messageObject.canDeleteMessage(z19, chat)) {
-                                        this.menuItem.hideSubItem(7);
-                                    }
-                                    this.allowShare = !z25;
-                                }
-                                if (messageObject.isSponsored()) {
-                                    ChatActivity chatActivity4 = this.parentChatActivity;
-                                    if (chatActivity4 != null && chatActivity4.getChatMode() == 5) {
-                                        photoCountView3 = this.countView;
-                                    } else if (!this.currentFiltered || (this.currentFilterTag == null && TextUtils.isEmpty(this.currentFilterQuery))) {
-                                        if (this.totalImagesCount + this.totalImagesCountMerge == 0 || this.needSearchImageInArr) {
-                                            charSequence4 = restrictionReason;
-                                            if (this.slideshowMessageId == 0 && (MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage)) {
-                                                PhotoCountView photoCountView6 = this.countView;
-                                                if (photoCountView6 != null) {
-                                                    photoCountView6.updateShow(false, z2);
-                                                }
-                                                if (this.isEmbedVideo) {
-                                                    str3 = "YouTube";
-                                                } else {
-                                                    if (!messageObject.canPreviewDocument()) {
-                                                        str3 = messageObject.isVideo() ? LocaleController.getString("AttachVideo", R.string.AttachVideo) : messageObject.isGif() ? LocaleController.getString("AttachGif", R.string.AttachGif) : LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
-                                                    }
-                                                    str3 = LocaleController.getString("AttachDocument", R.string.AttachDocument);
-                                                }
-                                                str = str3;
-                                            } else if (isInvoice) {
-                                                PhotoCountView photoCountView7 = this.countView;
-                                                if (photoCountView7 != null) {
-                                                    photoCountView7.updateShow(false, z2);
-                                                }
-                                                str3 = MessageObject.getMedia(messageObject.messageOwner).title;
-                                                str = str3;
-                                            } else if (messageObject.isVideo()) {
-                                                PhotoCountView photoCountView8 = this.countView;
-                                                if (photoCountView8 != null) {
-                                                    photoCountView8.updateShow(false, z2);
-                                                }
-                                                str = str3;
-                                            } else if (messageObject.isGif()) {
-                                                PhotoCountView photoCountView9 = this.countView;
-                                                if (photoCountView9 != null) {
-                                                    photoCountView9.updateShow(false, z2);
-                                                }
-                                                str = str3;
-                                            } else if (messageObject.getDocument() != null) {
-                                                PhotoCountView photoCountView10 = this.countView;
-                                                if (photoCountView10 != null) {
-                                                    photoCountView10.updateShow(false, z2);
-                                                }
-                                                str3 = LocaleController.getString("AttachDocument", R.string.AttachDocument);
-                                                str = str3;
-                                            }
-                                        } else if (this.opennedFromMedia) {
-                                            if (this.startOffset + this.imagesArr.size() >= this.totalImagesCount + this.totalImagesCountMerge || this.loadingMoreImages || this.switchingToIndex <= this.imagesArr.size() - 5) {
-                                                charSequence4 = restrictionReason;
-                                            } else {
-                                                if (this.imagesArr.isEmpty()) {
-                                                    id2 = 0;
-                                                } else {
-                                                    ArrayList arrayList = this.imagesArr;
-                                                    id2 = ((MessageObject) arrayList.get(arrayList.size() - 1)).getId();
-                                                }
-                                                if (!this.endReached[0] || this.mergeDialogId == 0) {
-                                                    charSequence4 = restrictionReason;
-                                                    i18 = id2;
-                                                    z18 = false;
-                                                } else {
-                                                    if (this.imagesArr.isEmpty()) {
-                                                        charSequence4 = restrictionReason;
-                                                        i19 = id2;
-                                                    } else {
-                                                        ArrayList arrayList2 = this.imagesArr;
-                                                        long dialogId = ((MessageObject) arrayList2.get(arrayList2.size() - 1)).getDialogId();
-                                                        charSequence4 = restrictionReason;
-                                                        i19 = id2;
-                                                        if (dialogId != this.mergeDialogId) {
-                                                            z18 = true;
-                                                            i18 = 0;
-                                                        }
-                                                    }
-                                                    i18 = i19;
-                                                    z18 = true;
-                                                }
-                                                if (!this.placeProvider.loadMore()) {
-                                                    MediaDataController.getInstance(this.currentAccount).loadMedia(!z18 ? this.currentDialogId : this.mergeDialogId, 40, i18, 0, this.sharedMediaType, this.topicId, 1, this.classGuid, 0, this.currentFilterTag, null);
-                                                    this.loadingMoreImages = true;
-                                                }
-                                            }
-                                            if (this.startOffset > 0 && this.switchingToIndex < 5 && !this.imagesArr.isEmpty()) {
-                                                int id3 = ((MessageObject) this.imagesArr.get(0)).getId();
-                                                if (!this.placeProvider.loadMore()) {
-                                                    MediaDataController.getInstance(this.currentAccount).loadMedia(this.currentDialogId, 40, 0, id3, this.sharedMediaType, this.topicId, 1, this.classGuid, 0, this.currentFilterTag, null);
-                                                    this.loadingMoreImages = true;
-                                                }
-                                            }
-                                            PhotoCountView photoCountView11 = this.countView;
-                                            if (photoCountView11 != null) {
-                                                photoCountView11.updateShow(this.openedFromProfile, z2);
-                                                PhotoCountView photoCountView12 = this.countView;
-                                                int i25 = this.totalImagesCount + this.totalImagesCountMerge;
-                                                photoCountView12.set(i25 - (this.startOffset + this.switchingToIndex), i25);
-                                            }
-                                        } else {
-                                            charSequence4 = restrictionReason;
-                                            if (this.imagesArr.size() >= this.totalImagesCount + this.totalImagesCountMerge || this.loadingMoreImages || this.switchingToIndex >= 5) {
-                                                r1 = 1;
-                                            } else {
-                                                if (this.imagesArr.isEmpty()) {
-                                                    id = 0;
-                                                    i16 = 0;
-                                                } else {
-                                                    i16 = 0;
-                                                    id = ((MessageObject) this.imagesArr.get(0)).getId();
-                                                }
-                                                if (!this.endReached[i16] || this.mergeDialogId == 0) {
-                                                    i17 = id;
-                                                    z17 = false;
-                                                } else if (this.imagesArr.isEmpty() || ((MessageObject) this.imagesArr.get(i16)).getDialogId() == this.mergeDialogId) {
-                                                    i17 = id;
-                                                    z17 = true;
-                                                } else {
-                                                    z17 = true;
-                                                    i17 = 0;
-                                                }
-                                                MediaDataController.getInstance(this.currentAccount).loadMedia(!z17 ? this.currentDialogId : this.mergeDialogId, 80, i17, 0, this.sharedMediaType, this.topicId, 1, this.classGuid, 0, this.currentFilterTag, null);
-                                                r1 = 1;
-                                                this.loadingMoreImages = true;
-                                            }
-                                            ?? r2 = this.countView;
-                                            if (r2 != 0) {
-                                                r2.updateShow(r1, z2);
-                                                this.countView.set(((this.totalImagesCount + this.totalImagesCountMerge) - this.imagesArr.size()) + this.switchingToIndex + r1, this.totalImagesCount + this.totalImagesCountMerge);
-                                            }
-                                        }
-                                        str = createFromInfoString;
-                                    } else {
-                                        PhotoCountView photoCountView13 = this.countView;
-                                        if (photoCountView13 != null) {
-                                            photoCountView13.updateShow(true, z2);
-                                            this.countView.set(this.switchingToIndex + 1, this.imagesArr.size());
-                                        }
-                                    }
-                                    charSequence4 = restrictionReason;
-                                    str = createFromInfoString;
-                                } else {
-                                    photoCountView3 = this.countView;
-                                }
-                                if ((DialogObject.isEncryptedDialog(this.currentDialogId) && !this.isEmbedVideo) || z25) {
-                                    setItemVisible(this.sendItem, false, false);
-                                }
-                                if (!this.isEmbedVideo || (((i20 = messageObject.messageOwner.ttl) != 0 && i20 < 3600) || z25)) {
-                                    this.allowShare = false;
-                                    this.galleryButton.setVisibility(8);
-                                    this.galleryGap.setVisibility(8);
-                                    this.menuItem.hideSubItem(9);
-                                    setItemVisible(this.editItem, false, z2);
-                                } else {
-                                    this.allowShare = true;
-                                    this.galleryButton.setVisibility(0);
-                                    this.galleryGap.setVisibility(0);
-                                    this.menuItem.showSubItem(9);
-                                }
-                                this.groupedPhotosListView.fillList();
-                                z3 = z2;
-                                charSequence = charSequence4;
-                                i2 = 8;
-                            } else {
-                                restrictionReason = postProcessTranslated(messageObject);
-                            }
-                        }
-                    } else {
-                        i14 = 20;
-                        this.menuItem.showSubItem(19);
-                    }
-                    actionBarMenuItem2 = this.menuItem;
-                    actionBarMenuItem2.hideSubItem(i14);
-                    this.allowShare = !z25;
-                    if (messageObject.isNewGif()) {
-                        this.menuItem.showSubItem(12);
-                    }
-                    chatActivity2 = this.parentChatActivity;
-                    if (messageObject.canDeleteMessage(chatActivity2 == null && chatActivity2.isInScheduleMode(), null)) {
-                    }
-                    this.menuItem.hideSubItem(7);
-                    this.menuItem.checkHideMenuItem();
-                    if (messageObject.getDocument() != null) {
-                    }
-                    if (!this.isEmbedVideo) {
-                    }
-                    restrictionReason = MessagesController.getInstance(messageObject.currentAccount).getRestrictionReason(messageObject.messageOwner.restriction_reason);
-                    if (TextUtils.isEmpty(restrictionReason)) {
-                    }
+                photoCountView = this.countView;
+                if (photoCountView != null) {
                 }
-                z4 = false;
-                if (this.currentAnimation != null) {
+                charSequence8 = this.customTitle;
+                if (charSequence8 == null) {
                 }
-                if (messageObject.isSponsored()) {
+                if (this.avatarsDialogId == 0) {
                 }
-                if (DialogObject.isEncryptedDialog(this.currentDialogId)) {
-                    setItemVisible(this.sendItem, false, false);
-                    if (this.isEmbedVideo) {
-                    }
-                    this.allowShare = false;
-                    this.galleryButton.setVisibility(8);
-                    this.galleryGap.setVisibility(8);
-                    this.menuItem.hideSubItem(9);
-                    setItemVisible(this.editItem, false, z2);
-                    this.groupedPhotosListView.fillList();
-                    z3 = z2;
-                    charSequence = charSequence4;
-                    i2 = 8;
+                if (z13) {
                 }
-                setItemVisible(this.sendItem, false, false);
-                if (this.isEmbedVideo) {
-                }
-                this.allowShare = false;
-                this.galleryButton.setVisibility(8);
-                this.galleryGap.setVisibility(8);
-                this.menuItem.hideSubItem(9);
-                setItemVisible(this.editItem, false, z2);
+                this.allowShare = !z13;
+                this.menuItem.showSubItem(9);
+                this.menuItem.checkHideMenuItem();
                 this.groupedPhotosListView.fillList();
+                this.editing = !this.needCaptionLayout && ((i11 = this.sendPhotoType) == 0 || i11 == 2 || i11 == -1);
                 z3 = z2;
-                charSequence = charSequence4;
-                i2 = 8;
+                charSequence2 = charSequence7;
+                messageObject = null;
             }
-            boolean z30 = (this.editing && this.setAvatarFor == null) || this.sendPhotoType == 11;
-            this.fancyShadows = z30;
-            this.actionBar.setBackgroundColor((z30 || this.setAvatarFor != null) ? 0 : 2130706432);
+            z4 = false;
+            i2 = 8;
+            if (this.editing) {
+            }
+            this.fancyShadows = z25;
+            this.actionBar.setBackgroundColor((z25 && this.setAvatarFor == null) ? 2130706432 : 0);
             this.actionBarContainer.setTextShadows(this.fancyShadows);
-            View view = this.navigationBar;
-            if (!this.fancyShadows || this.sendPhotoType == 11) {
-                i2 = 0;
+            View view222 = this.navigationBar;
+            if (this.fancyShadows) {
             }
-            view.setVisibility(i2);
+            i2 = 0;
+            view222.setVisibility(i2);
             if (this.currentEditMode == 0) {
-                this.navigationBar.setBackgroundColor(this.fancyShadows ? this.sendPhotoType == 11 ? 1711276032 : 0 : this.sendPhotoType == 11 ? -16777216 : 2130706432);
             }
-            if (str != null) {
-                if (!z2) {
-                    this.actionBarContainer.setTitle(str);
-                } else if (i21 == i) {
-                    this.actionBarContainer.setTitleAnimated(str, true, true);
-                } else {
-                    PhotoViewerActionBarContainer photoViewerActionBarContainer = this.actionBarContainer;
-                    if (i21 > i) {
-                        z15 = false;
-                        z16 = true;
-                    } else {
-                        z15 = false;
-                        z16 = false;
-                    }
-                    photoViewerActionBarContainer.setTitleAnimated(str, z15, z16);
-                }
+            if (charSequence2 != null) {
             }
             setCurrentCaption(messageObject, charSequence, z4, z3);
         }

@@ -3616,113 +3616,113 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return r1;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:179:0x0442, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:170:0x03e2, code lost:
         
-            if ((r4 instanceof org.telegram.tgnet.TLRPC.TL_channelParticipantAdmin) != false) goto L173;
+            if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_channelParticipantAdmin) != false) goto L164;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:180:0x0454, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:171:0x03f4, code lost:
         
-            r4 = org.telegram.messenger.R.string.ChannelAdmin;
+            r3 = org.telegram.messenger.R.string.ChannelAdmin;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:186:0x0452, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:177:0x03f2, code lost:
         
-            if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_chatParticipantAdmin) != false) goto L173;
+            if ((r0 instanceof org.telegram.tgnet.TLRPC.TL_chatParticipantAdmin) != false) goto L164;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:202:0x04b0, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:193:0x044d, code lost:
         
-            if (r30.this$0.membersSectionRow != (-1)) goto L189;
+            if (r27.this$0.membersSectionRow != (-1)) goto L180;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:212:0x04d9, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:203:0x0475, code lost:
         
-            if (r30.this$0.sharedMediaRow == (-1)) goto L202;
+            if (r27.this$0.sharedMediaRow == (-1)) goto L193;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:302:0x0795, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:293:0x072e, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L368;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L357;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:303:0x0a5f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:294:0x09fa, code lost:
         
-            r13 = false;
+            r8 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:304:0x0a60, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:296:0x09f8, code lost:
         
-            r0.setTextAndValueAndIcon(r3, r4, r5, r13);
+            r8 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:306:0x07b5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:298:0x074e, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L368;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L357;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:312:0x07de, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:304:0x0777, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L385;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L376;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:313:0x0aae, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:305:0x0a4a, code lost:
         
-            r13 = false;
+            r8 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:316:0x07f1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:309:0x078a, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L385;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L376;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:322:0x082a, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:30:0x023e, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L368;
+            if (r27.this$0.membersSectionRow != (-1)) goto L86;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:328:0x0861, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:315:0x07c3, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L368;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L357;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:330:0x0874, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:321:0x07fa, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L385;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L357;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:334:0x088f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:323:0x080d, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L385;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L376;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:35:0x029d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:327:0x0828, code lost:
         
-            if (r30.this$0.membersSectionRow != (-1)) goto L95;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L376;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:373:0x0a5c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:366:0x09f6, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L368;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L357;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:375:0x0a74, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:368:0x0a10, code lost:
         
-            if (r32 != (r30.this$0.membersSectionRow - 1)) goto L385;
+            if (r29 != (r27.this$0.membersSectionRow - 1)) goto L376;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:385:0x0aab, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:378:0x0a47, code lost:
         
-            if (r2 == false) goto L384;
+            if (r2 == false) goto L375;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:48:0x02c6, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:43:0x0266, code lost:
         
-            if (r30.this$0.sharedMediaRow == (-1)) goto L202;
+            if (r27.this$0.sharedMediaRow == (-1)) goto L193;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:493:0x0d96, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:488:0x0d45, code lost:
         
-            if (r30.this$0.botPermissionBiometry != (-1)) goto L521;
+            if (r27.this$0.botPermissionBiometry != (-1)) goto L514;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:494:0x0e12, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:489:0x0dc0, code lost:
         
-            r24 = r2;
-            r25 = r3;
-            r26 = r4;
-            r27 = r5;
+            r21 = r2;
+            r22 = r3;
+            r23 = r4;
+            r24 = r5;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:518:0x0e0f, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:513:0x0dbd, code lost:
         
-            if (r30.this$0.botPermissionBiometry == (-1)) goto L520;
+            if (r27.this$0.botPermissionBiometry == (-1)) goto L513;
          */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:172:0x0473  */
-        /* JADX WARN: Removed duplicated region for block: B:175:0x0475  */
-        /* JADX WARN: Removed duplicated region for block: B:255:0x062a A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:259:0x0635  */
-        /* JADX WARN: Removed duplicated region for block: B:260:0x0638  */
-        /* JADX WARN: Removed duplicated region for block: B:601:0x1378  */
-        /* JADX WARN: Removed duplicated region for block: B:605:0x13ac  */
+        /* JADX WARN: Removed duplicated region for block: B:163:0x0413  */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x0415  */
+        /* JADX WARN: Removed duplicated region for block: B:246:0x05c5 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:250:0x05d0  */
+        /* JADX WARN: Removed duplicated region for block: B:251:0x05d3  */
+        /* JADX WARN: Removed duplicated region for block: B:600:0x133d  */
+        /* JADX WARN: Removed duplicated region for block: B:604:0x1371  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3737,66 +3737,75 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int i3;
             String str5;
             String str6;
-            boolean z;
-            TLRPC.TL_username tL_username;
             String str7;
-            String str8;
-            View.OnClickListener onClickListener;
-            ProfileActivity profileActivity;
+            boolean z;
+            String sb;
             String string2;
             boolean z2;
+            boolean z3;
+            TLRPC.TL_username tL_username;
+            String str8;
+            String str9;
+            View.OnClickListener onClickListener;
+            ProfileActivity profileActivity;
+            boolean z4;
+            boolean z5;
+            String string3;
+            boolean z6;
             int i4;
             int themedColor;
-            String string3;
-            boolean z3;
+            String string4;
+            boolean z7;
             int i5;
             int themedColor2;
-            boolean z4;
-            String string4;
-            int i6;
+            boolean z8;
             String string5;
-            int i7;
-            String str9;
+            int i6;
+            String str10;
             String string6;
+            int i7;
+            String string7;
             int i8;
             int i9;
+            String string8;
             int i10;
-            String string7;
             int i11;
             int i12;
-            int i13;
-            String string8;
-            int i14;
             String string9;
-            String format;
-            int i15;
+            int i13;
             String string10;
+            String format;
+            int i14;
+            String string11;
             CharSequence replaceTON;
-            int i16;
+            int i15;
             SpannableStringBuilder append;
             String format2;
             SpannableStringBuilder append2;
             String format3;
+            boolean z9;
+            boolean z10;
             long j;
-            boolean z5;
+            boolean z11;
             TLRPC.ChatParticipant chatParticipant;
-            int i17;
+            int i16;
             ArrayList arrayList;
-            int i18;
+            int i17;
             View view;
             Context context;
-            int i19;
+            int i18;
             View view2;
             View view3;
-            CharSequence formatString;
+            String formatString;
             str = "";
-            String str10 = null;
-            r8 = null;
+            String str11 = null;
+            r6 = null;
             CharSequence charSequence = null;
-            r8 = null;
-            String string11 = null;
+            SpannableStringBuilder spannableStringBuilder = null;
+            r6 = null;
             String string12 = null;
-            str10 = null;
+            String string13 = null;
+            str11 = null;
             switch (viewHolder.getItemViewType()) {
                 case 1:
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
@@ -3833,10 +3842,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (userFull != null && userFull.birthday != null) {
                             boolean isToday = BirthdayController.isToday(userFull);
                             TL_account.TL_birthday tL_birthday = userFull.birthday;
-                            boolean z6 = (tL_birthday.flags & 1) != 0;
-                            int years = z6 ? Period.between(LocalDate.of(tL_birthday.year, tL_birthday.month, tL_birthday.day), LocalDate.now()).getYears() : -1;
+                            boolean z12 = (tL_birthday.flags & 1) != 0;
+                            int years = z12 ? Period.between(LocalDate.of(tL_birthday.year, tL_birthday.month, tL_birthday.day), LocalDate.now()).getYears() : -1;
                             String birthdayString = UserInfoActivity.birthdayString(userFull.birthday);
-                            textDetailCell.setTextAndValue(Emoji.replaceWithRestrictedEmoji(z6 ? LocaleController.formatPluralString(isToday ? "ProfileBirthdayTodayValueYear" : "ProfileBirthdayValueYear", years, birthdayString) : LocaleController.formatString(isToday ? R.string.ProfileBirthdayTodayValue : R.string.ProfileBirthdayValue, birthdayString), textDetailCell.textView, new Runnable() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda3
+                            textDetailCell.setTextAndValue(Emoji.replaceWithRestrictedEmoji(z12 ? LocaleController.formatPluralString(isToday ? "ProfileBirthdayTodayValueYear" : "ProfileBirthdayValueYear", years, birthdayString) : LocaleController.formatString(isToday ? R.string.ProfileBirthdayTodayValue : R.string.ProfileBirthdayValue, birthdayString), textDetailCell.textView, new Runnable() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda3
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$1(viewHolder, i);
@@ -3844,8 +3853,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }), LocaleController.getString(isToday ? R.string.ProfileBirthdayToday : R.string.ProfileBirthday), (!ProfileActivity.this.isTopic && ProfileActivity.this.bizHoursRow == -1 && ProfileActivity.this.bizLocationRow == -1) ? false : true);
                             ProfileActivity profileActivity4 = ProfileActivity.this;
                             if (!profileActivity4.myProfile && isToday && !profileActivity4.getMessagesController().premiumPurchaseBlocked()) {
+                                z3 = true;
                                 z = false;
-                                if (r13) {
+                                if (z3) {
                                     Drawable drawable = ContextCompat.getDrawable(textDetailCell.getContext(), R.drawable.msg_input_gift);
                                     ProfileActivity profileActivity5 = ProfileActivity.this;
                                     drawable.setColorFilter(new PorterDuffColorFilter(profileActivity5.applyPeerColor(profileActivity5.getThemedColor(Theme.key_switch2TrackChecked), false), PorterDuff.Mode.MULTIPLY));
@@ -3888,16 +3898,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             TLRPC.User user = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
                             if (user != null && !TextUtils.isEmpty(ProfileActivity.this.vcardPhone)) {
                                 str4 = PhoneFormat.getInstance().format("+" + ProfileActivity.this.vcardPhone);
-                                str8 = ProfileActivity.this.vcardPhone;
+                                str9 = ProfileActivity.this.vcardPhone;
                             } else if (user == null || TextUtils.isEmpty(user.phone)) {
                                 str4 = LocaleController.getString(R.string.PhoneHidden);
-                                str8 = null;
+                                str9 = null;
                             } else {
                                 String format4 = PhoneFormat.getInstance().format("+" + user.phone);
-                                str8 = user.phone;
+                                str9 = user.phone;
                                 str4 = format4;
                             }
-                            ProfileActivity.this.isFragmentPhoneNumber = str8 != null && str8.matches("888\\d{8}");
+                            ProfileActivity.this.isFragmentPhoneNumber = str9 != null && str9.matches("888\\d{8}");
                             i3 = ProfileActivity.this.isFragmentPhoneNumber ? R.string.AnonymousNumber : R.string.PhoneMobile;
                         } else if (i == ProfileActivity.this.usernameRow) {
                             ArrayList arrayList2 = new ArrayList();
@@ -3908,78 +3918,81 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 if (user2 == null || TextUtils.isEmpty(user2.username)) {
                                     tL_username = null;
-                                    str6 = null;
+                                    str5 = null;
                                 } else {
                                     tL_username = DialogObject.findUsername(user2.username, (ArrayList<TLRPC.TL_username>) arrayList2);
-                                    str6 = user2.username;
+                                    str5 = user2.username;
                                 }
                                 ArrayList arrayList3 = user2 == null ? new ArrayList() : new ArrayList(user2.usernames);
-                                if (TextUtils.isEmpty(str6)) {
-                                    int i20 = 0;
+                                if (TextUtils.isEmpty(str5)) {
+                                    int i19 = 0;
                                     while (true) {
-                                        if (i20 < arrayList3.size()) {
-                                            TLRPC.TL_username tL_username2 = (TLRPC.TL_username) arrayList3.get(i20);
+                                        if (i19 < arrayList3.size()) {
+                                            TLRPC.TL_username tL_username2 = (TLRPC.TL_username) arrayList3.get(i19);
                                             if (tL_username2 == null || !tL_username2.active || TextUtils.isEmpty(tL_username2.username)) {
-                                                i20++;
+                                                i19++;
                                             } else {
-                                                str6 = tL_username2.username;
+                                                str5 = tL_username2.username;
                                                 tL_username = tL_username2;
                                             }
                                         }
                                     }
                                 }
-                                str = LocaleController.getString(R.string.Username);
-                                if (str6 != null) {
-                                    String str11 = "@" + str6;
+                                String string14 = LocaleController.getString(R.string.Username);
+                                if (str5 != null) {
+                                    String str12 = "@" + str5;
                                     if (tL_username == null || tL_username.editable) {
-                                        str7 = str11;
+                                        str8 = str12;
                                     } else {
-                                        SpannableString spannableString = new SpannableString(str11);
+                                        SpannableString spannableString = new SpannableString(str12);
                                         spannableString.setSpan(makeUsernameLinkSpan(tL_username), 0, spannableString.length(), 33);
-                                        str7 = spannableString;
+                                        str8 = spannableString;
                                     }
                                 } else {
-                                    str7 = "—";
+                                    str8 = "—";
                                 }
+                                str7 = str8;
+                                arrayList2 = arrayList3;
+                                str6 = string14;
                                 z = true;
-                                ArrayList arrayList4 = arrayList3;
-                                str5 = str7;
-                                arrayList2 = arrayList4;
-                            } else {
-                                if (ProfileActivity.this.currentChat != null) {
-                                    TLRPC.Chat chat = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(ProfileActivity.this.chatId));
-                                    str6 = ChatObject.getPublicUsername(chat);
-                                    if (chat != null) {
-                                        arrayList2.addAll(chat.usernames);
-                                    }
-                                    if (ChatObject.isPublic(chat)) {
-                                        StringBuilder sb = new StringBuilder();
-                                        sb.append(ProfileActivity.this.getMessagesController().linkPrefix);
-                                        sb.append("/");
-                                        sb.append(str6);
-                                        sb.append(ProfileActivity.this.topicId != 0 ? "/" + ProfileActivity.this.topicId : "");
-                                        str5 = sb.toString();
-                                        str = LocaleController.getString(R.string.InviteLink);
-                                        z = true;
-                                    } else {
-                                        StringBuilder sb2 = new StringBuilder();
-                                        sb2.append(ProfileActivity.this.getMessagesController().linkPrefix);
-                                        sb2.append("/c/");
-                                        sb2.append(ProfileActivity.this.chatId);
-                                        sb2.append(ProfileActivity.this.topicId != 0 ? "/" + ProfileActivity.this.topicId : "");
-                                        str5 = sb2.toString();
-                                        str = LocaleController.getString(R.string.InviteLinkPrivate);
-                                    }
-                                } else {
-                                    arrayList2 = new ArrayList();
-                                    str5 = "";
-                                    str6 = null;
+                            } else if (ProfileActivity.this.currentChat != null) {
+                                TLRPC.Chat chat = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(ProfileActivity.this.chatId));
+                                str5 = ChatObject.getPublicUsername(chat);
+                                if (chat != null) {
+                                    arrayList2.addAll(chat.usernames);
                                 }
+                                if (ChatObject.isPublic(chat)) {
+                                    StringBuilder sb2 = new StringBuilder();
+                                    sb2.append(ProfileActivity.this.getMessagesController().linkPrefix);
+                                    sb2.append("/");
+                                    sb2.append(str5);
+                                    sb2.append(ProfileActivity.this.topicId != 0 ? "/" + ProfileActivity.this.topicId : "");
+                                    sb = sb2.toString();
+                                    string2 = LocaleController.getString(R.string.InviteLink);
+                                    z2 = true;
+                                } else {
+                                    StringBuilder sb3 = new StringBuilder();
+                                    sb3.append(ProfileActivity.this.getMessagesController().linkPrefix);
+                                    sb3.append("/c/");
+                                    sb3.append(ProfileActivity.this.chatId);
+                                    sb3.append(ProfileActivity.this.topicId != 0 ? "/" + ProfileActivity.this.topicId : "");
+                                    sb = sb3.toString();
+                                    string2 = LocaleController.getString(R.string.InviteLinkPrivate);
+                                    z2 = false;
+                                }
+                                z = z2;
+                                str7 = sb;
+                                str6 = string2;
+                            } else {
+                                arrayList2 = new ArrayList();
+                                str5 = null;
+                                str6 = "";
+                                str7 = str6;
                                 z = false;
                             }
-                            textDetailCell.setTextAndValue(str5, alsoUsernamesString(str6, arrayList2, str), !(!ProfileActivity.this.isTopic && ProfileActivity.this.bizHoursRow == -1 && ProfileActivity.this.bizLocationRow == -1) && ProfileActivity.this.birthdayRow < 0);
-                            r13 = false;
-                            if (r13) {
+                            textDetailCell.setTextAndValue(str7, alsoUsernamesString(str5, arrayList2, str6), !(!ProfileActivity.this.isTopic && ProfileActivity.this.bizHoursRow == -1 && ProfileActivity.this.bizLocationRow == -1) && ProfileActivity.this.birthdayRow < 0);
+                            z3 = false;
+                            if (z3) {
                             }
                             textDetailCell.setImageClickListener(onClickListener);
                             textDetailCell.setTag(Integer.valueOf(i));
@@ -3996,17 +4009,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             textDetailCell.setContentDescriptionValueFirst(false);
                         } else if (i == ProfileActivity.this.setUsernameRow) {
                             TLRPC.User currentUser2 = UserConfig.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getCurrentUser();
-                            CharSequence string13 = LocaleController.getString(R.string.Username);
+                            CharSequence string15 = LocaleController.getString(R.string.Username);
                             if (currentUser2 == null || currentUser2.usernames.size() <= 0) {
                                 String publicUsername = UserObject.getPublicUsername(currentUser2);
                                 string = (currentUser2 == null || TextUtils.isEmpty(publicUsername)) ? LocaleController.getString(R.string.UsernameEmpty) : "@" + publicUsername;
                             } else {
-                                int i21 = 0;
+                                int i20 = 0;
                                 while (true) {
-                                    if (i21 < currentUser2.usernames.size()) {
-                                        TLRPC.TL_username tL_username3 = currentUser2.usernames.get(i21);
+                                    if (i20 < currentUser2.usernames.size()) {
+                                        TLRPC.TL_username tL_username3 = currentUser2.usernames.get(i20);
                                         if (tL_username3 == null || !tL_username3.active || TextUtils.isEmpty(tL_username3.username)) {
-                                            i21++;
+                                            i20++;
                                         } else {
                                             str2 = tL_username3.username;
                                         }
@@ -4018,16 +4031,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     str2 = currentUser2.username;
                                 }
                                 string = (str2 == null || TextUtils.isEmpty(str2)) ? LocaleController.getString(R.string.UsernameEmpty) : "@" + str2;
-                                string13 = alsoUsernamesString(str2, currentUser2.usernames, string13);
+                                string15 = alsoUsernamesString(str2, currentUser2.usernames, string15);
                             }
-                            textDetailCell.setTextAndValue(string, string13, true);
+                            textDetailCell.setTextAndValue(string, string15, true);
                             textDetailCell.setContentDescriptionValueFirst(true);
                         }
                         textDetailCell.setTextAndValue(str4, LocaleController.getString(i3), false);
                     }
+                    z3 = false;
                     z = false;
-                    r13 = false;
-                    if (r13) {
+                    if (z3) {
                     }
                     textDetailCell.setImageClickListener(onClickListener);
                     textDetailCell.setTag(Integer.valueOf(i));
@@ -4038,30 +4051,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     AboutLinkCell aboutLinkCell = (AboutLinkCell) viewHolder.itemView;
                     if (i == ProfileActivity.this.userInfoRow) {
                         TLRPC.User user3 = ProfileActivity.this.userInfo.user != null ? ProfileActivity.this.userInfo.user : ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userInfo.id));
-                        if (!ProfileActivity.this.isBot && (user3 == null || !user3.premium || ProfileActivity.this.userInfo.about == null)) {
-                            r13 = false;
-                        }
-                        aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString(R.string.UserBio), r13);
+                        aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo.about, LocaleController.getString(R.string.UserBio), ProfileActivity.this.isBot || !(user3 == null || !user3.premium || ProfileActivity.this.userInfo.about == null));
                         break;
                     } else if (i == ProfileActivity.this.channelInfoRow) {
-                        String str12 = ProfileActivity.this.chatInfo.about;
-                        while (str12.contains("\n\n\n")) {
-                            str12 = str12.replace("\n\n\n", "\n\n");
+                        String str13 = ProfileActivity.this.chatInfo.about;
+                        while (str13.contains("\n\n\n")) {
+                            str13 = str13.replace("\n\n\n", "\n\n");
                         }
-                        aboutLinkCell.setText(str12, ChatObject.isChannel(ProfileActivity.this.currentChat) && !ProfileActivity.this.currentChat.megagroup);
+                        aboutLinkCell.setText(str13, ChatObject.isChannel(ProfileActivity.this.currentChat) && !ProfileActivity.this.currentChat.megagroup);
                         break;
                     } else if (i == ProfileActivity.this.bioRow) {
                         if (ProfileActivity.this.userInfo == null || !TextUtils.isEmpty(ProfileActivity.this.userInfo.about)) {
                             aboutLinkCell.setTextAndValue(ProfileActivity.this.userInfo == null ? LocaleController.getString(R.string.Loading) : ProfileActivity.this.userInfo.about, LocaleController.getString(R.string.UserBio), ProfileActivity.this.getUserConfig().isPremium());
                             profileActivity = ProfileActivity.this;
                             if (profileActivity.userInfo != null) {
-                                str10 = ProfileActivity.this.userInfo.about;
+                                str11 = ProfileActivity.this.userInfo.about;
                             }
                         } else {
                             aboutLinkCell.setTextAndValue(LocaleController.getString(R.string.UserBio), LocaleController.getString(R.string.UserBioDetail), false);
                             profileActivity = ProfileActivity.this;
                         }
-                        profileActivity.currentBio = str10;
+                        profileActivity.currentBio = str11;
                         aboutLinkCell.setMoreButtonDisabled(true);
                         break;
                     }
@@ -4070,18 +4080,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 case 18:
                 case 24:
                     TextCell textCell = (TextCell) viewHolder.itemView;
-                    int i22 = Theme.key_windowBackgroundWhiteGrayIcon;
-                    int i23 = Theme.key_windowBackgroundWhiteBlackText;
-                    textCell.setColors(i22, i23);
-                    textCell.setTag(Integer.valueOf(i23));
+                    int i21 = Theme.key_windowBackgroundWhiteGrayIcon;
+                    int i22 = Theme.key_windowBackgroundWhiteBlackText;
+                    textCell.setColors(i21, i22);
+                    textCell.setTag(Integer.valueOf(i22));
                     if (i == ProfileActivity.this.settingsTimerRow) {
-                        int i24 = ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))).ttl;
-                        textCell.setTextAndValue(LocaleController.getString(R.string.MessageLifetime), i24 == 0 ? LocaleController.getString(R.string.ShortMessageLifetimeForever) : LocaleController.formatTTLString(i24), false, false);
+                        int i23 = ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))).ttl;
+                        textCell.setTextAndValue(LocaleController.getString(R.string.MessageLifetime), i23 == 0 ? LocaleController.getString(R.string.ShortMessageLifetimeForever) : LocaleController.formatTTLString(i23), false, false);
                     } else {
                         if (i == ProfileActivity.this.unblockRow) {
                             textCell.setText(LocaleController.getString(R.string.Unblock), false);
                             i9 = Theme.key_text_RedRegular;
-                            i10 = -1;
                         } else if (i == ProfileActivity.this.settingsKeyRow) {
                             IdenticonDrawable identiconDrawable = new IdenticonDrawable();
                             identiconDrawable.setEncryptedChat(ProfileActivity.this.getMessagesController().getEncryptedChat(Integer.valueOf(DialogObject.getEncryptedChatId(ProfileActivity.this.dialogId))));
@@ -4089,283 +4098,294 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             if (i == ProfileActivity.this.joinRow) {
                                 textCell.setColors(-1, Theme.key_windowBackgroundWhiteBlueText2);
-                                str9 = LocaleController.getString(ProfileActivity.this.currentChat.megagroup ? R.string.ProfileJoinGroup : R.string.ProfileJoinChannel);
-                            } else if (i == ProfileActivity.this.subscribersRow) {
-                                if (ProfileActivity.this.chatInfo != null) {
-                                    if (!ChatObject.isChannel(ProfileActivity.this.currentChat) || ProfileActivity.this.currentChat.megagroup) {
-                                        string9 = LocaleController.getString(R.string.ChannelMembers);
-                                        format = LocaleController.formatNumber(ProfileActivity.this.chatInfo.participants_count, ',');
-                                        i15 = R.drawable.msg_groups;
-                                        break;
-                                    } else {
-                                        string9 = LocaleController.getString(R.string.ChannelSubscribers);
-                                        format = LocaleController.formatNumber(ProfileActivity.this.chatInfo.participants_count, ',');
-                                        i15 = R.drawable.msg_groups;
-                                        break;
-                                    }
-                                } else if (!ChatObject.isChannel(ProfileActivity.this.currentChat) || ProfileActivity.this.currentChat.megagroup) {
-                                    string8 = LocaleController.getString(R.string.ChannelMembers);
-                                    i14 = R.drawable.msg_groups;
-                                    break;
-                                } else {
-                                    string8 = LocaleController.getString(R.string.ChannelSubscribers);
-                                    i14 = R.drawable.msg_groups;
-                                    break;
-                                }
-                            } else if (i == ProfileActivity.this.subscribersRequestsRow) {
-                                if (ProfileActivity.this.chatInfo != null) {
-                                    string9 = LocaleController.getString(R.string.SubscribeRequests);
-                                    format = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.requests_pending));
-                                    i15 = R.drawable.msg_requests;
-                                    break;
-                                }
-                            } else if (i == ProfileActivity.this.administratorsRow) {
-                                if (ProfileActivity.this.chatInfo != null) {
-                                    string9 = LocaleController.getString(R.string.ChannelAdministrators);
-                                    format = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.admins_count));
-                                    i15 = R.drawable.msg_admins;
-                                    break;
-                                } else {
-                                    string8 = LocaleController.getString(R.string.ChannelAdministrators);
-                                    i14 = R.drawable.msg_admins;
-                                    break;
-                                }
-                            } else if (i == ProfileActivity.this.settingsRow) {
-                                string8 = LocaleController.getString(R.string.ChannelAdminSettings);
-                                i14 = R.drawable.msg_customize;
-                                break;
-                            } else {
-                                if (i == ProfileActivity.this.channelBalanceRow) {
-                                    TL_stars.StarsAmount botStarsBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(-ProfileActivity.this.chatId);
-                                    long tONBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getTONBalance(-ProfileActivity.this.chatId);
-                                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                                    if (tONBalance > 0) {
-                                        double d = tONBalance;
-                                        Double.isNaN(d);
-                                        double d2 = d / 1.0E9d;
-                                        if (d2 > 1000.0d) {
-                                            append2 = spannableStringBuilder.append((CharSequence) "TON ");
-                                            format3 = AndroidUtilities.formatWholeNumber((int) d2, 0);
+                                str10 = LocaleController.getString(ProfileActivity.this.currentChat.megagroup ? R.string.ProfileJoinGroup : R.string.ProfileJoinChannel);
+                            } else if (i != ProfileActivity.this.subscribersRow) {
+                                if (i != ProfileActivity.this.subscribersRequestsRow) {
+                                    if (i == ProfileActivity.this.administratorsRow) {
+                                        if (ProfileActivity.this.chatInfo != null) {
+                                            string10 = LocaleController.getString(R.string.ChannelAdministrators);
+                                            format = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.admins_count));
+                                            i14 = R.drawable.msg_admins;
+                                            break;
                                         } else {
-                                            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-                                            decimalFormatSymbols.setDecimalSeparator('.');
-                                            DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
-                                            decimalFormat.setMinimumFractionDigits(2);
-                                            decimalFormat.setMaximumFractionDigits(3);
-                                            decimalFormat.setGroupingUsed(false);
-                                            append2 = spannableStringBuilder.append((CharSequence) "TON ");
-                                            format3 = decimalFormat.format(d2);
+                                            string9 = LocaleController.getString(R.string.ChannelAdministrators);
+                                            i13 = R.drawable.msg_admins;
+                                            break;
                                         }
-                                        append2.append((CharSequence) format3);
-                                    }
-                                    if (botStarsBalance.amount > 0) {
-                                        if (spannableStringBuilder.length() > 0) {
-                                            spannableStringBuilder.append((CharSequence) " ");
-                                        }
-                                        spannableStringBuilder.append((CharSequence) "XTR ").append(StarsIntroActivity.formatStarsAmountShort(botStarsBalance));
-                                    }
-                                    string10 = LocaleController.getString(R.string.ChannelStars);
-                                    replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder, 0.7f), textCell.getTextView().getPaint());
-                                    i16 = R.drawable.menu_feature_paid;
-                                } else if (i == ProfileActivity.this.botStarsBalanceRow) {
-                                    TL_stars.StarsAmount botStarsBalance2 = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(ProfileActivity.this.userId);
-                                    SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
-                                    if (botStarsBalance2.amount > 0) {
-                                        spannableStringBuilder2.append((CharSequence) "XTR ").append(StarsIntroActivity.formatStarsAmountShort(botStarsBalance2));
-                                    }
-                                    string10 = LocaleController.getString(R.string.BotBalanceStars);
-                                    replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder2, 0.7f), textCell.getTextView().getPaint());
-                                    i16 = R.drawable.menu_premium_main;
-                                } else if (i == ProfileActivity.this.botTonBalanceRow) {
-                                    long tONBalance2 = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getTONBalance(ProfileActivity.this.userId);
-                                    SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder();
-                                    if (tONBalance2 > 0) {
-                                        double d3 = tONBalance2;
-                                        Double.isNaN(d3);
-                                        double d4 = d3 / 1.0E9d;
-                                        if (d4 > 1000.0d) {
-                                            append = spannableStringBuilder3.append((CharSequence) "TON ");
-                                            format2 = AndroidUtilities.formatWholeNumber((int) d4, 0);
-                                        } else {
-                                            DecimalFormatSymbols decimalFormatSymbols2 = new DecimalFormatSymbols(Locale.US);
-                                            decimalFormatSymbols2.setDecimalSeparator('.');
-                                            DecimalFormat decimalFormat2 = new DecimalFormat("#.##", decimalFormatSymbols2);
-                                            decimalFormat2.setMinimumFractionDigits(2);
-                                            decimalFormat2.setMaximumFractionDigits(3);
-                                            decimalFormat2.setGroupingUsed(false);
-                                            append = spannableStringBuilder3.append((CharSequence) "TON ");
-                                            format2 = decimalFormat2.format(d4);
-                                        }
-                                        append.append((CharSequence) format2);
-                                    }
-                                    string10 = LocaleController.getString(R.string.BotBalanceTON);
-                                    replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder3, 0.7f), textCell.getTextView().getPaint());
-                                    i16 = R.drawable.msg_ton;
-                                } else if (i == ProfileActivity.this.blockedUsersRow) {
-                                    if (ProfileActivity.this.chatInfo != null) {
-                                        string9 = LocaleController.getString(R.string.ChannelBlacklist);
-                                        format = String.format("%d", Integer.valueOf(Math.max(ProfileActivity.this.chatInfo.banned_count, ProfileActivity.this.chatInfo.kicked_count)));
-                                        i15 = R.drawable.msg_user_remove;
-                                        break;
                                     } else {
-                                        string8 = LocaleController.getString(R.string.ChannelBlacklist);
-                                        i14 = R.drawable.msg_user_remove;
-                                        break;
-                                    }
-                                } else if (i == ProfileActivity.this.addMemberRow) {
-                                    textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
-                                    int i25 = i + 1;
-                                    boolean z7 = i25 >= ProfileActivity.this.membersStartRow && i25 < ProfileActivity.this.membersEndRow;
-                                    string8 = LocaleController.getString(R.string.AddMember);
-                                    i14 = R.drawable.msg_contact_add;
-                                    if (ProfileActivity.this.membersSectionRow != -1) {
-                                    }
-                                    textCell.setTextAndIcon(string8, i14, r13);
-                                } else {
-                                    if (i == ProfileActivity.this.sendMessageRow) {
-                                        i8 = R.string.SendMessageLocation;
-                                    } else {
-                                        if (i == ProfileActivity.this.addToContactsRow) {
-                                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.AddToContacts), R.drawable.msg_contact_add, false);
-                                            i12 = Theme.key_windowBackgroundWhiteBlueIcon;
-                                            i13 = Theme.key_windowBackgroundWhiteBlueButton;
-                                        } else if (i == ProfileActivity.this.reportReactionRow) {
-                                            TLRPC.Chat chat2 = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(-ProfileActivity.this.reportReactionFromDialogId));
-                                            if (chat2 == null || !ChatObject.canBlockUsers(chat2)) {
-                                                string7 = LocaleController.getString(R.string.ReportReaction);
-                                                i11 = R.drawable.msg_report;
-                                            } else {
-                                                string7 = LocaleController.getString(R.string.ReportReactionAndBan);
-                                                i11 = R.drawable.msg_block2;
-                                            }
-                                            textCell.setTextAndIcon((CharSequence) string7, i11, false);
-                                            i12 = Theme.key_text_RedBold;
-                                            i13 = Theme.key_text_RedRegular;
-                                            textCell.setColors(i12, i13);
-                                        } else if (i == ProfileActivity.this.reportRow) {
-                                            textCell.setText(LocaleController.getString(R.string.ReportUserLocation), false);
-                                            i9 = Theme.key_text_RedRegular;
-                                            i10 = -1;
-                                            textCell.setColors(-1, i9);
+                                        if (i == ProfileActivity.this.settingsRow) {
+                                            string9 = LocaleController.getString(R.string.ChannelAdminSettings);
+                                            i13 = R.drawable.msg_customize;
+                                            break;
                                         } else {
-                                            if (i == ProfileActivity.this.languageRow) {
-                                                textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.Language), LocaleController.getCurrentLanguageName(), false, R.drawable.msg2_language, false);
-                                            } else {
-                                                if (i == ProfileActivity.this.notificationRow) {
-                                                    string5 = LocaleController.getString(R.string.NotificationsAndSounds);
-                                                    i7 = R.drawable.msg2_notifications;
-                                                } else if (i == ProfileActivity.this.privacyRow) {
-                                                    string5 = LocaleController.getString(R.string.PrivacySettings);
-                                                    i7 = R.drawable.msg2_secret;
-                                                } else if (i == ProfileActivity.this.dataRow) {
-                                                    string5 = LocaleController.getString(R.string.DataSettings);
-                                                    i7 = R.drawable.msg2_data;
-                                                } else if (i == ProfileActivity.this.chatRow) {
-                                                    string5 = LocaleController.getString(R.string.ChatSettings);
-                                                    i7 = R.drawable.msg2_discussion;
-                                                } else if (i == ProfileActivity.this.filtersRow) {
-                                                    string5 = LocaleController.getString(R.string.Filters);
-                                                    i7 = R.drawable.msg2_folder;
-                                                } else if (i == ProfileActivity.this.stickersRow) {
-                                                    string5 = LocaleController.getString(R.string.StickersName);
-                                                    i7 = R.drawable.msg2_sticker;
-                                                } else if (i == ProfileActivity.this.liteModeRow) {
-                                                    string5 = LocaleController.getString(R.string.PowerUsage);
-                                                    i7 = R.drawable.msg2_battery;
-                                                } else if (i == ProfileActivity.this.questionRow) {
-                                                    string5 = LocaleController.getString(R.string.AskAQuestion);
-                                                    i7 = R.drawable.msg2_ask_question;
-                                                } else if (i == ProfileActivity.this.faqRow) {
-                                                    string5 = LocaleController.getString(R.string.TelegramFAQ);
-                                                    i7 = R.drawable.msg2_help;
-                                                } else {
-                                                    if (i == ProfileActivity.this.policyRow) {
-                                                        string4 = LocaleController.getString(R.string.PrivacyPolicy);
-                                                        i6 = R.drawable.msg2_policy;
-                                                    } else if (i == ProfileActivity.this.sendLogsRow) {
-                                                        i8 = R.string.DebugSendLogs;
-                                                    } else if (i == ProfileActivity.this.sendLastLogsRow) {
-                                                        i8 = R.string.DebugSendLastLogs;
-                                                    } else if (i == ProfileActivity.this.clearLogsRow) {
-                                                        string6 = LocaleController.getString(R.string.DebugClearLogs);
-                                                        if (ProfileActivity.this.switchBackendRow == -1) {
-                                                            r13 = false;
-                                                        }
-                                                        textCell.setText(string6, r13);
-                                                    } else if (i == ProfileActivity.this.switchBackendRow) {
-                                                        str9 = "Switch Backend";
-                                                    } else if (i == ProfileActivity.this.devicesRow) {
-                                                        string5 = LocaleController.getString(R.string.Devices);
-                                                        i7 = R.drawable.msg2_devices;
-                                                    } else if (i == ProfileActivity.this.setAvatarRow) {
-                                                        ProfileActivity.this.cellCameraDrawable.setCustomEndFrame(86);
-                                                        ProfileActivity.this.cellCameraDrawable.setCurrentFrame(85, false);
-                                                        textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.SetProfilePhoto), (Drawable) ProfileActivity.this.cellCameraDrawable, false);
-                                                        textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
-                                                        textCell.getImageView().setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
-                                                        textCell.setImageLeft(12);
-                                                        ProfileActivity.this.setAvatarCell = textCell;
-                                                    } else if (i == ProfileActivity.this.addToGroupButtonRow) {
-                                                        string4 = LocaleController.getString(R.string.AddToGroupOrChannel);
-                                                        i6 = R.drawable.msg_groups_create;
-                                                    } else if (i == ProfileActivity.this.premiumRow) {
-                                                        textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.TelegramPremium), (Drawable) new AnimatedEmojiDrawable.WrapSizeDrawable(PremiumGradient.getInstance().premiumStarMenuDrawable, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f)), true);
-                                                    } else if (i == ProfileActivity.this.starsRow) {
-                                                        StarsController starsController = StarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount);
-                                                        long j2 = starsController.getBalance().amount;
-                                                        String string14 = LocaleController.getString(R.string.MenuTelegramStars);
-                                                        if (starsController.balanceAvailable() && j2 > 0) {
-                                                            str = LocaleController.formatNumber((int) j2, ',');
-                                                        }
-                                                        textCell.setTextAndValueAndIcon((CharSequence) string14, (CharSequence) str, (Drawable) new AnimatedEmojiDrawable.WrapSizeDrawable(PremiumGradient.getInstance().goldenStarMenuDrawable, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f)), true);
-                                                    } else if (i == ProfileActivity.this.businessRow) {
-                                                        textCell.setTextAndIcon(TextCell.applyNewSpan(LocaleController.getString(R.string.TelegramBusiness)), R.drawable.menu_shop, true);
-                                                    } else if (i == ProfileActivity.this.premiumGiftingRow) {
-                                                        textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.SendAGift), R.drawable.menu_gift, false);
-                                                    } else if (i == ProfileActivity.this.botPermissionLocation) {
-                                                        string2 = LocaleController.getString(R.string.BotProfilePermissionLocation);
-                                                        z2 = ProfileActivity.this.botLocation != null && ProfileActivity.this.botLocation.granted();
-                                                        i4 = R.drawable.filled_access_location;
-                                                        themedColor = ProfileActivity.this.getThemedColor(Theme.key_color_green);
-                                                        break;
-                                                    } else if (i == ProfileActivity.this.botPermissionBiometry) {
-                                                        string3 = LocaleController.getString(R.string.BotProfilePermissionBiometry);
-                                                        z3 = ProfileActivity.this.botBiometry != null && ProfileActivity.this.botBiometry.granted();
-                                                        i5 = R.drawable.filled_access_fingerprint;
-                                                        themedColor2 = ProfileActivity.this.getThemedColor(Theme.key_color_orange);
-                                                        z4 = false;
-                                                        textCell.setTextAndCheckAndColorfulIcon(string3, z3, i5, themedColor2, z4);
-                                                    } else if (i == ProfileActivity.this.botPermissionEmojiStatus) {
-                                                        string2 = LocaleController.getString(R.string.BotProfilePermissionEmojiStatus);
-                                                        z2 = ProfileActivity.this.userInfo != null && ProfileActivity.this.userInfo.bot_can_manage_emoji_status;
-                                                        i4 = R.drawable.filled_access_sleeping;
-                                                        themedColor = ProfileActivity.this.getThemedColor(Theme.key_color_lightblue);
-                                                        if (ProfileActivity.this.botPermissionLocation == -1) {
-                                                            break;
-                                                        }
-                                                        string3 = string2;
-                                                        z3 = z2;
-                                                        i5 = i4;
-                                                        themedColor2 = themedColor;
-                                                        z4 = true;
-                                                        textCell.setTextAndCheckAndColorfulIcon(string3, z3, i5, themedColor2, z4);
+                                            if (i == ProfileActivity.this.channelBalanceRow) {
+                                                TL_stars.StarsAmount botStarsBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(-ProfileActivity.this.chatId);
+                                                long tONBalance = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getTONBalance(-ProfileActivity.this.chatId);
+                                                SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder();
+                                                if (tONBalance > 0) {
+                                                    double d = tONBalance;
+                                                    Double.isNaN(d);
+                                                    double d2 = d / 1.0E9d;
+                                                    if (d2 > 1000.0d) {
+                                                        append2 = spannableStringBuilder2.append((CharSequence) "TON ");
+                                                        format3 = AndroidUtilities.formatWholeNumber((int) d2, 0);
+                                                    } else {
+                                                        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+                                                        decimalFormatSymbols.setDecimalSeparator('.');
+                                                        DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
+                                                        decimalFormat.setMinimumFractionDigits(2);
+                                                        decimalFormat.setMaximumFractionDigits(3);
+                                                        decimalFormat.setGroupingUsed(false);
+                                                        append2 = spannableStringBuilder2.append((CharSequence) "TON ");
+                                                        format3 = decimalFormat.format(d2);
                                                     }
-                                                    textCell.setTextAndIcon((CharSequence) string4, i6, false);
+                                                    append2.append((CharSequence) format3);
                                                 }
-                                                textCell.setTextAndIcon((CharSequence) string5, i7, true);
+                                                if (botStarsBalance.amount > 0) {
+                                                    if (spannableStringBuilder2.length() > 0) {
+                                                        spannableStringBuilder2.append((CharSequence) " ");
+                                                    }
+                                                    spannableStringBuilder2.append((CharSequence) "XTR ").append(StarsIntroActivity.formatStarsAmountShort(botStarsBalance));
+                                                }
+                                                string11 = LocaleController.getString(R.string.ChannelStars);
+                                                replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder2, 0.7f), textCell.getTextView().getPaint());
+                                                i15 = R.drawable.menu_feature_paid;
+                                            } else if (i == ProfileActivity.this.botStarsBalanceRow) {
+                                                TL_stars.StarsAmount botStarsBalance2 = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getBotStarsBalance(ProfileActivity.this.userId);
+                                                SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder();
+                                                if (botStarsBalance2.amount > 0) {
+                                                    spannableStringBuilder3.append((CharSequence) "XTR ").append(StarsIntroActivity.formatStarsAmountShort(botStarsBalance2));
+                                                }
+                                                string11 = LocaleController.getString(R.string.BotBalanceStars);
+                                                replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder3, 0.7f), textCell.getTextView().getPaint());
+                                                i15 = R.drawable.menu_premium_main;
+                                            } else if (i == ProfileActivity.this.botTonBalanceRow) {
+                                                long tONBalance2 = BotStarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount).getTONBalance(ProfileActivity.this.userId);
+                                                SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
+                                                if (tONBalance2 > 0) {
+                                                    double d3 = tONBalance2;
+                                                    Double.isNaN(d3);
+                                                    double d4 = d3 / 1.0E9d;
+                                                    if (d4 > 1000.0d) {
+                                                        append = spannableStringBuilder4.append((CharSequence) "TON ");
+                                                        format2 = AndroidUtilities.formatWholeNumber((int) d4, 0);
+                                                    } else {
+                                                        DecimalFormatSymbols decimalFormatSymbols2 = new DecimalFormatSymbols(Locale.US);
+                                                        decimalFormatSymbols2.setDecimalSeparator('.');
+                                                        DecimalFormat decimalFormat2 = new DecimalFormat("#.##", decimalFormatSymbols2);
+                                                        decimalFormat2.setMinimumFractionDigits(2);
+                                                        decimalFormat2.setMaximumFractionDigits(3);
+                                                        decimalFormat2.setGroupingUsed(false);
+                                                        append = spannableStringBuilder4.append((CharSequence) "TON ");
+                                                        format2 = decimalFormat2.format(d4);
+                                                    }
+                                                    append.append((CharSequence) format2);
+                                                }
+                                                string11 = LocaleController.getString(R.string.BotBalanceTON);
+                                                replaceTON = ChannelMonetizationLayout.replaceTON(StarsIntroActivity.replaceStarsWithPlain(spannableStringBuilder4, 0.7f), textCell.getTextView().getPaint());
+                                                i15 = R.drawable.msg_ton;
+                                            } else if (i == ProfileActivity.this.blockedUsersRow) {
+                                                if (ProfileActivity.this.chatInfo != null) {
+                                                    string10 = LocaleController.getString(R.string.ChannelBlacklist);
+                                                    format = String.format("%d", Integer.valueOf(Math.max(ProfileActivity.this.chatInfo.banned_count, ProfileActivity.this.chatInfo.kicked_count)));
+                                                    i14 = R.drawable.msg_user_remove;
+                                                    break;
+                                                } else {
+                                                    string9 = LocaleController.getString(R.string.ChannelBlacklist);
+                                                    i13 = R.drawable.msg_user_remove;
+                                                    break;
+                                                }
+                                            } else if (i == ProfileActivity.this.addMemberRow) {
+                                                textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
+                                                int i24 = i + 1;
+                                                boolean z13 = i24 >= ProfileActivity.this.membersStartRow && i24 < ProfileActivity.this.membersEndRow;
+                                                string9 = LocaleController.getString(R.string.AddMember);
+                                                i13 = R.drawable.msg_contact_add;
+                                                if (ProfileActivity.this.membersSectionRow != -1) {
+                                                }
+                                                z9 = true;
+                                            } else {
+                                                if (i == ProfileActivity.this.sendMessageRow) {
+                                                    i7 = R.string.SendMessageLocation;
+                                                } else {
+                                                    if (i == ProfileActivity.this.addToContactsRow) {
+                                                        textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.AddToContacts), R.drawable.msg_contact_add, false);
+                                                        i11 = Theme.key_windowBackgroundWhiteBlueIcon;
+                                                        i12 = Theme.key_windowBackgroundWhiteBlueButton;
+                                                    } else if (i == ProfileActivity.this.reportReactionRow) {
+                                                        TLRPC.Chat chat2 = ProfileActivity.this.getMessagesController().getChat(Long.valueOf(-ProfileActivity.this.reportReactionFromDialogId));
+                                                        if (chat2 == null || !ChatObject.canBlockUsers(chat2)) {
+                                                            string8 = LocaleController.getString(R.string.ReportReaction);
+                                                            i10 = R.drawable.msg_report;
+                                                        } else {
+                                                            string8 = LocaleController.getString(R.string.ReportReactionAndBan);
+                                                            i10 = R.drawable.msg_block2;
+                                                        }
+                                                        textCell.setTextAndIcon((CharSequence) string8, i10, false);
+                                                        i11 = Theme.key_text_RedBold;
+                                                        i12 = Theme.key_text_RedRegular;
+                                                        textCell.setColors(i11, i12);
+                                                    } else if (i == ProfileActivity.this.reportRow) {
+                                                        textCell.setText(LocaleController.getString(R.string.ReportUserLocation), false);
+                                                        i9 = Theme.key_text_RedRegular;
+                                                        textCell.setColors(-1, i9);
+                                                    } else {
+                                                        if (i == ProfileActivity.this.languageRow) {
+                                                            textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.Language), LocaleController.getCurrentLanguageName(), false, R.drawable.msg2_language, false);
+                                                        } else {
+                                                            if (i == ProfileActivity.this.notificationRow) {
+                                                                string7 = LocaleController.getString(R.string.NotificationsAndSounds);
+                                                                i8 = R.drawable.msg2_notifications;
+                                                                z4 = true;
+                                                            } else {
+                                                                z4 = true;
+                                                                if (i == ProfileActivity.this.privacyRow) {
+                                                                    string7 = LocaleController.getString(R.string.PrivacySettings);
+                                                                    i8 = R.drawable.msg2_secret;
+                                                                } else if (i == ProfileActivity.this.dataRow) {
+                                                                    string7 = LocaleController.getString(R.string.DataSettings);
+                                                                    i8 = R.drawable.msg2_data;
+                                                                } else if (i == ProfileActivity.this.chatRow) {
+                                                                    string7 = LocaleController.getString(R.string.ChatSettings);
+                                                                    i8 = R.drawable.msg2_discussion;
+                                                                } else if (i == ProfileActivity.this.filtersRow) {
+                                                                    string7 = LocaleController.getString(R.string.Filters);
+                                                                    i8 = R.drawable.msg2_folder;
+                                                                } else if (i == ProfileActivity.this.stickersRow) {
+                                                                    string7 = LocaleController.getString(R.string.StickersName);
+                                                                    i8 = R.drawable.msg2_sticker;
+                                                                } else if (i == ProfileActivity.this.liteModeRow) {
+                                                                    string7 = LocaleController.getString(R.string.PowerUsage);
+                                                                    i8 = R.drawable.msg2_battery;
+                                                                } else if (i == ProfileActivity.this.questionRow) {
+                                                                    string7 = LocaleController.getString(R.string.AskAQuestion);
+                                                                    i8 = R.drawable.msg2_ask_question;
+                                                                } else if (i == ProfileActivity.this.faqRow) {
+                                                                    string7 = LocaleController.getString(R.string.TelegramFAQ);
+                                                                    i8 = R.drawable.msg2_help;
+                                                                } else {
+                                                                    if (i == ProfileActivity.this.policyRow) {
+                                                                        string5 = LocaleController.getString(R.string.PrivacyPolicy);
+                                                                        i6 = R.drawable.msg2_policy;
+                                                                    } else if (i == ProfileActivity.this.sendLogsRow) {
+                                                                        i7 = R.string.DebugSendLogs;
+                                                                    } else {
+                                                                        z5 = true;
+                                                                        if (i == ProfileActivity.this.sendLastLogsRow) {
+                                                                            string6 = LocaleController.getString(R.string.DebugSendLastLogs);
+                                                                            textCell.setText(string6, z5);
+                                                                        } else if (i == ProfileActivity.this.clearLogsRow) {
+                                                                            textCell.setText(LocaleController.getString(R.string.DebugClearLogs), ProfileActivity.this.switchBackendRow != -1);
+                                                                        } else if (i == ProfileActivity.this.switchBackendRow) {
+                                                                            str10 = "Switch Backend";
+                                                                        } else if (i == ProfileActivity.this.devicesRow) {
+                                                                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.Devices), R.drawable.msg2_devices, true);
+                                                                        } else if (i == ProfileActivity.this.setAvatarRow) {
+                                                                            ProfileActivity.this.cellCameraDrawable.setCustomEndFrame(86);
+                                                                            ProfileActivity.this.cellCameraDrawable.setCurrentFrame(85, false);
+                                                                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.SetProfilePhoto), (Drawable) ProfileActivity.this.cellCameraDrawable, false);
+                                                                            textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
+                                                                            textCell.getImageView().setPadding(0, 0, 0, AndroidUtilities.dp(8.0f));
+                                                                            textCell.setImageLeft(12);
+                                                                            ProfileActivity.this.setAvatarCell = textCell;
+                                                                        } else if (i == ProfileActivity.this.addToGroupButtonRow) {
+                                                                            string5 = LocaleController.getString(R.string.AddToGroupOrChannel);
+                                                                            i6 = R.drawable.msg_groups_create;
+                                                                        } else if (i == ProfileActivity.this.premiumRow) {
+                                                                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.TelegramPremium), (Drawable) new AnimatedEmojiDrawable.WrapSizeDrawable(PremiumGradient.getInstance().premiumStarMenuDrawable, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f)), true);
+                                                                        } else if (i == ProfileActivity.this.starsRow) {
+                                                                            StarsController starsController = StarsController.getInstance(((BaseFragment) ProfileActivity.this).currentAccount);
+                                                                            long j2 = starsController.getBalance().amount;
+                                                                            String string16 = LocaleController.getString(R.string.MenuTelegramStars);
+                                                                            if (starsController.balanceAvailable() && j2 > 0) {
+                                                                                str = LocaleController.formatNumber((int) j2, ',');
+                                                                            }
+                                                                            textCell.setTextAndValueAndIcon((CharSequence) string16, (CharSequence) str, (Drawable) new AnimatedEmojiDrawable.WrapSizeDrawable(PremiumGradient.getInstance().goldenStarMenuDrawable, AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f)), true);
+                                                                        } else if (i == ProfileActivity.this.businessRow) {
+                                                                            textCell.setTextAndIcon(TextCell.applyNewSpan(LocaleController.getString(R.string.TelegramBusiness)), R.drawable.menu_shop, true);
+                                                                        } else if (i == ProfileActivity.this.premiumGiftingRow) {
+                                                                            textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.SendAGift), R.drawable.menu_gift, false);
+                                                                        } else if (i == ProfileActivity.this.botPermissionLocation) {
+                                                                            string3 = LocaleController.getString(R.string.BotProfilePermissionLocation);
+                                                                            z6 = ProfileActivity.this.botLocation != null && ProfileActivity.this.botLocation.granted();
+                                                                            i4 = R.drawable.filled_access_location;
+                                                                            themedColor = ProfileActivity.this.getThemedColor(Theme.key_color_green);
+                                                                            break;
+                                                                        } else if (i == ProfileActivity.this.botPermissionBiometry) {
+                                                                            string4 = LocaleController.getString(R.string.BotProfilePermissionBiometry);
+                                                                            z7 = ProfileActivity.this.botBiometry != null && ProfileActivity.this.botBiometry.granted();
+                                                                            i5 = R.drawable.filled_access_fingerprint;
+                                                                            themedColor2 = ProfileActivity.this.getThemedColor(Theme.key_color_orange);
+                                                                            z8 = false;
+                                                                            textCell.setTextAndCheckAndColorfulIcon(string4, z7, i5, themedColor2, z8);
+                                                                        } else if (i == ProfileActivity.this.botPermissionEmojiStatus) {
+                                                                            string3 = LocaleController.getString(R.string.BotProfilePermissionEmojiStatus);
+                                                                            z6 = ProfileActivity.this.userInfo != null && ProfileActivity.this.userInfo.bot_can_manage_emoji_status;
+                                                                            i4 = R.drawable.filled_access_sleeping;
+                                                                            themedColor = ProfileActivity.this.getThemedColor(Theme.key_color_lightblue);
+                                                                            if (ProfileActivity.this.botPermissionLocation == -1) {
+                                                                                break;
+                                                                            }
+                                                                            string4 = string3;
+                                                                            z7 = z6;
+                                                                            i5 = i4;
+                                                                            themedColor2 = themedColor;
+                                                                            z8 = true;
+                                                                            textCell.setTextAndCheckAndColorfulIcon(string4, z7, i5, themedColor2, z8);
+                                                                        }
+                                                                    }
+                                                                    textCell.setTextAndIcon((CharSequence) string5, i6, false);
+                                                                }
+                                                            }
+                                                            textCell.setTextAndIcon(string7, i8, z4);
+                                                        }
+                                                        textCell.setImageLeft(23);
+                                                    }
+                                                    textCell.setColors(i11, i12);
+                                                }
+                                                string6 = LocaleController.getString(i7);
+                                                z5 = true;
+                                                textCell.setText(string6, z5);
                                             }
-                                            textCell.setImageLeft(23);
+                                            textCell.setTextAndValueAndIcon((CharSequence) string11, replaceTON, i15, true);
                                         }
-                                        textCell.setColors(i12, i13);
+                                        textCell.setTextAndIcon(string9, i13, z9);
                                     }
-                                    string6 = LocaleController.getString(i8);
-                                    textCell.setText(string6, r13);
+                                } else if (ProfileActivity.this.chatInfo != null) {
+                                    string10 = LocaleController.getString(R.string.SubscribeRequests);
+                                    format = String.format("%d", Integer.valueOf(ProfileActivity.this.chatInfo.requests_pending));
+                                    i14 = R.drawable.msg_requests;
+                                    break;
                                 }
-                                textCell.setTextAndValueAndIcon((CharSequence) string10, replaceTON, i16, true);
+                                textCell.setTextAndValueAndIcon(string10, format, i14, z10);
+                            } else if (ProfileActivity.this.chatInfo != null) {
+                                if (!ChatObject.isChannel(ProfileActivity.this.currentChat) || ProfileActivity.this.currentChat.megagroup) {
+                                    string10 = LocaleController.getString(R.string.ChannelMembers);
+                                    format = LocaleController.formatNumber(ProfileActivity.this.chatInfo.participants_count, ',');
+                                    i14 = R.drawable.msg_groups;
+                                    break;
+                                } else {
+                                    string10 = LocaleController.getString(R.string.ChannelSubscribers);
+                                    format = LocaleController.formatNumber(ProfileActivity.this.chatInfo.participants_count, ',');
+                                    i14 = R.drawable.msg_groups;
+                                    break;
+                                }
+                                textCell.setTextAndValueAndIcon(string10, format, i14, z10);
+                            } else {
+                                if (!ChatObject.isChannel(ProfileActivity.this.currentChat) || ProfileActivity.this.currentChat.megagroup) {
+                                    string9 = LocaleController.getString(R.string.ChannelMembers);
+                                    i13 = R.drawable.msg_groups;
+                                    break;
+                                } else {
+                                    string9 = LocaleController.getString(R.string.ChannelSubscribers);
+                                    i13 = R.drawable.msg_groups;
+                                    break;
+                                }
+                                textCell.setTextAndIcon(string9, i13, z9);
                             }
-                            textCell.setText(str9, false);
+                            textCell.setText(str10, false);
                         }
-                        textCell.setColors(i10, i9);
+                        textCell.setColors(-1, i9);
                     }
                     AnimatedTextView animatedTextView = textCell.valueTextView;
                     ProfileActivity profileActivity9 = ProfileActivity.this;
@@ -4385,49 +4405,49 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             j = j4 != 0 ? profileActivity11.userId : -profileActivity11.chatId;
                         }
                         String sharedPrefKey = NotificationsController.getSharedPrefKey(j, ProfileActivity.this.topicId);
-                        boolean z8 = notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + sharedPrefKey, false);
+                        boolean z14 = notificationsSettings.getBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + sharedPrefKey, false);
                         boolean contains = notificationsSettings.contains(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
-                        int i26 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
-                        int i27 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + sharedPrefKey, 0);
-                        if (i26 == 3 && i27 != Integer.MAX_VALUE) {
-                            int currentTime = i27 - ProfileActivity.this.getConnectionsManager().getCurrentTime();
+                        int i25 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
+                        int i26 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY_UNTIL + sharedPrefKey, 0);
+                        if (i25 == 3 && i26 != Integer.MAX_VALUE) {
+                            int currentTime = i26 - ProfileActivity.this.getConnectionsManager().getCurrentTime();
                             if (currentTime <= 0) {
-                                string12 = LocaleController.getString(z8 ? R.string.NotificationsCustom : R.string.NotificationsOn);
-                                z5 = true;
+                                string13 = LocaleController.getString(z14 ? R.string.NotificationsCustom : R.string.NotificationsOn);
+                                z11 = true;
                             } else {
                                 if (currentTime < 3600) {
-                                    string12 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
+                                    string13 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Minutes", currentTime / 60, new Object[0]));
                                 } else if (currentTime < 86400) {
-                                    string12 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0]));
+                                    string13 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Hours", (int) Math.ceil((currentTime / 60.0f) / 60.0f), new Object[0]));
                                 } else if (currentTime < 31536000) {
-                                    string12 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
+                                    string13 = LocaleController.formatString("WillUnmuteIn", R.string.WillUnmuteIn, LocaleController.formatPluralString("Days", (int) Math.ceil(((currentTime / 60.0f) / 60.0f) / 24.0f), new Object[0]));
                                 }
-                                z5 = false;
+                                z11 = false;
                             }
-                        } else if (i26 == 0) {
+                        } else if (i25 == 0) {
                             if (!contains) {
-                                z5 = ProfileActivity.this.getNotificationsController().isGlobalNotificationsEnabled(j, false, false);
-                                string12 = LocaleController.getString((z5 || !z8) ? !z5 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
+                                z11 = ProfileActivity.this.getNotificationsController().isGlobalNotificationsEnabled(j, false, false);
+                                string13 = LocaleController.getString((z11 || !z14) ? !z11 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
                             }
-                            z5 = true;
-                            string12 = LocaleController.getString((z5 || !z8) ? !z5 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
+                            z11 = true;
+                            string13 = LocaleController.getString((z11 || !z14) ? !z11 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
                         } else {
-                            if (i26 != 1) {
-                                z5 = false;
-                                string12 = LocaleController.getString((z5 || !z8) ? !z5 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
+                            if (i25 != 1) {
+                                z11 = false;
+                                string13 = LocaleController.getString((z11 || !z14) ? !z11 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
                             }
-                            z5 = true;
-                            string12 = LocaleController.getString((z5 || !z8) ? !z5 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
+                            z11 = true;
+                            string13 = LocaleController.getString((z11 || !z14) ? !z11 ? R.string.NotificationsOn : R.string.NotificationsOff : R.string.NotificationsCustom);
                         }
-                        if (string12 == null) {
-                            string12 = LocaleController.getString(R.string.NotificationsOff);
+                        if (string13 == null) {
+                            string13 = LocaleController.getString(R.string.NotificationsOff);
                         }
                         HashSet hashSet = ProfileActivity.this.notificationsExceptionTopics;
                         if (hashSet != null && !hashSet.isEmpty()) {
-                            string12 = String.format(Locale.US, LocaleController.getPluralString("NotificationTopicExceptionsDesctription", ProfileActivity.this.notificationsExceptionTopics.size()), string12, Integer.valueOf(ProfileActivity.this.notificationsExceptionTopics.size()));
+                            string13 = String.format(Locale.US, LocaleController.getPluralString("NotificationTopicExceptionsDesctription", ProfileActivity.this.notificationsExceptionTopics.size()), string13, Integer.valueOf(ProfileActivity.this.notificationsExceptionTopics.size()));
                         }
                         notificationsCheckCell.setAnimationsEnabled(ProfileActivity.this.fragmentOpened);
-                        notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString(R.string.Notifications), string12, z5, ProfileActivity.this.botAppRow >= 0);
+                        notificationsCheckCell.setTextAndValueAndCheck(LocaleController.getString(R.string.Notifications), string13, z11, ProfileActivity.this.botAppRow >= 0);
                         break;
                     }
                     break;
@@ -4452,28 +4472,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                             }
                             context = this.mContext;
-                            i19 = R.drawable.greydivider;
+                            i18 = R.drawable.greydivider;
                             view2 = view;
-                            view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i19, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
+                            view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i18, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                             break;
                         }
                     }
                     context = this.mContext;
-                    i19 = R.drawable.greydivider_bottom;
+                    i18 = R.drawable.greydivider_bottom;
                     view2 = view3;
-                    view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i19, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
+                    view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i18, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
                 case 8:
                     UserCell userCell = (UserCell) viewHolder.itemView;
                     try {
                         if (ProfileActivity.this.visibleSortedUsers.isEmpty()) {
                             arrayList = ProfileActivity.this.visibleChatParticipants;
-                            i18 = i - ProfileActivity.this.membersStartRow;
+                            i17 = i - ProfileActivity.this.membersStartRow;
                         } else {
                             arrayList = ProfileActivity.this.visibleChatParticipants;
-                            i18 = ((Integer) ProfileActivity.this.visibleSortedUsers.get(i - ProfileActivity.this.membersStartRow)).intValue();
+                            i17 = ((Integer) ProfileActivity.this.visibleSortedUsers.get(i - ProfileActivity.this.membersStartRow)).intValue();
                         }
-                        chatParticipant = (TLRPC.ChatParticipant) arrayList.get(i18);
+                        chatParticipant = (TLRPC.ChatParticipant) arrayList.get(i17);
                     } catch (Exception e) {
                         FileLog.e(e);
                         chatParticipant = null;
@@ -4485,21 +4505,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 if (!(channelParticipant instanceof TLRPC.TL_channelParticipantCreator)) {
                                     break;
                                 }
-                                i17 = R.string.ChannelCreator;
+                                i16 = R.string.ChannelCreator;
                             } else {
-                                string11 = channelParticipant.rank;
+                                string12 = channelParticipant.rank;
                             }
-                            userCell.setAdminRole(string11);
+                            userCell.setAdminRole(string12);
                             userCell.setData(ProfileActivity.this.getMessagesController().getUser(Long.valueOf(chatParticipant.user_id)), null, null, 0, i == ProfileActivity.this.membersEndRow - 1);
                             break;
                         } else {
                             if (!(chatParticipant instanceof TLRPC.TL_chatParticipantCreator)) {
                                 break;
                             }
-                            i17 = R.string.ChannelCreator;
+                            i16 = R.string.ChannelCreator;
                         }
-                        string11 = LocaleController.getString(i17);
-                        userCell.setAdminRole(string11);
+                        string12 = LocaleController.getString(i16);
+                        userCell.setAdminRole(string12);
                         userCell.setData(ProfileActivity.this.getMessagesController().getUser(Long.valueOf(chatParticipant.user_id)), null, null, 0, i == ProfileActivity.this.membersEndRow - 1);
                     }
                     break;
@@ -4539,12 +4559,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     });
                     TL_account.TL_businessWorkHours tL_businessWorkHours = ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.business_work_hours : null;
-                    boolean z9 = ProfileActivity.this.hoursExpanded;
-                    boolean z10 = ProfileActivity.this.hoursShownMine;
+                    boolean z15 = ProfileActivity.this.hoursExpanded;
+                    boolean z16 = ProfileActivity.this.hoursShownMine;
                     if ((ProfileActivity.this.notificationsDividerRow >= 0 || ProfileActivity.this.myProfile) && ProfileActivity.this.bizLocationRow < 0) {
-                        r13 = false;
+                        r8 = false;
                     }
-                    profileHoursCell.set(tL_businessWorkHours, z9, z10, r13);
+                    profileHoursCell.set(tL_businessWorkHours, z15, z16, r8);
                     break;
                 case 23:
                     ProfileChannelCell profileChannelCell = (ProfileChannelCell) viewHolder.itemView;
@@ -4558,35 +4578,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (i == ProfileActivity.this.infoSectionRow) {
                         ProfileActivity.this.getMessagesController().getUserOrChat(ProfileActivity.this.getDialogId());
                         TL_bots.botVerification botverification = ProfileActivity.this.userInfo != null ? ProfileActivity.this.userInfo.bot_verification : ProfileActivity.this.chatInfo != null ? ProfileActivity.this.chatInfo.bot_verification : null;
-                        TL_bots.botVerifierSettings botverifiersettings = (ProfileActivity.this.userInfo == null || ProfileActivity.this.userInfo.bot_info == null) ? null : ProfileActivity.this.userInfo.bot_info.verifier_settings;
-                        if (ProfileActivity.this.botAppRow < 0 && botverification == null && botverifiersettings == null) {
-                            textInfoPrivacyCell2.setFixedSize(14);
-                            textInfoPrivacyCell2.setText(null);
-                        } else {
+                        if (ProfileActivity.this.botAppRow >= 0 || botverification != null) {
                             textInfoPrivacyCell2.setFixedSize(0);
                             TLRPC.User user4 = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
-                            final boolean z11 = user4 != null && user4.bot && user4.bot_can_edit;
-                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
+                            final boolean z17 = user4 != null && user4.bot && user4.bot_can_edit;
+                            SpannableStringBuilder spannableStringBuilder5 = new SpannableStringBuilder();
                             if (ProfileActivity.this.botAppRow >= 0) {
-                                spannableStringBuilder4.append(AndroidUtilities.replaceSingleTag(LocaleController.getString(z11 ? R.string.ProfileBotOpenAppInfoOwner : R.string.ProfileBotOpenAppInfo), new Runnable() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda1
+                                spannableStringBuilder5.append(AndroidUtilities.replaceSingleTag(LocaleController.getString(z17 ? R.string.ProfileBotOpenAppInfoOwner : R.string.ProfileBotOpenAppInfo), new Runnable() { // from class: org.telegram.ui.ProfileActivity$ListAdapter$$ExternalSyntheticLambda1
                                     @Override // java.lang.Runnable
                                     public final void run() {
-                                        ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$4(z11);
+                                        ProfileActivity.ListAdapter.this.lambda$onBindViewHolder$4(z17);
                                     }
                                 }));
-                                if (botverification != null || botverifiersettings != null) {
-                                    spannableStringBuilder4.append("\n\n\n");
+                                if (botverification != null) {
+                                    spannableStringBuilder5.append("\n\n\n");
                                 }
                             }
-                            if (botverifiersettings != null) {
-                                spannableStringBuilder4.append("x");
-                                spannableStringBuilder4.setSpan(new AnimatedEmojiSpan(botverifiersettings.icon, textInfoPrivacyCell2.getTextView().getPaint().getFontMetricsInt()), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
-                                spannableStringBuilder4.append(" ");
-                                spannableStringBuilder4.append(LocaleController.formatString(R.string.BotVerifierRepresentatives, botverifiersettings.company));
-                            } else if (botverification != null) {
-                                spannableStringBuilder4.append("x");
-                                spannableStringBuilder4.setSpan(new AnimatedEmojiSpan(botverification.icon, textInfoPrivacyCell2.getTextView().getPaint().getFontMetricsInt()), spannableStringBuilder4.length() - 1, spannableStringBuilder4.length(), 33);
-                                spannableStringBuilder4.append(" ");
+                            if (botverification != null) {
+                                spannableStringBuilder5.append("x");
+                                spannableStringBuilder5.setSpan(new AnimatedEmojiSpan(botverification.icon, textInfoPrivacyCell2.getTextView().getPaint().getFontMetricsInt()), spannableStringBuilder5.length() - 1, spannableStringBuilder5.length(), 33);
+                                spannableStringBuilder5.append(" ");
                                 SpannableString spannableString2 = new SpannableString(botverification.description);
                                 try {
                                     AndroidUtilities.addLinksSafe(spannableString2, 1, false, false);
@@ -4610,11 +4621,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 } catch (Exception e2) {
                                     FileLog.e(e2);
                                 }
-                                spannableStringBuilder4.append((CharSequence) spannableString2);
+                                spannableStringBuilder5.append((CharSequence) spannableString2);
                             }
                             textInfoPrivacyCell2.setLinkTextRippleColor(Integer.valueOf(Theme.multAlpha(ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteGrayText4), 0.2f)));
-                            textInfoPrivacyCell2.setText(spannableStringBuilder4);
+                            spannableStringBuilder = spannableStringBuilder5;
+                        } else {
+                            textInfoPrivacyCell2.setFixedSize(14);
                         }
+                        textInfoPrivacyCell2.setText(spannableStringBuilder);
                     } else if (i == ProfileActivity.this.infoAffiliateRow) {
                         TLRPC.User user5 = ProfileActivity.this.getMessagesController().getUser(Long.valueOf(ProfileActivity.this.userId));
                         if (user5 != null && user5.bot && user5.bot_can_edit) {
@@ -4644,16 +4658,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                             }
                             context = this.mContext;
-                            i19 = R.drawable.greydivider;
+                            i18 = R.drawable.greydivider;
                             view2 = view;
-                            view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i19, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
+                            view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i18, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                             break;
                         }
                     }
                     context = this.mContext;
-                    i19 = R.drawable.greydivider_bottom;
+                    i18 = R.drawable.greydivider_bottom;
                     view2 = view3;
-                    view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i19, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
+                    view2.setBackgroundDrawable(Theme.getThemedDrawable(context, i18, ProfileActivity.this.getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
                 case 27:
                     AffiliateProgramFragment.ColorfulTextCell colorfulTextCell = (AffiliateProgramFragment.ColorfulTextCell) viewHolder.itemView;
@@ -15220,15 +15234,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:458:0x08ed, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:464:0x0901, code lost:
     
-        if (r3 != false) goto L506;
+        if (r3 != false) goto L513;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x0169, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x013e, code lost:
     
-        if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationToBeDeprecated) == false) goto L61;
+        if (org.telegram.messenger.MessagesController.ChannelRecommendations.hasRecommendations(r15.currentAccount, r7) != false) goto L50;
      */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x0577  */
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x017d, code lost:
+    
+        if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_fileLocationToBeDeprecated) == false) goto L68;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:312:0x058b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -15395,9 +15413,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (!z) {
             long j = this.chatId;
-            if (j != 0 && MessagesController.ChannelRecommendations.hasRecommendations(this.currentAccount, j)) {
-                z = true;
+            if (j == 0 || !MessagesController.ChannelRecommendations.hasRecommendations(this.currentAccount, -j)) {
+                if (this.isBot) {
+                    long j2 = this.userId;
+                    if (j2 != 0) {
+                    }
+                }
             }
+            z = true;
         }
         if (this.userId != 0) {
             if (LocaleController.isRTL) {
@@ -15780,9 +15803,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         this.rowCount = i61 + 2;
                         this.blockedUsersRow = i62;
                     }
-                    long j2 = this.chatId;
-                    long j3 = j2 != 0 ? -j2 : this.userId;
-                    if ((chatFull3 != null && chatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(j3).amount > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j3))) || ((chatFull4 = this.chatInfo) != null && chatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getTONBalance(j3) > 0)) {
+                    long j3 = this.chatId;
+                    long j4 = j3 != 0 ? -j3 : this.userId;
+                    if ((chatFull3 != null && chatFull3.can_view_stars_revenue && (BotStarsController.getInstance(this.currentAccount).getBotStarsBalance(j4).amount > 0 || BotStarsController.getInstance(this.currentAccount).hasTransactions(j4))) || ((chatFull4 = this.chatInfo) != null && chatFull4.can_view_revenue && BotStarsController.getInstance(this.currentAccount).getTONBalance(j4) > 0)) {
                         int i63 = this.rowCount;
                         this.rowCount = i63 + 1;
                         this.channelBalanceRow = i63;
@@ -15851,8 +15874,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (this.lastSectionRow == -1) {
                     TLRPC.Chat chat3 = this.currentChat;
                     if (chat3.left && !chat3.kicked) {
-                        long j4 = MessagesController.getNotificationsSettings(this.currentAccount).getLong("dialog_join_requested_time_" + this.dialogId, -1L);
-                        if (j4 <= 0 || System.currentTimeMillis() - j4 >= 120000) {
+                        long j5 = MessagesController.getNotificationsSettings(this.currentAccount).getLong("dialog_join_requested_time_" + this.dialogId, -1L);
+                        if (j5 <= 0 || System.currentTimeMillis() - j5 >= 120000) {
                             int i71 = this.rowCount;
                             this.joinRow = i71;
                             this.rowCount = i71 + 2;
@@ -17677,6 +17700,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public void didReceivedNotification(int i, int i2, final Object... objArr) {
         TL_stories.PeerStories peerStories;
         ListAdapter listAdapter;
+        ListAdapter listAdapter2;
         TLRPC.ChatFull chatFull;
         TLRPC.ChatFull chatFull2;
         TLRPC.TL_inputGroupCall tL_inputGroupCall;
@@ -17963,8 +17987,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 MessageObject messageObject = (MessageObject) arrayList.get(i4);
                                 if (this.currentEncryptedChat != null) {
                                     TLRPC.MessageAction messageAction = messageObject.messageOwner.action;
-                                    if ((messageAction instanceof TLRPC.TL_messageEncryptedAction) && (messageAction.encryptedAction instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) && (listAdapter = this.listAdapter) != null) {
-                                        listAdapter.notifyDataSetChanged();
+                                    if ((messageAction instanceof TLRPC.TL_messageEncryptedAction) && (messageAction.encryptedAction instanceof TLRPC.TL_decryptedMessageActionSetMessageTTL) && (listAdapter2 = this.listAdapter) != null) {
+                                        listAdapter2.notifyDataSetChanged();
                                     }
                                 }
                             }
@@ -17988,11 +18012,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             updateRowsIds();
                             if (i5 == this.passwordSuggestionRow && i6 == this.phoneSuggestionRow && i7 == this.graceSuggestionRow) {
                                 return;
+                            } else {
+                                listAdapter = this.listAdapter;
                             }
-                            this.listAdapter.notifyDataSetChanged();
-                            return;
-                        }
-                        if (i != NotificationCenter.topicsDidLoaded) {
+                        } else if (i != NotificationCenter.topicsDidLoaded) {
                             if (i == NotificationCenter.updateSearchSettings) {
                                 SearchAdapter searchAdapter = this.searchAdapter;
                                 if (searchAdapter != null) {
@@ -18050,7 +18073,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                             }
                                             return;
                                         }
-                                        return;
+                                        if (i != NotificationCenter.channelRecommendationsLoaded) {
+                                            return;
+                                        }
+                                        long longValue2 = ((Long) objArr[0]).longValue();
+                                        if (this.sharedMediaRow >= 0 || longValue2 != getDialogId()) {
+                                            return;
+                                        }
+                                        updateRowsIds();
+                                        listAdapter = this.listAdapter;
+                                        if (listAdapter == null) {
+                                            return;
+                                        }
                                     }
                                 }
                                 updateEditColorIcon();
@@ -18059,6 +18093,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         } else if (!this.isTopic) {
                             return;
                         }
+                        listAdapter.notifyDataSetChanged();
+                        return;
                     }
                 }
             }
@@ -19001,6 +19037,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().addObserver(this, NotificationCenter.botStarsUpdated);
         getNotificationCenter().addObserver(this, NotificationCenter.botStarsTransactionsLoaded);
         getNotificationCenter().addObserver(this, NotificationCenter.dialogDeleted);
+        getNotificationCenter().addObserver(this, NotificationCenter.channelRecommendationsLoaded);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         updateRowsIds();
         ListAdapter listAdapter = this.listAdapter;
@@ -19097,6 +19134,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         getNotificationCenter().removeObserver(this, NotificationCenter.botStarsUpdated);
         getNotificationCenter().removeObserver(this, NotificationCenter.botStarsTransactionsLoaded);
         getNotificationCenter().removeObserver(this, NotificationCenter.dialogDeleted);
+        getNotificationCenter().removeObserver(this, NotificationCenter.channelRecommendationsLoaded);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         ProfileGalleryView profileGalleryView = this.avatarsViewPager;
         if (profileGalleryView != null) {
@@ -19976,9 +20014,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     clippingTextViewSwitcher3 = this.mediaCounterTextView;
                     formatPluralString = LocaleController.formatPluralString("ProfileStoriesArchiveCount", this.sharedMediaLayout.getStoriesCount(closestTab), new Object[0]);
                 } else if (closestTab == 10) {
-                    MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(this.currentAccount).getChannelRecommendations(this.chatId);
+                    MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(this.currentAccount).getChannelRecommendations(getDialogId());
                     clippingTextViewSwitcher2 = this.mediaCounterTextView;
-                    formatPluralStringComma = LocaleController.formatPluralString("Channels", channelRecommendations == null ? 0 : channelRecommendations.chats.size() + channelRecommendations.more, new Object[0]);
+                    formatPluralStringComma = LocaleController.formatPluralString(this.isBot ? "Bots" : "Channels", channelRecommendations == null ? 0 : channelRecommendations.chats.size() + channelRecommendations.more, new Object[0]);
                 } else if (closestTab == 12) {
                     int messagesCount = getMessagesController().getSavedMessagesController().getMessagesCount(getDialogId());
                     AudioPlayerAlert.ClippingTextViewSwitcher clippingTextViewSwitcher5 = this.mediaCounterTextView;

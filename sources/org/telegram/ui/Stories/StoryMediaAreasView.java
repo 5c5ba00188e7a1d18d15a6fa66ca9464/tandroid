@@ -31,6 +31,7 @@ import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.VideoEditedInfo;
@@ -526,23 +527,23 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
         return areaView != null && (areaView.scaleOnTap || this.selectedArea.supportsBounds);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x01d8  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x01fe  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x020a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0227  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0238  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0255  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0258  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0266  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x02bd  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x025a  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x020d  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x0201  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01db  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01cf  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x023c  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0248  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0276  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0293  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0296  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02a4  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02f9  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x02fb  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0298  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0279  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x024b  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x023f  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x0219  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x020d  */
     @Override // android.view.View.OnClickListener
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -585,6 +586,13 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
             }
             if (mediaArea instanceof TL_stories.TL_mediaAreaUrl) {
                 Browser.openUrl(getContext(), ((TL_stories.TL_mediaAreaUrl) this.selectedArea.mediaArea).url);
+                this.selectedArea = null;
+                invalidate();
+                return;
+            }
+            if (mediaArea instanceof TL_stories.TL_mediaAreaStarGift) {
+                String str = ((TL_stories.TL_mediaAreaStarGift) mediaArea).slug;
+                Browser.openUrl(getContext(), "https://" + MessagesController.getInstance(UserConfig.selectedAccount).linkPrefix + "/nft/" + str);
                 this.selectedArea = null;
                 invalidate();
                 return;
@@ -647,6 +655,8 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
         TL_stories.MediaArea mediaArea3 = this.selectedArea.mediaArea;
         if (mediaArea3 instanceof TL_stories.TL_mediaAreaChannelPost) {
             i = org.telegram.messenger.R.string.StoryViewMessage;
+        } else if (mediaArea3 instanceof TL_stories.TL_mediaAreaStarGift) {
+            i = org.telegram.messenger.R.string.StoryViewGift;
         } else {
             if (mediaArea3 instanceof TL_stories.TL_mediaAreaUrl) {
                 duration.setMultilineText(true);

@@ -96,7 +96,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     final HashSet alwaysSelectedReactions;
     private boolean animatePopup;
     private final boolean animationEnabled;
-    private Paint bgPaint;
+    private final Paint bgPaint;
     public int bigCircleOffset;
     private float bigCircleRadius;
     public float bubblesOffset;
@@ -129,7 +129,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     HashSet lastVisibleViews;
     HashSet lastVisibleViewsTmp;
     private float leftAlpha;
-    private Paint leftShadowPaint;
+    private final Paint leftShadowPaint;
     private LinearLayoutManager linearLayoutManager;
     private Adapter listAdapter;
     private int[] location;
@@ -162,7 +162,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     public final RecyclerListView recyclerListView;
     Theme.ResourcesProvider resourcesProvider;
     private float rightAlpha;
-    private Paint rightShadowPaint;
+    private final Paint rightShadowPaint;
     private final Paint selectedPaint;
     final HashSet selectedReactions;
     private Drawable shadow;
@@ -1233,11 +1233,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     /* JADX WARN: Multi-variable type inference failed */
     public ReactionsContainerLayout(final int i, BaseFragment baseFragment, Context context, int i2, Theme.ResourcesProvider resourcesProvider) {
         super(context);
-        Paint paint;
-        int blendARGB;
         this.items = new ArrayList();
         this.oldItems = new ArrayList();
-        this.bgPaint = new Paint(1);
+        Paint paint = new Paint(1);
+        this.bgPaint = paint;
         this.leftShadowPaint = new Paint(1);
         this.rightShadowPaint = new Paint(1);
         this.transitionProgress = 1.0f;
@@ -1463,14 +1462,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         int paddingTop = (recyclerListView.getLayoutParams().height - recyclerListView.getPaddingTop()) - recyclerListView.getPaddingBottom();
         this.nextRecentReaction.getLayoutParams().width = paddingTop - AndroidUtilities.dp(12.0f);
         this.nextRecentReaction.getLayoutParams().height = paddingTop;
-        if (i == 2 || i == 4) {
-            paint = this.bgPaint;
-            blendARGB = ColorUtils.blendARGB(-16777216, -1, 0.13f);
-        } else {
-            paint = this.bgPaint;
-            blendARGB = Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, resourcesProvider);
-        }
-        paint.setColor(blendARGB);
+        paint.setColor((i == 2 || i == 4) ? ColorUtils.blendARGB(-16777216, -1, 0.13f) : Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, resourcesProvider));
         MediaDataController.getInstance(i2).preloadDefaultReactions();
     }
 

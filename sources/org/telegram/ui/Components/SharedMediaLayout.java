@@ -1189,7 +1189,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                 profileSearchCell = null;
             }
             if (profileSearchCell != null) {
-                profileSearchCell.setData((TLRPC.Chat) this.chats.get(i), null, null, null, false, false);
+                profileSearchCell.setData(this.chats.get(i), null, null, null, false, false);
                 profileSearchCell.useSeparator = i != this.chats.size() - 1;
             }
         }
@@ -1198,7 +1198,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View profileSearchCell;
             if (i == 18) {
-                profileSearchCell = new MoreRecommendationsCell(SharedMediaLayout.this.profileActivity == null ? UserConfig.selectedAccount : SharedMediaLayout.this.profileActivity.getCurrentAccount(), this.mContext, SharedMediaLayout.this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda2
+                profileSearchCell = new MoreRecommendationsCell(SharedMediaLayout.this.profileActivity == null ? UserConfig.selectedAccount : SharedMediaLayout.this.profileActivity.getCurrentAccount(), this.mContext, SharedMediaLayout.this.dialog_id > 0, SharedMediaLayout.this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$ChannelRecommendationsAdapter$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.ChannelRecommendationsAdapter.this.lambda$onCreateViewHolder$0();
@@ -1212,18 +1212,39 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         public void openPreview(final int i) {
+            long j;
+            String str;
             if (i < 0 || i >= this.chats.size()) {
                 return;
             }
-            final TLRPC.Chat chat = (TLRPC.Chat) this.chats.get(i);
+            TLObject tLObject = (TLObject) this.chats.get(i);
             Bundle bundle = new Bundle();
-            bundle.putLong("chat_id", chat.id);
+            boolean z = tLObject instanceof TLRPC.Chat;
+            if (z) {
+                j = ((TLRPC.Chat) tLObject).id;
+                str = "chat_id";
+            } else {
+                if (!(tLObject instanceof TLRPC.User)) {
+                    return;
+                }
+                j = ((TLRPC.User) tLObject).id;
+                str = "user_id";
+            }
+            bundle.putLong(str, j);
             ChatActivity chatActivity = new ChatActivity(bundle);
             if (SharedMediaLayout.this.profileActivity instanceof ProfileActivity) {
                 ((ProfileActivity) SharedMediaLayout.this.profileActivity).prepareBlurBitmap();
             }
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(SharedMediaLayout.this.getContext(), R.drawable.popup_fixed_alert, SharedMediaLayout.this.resourcesProvider, 2);
             actionBarPopupWindowLayout.setBackgroundColor(SharedMediaLayout.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
+            if (!z) {
+                if (tLObject instanceof TLRPC.User) {
+                    SharedMediaLayout.this.profileActivity.presentFragmentAsPreview(chatActivity);
+                    return;
+                }
+                return;
+            }
+            final TLRPC.Chat chat = (TLRPC.Chat) tLObject;
             ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(SharedMediaLayout.this.getContext(), false, false);
             actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.OpenChannel2), R.drawable.msg_channel);
             actionBarMenuSubItem.setMinimumWidth(NotificationCenter.audioRouteChanged);
@@ -1248,19 +1269,27 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         public void update(boolean z) {
-            TLRPC.Chat chat;
-            if (SharedMediaLayout.this.profileActivity == null || !DialogObject.isChatDialog(SharedMediaLayout.this.dialog_id) || (chat = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChat(Long.valueOf(-SharedMediaLayout.this.dialog_id))) == null || !ChatObject.isChannelAndNotMegaGroup(chat)) {
+            if (SharedMediaLayout.this.profileActivity == null) {
                 return;
             }
-            MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChannelRecommendations(chat.id);
+            if (DialogObject.isChatDialog(SharedMediaLayout.this.dialog_id)) {
+                TLRPC.Chat chat = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChat(Long.valueOf(-SharedMediaLayout.this.dialog_id));
+                if (chat == null || !ChatObject.isChannelAndNotMegaGroup(chat)) {
+                    return;
+                }
+            } else if (MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getUser(Long.valueOf(SharedMediaLayout.this.dialog_id)) == null) {
+                return;
+            }
+            MessagesController.ChannelRecommendations channelRecommendations = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChannelRecommendations(SharedMediaLayout.this.dialog_id);
             this.chats.clear();
             int i = 0;
             if (channelRecommendations != null) {
                 for (int i2 = 0; i2 < channelRecommendations.chats.size(); i2++) {
-                    TLRPC.Chat chat2 = channelRecommendations.chats.get(i2);
-                    if (chat2 != null && ChatObject.isNotInChat(chat2)) {
-                        this.chats.add(chat2);
+                    TLObject tLObject = channelRecommendations.chats.get(i2);
+                    if (tLObject instanceof TLRPC.Chat) {
+                        ChatObject.isNotInChat((TLRPC.Chat) tLObject);
                     }
+                    this.chats.add(tLObject);
                 }
             }
             if (!this.chats.isEmpty() && !UserConfig.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).isPremium()) {
@@ -2520,7 +2549,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         private final Theme.ResourcesProvider resourcesProvider;
         private final LinkSpanDrawable.LinksTextView textView;
 
-        public MoreRecommendationsCell(int i, Context context, Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
+        public MoreRecommendationsCell(int i, Context context, boolean z, Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
             super(context);
             this.currentAccount = i;
             this.resourcesProvider = resourcesProvider;
@@ -2537,7 +2566,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
             ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
             this.button = buttonWithCounterView;
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.MoreSimilarButton));
+            spannableStringBuilder.append((CharSequence) LocaleController.getString(z ? R.string.MoreSimilarBotsButton : R.string.MoreSimilarButton));
             spannableStringBuilder.append((CharSequence) " ");
             SpannableString spannableString = new SpannableString("l");
             spannableString.setSpan(new ColoredImageSpan(R.drawable.msg_mini_lock2), 0, 1, 33);
@@ -2558,7 +2587,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
             linksTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
             linksTextView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider));
             linksTextView.setLineSpacing(AndroidUtilities.dp(3.0f), 1.0f);
-            SpannableStringBuilder premiumText = AndroidUtilities.premiumText(LocaleController.getString(R.string.MoreSimilarText), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$MoreRecommendationsCell$$ExternalSyntheticLambda1
+            SpannableStringBuilder premiumText = AndroidUtilities.premiumText(LocaleController.getString(z ? R.string.MoreSimilarBotsText : R.string.MoreSimilarText), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$MoreRecommendationsCell$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     SharedMediaLayout.MoreRecommendationsCell.lambda$new$1(runnable);
@@ -5254,14 +5283,14 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     /* JADX WARN: Removed duplicated region for block: B:107:0x0707  */
     /* JADX WARN: Removed duplicated region for block: B:114:0x0755  */
     /* JADX WARN: Removed duplicated region for block: B:120:0x079b  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x07e1  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0b54 A[EDGE_INSN: B:149:0x0b54->B:150:0x0b54 BREAK  A[LOOP:3: B:122:0x07dc->B:147:0x0a64], SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0ba9  */
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0c76  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x0c90  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x07e3  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x0b56 A[EDGE_INSN: B:149:0x0b56->B:150:0x0b56 BREAK  A[LOOP:3: B:122:0x07de->B:147:0x0a66], SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0bab  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x0c78  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x0c92  */
     /* JADX WARN: Removed duplicated region for block: B:164:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x0c78  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0c59  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x0c7a  */
+    /* JADX WARN: Removed duplicated region for block: B:166:0x0c5b  */
     /* JADX WARN: Removed duplicated region for block: B:167:0x07b1  */
     /* JADX WARN: Removed duplicated region for block: B:171:0x064a  */
     /* JADX WARN: Removed duplicated region for block: B:173:0x02ad  */
@@ -5904,7 +5933,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                 } else {
                     BaseFragment baseFragment3 = this.profileActivity;
                     if (baseFragment3 instanceof ProfileActivity) {
-                        this.giftsContainer = new ProfileGiftsContainer(context, baseFragment3.getCurrentAccount(), ((ProfileActivity) this.profileActivity).getDialogId(), resourcesProvider) { // from class: org.telegram.ui.Components.SharedMediaLayout.12
+                        this.giftsContainer = new ProfileGiftsContainer(baseFragment3, context, baseFragment3.getCurrentAccount(), ((ProfileActivity) this.profileActivity).getDialogId(), resourcesProvider) { // from class: org.telegram.ui.Components.SharedMediaLayout.12
                             @Override // org.telegram.ui.Gifts.ProfileGiftsContainer
                             protected int processColor(int i17) {
                                 return SharedMediaLayout.this.processColor(i17);
@@ -8355,7 +8384,14 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                         if (mediaPage.selectedType == 10) {
                             if (((view instanceof ProfileSearchCell) || f2 < AndroidUtilities.dp(60.0f)) && i >= 0 && i < this.channelRecommendationsAdapter.chats.size()) {
                                 Bundle bundle = new Bundle();
-                                bundle.putLong("chat_id", ((TLRPC.Chat) this.channelRecommendationsAdapter.chats.get(i)).id);
+                                TLObject tLObject = (TLObject) this.channelRecommendationsAdapter.chats.get(i);
+                                if (tLObject instanceof TLRPC.Chat) {
+                                    bundle.putLong("chat_id", ((TLRPC.Chat) tLObject).id);
+                                } else if (!(tLObject instanceof TLRPC.User)) {
+                                    return;
+                                } else {
+                                    bundle.putLong("user_id", ((TLRPC.User) tLObject).id);
+                                }
                                 this.profileActivity.presentFragment(new ChatActivity(bundle));
                                 return;
                             }
@@ -10172,7 +10208,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x0168, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:104:0x0167, code lost:
     
         if ((r19.hasMedia[4] <= 0) == r19.scrollSlidingTextTabStrip.hasTab(4)) goto L144;
      */
@@ -10182,144 +10218,146 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
      */
     /* JADX WARN: Code restructure failed: missing block: B:107:0x0183, code lost:
     
-        r11 = true;
+        r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:109:0x018c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:109:0x018d, code lost:
     
-        if (r11 != r19.scrollSlidingTextTabStrip.hasTab(2)) goto L152;
+        if (r1 != r19.scrollSlidingTextTabStrip.hasTab(2)) goto L152;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:110:0x018e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x018f, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:112:0x0193, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x0194, code lost:
     
         if (r19.hasMedia[5] > 0) goto L155;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:113:0x0195, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:113:0x0196, code lost:
     
-        r11 = true;
+        r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:115:0x019e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:115:0x019f, code lost:
     
-        if (r11 != r19.scrollSlidingTextTabStrip.hasTab(5)) goto L159;
+        if (r1 != r19.scrollSlidingTextTabStrip.hasTab(5)) goto L159;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:116:0x01a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:116:0x01a1, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:118:0x01a6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:118:0x01a7, code lost:
     
         if (r19.hasMedia[6] > 0) goto L162;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:119:0x01a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x01a9, code lost:
     
-        r11 = true;
+        r1 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:121:0x01b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:121:0x01b2, code lost:
     
-        if (r11 != r19.scrollSlidingTextTabStrip.hasTab(6)) goto L166;
+        if (r1 != r19.scrollSlidingTextTabStrip.hasTab(6)) goto L166;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:122:0x01b3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:122:0x01b4, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:123:0x01b4, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:123:0x01b5, code lost:
     
-        r11 = !r19.channelRecommendationsAdapter.chats.isEmpty();
+        r1 = !r19.channelRecommendationsAdapter.chats.isEmpty();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:124:0x01c7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:124:0x01c8, code lost:
     
-        if (r11 == r19.scrollSlidingTextTabStrip.hasTab(10)) goto L169;
+        if (r1 == r19.scrollSlidingTextTabStrip.hasTab(10)) goto L169;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:125:0x01c9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:125:0x01ca, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:127:0x01ce, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:127:0x01cf, code lost:
     
         if (includeSavedDialogs() == false) goto L176;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:129:0x01dc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:129:0x01dd, code lost:
     
         if (r19.profileActivity.getMessagesController().getSavedMessagesController().unsupported != false) goto L176;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x01ec, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:131:0x01ed, code lost:
     
         if (r19.profileActivity.getMessagesController().getSavedMessagesController().hasDialogs() == false) goto L176;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:132:0x01ee, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:132:0x01ef, code lost:
     
-        r12 = true;
+        r2 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:134:0x01f9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:134:0x01fa, code lost:
     
-        if (r12 == r19.scrollSlidingTextTabStrip.hasTab(11)) goto L180;
+        if (r2 == r19.scrollSlidingTextTabStrip.hasTab(11)) goto L180;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:135:0x01fb, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:135:0x01fc, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:137:0x0204, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:137:0x0205, code lost:
     
         if (r5 == r19.scrollSlidingTextTabStrip.hasTab(12)) goto L184;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:138:0x0206, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:138:0x0207, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:215:0x042c, code lost:
-    
-        if (r19.scrollSlidingTextTabStrip.hasTab(4) == false) goto L298;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:216:0x043e, code lost:
-    
-        r19.scrollSlidingTextTabStrip.addTextTab(r5, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", org.telegram.messenger.R.string.SharedMusicTab2), r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:239:0x043c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:215:0x042f, code lost:
     
         if (r19.scrollSlidingTextTabStrip.hasTab(4) == false) goto L298;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:255:0x02cd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:216:0x0441, code lost:
+    
+        r19.scrollSlidingTextTabStrip.addTextTab(r3, org.telegram.messenger.LocaleController.getString("SharedMusicTab2", org.telegram.messenger.R.string.SharedMusicTab2), r4);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:243:0x043f, code lost:
+    
+        if (r19.scrollSlidingTextTabStrip.hasTab(4) == false) goto L298;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:259:0x02cf, code lost:
     
         if (r19.scrollSlidingTextTabStrip.hasTab(9) == false) goto L234;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:256:0x02fe, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:260:0x0300, code lost:
     
         r19.scrollSlidingTextTabStrip.animationDuration = 420;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:257:0x02f3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:261:0x02f5, code lost:
     
         r19.scrollSlidingTextTabStrip.addTextTab(9, org.telegram.messenger.LocaleController.getString(org.telegram.messenger.R.string.ProfileArchivedStories), r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:264:0x02f1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:268:0x02f3, code lost:
     
         if (r19.scrollSlidingTextTabStrip.hasTab(9) == false) goto L234;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:276:0x01f0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:280:0x01f1, code lost:
     
-        r12 = false;
+        r2 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:277:0x01aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:281:0x01ab, code lost:
     
-        r11 = false;
+        r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:278:0x0197, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:282:0x0198, code lost:
     
-        r11 = false;
+        r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:279:0x0185, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:283:0x0185, code lost:
     
-        r11 = false;
+        r1 = false;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:280:0x017c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:284:0x017b, code lost:
     
-        r8 = r8 + 1;
+        r11 = r11 + 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:287:0x017a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:291:0x0179, code lost:
     
         if ((r19.hasMedia[4] <= 0) == r19.scrollSlidingTextTabStrip.hasTab(4)) goto L144;
      */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x04b8  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x04bb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -10477,7 +10515,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                         this.scrollSlidingTextTabStrip.addTextTab(6, LocaleController.getString("SharedGroupsTab2", R.string.SharedGroupsTab2), removeTabs);
                     }
                     if (z2) {
-                        this.scrollSlidingTextTabStrip.addTextTab(10, LocaleController.getString(R.string.SimilarChannelsTab), removeTabs);
+                        this.scrollSlidingTextTabStrip.addTextTab(10, LocaleController.getString(this.dialog_id <= 0 ? R.string.SimilarBotsTab : R.string.SimilarChannelsTab), removeTabs);
                     }
                 } else {
                     if (this.hasMedia[3] > 0 && !this.scrollSlidingTextTabStrip.hasTab(3)) {
@@ -10496,7 +10534,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                         this.scrollSlidingTextTabStrip.addTextTab(6, LocaleController.getString("SharedGroupsTab2", R.string.SharedGroupsTab2), removeTabs);
                     }
                     if (z2 && !this.scrollSlidingTextTabStrip.hasTab(10)) {
-                        this.scrollSlidingTextTabStrip.addTextTab(10, LocaleController.getString(R.string.SimilarChannelsTab), removeTabs);
+                        this.scrollSlidingTextTabStrip.addTextTab(10, LocaleController.getString(this.dialog_id <= 0 ? R.string.SimilarBotsTab : R.string.SimilarChannelsTab), removeTabs);
                     }
                 }
             }
@@ -11135,7 +11173,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                 }
             } else {
                 if (i == NotificationCenter.channelRecommendationsLoaded) {
-                    if (((Long) objArr[0]).longValue() == (-this.dialog_id)) {
+                    if (((Long) objArr[0]).longValue() == this.dialog_id) {
                         this.channelRecommendationsAdapter.update(true);
                         updateTabs(true);
                         checkCurrentTabValid();

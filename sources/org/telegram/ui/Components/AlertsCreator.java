@@ -5559,7 +5559,7 @@ public abstract class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createFreeSpaceDialog$143(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$93(new CacheControlActivity());
+        launchActivity.lambda$runLinkRequest$95(new CacheControlActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5571,7 +5571,7 @@ public abstract class AlertsCreator {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$createLanguageAlert$8(LaunchActivity launchActivity, DialogInterface dialogInterface, int i) {
-        launchActivity.lambda$runLinkRequest$93(new LanguageSelectActivity());
+        launchActivity.lambda$runLinkRequest$95(new LanguageSelectActivity());
     }
 
     /* JADX INFO: Access modifiers changed from: private */

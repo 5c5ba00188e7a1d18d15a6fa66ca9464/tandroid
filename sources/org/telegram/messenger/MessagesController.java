@@ -921,7 +921,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
     /* loaded from: classes3.dex */
     public static class ChannelRecommendations {
-        public final ArrayList<TLRPC.Chat> chats = new ArrayList<>();
+        public final ArrayList<TLObject> chats = new ArrayList<>();
         public int more;
         public boolean wasPremium;
 
@@ -12205,23 +12205,33 @@ public class MessagesController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getChannelRecommendations$433(TLObject tLObject, boolean z, long j) {
-        int i;
         if (tLObject instanceof TLRPC.messages_Chats) {
             ArrayList<TLRPC.Chat> arrayList = ((TLRPC.messages_Chats) tLObject).chats;
             putChats(arrayList, false);
             ChannelRecommendations channelRecommendations = new ChannelRecommendations();
             channelRecommendations.wasPremium = z;
             channelRecommendations.chats.addAll(arrayList);
-            if (!(tLObject instanceof TLRPC.TL_messages_chatsSlice)) {
-                if (!getUserConfig().isPremium() && BuildVars.DEBUG_PRIVATE_VERSION) {
-                    i = 90;
-                }
-                this.cachedChannelRecommendations.put(Long.valueOf(j), channelRecommendations);
-                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.channelRecommendationsLoaded, Long.valueOf(j));
+            if (tLObject instanceof TLRPC.TL_messages_chatsSlice) {
+                channelRecommendations.more = Math.max(0, ((TLRPC.TL_messages_chatsSlice) tLObject).count - arrayList.size());
+            } else if (!getUserConfig().isPremium() && BuildVars.DEBUG_PRIVATE_VERSION) {
+                channelRecommendations.more = 90;
             }
-            i = Math.max(0, ((TLRPC.TL_messages_chatsSlice) tLObject).count - arrayList.size());
-            channelRecommendations.more = i;
             this.cachedChannelRecommendations.put(Long.valueOf(j), channelRecommendations);
+            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.channelRecommendationsLoaded, Long.valueOf(j));
+            return;
+        }
+        if (tLObject instanceof TLRPC.Users) {
+            ArrayList<TLRPC.User> arrayList2 = ((TLRPC.Users) tLObject).users;
+            putUsers(arrayList2, false);
+            ChannelRecommendations channelRecommendations2 = new ChannelRecommendations();
+            channelRecommendations2.wasPremium = z;
+            channelRecommendations2.chats.addAll(arrayList2);
+            if (tLObject instanceof TLRPC.TL_usersSlice) {
+                channelRecommendations2.more = Math.max(0, ((TLRPC.TL_usersSlice) tLObject).count - this.chats.size());
+            } else if (!getUserConfig().isPremium() && BuildVars.DEBUG_PRIVATE_VERSION) {
+                channelRecommendations2.more = 90;
+            }
+            this.cachedChannelRecommendations.put(Long.valueOf(j), channelRecommendations2);
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.channelRecommendationsLoaded, Long.valueOf(j));
         }
     }
@@ -19221,37 +19231,58 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002b  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:20:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0052  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$reloadWebPages$175(HashMap hashMap, String str, TLObject tLObject, LongSparseArray longSparseArray, long j, int i) {
+        TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage;
         ArrayList arrayList = (ArrayList) hashMap.remove(str);
         if (arrayList == null) {
             return;
         }
         TLRPC.TL_messages_messages tL_messages_messages = new TLRPC.TL_messages_messages();
-        if (tLObject instanceof TLRPC.TL_messageMediaWebPage) {
-            TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage = (TLRPC.TL_messageMediaWebPage) tLObject;
-            TLRPC.WebPage webPage = tL_messageMediaWebPage.webpage;
-            if ((webPage instanceof TLRPC.TL_webPage) || (webPage instanceof TLRPC.TL_webPageEmpty)) {
-                for (int i2 = 0; i2 < arrayList.size(); i2++) {
-                    ((MessageObject) arrayList.get(i2)).messageOwner.media.webpage = tL_messageMediaWebPage.webpage;
-                    if (i2 == 0) {
-                        ImageLoader.saveMessageThumbs(((MessageObject) arrayList.get(i2)).messageOwner);
+        if (tLObject instanceof TL_account.webPagePreview) {
+            TL_account.webPagePreview webpagepreview = (TL_account.webPagePreview) tLObject;
+            putUsers(webpagepreview.users, false);
+            TLRPC.MessageMedia messageMedia = webpagepreview.media;
+            if (messageMedia instanceof TLRPC.TL_messageMediaWebPage) {
+                tL_messageMediaWebPage = (TLRPC.TL_messageMediaWebPage) messageMedia;
+                if (tL_messageMediaWebPage != null) {
+                    for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                        ((MessageObject) arrayList.get(i2)).messageOwner.media.webpage = new TLRPC.TL_webPageEmpty();
+                        tL_messages_messages.messages.add(((MessageObject) arrayList.get(i2)).messageOwner);
                     }
-                    tL_messages_messages.messages.add(((MessageObject) arrayList.get(i2)).messageOwner);
+                } else {
+                    TLRPC.WebPage webPage = tL_messageMediaWebPage.webpage;
+                    if ((webPage instanceof TLRPC.TL_webPage) || (webPage instanceof TLRPC.TL_webPageEmpty)) {
+                        for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                            ((MessageObject) arrayList.get(i3)).messageOwner.media.webpage = tL_messageMediaWebPage.webpage;
+                            if (i3 == 0) {
+                                ImageLoader.saveMessageThumbs(((MessageObject) arrayList.get(i3)).messageOwner);
+                            }
+                            tL_messages_messages.messages.add(((MessageObject) arrayList.get(i3)).messageOwner);
+                        }
+                    } else {
+                        longSparseArray.put(webPage.id, arrayList);
+                    }
                 }
-            } else {
-                longSparseArray.put(webPage.id, arrayList);
+                if (tL_messages_messages.messages.isEmpty()) {
+                    getMessagesStorage().putMessages((TLRPC.messages_Messages) tL_messages_messages, j, -2, 0, false, i, 0L);
+                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(j), arrayList);
+                    return;
+                }
+                return;
             }
-        } else {
-            for (int i3 = 0; i3 < arrayList.size(); i3++) {
-                ((MessageObject) arrayList.get(i3)).messageOwner.media.webpage = new TLRPC.TL_webPageEmpty();
-                tL_messages_messages.messages.add(((MessageObject) arrayList.get(i3)).messageOwner);
-            }
+        }
+        tL_messageMediaWebPage = null;
+        if (tL_messageMediaWebPage != null) {
         }
         if (tL_messages_messages.messages.isEmpty()) {
-            return;
         }
-        getMessagesStorage().putMessages((TLRPC.messages_Messages) tL_messages_messages, j, -2, 0, false, i, 0L);
-        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(j), arrayList);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -25147,30 +25178,43 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
     public ChannelRecommendations getChannelRecommendations(final long j) {
         ChannelRecommendations channelRecommendations;
-        TLRPC.InputChannel inputChannel = getInputChannel(j);
-        if (inputChannel == null && j != 0) {
-            return null;
-        }
+        TLRPC.TL_channels_getChannelRecommendations tL_channels_getChannelRecommendations;
         if (this.cachedChannelRecommendations == null) {
             this.cachedChannelRecommendations = new HashMap<>();
         }
         final boolean isPremium = getUserConfig().isPremium();
         if (this.cachedChannelRecommendations.containsKey(Long.valueOf(j))) {
             channelRecommendations = this.cachedChannelRecommendations.get(Long.valueOf(j));
-            if (channelRecommendations != null && channelRecommendations.wasPremium == isPremium) {
+            if (channelRecommendations == null || channelRecommendations.wasPremium == isPremium) {
                 return channelRecommendations;
             }
         } else {
             channelRecommendations = null;
         }
-        this.cachedChannelRecommendations.put(Long.valueOf(j), null);
-        TLRPC.TL_channels_getChannelRecommendations tL_channels_getChannelRecommendations = new TLRPC.TL_channels_getChannelRecommendations();
-        if (j != 0) {
-            tL_channels_getChannelRecommendations.flags |= 1;
-            tL_channels_getChannelRecommendations.channel = inputChannel;
+        if (j > 0) {
+            TL_bots.getBotRecommendations getbotrecommendations = new TL_bots.getBotRecommendations();
+            TLRPC.InputUser inputUser = getInputUser(j);
+            getbotrecommendations.bot = inputUser;
+            tL_channels_getChannelRecommendations = getbotrecommendations;
+            if (inputUser == null) {
+                return null;
+            }
+        } else {
+            TLRPC.TL_channels_getChannelRecommendations tL_channels_getChannelRecommendations2 = new TLRPC.TL_channels_getChannelRecommendations();
+            if (j != 0) {
+                tL_channels_getChannelRecommendations2.flags |= 1;
+                TLRPC.InputChannel inputChannel = getInputChannel(-j);
+                tL_channels_getChannelRecommendations2.channel = inputChannel;
+                if (inputChannel == null) {
+                    return null;
+                }
+            }
+            tL_channels_getChannelRecommendations = tL_channels_getChannelRecommendations2;
         }
+        this.cachedChannelRecommendations.put(Long.valueOf(j), null);
         getConnectionsManager().sendRequest(tL_channels_getChannelRecommendations, new RequestDelegate() { // from class: org.telegram.messenger.MessagesController$$ExternalSyntheticLambda422
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
@@ -27793,11 +27837,11 @@ public class MessagesController extends BaseController implements NotificationCe
 
     /* JADX WARN: Code restructure failed: missing block: B:164:0x052a, code lost:
     
-        if (org.telegram.messenger.MessageObject.getMedia(r0).bytes[0] < 196) goto L219;
+        if (org.telegram.messenger.MessageObject.getMedia(r0).bytes[0] < 197) goto L219;
      */
     /* JADX WARN: Code restructure failed: missing block: B:168:0x0542, code lost:
     
-        if (org.telegram.messenger.Utilities.bytesToInt(org.telegram.messenger.MessageObject.getMedia(r0).bytes) < 196) goto L219;
+        if (org.telegram.messenger.Utilities.bytesToInt(org.telegram.messenger.MessageObject.getMedia(r0).bytes) < 197) goto L219;
      */
     /* JADX WARN: Code restructure failed: missing block: B:285:0x0204, code lost:
     
@@ -28157,7 +28201,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     messageObject.scheduled = i11 == 1;
                     arrayList.add(messageObject);
                     if (z) {
-                        if (!message4.legacy || message4.layer >= 196) {
+                        if (!message4.legacy || message4.layer >= 197) {
                             if ((MessageObject.getMedia(message4) instanceof TLRPC.TL_messageMediaUnsupported) && MessageObject.getMedia(message4).bytes != null) {
                                 if (MessageObject.getMedia(message4).bytes.length != 0) {
                                     if (MessageObject.getMedia(message4).bytes.length != 1) {

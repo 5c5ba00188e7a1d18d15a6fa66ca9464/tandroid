@@ -120,6 +120,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private int adaptiveEmojiColor;
     private ColorFilter adaptiveEmojiColorFilter;
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiStack;
+    private boolean attachedToWindow;
     private AvatarDrawable avatarDrawable;
     StoriesUtilities.AvatarStoryParams avatarStoryParams;
     private int backgroundButtonTop;
@@ -175,6 +176,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     private boolean imagePressed;
     private ImageReceiver imageReceiver;
     private boolean invalidateColors;
+    private Runnable invalidateListener;
     private boolean invalidatePath;
     private View invalidateWithParent;
     private boolean invalidatesParent;
@@ -205,8 +207,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     public List spoilers;
     private Stack spoilersPool;
     public final StarGiftUniqueActionLayout starGiftLayout;
-    private float starGiftLayoutX;
-    private float starGiftLayoutY;
+    public float starGiftLayoutX;
+    public float starGiftLayoutY;
     private StarParticlesView.Drawable starParticlesDrawable;
     private Path starsPath;
     private int starsSize;
@@ -484,13 +486,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x03d2  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x03e6 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x02b2  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x023b  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x03a8  */
+    /* JADX WARN: Removed duplicated region for block: B:103:0x03b4  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x03e6  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x02be  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x023d  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02b5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -532,14 +533,18 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         CharSequence replaceTags2;
         TL_stars.StarGift starGift;
         String str8;
-        String str9;
         char c;
         Object valueOf;
         TLRPC.MessageMedia messageMedia;
         int i8;
         MessageObject messageObject = this.currentMessageObject;
         if (messageObject != null) {
-            charSequence = messageObject.isExpiredStory() ? messageObject.messageOwner.media.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId() ? StoriesUtilities.createExpiredStoryString(true, R.string.ExpiredStoryMention, new Object[0]) : StoriesUtilities.createExpiredStoryString(true, R.string.ExpiredStoryMentioned, MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId())).first_name) : (this.delegate.getTopicId() == 0 && MessageObject.isTopicActionMessage(messageObject)) ? ForumUtilities.createActionTextWithTopic(MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(this.currentAccount, messageObject.messageOwner, true)), messageObject) : null;
+            if (messageObject.isExpiredStory()) {
+                charSequence = messageObject.messageOwner.media.user_id != UserConfig.getInstance(this.currentAccount).getClientUserId() ? StoriesUtilities.createExpiredStoryString(true, R.string.ExpiredStoryMention, new Object[0]) : StoriesUtilities.createExpiredStoryString(true, R.string.ExpiredStoryMentioned, MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(messageObject.getDialogId())).first_name);
+            } else {
+                ChatActionCellDelegate chatActionCellDelegate = this.delegate;
+                charSequence = (chatActionCellDelegate != null && chatActionCellDelegate.getTopicId() == 0 && MessageObject.isTopicActionMessage(messageObject)) ? ForumUtilities.createActionTextWithTopic(MessagesController.getInstance(this.currentAccount).getTopicsController().findTopic(-messageObject.getDialogId(), MessageObject.getTopicId(this.currentAccount, messageObject.messageOwner, true)), messageObject) : null;
+            }
             if (charSequence == null) {
                 TLRPC.Message message = messageObject.messageOwner;
                 if (message != null && (messageMedia = message.media) != null && messageMedia.ttl_seconds != 0) {
@@ -557,6 +562,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
         } else {
             charSequence = this.customText;
+        }
+        MessageObject messageObject2 = this.currentMessageObject;
+        if (messageObject2 != null && messageObject2.isRepostPreview) {
+            charSequence = "";
         }
         createLayout(charSequence, this.previousWidth);
         if (messageObject != null) {
@@ -700,46 +709,26 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                     } else {
                                         str8 = null;
                                     }
-                                    if (messageObject.isOutOwner() || tL_messageActionStarGift.forceIn || z5) {
-                                        if (!messageObject.isOutOwner() && z5) {
-                                            SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
-                                            spannableStringBuilder4.append((CharSequence) "^  ");
-                                            ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.gift_unpack);
-                                            coloredImageSpan.setScale(0.8f, 0.8f);
-                                            spannableStringBuilder4.setSpan(coloredImageSpan, 0, 1, 33);
-                                            spannableStringBuilder4.append((CharSequence) LocaleController.getString(R.string.Gift2Unpack));
-                                            str9 = spannableStringBuilder4;
-                                            string2 = str9;
-                                            i4 = 11;
-                                            charSequence4 = null;
-                                            z4 = false;
-                                            chatActionCell = this;
-                                            str4 = spannableStringBuilder2;
-                                            str3 = str8;
-                                            i3 = this.giftRectSize;
-                                            z3 = true;
-                                        }
-                                    } else if (!tL_messageActionStarGift.refunded) {
-                                        string2 = null;
-                                        i4 = 11;
-                                        charSequence4 = null;
-                                        z4 = false;
-                                        chatActionCell = this;
-                                        str4 = spannableStringBuilder2;
-                                        str3 = str8;
-                                        i3 = this.giftRectSize;
-                                        z3 = true;
+                                    String string3 = LocaleController.getString(R.string.ActionGiftStarsView);
+                                    if ((messageObject.isOutOwner() || tL_messageActionStarGift.forceIn || z5) && !messageObject.isOutOwner() && z5) {
+                                        SpannableStringBuilder spannableStringBuilder4 = new SpannableStringBuilder();
+                                        spannableStringBuilder4.append((CharSequence) "^  ");
+                                        ColoredImageSpan coloredImageSpan = new ColoredImageSpan(R.drawable.gift_unpack);
+                                        coloredImageSpan.setScale(0.8f, 0.8f);
+                                        spannableStringBuilder4.setSpan(coloredImageSpan, 0, 1, 33);
+                                        spannableStringBuilder4.append((CharSequence) LocaleController.getString(R.string.Gift2Unpack));
+                                        string2 = spannableStringBuilder4;
+                                    } else {
+                                        string2 = string3;
                                     }
-                                    str9 = LocaleController.getString(R.string.ActionGiftStarsView);
-                                    string2 = str9;
+                                    i3 = this.giftRectSize;
                                     i4 = 11;
+                                    z3 = true;
                                     charSequence4 = null;
                                     z4 = false;
                                     chatActionCell = this;
                                     str4 = spannableStringBuilder2;
                                     str3 = str8;
-                                    i3 = this.giftRectSize;
-                                    z3 = true;
                                 } else {
                                     i6 = R.string.Gift2ActionConvertRefundedText;
                                 }
@@ -749,36 +738,24 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                                 if (starGift == null) {
                                 }
                                 str8 = null;
+                                String string32 = LocaleController.getString(R.string.ActionGiftStarsView);
                                 if (messageObject.isOutOwner()) {
                                 }
-                                if (!messageObject.isOutOwner()) {
-                                    SpannableStringBuilder spannableStringBuilder42 = new SpannableStringBuilder();
-                                    spannableStringBuilder42.append((CharSequence) "^  ");
-                                    ColoredImageSpan coloredImageSpan2 = new ColoredImageSpan(R.drawable.gift_unpack);
-                                    coloredImageSpan2.setScale(0.8f, 0.8f);
-                                    spannableStringBuilder42.setSpan(coloredImageSpan2, 0, 1, 33);
-                                    spannableStringBuilder42.append((CharSequence) LocaleController.getString(R.string.Gift2Unpack));
-                                    str9 = spannableStringBuilder42;
-                                    string2 = str9;
-                                    i4 = 11;
-                                    charSequence4 = null;
-                                    z4 = false;
-                                    chatActionCell = this;
-                                    str4 = spannableStringBuilder2;
-                                    str3 = str8;
-                                    i3 = this.giftRectSize;
-                                    z3 = true;
-                                }
-                                str9 = LocaleController.getString(R.string.ActionGiftStarsView);
-                                string2 = str9;
+                                SpannableStringBuilder spannableStringBuilder42 = new SpannableStringBuilder();
+                                spannableStringBuilder42.append((CharSequence) "^  ");
+                                ColoredImageSpan coloredImageSpan2 = new ColoredImageSpan(R.drawable.gift_unpack);
+                                coloredImageSpan2.setScale(0.8f, 0.8f);
+                                spannableStringBuilder42.setSpan(coloredImageSpan2, 0, 1, 33);
+                                spannableStringBuilder42.append((CharSequence) LocaleController.getString(R.string.Gift2Unpack));
+                                string2 = spannableStringBuilder42;
+                                i3 = this.giftRectSize;
                                 i4 = 11;
+                                z3 = true;
                                 charSequence4 = null;
                                 z4 = false;
                                 chatActionCell = this;
                                 str4 = spannableStringBuilder2;
                                 str3 = str8;
-                                i3 = this.giftRectSize;
-                                z3 = true;
                             }
                         }
                         z5 = false;
@@ -795,29 +772,33 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         if (starGift == null) {
                         }
                         str8 = null;
+                        String string322 = LocaleController.getString(R.string.ActionGiftStarsView);
                         if (messageObject.isOutOwner()) {
                         }
-                        if (!messageObject.isOutOwner()) {
-                        }
-                        str9 = LocaleController.getString(R.string.ActionGiftStarsView);
-                        string2 = str9;
+                        SpannableStringBuilder spannableStringBuilder422 = new SpannableStringBuilder();
+                        spannableStringBuilder422.append((CharSequence) "^  ");
+                        ColoredImageSpan coloredImageSpan22 = new ColoredImageSpan(R.drawable.gift_unpack);
+                        coloredImageSpan22.setScale(0.8f, 0.8f);
+                        spannableStringBuilder422.setSpan(coloredImageSpan22, 0, 1, 33);
+                        spannableStringBuilder422.append((CharSequence) LocaleController.getString(R.string.Gift2Unpack));
+                        string2 = spannableStringBuilder422;
+                        i3 = this.giftRectSize;
                         i4 = 11;
+                        z3 = true;
                         charSequence4 = null;
                         z4 = false;
                         chatActionCell = this;
                         str4 = spannableStringBuilder2;
                         str3 = str8;
-                        i3 = this.giftRectSize;
-                        z3 = true;
                     } else {
                         long j2 = ((TLRPC.TL_messageActionPrizeStars) messageAction).stars;
-                        String string3 = LocaleController.getString(R.string.ActionStarGiveawayPrizeTitle);
+                        String string4 = LocaleController.getString(R.string.ActionStarGiveawayPrizeTitle);
                         CharSequence charSequence6 = this.currentMessageObject.messageText;
                         str = LocaleController.getString(R.string.ActionGiftStarsView);
                         i2 = this.giftRectSize;
                         z2 = true;
                         charSequence3 = charSequence6;
-                        str2 = string3;
+                        str2 = string4;
                         createGiftPremiumLayouts(str2, null, charSequence3, false, str, 11, null, i2, z2);
                         this.textLayout = null;
                         this.textHeight = 0;
@@ -1104,24 +1085,27 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, (!this.canDrawInParent || (chatActionCellDelegate = this.delegate) == null || chatActionCellDelegate.canDrawOutboundsContent()) ? false : true, this.animatedEmojiStack, this.textLayout);
         this.textHeight = 0;
         this.textWidth = 0;
-        try {
-            int lineCount = this.textLayout.getLineCount();
-            for (int i3 = 0; i3 < lineCount; i3++) {
-                try {
-                    float lineWidth = this.textLayout.getLineWidth(i3);
-                    float f = dp;
-                    if (lineWidth > f) {
-                        lineWidth = f;
+        MessageObject messageObject2 = this.currentMessageObject;
+        if (messageObject2 == null || !messageObject2.isRepostPreview) {
+            try {
+                int lineCount = this.textLayout.getLineCount();
+                for (int i3 = 0; i3 < lineCount; i3++) {
+                    try {
+                        float lineWidth = this.textLayout.getLineWidth(i3);
+                        float f = dp;
+                        if (lineWidth > f) {
+                            lineWidth = f;
+                        }
+                        this.textHeight = (int) Math.max(this.textHeight, Math.ceil(this.textLayout.getLineBottom(i3)));
+                        this.textWidth = (int) Math.max(this.textWidth, Math.ceil(lineWidth));
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                        return;
                     }
-                    this.textHeight = (int) Math.max(this.textHeight, Math.ceil(this.textLayout.getLineBottom(i3)));
-                    this.textWidth = (int) Math.max(this.textWidth, Math.ceil(lineWidth));
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    return;
                 }
+            } catch (Exception e2) {
+                FileLog.e(e2);
             }
-        } catch (Exception e2) {
-            FileLog.e(e2);
         }
         this.textX = (i - this.textWidth) / 2;
         this.textY = AndroidUtilities.dp(7.0f);
@@ -1448,35 +1432,35 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         setMessageObject(messageObject, true);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:148:0x0400, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:149:0x03ff, code lost:
     
-        if (isFloating() != false) goto L158;
+        if (isFloating() != false) goto L159;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:149:0x042b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:150:0x042a, code lost:
     
         r1 = 1.0f;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:150:0x042d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:151:0x042c, code lost:
     
         r1 = (int) (r5 * r1);
         r5 = r20;
         r5.setAlpha(r1);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:166:0x04dc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:166:0x04ef, code lost:
     
-        if (hasGradientService() != false) goto L198;
+        if (hasGradientService() != false) goto L209;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:171:0x057d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:171:0x0590, code lost:
     
-        r29.drawRoundRect(r28.backgroundRect, org.telegram.messenger.AndroidUtilities.dp(16.0f), org.telegram.messenger.AndroidUtilities.dp(16.0f), r5);
+        r7.drawRoundRect(r28.backgroundRect, org.telegram.messenger.AndroidUtilities.dp(16.0f), org.telegram.messenger.AndroidUtilities.dp(16.0f), r5);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:191:0x057b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:191:0x058e, code lost:
     
-        if (hasGradientService() != false) goto L198;
+        if (hasGradientService() != false) goto L209;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:201:0x0428, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:210:0x0427, code lost:
     
-        if (isFloating() != false) goto L158;
+        if (isFloating() != false) goto L159;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1489,22 +1473,24 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         int i;
         int i2;
         float f;
-        TextLayout textLayout;
+        Canvas canvas2;
         float f2;
+        TextLayout textLayout;
+        float f3;
         Paint paint5;
         Paint paint6;
         int i3;
-        float f3;
-        int i4;
         float f4;
+        float f5;
+        int i4;
         int i5;
         int i6;
         int i7;
-        float f5;
+        float f6;
         Path path;
         RectF rectF;
-        float f6;
         float f7;
+        float f8;
         int i8;
         if (this.canDrawInParent) {
             if (hasGradientService() && !z) {
@@ -1545,7 +1531,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             int i10 = 0;
             int i11 = 0;
             while (true) {
-                f2 = 1.5f;
+                f3 = 1.5f;
                 if (i10 >= lineCount) {
                     break;
                 }
@@ -1560,12 +1546,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             while (i12 >= 0) {
                 int intValue = ((Integer) this.lineWidths.get(i12)).intValue();
                 int i13 = i11 - intValue;
-                if (i13 <= 0 || i13 > (dp * f2) + dp2) {
+                if (i13 <= 0 || i13 > (dp * f3) + dp2) {
                     i11 = intValue;
                 }
                 this.lineWidths.set(i12, Integer.valueOf(i11));
                 i12--;
-                f2 = 1.5f;
+                f3 = 1.5f;
             }
             int dp3 = AndroidUtilities.dp(4.0f);
             int measuredWidth = getMeasuredWidth() / 2;
@@ -1574,8 +1560,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             int i14 = dp - dp4;
             this.lineHeights.clear();
             this.backgroundPath.reset();
-            float f8 = measuredWidth;
-            this.backgroundPath.moveTo(f8, dp3);
+            float f9 = measuredWidth;
+            this.backgroundPath.moveTo(f9, dp3);
             int i15 = 0;
             int i16 = 0;
             while (i15 < lineCount) {
@@ -1594,88 +1580,89 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 }
                 int i19 = lineBottom - i16;
                 if (i15 == 0 || intValue2 > i11) {
-                    f3 = 3.0f;
+                    f4 = 3.0f;
                     i19 += AndroidUtilities.dp(3.0f);
                 } else {
-                    f3 = 3.0f;
+                    f4 = 3.0f;
                 }
                 if (i15 == i18 || intValue2 > i3) {
-                    i19 += AndroidUtilities.dp(f3);
+                    i19 += AndroidUtilities.dp(f4);
                 }
-                float f9 = (intValue2 / 2.0f) + f8;
+                float f10 = (intValue2 / 2.0f) + f9;
                 int i20 = (i15 == i18 || intValue2 >= i3 || i15 == 0 || intValue2 >= i11) ? dp2 : i17;
                 if (i15 == 0 || intValue2 > i11) {
+                    f5 = f9;
                     i4 = measuredWidth;
-                    f4 = f8;
                     i5 = lineCount;
                     i6 = i11;
                     i7 = lineBottom;
-                    this.rect.set((f9 - dp4) - dp, dp3, i14 + f9, (dp * 2) + dp3);
+                    this.rect.set((f10 - dp4) - dp, dp3, i14 + f10, (dp * 2) + dp3);
                     checkLeftRightBounds();
                     this.backgroundPath.arcTo(this.rect, -90.0f, 90.0f);
-                } else if (intValue2 < i11) {
-                    f4 = f8;
-                    i7 = lineBottom;
-                    float f10 = i14 + f9;
-                    i4 = measuredWidth;
-                    i5 = lineCount;
-                    i6 = i11;
-                    this.rect.set(f10, dp3, (i20 * 2) + f10, r10 + dp3);
-                    checkLeftRightBounds();
-                    this.backgroundPath.arcTo(this.rect, -90.0f, -90.0f);
                 } else {
-                    i4 = measuredWidth;
-                    f4 = f8;
-                    i5 = lineCount;
-                    i6 = i11;
-                    i7 = lineBottom;
+                    f5 = f9;
+                    if (intValue2 < i11) {
+                        i7 = lineBottom;
+                        float f11 = i14 + f10;
+                        i4 = measuredWidth;
+                        i5 = lineCount;
+                        i6 = i11;
+                        this.rect.set(f11, dp3, (i20 * 2) + f11, r10 + dp3);
+                        checkLeftRightBounds();
+                        this.backgroundPath.arcTo(this.rect, -90.0f, -90.0f);
+                    } else {
+                        i4 = measuredWidth;
+                        i5 = lineCount;
+                        i6 = i11;
+                        i7 = lineBottom;
+                    }
                 }
                 dp3 += i19;
                 if (i15 == i18 || intValue2 >= i3) {
-                    f5 = 3.0f;
+                    f6 = 3.0f;
                 } else {
-                    f5 = 3.0f;
+                    f6 = 3.0f;
                     dp3 -= AndroidUtilities.dp(3.0f);
                     i19 -= AndroidUtilities.dp(3.0f);
                 }
                 if (i15 != 0 && intValue2 < i6) {
-                    dp3 -= AndroidUtilities.dp(f5);
-                    i19 -= AndroidUtilities.dp(f5);
+                    dp3 -= AndroidUtilities.dp(f6);
+                    i19 -= AndroidUtilities.dp(f6);
                 }
                 this.lineHeights.add(Integer.valueOf(i19));
                 if (i15 == i18 || intValue2 > i3) {
-                    this.rect.set((f9 - dp4) - dp, dp3 - (dp * 2), f9 + i14, dp3);
+                    this.rect.set((f10 - dp4) - dp, dp3 - (dp * 2), f10 + i14, dp3);
                     checkLeftRightBounds();
                     path = this.backgroundPath;
                     rectF = this.rect;
-                    f6 = 0.0f;
-                    f7 = 90.0f;
+                    f7 = 0.0f;
+                    f8 = 90.0f;
                 } else if (intValue2 < i3) {
-                    float f11 = f9 + i14;
-                    this.rect.set(f11, dp3 - r2, (i20 * 2) + f11, dp3);
+                    float f12 = f10 + i14;
+                    this.rect.set(f12, dp3 - r2, (i20 * 2) + f12, dp3);
                     checkLeftRightBounds();
                     path = this.backgroundPath;
                     rectF = this.rect;
-                    f6 = 180.0f;
-                    f7 = -90.0f;
+                    f7 = 180.0f;
+                    f8 = -90.0f;
                 } else {
                     i15++;
                     i11 = intValue2;
                     dp5 = i17;
                     themedPaint2 = paint6;
                     themedPaint = paint5;
-                    f8 = f4;
+                    f9 = f5;
                     i16 = i7;
                     measuredWidth = i4;
                     lineCount = i5;
                 }
-                path.arcTo(rectF, f6, f7);
+                path.arcTo(rectF, f7, f8);
                 i15++;
                 i11 = intValue2;
                 dp5 = i17;
                 themedPaint2 = paint6;
                 themedPaint = paint5;
-                f8 = f4;
+                f9 = f5;
                 i16 = i7;
                 measuredWidth = i4;
                 lineCount = i5;
@@ -1691,26 +1678,26 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 int intValue4 = ((Integer) this.lineWidths.get(i24)).intValue();
                 int intValue5 = i24 != i23 ? ((Integer) this.lineWidths.get(i24 + 1)).intValue() : 0;
                 this.textLayout.getLineBottom(i24);
-                float f12 = i21 - (intValue4 / 2);
+                float f13 = i21 - (intValue4 / 2);
                 int i25 = (i24 == i23 || intValue4 >= intValue5 || i24 == 0 || intValue4 >= intValue3) ? dp2 : i22;
                 if (i24 == i23 || intValue4 > intValue5) {
-                    this.rect.set(f12 - i14, dp3 - (dp * 2), dp4 + f12 + dp, dp3);
+                    this.rect.set(f13 - i14, dp3 - (dp * 2), dp4 + f13 + dp, dp3);
                     checkLeftRightBounds();
                     this.backgroundPath.arcTo(this.rect, 90.0f, 90.0f);
                 } else if (intValue4 < intValue5) {
-                    float f13 = f12 - i14;
-                    this.rect.set(f13 - (i25 * 2), dp3 - r12, f13, dp3);
+                    float f14 = f13 - i14;
+                    this.rect.set(f14 - (i25 * 2), dp3 - r12, f14, dp3);
                     checkLeftRightBounds();
                     this.backgroundPath.arcTo(this.rect, 90.0f, -90.0f);
                 }
                 dp3 -= ((Integer) this.lineHeights.get(i24)).intValue();
                 if (i24 == 0 || intValue4 > intValue3) {
-                    this.rect.set(f12 - i14, dp3, f12 + dp4 + dp, (dp * 2) + dp3);
+                    this.rect.set(f13 - i14, dp3, f13 + dp4 + dp, (dp * 2) + dp3);
                     checkLeftRightBounds();
                     this.backgroundPath.arcTo(this.rect, 180.0f, 90.0f);
                 } else if (intValue4 < intValue3) {
-                    float f14 = f12 - i14;
-                    this.rect.set(f14 - (i25 * 2), dp3, f14, r7 + dp3);
+                    float f15 = f13 - i14;
+                    this.rect.set(f15 - (i25 * 2), dp3, f15, r7 + dp3);
                     checkLeftRightBounds();
                     this.backgroundPath.arcTo(this.rect, 0.0f, -90.0f);
                 }
@@ -1730,7 +1717,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         } else {
             Theme.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, this.viewTranslationX, this.viewTop + AndroidUtilities.dp(4.0f));
         }
-        float f15 = 0.75f;
+        float f16 = 0.75f;
         if (!z || (getAlpha() == 1.0f && !isFloating())) {
             paint3 = paint;
             if (isFloating()) {
@@ -1750,50 +1737,60 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             paint3.setAlpha((int) (i * getAlpha() * (isFloating() ? 0.75f : 1.0f)));
             f = i2 * getAlpha();
         }
-        canvas.drawPath(this.backgroundPath, paint3);
-        if (hasGradientService()) {
-            canvas.drawPath(this.backgroundPath, paint4);
-        }
-        if (this.dimAmount > 0.0f) {
-            int alpha = this.dimPaint.getAlpha();
-            if (z) {
-                this.dimPaint.setAlpha((int) (alpha * getAlpha()));
-            }
-            canvas.drawPath(this.backgroundPath, this.dimPaint);
-            this.dimPaint.setAlpha(alpha);
-        }
         MessageObject messageObject = this.currentMessageObject;
+        if (messageObject == null || !messageObject.isRepostPreview) {
+            canvas2 = canvas;
+            canvas2.drawPath(this.backgroundPath, paint3);
+            if (hasGradientService()) {
+                canvas2.drawPath(this.backgroundPath, paint4);
+            }
+            f2 = 0.0f;
+            if (this.dimAmount > 0.0f) {
+                int alpha = this.dimPaint.getAlpha();
+                if (z) {
+                    this.dimPaint.setAlpha((int) (alpha * getAlpha()));
+                }
+                canvas2.drawPath(this.backgroundPath, this.dimPaint);
+                this.dimPaint.setAlpha(alpha);
+            }
+        } else {
+            canvas2 = canvas;
+            f2 = 0.0f;
+        }
+        MessageObject messageObject2 = this.currentMessageObject;
         if (this.starGiftLayout.has()) {
             float width = this.starGiftLayout.getWidth() + AndroidUtilities.dp(8.0f);
             float width2 = (getWidth() - width) / 2.0f;
-            float dp6 = this.textY + this.textHeight + AndroidUtilities.dp(12.0f);
+            if (!this.starGiftLayout.repost) {
+                f2 = this.textY + this.textHeight + AndroidUtilities.dp(12.0f);
+            }
             RectF rectF2 = AndroidUtilities.rectTmp;
-            rectF2.set(width2, dp6, width + width2, this.starGiftLayout.getHeight() + dp6 + AndroidUtilities.dp(8.0f));
+            rectF2.set(width2, f2, width + width2, this.starGiftLayout.getHeight() + f2 + AndroidUtilities.dp(8.0f));
             if (this.backgroundRect == null) {
                 this.backgroundRect = new RectF();
             }
             this.backgroundRect.set(rectF2);
-            canvas.drawRoundRect(this.backgroundRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), paint3);
-        } else if (isButtonLayout(messageObject)) {
+            canvas2.drawRoundRect(this.backgroundRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), paint3);
+        } else if (isButtonLayout(messageObject2)) {
             float width3 = (getWidth() - this.giftRectSize) / 2.0f;
-            float f16 = this.textY + this.textHeight;
+            float f17 = this.textY + this.textHeight;
             if (isNewStyleButtonLayout()) {
-                float dp7 = f16 + AndroidUtilities.dp(4.0f);
-                AndroidUtilities.rectTmp.set(width3, dp7, this.giftRectSize + width3, this.backgroundRectHeight + dp7);
+                float dp6 = f17 + AndroidUtilities.dp(4.0f);
+                AndroidUtilities.rectTmp.set(width3, dp6, this.giftRectSize + width3, this.backgroundRectHeight + dp6);
             } else {
-                float dp8 = f16 + AndroidUtilities.dp(12.0f);
+                float dp7 = f17 + AndroidUtilities.dp(12.0f);
                 RectF rectF3 = AndroidUtilities.rectTmp;
-                float f17 = this.giftRectSize;
-                rectF3.set(width3, dp8, width3 + f17, f17 + dp8 + this.giftPremiumAdditionalHeight);
+                float f18 = this.giftRectSize;
+                rectF3.set(width3, dp7, width3 + f18, f18 + dp7 + this.giftPremiumAdditionalHeight);
             }
-            if (messageObject != null && messageObject.type == 18 && !this.giftPremiumTextCollapsed && (textLayout = this.giftPremiumText) != null && this.giftPremiumTextCollapsedHeight > 0) {
+            if (messageObject2 != null && messageObject2.type == 18 && !this.giftPremiumTextCollapsed && (textLayout = this.giftPremiumText) != null && this.giftPremiumTextCollapsedHeight > 0) {
                 AndroidUtilities.rectTmp.bottom -= (textLayout.layout.getHeight() - this.giftPremiumTextCollapsedHeight) * (1.0f - this.giftPremiumTextExpandedAnimated.get());
             }
             if (this.backgroundRect == null) {
                 this.backgroundRect = new RectF();
             }
             this.backgroundRect.set(AndroidUtilities.rectTmp);
-            canvas.drawRoundRect(this.backgroundRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), paint3);
+            canvas2.drawRoundRect(this.backgroundRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), paint3);
         }
         if (i >= 0) {
             paint3.setAlpha(i);
@@ -1822,14 +1819,13 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         canvas.restore();
         if (this.starGiftLayout.has()) {
             canvas.save();
-            canvas.translate((getWidth() - this.starGiftLayout.getWidth()) / 2.0f, this.textY + this.textHeight + AndroidUtilities.dp(16.0f));
+            canvas.translate((getWidth() - this.starGiftLayout.getWidth()) / 2.0f, this.starGiftLayout.repost ? AndroidUtilities.dp(4.0f) : this.textY + this.textHeight + AndroidUtilities.dp(16.0f));
             this.starGiftLayout.drawOutbounds(canvas);
             canvas.restore();
         }
     }
 
-    public void drawReactions(Canvas canvas, boolean z) {
-        float alpha = z ? getAlpha() : 1.0f;
+    public void drawReactions(Canvas canvas, boolean z, Integer num) {
         if (this.canDrawInParent) {
             if (hasGradientService() && !z) {
                 return;
@@ -1838,6 +1834,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 return;
             }
         }
+        drawReactionsLayout(canvas, z, num);
+    }
+
+    public void drawReactionsLayout(Canvas canvas, boolean z, Integer num) {
+        float alpha = z ? getAlpha() : 1.0f;
         Theme.ResourcesProvider resourcesProvider = this.themeDelegate;
         if (resourcesProvider != null) {
             resourcesProvider.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, this.viewTranslationX, this.viewTop + AndroidUtilities.dp(4.0f));
@@ -1856,7 +1857,34 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             ReactionsLayoutInBubble reactionsLayoutInBubble2 = this.reactionsLayoutInBubble;
             TransitionParams transitionParams = this.transitionParams;
-            reactionsLayoutInBubble2.draw(canvas, transitionParams.animateChange ? transitionParams.animateChangeProgress : 1.0f, null);
+            reactionsLayoutInBubble2.draw(canvas, transitionParams.animateChange ? transitionParams.animateChangeProgress : 1.0f, num);
+            if (alpha < 1.0f) {
+                canvas.restore();
+            }
+        }
+    }
+
+    public void drawReactionsLayoutOverlay(Canvas canvas, boolean z) {
+        float alpha = z ? getAlpha() : 1.0f;
+        Theme.ResourcesProvider resourcesProvider = this.themeDelegate;
+        if (resourcesProvider != null) {
+            resourcesProvider.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, this.viewTranslationX, this.viewTop + AndroidUtilities.dp(4.0f));
+        } else {
+            Theme.applyServiceShaderMatrix(getMeasuredWidth(), this.backgroundHeight, this.viewTranslationX, this.viewTop + AndroidUtilities.dp(4.0f));
+        }
+        MessageObject messageObject = this.currentMessageObject;
+        if (messageObject == null || !messageObject.shouldDrawReactions()) {
+            return;
+        }
+        ReactionsLayoutInBubble reactionsLayoutInBubble = this.reactionsLayoutInBubble;
+        if (!reactionsLayoutInBubble.isSmall || (this.transitionParams.animateChange && reactionsLayoutInBubble.animateHeight)) {
+            reactionsLayoutInBubble.drawServiceShaderBackground = 1.0f;
+            if (alpha < 1.0f) {
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), (int) (255.0f * alpha), 31);
+            }
+            ReactionsLayoutInBubble reactionsLayoutInBubble2 = this.reactionsLayoutInBubble;
+            TransitionParams transitionParams = this.transitionParams;
+            reactionsLayoutInBubble2.drawOverlay(canvas, transitionParams.animateChange ? transitionParams.animateChangeProgress : 1.0f);
             if (alpha < 1.0f) {
                 canvas.restore();
             }
@@ -1893,34 +1921,30 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
     @Override // org.telegram.ui.Cells.BaseCell
     public int getBoundsLeft() {
-        int width;
         if (this.starGiftLayout.has()) {
-            width = (int) (getWidth() - (this.starGiftLayout.getWidth() + AndroidUtilities.dp(12.0f)));
-        } else {
-            if (!isButtonLayout(this.currentMessageObject)) {
-                int i = this.backgroundLeft;
-                ImageReceiver imageReceiver = this.imageReceiver;
-                return (imageReceiver == null || !imageReceiver.getVisible()) ? i : Math.min((int) this.imageReceiver.getImageX(), i);
-            }
-            width = getWidth() - this.giftRectSize;
+            int width = ((int) (getWidth() - (this.starGiftLayout.getWidth() + AndroidUtilities.dp(8.0f)))) / 2;
+            return this.starGiftLayout.repost ? width : Math.min(this.backgroundLeft, width);
         }
-        return width / 2;
+        if (isButtonLayout(this.currentMessageObject)) {
+            return (getWidth() - this.giftRectSize) / 2;
+        }
+        int i = this.backgroundLeft;
+        ImageReceiver imageReceiver = this.imageReceiver;
+        return (imageReceiver == null || !imageReceiver.getVisible()) ? i : Math.min((int) this.imageReceiver.getImageX(), i);
     }
 
     @Override // org.telegram.ui.Cells.BaseCell
     public int getBoundsRight() {
-        int width;
         if (this.starGiftLayout.has()) {
-            width = (int) (getWidth() + this.starGiftLayout.getWidth() + AndroidUtilities.dp(12.0f));
-        } else {
-            if (!isButtonLayout(this.currentMessageObject)) {
-                int i = this.backgroundRight;
-                ImageReceiver imageReceiver = this.imageReceiver;
-                return (imageReceiver == null || !imageReceiver.getVisible()) ? i : Math.max((int) this.imageReceiver.getImageX2(), i);
-            }
-            width = getWidth() + this.giftRectSize;
+            int width = ((int) (getWidth() + (this.starGiftLayout.getWidth() + AndroidUtilities.dp(8.0f)))) / 2;
+            return this.starGiftLayout.repost ? width : Math.max(this.backgroundRight, width);
         }
-        return width / 2;
+        if (isButtonLayout(this.currentMessageObject)) {
+            return (getWidth() + this.giftRectSize) / 2;
+        }
+        int i = this.backgroundRight;
+        ImageReceiver imageReceiver = this.imageReceiver;
+        return (imageReceiver == null || !imageReceiver.getVisible()) ? i : Math.max((int) this.imageReceiver.getImageX2(), i);
     }
 
     public int getCustomDate() {
@@ -1975,6 +1999,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         if (view != null) {
             view.invalidate();
         }
+        Runnable runnable = this.invalidateListener;
+        if (runnable != null) {
+            runnable.run();
+        }
         if (!this.invalidatesParent || getParent() == null) {
             return;
         }
@@ -2028,6 +2056,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
     }
 
+    public boolean isCellAttachedToWindow() {
+        return this.attachedToWindow;
+    }
+
     public boolean isFloating() {
         return false;
     }
@@ -2045,6 +2077,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     protected void onAttachedToWindow() {
         ChatActionCellDelegate chatActionCellDelegate;
         super.onAttachedToWindow();
+        this.attachedToWindow = true;
         this.imageReceiver.onAttachedToWindow();
         setStarsPaused(false);
         this.animatedEmojiStack = AnimatedEmojiSpan.update(0, this, (!this.canDrawInParent || (chatActionCellDelegate = this.delegate) == null || chatActionCellDelegate.canDrawOutboundsContent()) ? false : true, this.animatedEmojiStack, this.textLayout);
@@ -2066,6 +2099,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
     @Override // android.view.ViewGroup, android.view.View
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        this.attachedToWindow = false;
         DownloadController.getInstance(this.currentAccount).removeLoadingFileObserver(this);
         this.imageReceiver.onDetachedFromWindow();
         setStarsPaused(true);
@@ -2084,51 +2118,51 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         this.reactionsLayoutInBubble.onDetachFromWindow();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:308:0x0312, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:312:0x0320, code lost:
     
-        if (r0.getCurrentImageProgress() == 1.0f) goto L91;
+        if (r0.getCurrentImageProgress() == 1.0f) goto L95;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:310:0x0351, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:314:0x035f, code lost:
     
         r42.radialProgress.setIcon(3, true, true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:312:0x034a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:316:0x0358, code lost:
     
         r42.radialProgress.setIcon(4, true, true);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:316:0x0348, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:320:0x0356, code lost:
     
-        if (r0 == 1.0f) goto L91;
+        if (r0 == 1.0f) goto L95;
      */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0539  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x09c5  */
-    /* JADX WARN: Removed duplicated region for block: B:116:0x09cc  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x09db  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x09e8  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0a2e  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x0acc  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x0af3  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0b44  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x0b8e  */
-    /* JADX WARN: Removed duplicated region for block: B:166:0x0c18  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x0c4e  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x0c8b  */
-    /* JADX WARN: Removed duplicated region for block: B:182:0x0cf4  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x0cba  */
-    /* JADX WARN: Removed duplicated region for block: B:193:0x0cc6  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0cca  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x0cbe  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0c90  */
-    /* JADX WARN: Removed duplicated region for block: B:198:0x0c64  */
-    /* JADX WARN: Removed duplicated region for block: B:199:0x0bea  */
-    /* JADX WARN: Removed duplicated region for block: B:205:0x0adb  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x09fc  */
-    /* JADX WARN: Removed duplicated region for block: B:244:0x0818  */
-    /* JADX WARN: Removed duplicated region for block: B:265:0x050f  */
-    /* JADX WARN: Removed duplicated region for block: B:267:0x0448  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x0429  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x049b  */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x0524  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x0532  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0547  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x09d3  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x09da  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x09e9  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x09f6  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0a3c  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x0ada  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x0b01  */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x0b52  */
+    /* JADX WARN: Removed duplicated region for block: B:163:0x0b9c  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0c26  */
+    /* JADX WARN: Removed duplicated region for block: B:175:0x0c5c  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0c99  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x0d02  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x0cc8  */
+    /* JADX WARN: Removed duplicated region for block: B:196:0x0cd4  */
+    /* JADX WARN: Removed duplicated region for block: B:198:0x0cd8  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x0ccc  */
+    /* JADX WARN: Removed duplicated region for block: B:200:0x0c9e  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0c72  */
+    /* JADX WARN: Removed duplicated region for block: B:202:0x0bf8  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0ae9  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0a0a  */
+    /* JADX WARN: Removed duplicated region for block: B:247:0x0826  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x051d  */
+    /* JADX WARN: Removed duplicated region for block: B:270:0x0456  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0437  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x04a9  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2240,7 +2274,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             canvas.save();
             float width = (getWidth() - this.starGiftLayout.getWidth()) / 2.0f;
             this.starGiftLayoutX = width;
-            float dp5 = this.textY + this.textHeight + AndroidUtilities.dp(16.0f);
+            float dp5 = this.starGiftLayout.repost ? AndroidUtilities.dp(4.0f) : this.textY + this.textHeight + AndroidUtilities.dp(16.0f);
             this.starGiftLayoutY = dp5;
             canvas.translate(width, dp5);
             this.starGiftLayout.draw(canvas);
@@ -2832,7 +2866,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 if (this.backgroundRect != null) {
                 }
             }
-            drawReactions(canvas, false);
+            drawReactions(canvas, false, null);
             this.transitionParams.recordDrawingState();
         }
         if (this.textPaint != null) {
@@ -2894,7 +2928,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             if (this.backgroundRect != null) {
             }
         }
-        drawReactions(canvas, false);
+        drawReactions(canvas, false, null);
         this.transitionParams.recordDrawingState();
     }
 
@@ -2950,22 +2984,22 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00fa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:100:0x03e6, code lost:
     
-        if (r3.isEmpty == false) goto L134;
+        if (r3.isEmpty == false) goto L137;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:47:0x03dd, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x0104, code lost:
+    
+        if (r3.isEmpty == false) goto L137;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x03e8, code lost:
     
         r3.totalHeight = r3.height + org.telegram.messenger.AndroidUtilities.dp(8.0f);
         r7 = r7 + r20.reactionsLayoutInBubble.totalHeight;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x03db, code lost:
-    
-        if (r3.isEmpty == false) goto L134;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00de  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x03f3  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00e2  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x03fe  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0108  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -2990,7 +3024,6 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             setMeasuredDimension(View.MeasureSpec.getSize(i), this.textHeight + AndroidUtilities.dp(14.0f));
             return;
         }
-        int i8 = 0;
         if (isButtonLayout(messageObject)) {
             this.giftRectSize = Math.min((int) (AndroidUtilities.isTablet() ? AndroidUtilities.getMinTabletSide() * 0.6f : (AndroidUtilities.displaySize.x * 0.62f) - AndroidUtilities.dp(34.0f)), ((AndroidUtilities.displaySize.y - ActionBar.getCurrentActionBarHeight()) - AndroidUtilities.statusBarHeight) - AndroidUtilities.dp(64.0f));
             if (!AndroidUtilities.isTablet() && ((i7 = messageObject.type) == 18 || i7 == 30)) {
@@ -3019,21 +3052,23 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
             }
             i3 = i6 + dp5;
             if (!this.starGiftLayout.has()) {
-                i8 = this.textY + this.textHeight + AndroidUtilities.dp(10.0f) + ((int) this.starGiftLayout.getHeight()) + AndroidUtilities.dp(14.0f);
+                r7 = (this.starGiftLayout.repost ? 0 : this.textY + this.textHeight + AndroidUtilities.dp(16.0f)) + ((int) this.starGiftLayout.getHeight()) + AndroidUtilities.dp(8.0f);
                 reactionsLayoutInBubble = this.reactionsLayoutInBubble;
             } else if (isButtonLayout(messageObject)) {
                 boolean isGiftChannel = isGiftChannel(messageObject);
                 int imageSize = getImageSize(messageObject);
-                if (isNewStyleButtonLayout()) {
-                    int dp6 = this.textY + this.textHeight + AndroidUtilities.dp(4.0f) + (AndroidUtilities.dp(16.0f) * 2) + imageSize;
+                boolean isNewStyleButtonLayout = isNewStyleButtonLayout();
+                int i8 = this.textY + this.textHeight;
+                if (isNewStyleButtonLayout) {
+                    int dp6 = i8 + AndroidUtilities.dp(4.0f) + (AndroidUtilities.dp(16.0f) * 2) + imageSize;
                     TextLayout textLayout = this.giftPremiumText;
                     dp = dp6 + (textLayout == null ? 0 : textLayout.layout.getHeight() + AndroidUtilities.dp(4.0f));
                 } else {
-                    dp = this.textY + this.textHeight + (this.giftRectSize * 0.075f) + imageSize + AndroidUtilities.dp(4.0f) + (this.giftPremiumText == null ? 0 : r14.layout.getHeight() + AndroidUtilities.dp(4.0f));
+                    dp = i8 + (this.giftRectSize * 0.075f) + imageSize + AndroidUtilities.dp(4.0f) + (this.giftPremiumText == null ? 0 : r4.layout.getHeight() + AndroidUtilities.dp(4.0f));
                 }
                 this.giftPremiumAdditionalHeight = 0;
                 if (this.giftPremiumTitleLayout != null) {
-                    float height = dp + r14.getHeight();
+                    float height = dp + r4.getHeight();
                     if (this.giftPremiumTitleLayout.getLineCount() > 1) {
                         this.giftPremiumAdditionalHeight += this.giftPremiumTitleLayout.getHeight() - this.giftPremiumTitleLayout.getLineTop(1);
                     }
@@ -3083,7 +3118,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                         height3 += AndroidUtilities.dp(4.0f);
                     }
                     float f2 = (this.previousWidth - this.giftPremiumButtonWidth) / 2.0f;
-                    this.giftButtonRect.set(f2 - AndroidUtilities.dp(18.0f), height3 - AndroidUtilities.dp(8.0f), f2 + this.giftPremiumButtonWidth + AndroidUtilities.dp(18.0f), height3 + (this.giftPremiumButtonLayout != null ? r14.getHeight() : 0) + AndroidUtilities.dp(8.0f));
+                    this.giftButtonRect.set(f2 - AndroidUtilities.dp(18.0f), height3 - AndroidUtilities.dp(8.0f), f2 + this.giftPremiumButtonWidth + AndroidUtilities.dp(18.0f), height3 + (this.giftPremiumButtonLayout != null ? r11.getHeight() : 0) + AndroidUtilities.dp(8.0f));
                 } else {
                     i3 -= AndroidUtilities.dp(40.0f);
                     this.giftPremiumAdditionalHeight -= AndroidUtilities.dp(40.0f);
@@ -3123,7 +3158,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                     this.backgroundRectHeight = dp4;
                     int dp11 = this.backgroundRectHeight + AndroidUtilities.dp(16.0f);
                     this.backgroundRectHeight = dp11;
-                    i8 = dp9 + dp11 + AndroidUtilities.dp(6.0f);
+                    r7 = dp9 + dp11 + AndroidUtilities.dp(6.0f);
                     reactionsLayoutInBubble = this.reactionsLayoutInBubble;
                 }
             }
@@ -3133,7 +3168,7 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
                 i3 += this.reactionsLayoutInBubble.totalHeight;
             }
             if (messageObject == null && isNewStyleButtonLayout()) {
-                setMeasuredDimension(max, i8);
+                setMeasuredDimension(max, r7);
             } else {
                 setMeasuredDimension(max, this.textHeight + i3 + AndroidUtilities.dp(14.0f));
             }
@@ -3482,6 +3517,10 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
         }
         this.invalidateColors = z;
         invalidate();
+    }
+
+    public void setInvalidateListener(Runnable runnable) {
+        this.invalidateListener = runnable;
     }
 
     public void setInvalidateWithParent(View view) {

@@ -347,7 +347,6 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         }
         String str2 = "";
         TextInfoPrivacyCell textInfoPrivacyCell = null;
-        String publicUsername = null;
         switch (itemViewType) {
             case VoIPController.ERROR_LOCALIZED /* -3 */:
                 FullscreenCustomFrameLayout fullscreenCustomFrameLayout = (FullscreenCustomFrameLayout) viewHolder.itemView;
@@ -648,11 +647,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     charSequence = "";
                 } else {
                     if (item.withUsername) {
-                        if (obj8 instanceof TLRPC.User) {
-                            publicUsername = UserObject.getPublicUsername((TLRPC.User) obj8);
-                        } else if (obj8 instanceof TLRPC.Chat) {
-                            publicUsername = ChatObject.getPublicUsername((TLRPC.Chat) obj8);
-                        }
+                        String publicUsername = obj8 instanceof TLRPC.User ? UserObject.getPublicUsername((TLRPC.User) obj8) : obj8 instanceof TLRPC.Chat ? ChatObject.getPublicUsername((TLRPC.Chat) obj8) : null;
                         if (publicUsername != null) {
                             charSequence = ((Object) "") + "@" + publicUsername;
                         }
@@ -682,14 +677,17 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 }
                 CharSequence charSequence3 = charSequence;
                 String str3 = str2;
+                boolean z6 = item.checked;
+                Object obj9 = item.object2;
+                profileSearchCell.allowBotOpenButton(z6, obj9 instanceof Utilities.Callback ? (Utilities.Callback) obj9 : null);
                 profileSearchCell.setRectangularAvatar(item.red);
                 profileSearchCell.setData(obj8, null, str3, charSequence3, false, false);
                 profileSearchCell.useSeparator = hasDivider;
                 return;
             case 33:
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
-                Object obj9 = item.object;
-                MessageObject messageObject = obj9 instanceof MessageObject ? (MessageObject) obj9 : null;
+                Object obj10 = item.object;
+                MessageObject messageObject = obj10 instanceof MessageObject ? (MessageObject) obj10 : null;
                 dialogCell.useSeparator = hasDivider;
                 if (messageObject == null) {
                     z = false;

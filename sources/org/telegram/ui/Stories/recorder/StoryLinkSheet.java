@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
@@ -486,37 +487,55 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:11:0x002d  */
-    /* JADX WARN: Removed duplicated region for block: B:14:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:17:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x002f  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x004c  */
+    /* JADX WARN: Removed duplicated region for block: B:22:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x003b  */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0021  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$new$5(TLObject tLObject) {
+        TLRPC.TL_messageMediaWebPage tL_messageMediaWebPage;
         UniversalAdapter universalAdapter;
-        if (tLObject instanceof TLRPC.TL_messageMediaWebPage) {
-            TLRPC.WebPage webPage = ((TLRPC.TL_messageMediaWebPage) tLObject).webpage;
-            this.webpage = webPage;
-            if (isPreviewEmpty(webPage)) {
-                TLRPC.WebPage webPage2 = this.webpage;
-                this.webpageId = webPage2 == null ? 0L : webPage2.id;
-                this.webpage = null;
-                this.loading = this.webpageId == 0;
-                universalAdapter = this.adapter;
-                if (universalAdapter == null) {
-                    universalAdapter.update(true);
-                    return;
+        if (tLObject instanceof TL_account.webPagePreview) {
+            TL_account.webPagePreview webpagepreview = (TL_account.webPagePreview) tLObject;
+            MessagesController.getInstance(this.currentAccount).putUsers(webpagepreview.users, false);
+            TLRPC.MessageMedia messageMedia = webpagepreview.media;
+            if (messageMedia instanceof TLRPC.TL_messageMediaWebPage) {
+                tL_messageMediaWebPage = (TLRPC.TL_messageMediaWebPage) messageMedia;
+                if (tL_messageMediaWebPage == null) {
+                    TLRPC.WebPage webPage = tL_messageMediaWebPage.webpage;
+                    this.webpage = webPage;
+                    if (isPreviewEmpty(webPage)) {
+                        TLRPC.WebPage webPage2 = this.webpage;
+                        this.webpageId = webPage2 == null ? 0L : webPage2.id;
+                        this.webpage = null;
+                        this.loading = this.webpageId != 0;
+                        universalAdapter = this.adapter;
+                        if (universalAdapter != null) {
+                            universalAdapter.update(true);
+                            return;
+                        }
+                        return;
+                    }
+                } else {
+                    this.webpage = null;
                 }
-                return;
+                this.webpageId = 0L;
+                this.loading = this.webpageId != 0;
+                universalAdapter = this.adapter;
+                if (universalAdapter != null) {
+                }
             }
-        } else {
-            this.webpage = null;
+        }
+        tL_messageMediaWebPage = null;
+        if (tL_messageMediaWebPage == null) {
         }
         this.webpageId = 0L;
-        this.loading = this.webpageId == 0;
+        this.loading = this.webpageId != 0;
         universalAdapter = this.adapter;
-        if (universalAdapter == null) {
+        if (universalAdapter != null) {
         }
     }
 

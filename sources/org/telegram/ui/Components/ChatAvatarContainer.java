@@ -889,6 +889,16 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         return this.avatarImageView;
     }
 
+    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getBotVerificationDrawable(long j, boolean z) {
+        if (j == 0) {
+            return null;
+        }
+        this.botVerificationDrawable.set(j, z);
+        this.botVerificationDrawable.setColor(Integer.valueOf(getThemedColor(Theme.key_profile_verifiedBackground)));
+        this.botVerificationDrawable.offset(0, AndroidUtilities.dp(1.0f));
+        return this.botVerificationDrawable;
+    }
+
     public int getLastSubtitleColorKey() {
         return this.lastSubtitleColorKey;
     }
@@ -1206,19 +1216,19 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
         openProfile(z, true, false);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x0125, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x0126, code lost:
     
         if (r12 != false) goto L65;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:49:0x0128, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x0129, code lost:
     
         r0 = 1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x016d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x016e, code lost:
     
         r1.setPlayProfileAnimation(r0);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x016b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:64:0x016c, code lost:
     
         if (r12 != false) goto L65;
      */
@@ -1226,7 +1236,7 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     
         if (r11.avatarImageView.getImageReceiver().hasNotThumb() != false) goto L11;
      */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x016c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1490,10 +1500,10 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
     }
 
     public void setTitle(CharSequence charSequence) {
-        setTitle(charSequence, false, false, false, false, null, 0L, false);
+        setTitle(charSequence, false, false, false, false, null, false);
     }
 
-    public void setTitle(CharSequence charSequence, boolean z, boolean z2, boolean z3, boolean z4, TLRPC.EmojiStatus emojiStatus, long j, boolean z5) {
+    public void setTitle(CharSequence charSequence, boolean z, boolean z2, boolean z3, boolean z4, TLRPC.EmojiStatus emojiStatus, boolean z5) {
         if (charSequence != null) {
             charSequence = Emoji.replaceEmoji(charSequence, this.titleTextView.getPaint().getFontMetricsInt(), false);
         }
@@ -1520,15 +1530,6 @@ public class ChatAvatarContainer extends FrameLayout implements NotificationCent
             this.titleTextView.setRightDrawable2(null);
             this.rightDrawableIsScamOrVerified = false;
             this.rightDrawable2ContentDescription = null;
-        }
-        if (j != 0) {
-            this.botVerificationDrawable.set(j, z5);
-            this.botVerificationDrawable.setColor(Integer.valueOf(getThemedColor(Theme.key_profile_verifiedBackground)));
-            this.botVerificationDrawable.offset(0, AndroidUtilities.dp(1.0f));
-            this.titleTextView.setLeftDrawableOutside(true);
-            this.titleTextView.setLeftDrawable(this.botVerificationDrawable);
-        } else {
-            this.titleTextView.setLeftDrawable((Drawable) null);
         }
         if (!z4 && DialogObject.getEmojiStatusDocumentId(emojiStatus) == 0) {
             this.titleTextView.setRightDrawable((Drawable) null);

@@ -98,14 +98,18 @@ public class ItemOptions {
         private final Bitmap cachedBitmap;
         private final Paint cachedBitmapPaint;
         private final Path clipPath;
-        private final float clipTop;
+        public final float clipTop;
         private final int dim;
 
         public DimView(Context context) {
             super(context);
             this.clipPath = new Path();
             this.bounds = new RectF();
-            this.clipTop = (ItemOptions.this.scrimView == null || !(ItemOptions.this.scrimView.getParent() instanceof View)) ? 0.0f : ((View) ItemOptions.this.scrimView.getParent()).getY() + ItemOptions.this.scrimView.getY();
+            if (ItemOptions.this.scrimView == null || !(ItemOptions.this.scrimView.getParent() instanceof View)) {
+                this.clipTop = 0.0f;
+            } else {
+                this.clipTop = ((View) ItemOptions.this.scrimView.getParent()).getY() + ItemOptions.this.scrimView.getY();
+            }
             this.dim = ColorUtils.setAlphaComponent(0, ItemOptions.this.dimAlpha);
             if (ItemOptions.this.drawScrim && (ItemOptions.this.scrimView instanceof UserCell) && (ItemOptions.this.fragment instanceof ProfileActivity)) {
                 this.cachedBitmapPaint = new Paint(3);
@@ -120,6 +124,7 @@ public class ItemOptions {
             }
             if (ItemOptions.this.blur) {
                 this.blurPaint = new Paint(3);
+                ItemOptions.this.scrimView.setAlpha(0.0f);
                 AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.Components.ItemOptions$DimView$$ExternalSyntheticLambda0
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
@@ -131,6 +136,7 @@ public class ItemOptions {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(Bitmap bitmap) {
+            ItemOptions.this.scrimView.setAlpha(1.0f);
             this.blurBitmap = bitmap;
         }
 
@@ -162,7 +168,7 @@ public class ItemOptions {
                 if (this.cachedBitmap != null && (ItemOptions.this.scrimView.getParent() instanceof View)) {
                     canvas.save();
                     if (this.clipTop < 1.0f) {
-                        canvas.clipRect(-ItemOptions.this.viewAdditionalOffsets.left, (((-ItemOptions.this.viewAdditionalOffsets.top) + ItemOptions.this.point[1]) - this.clipTop) + 1.0f, getMeasuredWidth() + ItemOptions.this.viewAdditionalOffsets.right, getMeasuredHeight() + ItemOptions.this.viewAdditionalOffsets.bottom);
+                        canvas.clipRect(-ItemOptions.this.viewAdditionalOffsets.left, (((-ItemOptions.this.viewAdditionalOffsets.top) + ItemOptions.this.point[1]) - (this.clipTop * (ItemOptions.this.blur ? 1.0f - getAlpha() : 1.0f))) + 1.0f, getMeasuredWidth() + ItemOptions.this.viewAdditionalOffsets.right, getMeasuredHeight() + ItemOptions.this.viewAdditionalOffsets.bottom);
                     }
                     canvas.translate(ItemOptions.this.point[0], ItemOptions.this.point[1]);
                     if (ItemOptions.this.scrimViewBackground != null) {
@@ -198,7 +204,7 @@ public class ItemOptions {
                     }
                     canvas.save();
                     if (this.clipTop < 1.0f) {
-                        canvas.clipRect(-ItemOptions.this.viewAdditionalOffsets.left, (((-ItemOptions.this.viewAdditionalOffsets.top) + ItemOptions.this.point[1]) - this.clipTop) + 1.0f, getMeasuredWidth() + ItemOptions.this.viewAdditionalOffsets.right, getMeasuredHeight() + ItemOptions.this.viewAdditionalOffsets.bottom);
+                        canvas.clipRect(-ItemOptions.this.viewAdditionalOffsets.left, (((-ItemOptions.this.viewAdditionalOffsets.top) + ItemOptions.this.point[1]) - (this.clipTop * (ItemOptions.this.blur ? 1.0f - getAlpha() : 1.0f))) + 1.0f, getMeasuredWidth() + ItemOptions.this.viewAdditionalOffsets.right, getMeasuredHeight() + ItemOptions.this.viewAdditionalOffsets.bottom);
                     }
                     canvas.translate(ItemOptions.this.point[0], ItemOptions.this.point[1]);
                     if (ItemOptions.this.scrimViewBackground != null) {
@@ -244,6 +250,16 @@ public class ItemOptions {
     }
 
     public interface ScrimView {
+
+        public abstract /* synthetic */ class -CC {
+            /* JADX WARN: Multi-variable type inference failed */
+            public static void $default$drawScrim(ScrimView scrimView, Canvas canvas, float f) {
+                if (scrimView instanceof View) {
+                    ((View) scrimView).draw(canvas);
+                }
+            }
+        }
+
         void drawScrim(Canvas canvas, float f);
 
         void getBounds(RectF rectF);
@@ -427,7 +443,7 @@ public class ItemOptions {
     public /* synthetic */ void lambda$show$10(ValueAnimator valueAnimator) {
         View view = this.dimView;
         if (view != null) {
-            if (this.scrimViewRoundRadius > 0 || this.scrimViewPadding > 0) {
+            if (this.scrimViewRoundRadius > 0 || this.scrimViewPadding > 0 || (this.blur && (view instanceof DimView) && ((DimView) view).clipTop < 1.0f)) {
                 view.invalidate();
             }
         }
@@ -1264,8 +1280,7 @@ public class ItemOptions {
         int width;
         int height;
         float x;
-        float x2;
-        float measuredWidth;
+        float f3;
         if (this.actionBarPopupWindow != null || this.linearLayout != null || getItemsCount() <= 0) {
             return this;
         }
@@ -1301,14 +1316,14 @@ public class ItemOptions {
         }
         final ViewGroup viewGroup2 = viewGroup;
         if (this.context != null && viewGroup2 != null) {
-            float f3 = AndroidUtilities.displaySize.y / 2.0f;
+            float f4 = AndroidUtilities.displaySize.y / 2.0f;
             View view = this.scrimView;
             if (view != null) {
                 getPointOnScreen(view, viewGroup2, this.point);
                 float[] fArr = this.point;
-                float f4 = fArr[1];
+                float f5 = fArr[1];
                 f = fArr[0];
-                f3 = f4;
+                f4 = f5;
             } else {
                 f = 0.0f;
             }
@@ -1319,13 +1334,13 @@ public class ItemOptions {
             } else {
                 rectF.set(0.0f, 0.0f, view2.getMeasuredWidth(), this.scrimView.getMeasuredHeight());
             }
-            float f5 = f + rectF.left;
-            float f6 = f3 + rectF.top;
+            float f6 = f + rectF.left;
+            float f7 = f4 + rectF.top;
             if (this.ignoreX) {
                 this.point[0] = 0.0f;
                 f2 = 0.0f;
             } else {
-                f2 = f5;
+                f2 = f6;
             }
             if (this.dimAlpha > 0) {
                 final DimView dimView = new DimView(this.context);
@@ -1349,6 +1364,9 @@ public class ItemOptions {
                 }).setDuration(150L);
             }
             this.layout.measure(View.MeasureSpec.makeMeasureSpec(viewGroup2.getMeasuredWidth(), Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(viewGroup2.getMeasuredHeight(), Integer.MIN_VALUE));
+            RectF rectF2 = new RectF();
+            android.graphics.Rect padding = this.lastLayout.getPadding();
+            rectF2.set(padding.left, padding.top, this.layout.getMeasuredWidth() - padding.right, this.layout.getMeasuredHeight() - padding.bottom);
             ActionBarPopupWindow actionBarPopupWindow = new ActionBarPopupWindow(this.layout, -2, -2) { // from class: org.telegram.ui.Components.ItemOptions.3
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow, android.widget.PopupWindow
                 public void dismiss() {
@@ -1379,37 +1397,38 @@ public class ItemOptions {
             this.actionBarPopupWindow.setInputMethodMode(2);
             this.actionBarPopupWindow.setSoftInputMode(0);
             if (AndroidUtilities.isTablet()) {
-                f6 += viewGroup2.getPaddingTop();
+                f7 += viewGroup2.getPaddingTop();
                 f2 -= viewGroup2.getPaddingLeft();
             }
             if (this.scrimView != null) {
                 int i5 = this.gravity;
-                if (i5 == 5) {
-                    x2 = viewGroup2.getX() + f2 + rectF.width();
-                    measuredWidth = this.layout.getMeasuredWidth();
-                } else if (i5 == 1) {
-                    x2 = viewGroup2.getX() + f2 + (rectF.width() / 2.0f);
-                    measuredWidth = this.layout.getMeasuredWidth() / 2.0f;
-                } else {
-                    x = viewGroup2.getX() + f2;
-                    width = (int) x;
+                if (i5 != 5) {
+                    if (i5 == 1) {
+                        x = viewGroup2.getX() + f2 + (rectF.width() / 2.0f);
+                        f3 = this.layout.getMeasuredWidth() / 2.0f;
+                    } else if (rectF2.width() + f2 <= viewGroup2.getWidth()) {
+                        x = viewGroup2.getX() + f2;
+                        f3 = rectF2.left;
+                    }
+                    width = (int) (x - f3);
                 }
-                x = x2 - measuredWidth;
-                width = (int) x;
+                x = viewGroup2.getX() + f2 + rectF.width();
+                f3 = rectF2.right;
+                width = (int) (x - f3);
             } else {
                 width = (viewGroup2.getWidth() - this.layout.getMeasuredWidth()) / 2;
             }
             float height2 = this.onTopOfScrim ? 0.0f : rectF.height();
             if (this.forceBottom) {
-                height = (int) ((Math.min(f6 + height2, AndroidUtilities.displaySize.y) - this.layout.getMeasuredHeight()) + viewGroup2.getY());
+                height = (int) ((Math.min(f7 + height2, AndroidUtilities.displaySize.y) - this.layout.getMeasuredHeight()) + viewGroup2.getY());
             } else if (this.scrimView != null) {
-                if (this.forceTop || f6 + height2 + this.layout.getMeasuredHeight() + AndroidUtilities.dp(16.0f) > AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) {
-                    f6 = (f6 - height2) - this.layout.getMeasuredHeight();
-                    if (this.allowCenter && Math.max(0.0f, f6 + height2) + this.layout.getMeasuredHeight() > this.point[1] + rectF.top && rectF.height() == this.scrimView.getHeight()) {
-                        f6 = (((viewGroup2.getHeight() - this.layout.getMeasuredHeight()) / 2.0f) - height2) - viewGroup2.getY();
+                if (this.forceTop || f7 + height2 + this.layout.getMeasuredHeight() + AndroidUtilities.dp(16.0f) > AndroidUtilities.displaySize.y - AndroidUtilities.navigationBarHeight) {
+                    f7 = (f7 - height2) - this.layout.getMeasuredHeight();
+                    if (this.allowCenter && Math.max(0.0f, f7 + height2) + this.layout.getMeasuredHeight() > this.point[1] + rectF.top && rectF.height() == this.scrimView.getHeight()) {
+                        f7 = (((viewGroup2.getHeight() - this.layout.getMeasuredHeight()) / 2.0f) - height2) - viewGroup2.getY();
                     }
                 }
-                height = (int) (f6 + height2 + viewGroup2.getY());
+                height = (int) (f7 + height2 + viewGroup2.getY());
             } else {
                 height = (viewGroup2.getHeight() - this.layout.getMeasuredHeight()) / 2;
             }
@@ -1420,11 +1439,11 @@ public class ItemOptions {
                 viewGroup2.dispatchTouchEvent(AndroidUtilities.emptyMotionEvent());
             }
             ActionBarPopupWindow actionBarPopupWindow2 = this.actionBarPopupWindow;
-            float f7 = width + this.translateX;
-            this.offsetX = f7;
-            float f8 = height + this.translateY;
-            this.offsetY = f8;
-            actionBarPopupWindow2.showAtLocation(viewGroup2, 0, (int) f7, (int) f8);
+            float f8 = width + this.translateX;
+            this.offsetX = f8;
+            float f9 = height + this.translateY;
+            this.offsetY = f9;
+            actionBarPopupWindow2.showAtLocation(viewGroup2, 0, (int) f8, (int) f9);
         }
         return this;
     }
