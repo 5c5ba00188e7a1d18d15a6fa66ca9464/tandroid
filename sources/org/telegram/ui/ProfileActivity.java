@@ -16267,14 +16267,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x0a63  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x0a8a  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0b37 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x0bd9  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x0c28  */
-    /* JADX WARN: Removed duplicated region for block: B:251:0x0c78  */
-    /* JADX WARN: Removed duplicated region for block: B:255:0x0be9  */
-    /* JADX WARN: Removed duplicated region for block: B:258:0x0afd  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0ad0  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0af7  */
+    /* JADX WARN: Removed duplicated region for block: B:246:0x0ba4 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:250:0x0c46  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0c95  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x0ce5  */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x0c56  */
+    /* JADX WARN: Removed duplicated region for block: B:263:0x0b6a  */
     /* JADX WARN: Type inference failed for: r12v2 */
     /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v5 */
@@ -16296,6 +16296,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         int i3;
         int i4;
         Object obj;
+        RecyclerListView recyclerListView;
+        StringBuilder sb;
+        String str;
+        String str2;
         ViewGroup viewGroup;
         Theme.ResourcesProvider resourcesProvider;
         boolean z;
@@ -16486,8 +16490,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 findFirstVisibleItemPosition = -1;
             }
-            obj = this.writeButton.getTag();
             i4 = findFirstVisibleItemPosition;
+            obj = this.writeButton.getTag();
         }
         createActionBarMenu(r12);
         this.listAdapter = new ListAdapter(context);
@@ -16501,7 +16505,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         this.contentView = nestedFrameLayout;
         nestedFrameLayout.needBlur = r14;
         ViewGroup viewGroup2 = (FrameLayout) view2;
-        ClippedListView clippedListView = new ClippedListView(context) { // from class: org.telegram.ui.ProfileActivity.11
+        this.listView = new ClippedListView(context) { // from class: org.telegram.ui.ProfileActivity.11
             private VelocityTracker velocityTracker;
 
             @Override // org.telegram.ui.Components.RecyclerListView
@@ -16610,8 +16614,35 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             protected void requestChildOnScreen(View view3, View view4) {
             }
         };
-        this.listView = clippedListView;
-        clippedListView.setVerticalScrollBarEnabled(r12);
+        if (getDialogId() >= 0) {
+            TLRPC.User user = getMessagesController().getUser(Long.valueOf(getDialogId()));
+            recyclerListView = this.listView;
+            if (user == null) {
+                str2 = "usernull";
+            } else {
+                sb = new StringBuilder();
+                sb.append("@");
+                sb.append(UserObject.getPublicUsername(user));
+                str = "(user)";
+                sb.append(str);
+                str2 = sb.toString();
+            }
+        } else {
+            TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(getDialogId()));
+            recyclerListView = this.listView;
+            if (chat == null) {
+                str2 = "chatnull";
+            } else {
+                sb = new StringBuilder();
+                sb.append("@");
+                sb.append(ChatObject.getPublicUsername(chat));
+                str = "(chat)";
+                sb.append(str);
+                str2 = sb.toString();
+            }
+        }
+        recyclerListView.setAdditionalInfo(str2);
+        this.listView.setVerticalScrollBarEnabled(r12);
         12 r0 = new 12();
         this.listView.setItemAnimator(r0);
         r0.setMoveDelay(0L);
@@ -16690,9 +16721,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             this.savedScrollOffset = r12;
         }
         if (this.searchItem != null) {
-            RecyclerListView recyclerListView = new RecyclerListView(context);
-            this.searchListView = recyclerListView;
-            recyclerListView.setVerticalScrollBarEnabled(r12);
+            RecyclerListView recyclerListView2 = new RecyclerListView(context);
+            this.searchListView = recyclerListView2;
+            recyclerListView2.setVerticalScrollBarEnabled(r12);
             this.searchListView.setLayoutManager(new LinearLayoutManager(context, r14, r12));
             this.searchListView.setGlowColor(getThemedColor(Theme.key_avatar_backgroundActionBarBlue));
             this.searchListView.setAdapter(this.searchAdapter);
@@ -16739,10 +16770,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             resourcesProvider = null;
         }
         if (this.banFromGroup != 0) {
-            final TLRPC.Chat chat = getMessagesController().getChat(Long.valueOf(this.banFromGroup));
+            final TLRPC.Chat chat2 = getMessagesController().getChat(Long.valueOf(this.banFromGroup));
             if (this.currentChannelParticipant == null) {
                 TLRPC.TL_channels_getParticipant tL_channels_getParticipant = new TLRPC.TL_channels_getParticipant();
-                tL_channels_getParticipant.channel = MessagesController.getInputChannel(chat);
+                tL_channels_getParticipant.channel = MessagesController.getInputChannel(chat2);
                 tL_channels_getParticipant.participant = getMessagesController().getInputPeer(this.userId);
                 getConnectionsManager().sendRequest(tL_channels_getParticipant, new RequestDelegate() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda13
                     @Override // org.telegram.tgnet.RequestDelegate
@@ -16765,7 +16796,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProfileActivity$$ExternalSyntheticLambda14
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view3) {
-                    ProfileActivity.this.lambda$createView$24(chat, view3);
+                    ProfileActivity.this.lambda$createView$24(chat2, view3);
                 }
             });
             TextView textView = new TextView(context);
@@ -16955,20 +16986,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             if (ProfileActivity.this.nameTextViewRightDrawableContentDescription == null && ProfileActivity.this.nameTextViewRightDrawable2ContentDescription == null) {
                                 return;
                             }
-                            StringBuilder sb = new StringBuilder(getText());
+                            StringBuilder sb2 = new StringBuilder(getText());
                             if (ProfileActivity.this.nameTextViewRightDrawable2ContentDescription != null) {
-                                if (sb.length() > 0) {
-                                    sb.append(", ");
+                                if (sb2.length() > 0) {
+                                    sb2.append(", ");
                                 }
-                                sb.append(ProfileActivity.this.nameTextViewRightDrawable2ContentDescription);
+                                sb2.append(ProfileActivity.this.nameTextViewRightDrawable2ContentDescription);
                             }
                             if (ProfileActivity.this.nameTextViewRightDrawableContentDescription != null) {
-                                if (sb.length() > 0) {
-                                    sb.append(", ");
+                                if (sb2.length() > 0) {
+                                    sb2.append(", ");
                                 }
-                                sb.append(ProfileActivity.this.nameTextViewRightDrawableContentDescription);
+                                sb2.append(ProfileActivity.this.nameTextViewRightDrawableContentDescription);
                             }
-                            accessibilityNodeInfo.setText(sb);
+                            accessibilityNodeInfo.setText(sb2);
                         }
                     }
                 };

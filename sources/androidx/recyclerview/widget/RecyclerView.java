@@ -141,6 +141,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
     final ViewFlinger mViewFlinger;
     private final ViewInfoStore.ProcessCallback mViewInfoProcessCallback;
     final ViewInfoStore mViewInfoStore;
+    private String moreInfo;
     private int topGlowOffset;
     private static final int[] NESTED_SCROLLING_ATTRS = {R.attr.nestedScrollingEnabled};
     private static final int[] CLIP_TO_PADDING_ATTR = {R.attr.clipToPadding};
@@ -4946,6 +4947,8 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         sb.append(this.mLayout);
         sb.append(", context:");
         sb.append(getContext());
+        sb.append(", ainfo:");
+        sb.append(this.moreInfo);
         String lastNotifies = this.mAdapterHelper.getLastNotifies();
         if (lastNotifies != null) {
             sb.append(", last notifies:\n");
@@ -6461,6 +6464,10 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         setAdapterInternal(adapter, false, true);
         processDataSetCompletelyChanged(false);
         requestLayout();
+    }
+
+    public void setAdditionalInfo(String str) {
+        this.moreInfo = str;
     }
 
     public void setBottomGlowOffset(int i) {

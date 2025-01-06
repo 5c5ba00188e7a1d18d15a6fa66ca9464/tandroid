@@ -295,9 +295,15 @@ public class StarGiftUniqueActionLayout {
                 }
                 TL_stars.starGiftAttributeModel stargiftattributemodel2 = this.model;
                 if (stargiftattributemodel2 != null && (stargiftattributemodel == null || stargiftattributemodel.document.id != stargiftattributemodel2.document.id)) {
-                    this.imageReceiver.setAutoRepeatCount(0);
-                    this.imageReceiver.clearDecorators();
-                    this.imageReceiver.setAutoRepeat(0);
+                    if (this.repost) {
+                        this.imageReceiver.setAllowStartLottieAnimation(true);
+                        this.imageReceiver.setAllowStartAnimation(true);
+                        this.imageReceiver.setAutoRepeat(1);
+                    } else {
+                        this.imageReceiver.setAutoRepeatCount(0);
+                        this.imageReceiver.clearDecorators();
+                        this.imageReceiver.setAutoRepeat(0);
+                    }
                     StarsIntroActivity.setGiftImage(this.imageReceiver, this.model.document, 110);
                 }
                 this.ribbon.setBackdrop(this.backdrop, true);
