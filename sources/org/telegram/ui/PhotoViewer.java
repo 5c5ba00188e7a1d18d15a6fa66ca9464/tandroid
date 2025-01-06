@@ -23172,6 +23172,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 MessagesController.getInstance(this.currentAccount).incrementMoveCaptionHint();
                 BulletinFactory.of(isCaptionAbove ? this.bottomBulletinUnderCaption : this.topBulletinUnderCaption, new DarkThemeResourceProvider()).createSimpleBulletin(isCaptionAbove ? R.raw.caption_up : R.raw.caption_down, LocaleController.getString(isCaptionAbove ? R.string.MovedCaptionUp : R.string.MovedCaptionDown), LocaleController.getString(isCaptionAbove ? R.string.MovedCaptionUpText : R.string.MovedCaptionDownText)).setImageScale(0.8f).show(!isCaptionAbove);
             }
+            CaptionPhotoViewer captionPhotoViewer3 = this.captionEdit;
+            if (captionPhotoViewer3 != null) {
+                captionPhotoViewer3.closeKeyboard();
+            }
         }
     }
 
