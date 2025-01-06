@@ -16641,7 +16641,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 str2 = sb.toString();
             }
         }
-        recyclerListView.setAdditionalInfo(str2);
+        recyclerListView.setAdditionalDebugInfo(str2);
         this.listView.setVerticalScrollBarEnabled(r12);
         12 r0 = new 12();
         this.listView.setItemAnimator(r0);

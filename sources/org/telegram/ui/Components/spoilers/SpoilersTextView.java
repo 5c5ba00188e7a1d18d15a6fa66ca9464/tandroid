@@ -36,6 +36,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmoji;
     private ColorFilter animatedEmojiColorFilter;
     public int cacheType;
+    private boolean clearLinkOnLongPress;
     private SpoilersClickDetector clickDetector;
     private boolean disablePaddingsOffset;
     private boolean disablePaddingsOffsetX;
@@ -44,8 +45,8 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
     private Layout lastLayout;
     private int lastTextLength;
     private final LinkSpanDrawable.LinkCollector links;
-    private LinkSpanDrawable.LinksTextView.OnLinkPress onLongPressListener;
-    private LinkSpanDrawable.LinksTextView.OnLinkPress onPressListener;
+    protected LinkSpanDrawable.LinksTextView.OnLinkPress onLongPressListener;
+    protected LinkSpanDrawable.LinksTextView.OnLinkPress onPressListener;
     private Path path;
     private LinkSpanDrawable pressedLink;
     private Theme.ResourcesProvider resourcesProvider;
@@ -74,6 +75,7 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         this.allowClickSpoilers = true;
         this.cacheType = 0;
         this.useAlphaForEmoji = true;
+        this.clearLinkOnLongPress = true;
         this.lastLayout = null;
         this.links = new LinkSpanDrawable.LinkCollector(this);
         this.resourcesProvider = resourcesProvider;
@@ -145,6 +147,10 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
         while (it.hasNext()) {
             ((SpoilerEffect) it.next()).startRipple(f, f2, sqrt);
         }
+    }
+
+    public void clearLinks() {
+        this.links.clear();
     }
 
     @Override // android.view.View
@@ -321,6 +327,10 @@ public class SpoilersTextView extends TextView implements TextSelectionHelper.Si
 
     public int overrideLinkColor() {
         return Theme.getColor(Theme.key_chat_linkSelectBackground, this.resourcesProvider);
+    }
+
+    public void setClearLinkOnLongPress(boolean z) {
+        this.clearLinkOnLongPress = z;
     }
 
     public void setDisablePaddingsOffset(boolean z) {

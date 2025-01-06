@@ -6466,7 +6466,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         requestLayout();
     }
 
-    public void setAdditionalInfo(String str) {
+    public void setAdditionalDebugInfo(String str) {
         this.moreInfo = str;
     }
 
