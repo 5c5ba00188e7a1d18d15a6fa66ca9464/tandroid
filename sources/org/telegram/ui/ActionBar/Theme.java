@@ -1008,6 +1008,9 @@ public abstract class Theme {
     public static final int key_returnToCallMutedBackground;
     public static final int key_returnToCallText;
     public static final int key_sessions_devicesImage;
+    public static final int key_share_icon;
+    public static final int key_share_linkBackground;
+    public static final int key_share_linkText;
     public static final int key_sharedMedia_linkPlaceholder;
     public static final int key_sharedMedia_linkPlaceholderText;
     public static final int key_sharedMedia_photoPlaceholder;
@@ -4540,10 +4543,10 @@ public abstract class Theme {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:85:0x2999 A[Catch: Exception -> 0x2668, TryCatch #0 {Exception -> 0x2668, blocks: (B:56:0x2645, B:58:0x265b, B:59:0x269f, B:61:0x26ad, B:62:0x26d8, B:64:0x26dc, B:66:0x26e4, B:67:0x26f6, B:68:0x2702, B:70:0x2708, B:72:0x2712, B:74:0x2716, B:76:0x2744, B:77:0x2748, B:83:0x2993, B:85:0x2999, B:86:0x29a2, B:88:0x29a6, B:90:0x29ae, B:92:0x29b2, B:93:0x29b6, B:95:0x29b8, B:97:0x29c2, B:79:0x2884, B:102:0x28a5, B:103:0x28b0, B:105:0x28bc, B:109:0x28c8, B:110:0x2977, B:107:0x28d2, B:112:0x28d5, B:172:0x287b, B:173:0x2883, B:180:0x29e5, B:181:0x29eb, B:184:0x29f6, B:186:0x2a4b, B:187:0x2a59, B:189:0x2a63, B:190:0x2a71, B:226:0x2a6a, B:227:0x2a52, B:229:0x26bb, B:231:0x26c3, B:233:0x26cc, B:235:0x26d6, B:236:0x266b, B:238:0x2673, B:240:0x267b, B:242:0x2685, B:244:0x268d, B:115:0x2759, B:165:0x2868, B:166:0x286d), top: B:55:0x2645, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x29b2 A[Catch: Exception -> 0x2668, TryCatch #0 {Exception -> 0x2668, blocks: (B:56:0x2645, B:58:0x265b, B:59:0x269f, B:61:0x26ad, B:62:0x26d8, B:64:0x26dc, B:66:0x26e4, B:67:0x26f6, B:68:0x2702, B:70:0x2708, B:72:0x2712, B:74:0x2716, B:76:0x2744, B:77:0x2748, B:83:0x2993, B:85:0x2999, B:86:0x29a2, B:88:0x29a6, B:90:0x29ae, B:92:0x29b2, B:93:0x29b6, B:95:0x29b8, B:97:0x29c2, B:79:0x2884, B:102:0x28a5, B:103:0x28b0, B:105:0x28bc, B:109:0x28c8, B:110:0x2977, B:107:0x28d2, B:112:0x28d5, B:172:0x287b, B:173:0x2883, B:180:0x29e5, B:181:0x29eb, B:184:0x29f6, B:186:0x2a4b, B:187:0x2a59, B:189:0x2a63, B:190:0x2a71, B:226:0x2a6a, B:227:0x2a52, B:229:0x26bb, B:231:0x26c3, B:233:0x26cc, B:235:0x26d6, B:236:0x266b, B:238:0x2673, B:240:0x267b, B:242:0x2685, B:244:0x268d, B:115:0x2759, B:165:0x2868, B:166:0x286d), top: B:55:0x2645, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x29b5  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x29c2 A[Catch: Exception -> 0x2668, TryCatch #0 {Exception -> 0x2668, blocks: (B:56:0x2645, B:58:0x265b, B:59:0x269f, B:61:0x26ad, B:62:0x26d8, B:64:0x26dc, B:66:0x26e4, B:67:0x26f6, B:68:0x2702, B:70:0x2708, B:72:0x2712, B:74:0x2716, B:76:0x2744, B:77:0x2748, B:83:0x2993, B:85:0x2999, B:86:0x29a2, B:88:0x29a6, B:90:0x29ae, B:92:0x29b2, B:93:0x29b6, B:95:0x29b8, B:97:0x29c2, B:79:0x2884, B:102:0x28a5, B:103:0x28b0, B:105:0x28bc, B:109:0x28c8, B:110:0x2977, B:107:0x28d2, B:112:0x28d5, B:172:0x287b, B:173:0x2883, B:180:0x29e5, B:181:0x29eb, B:184:0x29f6, B:186:0x2a4b, B:187:0x2a59, B:189:0x2a63, B:190:0x2a71, B:226:0x2a6a, B:227:0x2a52, B:229:0x26bb, B:231:0x26c3, B:233:0x26cc, B:235:0x26d6, B:236:0x266b, B:238:0x2673, B:240:0x267b, B:242:0x2685, B:244:0x268d, B:115:0x2759, B:165:0x2868, B:166:0x286d), top: B:55:0x2645, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x29b1 A[Catch: Exception -> 0x2680, TryCatch #0 {Exception -> 0x2680, blocks: (B:56:0x265d, B:58:0x2673, B:59:0x26b7, B:61:0x26c5, B:62:0x26f0, B:64:0x26f4, B:66:0x26fc, B:67:0x270e, B:68:0x271a, B:70:0x2720, B:72:0x272a, B:74:0x272e, B:76:0x275c, B:77:0x2760, B:83:0x29ab, B:85:0x29b1, B:86:0x29ba, B:88:0x29be, B:90:0x29c6, B:92:0x29ca, B:93:0x29ce, B:95:0x29d0, B:97:0x29da, B:79:0x289c, B:102:0x28bd, B:103:0x28c8, B:105:0x28d4, B:109:0x28e0, B:110:0x298f, B:107:0x28ea, B:112:0x28ed, B:172:0x2893, B:173:0x289b, B:180:0x29fd, B:181:0x2a03, B:184:0x2a0e, B:186:0x2a63, B:187:0x2a71, B:189:0x2a7b, B:190:0x2a89, B:226:0x2a82, B:227:0x2a6a, B:229:0x26d3, B:231:0x26db, B:233:0x26e4, B:235:0x26ee, B:236:0x2683, B:238:0x268b, B:240:0x2693, B:242:0x269d, B:244:0x26a5, B:115:0x2771, B:165:0x2880, B:166:0x2885), top: B:55:0x265d, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x29ca A[Catch: Exception -> 0x2680, TryCatch #0 {Exception -> 0x2680, blocks: (B:56:0x265d, B:58:0x2673, B:59:0x26b7, B:61:0x26c5, B:62:0x26f0, B:64:0x26f4, B:66:0x26fc, B:67:0x270e, B:68:0x271a, B:70:0x2720, B:72:0x272a, B:74:0x272e, B:76:0x275c, B:77:0x2760, B:83:0x29ab, B:85:0x29b1, B:86:0x29ba, B:88:0x29be, B:90:0x29c6, B:92:0x29ca, B:93:0x29ce, B:95:0x29d0, B:97:0x29da, B:79:0x289c, B:102:0x28bd, B:103:0x28c8, B:105:0x28d4, B:109:0x28e0, B:110:0x298f, B:107:0x28ea, B:112:0x28ed, B:172:0x2893, B:173:0x289b, B:180:0x29fd, B:181:0x2a03, B:184:0x2a0e, B:186:0x2a63, B:187:0x2a71, B:189:0x2a7b, B:190:0x2a89, B:226:0x2a82, B:227:0x2a6a, B:229:0x26d3, B:231:0x26db, B:233:0x26e4, B:235:0x26ee, B:236:0x2683, B:238:0x268b, B:240:0x2693, B:242:0x269d, B:244:0x26a5, B:115:0x2771, B:165:0x2880, B:166:0x2885), top: B:55:0x265d, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x29cd  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x29da A[Catch: Exception -> 0x2680, TryCatch #0 {Exception -> 0x2680, blocks: (B:56:0x265d, B:58:0x2673, B:59:0x26b7, B:61:0x26c5, B:62:0x26f0, B:64:0x26f4, B:66:0x26fc, B:67:0x270e, B:68:0x271a, B:70:0x2720, B:72:0x272a, B:74:0x272e, B:76:0x275c, B:77:0x2760, B:83:0x29ab, B:85:0x29b1, B:86:0x29ba, B:88:0x29be, B:90:0x29c6, B:92:0x29ca, B:93:0x29ce, B:95:0x29d0, B:97:0x29da, B:79:0x289c, B:102:0x28bd, B:103:0x28c8, B:105:0x28d4, B:109:0x28e0, B:110:0x298f, B:107:0x28ea, B:112:0x28ed, B:172:0x2893, B:173:0x289b, B:180:0x29fd, B:181:0x2a03, B:184:0x2a0e, B:186:0x2a63, B:187:0x2a71, B:189:0x2a7b, B:190:0x2a89, B:226:0x2a82, B:227:0x2a6a, B:229:0x26d3, B:231:0x26db, B:233:0x26e4, B:235:0x26ee, B:236:0x2683, B:238:0x268b, B:240:0x2693, B:242:0x269d, B:244:0x26a5, B:115:0x2771, B:165:0x2880, B:166:0x2885), top: B:55:0x265d, inners: #2 }] */
     static {
         ThemeInfo themeInfo;
         ThemeInfo themeInfo2;
@@ -6770,6 +6773,15 @@ public abstract class Theme {
         int i717 = colorsCount;
         colorsCount = i717 + 1;
         key_iv_navigationBackground = i717;
+        int i718 = colorsCount;
+        colorsCount = i718 + 1;
+        key_share_linkText = i718;
+        int i719 = colorsCount;
+        colorsCount = i719 + 1;
+        key_share_linkBackground = i719;
+        int i720 = colorsCount;
+        colorsCount = i720 + 1;
+        key_share_icon = i720;
         defaultChatDrawables = new HashMap();
         defaultChatDrawableColorKeys = new HashMap();
         defaultChatPaints = new HashMap();
@@ -6784,25 +6796,25 @@ public abstract class Theme {
         defaultColors = ThemeColors.createDefaultColors();
         fallbackKeys.put(i714, key_windowBackgroundWhite);
         SparseIntArray sparseIntArray = fallbackKeys;
-        int i718 = key_windowBackgroundGray;
-        sparseIntArray.put(i715, i718);
-        fallbackKeys.put(i717, i718);
+        int i721 = key_windowBackgroundGray;
+        sparseIntArray.put(i715, i721);
+        fallbackKeys.put(i717, i721);
         fallbackKeys.put(key_bot_loadingIcon, key_groupcreate_spanBackground);
         fallbackKeys.put(key_gift_ribbon_soldout, key_text_RedBold);
         SparseIntArray sparseIntArray2 = fallbackKeys;
-        int i719 = key_featuredStickers_addButton;
-        sparseIntArray2.put(i716, i719);
-        fallbackKeys.put(key_dialogGiftsBackground, i718);
+        int i722 = key_featuredStickers_addButton;
+        sparseIntArray2.put(i716, i722);
+        fallbackKeys.put(key_dialogGiftsBackground, i721);
         SparseIntArray sparseIntArray3 = fallbackKeys;
-        int i720 = key_dialogGiftsTabText;
-        int i721 = key_windowBackgroundWhiteGrayText2;
-        sparseIntArray3.put(i720, i721);
+        int i723 = key_dialogGiftsTabText;
+        int i724 = key_windowBackgroundWhiteGrayText2;
+        sparseIntArray3.put(i723, i724);
         fallbackKeys.put(key_chat_inQuote, key_featuredStickers_addButtonPressed);
         SparseIntArray sparseIntArray4 = fallbackKeys;
-        int i722 = key_chat_outQuote;
-        int i723 = key_chat_outReplyLine;
-        sparseIntArray4.put(i722, i723);
-        fallbackKeys.put(key_chat_outReplyLine2, i723);
+        int i725 = key_chat_outQuote;
+        int i726 = key_chat_outReplyLine;
+        sparseIntArray4.put(i725, i726);
+        fallbackKeys.put(key_chat_outReplyLine2, i726);
         fallbackKeys.put(key_chat_inAdminText, key_chat_inTimeText);
         fallbackKeys.put(key_chat_inAdminSelectedText, key_chat_inTimeSelectedText);
         fallbackKeys.put(key_player_progressCachedBackground, key_player_progressBackground);
@@ -6810,219 +6822,219 @@ public abstract class Theme {
         fallbackKeys.put(key_chat_outAudioCacheSeekbar, key_chat_outAudioSeekbar);
         fallbackKeys.put(key_chat_emojiSearchBackground, key_chat_emojiPanelStickerPackSelector);
         fallbackKeys.put(key_location_sendLiveLocationIcon, key_location_sendLocationIcon);
-        fallbackKeys.put(key_changephoneinfo_image2, i719);
-        fallbackKeys.put(key_graySectionText, i721);
+        fallbackKeys.put(key_changephoneinfo_image2, i722);
+        fallbackKeys.put(key_graySectionText, i724);
         fallbackKeys.put(key_chat_inMediaIcon, key_chat_inBubble);
         fallbackKeys.put(key_chat_outMediaIcon, key_chat_outBubble);
         fallbackKeys.put(key_chat_inMediaIconSelected, key_chat_inBubbleSelected);
         fallbackKeys.put(key_chat_outMediaIconSelected, key_chat_outBubbleSelected);
-        fallbackKeys.put(key_dialog_inlineProgressBackground, i718);
+        fallbackKeys.put(key_dialog_inlineProgressBackground, i721);
         fallbackKeys.put(key_dialog_inlineProgress, key_chats_menuItemIcon);
         fallbackKeys.put(key_groupcreate_spanDelete, key_chats_actionIcon);
-        fallbackKeys.put(key_sharedMedia_photoPlaceholder, i718);
+        fallbackKeys.put(key_sharedMedia_photoPlaceholder, i721);
         fallbackKeys.put(key_chat_attachPollBackground, key_chat_attachAudioBackground);
         fallbackKeys.put(key_chats_onlineCircle, key_windowBackgroundWhiteBlueText);
         SparseIntArray sparseIntArray5 = fallbackKeys;
-        int i724 = key_windowBackgroundWhiteBlueButton;
-        int i725 = key_windowBackgroundWhiteValueText;
-        sparseIntArray5.put(i724, i725);
-        fallbackKeys.put(key_windowBackgroundWhiteBlueIcon, i725);
+        int i727 = key_windowBackgroundWhiteBlueButton;
+        int i728 = key_windowBackgroundWhiteValueText;
+        sparseIntArray5.put(i727, i728);
+        fallbackKeys.put(key_windowBackgroundWhiteBlueIcon, i728);
         fallbackKeys.put(key_undo_background, key_chat_gifSaveHintBackground);
         SparseIntArray sparseIntArray6 = fallbackKeys;
-        int i726 = key_undo_cancelColor;
-        int i727 = key_chat_gifSaveHintText;
-        sparseIntArray6.put(i726, i727);
-        fallbackKeys.put(key_undo_infoColor, i727);
+        int i729 = key_undo_cancelColor;
+        int i730 = key_chat_gifSaveHintText;
+        sparseIntArray6.put(i729, i730);
+        fallbackKeys.put(key_undo_infoColor, i730);
         SparseIntArray sparseIntArray7 = fallbackKeys;
-        int i728 = key_windowBackgroundUnchecked;
-        int i729 = key_windowBackgroundWhite;
-        sparseIntArray7.put(i728, i729);
-        fallbackKeys.put(key_windowBackgroundChecked, i729);
+        int i731 = key_windowBackgroundUnchecked;
+        int i732 = key_windowBackgroundWhite;
+        sparseIntArray7.put(i731, i732);
+        fallbackKeys.put(key_windowBackgroundChecked, i732);
         fallbackKeys.put(key_switchTrackBlue, key_switchTrack);
         fallbackKeys.put(key_switchTrackBlueChecked, key_switchTrackChecked);
-        fallbackKeys.put(key_switchTrackBlueThumb, i729);
-        fallbackKeys.put(key_switchTrackBlueThumbChecked, i729);
-        fallbackKeys.put(key_windowBackgroundCheckText, i729);
+        fallbackKeys.put(key_switchTrackBlueThumb, i732);
+        fallbackKeys.put(key_switchTrackBlueThumbChecked, i732);
+        fallbackKeys.put(key_windowBackgroundCheckText, i732);
         fallbackKeys.put(key_contextProgressInner4, key_contextProgressInner1);
         fallbackKeys.put(key_contextProgressOuter4, key_contextProgressOuter1);
         SparseIntArray sparseIntArray8 = fallbackKeys;
-        int i730 = key_switchTrackBlueSelector;
-        int i731 = key_listSelector;
-        sparseIntArray8.put(i730, i731);
-        fallbackKeys.put(key_switchTrackBlueSelectorChecked, i731);
+        int i733 = key_switchTrackBlueSelector;
+        int i734 = key_listSelector;
+        sparseIntArray8.put(i733, i734);
+        fallbackKeys.put(key_switchTrackBlueSelectorChecked, i734);
         SparseIntArray sparseIntArray9 = fallbackKeys;
-        int i732 = key_chat_emojiBottomPanelIcon;
-        int i733 = key_chat_emojiPanelIcon;
-        sparseIntArray9.put(i732, i733);
-        fallbackKeys.put(key_chat_emojiSearchIcon, i733);
+        int i735 = key_chat_emojiBottomPanelIcon;
+        int i736 = key_chat_emojiPanelIcon;
+        sparseIntArray9.put(i735, i736);
+        fallbackKeys.put(key_chat_emojiSearchIcon, i736);
         fallbackKeys.put(key_chat_emojiPanelStickerSetNameHighlight, key_windowBackgroundWhiteBlueText4);
         fallbackKeys.put(key_chat_emojiPanelStickerPackSelectorLine, key_chat_emojiPanelIconSelected);
         SparseIntArray sparseIntArray10 = fallbackKeys;
-        int i734 = key_sheet_scrollUp;
-        int i735 = key_chat_emojiPanelStickerPackSelector;
-        sparseIntArray10.put(i734, i735);
+        int i737 = key_sheet_scrollUp;
+        int i738 = key_chat_emojiPanelStickerPackSelector;
+        sparseIntArray10.put(i737, i738);
         fallbackKeys.put(key_sheet_other, key_player_actionBarItems);
-        fallbackKeys.put(key_dialogSearchBackground, i735);
-        fallbackKeys.put(key_dialogSearchHint, i733);
-        fallbackKeys.put(key_dialogSearchIcon, i733);
+        fallbackKeys.put(key_dialogSearchBackground, i738);
+        fallbackKeys.put(key_dialogSearchHint, i736);
+        fallbackKeys.put(key_dialogSearchIcon, i736);
         fallbackKeys.put(key_dialogSearchText, key_windowBackgroundWhiteBlackText);
         SparseIntArray sparseIntArray11 = fallbackKeys;
-        int i736 = key_dialogFloatingButton;
-        int i737 = key_dialogRoundCheckBox;
-        sparseIntArray11.put(i736, i737);
-        fallbackKeys.put(key_dialogFloatingButtonPressed, i737);
+        int i739 = key_dialogFloatingButton;
+        int i740 = key_dialogRoundCheckBox;
+        sparseIntArray11.put(i739, i740);
+        fallbackKeys.put(key_dialogFloatingButtonPressed, i740);
         fallbackKeys.put(key_dialogFloatingIcon, key_dialogRoundCheckBoxCheck);
         fallbackKeys.put(key_dialogShadowLine, key_chat_emojiPanelShadowLine);
         fallbackKeys.put(key_actionBarDefaultArchived, key_actionBarDefault);
         SparseIntArray sparseIntArray12 = fallbackKeys;
-        int i738 = key_actionBarDefaultArchivedSelector;
-        int i739 = key_actionBarDefaultSelector;
-        sparseIntArray12.put(i738, i739);
+        int i741 = key_actionBarDefaultArchivedSelector;
+        int i742 = key_actionBarDefaultSelector;
+        sparseIntArray12.put(i741, i742);
         fallbackKeys.put(key_actionBarDefaultArchivedIcon, key_actionBarDefaultIcon);
         SparseIntArray sparseIntArray13 = fallbackKeys;
-        int i740 = key_actionBarDefaultArchivedTitle;
-        int i741 = key_actionBarDefaultTitle;
-        sparseIntArray13.put(i740, i741);
+        int i743 = key_actionBarDefaultArchivedTitle;
+        int i744 = key_actionBarDefaultTitle;
+        sparseIntArray13.put(i743, i744);
         fallbackKeys.put(key_actionBarDefaultArchivedSearch, key_actionBarDefaultSearch);
         fallbackKeys.put(key_actionBarDefaultArchivedSearchPlaceholder, key_actionBarDefaultSearchPlaceholder);
         SparseIntArray sparseIntArray14 = fallbackKeys;
-        int i742 = key_chats_message_threeLines;
-        int i743 = key_chats_message;
-        sparseIntArray14.put(i742, i743);
+        int i745 = key_chats_message_threeLines;
+        int i746 = key_chats_message;
+        sparseIntArray14.put(i745, i746);
         SparseIntArray sparseIntArray15 = fallbackKeys;
-        int i744 = key_chats_nameMessage_threeLines;
-        int i745 = key_chats_nameMessage;
-        sparseIntArray15.put(i744, i745);
+        int i747 = key_chats_nameMessage_threeLines;
+        int i748 = key_chats_nameMessage;
+        sparseIntArray15.put(i747, i748);
         fallbackKeys.put(key_chats_nameArchived, key_chats_name);
-        fallbackKeys.put(key_chats_nameMessageArchived, i745);
-        fallbackKeys.put(key_chats_nameMessageArchived_threeLines, i745);
-        fallbackKeys.put(key_chats_messageArchived, i743);
+        fallbackKeys.put(key_chats_nameMessageArchived, i748);
+        fallbackKeys.put(key_chats_nameMessageArchived_threeLines, i748);
+        fallbackKeys.put(key_chats_messageArchived, i746);
         SparseIntArray sparseIntArray16 = fallbackKeys;
-        int i746 = key_avatar_backgroundArchived;
-        int i747 = key_chats_unreadCounterMuted;
-        sparseIntArray16.put(i746, i747);
+        int i749 = key_avatar_backgroundArchived;
+        int i750 = key_chats_unreadCounterMuted;
+        sparseIntArray16.put(i749, i750);
         SparseIntArray sparseIntArray17 = fallbackKeys;
-        int i748 = key_chats_archiveBackground;
-        int i749 = key_chats_actionBackground;
-        sparseIntArray17.put(i748, i749);
-        fallbackKeys.put(key_chats_archivePinBackground, i747);
+        int i751 = key_chats_archiveBackground;
+        int i752 = key_chats_actionBackground;
+        sparseIntArray17.put(i751, i752);
+        fallbackKeys.put(key_chats_archivePinBackground, i750);
         SparseIntArray sparseIntArray18 = fallbackKeys;
-        int i750 = key_chats_archiveIcon;
-        int i751 = key_chats_actionIcon;
-        sparseIntArray18.put(i750, i751);
-        fallbackKeys.put(key_chats_archiveText, i751);
+        int i753 = key_chats_archiveIcon;
+        int i754 = key_chats_actionIcon;
+        sparseIntArray18.put(i753, i754);
+        fallbackKeys.put(key_chats_archiveText, i754);
         fallbackKeys.put(key_actionBarDefaultSubmenuItemIcon, key_dialogIcon);
-        fallbackKeys.put(key_checkboxDisabled, i747);
+        fallbackKeys.put(key_checkboxDisabled, i750);
         SparseIntArray sparseIntArray19 = fallbackKeys;
-        int i752 = key_chat_status;
-        int i753 = key_actionBarDefaultSubtitle;
-        sparseIntArray19.put(i752, i753);
+        int i755 = key_chat_status;
+        int i756 = key_actionBarDefaultSubtitle;
+        sparseIntArray19.put(i755, i756);
         SparseIntArray sparseIntArray20 = fallbackKeys;
-        int i754 = key_chat_inGreenCall;
-        int i755 = key_calls_callReceivedGreenIcon;
-        sparseIntArray20.put(i754, i755);
-        fallbackKeys.put(key_chat_outGreenCall, i755);
-        fallbackKeys.put(key_actionBarTabActiveText, i741);
-        fallbackKeys.put(key_actionBarTabUnactiveText, i753);
-        fallbackKeys.put(key_actionBarTabLine, i741);
-        fallbackKeys.put(key_actionBarTabSelector, i739);
+        int i757 = key_chat_inGreenCall;
+        int i758 = key_calls_callReceivedGreenIcon;
+        sparseIntArray20.put(i757, i758);
+        fallbackKeys.put(key_chat_outGreenCall, i758);
+        fallbackKeys.put(key_actionBarTabActiveText, i744);
+        fallbackKeys.put(key_actionBarTabUnactiveText, i756);
+        fallbackKeys.put(key_actionBarTabLine, i744);
+        fallbackKeys.put(key_actionBarTabSelector, i742);
         fallbackKeys.put(key_profile_status, key_avatar_subtitleInProfileBlue);
         fallbackKeys.put(key_chats_menuTopBackgroundCats, key_avatar_backgroundActionBarBlue);
         fallbackKeys.put(key_chat_outLinkSelectBackground, key_chat_linkSelectBackground);
         fallbackKeys.put(key_actionBarDefaultSubmenuSeparator, key_windowBackgroundGray);
         SparseIntArray sparseIntArray21 = fallbackKeys;
-        int i756 = key_chat_attachPermissionImage;
-        int i757 = key_dialogTextBlack;
-        sparseIntArray21.put(i756, i757);
+        int i759 = key_chat_attachPermissionImage;
+        int i760 = key_dialogTextBlack;
+        sparseIntArray21.put(i759, i760);
         fallbackKeys.put(key_chat_attachPermissionMark, key_chat_sentError);
-        fallbackKeys.put(key_chat_attachPermissionText, i757);
+        fallbackKeys.put(key_chat_attachPermissionText, i760);
         fallbackKeys.put(key_chat_attachEmptyImage, key_emptyListPlaceholder);
         fallbackKeys.put(key_actionBarBrowser, key_actionBarDefault);
         fallbackKeys.put(key_chats_sentReadCheck, key_chats_sentCheck);
         fallbackKeys.put(key_chat_outSentCheckRead, key_chat_outSentCheck);
         fallbackKeys.put(key_chat_outSentCheckReadSelected, key_chat_outSentCheckSelected);
-        fallbackKeys.put(key_chats_archivePullDownBackground, i747);
-        fallbackKeys.put(key_chats_archivePullDownBackgroundActive, i749);
+        fallbackKeys.put(key_chats_archivePullDownBackground, i750);
+        fallbackKeys.put(key_chats_archivePullDownBackgroundActive, i752);
         fallbackKeys.put(key_avatar_backgroundArchivedHidden, key_avatar_backgroundSaved);
         fallbackKeys.put(key_featuredStickers_removeButtonText, key_featuredStickers_addButtonPressed);
         SparseIntArray sparseIntArray22 = fallbackKeys;
-        int i758 = key_dialogEmptyImage;
-        int i759 = key_player_time;
-        sparseIntArray22.put(i758, i759);
-        fallbackKeys.put(key_dialogEmptyText, i759);
-        fallbackKeys.put(key_location_actionIcon, i757);
+        int i761 = key_dialogEmptyImage;
+        int i762 = key_player_time;
+        sparseIntArray22.put(i761, i762);
+        fallbackKeys.put(key_dialogEmptyText, i762);
+        fallbackKeys.put(key_location_actionIcon, i760);
         SparseIntArray sparseIntArray23 = fallbackKeys;
-        int i760 = key_location_actionActiveIcon;
-        int i761 = key_windowBackgroundWhiteBlueText7;
-        sparseIntArray23.put(i760, i761);
+        int i763 = key_location_actionActiveIcon;
+        int i764 = key_windowBackgroundWhiteBlueText7;
+        sparseIntArray23.put(i763, i764);
         fallbackKeys.put(key_location_actionBackground, key_dialogBackground);
         fallbackKeys.put(key_location_actionPressedBackground, key_dialogBackgroundGray);
-        fallbackKeys.put(key_location_sendLocationText, i761);
+        fallbackKeys.put(key_location_sendLocationText, i764);
         fallbackKeys.put(key_location_sendLiveLocationText, key_windowBackgroundWhiteGreenText);
         SparseIntArray sparseIntArray24 = fallbackKeys;
-        int i762 = key_chat_outTextSelectionHighlight;
-        int i763 = key_chat_textSelectBackground;
-        sparseIntArray24.put(i762, i763);
-        fallbackKeys.put(key_chat_inTextSelectionHighlight, i763);
+        int i765 = key_chat_outTextSelectionHighlight;
+        int i766 = key_chat_textSelectBackground;
+        sparseIntArray24.put(i765, i766);
+        fallbackKeys.put(key_chat_inTextSelectionHighlight, i766);
         SparseIntArray sparseIntArray25 = fallbackKeys;
-        int i764 = key_chat_TextSelectionCursor;
-        sparseIntArray25.put(i764, key_chat_messagePanelCursor);
-        fallbackKeys.put(key_chat_outTextSelectionCursor, i764);
+        int i767 = key_chat_TextSelectionCursor;
+        sparseIntArray25.put(i767, key_chat_messagePanelCursor);
+        fallbackKeys.put(key_chat_outTextSelectionCursor, i767);
         SparseIntArray sparseIntArray26 = fallbackKeys;
-        int i765 = key_chat_inPollCorrectAnswer;
-        int i766 = key_chat_attachLocationBackground;
-        sparseIntArray26.put(i765, i766);
-        fallbackKeys.put(key_chat_outPollCorrectAnswer, i766);
+        int i768 = key_chat_inPollCorrectAnswer;
+        int i769 = key_chat_attachLocationBackground;
+        sparseIntArray26.put(i768, i769);
+        fallbackKeys.put(key_chat_outPollCorrectAnswer, i769);
         SparseIntArray sparseIntArray27 = fallbackKeys;
-        int i767 = key_chat_inPollWrongAnswer;
-        int i768 = key_chat_attachAudioBackground;
-        sparseIntArray27.put(i767, i768);
-        fallbackKeys.put(key_chat_outPollWrongAnswer, i768);
+        int i770 = key_chat_inPollWrongAnswer;
+        int i771 = key_chat_attachAudioBackground;
+        sparseIntArray27.put(i770, i771);
+        fallbackKeys.put(key_chat_outPollWrongAnswer, i771);
         fallbackKeys.put(key_chat_editMediaButton, key_dialogFloatingButton);
         fallbackKeys.put(key_chat_attachCheckBoxBackground, key_dialogRoundCheckBox);
         fallbackKeys.put(key_profile_tabText, key_windowBackgroundWhiteGrayText);
         SparseIntArray sparseIntArray28 = fallbackKeys;
-        int i769 = key_profile_tabSelectedText;
-        int i770 = key_windowBackgroundWhiteBlueHeader;
-        sparseIntArray28.put(i769, i770);
-        fallbackKeys.put(key_profile_tabSelectedLine, i770);
+        int i772 = key_profile_tabSelectedText;
+        int i773 = key_windowBackgroundWhiteBlueHeader;
+        sparseIntArray28.put(i772, i773);
+        fallbackKeys.put(key_profile_tabSelectedLine, i773);
         fallbackKeys.put(key_profile_tabSelector, key_listSelector);
         fallbackKeys.put(key_chat_attachGalleryText, key_chat_attachGalleryBackground);
-        fallbackKeys.put(key_chat_attachAudioText, i768);
+        fallbackKeys.put(key_chat_attachAudioText, i771);
         fallbackKeys.put(key_chat_attachFileText, key_chat_attachFileBackground);
         fallbackKeys.put(key_chat_attachContactText, key_chat_attachContactBackground);
-        fallbackKeys.put(key_chat_attachLocationText, i766);
+        fallbackKeys.put(key_chat_attachLocationText, i769);
         fallbackKeys.put(key_chat_attachPollText, key_chat_attachPollBackground);
         SparseIntArray sparseIntArray29 = fallbackKeys;
-        int i771 = key_chat_inPsaNameText;
-        int i772 = key_avatar_nameInMessageGreen;
-        sparseIntArray29.put(i771, i772);
-        fallbackKeys.put(key_chat_outPsaNameText, i772);
+        int i774 = key_chat_inPsaNameText;
+        int i775 = key_avatar_nameInMessageGreen;
+        sparseIntArray29.put(i774, i775);
+        fallbackKeys.put(key_chat_outPsaNameText, i775);
         fallbackKeys.put(key_chat_outAdminText, key_chat_outTimeText);
         fallbackKeys.put(key_chat_outAdminSelectedText, key_chat_outTimeSelectedText);
         SparseIntArray sparseIntArray30 = fallbackKeys;
-        int i773 = key_returnToCallMutedBackground;
-        int i774 = key_windowBackgroundWhite;
-        sparseIntArray30.put(i773, i774);
+        int i776 = key_returnToCallMutedBackground;
+        int i777 = key_windowBackgroundWhite;
+        sparseIntArray30.put(i776, i777);
         SparseIntArray sparseIntArray31 = fallbackKeys;
-        int i775 = key_dialogSwipeRemove;
-        int i776 = key_avatar_backgroundRed;
-        sparseIntArray31.put(i775, i776);
+        int i778 = key_dialogSwipeRemove;
+        int i779 = key_avatar_backgroundRed;
+        sparseIntArray31.put(i778, i779);
         fallbackKeys.put(key_chat_inReactionButtonBackground, key_chat_inLoader);
         fallbackKeys.put(key_chat_outReactionButtonBackground, key_chat_outLoader);
         fallbackKeys.put(key_chat_reactionServiceButtonBackgroundSelected, key_chat_outBubble);
         fallbackKeys.put(key_chat_reactionServiceButtonTextSelected, key_chat_messageTextOut);
         SparseIntArray sparseIntArray32 = fallbackKeys;
-        int i777 = key_chat_inReactionButtonText;
-        sparseIntArray32.put(i777, key_chat_inPreviewInstantText);
+        int i780 = key_chat_inReactionButtonText;
+        sparseIntArray32.put(i780, key_chat_inPreviewInstantText);
         fallbackKeys.put(key_chat_outReactionButtonText, key_chat_outPreviewInstantText);
-        fallbackKeys.put(key_chat_inReactionButtonTextSelected, i774);
-        fallbackKeys.put(key_chat_outReactionButtonTextSelected, i774);
+        fallbackKeys.put(key_chat_inReactionButtonTextSelected, i777);
+        fallbackKeys.put(key_chat_outReactionButtonTextSelected, i777);
         fallbackKeys.put(key_dialogReactionMentionBackground, key_voipgroup_mutedByAdminGradient2);
         fallbackKeys.put(key_topics_unreadCounter, key_chats_unreadCounter);
         fallbackKeys.put(key_topics_unreadCounterMuted, key_chats_message);
         fallbackKeys.put(key_avatar_background2Saved, key_avatar_backgroundSaved);
-        fallbackKeys.put(key_avatar_background2Red, i776);
+        fallbackKeys.put(key_avatar_background2Red, i779);
         fallbackKeys.put(key_avatar_background2Orange, key_avatar_backgroundOrange);
         fallbackKeys.put(key_avatar_background2Violet, key_avatar_backgroundViolet);
         fallbackKeys.put(key_avatar_background2Green, key_avatar_backgroundGreen);
@@ -7035,50 +7047,50 @@ public abstract class Theme {
         fallbackKeys.put(key_statisticChartLine_lightblue, key_color_lightblue);
         fallbackKeys.put(key_statisticChartLine_golden, key_color_yellow);
         SparseIntArray sparseIntArray33 = fallbackKeys;
-        int i778 = key_statisticChartLine_purple;
-        int i779 = key_color_purple;
-        sparseIntArray33.put(i778, i779);
-        fallbackKeys.put(key_statisticChartLine_indigo, i779);
+        int i781 = key_statisticChartLine_purple;
+        int i782 = key_color_purple;
+        sparseIntArray33.put(i781, i782);
+        fallbackKeys.put(key_statisticChartLine_indigo, i782);
         fallbackKeys.put(key_statisticChartLine_cyan, key_color_cyan);
         fallbackKeys.put(key_actionBarActionModeReaction, key_windowBackgroundGray);
-        fallbackKeys.put(key_actionBarActionModeReactionText, i777);
+        fallbackKeys.put(key_actionBarActionModeReactionText, i780);
         fallbackKeys.put(key_table_background, key_graySection);
         fallbackKeys.put(key_table_border, key_divider);
-        int i780 = 0;
-        while (true) {
-            int[] iArr = keys_avatar_background;
-            if (i780 >= iArr.length) {
-                break;
-            }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr[i780]));
-            i780++;
-        }
-        int i781 = 0;
-        while (true) {
-            int[] iArr2 = keys_avatar_background2;
-            if (i781 >= iArr2.length) {
-                break;
-            }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr2[i781]));
-            i781++;
-        }
-        int i782 = 0;
-        while (true) {
-            int[] iArr3 = keys_avatar_nameInMessage;
-            if (i782 >= iArr3.length) {
-                break;
-            }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr3[i782]));
-            i782++;
-        }
         int i783 = 0;
         while (true) {
-            int[] iArr4 = keys_colors;
-            if (i783 >= iArr4.length) {
+            int[] iArr = keys_avatar_background;
+            if (i783 >= iArr.length) {
                 break;
             }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr4[i783]));
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr[i783]));
             i783++;
+        }
+        int i784 = 0;
+        while (true) {
+            int[] iArr2 = keys_avatar_background2;
+            if (i784 >= iArr2.length) {
+                break;
+            }
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr2[i784]));
+            i784++;
+        }
+        int i785 = 0;
+        while (true) {
+            int[] iArr3 = keys_avatar_nameInMessage;
+            if (i785 >= iArr3.length) {
+                break;
+            }
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr3[i785]));
+            i785++;
+        }
+        int i786 = 0;
+        while (true) {
+            int[] iArr4 = keys_colors;
+            if (i786 >= iArr4.length) {
+                break;
+            }
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr4[i786]));
+            i786++;
         }
         themeAccentExclusionKeys.add(Integer.valueOf(key_chat_attachFileBackground));
         themeAccentExclusionKeys.add(Integer.valueOf(key_chat_attachGalleryBackground));
@@ -7244,25 +7256,25 @@ public abstract class Theme {
         themesDict.put("Night", themeInfo10);
         String str4 = null;
         String string = sharedPreferences.getString("themes2", null);
-        int i784 = 1;
+        int i787 = 1;
         if (sharedPreferences.getInt("remote_version", 0) == 1) {
-            int i785 = 0;
-            while (i785 < 4) {
+            int i788 = 0;
+            while (i788 < 4) {
                 long[] jArr = remoteThemesHash;
                 StringBuilder sb = new StringBuilder();
                 sb.append("2remoteThemesHash");
-                sb.append(i785 != 0 ? Integer.valueOf(i785) : "");
-                jArr[i785] = sharedPreferences.getLong(sb.toString(), 0L);
+                sb.append(i788 != 0 ? Integer.valueOf(i788) : "");
+                jArr[i788] = sharedPreferences.getLong(sb.toString(), 0L);
                 int[] iArr5 = lastLoadingThemesTime;
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("lastLoadingThemesTime");
-                sb2.append(i785 != 0 ? Integer.valueOf(i785) : "");
-                iArr5[i785] = sharedPreferences.getInt(sb2.toString(), 0);
-                i785++;
+                sb2.append(i788 != 0 ? Integer.valueOf(i788) : "");
+                iArr5[i788] = sharedPreferences.getInt(sb2.toString(), 0);
+                i788++;
             }
-            i784 = 1;
+            i787 = 1;
         }
-        sharedPreferences.edit().putInt("remote_version", i784).apply();
+        sharedPreferences.edit().putInt("remote_version", i787).apply();
         if (TextUtils.isEmpty(string)) {
             String string2 = sharedPreferences.getString("themes", null);
             if (!TextUtils.isEmpty(string2)) {
@@ -7280,8 +7292,8 @@ public abstract class Theme {
         } else {
             try {
                 JSONArray jSONArray = new JSONArray(string);
-                for (int i786 = 0; i786 < jSONArray.length(); i786++) {
-                    ThemeInfo createWithJson = ThemeInfo.createWithJson(jSONArray.getJSONObject(i786));
+                for (int i789 = 0; i789 < jSONArray.length(); i789++) {
+                    ThemeInfo createWithJson = ThemeInfo.createWithJson(jSONArray.getJSONObject(i789));
                     if (createWithJson != null) {
                         otherThemes.add(createWithJson);
                         themes.add(createWithJson);
@@ -7345,8 +7357,8 @@ public abstract class Theme {
                         editor = editor5;
                         str = str3;
                         String str6 = "accent_for_" + themeInfo12.assetName;
-                        int i787 = globalMainSettings.getInt(str6, 0);
-                        if (i787 != 0) {
+                        int i790 = globalMainSettings.getInt(str6, 0);
+                        if (i790 != 0) {
                             if (editor4 == null) {
                                 editor4 = globalMainSettings.edit();
                                 editor3 = sharedPreferences.edit();
@@ -7355,12 +7367,12 @@ public abstract class Theme {
                             }
                             editor4.remove(str6);
                             int size = themeInfo12.themeAccents.size();
-                            int i788 = 0;
+                            int i791 = 0;
                             while (true) {
-                                if (i788 >= size) {
+                                if (i791 >= size) {
                                     ThemeAccent themeAccent = new ThemeAccent();
                                     themeAccent.id = 100;
-                                    themeAccent.accentColor = i787;
+                                    themeAccent.accentColor = i790;
                                     themeAccent.parentTheme = themeInfo12;
                                     themeInfo12.themeAccentsMap.put(100, themeAccent);
                                     arrayList2.add(0, themeAccent);
@@ -7389,12 +7401,12 @@ public abstract class Theme {
                                     editor3.putString("accents_" + themeInfo12.assetName, Base64.encodeToString(serializedData.toByteArray(), 3));
                                     break;
                                 }
-                                ThemeAccent themeAccent2 = (ThemeAccent) themeInfo12.themeAccents.get(i788);
-                                if (themeAccent2.accentColor == i787) {
+                                ThemeAccent themeAccent2 = (ThemeAccent) themeInfo12.themeAccents.get(i791);
+                                if (themeAccent2.accentColor == i790) {
                                     themeInfo12.currentAccentId = themeAccent2.id;
                                     break;
                                 }
-                                i788++;
+                                i791++;
                             }
                             editor3.putInt("accent_current_" + themeInfo12.assetName, themeInfo12.currentAccentId);
                             editor5 = editor3;
@@ -7420,8 +7432,8 @@ public abstract class Theme {
                             boolean z2 = true;
                             int readInt322 = serializedData2.readInt32(true);
                             int readInt323 = serializedData2.readInt32(true);
-                            int i789 = 0;
-                            while (i789 < readInt323) {
+                            int i792 = 0;
+                            while (i792 < readInt323) {
                                 try {
                                     ThemeAccent themeAccent3 = new ThemeAccent();
                                     themeAccent3.id = serializedData2.readInt32(z2);
@@ -7486,7 +7498,7 @@ public abstract class Theme {
                                     }
                                     arrayList2.add(themeAccent3);
                                     themeInfo12.lastAccentId = Math.max(themeInfo12.lastAccentId, themeAccent3.id);
-                                    i789++;
+                                    i792++;
                                     str3 = str2;
                                     themeInfo = themeInfo5;
                                     editor5 = editor2;
@@ -7590,7 +7602,7 @@ public abstract class Theme {
             AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda100());
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.10
                 @Override // android.hardware.SensorEventListener
-                public void onAccuracyChanged(Sensor sensor, int i790) {
+                public void onAccuracyChanged(Sensor sensor, int i793) {
                 }
 
                 @Override // android.hardware.SensorEventListener

@@ -164,7 +164,7 @@ public class SuperRippleFallback extends ISuperRipple {
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 0.5f);
         final Effect effect = new Effect(f, f2, f3, ofFloat);
         effect.duration = 0.5f;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stars.SuperRippleFallback$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stars.SuperRippleFallback$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 SuperRippleFallback.this.lambda$animate$0(effect, valueAnimator);

@@ -649,6 +649,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private StaticLayout performerLayout;
     private int performerX;
     private ImageReceiver photoImage;
+    private Path photoImageClipPath;
+    private float[] photoImageClipPathRadii;
     private boolean photoImageOutOfBounds;
     private boolean photoNotSet;
     private TLObject photoParentObject;
@@ -4269,7 +4271,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 botButton3.selectorDrawable.setState(this.pressedState);
                 botButton3.setPressed(true);
                 final int i3 = this.pressedBotButton;
-                postDelayed(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda9
+                postDelayed(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda10
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatMessageCell.this.lambda$checkBotButtonMotionEvent$4(i3);
@@ -4877,7 +4879,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (this.factCheckBounce == null) {
             ButtonBounce buttonBounce = new ButtonBounce(this);
             this.factCheckBounce = buttonBounce;
-            buttonBounce.setAdditionalInvalidate(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda13
+            buttonBounce.setAdditionalInvalidate(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda14
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatMessageCell.this.invalidateOutbounds();
@@ -4927,7 +4929,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (this.factCheckLinks == null) {
                 LinkSpanDrawable.LinkCollector linkCollector = new LinkSpanDrawable.LinkCollector(this);
                 this.factCheckLinks = linkCollector;
-                linkCollector.setAdditionalInvalidate(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda13
+                linkCollector.setAdditionalInvalidate(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda14
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatMessageCell.this.invalidateOutbounds();
@@ -6050,7 +6052,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                         this.replySelectorPressed = false;
                         this.replySelectorCanBePressed = true;
-                        postDelayed(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda10
+                        postDelayed(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda11
                             @Override // java.lang.Runnable
                             public final void run() {
                                 ChatMessageCell.this.lambda$checkReplyTouchEvent$5();
@@ -6078,7 +6080,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         drawable2.setState(new int[0]);
                     } else {
                         drawable2.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
-                        post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda11
+                        post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda12
                             @Override // java.lang.Runnable
                             public final void run() {
                                 ChatMessageCell.this.lambda$checkReplyTouchEvent$6();
@@ -7224,7 +7226,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             this.statusDrawableAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
             this.animateFromStatusDrawableParams = i;
             this.animateToStatusDrawableParams = i2;
-            this.statusDrawableAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda1
+            this.statusDrawableAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ChatMessageCell.this.lambda$createStatusDrawableAnimator$13(z, valueAnimator);
@@ -11067,7 +11069,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkSpoilersMotionEvent$1() {
-        post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda14
+        post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 ChatMessageCell.this.lambda$checkSpoilersMotionEvent$0();
@@ -11084,7 +11086,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkSpoilersMotionEvent$3(final ChatMessageCell chatMessageCell) {
-        post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda15
+        post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 ChatMessageCell.lambda$checkSpoilersMotionEvent$2(ChatMessageCell.this);
@@ -13926,7 +13928,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                     final TLRPC.Chat chat2 = chat;
                                                     arrayList9 = recentRepliers;
                                                     i143 = size;
-                                                    post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda2
+                                                    post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda3
                                                         @Override // java.lang.Runnable
                                                         public final void run() {
                                                             ChatMessageCell.this.lambda$setMessageContent$7(user4, i156, chat2, peerId);
@@ -13944,7 +13946,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                 final TLRPC.Chat chat22 = chat;
                                                 arrayList9 = recentRepliers;
                                                 i143 = size;
-                                                post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda2
+                                                post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda3
                                                     @Override // java.lang.Runnable
                                                     public final void run() {
                                                         ChatMessageCell.this.lambda$setMessageContent$7(user42, i1562, chat22, peerId);
@@ -19967,7 +19969,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                                 r22 = r22;
                                                             }
                                                             if (z95 && i226 != 0) {
-                                                                Collections.sort(arrayList18, new Comparator() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda3
+                                                                Collections.sort(arrayList18, new Comparator() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda4
                                                                     @Override // java.util.Comparator
                                                                     public final int compare(Object obj5, Object obj6) {
                                                                         int lambda$setMessageContent$8;
@@ -34711,7 +34713,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         this.mediaSpoilerRevealY = f2;
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration((long) MathUtils.clamp(this.mediaSpoilerRevealMaxRadius * 0.3f, 250.0f, 550.0f));
         duration.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda6
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda7
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ChatMessageCell.this.lambda$startRevealMedia$12(valueAnimator);
@@ -34863,7 +34865,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             Activity findActivity = AndroidUtilities.findActivity(getContext());
             Window window = findActivity == null ? null : findActivity.getWindow();
             if (window != null) {
-                FlagSecureReason flagSecureReason = new FlagSecureReason(window, new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda5
+                FlagSecureReason flagSecureReason = new FlagSecureReason(window, new FlagSecureReason.FlagSecureCondition() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda6
                     @Override // org.telegram.messenger.FlagSecureReason.FlagSecureCondition
                     public final boolean run() {
                         boolean lambda$updateFlagSecure$9;
@@ -35553,7 +35555,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 this.sPath.computeBounds(this.rect, false);
                 float sqrt = (float) Math.sqrt(Math.pow(this.rect.width(), 2.0d) + Math.pow(this.rect.height(), 2.0d));
                 this.isSpoilerRevealing = true;
-                this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda7
+                this.spoilerPressed.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatMessageCell.this.lambda$checkSpoilersMotionEvent$1();
@@ -35591,7 +35593,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         if (childAt2 instanceof ChatMessageCell) {
                             final ChatMessageCell chatMessageCell2 = (ChatMessageCell) childAt2;
                             if (chatMessageCell2.getMessageObject() != null && chatMessageCell2.getMessageObject().getReplyMsgId() == getMessageObject().getId() && !chatMessageCell2.replySpoilers.isEmpty()) {
-                                ((SpoilerEffect) chatMessageCell2.replySpoilers.get(0)).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda8
+                                ((SpoilerEffect) chatMessageCell2.replySpoilers.get(0)).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda9
                                     @Override // java.lang.Runnable
                                     public final void run() {
                                         ChatMessageCell.this.lambda$checkSpoilersMotionEvent$3(chatMessageCell2);
@@ -37847,7 +37849,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 this.radialProgress.iconScale *= this.mediaSpoilerRevealProgress;
                             }
                             SeekBarWaveform seekBarWaveform = this.seekBarWaveform;
-                            drawVoiceOnce(canvas, seekBarWaveform != null ? 1.0f : 1.0f - seekBarWaveform.explosionRate, new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda4
+                            drawVoiceOnce(canvas, seekBarWaveform != null ? 1.0f : 1.0f - seekBarWaveform.explosionRate, new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda5
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     ChatMessageCell.this.lambda$drawContent$11(canvas);
@@ -37985,7 +37987,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             this.radialProgress.iconScale *= this.mediaSpoilerRevealProgress;
                         }
                         SeekBarWaveform seekBarWaveform2 = this.seekBarWaveform;
-                        drawVoiceOnce(canvas, seekBarWaveform2 != null ? 1.0f : 1.0f - seekBarWaveform2.explosionRate, new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda4
+                        drawVoiceOnce(canvas, seekBarWaveform2 != null ? 1.0f : 1.0f - seekBarWaveform2.explosionRate, new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda5
                             @Override // java.lang.Runnable
                             public final void run() {
                                 ChatMessageCell.this.lambda$drawContent$11(canvas);
@@ -44426,6 +44428,49 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     public void drawVideoTimestamps(Canvas canvas, int i) {
+        if (this.currentMessageObject == null || this.controlsAlpha <= 0.0f || !this.photoImage.getVisible()) {
+            return;
+        }
+        MessageObject messageObject = this.currentMessageObject;
+        float clamp01 = Utilities.clamp01((messageObject.openedInViewer || messageObject.getVideoStartsTimestamp() == -1) ? this.currentMessageObject.getVideoSavedProgress() : this.currentMessageObject.getVideoStartsTimestamp() / ((float) this.currentMessageObject.getDuration()));
+        if (clamp01 > 0.0f) {
+            int[] roundRadius = this.photoImage.getRoundRadius();
+            canvas.save();
+            if (roundRadius[0] > 0 || roundRadius[1] > 0 || roundRadius[2] > 0 || roundRadius[3] > 0) {
+                if (this.photoImageClipPath == null) {
+                    this.photoImageClipPath = new Path();
+                    this.photoImageClipPathRadii = new float[8];
+                }
+                float[] fArr = this.photoImageClipPathRadii;
+                float max = Math.max(0, roundRadius[0]);
+                fArr[1] = max;
+                fArr[0] = max;
+                float[] fArr2 = this.photoImageClipPathRadii;
+                float max2 = Math.max(0, roundRadius[1]);
+                fArr2[3] = max2;
+                fArr2[2] = max2;
+                float[] fArr3 = this.photoImageClipPathRadii;
+                float max3 = Math.max(0, roundRadius[2]);
+                fArr3[5] = max3;
+                fArr3[4] = max3;
+                float[] fArr4 = this.photoImageClipPathRadii;
+                float max4 = Math.max(0, roundRadius[3]);
+                fArr4[7] = max4;
+                fArr4[6] = max4;
+                this.photoImageClipPath.rewind();
+                this.photoImageClipPath.addRoundRect(this.photoImage.getImageX(), this.photoImage.getImageY(), this.photoImage.getImageX2(), this.photoImage.getImageY2(), this.photoImageClipPathRadii, Path.Direction.CW);
+                canvas.clipPath(this.photoImageClipPath);
+            } else {
+                canvas.clipRect(this.photoImage.getImageX(), this.photoImage.getImageY(), this.photoImage.getImageX2(), this.photoImage.getImageY2());
+            }
+            Theme.chat_videoProgressPaint.setColor(Theme.multAlpha(-1, this.controlsAlpha * 0.35f));
+            canvas.drawRect(this.photoImage.getImageX(), this.photoImage.getImageY2() - AndroidUtilities.dp(3.0f), this.photoImage.getImageX2(), this.photoImage.getImageY2(), Theme.chat_videoProgressPaint);
+            Theme.chat_videoProgressPaint.setColor(Theme.multAlpha(i, this.controlsAlpha));
+            RectF rectF = AndroidUtilities.rectTmp;
+            rectF.set(this.photoImage.getImageX() - AndroidUtilities.dp(2.0f), this.photoImage.getImageY2() - AndroidUtilities.dp(3.0f), this.photoImage.getImageX() + (this.photoImage.getImageWidth() * clamp01), this.photoImage.getImageY2());
+            canvas.drawRoundRect(rectF, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.chat_videoProgressPaint);
+            canvas.restore();
+        }
     }
 
     public void drawVoiceOnce(Canvas canvas, float f, Runnable runnable) {
@@ -47105,7 +47150,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     drawable5.setState(new int[0]);
                 } else {
                     drawable5.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
-                    post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda12
+                    post(new Runnable() { // from class: org.telegram.ui.Cells.ChatMessageCell$$ExternalSyntheticLambda13
                         @Override // java.lang.Runnable
                         public final void run() {
                             ChatMessageCell.this.lambda$onLongPress$10();
