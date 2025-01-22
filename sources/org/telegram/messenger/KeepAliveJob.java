@@ -49,7 +49,7 @@ public class KeepAliveJob extends JobIntentService {
             synchronized (sync) {
                 startingJob = true;
             }
-            JobIntentService.enqueueWork(ApplicationLoader.applicationContext, KeepAliveJob.class, 1000, new Intent());
+            JobIntentService.enqueueWork(ApplicationLoader.applicationContext, KeepAliveJob.class, MediaDataController.MAX_STYLE_RUNS_COUNT, new Intent());
         } catch (Exception unused) {
         }
     }

@@ -1,7 +1,6 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -86,25 +85,25 @@ public class StickersArchiveAlert extends AlertDialog.Builder {
         recyclerListView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
         recyclerListView.setGlowColor(-657673);
         linearLayout.addView(recyclerListView, LayoutHelper.createLinear(-1, -2, 0.0f, 10.0f, 0.0f, 0.0f));
-        setNegativeButton(LocaleController.getString(R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                dialogInterface.dismiss();
+        setNegativeButton(LocaleController.getString(R.string.Close), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                alertDialog.dismiss();
             }
         });
         if (this.parentFragment != null) {
-            setPositiveButton(LocaleController.getString(R.string.Settings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    StickersArchiveAlert.this.lambda$new$1(dialogInterface, i2);
+            setPositiveButton(LocaleController.getString(R.string.Settings), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.StickersArchiveAlert$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    StickersArchiveAlert.this.lambda$new$1(alertDialog, i2);
                 }
             });
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$new$1(AlertDialog alertDialog, int i) {
         this.parentFragment.presentFragment(new StickersActivity(this.currentType, null));
-        dialogInterface.dismiss();
+        alertDialog.dismiss();
     }
 }

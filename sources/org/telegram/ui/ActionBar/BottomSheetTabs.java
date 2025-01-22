@@ -433,7 +433,7 @@ public class BottomSheetTabs extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$removeTab$2(boolean[] zArr, WebTabData webTabData, Utilities.Callback callback, AlertDialog[] alertDialogArr, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$removeTab$2(boolean[] zArr, WebTabData webTabData, Utilities.Callback callback, AlertDialog[] alertDialogArr, AlertDialog alertDialog, int i) {
         zArr[0] = true;
         removeTab(webTabData, true);
         callback.run(Boolean.TRUE);
@@ -441,7 +441,7 @@ public class BottomSheetTabs extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$removeTab$3(boolean[] zArr, Utilities.Callback callback, AlertDialog[] alertDialogArr, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$removeTab$3(boolean[] zArr, Utilities.Callback callback, AlertDialog[] alertDialogArr, AlertDialog alertDialog, int i) {
         zArr[0] = true;
         callback.run(Boolean.FALSE);
         alertDialogArr[0].dismiss();
@@ -761,15 +761,15 @@ public class BottomSheetTabs extends FrameLayout {
         }
         TLRPC.User user = MessagesController.getInstance(webTabData.props.currentAccount).getUser(Long.valueOf(webTabData.props.botId));
         final boolean[] zArr = {false};
-        AlertDialog create = new AlertDialog.Builder(getContext()).setTitle(user != null ? ContactsController.formatName(user.first_name, user.last_name) : null).setMessage(LocaleController.getString(R.string.BotWebViewChangesMayNotBeSaved)).setPositiveButton(LocaleController.getString(R.string.BotWebViewCloseAnyway), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BottomSheetTabs.this.lambda$removeTab$2(zArr, webTabData, callback, r5, dialogInterface, i);
+        AlertDialog create = new AlertDialog.Builder(getContext()).setTitle(user != null ? ContactsController.formatName(user.first_name, user.last_name) : null).setMessage(LocaleController.getString(R.string.BotWebViewChangesMayNotBeSaved)).setPositiveButton(LocaleController.getString(R.string.BotWebViewCloseAnyway), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BottomSheetTabs.this.lambda$removeTab$2(zArr, webTabData, callback, r5, alertDialog, i);
             }
-        }).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BottomSheetTabs.lambda$removeTab$3(zArr, callback, r3, dialogInterface, i);
+        }).setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BottomSheetTabs.lambda$removeTab$3(zArr, callback, r3, alertDialog, i);
             }
         }).create();
         final AlertDialog[] alertDialogArr = {create};

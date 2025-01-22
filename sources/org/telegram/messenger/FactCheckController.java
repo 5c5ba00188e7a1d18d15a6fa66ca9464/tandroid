@@ -348,7 +348,7 @@ public class FactCheckController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openFactCheckEditor$8(EditTextCaption editTextCaption, int i, MessageObject messageObject, boolean z, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$openFactCheckEditor$8(EditTextCaption editTextCaption, int i, MessageObject messageObject, boolean z, AlertDialog alertDialog, int i2) {
         if (editTextCaption.getText().toString().length() > i) {
             AndroidUtilities.shakeView(editTextCaption);
             return;
@@ -359,7 +359,7 @@ public class FactCheckController {
         CharSequence charSequence = charSequenceArr[0];
         tL_textWithEntities.text = charSequence == null ? "" : charSequence.toString();
         applyFactCheck(messageObject, tL_textWithEntities, z);
-        dialogInterface.dismiss();
+        alertDialog.dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -678,16 +678,16 @@ public class FactCheckController {
         builder.setView(linearLayout);
         builder.setWidth(AndroidUtilities.dp(292.0f));
         final boolean z5 = z3;
-        builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                FactCheckController.this.lambda$openFactCheckEditor$8(editTextCaption, i, messageObject, z5, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.Done), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                FactCheckController.this.lambda$openFactCheckEditor$8(editTextCaption, i, messageObject, z5, alertDialog, i2);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.messenger.FactCheckController$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                alertDialog.dismiss();
             }
         });
         AlertDialog create = builder.create();

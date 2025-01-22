@@ -43,6 +43,7 @@ import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -1072,7 +1073,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (z) {
                 List list = this.fragmentsStack;
                 if (list.get(list.size() - 1) == baseFragment) {
-                    baseFragment.lambda$onBackPressed$321();
+                    baseFragment.lambda$onBackPressed$323();
                     return;
                 }
             }
@@ -2418,7 +2419,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 if (this.velocityTracker == null) {
                     this.velocityTracker = VelocityTracker.obtain();
                 }
-                this.velocityTracker.computeCurrentVelocity(1000);
+                this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                 List list4 = this.fragmentsStack;
                 BaseFragment baseFragment = (BaseFragment) list4.get(list4.size() - 1);
                 if (!this.inPreviewMode && !this.transitionAnimationPreviewMode && !this.startedTracking && baseFragment.isSwipeBackEnabled(motionEvent)) {

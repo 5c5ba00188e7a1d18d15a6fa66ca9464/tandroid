@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -206,7 +205,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             BaseFragment baseFragment = (BaseFragment) ((BaseFragment) ChatUsersActivity.this).parentLayout.getFragmentStack().get(((BaseFragment) ChatUsersActivity.this).parentLayout.getFragmentStack().size() - 2);
             if (!(baseFragment instanceof ChatEditActivity)) {
-                ChatUsersActivity.this.lambda$onBackPressed$321();
+                ChatUsersActivity.this.lambda$onBackPressed$323();
                 return;
             }
             baseFragment.removeSelfFromStack();
@@ -215,7 +214,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             ChatEditActivity chatEditActivity = new ChatEditActivity(bundle);
             chatEditActivity.setInfo(ChatUsersActivity.this.info);
             ((BaseFragment) ChatUsersActivity.this).parentLayout.addFragmentToStack(chatEditActivity, ((BaseFragment) ChatUsersActivity.this).parentLayout.getFragmentStack().size() - 1);
-            ChatUsersActivity.this.lambda$onBackPressed$321();
+            ChatUsersActivity.this.lambda$onBackPressed$323();
             chatEditActivity.showConvertTooltip();
         }
 
@@ -2183,16 +2182,16 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             str = "GroupSettingsChangedAlert";
         }
         builder.setMessage(LocaleController.getString(str, i));
-        builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                ChatUsersActivity.this.lambda$checkDiscard$23(dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                ChatUsersActivity.this.lambda$checkDiscard$23(alertDialog, i2);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                ChatUsersActivity.this.lambda$checkDiscard$24(dialogInterface, i2);
+        builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                ChatUsersActivity.this.lambda$checkDiscard$24(alertDialog, i2);
             }
         });
         showDialog(builder.create());
@@ -2730,13 +2729,13 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$23(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$23(AlertDialog alertDialog, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$24(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$checkDiscard$24(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2745,17 +2744,17 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$createMenuForParticipant$11(Utilities.Callback callback, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$createMenuForParticipant$11(Utilities.Callback callback, AlertDialog alertDialog, int i) {
         callback.run(1);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createMenuForParticipant$12(TLObject tLObject, TLRPC.User user, final Utilities.Callback callback) {
         if ((tLObject instanceof TLRPC.TL_channelParticipantAdmin) || (tLObject instanceof TLRPC.TL_chatParticipantAdmin)) {
-            showDialog(new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(LocaleController.formatString("AdminWillBeRemoved", R.string.AdminWillBeRemoved, UserObject.getUserName(user))).setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda26
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatUsersActivity.lambda$createMenuForParticipant$11(Utilities.Callback.this, dialogInterface, i);
+            showDialog(new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(LocaleController.formatString("AdminWillBeRemoved", R.string.AdminWillBeRemoved, UserObject.getUserName(user))).setPositiveButton(LocaleController.getString("OK", R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda26
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ChatUsersActivity.lambda$createMenuForParticipant$11(Utilities.Callback.this, alertDialog, i);
                 }
             }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).create());
         } else {
@@ -2897,7 +2896,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(TLRPC.User user, TLObject tLObject, TLRPC.TL_chatAdminRights tL_chatAdminRights, TLRPC.TL_chatBannedRights tL_chatBannedRights, String str, boolean z, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$4(TLRPC.User user, TLObject tLObject, TLRPC.TL_chatAdminRights tL_chatAdminRights, TLRPC.TL_chatBannedRights tL_chatBannedRights, String str, boolean z, AlertDialog alertDialog, int i) {
         openRightsEdit(user.id, tLObject, tL_chatAdminRights, tL_chatBannedRights, str, z, this.selectType == 1 ? 0 : 1, false);
     }
 
@@ -3374,10 +3373,10 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         final TLRPC.TL_chatBannedRights tL_chatBannedRights7 = tL_chatBannedRights;
                         final String str3 = str;
                         final boolean z14 = z2;
-                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda21
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i8) {
-                                ChatUsersActivity.this.lambda$createView$4(user2, tLObject2, tL_chatAdminRights5, tL_chatBannedRights7, str3, z14, dialogInterface, i8);
+                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatUsersActivity$$ExternalSyntheticLambda21
+                            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                            public final void onClick(AlertDialog alertDialog, int i8) {
+                                ChatUsersActivity.this.lambda$createView$4(user2, tLObject2, tL_chatAdminRights5, tL_chatBannedRights7, str3, z14, alertDialog, i8);
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -4214,7 +4213,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             }
             messagesController2.toggleChannelSignatures(j2, z4, z);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     private void removeParticipant(long j) {
@@ -4224,7 +4223,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             if (chatUsersActivityDelegate != null) {
                 chatUsersActivityDelegate.didKickParticipant(j);
             }
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
     }
 
@@ -4902,7 +4901,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     public void onItemClick(int i6) {
                         if (i6 == -1) {
                             if (ChatUsersActivity.this.checkDiscard()) {
-                                ChatUsersActivity.this.lambda$onBackPressed$321();
+                                ChatUsersActivity.this.lambda$onBackPressed$323();
                             }
                         } else if (i6 == 1) {
                             ChatUsersActivity.this.processDone();
@@ -5142,7 +5141,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             public void onItemClick(int i62) {
                 if (i62 == -1) {
                     if (ChatUsersActivity.this.checkDiscard()) {
-                        ChatUsersActivity.this.lambda$onBackPressed$321();
+                        ChatUsersActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i62 == 1) {
                     ChatUsersActivity.this.processDone();
@@ -5216,7 +5215,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     removeSelfFromStack();
                     return;
                 } else {
-                    lambda$onBackPressed$321();
+                    lambda$onBackPressed$323();
                     return;
                 }
             }

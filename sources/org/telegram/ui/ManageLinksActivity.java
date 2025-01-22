@@ -3,7 +3,6 @@ package org.telegram.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -478,17 +477,17 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$0(TLRPC.TL_chatInviteExported tL_chatInviteExported, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$0(TLRPC.TL_chatInviteExported tL_chatInviteExported, AlertDialog alertDialog, int i) {
             ManageLinksActivity.this.deleteLink(tL_chatInviteExported);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1() {
             final TLRPC.TL_chatInviteExported tL_chatInviteExported = this.invite;
-            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setTitle(LocaleController.getString(R.string.DeleteLink)).setMessage(LocaleController.getString(R.string.DeleteLinkHelp)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda7
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$0(tL_chatInviteExported, dialogInterface, i);
+            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setTitle(LocaleController.getString(R.string.DeleteLink)).setMessage(LocaleController.getString(R.string.DeleteLinkHelp)).setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda7
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ManageLinksActivity.LinkCell.this.lambda$new$0(tL_chatInviteExported, alertDialog, i);
                 }
             }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
         }
@@ -541,17 +540,17 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$5(TLRPC.TL_chatInviteExported tL_chatInviteExported, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$5(TLRPC.TL_chatInviteExported tL_chatInviteExported, AlertDialog alertDialog, int i) {
             ManageLinksActivity.this.revokeLink(tL_chatInviteExported);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$6() {
             final TLRPC.TL_chatInviteExported tL_chatInviteExported = this.invite;
-            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setMessage(LocaleController.getString(R.string.RevokeAlert)).setTitle(LocaleController.getString(R.string.RevokeLink)).setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda6
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ManageLinksActivity.LinkCell.this.lambda$new$5(tL_chatInviteExported, dialogInterface, i);
+            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setMessage(LocaleController.getString(R.string.RevokeAlert)).setTitle(LocaleController.getString(R.string.RevokeLink)).setPositiveButton(LocaleController.getString(R.string.RevokeButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda6
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ManageLinksActivity.LinkCell.this.lambda$new$5(tL_chatInviteExported, alertDialog, i);
                 }
             }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
         }
@@ -1284,12 +1283,12 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$8(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$8(AlertDialog alertDialog, int i) {
         TLRPC.TL_messages_deleteRevokedExportedChatInvites tL_messages_deleteRevokedExportedChatInvites = new TLRPC.TL_messages_deleteRevokedExportedChatInvites();
         tL_messages_deleteRevokedExportedChatInvites.peer = getMessagesController().getInputPeer(-this.currentChatId);
         tL_messages_deleteRevokedExportedChatInvites.admin_id = this.adminId == getUserConfig().getClientUserId() ? getMessagesController().getInputUser(getUserConfig().getCurrentUser()) : getMessagesController().getInputUser(this.adminId);
         this.deletingRevokedLinks = true;
-        getConnectionsManager().sendRequest(tL_messages_deleteRevokedExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda9
+        getConnectionsManager().sendRequest(tL_messages_deleteRevokedExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda11
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 ManageLinksActivity.this.lambda$createView$7(tLObject, tL_error);
@@ -1333,10 +1332,10 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setTitle(LocaleController.getString(R.string.DeleteAllRevokedLinks));
                     builder.setMessage(LocaleController.getString(R.string.DeleteAllRevokedLinkHelp));
-                    builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i4) {
-                            ManageLinksActivity.this.lambda$createView$8(dialogInterface, i4);
+                    builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i4) {
+                            ManageLinksActivity.this.lambda$createView$8(alertDialog, i4);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1437,7 +1436,7 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadLinks$1(final TLRPC.TL_error tL_error, final TLObject tLObject) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda11
+        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 ManageLinksActivity.this.lambda$loadLinks$0(tL_error, tLObject);
@@ -1553,7 +1552,7 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadLinks$4(final TLRPC.TL_chatInviteExported tL_chatInviteExported, final TLRPC.TL_error tL_error, final TLObject tLObject, final boolean z) {
-        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda10
+        getNotificationCenter().doOnIdle(new Runnable() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 ManageLinksActivity.this.lambda$loadLinks$3(tL_chatInviteExported, tL_error, tLObject, z);
@@ -1920,7 +1919,7 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ManageLinksActivity.this.lambda$onBackPressed$321();
+                    ManageLinksActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -2018,7 +2017,7 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
             if (iNavigationLayout == null || iNavigationLayout.getLastFragment() != this) {
                 removeSelfFromStack();
             } else {
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
             }
         }
     }

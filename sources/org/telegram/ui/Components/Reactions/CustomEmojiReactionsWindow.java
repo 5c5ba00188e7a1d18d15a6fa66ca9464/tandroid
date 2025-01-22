@@ -34,12 +34,14 @@ import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
@@ -119,7 +121,7 @@ public class CustomEmojiReactionsWindow {
         }
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-        protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
+        protected void onEmojiSelected(View view, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
             if (this.val$baseFragment != null) {
                 ReactionsContainerLayout reactionsContainerLayout = this.val$reactionsContainerLayout;
                 if (!reactionsContainerLayout.channelReactions && reactionsContainerLayout.getWindowType() != 13 && !UserConfig.getInstance(this.val$baseFragment.getCurrentAccount()).isPremium()) {
@@ -857,7 +859,7 @@ public class CustomEmojiReactionsWindow {
         layoutParams.height = -1;
         layoutParams.width = -1;
         int i = this.type;
-        layoutParams.type = (i == 0 || i == 3) ? 1000 : 99;
+        layoutParams.type = (i == 0 || i == 3) ? MediaDataController.MAX_STYLE_RUNS_COUNT : 99;
         layoutParams.softInputMode = 16;
         layoutParams.flags = z ? 65792 : 65800;
         layoutParams.format = -3;

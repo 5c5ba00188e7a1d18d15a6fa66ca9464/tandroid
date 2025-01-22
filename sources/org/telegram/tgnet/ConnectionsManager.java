@@ -60,6 +60,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FileUploadOperation;
 import org.telegram.messenger.KeepAliveJob;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
@@ -630,7 +631,7 @@ public class ConnectionsManager extends BaseController {
                 URLConnection openConnection = new URL("https://www.google.com/resolve?name=" + this.currentHostName + "&type=A").openConnection();
                 openConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
                 openConnection.addRequestProperty("Host", "dns.google.com");
-                openConnection.setConnectTimeout(1000);
+                openConnection.setConnectTimeout(MediaDataController.MAX_STYLE_RUNS_COUNT);
                 openConnection.setReadTimeout(2000);
                 openConnection.connect();
                 inputStream = openConnection.getInputStream();
@@ -859,7 +860,7 @@ public class ConnectionsManager extends BaseController {
             getUserConfig().loadConfig();
             String regId = getRegId();
             String certificateSHA256Fingerprint = AndroidUtilities.getCertificateSHA256Fingerprint();
-            int rawOffset = (TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / 1000;
+            int rawOffset = (TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / MediaDataController.MAX_STYLE_RUNS_COUNT;
             String str11 = "mainconfig";
             if (this.currentAccount != 0) {
                 context = ApplicationLoader.applicationContext;
@@ -868,7 +869,7 @@ public class ConnectionsManager extends BaseController {
                 str11 = "mainconfig" + this.currentAccount;
             }
             this.forceTryIpV6 = context.getSharedPreferences(str11, 0).getBoolean("forceTryIpV6", false);
-            init(SharedConfig.buildVersion(), 197, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
+            init(SharedConfig.buildVersion(), 198, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
         }
         sb = new StringBuilder();
         sb.append(str6);
@@ -890,12 +891,12 @@ public class ConnectionsManager extends BaseController {
         getUserConfig().loadConfig();
         String regId2 = getRegId();
         String certificateSHA256Fingerprint2 = AndroidUtilities.getCertificateSHA256Fingerprint();
-        int rawOffset2 = (TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / 1000;
+        int rawOffset2 = (TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / MediaDataController.MAX_STYLE_RUNS_COUNT;
         String str112 = "mainconfig";
         if (this.currentAccount != 0) {
         }
         this.forceTryIpV6 = context.getSharedPreferences(str112, 0).getBoolean("forceTryIpV6", false);
-        init(SharedConfig.buildVersion(), 197, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId2, certificateSHA256Fingerprint2, rawOffset2, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
+        init(SharedConfig.buildVersion(), 198, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId2, certificateSHA256Fingerprint2, rawOffset2, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
     }
 
     public static int generateClassGuid() {
@@ -1329,8 +1330,6 @@ public class ConnectionsManager extends BaseController {
     public static native void native_receivedIntegrityCheckClassic(int i, int i2, String str, String str2);
 
     public static native void native_resumeNetwork(int i, boolean z);
-
-    public static native void native_seSystemLangCode(int i, String str);
 
     public static native void native_sendRequest(int i, long j, int i2, int i3, int i4, boolean z, int i5);
 

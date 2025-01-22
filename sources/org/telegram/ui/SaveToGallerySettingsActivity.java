@@ -531,7 +531,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
             saveGalleryExceptions.put(dialogException.dialogId, dialogException);
             getUserConfig().updateSaveGalleryExceptions(this.type, saveGalleryExceptions);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -659,7 +659,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    SaveToGallerySettingsActivity.this.lambda$onBackPressed$321();
+                    SaveToGallerySettingsActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

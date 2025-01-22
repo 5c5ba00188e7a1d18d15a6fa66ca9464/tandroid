@@ -13,6 +13,7 @@ import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes3.dex */
@@ -377,11 +378,11 @@ public class CameraSession {
                 if (parameters != null) {
                     parameters.setFocusMode("auto");
                     ArrayList arrayList = new ArrayList();
-                    arrayList.add(new Camera.Area(rect, 1000));
+                    arrayList.add(new Camera.Area(rect, MediaDataController.MAX_STYLE_RUNS_COUNT));
                     parameters.setFocusAreas(arrayList);
                     if (this.meteringAreaSupported) {
                         ArrayList arrayList2 = new ArrayList();
-                        arrayList2.add(new Camera.Area(rect2, 1000));
+                        arrayList2.add(new Camera.Area(rect2, MediaDataController.MAX_STYLE_RUNS_COUNT));
                         parameters.setMeteringAreas(arrayList2);
                     }
                     try {
@@ -533,9 +534,9 @@ public class CameraSession {
         configurePhotoCamera();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0051  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0061  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0052  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0058  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

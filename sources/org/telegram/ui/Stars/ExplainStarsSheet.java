@@ -163,7 +163,7 @@ public class ExplainStarsSheet extends BottomSheetWithRecyclerListView {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView

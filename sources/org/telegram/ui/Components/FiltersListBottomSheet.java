@@ -244,7 +244,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 if (motionEvent.getAction() != 0 || FiltersListBottomSheet.this.scrollOffsetY == 0 || motionEvent.getY() >= FiltersListBottomSheet.this.scrollOffsetY) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                FiltersListBottomSheet.this.dismiss();
+                FiltersListBottomSheet.this.lambda$new$0();
                 return true;
             }
 
@@ -410,7 +410,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view, int i) {
         this.delegate.didSelectFilter(this.adapter.getItem(i), view instanceof BottomSheet.BottomSheetCell ? ((BottomSheet.BottomSheetCell) view).isChecked() : false);
-        dismiss();
+        lambda$new$0();
     }
 
     private void runShadowAnimation(final boolean z) {
@@ -502,8 +502,9 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
     }
 

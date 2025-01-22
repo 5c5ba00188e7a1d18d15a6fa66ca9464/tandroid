@@ -841,7 +841,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             PaymentFormActivityDelegate paymentFormActivityDelegate = this.delegate;
             if (paymentFormActivityDelegate != null) {
                 paymentFormActivityDelegate.didSelectNewAddress(this.validateRequest);
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
                 return;
             }
             if (this.paymentForm.invoice.flexible) {
@@ -942,7 +942,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     paymentFormActivity = new PaymentFormActivity(this.invoiceInput, paymentForm, this.messageObject, this.invoiceSlug, 4, this.requestedInfo, this.shippingOption, this.tipAmount, this.paymentJson, this.cardName, this.validateRequest, this.saveCardInfo, this.googlePayCredentials, this.parentFragment);
                 }
             }
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         if (this.paymentJson == null && this.cardName == null) {
@@ -1417,7 +1417,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$22(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$22(AlertDialog alertDialog, int i) {
         showPayAlert(this.totalPrice[0]);
     }
 
@@ -1527,10 +1527,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString(R.string.PaymentWarning));
                 builder.setMessage(LocaleController.formatString("PaymentWarningText", R.string.PaymentWarningText, this.currentBotName, str));
-                builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda31
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        PaymentFormActivity.this.lambda$createView$22(dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Continue), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda31
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        PaymentFormActivity.this.lambda$createView$22(alertDialog, i2);
                     }
                 });
                 showDialog(builder.create());
@@ -1581,7 +1581,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$28(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$28(AlertDialog alertDialog, int i) {
         sendSavePassword(true);
     }
 
@@ -1594,10 +1594,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         }
         builder.setMessage(string);
         builder.setTitle(LocaleController.getString(R.string.TurnPasswordOffQuestionTitle));
-        builder.setPositiveButton(LocaleController.getString(R.string.Disable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda34
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                PaymentFormActivity.this.lambda$createView$28(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Disable), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda34
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                PaymentFormActivity.this.lambda$createView$28(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1730,7 +1730,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         } else if (this.invoiceStatus != InvoiceStatus.PAID || isFinishing()) {
             return;
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2391,7 +2391,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$sendSavePassword$45(String str, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$sendSavePassword$45(String str, AlertDialog alertDialog, int i) {
         this.waitingForEmail = true;
         this.currentPassword.email_unconfirmed_pattern = str;
         updatePasswordFields();
@@ -2416,7 +2416,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             password.has_password = false;
             password.current_algo = null;
             this.delegate.currentPasswordUpdated(password);
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         if (tL_error == null && (tLObject instanceof TLRPC.TL_boolTrue)) {
@@ -2430,10 +2430,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             if (tL_error.text.equals("EMAIL_UNCONFIRMED") || tL_error.text.startsWith("EMAIL_UNCONFIRMED_")) {
                 this.emailCodeLength = Utilities.parseInt((CharSequence) tL_error.text).intValue();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda65
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        PaymentFormActivity.this.lambda$sendSavePassword$45(str, dialogInterface, i);
+                builder.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda65
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        PaymentFormActivity.this.lambda$sendSavePassword$45(str, alertDialog, i);
                     }
                 });
                 builder.setMessage(LocaleController.getString(R.string.YourEmailAlmostThereText));
@@ -2610,7 +2610,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPayAlert$36(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showPayAlert$36(AlertDialog alertDialog, int i) {
         setDonePressed(true);
         sendData();
     }
@@ -3208,7 +3208,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
         	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)
@@ -3448,10 +3448,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.PaymentTransactionReview));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("PaymentTransactionMessage2", R.string.PaymentTransactionMessage2, str, this.currentBotName, this.currentItemName)));
-        builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda50
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                PaymentFormActivity.this.lambda$showPayAlert$36(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Continue), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PaymentFormActivity$$ExternalSyntheticLambda50
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                PaymentFormActivity.this.lambda$showPayAlert$36(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -3842,7 +3842,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     if (PaymentFormActivity.this.donePressed) {
                         return;
                     }
-                    PaymentFormActivity.this.lambda$onBackPressed$321();
+                    PaymentFormActivity.this.lambda$onBackPressed$323();
                     return;
                 }
                 if (i15 != 1 || PaymentFormActivity.this.donePressed) {

@@ -37,6 +37,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -794,8 +795,8 @@ public class BotDownloads {
                         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(str).openConnection();
                         httpURLConnection.setRequestMethod("GET");
                         httpURLConnection.setRequestProperty("Accept-Encoding", "identity");
-                        httpURLConnection.setConnectTimeout(1000);
-                        httpURLConnection.setReadTimeout(1000);
+                        httpURLConnection.setConnectTimeout(MediaDataController.MAX_STYLE_RUNS_COUNT);
+                        httpURLConnection.setReadTimeout(MediaDataController.MAX_STYLE_RUNS_COUNT);
                         httpURLConnection.setUseCaches(false);
                         httpURLConnection.setDefaultUseCaches(false);
                         httpURLConnection.setDoOutput(false);
@@ -853,7 +854,7 @@ public class BotDownloads {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAlert$1(boolean[] zArr, Utilities.Callback callback, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAlert$1(boolean[] zArr, Utilities.Callback callback, AlertDialog alertDialog, int i) {
         if (zArr[0]) {
             return;
         }
@@ -862,7 +863,7 @@ public class BotDownloads {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAlert$2(boolean[] zArr, Utilities.Callback callback, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAlert$2(boolean[] zArr, Utilities.Callback callback, AlertDialog alertDialog, int i) {
         if (zArr[0]) {
             return;
         }
@@ -926,16 +927,16 @@ public class BotDownloads {
         linearLayout.addView(linearLayout2, LayoutHelper.createLinear(-1, -2, 23, 0, 0, 0, 2));
         builder.setView(linearLayout);
         final boolean[] zArr = new boolean[1];
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.BotDownloads$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                BotDownloads.lambda$showAlert$1(zArr, callback, dialogInterface, i2);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.bots.BotDownloads$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                BotDownloads.lambda$showAlert$1(zArr, callback, alertDialog, i2);
             }
         });
-        builder.setPositiveButton(LocaleController.getString(R.string.BotDownloadFileDownload), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.BotDownloads$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                BotDownloads.lambda$showAlert$2(zArr, callback, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.BotDownloadFileDownload), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.bots.BotDownloads$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                BotDownloads.lambda$showAlert$2(zArr, callback, alertDialog, i2);
             }
         });
         AlertDialog create = builder.create();

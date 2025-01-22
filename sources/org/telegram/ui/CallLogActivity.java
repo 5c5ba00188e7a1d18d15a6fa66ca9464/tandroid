@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -917,7 +916,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showDeleteAlert$5(boolean z, boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showDeleteAlert$5(boolean z, boolean[] zArr, AlertDialog alertDialog, int i) {
         if (z) {
             deleteAllMessages(zArr[0]);
             this.calls.clear();
@@ -957,10 +956,10 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             }
         });
         builder.setView(frameLayout);
-        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda11
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                CallLogActivity.this.lambda$showDeleteAlert$5(z, zArr, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda11
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                CallLogActivity.this.lambda$showDeleteAlert$5(z, zArr, alertDialog, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1087,7 +1086,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                         CallLogActivity.this.hideActionMode(true);
                         return;
                     } else {
-                        CallLogActivity.this.lambda$onBackPressed$321();
+                        CallLogActivity.this.lambda$onBackPressed$323();
                         return;
                     }
                 }

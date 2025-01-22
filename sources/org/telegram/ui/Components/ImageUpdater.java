@@ -17,6 +17,7 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
@@ -43,6 +44,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.ChatAttachAlert;
+import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoAlbumPickerActivity;
 import org.telegram.ui.PhotoCropActivity;
@@ -69,6 +71,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     public final int setForType;
     private boolean showingFromDialog;
     private TLRPC.PhotoSize smallPhoto;
+    private Bitmap smallPhotoBitmap;
     private boolean supportEmojiMarkup;
     private int type;
     private TLRPC.InputFile uploadedPhoto;
@@ -107,10 +110,14 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 return true;
             }
 
-            public static void $default$didStartUpload(ImageUpdaterDelegate imageUpdaterDelegate, boolean z) {
+            public static void $default$didStartUpload(ImageUpdaterDelegate imageUpdaterDelegate, boolean z, boolean z2) {
             }
 
             public static void $default$didUploadFailed(ImageUpdaterDelegate imageUpdaterDelegate) {
+            }
+
+            public static PhotoViewer.PlaceProviderObject $default$getCloseIntoObject(ImageUpdaterDelegate imageUpdaterDelegate) {
+                return null;
             }
 
             public static String $default$getInitialSearchString(ImageUpdaterDelegate imageUpdaterDelegate) {
@@ -119,19 +126,27 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
             public static void $default$onUploadProgressChanged(ImageUpdaterDelegate imageUpdaterDelegate, float f) {
             }
+
+            public static boolean $default$supportsBulletin(ImageUpdaterDelegate imageUpdaterDelegate) {
+                return false;
+            }
         }
 
         boolean canFinishFragment();
 
-        void didStartUpload(boolean z);
+        void didStartUpload(boolean z, boolean z2);
 
         void didUploadFailed();
 
         void didUploadPhoto(TLRPC.InputFile inputFile, TLRPC.InputFile inputFile2, double d, String str, TLRPC.PhotoSize photoSize, TLRPC.PhotoSize photoSize2, boolean z, TLRPC.VideoSize videoSize);
 
+        PhotoViewer.PlaceProviderObject getCloseIntoObject();
+
         String getInitialSearchString();
 
         void onUploadProgressChanged(float f);
+
+        boolean supportsBulletin();
     }
 
     public ImageUpdater(boolean z, int i, boolean z2) {
@@ -155,6 +170,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private void createChatAttachView() {
         TextView selectedTextView;
         String formatString;
+        Utilities.Callback0Return callback0Return;
         BaseFragment baseFragment = this.parentFragment;
         if (baseFragment == null || baseFragment.getParentActivity() == null) {
             return;
@@ -162,30 +178,46 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         if (this.chatAttachAlert == null) {
             ChatAttachAlert chatAttachAlert = new ChatAttachAlert(this.parentFragment.getParentActivity(), this.parentFragment, this.forceDarkTheme, this.showingFromDialog);
             this.chatAttachAlert = chatAttachAlert;
-            chatAttachAlert.setAvatarPicker(this.canSelectVideo ? 2 : 1, this.searchAvailable);
+            int i = this.canSelectVideo ? 2 : 1;
+            boolean z = this.searchAvailable;
+            ImageUpdaterDelegate imageUpdaterDelegate = this.delegate;
+            if (imageUpdaterDelegate == null || !imageUpdaterDelegate.supportsBulletin()) {
+                callback0Return = null;
+            } else {
+                final ImageUpdaterDelegate imageUpdaterDelegate2 = this.delegate;
+                Objects.requireNonNull(imageUpdaterDelegate2);
+                callback0Return = new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda1
+                    @Override // org.telegram.messenger.Utilities.Callback0Return
+                    public final Object run() {
+                        return ImageUpdater.ImageUpdaterDelegate.this.getCloseIntoObject();
+                    }
+                };
+            }
+            chatAttachAlert.setAvatarPicker(i, z, callback0Return);
             this.chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.2
-                private void processSelectedAttach(int i) {
-                    if (i == 0) {
+                private void processSelectedAttach(int i2) {
+                    if (i2 == 0) {
                         ImageUpdater.this.openCamera();
                     }
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public void didPressedButton(int i, boolean z, boolean z2, int i2, long j, boolean z3, boolean z4) {
+                public void didPressedButton(int i2, boolean z2, boolean z3, int i3, long j, boolean z4, boolean z5) {
                     BaseFragment baseFragment2 = ImageUpdater.this.parentFragment;
                     if (baseFragment2 == null || baseFragment2.getParentActivity() == null || ImageUpdater.this.chatAttachAlert == null) {
                         return;
                     }
-                    if (i != 8 && i != 7) {
-                        ImageUpdater.this.chatAttachAlert.dismissWithButtonClick(i);
-                        processSelectedAttach(i);
+                    if (i2 != 8 && i2 != 7) {
+                        ImageUpdater.this.chatAttachAlert.dismissWithButtonClick(i2);
+                        processSelectedAttach(i2);
                         return;
                     }
                     HashMap<Object, Object> selectedPhotos = ImageUpdater.this.chatAttachAlert.getPhotoLayout().getSelectedPhotos();
                     ArrayList<Object> selectedPhotosOrder = ImageUpdater.this.chatAttachAlert.getPhotoLayout().getSelectedPhotosOrder();
                     ArrayList arrayList = new ArrayList();
-                    for (int i3 = 0; i3 < selectedPhotosOrder.size(); i3++) {
-                        Object obj = selectedPhotos.get(selectedPhotosOrder.get(i3));
+                    boolean z6 = false;
+                    for (int i4 = 0; i4 < selectedPhotosOrder.size(); i4++) {
+                        Object obj = selectedPhotos.get(selectedPhotosOrder.get(i4));
                         SendMessagesHelper.SendingMediaInfo sendingMediaInfo = new SendMessagesHelper.SendingMediaInfo();
                         arrayList.add(sendingMediaInfo);
                         if (obj instanceof MediaController.PhotoEntry) {
@@ -203,7 +235,9 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                             sendingMediaInfo.entities = photoEntry.entities;
                             sendingMediaInfo.masks = photoEntry.stickers;
                             sendingMediaInfo.ttl = photoEntry.ttl;
-                            sendingMediaInfo.emojiMarkup = photoEntry.emojiMarkup;
+                            TLRPC.VideoSize videoSize = photoEntry.emojiMarkup;
+                            sendingMediaInfo.emojiMarkup = videoSize;
+                            z6 = videoSize instanceof TLRPC.TL_videoSizeEmojiMarkup;
                         } else if (obj instanceof MediaController.SearchImage) {
                             MediaController.SearchImage searchImage = (MediaController.SearchImage) obj;
                             String str2 = searchImage.imagePath;
@@ -227,8 +261,8 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                             searchImage.date = (int) (System.currentTimeMillis() / 1000);
                         }
                     }
-                    ImageUpdater.this.didSelectPhotos(arrayList);
-                    if (i != 8) {
+                    ImageUpdater.this.didSelectPhotos(z6, arrayList);
+                    if (i2 != 8) {
                         ImageUpdater.this.chatAttachAlert.dismiss(true);
                     }
                 }
@@ -268,18 +302,18 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 }
 
                 @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
-                public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z, int i, long j, boolean z2) {
-                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z, i, j, z2);
+                public /* synthetic */ void sendAudio(ArrayList arrayList, CharSequence charSequence, boolean z2, int i2, long j, boolean z3) {
+                    ChatAttachAlert.ChatAttachViewDelegate.-CC.$default$sendAudio(this, arrayList, charSequence, z2, i2, j, z3);
                 }
             });
             this.chatAttachAlert.setImageUpdater(this);
         }
-        int i = this.type;
-        if (i == 1) {
+        int i2 = this.type;
+        if (i2 == 1) {
             selectedTextView = this.chatAttachAlert.getSelectedTextView();
             formatString = LocaleController.formatString("SetPhotoFor", R.string.SetPhotoFor, this.user.first_name);
         } else {
-            if (i != 2) {
+            if (i2 != 2) {
                 return;
             }
             selectedTextView = this.chatAttachAlert.getSelectedTextView();
@@ -289,8 +323,9 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public void didSelectPhotos(ArrayList arrayList) {
+    public void didSelectPhotos(boolean z, ArrayList arrayList) {
         MessageObject messageObject;
+        boolean z2;
         File file;
         Bitmap loadBitmap;
         if (arrayList.isEmpty()) {
@@ -312,9 +347,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             bitmap = ImageLoader.loadBitmap(sendingMediaInfo.thumbPath, null, 800.0f, 800.0f, true);
         } else {
             String str = sendingMediaInfo.path;
-            if (str != null) {
-                loadBitmap = ImageLoader.loadBitmap(str, null, 800.0f, 800.0f, true);
-            } else {
+            if (str == null) {
                 MediaController.SearchImage searchImage = sendingMediaInfo.searchImage;
                 if (searchImage != null) {
                     TLRPC.Photo photo = searchImage.photo;
@@ -351,12 +384,16 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                         }
                     }
                 }
+                z2 = z;
                 messageObject = null;
+                processBitmap(z2, bitmap, messageObject);
             }
+            loadBitmap = ImageLoader.loadBitmap(str, null, 800.0f, 800.0f, true);
             messageObject = null;
             bitmap = loadBitmap;
         }
-        processBitmap(bitmap, messageObject);
+        z2 = z;
+        processBitmap(z2, bitmap, messageObject);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -400,7 +437,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             launchActivity.lambda$runLinkRequest$95(photoCropActivity);
         } catch (Exception e) {
             FileLog.e(e);
-            processBitmap(ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);
+            processBitmap(false, ImageLoader.loadBitmap(str, uri, 800.0f, 800.0f, true), null);
         }
     }
 
@@ -428,7 +465,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         this.parentFragment.showDialog(chatAttachAlert);
     }
 
-    private void processBitmap(Bitmap bitmap, MessageObject messageObject) {
+    private void processBitmap(boolean z, Bitmap bitmap, MessageObject messageObject) {
         if (bitmap == null) {
             return;
         }
@@ -442,7 +479,9 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         this.smallPhoto = scaleAndSaveImage;
         if (scaleAndSaveImage != null) {
             try {
-                ImageLoader.getInstance().putImageToCache(new BitmapDrawable(BitmapFactory.decodeFile(FileLoader.getInstance(this.currentAccount).getPathToAttach(this.smallPhoto, true).getAbsolutePath())), this.smallPhoto.location.volume_id + "_" + this.smallPhoto.location.local_id + "@50_50", true);
+                Bitmap decodeFile = BitmapFactory.decodeFile(FileLoader.getInstance(this.currentAccount).getPathToAttach(this.smallPhoto, true).getAbsolutePath());
+                this.smallPhotoBitmap = decodeFile;
+                ImageLoader.getInstance().putImageToCache(new BitmapDrawable(decodeFile), this.smallPhoto.location.volume_id + "_" + this.smallPhoto.location.local_id + "@50_50", true);
             } catch (Throwable unused) {
             }
         }
@@ -454,14 +493,14 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                 if (messageObject == null || messageObject.videoEditedInfo == null) {
                     ImageUpdaterDelegate imageUpdaterDelegate = this.delegate;
                     if (imageUpdaterDelegate != null) {
-                        imageUpdaterDelegate.didStartUpload(false);
+                        imageUpdaterDelegate.didStartUpload(z, false);
                     }
                     this.isVideo = false;
                 } else {
                     if (this.supportEmojiMarkup && !MessagesController.getInstance(this.currentAccount).uploadMarkupVideo) {
                         ImageUpdaterDelegate imageUpdaterDelegate2 = this.delegate;
                         if (imageUpdaterDelegate2 != null) {
-                            imageUpdaterDelegate2.didStartUpload(true);
+                            imageUpdaterDelegate2.didStartUpload(z, true);
                         }
                         ImageUpdaterDelegate imageUpdaterDelegate3 = this.delegate;
                         if (imageUpdaterDelegate3 != null) {
@@ -489,7 +528,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     this.uploadingImage = null;
                     ImageUpdaterDelegate imageUpdaterDelegate4 = this.delegate;
                     if (imageUpdaterDelegate4 != null) {
-                        imageUpdaterDelegate4.didStartUpload(true);
+                        imageUpdaterDelegate4.didStartUpload(z, true);
                     }
                     this.isVideo = true;
                 }
@@ -547,7 +586,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
     @Override // org.telegram.ui.PhotoCropActivity.PhotoEditActivityDelegate
     public void didFinishEdit(Bitmap bitmap) {
-        processBitmap(bitmap, null);
+        processBitmap(false, bitmap, null);
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -606,7 +645,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                     NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.httpFileDidFailedLoad);
                     this.uploadingImage = null;
                     if (i == i4 || i == i5) {
-                        processBitmap(ImageLoader.loadBitmap(this.finalPath, null, 800.0f, 800.0f, true), null);
+                        processBitmap(false, ImageLoader.loadBitmap(this.finalPath, null, 800.0f, 800.0f, true), null);
                         return;
                     }
                     this.imageReceiver.setImageBitmap((Drawable) null);
@@ -706,6 +745,10 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
 
     public float getCurrentImageProgress() {
         return this.currentImageProgress;
+    }
+
+    public Bitmap getPreviewBitmap() {
+        return this.smallPhotoBitmap;
     }
 
     public boolean isCanceled() {
@@ -849,7 +892,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         photoAlbumPickerActivity.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() { // from class: org.telegram.ui.Components.ImageUpdater.3
             @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
             public void didSelectPhotos(ArrayList arrayList, boolean z, int i2) {
-                ImageUpdater.this.didSelectPhotos(arrayList);
+                ImageUpdater.this.didSelectPhotos(false, arrayList);
             }
 
             @Override // org.telegram.ui.PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate
@@ -908,7 +951,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         for (int i2 = 0; i2 < size; i2++) {
             iArr[i2] = ((Integer) arrayList2.get(i2)).intValue();
         }
-        builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda1
+        builder.setItems((CharSequence[]) arrayList.toArray(new CharSequence[0]), iArr, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ImageUpdater$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 ImageUpdater.this.lambda$openMenu$0(arrayList3, runnable, dialogInterface, i3);
@@ -945,10 +988,19 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z2, boolean z3) {
+                if (ImageUpdater.this.delegate == null) {
+                    return null;
+                }
+                return ImageUpdater.this.delegate.getCloseIntoObject();
+            }
+
+            @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
             public void sendButtonPressed(int i, VideoEditedInfo videoEditedInfo, boolean z2, int i2, boolean z3) {
                 ImageUpdater.this.processEntry((MediaController.PhotoEntry) arrayList.get(0));
             }
         }, null);
+        PhotoViewer.getInstance().closePhotoAfterSelectWithAnimation = true;
     }
 
     public void openSearch() {
@@ -989,7 +1041,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
                         sendingMediaInfo.ttl = searchImage.ttl;
                     }
                 }
-                ImageUpdater.this.didSelectPhotos(arrayList2);
+                ImageUpdater.this.didSelectPhotos(false, arrayList2);
             }
 
             @Override // org.telegram.ui.PhotoPickerActivity.PhotoPickerActivityDelegate
@@ -1079,7 +1131,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
         } else {
             loadBitmap = ImageLoader.loadBitmap(str, null, 800.0f, 800.0f, true);
         }
-        processBitmap(loadBitmap, messageObject);
+        processBitmap(false, loadBitmap, messageObject);
     }
 
     public void setDelegate(ImageUpdaterDelegate imageUpdaterDelegate) {

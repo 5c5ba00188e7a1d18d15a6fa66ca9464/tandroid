@@ -367,7 +367,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         } else if (!tL_contacts_importedContacts.users.isEmpty()) {
             MessagesController.getInstance(this.currentAccount).putUsers(tL_contacts_importedContacts.users, false);
             MessagesController.getInstance(this.currentAccount).openChatOrProfileWith(tL_contacts_importedContacts.users.get(0), null, this.parentFragment, 1, false);
-            dismiss();
+            lambda$new$0();
         } else {
             if (this.parentFragment.getParentActivity() == null) {
                 return;
@@ -978,8 +978,9 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {

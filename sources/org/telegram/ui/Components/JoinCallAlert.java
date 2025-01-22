@@ -347,7 +347,7 @@ public class JoinCallAlert extends BottomSheet {
                     if (motionEvent.getAction() != 0 || JoinCallAlert.this.scrollOffsetY == 0 || motionEvent.getY() >= JoinCallAlert.this.scrollOffsetY) {
                         return super.onInterceptTouchEvent(motionEvent);
                     }
-                    JoinCallAlert.this.dismiss();
+                    JoinCallAlert.this.lambda$new$0();
                     return true;
                 }
 
@@ -646,14 +646,14 @@ public class JoinCallAlert extends BottomSheet {
         } else if (this.selectedPeer != this.currentPeer) {
             joinCallAlertDelegate.didSelectChat(inputPeer, this.chats.size() > 1, false, false);
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(View view) {
         this.selectAfterDismiss = MessagesController.getInstance(this.currentAccount).getInputPeer(MessageObject.getPeerId(this.selectedPeer));
         this.schedule = true;
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

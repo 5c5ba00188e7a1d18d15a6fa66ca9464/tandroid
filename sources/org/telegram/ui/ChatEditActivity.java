@@ -221,17 +221,17 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
         /* JADX WARN: Code restructure failed: missing block: B:14:0x0036, code lost:
         
-            if (r9 != null) goto L25;
+            if (r8 != null) goto L25;
          */
         /* JADX WARN: Code restructure failed: missing block: B:39:0x0055, code lost:
         
-            if (r9 != null) goto L25;
+            if (r8 != null) goto L25;
          */
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
+        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z, boolean z2) {
             TLRPC.FileLocation fileLocation2;
             if (fileLocation == null) {
                 return null;
@@ -353,15 +353,15 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             if ((editTextEmoji2 == null || this.currentUser.first_name.equals(editTextEmoji2.getText().toString())) && ((editTextBoldCursor2 = this.descriptionTextView) == null || str4.equals(editTextBoldCursor2.getText().toString()))) {
                 return true;
             }
-            builder = new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges)).setMessage(LocaleController.getString(R.string.BotSettingsChangedAlert)).setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda32
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    ChatEditActivity.this.lambda$checkDiscard$42(dialogInterface, i2);
+            builder = new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString("UserRestrictionsApplyChanges", R.string.UserRestrictionsApplyChanges)).setMessage(LocaleController.getString(R.string.BotSettingsChangedAlert)).setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda32
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    ChatEditActivity.this.lambda$checkDiscard$42(alertDialog, i2);
                 }
-            }).setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda33
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    ChatEditActivity.this.lambda$checkDiscard$43(dialogInterface, i2);
+            }).setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda33
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    ChatEditActivity.this.lambda$checkDiscard$43(alertDialog, i2);
                 }
             });
         } else {
@@ -382,16 +382,16 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 str = "GroupSettingsChangedAlert";
             }
             builder.setMessage(LocaleController.getString(str, i));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda34
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    ChatEditActivity.this.lambda$checkDiscard$44(dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda34
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    ChatEditActivity.this.lambda$checkDiscard$44(alertDialog, i2);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda35
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    ChatEditActivity.this.lambda$checkDiscard$45(dialogInterface, i2);
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda35
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    ChatEditActivity.this.lambda$checkDiscard$45(alertDialog, i2);
                 }
             });
         }
@@ -431,23 +431,23 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$42(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$42(AlertDialog alertDialog, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$43(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$checkDiscard$43(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$44(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$44(AlertDialog alertDialog, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$45(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$checkDiscard$45(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -770,7 +770,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         } else {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needDeleteDialog, Long.valueOf(-this.currentChat.id), null, this.currentChat, Boolean.valueOf(z));
     }
 
@@ -1006,7 +1006,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$46() {
         this.progressDialog.dismiss();
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1185,7 +1185,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
             }
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX WARN: Removed duplicated region for block: B:20:0x0075  */
@@ -1935,7 +1935,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             public void onItemClick(int i8) {
                 if (i8 == -1) {
                     if (ChatEditActivity.this.checkDiscard()) {
-                        ChatEditActivity.this.lambda$onBackPressed$321();
+                        ChatEditActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i8 == 1) {
                     ChatEditActivity.this.processDone();
@@ -2982,7 +2982,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
      */
     /* JADX WARN: Code restructure failed: missing block: B:50:0x024e, code lost:
     
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
      */
     /* JADX WARN: Code restructure failed: missing block: B:51:?, code lost:
     
@@ -3135,7 +3135,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didStartUpload(boolean z) {
+    public void didStartUpload(boolean z, boolean z2) {
         RadialProgressView radialProgressView = this.avatarProgressView;
         if (radialProgressView == null) {
             return;
@@ -3169,6 +3169,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean dismissDialogOnPause(Dialog dialog) {
         return this.imageUpdater.dismissDialogOnPause(dialog) && super.dismissDialogOnPause(dialog);
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -3579,6 +3584,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
     public void showConvertTooltip() {
         this.undoView.showWithAction(0L, 76, (Runnable) null);
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ boolean supportsBulletin() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
     }
 
     public void updateColorCell() {

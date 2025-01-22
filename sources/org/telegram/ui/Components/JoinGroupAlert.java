@@ -344,7 +344,7 @@ public class JoinGroupAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -358,7 +358,7 @@ public class JoinGroupAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$10(final int i, View view) {
-        dismiss();
+        lambda$new$0();
         final TLRPC.TL_messages_importChatInvite tL_messages_importChatInvite = new TLRPC.TL_messages_importChatInvite();
         tL_messages_importChatInvite.hash = this.hash;
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_importChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda3
@@ -384,7 +384,7 @@ public class JoinGroupAlert extends BottomSheet {
                 }
             });
         }
-        dismiss();
+        lambda$new$0();
         return false;
     }
 
@@ -411,7 +411,7 @@ public class JoinGroupAlert extends BottomSheet {
                 AlertsCreator.processError(this.currentAccount, tL_error, this.fragment, tL_messages_importChatInvite, new Object[0]);
             }
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -436,7 +436,7 @@ public class JoinGroupAlert extends BottomSheet {
             MessagesController.getInstance(this.currentAccount).addUserToChat(this.currentChat.id, UserConfig.getInstance(this.currentAccount).getCurrentUser(), 0, null, null, true, new Runnable() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
-                    JoinGroupAlert.this.dismiss();
+                    JoinGroupAlert.this.lambda$new$0();
                 }
             }, new MessagesController.ErrorDelegate() { // from class: org.telegram.ui.Components.JoinGroupAlert$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.MessagesController.ErrorDelegate

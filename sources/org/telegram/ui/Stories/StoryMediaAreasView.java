@@ -527,23 +527,23 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
         return areaView != null && (areaView.scaleOnTap || this.selectedArea.supportsBounds);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x020a  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0216  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x023c  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0248  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0265  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0276  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0293  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0296  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x02a4  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02f9  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x02fb  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x0298  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0279  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x024b  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x023f  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x020d  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x020c  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x023e  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x024a  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0267  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0278  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0295  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0298  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x02fb  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x029a  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x027b  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x024d  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0241  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x020f  */
     @Override // android.view.View.OnClickListener
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -674,7 +674,7 @@ public abstract class StoryMediaAreasView extends FrameLayout implements View.On
                         fontMetricsInt.top -= AndroidUtilities.dp(2.0f);
                     }
                 }, length, spannableStringBuilder.length(), 33);
-                duration.setInnerPadding(11, 7, 11, 7);
+                duration.setInnerPadding(11.0f, 7.0f, 11.0f, 7.0f);
                 z = true;
                 SpannableString spannableString = new SpannableString(">");
                 ColoredImageSpan coloredImageSpan = new ColoredImageSpan(org.telegram.messenger.R.drawable.photos_arrow);

@@ -317,7 +317,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             StickersAlert.this.stickerSet.documents.remove(document);
             final boolean isEmpty = StickersAlert.this.stickerSet.documents.isEmpty();
             if (isEmpty) {
-                StickersAlert.this.dismiss();
+                StickersAlert.this.lambda$new$0();
             }
             StickersAlert.this.adapter.notifyDataSetChanged();
             final AlertDialog alertDialog = new AlertDialog(StickersAlert.this.getContext(), 3, ((BottomSheet) StickersAlert.this).resourcesProvider);
@@ -478,7 +478,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 return;
             }
             StickersAlert.this.delegate.lambda$onStickerSelected$68(document, str, obj, null, StickersAlert.this.clearsInputField, z, i);
-            StickersAlert.this.dismiss();
+            StickersAlert.this.lambda$new$0();
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -1217,7 +1217,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             TLRPC.TL_messages_stickerSet filterPremiumStickers = MessagesController.getInstance(this.currentAccount).filterPremiumStickers(this.stickerSet);
             this.stickerSet = filterPremiumStickers;
             if (filterPremiumStickers == null) {
-                dismiss();
+                lambda$new$0();
             }
         }
     }
@@ -1406,7 +1406,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 if (motionEvent.getAction() != 0 || StickersAlert.this.scrollOffsetY == 0 || motionEvent.getY() >= StickersAlert.this.scrollOffsetY) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                StickersAlert.this.dismiss();
+                StickersAlert.this.lambda$new$0();
                 return true;
             }
 
@@ -1859,13 +1859,13 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkOptions$15(View view) {
         this.optionsButton.closeSubMenu();
-        dismiss();
+        lambda$new$0();
         MediaDataController.getInstance(this.currentAccount).toggleStickerSet(getContext(), this.stickerSet, 1, this.parentFragment, true, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkOptions$16() {
-        dismiss();
+        lambda$new$0();
         MediaDataController.getInstance(this.currentAccount).toggleStickerSet(getContext(), this.stickerSet, 1, this.parentFragment, false, false);
     }
 
@@ -1888,7 +1888,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkOptions$19(View view) {
         this.optionsButton.closeSubMenu();
-        dismiss();
+        lambda$new$0();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda46
             @Override // java.lang.Runnable
             public final void run() {
@@ -2006,7 +2006,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     public /* synthetic */ void lambda$init$13(View view) {
         if (this.importingStickersPaths == null) {
             this.delegate.lambda$onStickerSelected$68(this.selectedSticker, null, this.stickerSet, null, this.clearsInputField, true, 0);
-            dismiss();
+            lambda$new$0();
         } else {
             removeSticker(this.selectedStickerPath);
             hidePreview();
@@ -2045,7 +2045,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             TLRPC.StickerSetCovered stickerSetCovered = (TLRPC.StickerSetCovered) this.adapter.positionsToSets.get(i);
             if (stickerSetCovered != null) {
                 this.ignoreMasterDismiss = true;
-                dismiss();
+                lambda$new$0();
                 TLRPC.TL_inputStickerSetID tL_inputStickerSetID = new TLRPC.TL_inputStickerSetID();
                 TLRPC.StickerSet stickerSet2 = stickerSetCovered.set;
                 tL_inputStickerSetID.access_hash = stickerSet2.access_hash;
@@ -2132,7 +2132,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         boolean z = false;
         this.reqId = 0;
         if (tL_error != null) {
-            dismiss();
+            lambda$new$0();
             BaseFragment baseFragment = this.parentFragment;
             if (baseFragment != null) {
                 BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString(R.string.AddStickersNotFound)).show();
@@ -2149,7 +2149,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         mediaDataController.putStickerSet(tL_messages_stickerSet, false);
         TLRPC.TL_messages_stickerSet tL_messages_stickerSet2 = this.stickerSet;
         if (tL_messages_stickerSet2 != null && tL_messages_stickerSet2.documents.isEmpty()) {
-            dismiss();
+            lambda$new$0();
             return;
         }
         TLRPC.TL_messages_stickerSet tL_messages_stickerSet3 = this.stickerSet;
@@ -2203,7 +2203,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         } else {
             AlertsCreator.processError(this.currentAccount, tL_error, this.parentFragment, tL_messages_getAttachedStickers, new Object[0]);
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2229,7 +2229,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     public /* synthetic */ void lambda$new$3(ArrayList arrayList, Boolean bool) {
         this.importingStickersPaths = arrayList;
         if (arrayList.isEmpty()) {
-            dismiss();
+            lambda$new$0();
             return;
         }
         this.adapter.notifyDataSetChanged();
@@ -2342,12 +2342,12 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onSubItemClick$23() {
-        dismiss();
+        lambda$new$0();
         MediaDataController.getInstance(this.currentAccount).toggleStickerSet(getContext(), this.stickerSet, 1, this.parentFragment, false, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showNameEnterAlert$34(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showNameEnterAlert$34(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2447,7 +2447,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                 }
             });
             builder.getDismissRunnable().run();
-            dismiss();
+            lambda$new$0();
         }
     }
 
@@ -2464,7 +2464,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateFields$25(View view) {
         if (this.customButtonDelegate.onCustomButtonPressed()) {
-            dismiss();
+            lambda$new$0();
         }
     }
 
@@ -2501,7 +2501,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateFields$28(View view) {
-        dismiss();
+        lambda$new$0();
         StickersAlertInstallDelegate stickersAlertInstallDelegate = this.installDelegate;
         if (stickersAlertInstallDelegate != null) {
             stickersAlertInstallDelegate.onStickerSetInstalled();
@@ -2534,7 +2534,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (stickersAlertInstallDelegate != null) {
             stickersAlertInstallDelegate.onStickerSetUninstalled();
         }
-        dismiss();
+        lambda$new$0();
         MediaDataController.getInstance(this.currentAccount).toggleStickerSet(getContext(), this.stickerSet, 1, this.parentFragment, true, this.showTooltipWhenToggle);
     }
 
@@ -2544,7 +2544,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         if (stickersAlertInstallDelegate != null) {
             stickersAlertInstallDelegate.onStickerSetUninstalled();
         }
-        dismiss();
+        lambda$new$0();
         MediaDataController.getInstance(this.currentAccount).toggleStickerSet(getContext(), this.stickerSet, 0, this.parentFragment, true, this.showTooltipWhenToggle);
     }
 
@@ -2555,7 +2555,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateFields$33(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2647,7 +2647,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             this.importingStickersPaths.remove(indexOf);
             this.adapter.notifyItemRemoved(indexOf);
             if (this.importingStickersPaths.isEmpty()) {
-                dismiss();
+                lambda$new$0();
             } else {
                 updateFields();
             }
@@ -2779,10 +2779,10 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
         FrameLayout frameLayout = new FrameLayout(context);
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString(R.string.ImportStickersEnterName));
-        builder.setPositiveButton(LocaleController.getString(R.string.Next), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda25
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                StickersAlert.lambda$showNameEnterAlert$34(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Next), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda25
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                StickersAlert.lambda$showNameEnterAlert$34(alertDialog, i);
             }
         });
         LinearLayout linearLayout = new LinearLayout(context);
@@ -2845,9 +2845,9 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
             }
         });
         editTextBoldCursor.setSelection(editTextBoldCursor.length());
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda27
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.StickersAlert$$ExternalSyntheticLambda27
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
                 AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
             }
         });
@@ -2955,7 +2955,7 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
                     @Override // org.telegram.ui.Components.URLSpanNoUnderline, android.text.style.URLSpan, android.text.style.ClickableSpan
                     public void onClick(View view) {
                         MessagesController.getInstance(((BottomSheet) StickersAlert.this).currentAccount).openByUserName(getURL(), StickersAlert.this.parentFragment, 1);
-                        StickersAlert.this.dismiss();
+                        StickersAlert.this.lambda$new$0();
                     }
                 }, start, end, 0);
             }
@@ -3232,9 +3232,10 @@ public class StickersAlert extends BottomSheet implements NotificationCenter.Not
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         Runnable runnable;
-        super.dismiss();
+        super.lambda$new$0();
         this.stickersShaker.stopShake(false);
         if (!this.ignoreMasterDismiss && (runnable = this.masterDismissListener) != null) {
             runnable.run();

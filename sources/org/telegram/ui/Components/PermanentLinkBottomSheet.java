@@ -203,7 +203,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -216,7 +216,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         ManageLinksActivity manageLinksActivity = new ManageLinksActivity(chatFull.id, 0L, 0);
         manageLinksActivity.setInfo(chatFull, chatFull.exported_invite);
         baseFragment.presentFragment(manageLinksActivity);
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -240,8 +240,9 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet

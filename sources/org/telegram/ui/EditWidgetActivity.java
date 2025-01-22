@@ -1293,7 +1293,7 @@ public class EditWidgetActivity extends BaseFragment {
                         EditWidgetActivity.this.finishActivity();
                         return;
                     } else {
-                        EditWidgetActivity.this.lambda$onBackPressed$321();
+                        EditWidgetActivity.this.lambda$onBackPressed$323();
                         return;
                     }
                 }

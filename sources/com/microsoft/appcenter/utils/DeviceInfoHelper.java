@@ -13,6 +13,7 @@ import com.microsoft.appcenter.ingestion.models.Device;
 import com.microsoft.appcenter.ingestion.models.WrapperSdk;
 import java.util.Locale;
 import java.util.TimeZone;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public abstract class DeviceInfoHelper {
@@ -61,7 +62,7 @@ public abstract class DeviceInfoHelper {
                     }
                     device.setSdkName("appcenter.android");
                     device.setSdkVersion("3.3.1");
-                    device.setTimeZoneOffset(Integer.valueOf((TimeZone.getDefault().getOffset(System.currentTimeMillis()) / 60) / 1000));
+                    device.setTimeZoneOffset(Integer.valueOf((TimeZone.getDefault().getOffset(System.currentTimeMillis()) / 60) / MediaDataController.MAX_STYLE_RUNS_COUNT));
                     WrapperSdk wrapperSdk = sWrapperSdk;
                     if (wrapperSdk != null) {
                         device.setWrapperSdkVersion(wrapperSdk.getWrapperSdkVersion());

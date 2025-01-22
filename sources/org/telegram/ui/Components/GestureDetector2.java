@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes3.dex */
@@ -317,7 +318,7 @@ public class GestureDetector2 {
                 } else if (!this.mIgnoreNextUpEvent) {
                     VelocityTracker velocityTracker = this.mVelocityTracker;
                     int pointerId = motionEvent.getPointerId(0);
-                    velocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
+                    velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaximumFlingVelocity);
                     float yVelocity = velocityTracker.getYVelocity(pointerId);
                     float xVelocity = velocityTracker.getXVelocity(pointerId);
                     if (Math.abs(yVelocity) > this.mMinimumFlingVelocity || Math.abs(xVelocity) > this.mMinimumFlingVelocity) {
@@ -363,7 +364,7 @@ public class GestureDetector2 {
             this.mDownFocusX = f4;
             this.mLastFocusY = f5;
             this.mDownFocusY = f5;
-            this.mVelocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
+            this.mVelocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaximumFlingVelocity);
             int actionIndex2 = motionEvent.getActionIndex();
             int pointerId2 = motionEvent.getPointerId(actionIndex2);
             float xVelocity2 = this.mVelocityTracker.getXVelocity(pointerId2);

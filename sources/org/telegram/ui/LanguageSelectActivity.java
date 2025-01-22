@@ -559,7 +559,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5(LocaleController.LocaleInfo localeInfo, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$5(LocaleController.LocaleInfo localeInfo, AlertDialog alertDialog, int i) {
         if (LocaleController.getInstance().deleteLanguage(localeInfo, this.currentAccount)) {
             fillLanguages();
             ArrayList arrayList = this.searchResult;
@@ -604,10 +604,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString(R.string.DeleteLocalizationTitle));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", R.string.DeleteLocalizationText, localeInfo.name)));
-                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        LanguageSelectActivity.this.lambda$createView$5(localeInfo, dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        LanguageSelectActivity.this.lambda$createView$5(localeInfo, alertDialog, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -728,7 +728,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    LanguageSelectActivity.this.lambda$onBackPressed$321();
+                    LanguageSelectActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

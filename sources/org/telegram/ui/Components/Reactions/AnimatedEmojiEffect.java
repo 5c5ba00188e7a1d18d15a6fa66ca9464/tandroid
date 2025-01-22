@@ -153,7 +153,7 @@ public class AnimatedEmojiEffect {
                 this.toSize = width3 * (((Math.abs(Utilities.fastRandom.nextInt() % 100) / 100.0f) * 1.5f) + 1.5f);
                 this.toY1 = (this.fromSize / 2.0f) + (AnimatedEmojiEffect.this.bounds.height() * 0.1f * (Math.abs(Utilities.fastRandom.nextInt() % 100) / 100.0f));
                 this.toY2 = AnimatedEmojiEffect.this.bounds.height() + this.fromSize;
-                j = Math.abs(Utilities.fastRandom.nextInt() % 600) + 1000;
+                j = Math.abs(Utilities.fastRandom.nextInt() % 600) + MediaDataController.MAX_STYLE_RUNS_COUNT;
             } else {
                 float width4 = width2 + (AnimatedEmojiEffect.this.bounds.width() * 0.1f * (Math.abs(Utilities.fastRandom.nextInt() % 100) / 100.0f));
                 this.fromSize = width4;

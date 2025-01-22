@@ -362,7 +362,7 @@ public abstract class CachedMediaLayout extends FrameLayout implements NestedSiz
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
+        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z, boolean z2) {
             SharedPhotoVideoCell2 cellForIndex = CachedMediaLayout.this.getCellForIndex(i);
             if (cellForIndex == null) {
                 return null;

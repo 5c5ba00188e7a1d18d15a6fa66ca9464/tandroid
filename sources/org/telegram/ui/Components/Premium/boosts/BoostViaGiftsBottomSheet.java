@@ -370,13 +370,13 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         }
         if (!bool.booleanValue()) {
             if (str != null) {
-                dismiss();
+                lambda$new$0();
                 BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, str)).show();
                 return;
             }
             return;
         }
-        dismiss();
+        lambda$new$0();
         final ChatActivity of = ChatActivity.of(-this.currentChat.id);
         safeLastFragment.presentFragment(of);
         safeLastFragment.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda25
@@ -397,7 +397,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$14(Void r3) {
-        dismiss();
+        lambda$new$0();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
@@ -426,7 +426,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$18(Void r3) {
-        dismiss();
+        lambda$new$0();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
@@ -675,7 +675,7 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$8(TL_stories.TL_prepaidStarsGiveaway tL_prepaidStarsGiveaway, long j, final long j2, final TL_stories.PrepaidGiveaway prepaidGiveaway, Void r7) {
-        dismiss();
+        lambda$new$0();
         if (tL_prepaidStarsGiveaway == null) {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostViaGiftsBottomSheet$$ExternalSyntheticLambda27
                 @Override // java.lang.Runnable
@@ -771,28 +771,35 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
 
     private void updateActionButton(boolean z) {
         ActionBtnCell actionBtnCell;
-        int selectedSliderValueWithBoosts;
-        if (isPreparedGiveaway()) {
+        int giveawayBoostsPerPremium;
+        if (!isPreparedGiveaway()) {
+            if (this.selectedBoostSubType == BoostTypeCell.TYPE_GIVEAWAY) {
+                this.actionBtn.setStartGiveAwayStyle(getSelectedSliderValueWithBoosts(), z);
+                return;
+            } else {
+                this.actionBtn.setGiftPremiumStyle(this.selectedUsers.size() * BoostRepository.giveawayBoostsPerPremium(), z, this.selectedUsers.size() > 0);
+                return;
+            }
+        }
+        TL_stories.PrepaidGiveaway prepaidGiveaway = this.prepaidGiveaway;
+        if (prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway) {
             actionBtnCell = this.actionBtn;
-            selectedSliderValueWithBoosts = this.prepaidGiveaway.quantity * BoostRepository.giveawayBoostsPerPremium();
-        } else if (this.selectedBoostSubType != BoostTypeCell.TYPE_GIVEAWAY) {
-            this.actionBtn.setGiftPremiumStyle(this.selectedUsers.size() * BoostRepository.giveawayBoostsPerPremium(), z, this.selectedUsers.size() > 0);
-            return;
+            giveawayBoostsPerPremium = prepaidGiveaway.quantity;
         } else {
             actionBtnCell = this.actionBtn;
-            selectedSliderValueWithBoosts = getSelectedSliderValueWithBoosts();
+            giveawayBoostsPerPremium = prepaidGiveaway.quantity * BoostRepository.giveawayBoostsPerPremium();
         }
-        actionBtnCell.setStartGiveAwayStyle(selectedSliderValueWithBoosts, z);
+        actionBtnCell.setStartGiveAwayStyle(giveawayBoostsPerPremium, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:108:0x052b  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x05c5  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x05d5  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0579  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x04f8  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x062a  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0632  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x0452  */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x054f  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x05e9  */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x05f9  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x051c  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x064e  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x0656  */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x0476  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -803,10 +810,10 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         ArrayList arrayList3;
         BoostAdapter.Item asDivider;
         boolean z3;
+        boolean z4;
         ArrayList arrayList4;
         TLRPC.Chat chat;
-        int selectedSliderValueWithBoosts;
-        boolean z4;
+        int giveawayBoostsPerPremium;
         ArrayList arrayList5;
         CharSequence string;
         boolean z5;
@@ -822,10 +829,10 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         String formatPluralString3;
         BoostAdapter boostAdapter;
         boolean z8;
+        boolean z9;
         ArrayList arrayList10;
         TLRPC.Chat chat2;
-        int selectedSliderValueWithBoosts2;
-        boolean z9;
+        int giveawayBoostsPerPremium2;
         ArrayList arrayList11;
         ArrayList arrayList12 = new ArrayList(this.items);
         this.items.clear();
@@ -852,26 +859,31 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
                 }
                 this.items.add(BoostAdapter.Item.asSubTitle(LocaleController.getString(R.string.BoostingChannelsGroupsIncludedGiveaway)));
                 if (isPreparedGiveaway()) {
-                    arrayList4 = this.items;
-                    chat = this.currentChat;
-                    selectedSliderValueWithBoosts = this.prepaidGiveaway.quantity * BoostRepository.giveawayBoostsPerPremium();
-                    z3 = false;
+                    TL_stories.PrepaidGiveaway prepaidGiveaway = this.prepaidGiveaway;
+                    if (prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway) {
+                        arrayList4 = this.items;
+                        chat = this.currentChat;
+                        giveawayBoostsPerPremium = prepaidGiveaway.quantity;
+                        z4 = false;
+                    } else {
+                        z4 = false;
+                        arrayList4 = this.items;
+                        chat = this.currentChat;
+                        giveawayBoostsPerPremium = prepaidGiveaway.quantity * BoostRepository.giveawayBoostsPerPremium();
+                    }
+                    arrayList4.add(BoostAdapter.Item.asChat(chat, z4, giveawayBoostsPerPremium));
                 } else {
-                    z3 = false;
-                    arrayList4 = this.items;
-                    chat = this.currentChat;
-                    selectedSliderValueWithBoosts = getSelectedSliderValueWithBoosts();
+                    this.items.add(BoostAdapter.Item.asChat(this.currentChat, false, getSelectedSliderValueWithBoosts()));
                 }
-                arrayList4.add(BoostAdapter.Item.asChat(chat, z3, selectedSliderValueWithBoosts));
                 for (TLObject tLObject : this.selectedChats) {
                     if (tLObject instanceof TLRPC.Chat) {
-                        z4 = true;
+                        z3 = true;
                         this.items.add(BoostAdapter.Item.asChat((TLRPC.Chat) tLObject, true, getSelectedSliderValueWithBoosts()));
                     } else {
-                        z4 = true;
+                        z3 = true;
                     }
                     if (tLObject instanceof TLRPC.InputPeer) {
-                        this.items.add(BoostAdapter.Item.asPeer((TLRPC.InputPeer) tLObject, z4, getSelectedSliderValueWithBoosts()));
+                        this.items.add(BoostAdapter.Item.asPeer((TLRPC.InputPeer) tLObject, z3, getSelectedSliderValueWithBoosts()));
                     }
                 }
                 if (this.selectedChats.size() < BoostRepository.giveawayAddPeersMax()) {
@@ -999,9 +1011,9 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         }
         if (isPreparedGiveaway()) {
             arrayList2 = arrayList12;
-            TL_stories.PrepaidGiveaway prepaidGiveaway = this.prepaidGiveaway;
-            if (prepaidGiveaway instanceof TL_stories.TL_prepaidStarsGiveaway) {
-                this.selectedStars = ((TL_stories.TL_prepaidStarsGiveaway) prepaidGiveaway).stars;
+            TL_stories.PrepaidGiveaway prepaidGiveaway2 = this.prepaidGiveaway;
+            if (prepaidGiveaway2 instanceof TL_stories.TL_prepaidStarsGiveaway) {
+                this.selectedStars = ((TL_stories.TL_prepaidStarsGiveaway) prepaidGiveaway2).stars;
             }
         } else {
             BoostAdapter.Item asSubTitleWithCounter = BoostAdapter.Item.asSubTitleWithCounter(LocaleController.getString(R.string.BoostingStarsOptions), getSelectedSliderValueWithBoosts());
@@ -1053,26 +1065,31 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
         }
         this.items.add(BoostAdapter.Item.asSubTitle(LocaleController.getString(R.string.BoostingChannelsGroupsIncludedGiveaway)));
         if (isPreparedGiveaway()) {
-            arrayList10 = this.items;
-            chat2 = this.currentChat;
-            selectedSliderValueWithBoosts2 = this.prepaidGiveaway.quantity * BoostRepository.giveawayBoostsPerPremium();
-            z8 = false;
+            TL_stories.PrepaidGiveaway prepaidGiveaway3 = this.prepaidGiveaway;
+            if (prepaidGiveaway3 instanceof TL_stories.TL_prepaidStarsGiveaway) {
+                arrayList10 = this.items;
+                chat2 = this.currentChat;
+                giveawayBoostsPerPremium2 = prepaidGiveaway3.quantity;
+                z9 = false;
+            } else {
+                z9 = false;
+                arrayList10 = this.items;
+                chat2 = this.currentChat;
+                giveawayBoostsPerPremium2 = prepaidGiveaway3.quantity * BoostRepository.giveawayBoostsPerPremium();
+            }
+            arrayList10.add(BoostAdapter.Item.asChat(chat2, z9, giveawayBoostsPerPremium2));
         } else {
-            z8 = false;
-            arrayList10 = this.items;
-            chat2 = this.currentChat;
-            selectedSliderValueWithBoosts2 = getSelectedSliderValueWithBoosts();
+            this.items.add(BoostAdapter.Item.asChat(this.currentChat, false, getSelectedSliderValueWithBoosts()));
         }
-        arrayList10.add(BoostAdapter.Item.asChat(chat2, z8, selectedSliderValueWithBoosts2));
         for (TLObject tLObject2 : this.selectedChats) {
             if (tLObject2 instanceof TLRPC.Chat) {
-                z9 = true;
+                z8 = true;
                 this.items.add(BoostAdapter.Item.asChat((TLRPC.Chat) tLObject2, true, getSelectedSliderValueWithBoosts()));
             } else {
-                z9 = true;
+                z8 = true;
             }
             if (tLObject2 instanceof TLRPC.InputPeer) {
-                this.items.add(BoostAdapter.Item.asPeer((TLRPC.InputPeer) tLObject2, z9, getSelectedSliderValueWithBoosts()));
+                this.items.add(BoostAdapter.Item.asPeer((TLRPC.InputPeer) tLObject2, z8, getSelectedSliderValueWithBoosts()));
             }
         }
         if (this.selectedChats.size() < BoostRepository.giveawayAddPeersMax()) {
@@ -1125,7 +1142,8 @@ public class BoostViaGiftsBottomSheet extends BottomSheetWithRecyclerListView im
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         Runnable runnable = this.onCloseClick;
         if (runnable != null) {
             runnable.run();

@@ -78,6 +78,7 @@ import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.TypefaceSpan;
+import org.telegram.ui.PhotoViewer;
 
 /* loaded from: classes4.dex */
 public class ChannelCreateActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
@@ -172,7 +173,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     ChannelCreateActivity.this.showDoneCancelDialog();
                     return;
                 } else {
-                    ChannelCreateActivity.this.lambda$onBackPressed$321();
+                    ChannelCreateActivity.this.lambda$onBackPressed$323();
                     return;
                 }
             }
@@ -642,7 +643,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdminedChannels$18(TLRPC.Chat chat, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$loadAdminedChannels$18(TLRPC.Chat chat, AlertDialog alertDialog, int i) {
         TLRPC.TL_channels_updateUsername tL_channels_updateUsername = new TLRPC.TL_channels_updateUsername();
         tL_channels_updateUsername.channel = MessagesController.getInputChannel(chat);
         tL_channels_updateUsername.username = "";
@@ -667,10 +668,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
         builder.setMessage(AndroidUtilities.replaceTags(formatString));
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda24
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChannelCreateActivity.this.lambda$loadAdminedChannels$18(currentChannel, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda24
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChannelCreateActivity.this.lambda$loadAdminedChannels$18(currentChannel, alertDialog, i);
             }
         });
         showDialog(builder.create());
@@ -737,7 +738,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showDoneCancelDialog$2(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showDoneCancelDialog$2(AlertDialog alertDialog, int i) {
         this.donePressed = false;
         this.createAfterUpload = false;
         if (this.doneRequestId != null) {
@@ -745,7 +746,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.doneRequestId = null;
         }
         updateDoneProgress(false);
-        dialogInterface.dismiss();
+        alertDialog.dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -843,10 +844,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         builder.setTitle(LocaleController.getString(R.string.StopLoadingTitle));
         builder.setMessage(LocaleController.getString(R.string.StopLoading));
         builder.setPositiveButton(LocaleController.getString(R.string.WaitMore), null);
-        builder.setNegativeButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda20
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChannelCreateActivity.this.lambda$showDoneCancelDialog$2(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.Stop), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda20
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChannelCreateActivity.this.lambda$showDoneCancelDialog$2(alertDialog, i);
             }
         });
         this.cancelDialog = builder.show();
@@ -1576,7 +1577,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didStartUpload(boolean z) {
+    public void didStartUpload(boolean z, boolean z2) {
         RadialProgressView radialProgressView = this.avatarProgressView;
         if (radialProgressView == null) {
             return;
@@ -1611,6 +1612,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     public boolean dismissDialogOnPause(Dialog dialog) {
         ImageUpdater imageUpdater = this.imageUpdater;
         return (imageUpdater == null || imageUpdater.dismissDialogOnPause(dialog)) && super.dismissDialogOnPause(dialog);
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -1866,5 +1872,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     public void setOnFinishListener(Utilities.Callback2 callback2) {
         this.onFinishListener = callback2;
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ boolean supportsBulletin() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
     }
 }

@@ -87,6 +87,7 @@ import org.telegram.messenger.FourierTransform;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -718,7 +719,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     private void ensurePlayerCreated() {
-        DefaultLoadControl defaultLoadControl = this.isStory ? new DefaultLoadControl(new DefaultAllocator(true, 65536), 50000, 50000, 1000, 1000, -1, false, 0, false) : new DefaultLoadControl(new DefaultAllocator(true, 65536), 50000, 50000, 100, 5000, -1, false, 0, false);
+        DefaultLoadControl defaultLoadControl = this.isStory ? new DefaultLoadControl(new DefaultAllocator(true, 65536), 50000, 50000, MediaDataController.MAX_STYLE_RUNS_COUNT, MediaDataController.MAX_STYLE_RUNS_COUNT, -1, false, 0, false) : new DefaultLoadControl(new DefaultAllocator(true, 65536), 50000, 50000, 100, 5000, -1, false, 0, false);
         if (this.player == null) {
             DefaultRenderersFactory audioVisualizerRenderersFactory = this.audioVisualizerDelegate != null ? new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext) : new DefaultRenderersFactory(ApplicationLoader.applicationContext);
             audioVisualizerRenderersFactory.setExtensionRendererMode(2);

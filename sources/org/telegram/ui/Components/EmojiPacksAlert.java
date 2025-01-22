@@ -281,7 +281,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                 ((ChatActivity) EmojiPacksAlert.this.fragment).sendAnimatedEmoji(document, true, 0);
             }
             EmojiPacksAlert.this.onCloseByLink();
-            EmojiPacksAlert.this.dismiss();
+            EmojiPacksAlert.this.lambda$new$0();
         }
 
         @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -305,14 +305,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
             Bulletin createEmojiBulletin;
             if (document == null) {
                 emojiStatus = new TLRPC.TL_emojiStatusEmpty();
-            } else if (num != null) {
-                TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil = new TLRPC.TL_emojiStatusUntil();
-                tL_emojiStatusUntil.document_id = document.id;
-                tL_emojiStatusUntil.until = num.intValue();
-                emojiStatus = tL_emojiStatusUntil;
             } else {
                 TLRPC.TL_emojiStatus tL_emojiStatus = new TLRPC.TL_emojiStatus();
                 tL_emojiStatus.document_id = document.id;
+                if (num != null) {
+                    tL_emojiStatus.flags |= 1;
+                    tL_emojiStatus.until = num.intValue();
+                }
                 emojiStatus = tL_emojiStatus;
             }
             TLRPC.User currentUser = UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser();
@@ -902,7 +901,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         @Override // android.view.ViewGroup, android.view.View
         public boolean dispatchTouchEvent(MotionEvent motionEvent) {
             if (motionEvent.getAction() == 0 && motionEvent.getY() < EmojiPacksAlert.this.getListTop() - AndroidUtilities.dp(6.0f)) {
-                EmojiPacksAlert.this.dismiss();
+                EmojiPacksAlert.this.lambda$new$0();
             }
             return super.dispatchTouchEvent(motionEvent);
         }
@@ -1410,7 +1409,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                                 public void onClick(View view) {
                                     MessagesController.getInstance(((BottomSheet) EmojiPacksAlert.this).currentAccount).openByUserName(getURL(), EmojiPacksAlert.this.fragment, 1);
                                     EmojiPacksAlert.this.onCloseByLink();
-                                    EmojiPacksAlert.this.dismiss();
+                                    EmojiPacksAlert.this.lambda$new$0();
                                 }
                             }, start, end, 0);
                             r3 = r32;
@@ -1507,7 +1506,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         public /* synthetic */ void lambda$init$0(TLRPC.TL_error tL_error, TLObject tLObject) {
             TLRPC.StickerSet stickerSet;
             if (tL_error != null || !(tLObject instanceof Vector)) {
-                EmojiPacksAlert.this.dismiss();
+                EmojiPacksAlert.this.lambda$new$0();
                 if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
                     return;
                 }
@@ -1540,7 +1539,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$2() {
-            EmojiPacksAlert.this.dismiss();
+            EmojiPacksAlert.this.lambda$new$0();
             if (EmojiPacksAlert.this.fragment == null || EmojiPacksAlert.this.fragment.getParentActivity() == null) {
                 return;
             }
@@ -1563,7 +1562,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$init$4() {
-            EmojiPacksAlert.this.dismiss();
+            EmojiPacksAlert.this.lambda$new$0();
         }
 
         private void putStickerSet(int i, TLRPC.TL_messages_stickerSet tL_messages_stickerSet) {
@@ -1614,7 +1613,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     if (this.stickerSets.get(i3) == null) {
                         TLRPC.TL_messages_stickerSet stickerSet2 = MediaDataController.getInstance(this.currentAccount).getStickerSet((TLRPC.InputStickerSet) this.inputStickerSets.get(i3), true);
                         if (this.stickerSets.size() == 1 && stickerSet2 != null && (stickerSet = stickerSet2.set) != null && !stickerSet.emojis) {
-                            EmojiPacksAlert.this.dismiss();
+                            EmojiPacksAlert.this.lambda$new$0();
                             new StickersAlert(EmojiPacksAlert.this.getContext(), EmojiPacksAlert.this.fragment, (TLRPC.InputStickerSet) this.inputStickerSets.get(i3), null, EmojiPacksAlert.this.fragment instanceof ChatActivity ? ((ChatActivity) EmojiPacksAlert.this.fragment).getChatActivityEnterView() : null, ((BottomSheet) EmojiPacksAlert.this).resourcesProvider, false).show();
                             return;
                         } else {
@@ -2229,7 +2228,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
                     spannableString.setSpan(animatedEmojiSpan, 0, spannableString.length(), 33);
                     ((ChatActivity) baseFragment).getChatActivityEnterView().messageEditText.getText().append((CharSequence) spannableString);
                     onCloseByLink();
-                    dismiss();
+                    lambda$new$0();
                 } catch (Exception unused) {
                 }
                 try {
@@ -2277,7 +2276,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         new EmojiPacksAlert(baseFragment, getContext(), resourcesProvider, arrayList3) { // from class: org.telegram.ui.Components.EmojiPacksAlert.7
             @Override // org.telegram.ui.Components.EmojiPacksAlert
             protected void onCloseByLink() {
-                EmojiPacksAlert.this.dismiss();
+                EmojiPacksAlert.this.lambda$new$0();
             }
         }.show();
     }
@@ -2362,13 +2361,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         }
         onButtonClicked(true);
         if (size <= 1) {
-            dismiss();
+            lambda$new$0();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateButton$11(ArrayList arrayList, View view) {
-        dismiss();
+        lambda$new$0();
         BaseFragment baseFragment = this.fragment;
         if (baseFragment != null) {
             MediaDataController.getInstance(baseFragment.getCurrentAccount()).removeMultipleStickerSets(this.fragment.getContext(), this.fragment, arrayList);
@@ -2391,7 +2390,7 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
         if (iArr[0] != i || iArr[1] <= 0) {
             return;
         }
-        dismiss();
+        lambda$new$0();
         Bulletin.make(this.fragment, new StickerSetBulletinLayout(this.fragment.getFragmentView().getContext(), (TLObject) arrayList.get(0), iArr[1], 2, null, this.fragment.getResourceProvider()), 1500).show();
     }
 
@@ -2635,12 +2634,13 @@ public class EmojiPacksAlert extends BottomSheet implements NotificationCenter.N
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         ContentView contentView = this.contentView;
         if (contentView != null) {
             contentView.hidePreviewEmoji();
         }
-        super.dismiss();
+        super.lambda$new$0();
         EmojiPacksLoader emojiPacksLoader = this.customEmojiPacks;
         if (emojiPacksLoader != null) {
             emojiPacksLoader.recycle();

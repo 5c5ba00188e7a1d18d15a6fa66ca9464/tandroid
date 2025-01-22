@@ -43,6 +43,7 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagePreviewParams;
 import org.telegram.messenger.MessagesController;
@@ -1646,20 +1647,17 @@ public abstract class MessagePreviewView extends FrameLayout {
             this.adapter = adapter;
             recyclerListView2.setAdapter(adapter);
             this.chatListView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(4.0f));
-            10 r13 = new 10(context, 1000, 1, true, MessagePreviewView.this);
+            10 r13 = new 10(context, MediaDataController.MAX_STYLE_RUNS_COUNT, 1, true, MessagePreviewView.this);
             this.chatLayoutManager = r13;
             r13.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() { // from class: org.telegram.ui.Components.MessagePreviewView.Page.11
                 @Override // androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
                 public int getSpanSize(int i3) {
                     if (i3 < 0 || i3 >= Page.this.messages.previewMessages.size()) {
-                        return 1000;
+                        return MediaDataController.MAX_STYLE_RUNS_COUNT;
                     }
                     MessageObject messageObject = Page.this.messages.previewMessages.get(i3);
                     MessageObject.GroupedMessages validGroupedMessage = Page.this.getValidGroupedMessage(messageObject);
-                    if (validGroupedMessage != null) {
-                        return validGroupedMessage.getPosition(messageObject).spanSize;
-                    }
-                    return 1000;
+                    return validGroupedMessage != null ? validGroupedMessage.getPosition(messageObject).spanSize : MediaDataController.MAX_STYLE_RUNS_COUNT;
                 }
             });
             this.chatListView.setClipToPadding(false);

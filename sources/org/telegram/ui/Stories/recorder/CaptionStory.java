@@ -1,7 +1,6 @@
 package org.telegram.ui.Stories.recorder;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -475,7 +474,7 @@ public abstract class CaptionStory extends CaptionContainerView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showRemoveRoundAlert$7(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showRemoveRoundAlert$7(AlertDialog alertDialog, int i) {
         removeRound();
     }
 
@@ -918,10 +917,10 @@ public abstract class CaptionStory extends CaptionContainerView {
 
     public void showRemoveRoundAlert() {
         TextView textView;
-        if (this.hasRoundVideo && (textView = (TextView) new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.StoryRemoveRoundTitle)).setMessage(LocaleController.getString(R.string.StoryRemoveRoundMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda9
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                CaptionStory.this.lambda$showRemoveRoundAlert$7(dialogInterface, i);
+        if (this.hasRoundVideo && (textView = (TextView) new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.StoryRemoveRoundTitle)).setMessage(LocaleController.getString(R.string.StoryRemoveRoundMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda9
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                CaptionStory.this.lambda$showRemoveRoundAlert$7(alertDialog, i);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show().getButton(-1)) != null) {
             textView.setTextColor(Theme.getColor(Theme.key_text_RedBold, this.resourcesProvider));

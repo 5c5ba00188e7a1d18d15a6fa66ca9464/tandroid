@@ -174,7 +174,7 @@ public class PremiumPreviewGiftSentBottomSheet extends PremiumPreviewBottomSheet
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$0(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     public static void show(List list) {

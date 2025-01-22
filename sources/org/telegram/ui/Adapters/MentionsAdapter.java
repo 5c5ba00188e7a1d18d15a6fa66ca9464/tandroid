@@ -647,7 +647,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processFoundUser$2(boolean[] zArr, TLRPC.User user, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$processFoundUser$2(boolean[] zArr, TLRPC.User user, AlertDialog alertDialog, int i) {
         zArr[0] = true;
         if (user != null) {
             MessagesController.getNotificationsSettings(this.currentAccount).edit().putBoolean("inlinegeo_" + user.id, true).commit();
@@ -656,7 +656,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processFoundUser$3(boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$processFoundUser$3(boolean[] zArr, AlertDialog alertDialog, int i) {
         zArr[0] = true;
         onLocationUnavailable();
     }
@@ -855,16 +855,16 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                     builder.setTitle(LocaleController.getString(R.string.ShareYouLocationTitle));
                     builder.setMessage(LocaleController.getString(R.string.ShareYouLocationInline));
                     final boolean[] zArr = new boolean[1];
-                    builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda0
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            MentionsAdapter.this.lambda$processFoundUser$2(zArr, user2, dialogInterface, i);
+                    builder.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda0
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            MentionsAdapter.this.lambda$processFoundUser$2(zArr, user2, alertDialog, i);
                         }
                     });
-                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda1
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            MentionsAdapter.this.lambda$processFoundUser$3(zArr, dialogInterface, i);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda1
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            MentionsAdapter.this.lambda$processFoundUser$3(zArr, alertDialog, i);
                         }
                     });
                     this.parentFragment.showDialog(builder.create(), new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Adapters.MentionsAdapter$$ExternalSyntheticLambda2

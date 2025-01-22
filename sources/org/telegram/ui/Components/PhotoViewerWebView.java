@@ -37,6 +37,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BringAppForegroundService;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -285,12 +286,12 @@ public abstract class PhotoViewerWebView extends FrameLayout {
 
         @JavascriptInterface
         public void onPlayerNotifyCurrentPosition(int i) {
-            PhotoViewerWebView.this.currentPosition = i * 1000;
+            PhotoViewerWebView.this.currentPosition = i * MediaDataController.MAX_STYLE_RUNS_COUNT;
         }
 
         @JavascriptInterface
         public void onPlayerNotifyDuration(int i) {
-            PhotoViewerWebView.this.videoDuration = i * 1000;
+            PhotoViewerWebView.this.videoDuration = i * MediaDataController.MAX_STYLE_RUNS_COUNT;
             if (PhotoViewerWebView.this.youtubeStoryboardsSpecUrl != null) {
                 PhotoViewerWebView photoViewerWebView = PhotoViewerWebView.this;
                 photoViewerWebView.processYoutubeStoryboards(photoViewerWebView.youtubeStoryboardsSpecUrl);
@@ -464,7 +465,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
         float f;
         float f2;
         float f3;
-        int videoDuration = getVideoDuration() / 1000;
+        int videoDuration = getVideoDuration() / MediaDataController.MAX_STYLE_RUNS_COUNT;
         this.youtubeStoryboards.clear();
         if (videoDuration <= 15) {
             return;
@@ -578,7 +579,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
         float f2;
         float f3;
         int i2;
-        int videoDuration = getVideoDuration() / 1000;
+        int videoDuration = getVideoDuration() / MediaDataController.MAX_STYLE_RUNS_COUNT;
         if (videoDuration > 100) {
             if (videoDuration <= 250) {
                 f = i;
@@ -616,7 +617,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
         if (indexOf != this.youtubeStoryboards.size() - 1) {
             return 25;
         }
-        int videoDuration = getVideoDuration() / 1000;
+        int videoDuration = getVideoDuration() / MediaDataController.MAX_STYLE_RUNS_COUNT;
         if (videoDuration <= 100) {
             d = videoDuration;
         } else {
@@ -642,7 +643,7 @@ public abstract class PhotoViewerWebView extends FrameLayout {
         float f;
         float f2;
         double d;
-        int videoDuration = getVideoDuration() / 1000;
+        int videoDuration = getVideoDuration() / MediaDataController.MAX_STYLE_RUNS_COUNT;
         if (videoDuration <= 100) {
             d = i;
         } else {

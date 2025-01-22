@@ -1,7 +1,6 @@
 package org.telegram.ui.Business;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -124,13 +123,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$2(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onBackPressed$2(AlertDialog alertDialog, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$onBackPressed$3(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -141,7 +140,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         } else if (tLObject instanceof TLRPC.TL_boolFalse) {
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
         } else {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
     }
 
@@ -156,7 +155,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$6(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onClick$6(AlertDialog alertDialog, int i) {
         this.doneButtonDrawable.animateToProgress(1.0f);
         TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
         TL_account.updateBusinessLocation updatebusinesslocation = new TL_account.updateBusinessLocation();
@@ -178,7 +177,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.showError(tL_error);
         } else if (!(tLObject instanceof TLRPC.TL_boolFalse)) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         } else {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
@@ -267,10 +266,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.BusinessLocationClearTitle));
             builder.setMessage(LocaleController.getString(R.string.BusinessLocationClearMessage));
-            builder.setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda5
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i3) {
-                    LocationActivity.this.lambda$onClick$6(dialogInterface, i3);
+            builder.setPositiveButton(LocaleController.getString(R.string.Remove), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda5
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i3) {
+                    LocationActivity.this.lambda$onClick$6(alertDialog, i3);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -286,7 +285,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         boolean z = this.geo == null && TextUtils.isEmpty(this.address);
         if (!z) {
             if (!hasChanges()) {
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
                 return;
             }
             String str = this.address;
@@ -438,7 +437,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (LocationActivity.this.onBackPressed()) {
-                        LocationActivity.this.lambda$onBackPressed$321();
+                        LocationActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i == 1) {
                     LocationActivity.this.processDone();
@@ -683,16 +682,16 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
         builder.setMessage(LocaleController.getString(R.string.BusinessLocationUnsavedChanges));
-        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LocationActivity.this.lambda$onBackPressed$2(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LocationActivity.this.lambda$onBackPressed$2(alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LocationActivity.this.lambda$onBackPressed$3(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LocationActivity.this.lambda$onBackPressed$3(alertDialog, i);
             }
         });
         showDialog(builder.create());

@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
 import java.util.List;
 import java.util.Map;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class IcyHeaders implements Metadata.Entry {
@@ -85,7 +86,7 @@ public final class IcyHeaders implements Metadata.Entry {
         if (list6 != null) {
             String str4 = (String) list6.get(0);
             try {
-                i3 = Integer.parseInt(str4) * 1000;
+                i3 = Integer.parseInt(str4) * MediaDataController.MAX_STYLE_RUNS_COUNT;
             } catch (NumberFormatException unused) {
                 i3 = -1;
             }

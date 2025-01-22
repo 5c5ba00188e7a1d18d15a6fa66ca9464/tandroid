@@ -101,6 +101,7 @@ public class MediaDataController extends BaseController {
     public static final String ATTACH_MENU_BOT_SIDE_MENU = "android_side_menu_static";
     public static final String ATTACH_MENU_BOT_SIDE_MENU_ICON_KEY = "android_side_menu_static";
     public static final String ATTACH_MENU_BOT_STATIC_ICON_KEY = "default_static";
+    public static final int MAX_STYLE_RUNS_COUNT = 1000;
     public static final int MEDIA_AUDIO = 2;
     public static final int MEDIA_FILE = 1;
     public static final int MEDIA_GIF = 5;
@@ -1141,10 +1142,10 @@ public class MediaDataController extends BaseController {
         for (TextStyleSpan textStyleSpan : (TextStyleSpan[]) spannable.getSpans(0, spannable.length(), TextStyleSpan.class)) {
             spannable.removeSpan(textStyleSpan);
         }
-        Iterator<TextStyleSpan.TextStyleRun> it = getTextStyleRuns(arrayList, charSequence, i).iterator();
-        while (it.hasNext()) {
-            TextStyleSpan.TextStyleRun next = it.next();
-            addStyleToText(new TextStyleSpan(next), next.start, next.end, spannable, true);
+        ArrayList<TextStyleSpan.TextStyleRun> textStyleRuns = getTextStyleRuns(arrayList, charSequence, i);
+        for (int i2 = 0; i2 < Math.min(MAX_STYLE_RUNS_COUNT, textStyleRuns.size()); i2++) {
+            TextStyleSpan.TextStyleRun textStyleRun = textStyleRuns.get(i2);
+            addStyleToText(new TextStyleSpan(textStyleRun), textStyleRun.start, textStyleRun.end, spannable, true);
         }
     }
 
@@ -7326,7 +7327,7 @@ public class MediaDataController extends BaseController {
             executeFast.bindLong(1, j);
             executeFast.bindInteger(2, i);
             executeFast.bindDouble(3, d);
-            executeFast.bindInteger(4, ((int) System.currentTimeMillis()) / 1000);
+            executeFast.bindInteger(4, ((int) System.currentTimeMillis()) / MAX_STYLE_RUNS_COUNT);
             executeFast.step();
             executeFast.dispose();
         } catch (Exception e) {
@@ -8178,6 +8179,16 @@ public class MediaDataController extends BaseController {
         ImageLocation forSticker = ImageLocation.getForSticker(photoSize, document, i);
         if (forSticker != null) {
             getFileLoader().loadFile(forSticker, obj, forSticker.imageType == 1 ? "tgs" : "webp", 3, 1);
+        }
+    }
+
+    public static void offsetEntities(ArrayList<TLRPC.MessageEntity> arrayList, int i) {
+        if (arrayList == null) {
+            return;
+        }
+        Iterator<TLRPC.MessageEntity> it = arrayList.iterator();
+        while (it.hasNext()) {
+            it.next().offset += i;
         }
     }
 
@@ -11675,55 +11686,55 @@ public class MediaDataController extends BaseController {
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
         	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)

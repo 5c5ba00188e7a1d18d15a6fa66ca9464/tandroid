@@ -1776,7 +1776,15 @@ public abstract class PreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-                public void onVideoLeftChange(float f) {
+                public void onVideoLeftChange(int i, float f) {
+                    if (PreviewView.this.entry == null || PreviewView.this.entry.collageContent == null || i < 0 || i >= PreviewView.this.entry.collageContent.size()) {
+                        return;
+                    }
+                    ((StoryEntry) PreviewView.this.entry.collageContent.get(i)).videoLeft = f;
+                }
+
+                @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
+                public void onVideoLeftChange(boolean z, float f) {
                     if (PreviewView.this.entry == null) {
                         return;
                     }
@@ -1785,15 +1793,7 @@ public abstract class PreviewView extends FrameLayout {
                     if (PreviewView.this.videoPlayer == null || PreviewView.this.videoPlayer.getDuration() == -9223372036854775807L) {
                         return;
                     }
-                    PreviewView.this.seekTo((long) (f * r0.videoPlayer.getDuration()));
-                }
-
-                @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-                public void onVideoLeftChange(int i, float f) {
-                    if (PreviewView.this.entry == null || PreviewView.this.entry.collageContent == null || i < 0 || i >= PreviewView.this.entry.collageContent.size()) {
-                        return;
-                    }
-                    ((StoryEntry) PreviewView.this.entry.collageContent.get(i)).videoLeft = f;
+                    PreviewView.this.seekTo((long) (f * r5.videoPlayer.getDuration()));
                 }
 
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
@@ -1805,20 +1805,20 @@ public abstract class PreviewView extends FrameLayout {
                 }
 
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
-                public void onVideoRightChange(float f) {
-                    if (PreviewView.this.entry == null) {
-                        return;
-                    }
-                    PreviewView.this.entry.right = f;
-                    PreviewView.this.entry.editedMedia = true;
-                }
-
-                @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
                 public void onVideoRightChange(int i, float f) {
                     if (PreviewView.this.entry == null || PreviewView.this.entry.collageContent == null || i < 0 || i >= PreviewView.this.entry.collageContent.size()) {
                         return;
                     }
                     ((StoryEntry) PreviewView.this.entry.collageContent.get(i)).videoRight = f;
+                }
+
+                @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate
+                public void onVideoRightChange(boolean z, float f) {
+                    if (PreviewView.this.entry == null) {
+                        return;
+                    }
+                    PreviewView.this.entry.right = f;
+                    PreviewView.this.entry.editedMedia = true;
                 }
 
                 @Override // org.telegram.ui.Stories.recorder.TimelineView.TimelineDelegate

@@ -59,14 +59,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -204,6 +203,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public static Runnable onResumeStaticCallback;
     private static LaunchActivity staticInstanceForAlerts;
     public static boolean systemBlurEnabled;
+    private static Pattern timestampPattern;
     public static Runnable whenResumed;
     private ActionBarLayout actionBarLayout;
     private long alreadyShownFreeDiscSpaceAlertForced;
@@ -932,25 +932,45 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     public static int getTimestampFromLink(Uri uri) {
-        int i;
         String query = uri.getPathSegments().contains(MediaStreamTrack.VIDEO_TRACK_KIND) ? uri.getQuery() : uri.getQueryParameter("t") != null ? uri.getQueryParameter("t") : null;
-        if (query == null) {
+        if (TextUtils.isEmpty(query)) {
             return -1;
         }
-        try {
-            i = Integer.parseInt(query);
-        } catch (Throwable unused) {
-            i = -1;
+        if (timestampPattern == null) {
+            timestampPattern = Pattern.compile("^\\??(?:(\\d+)[dD])?(?:(\\d+)h)?(?:(\\d+)[mM])?(?:(\\d+)[sS])?$");
         }
-        if (i == -1) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+        try {
+            Matcher matcher = timestampPattern.matcher(query);
+            if (matcher.matches()) {
+                String group = matcher.group(1);
+                String group2 = matcher.group(2);
+                String group3 = matcher.group(3);
+                String group4 = matcher.group(4);
+                int i = 0;
+                int parseInt = TextUtils.isEmpty(group) ? 0 : Integer.parseInt(group);
+                int parseInt2 = TextUtils.isEmpty(group2) ? 0 : Integer.parseInt(group2);
+                int parseInt3 = TextUtils.isEmpty(group3) ? 0 : Integer.parseInt(group3);
+                if (!TextUtils.isEmpty(group4)) {
+                    i = Integer.parseInt(group4);
+                }
+                return i + (parseInt3 * 60) + (parseInt2 * 3600) + (parseInt * 86400);
+            }
+        } catch (Throwable unused) {
+        }
+        try {
+            return Integer.parseInt(query);
+        } catch (Throwable unused2) {
+            if (!query.contains(":")) {
+                return -1;
+            }
+            String[] split = query.split(":");
             try {
-                return (int) ((simpleDateFormat.parse(query).getTime() - simpleDateFormat.parse("00:00").getTime()) / 1000);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                return Integer.parseInt(split.length - 1 < 0 ? "0" : split[split.length - 1]) + (Integer.parseInt(split.length - 2 < 0 ? "0" : split[split.length - 2]) * 60) + (Integer.parseInt(split.length - 3 < 0 ? "0" : split[split.length - 3]) * 3600) + (Integer.parseInt(split.length - 4 >= 0 ? split[split.length - 4] : "0") * 86400);
+            } catch (Exception e) {
+                FileLog.e(e);
+                return -1;
             }
         }
-        return i;
     }
 
     private boolean handleIntent(Intent intent, boolean z, boolean z2, boolean z3) {
@@ -1197,7 +1217,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$didReceivedNotification$142(int i, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$didReceivedNotification$142(int i, AlertDialog alertDialog, int i2) {
         ArrayList arrayList = mainFragmentsStack;
         if (arrayList.isEmpty()) {
             return;
@@ -1206,7 +1226,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$143(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$didReceivedNotification$143(AlertDialog alertDialog, int i) {
         MessagesController.getInstance(this.currentAccount).performLogout(2);
     }
 
@@ -1220,7 +1240,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didReceivedNotification$145(final HashMap hashMap, final int i, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$didReceivedNotification$145(final HashMap hashMap, final int i, AlertDialog alertDialog, int i2) {
         ArrayList arrayList = mainFragmentsStack;
         if (!arrayList.isEmpty() && AndroidUtilities.isMapsInstalled((BaseFragment) arrayList.get(arrayList.size() - 1))) {
             LocationActivity locationActivity = new LocationActivity(0);
@@ -1235,17 +1255,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$didReceivedNotification$146(int i, HashMap hashMap, boolean z, boolean z2, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$didReceivedNotification$146(int i, HashMap hashMap, boolean z, boolean z2, AlertDialog alertDialog, int i2) {
         ContactsController.getInstance(i).syncPhoneBookByAlert(hashMap, z, z2, false);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$didReceivedNotification$147(int i, HashMap hashMap, boolean z, boolean z2, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$didReceivedNotification$147(int i, HashMap hashMap, boolean z, boolean z2, AlertDialog alertDialog, int i2) {
         ContactsController.getInstance(i).syncPhoneBookByAlert(hashMap, z, z2, true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$didReceivedNotification$148(int i, HashMap hashMap, boolean z, boolean z2, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$didReceivedNotification$148(int i, HashMap hashMap, boolean z, boolean z2, AlertDialog alertDialog, int i2) {
         ContactsController.getInstance(i).syncPhoneBookByAlert(hashMap, z, z2, true);
     }
 
@@ -1521,7 +1541,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$handleIntent$31(BaseFragment baseFragment, String str, String str2, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$handleIntent$31(BaseFragment baseFragment, String str, String str2, AlertDialog alertDialog, int i) {
         NewContactBottomSheet newContactBottomSheet = new NewContactBottomSheet(baseFragment, this);
         newContactBottomSheet.setInitialPhoneNumber(str, false);
         if (str2 != null) {
@@ -3321,7 +3341,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$runLinkRequest$74(long j, int i, TLRPC.User user, String str, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$runLinkRequest$74(long j, int i, TLRPC.User user, String str, AlertDialog alertDialog, int i2) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("scrollToTopOnResume", true);
         long j2 = -j;
@@ -3343,10 +3363,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             builder.setTitle(LocaleController.getString(i3));
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, UserObject.getUserName(user), chat == null ? "" : chat.title)));
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-            builder.setPositiveButton(LocaleController.getString(i3), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda139
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i4) {
-                    LaunchActivity.this.lambda$runLinkRequest$74(j, i, user, str2, dialogInterface, i4);
+            builder.setPositiveButton(LocaleController.getString(i3), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda139
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i4) {
+                    LaunchActivity.this.lambda$runLinkRequest$74(j, i, user, str2, alertDialog, i4);
                 }
             });
             builder.show();
@@ -4256,7 +4276,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showLanguageAlertInternal$160(LocaleController.LocaleInfo[] localeInfoArr, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showLanguageAlertInternal$160(LocaleController.LocaleInfo[] localeInfoArr, AlertDialog alertDialog, int i) {
         LocaleController.getInstance().applyLanguage(localeInfoArr[0], true, false, this.currentAccount);
         rebuildAllFragments(true);
     }
@@ -4323,7 +4343,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
         	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)
@@ -5949,10 +5969,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 });
                 linearLayout.addView(languageCell2, LayoutHelper.createLinear(-1, 50));
                 builder.setView(linearLayout);
-                builder.setNegativeButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda143
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        LaunchActivity.this.lambda$showLanguageAlertInternal$160(localeInfoArr2, dialogInterface, i4);
+                builder.setNegativeButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda143
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i4) {
+                        LaunchActivity.this.lambda$showLanguageAlertInternal$160(localeInfoArr2, alertDialog, i4);
                     }
                 });
                 this.localeDialog = showAlertDialog(builder);
@@ -5988,10 +6008,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             });
             linearLayout2.addView(languageCell22, LayoutHelper.createLinear(-1, 50));
             builder2.setView(linearLayout2);
-            builder2.setNegativeButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda143
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i4) {
-                    LaunchActivity.this.lambda$showLanguageAlertInternal$160(localeInfoArr22, dialogInterface, i4);
+            builder2.setNegativeButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda143
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i4) {
+                    LaunchActivity.this.lambda$showLanguageAlertInternal$160(localeInfoArr22, alertDialog, i4);
                 }
             });
             this.localeDialog = showAlertDialog(builder2);
@@ -6184,7 +6204,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public void checkAppUpdate(boolean z, final Browser.Progress progress) {
         if (z || !BuildVars.DEBUG_VERSION) {
             if (z || BuildVars.CHECK_UPDATES) {
-                if (z || Math.abs(System.currentTimeMillis() - SharedConfig.lastUpdateCheckTime) >= MessagesController.getInstance(0).updateCheckDelay * 1000) {
+                if (z || Math.abs(System.currentTimeMillis() - SharedConfig.lastUpdateCheckTime) >= MessagesController.getInstance(0).updateCheckDelay * MediaDataController.MAX_STYLE_RUNS_COUNT) {
                     TLRPC.TL_help_getAppUpdate tL_help_getAppUpdate = new TLRPC.TL_help_getAppUpdate();
                     try {
                         tL_help_getAppUpdate.source = ApplicationLoader.applicationContext.getPackageManager().getInstallerPackageName(ApplicationLoader.applicationContext.getPackageName());
@@ -6393,10 +6413,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     builder.setTopAnimationIsNew(true);
                 }
                 if (num.intValue() != 2 && num.intValue() != 3) {
-                    builder.setNegativeButton(LocaleController.getString(R.string.MoreInfo), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i5) {
-                            LaunchActivity.lambda$didReceivedNotification$142(i2, dialogInterface, i5);
+                    builder.setNegativeButton(LocaleController.getString(R.string.MoreInfo), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda6
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i5) {
+                            LaunchActivity.lambda$didReceivedNotification$142(i2, alertDialog, i5);
                         }
                     });
                 }
@@ -6434,10 +6454,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         builder.setMessage(valueOf);
                         if (str2.startsWith("AUTH_KEY_DROP_")) {
                             builder.setPositiveButton(LocaleController.getString(R.string.Cancel), null);
-                            builder.setNegativeButton(LocaleController.getString(R.string.LogOut), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda9
-                                @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i6) {
-                                    LaunchActivity.this.lambda$didReceivedNotification$143(dialogInterface, i6);
+                            builder.setNegativeButton(LocaleController.getString(R.string.LogOut), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda9
+                                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                public final void onClick(AlertDialog alertDialog, int i6) {
+                                    LaunchActivity.this.lambda$didReceivedNotification$143(alertDialog, i6);
                                 }
                             });
                         } else {
@@ -6468,10 +6488,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
                 builder2.setTitle(LocaleController.getString(R.string.AppName));
                 builder2.setPositiveButton(LocaleController.getString(R.string.OK), null);
-                builder2.setNegativeButton(LocaleController.getString(R.string.ShareYouLocationUnableManually), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda10
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i6) {
-                        LaunchActivity.this.lambda$didReceivedNotification$145(hashMap2, i2, dialogInterface, i6);
+                builder2.setNegativeButton(LocaleController.getString(R.string.ShareYouLocationUnableManually), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda10
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i6) {
+                        LaunchActivity.this.lambda$didReceivedNotification$145(hashMap2, i2, alertDialog, i6);
                     }
                 });
                 builder2.setMessage(LocaleController.getString(R.string.ShareYouLocationUnable));
@@ -6534,22 +6554,22 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     builder3.setTopAnimation(R.raw.permission_request_contacts, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
                     builder3.setTitle(LocaleController.getString(R.string.UpdateContactsTitle));
                     builder3.setMessage(LocaleController.getString(R.string.UpdateContactsMessage));
-                    builder3.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda11
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                            LaunchActivity.lambda$didReceivedNotification$146(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
+                    builder3.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda11
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i6) {
+                            LaunchActivity.lambda$didReceivedNotification$146(i2, hashMap3, booleanValue, booleanValue2, alertDialog, i6);
                         }
                     });
-                    builder3.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                            LaunchActivity.lambda$didReceivedNotification$147(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
+                    builder3.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda12
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i6) {
+                            LaunchActivity.lambda$didReceivedNotification$147(i2, hashMap3, booleanValue, booleanValue2, alertDialog, i6);
                         }
                     });
-                    builder3.setOnBackButtonListener(new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda13
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                            LaunchActivity.lambda$didReceivedNotification$148(i2, hashMap3, booleanValue, booleanValue2, dialogInterface, i6);
+                    builder3.setOnBackButtonListener(new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LaunchActivity$$ExternalSyntheticLambda13
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i6) {
+                            LaunchActivity.lambda$didReceivedNotification$148(i2, hashMap3, booleanValue, booleanValue2, alertDialog, i6);
                         }
                     });
                     AlertDialog create2 = builder3.create();
@@ -7131,7 +7151,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     chatActivity2 = chatActivity;
                     z3 = true;
                     if (dialogsActivity != null && chatActivity2 == null && !z3) {
-                        dialogsActivity.lambda$onBackPressed$321();
+                        dialogsActivity.lambda$onBackPressed$323();
                     }
                 }
             }
@@ -7351,7 +7371,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
             chatActivity2 = chatActivity;
             if (dialogsActivity != null) {
-                dialogsActivity.lambda$onBackPressed$321();
+                dialogsActivity.lambda$onBackPressed$323();
             }
         }
         this.photoPathsArray = null;
@@ -7940,7 +7960,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 } else if (this.rightActionBarLayout.getView().getVisibility() == 0 && !this.rightActionBarLayout.getFragmentStack().isEmpty()) {
                     BaseFragment baseFragment = this.rightActionBarLayout.getFragmentStack().get(this.rightActionBarLayout.getFragmentStack().size() - 1);
                     if (baseFragment.onBackPressed()) {
-                        baseFragment.lambda$onBackPressed$321();
+                        baseFragment.lambda$onBackPressed$323();
                         return;
                     }
                     return;
@@ -9190,8 +9210,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BaseFragment lastFragment;
         int i;
         View view;
-        int i2;
         AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable;
+        int i2;
+        DrawerProfileCell drawerProfileCell;
         WindowInsets rootWindowInsets;
         WindowInsets rootWindowInsets2;
         int stableInsetLeft;
@@ -9202,17 +9223,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         final SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] selectAnimatedEmojiDialogWindowArr = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
         TLRPC.User user = MessagesController.getInstance(UserConfig.selectedAccount).getUser(Long.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId()));
         if (childAt instanceof DrawerProfileCell) {
-            DrawerProfileCell drawerProfileCell = (DrawerProfileCell) childAt;
-            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable = drawerProfileCell.getEmojiStatusDrawable();
+            DrawerProfileCell drawerProfileCell2 = (DrawerProfileCell) childAt;
+            AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable = drawerProfileCell2.getEmojiStatusDrawable();
             if (emojiStatusDrawable != null) {
                 emojiStatusDrawable.play();
             }
-            View emojiStatusDrawableParent = drawerProfileCell.getEmojiStatusDrawableParent();
+            View emojiStatusDrawableParent = drawerProfileCell2.getEmojiStatusDrawableParent();
             if (emojiStatusDrawable != null) {
                 boolean z = emojiStatusDrawable.getDrawable() instanceof AnimatedEmojiDrawable;
             }
             Rect rect = AndroidUtilities.rectTmp2;
-            drawerProfileCell.getEmojiStatusLocation(rect);
+            drawerProfileCell2.getEmojiStatusLocation(rect);
             int dp = (-(childAt.getHeight() - rect.centerY())) - AndroidUtilities.dp(16.0f);
             i = rect.centerX();
             if (Build.VERSION.SDK_INT >= 23 && getWindow() != null && getWindow().getDecorView() != null) {
@@ -9224,36 +9245,66 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             }
             i2 = dp;
+            drawerProfileCell = drawerProfileCell2;
             swapAnimatedEmojiDrawable = emojiStatusDrawable;
             view = emojiStatusDrawableParent;
         } else {
             i = 0;
             view = null;
-            i2 = 0;
             swapAnimatedEmojiDrawable = null;
+            i2 = 0;
+            drawerProfileCell = null;
         }
         View view2 = view;
+        int i3 = i2;
+        AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable2 = swapAnimatedEmojiDrawable;
         SelectAnimatedEmojiDialog selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(lastFragment, this, true, Integer.valueOf(i), 0, null) { // from class: org.telegram.ui.LaunchActivity.12
+            /* JADX WARN: Multi-variable type inference failed */
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-            protected void onEmojiSelected(View view3, Long l, TLRPC.Document document, Integer num) {
+            protected void onEmojiSelected(View view3, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
+                TLRPC.TL_emojiStatus tL_emojiStatus;
                 TLRPC.EmojiStatus emojiStatus;
                 if (l == null) {
                     emojiStatus = new TLRPC.TL_emojiStatusEmpty();
-                } else if (num != null) {
-                    TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil = new TLRPC.TL_emojiStatusUntil();
-                    tL_emojiStatusUntil.document_id = l.longValue();
-                    tL_emojiStatusUntil.until = num.intValue();
-                    emojiStatus = tL_emojiStatusUntil;
                 } else {
-                    TLRPC.TL_emojiStatus tL_emojiStatus = new TLRPC.TL_emojiStatus();
-                    tL_emojiStatus.document_id = l.longValue();
+                    if (tL_starGiftUnique != null) {
+                        TL_stars.SavedStarGift findUserStarGift = StarsController.getInstance(LaunchActivity.this.currentAccount).findUserStarGift(tL_starGiftUnique.id);
+                        if (findUserStarGift != null && MessagesController.getGlobalMainSettings().getInt("statusgiftpage", 0) < 2) {
+                            MessagesController.getGlobalMainSettings().edit().putInt("statusgiftpage", MessagesController.getGlobalMainSettings().getInt("statusgiftpage", 0) + 1).apply();
+                            Context context = getContext();
+                            int i4 = LaunchActivity.this.currentAccount;
+                            new StarGiftSheet(context, i4, UserConfig.getInstance(i4).getClientUserId(), null).set(findUserStarGift).setupWearPage().show();
+                            if (selectAnimatedEmojiDialogWindowArr[0] != null) {
+                                LaunchActivity.this.selectAnimatedEmojiDialog = null;
+                                selectAnimatedEmojiDialogWindowArr[0].dismiss();
+                                return;
+                            }
+                            return;
+                        }
+                        TLRPC.TL_inputEmojiStatusCollectible tL_inputEmojiStatusCollectible = new TLRPC.TL_inputEmojiStatusCollectible();
+                        tL_inputEmojiStatusCollectible.collectible_id = tL_starGiftUnique.id;
+                        tL_emojiStatus = tL_inputEmojiStatusCollectible;
+                        if (num != null) {
+                            tL_inputEmojiStatusCollectible.flags |= 1;
+                            tL_inputEmojiStatusCollectible.until = num.intValue();
+                            tL_emojiStatus = tL_inputEmojiStatusCollectible;
+                        }
+                    } else {
+                        TLRPC.TL_emojiStatus tL_emojiStatus2 = new TLRPC.TL_emojiStatus();
+                        if (num != null) {
+                            tL_emojiStatus2.flags |= 1;
+                            tL_emojiStatus2.until = num.intValue();
+                        }
+                        tL_emojiStatus2.document_id = l.longValue();
+                        tL_emojiStatus = tL_emojiStatus2;
+                    }
                     emojiStatus = tL_emojiStatus;
                 }
-                MessagesController.getInstance(LaunchActivity.this.currentAccount).updateEmojiStatus(emojiStatus);
+                MessagesController.getInstance(LaunchActivity.this.currentAccount).updateEmojiStatus(emojiStatus, tL_starGiftUnique);
                 TLRPC.User currentUser = UserConfig.getInstance(LaunchActivity.this.currentAccount).getCurrentUser();
                 if (currentUser != null) {
-                    for (int i3 = 0; i3 < LaunchActivity.this.sideMenu.getChildCount(); i3++) {
-                        View childAt2 = LaunchActivity.this.sideMenu.getChildAt(i3);
+                    for (int i5 = 0; i5 < LaunchActivity.this.sideMenu.getChildCount(); i5++) {
+                        View childAt2 = LaunchActivity.this.sideMenu.getChildAt(i5);
                         if (childAt2 instanceof DrawerUserCell) {
                             DrawerUserCell drawerUserCell = (DrawerUserCell) childAt2;
                             drawerUserCell.setAccount(drawerUserCell.getAccountNumber());
@@ -9281,15 +9332,20 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     drawerLayoutContainer.closeDrawer();
                 }
             }
+
+            @Override // org.telegram.ui.SelectAnimatedEmojiDialog
+            protected boolean willApplyEmoji(View view3, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
+                return tL_starGiftUnique == null || StarsController.getInstance(LaunchActivity.this.currentAccount).findUserStarGift(tL_starGiftUnique.id) == null || MessagesController.getGlobalMainSettings().getInt("statusgiftpage", 0) >= 2;
+            }
         };
         if (user != null) {
             selectAnimatedEmojiDialog.setExpireDateHint(DialogObject.getEmojiStatusUntil(user.emoji_status));
         }
-        selectAnimatedEmojiDialog.setSelected((swapAnimatedEmojiDrawable == null || !(swapAnimatedEmojiDrawable.getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) swapAnimatedEmojiDrawable.getDrawable()).getDocumentId()));
+        selectAnimatedEmojiDialog.setSelected((drawerProfileCell == null || drawerProfileCell.getEmojiStatusGiftId() == null) ? (swapAnimatedEmojiDrawable2 == null || !(swapAnimatedEmojiDrawable2.getDrawable() instanceof AnimatedEmojiDrawable)) ? null : Long.valueOf(((AnimatedEmojiDrawable) swapAnimatedEmojiDrawable2.getDrawable()).getDocumentId()) : drawerProfileCell.getEmojiStatusGiftId());
         selectAnimatedEmojiDialog.setSaveState(2);
-        selectAnimatedEmojiDialog.setScrimDrawable(swapAnimatedEmojiDrawable, view2);
-        int i3 = -2;
-        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, i3, i3) { // from class: org.telegram.ui.LaunchActivity.13
+        selectAnimatedEmojiDialog.setScrimDrawable(swapAnimatedEmojiDrawable2, view2);
+        int i4 = -2;
+        SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow selectAnimatedEmojiDialogWindow = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(selectAnimatedEmojiDialog, i4, i4) { // from class: org.telegram.ui.LaunchActivity.13
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow, android.widget.PopupWindow
             public void dismiss() {
                 super.dismiss();
@@ -9298,7 +9354,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         };
         this.selectAnimatedEmojiDialog = selectAnimatedEmojiDialogWindow;
         selectAnimatedEmojiDialogWindowArr[0] = selectAnimatedEmojiDialogWindow;
-        selectAnimatedEmojiDialogWindow.showAsDropDown(this.sideMenu.getChildAt(0), 0, i2, 48);
+        selectAnimatedEmojiDialogWindow.showAsDropDown(this.sideMenu.getChildAt(0), 0, i3, 48);
         selectAnimatedEmojiDialogWindowArr[0].dimBehind();
     }
 

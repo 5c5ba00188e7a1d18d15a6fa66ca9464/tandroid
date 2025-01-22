@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -124,7 +125,7 @@ public class FireworksEffect {
                 particle.currentTime = 0.0f;
                 particle.scale = Math.max(1.0f, Utilities.random.nextFloat() * 1.5f);
                 particle.type = 0;
-                particle.lifeTime = Utilities.random.nextInt(1000) + 1000;
+                particle.lifeTime = Utilities.random.nextInt(MediaDataController.MAX_STYLE_RUNS_COUNT) + MediaDataController.MAX_STYLE_RUNS_COUNT;
                 particle.velocity = (Utilities.random.nextFloat() * 4.0f) + 20.0f;
                 this.particles.add(particle);
             }

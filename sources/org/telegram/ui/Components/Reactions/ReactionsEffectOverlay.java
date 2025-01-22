@@ -1581,7 +1581,7 @@ public class ReactionsEffectOverlay {
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
                 layoutParams.height = -1;
                 layoutParams.width = -1;
-                layoutParams.type = 1000;
+                layoutParams.type = MediaDataController.MAX_STYLE_RUNS_COUNT;
                 layoutParams.flags = 65816;
                 layoutParams.format = -3;
                 WindowManager windowManager = baseFragment.getParentActivity().getWindowManager();

@@ -12,10 +12,10 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -141,7 +141,7 @@ public class StarGiftUniqueActionLayout {
         if (stargiftattributebackdrop2 != null) {
             this.emoji.setColor(Integer.valueOf(stargiftattributebackdrop2.pattern_color | (-16777216)));
         }
-        StarGiftPatterns.drawPatterns(canvas, 1, this.emoji, this.backgroundRect.width(), this.backgroundRect.height(), 1.0f, 1.1f);
+        StarGiftPatterns.drawPattern(canvas, 1, this.emoji, this.backgroundRect.width(), this.backgroundRect.height(), 1.0f, 1.1f);
         canvas.restore();
         this.imageReceiver.setImageCoords(width - (AndroidUtilities.dp(110.0f) / 2.0f), AndroidUtilities.dp(10.0f), AndroidUtilities.dp(110.0f), AndroidUtilities.dp(110.0f));
         this.imageReceiver.draw(canvas);
@@ -319,13 +319,13 @@ public class StarGiftUniqueActionLayout {
                 }
                 this.width = dp;
                 float f = this.width;
-                TLRPC.User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf((tL_messageActionStarGiftUnique.upgrade ^ true) == messageObject.isOutOwner() ? UserConfig.getInstance(this.currentAccount).getClientUserId() : messageObject.getDialogId()));
-                float dp3 = AndroidUtilities.dp(10.0f) + 0.0f + AndroidUtilities.dp(110.0f) + AndroidUtilities.dp(9.33f);
-                if (this.repost) {
-                    this.title = new Text(tL_starGiftUnique.title, 14.0f, AndroidUtilities.bold());
-                } else {
-                    this.title = new Text(LocaleController.formatString(R.string.Gift2UniqueTitle, UserObject.getForcedFirstName(user)), 14.0f, AndroidUtilities.bold());
+                long clientUserId = (tL_messageActionStarGiftUnique.upgrade ^ true) == messageObject.isOutOwner() ? UserConfig.getInstance(this.currentAccount).getClientUserId() : messageObject.getDialogId();
+                TLRPC.Peer peer = tL_messageActionStarGiftUnique.from_id;
+                if (peer != null) {
+                    clientUserId = DialogObject.getPeerDialogId(peer);
                 }
+                float dp3 = AndroidUtilities.dp(10.0f) + 0.0f + AndroidUtilities.dp(110.0f) + AndroidUtilities.dp(9.33f);
+                this.title = this.repost ? new Text(tL_starGiftUnique.title, 14.0f, AndroidUtilities.bold()) : (tL_messageActionStarGiftUnique.peer != null || UserObject.isService(messageObject.getDialogId())) ? new Text(LocaleController.getString(R.string.Gift2UniqueTitle2), 14.0f, AndroidUtilities.bold()) : new Text(LocaleController.formatString(R.string.Gift2UniqueTitle, DialogObject.getShortName(clientUserId)), 14.0f, AndroidUtilities.bold());
                 this.titleY = (this.title.getHeight() / 2.0f) + dp3;
                 float height = dp3 + this.title.getHeight() + AndroidUtilities.dp(3.0f);
                 if (this.repost) {

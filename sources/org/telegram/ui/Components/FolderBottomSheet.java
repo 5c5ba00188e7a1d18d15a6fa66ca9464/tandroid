@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
@@ -1070,7 +1069,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 break;
             }
             if (z) {
-                baseFragment.lambda$onBackPressed$321();
+                baseFragment.lambda$onBackPressed$323();
                 z = false;
             } else {
                 baseFragment.removeSelfFromStack();
@@ -1093,7 +1092,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onJoinButtonClicked$16(Utilities.Callback callback, int i, Boolean bool) {
         this.success = bool.booleanValue();
-        dismiss();
+        lambda$new$0();
         callback.run(Integer.valueOf(i));
     }
 
@@ -1141,7 +1140,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
             getBaseFragment().getMessagesController().checkChatlistFolderUpdate(this.filterId, true);
         }
         this.success = true;
-        dismiss();
+        lambda$new$0();
         callback.run(Integer.valueOf(i));
     }
 
@@ -1160,7 +1159,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         this.reqId = -1;
         BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.ic_delete, LocaleController.formatString(R.string.FolderLinkDeletedTitle, this.title), LocaleController.formatPluralString("FolderLinkDeletedSubtitle", arrayList.size(), new Object[0])).setDuration(5000).show();
         this.success = true;
-        dismiss();
+        lambda$new$0();
         getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
     }
 
@@ -1281,7 +1280,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showForDeletion$3(Utilities.Callback callback, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showForDeletion$3(Utilities.Callback callback, AlertDialog alertDialog, int i) {
         if (callback != null) {
             callback.run(Boolean.FALSE);
         }
@@ -1301,11 +1300,11 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
         if (button == null || !button.isLoading()) {
             ArrayList arrayList2 = this.peers;
             if (arrayList2 == null) {
-                dismiss();
+                lambda$new$0();
                 return;
             }
             if (arrayList2.isEmpty() && !this.deleting) {
-                dismiss();
+                lambda$new$0();
                 return;
             }
             if (this.selectedPeers.isEmpty() && (this.invite instanceof TL_chatlists.TL_chatlists_chatlistInvite)) {
@@ -1339,7 +1338,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                     tL_inputChatlistDialogFilter2.filter_id = this.filterId;
                     getBaseFragment().getConnectionsManager().sendRequest(tL_chatlists_hideChatlistUpdates, null);
                     getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
-                    dismiss();
+                    lambda$new$0();
                     return;
                 }
                 TL_chatlists.TL_chatlists_joinChatlistUpdates tL_chatlists_joinChatlistUpdates = new TL_chatlists.TL_chatlists_joinChatlistUpdates();
@@ -1350,7 +1349,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                 tL_chatlists_joinChatlistInvite = tL_chatlists_joinChatlistUpdates;
             } else {
                 if ((this.invite instanceof TL_chatlists.TL_chatlists_chatlistInviteAlready) && arrayList3.isEmpty()) {
-                    dismiss();
+                    lambda$new$0();
                     return;
                 }
                 TL_chatlists.TL_chatlists_joinChatlistInvite tL_chatlists_joinChatlistInvite2 = new TL_chatlists.TL_chatlists_joinChatlistInvite();
@@ -1418,7 +1417,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                         List fragmentStack = parentLayout.getFragmentStack();
                         if (fragmentStack.size() >= 2 && (fragmentStack.get(fragmentStack.size() - 2) instanceof FiltersSetupActivity)) {
                             filtersSetupActivity = (FiltersSetupActivity) fragmentStack.get(fragmentStack.size() - 2);
-                            lastFragment.lambda$onBackPressed$321();
+                            lastFragment.lambda$onBackPressed$323();
                         }
                     }
                     undoView = filtersSetupActivity.getUndoView();
@@ -1446,7 +1445,7 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
                     }
                 }, (Runnable) removeFolderTemporarily.second);
                 this.success = true;
-                dismiss();
+                lambda$new$0();
                 getBaseFragment().getMessagesController().invalidateChatlistFolderUpdate(this.filterId);
             }
         }
@@ -1474,14 +1473,14 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
             runnable.run();
             return;
         }
-        AlertDialog create = new AlertDialog.Builder(baseFragment.getContext()).setTitle(LocaleController.getString(R.string.FilterDelete)).setMessage(LocaleController.getString(R.string.FilterDeleteAlertLinks)).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda13
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                FolderBottomSheet.lambda$showForDeletion$3(Utilities.Callback.this, dialogInterface, i3);
+        AlertDialog create = new AlertDialog.Builder(baseFragment.getContext()).setTitle(LocaleController.getString(R.string.FilterDelete)).setMessage(LocaleController.getString(R.string.FilterDeleteAlertLinks)).setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda13
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i3) {
+                FolderBottomSheet.lambda$showForDeletion$3(Utilities.Callback.this, alertDialog, i3);
             }
-        }).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda14
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
+        }).setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.FolderBottomSheet$$ExternalSyntheticLambda14
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i3) {
                 runnable.run();
             }
         }).create();
@@ -1685,8 +1684,9 @@ public class FolderBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         if (this.reqId >= 0) {
             getBaseFragment().getConnectionsManager().cancelRequest(this.reqId, true);
         }

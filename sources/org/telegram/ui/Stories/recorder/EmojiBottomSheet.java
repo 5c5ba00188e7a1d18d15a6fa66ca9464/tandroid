@@ -245,7 +245,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             if (motionEvent.getAction() != 0 || motionEvent.getY() >= EmojiBottomSheet.this.top) {
                 return super.dispatchTouchEvent(motionEvent);
             }
-            EmojiBottomSheet.this.dismiss();
+            EmojiBottomSheet.this.lambda$new$0();
             return true;
         }
 
@@ -1420,7 +1420,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             if (EmojiBottomSheet.this.onDocumentSelected != null) {
                 EmojiBottomSheet.this.onDocumentSelected.run(botInlineResult, document, Boolean.TRUE);
             }
-            EmojiBottomSheet.this.dismiss();
+            EmojiBottomSheet.this.lambda$new$0();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2235,7 +2235,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 }
             });
             addView(this.searchField, LayoutHelper.createFrame(-1, -2, 48));
-            EmojiTabsStrip emojiTabsStrip = new EmojiTabsStrip(context, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider, false, false, true, 0, null) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.Page.3
+            EmojiTabsStrip emojiTabsStrip = new EmojiTabsStrip(context, ((BottomSheet) EmojiBottomSheet.this).resourcesProvider, false, false, false, true, 0, null) { // from class: org.telegram.ui.Stories.recorder.EmojiBottomSheet.Page.3
                 @Override // org.telegram.ui.Components.EmojiTabsStrip
                 protected boolean onTabClick(int i) {
                     int i2;
@@ -2302,7 +2302,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                 } else if (emojiBottomSheet.onPlusSelected != null) {
                     EmojiBottomSheet.this.onPlusSelected.run();
                 }
-                EmojiBottomSheet.this.dismiss();
+                EmojiBottomSheet.this.lambda$new$0();
             }
         }
 
@@ -3486,7 +3486,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                     EmojiBottomSheet.this.lambda$onWidgetClick$1(i);
                 }
             })) && ((Boolean) this.onWidgetSelected.run(Integer.valueOf(i))).booleanValue()) {
-                dismiss();
+                lambda$new$0();
             }
         }
     }
@@ -3599,11 +3599,12 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.stickersDidLoad);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.groupStickersDidLoad);
         closeKeyboard();
-        super.dismiss();
+        super.lambda$new$0();
         FileLog.disableGson(false);
     }
 

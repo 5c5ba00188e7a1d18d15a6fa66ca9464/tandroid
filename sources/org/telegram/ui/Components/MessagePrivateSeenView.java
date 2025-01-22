@@ -180,7 +180,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             return;
         }
         buttonWithCounterView.setLoading(false);
-        bottomSheet.dismiss();
+        bottomSheet.lambda$new$0();
         BulletinFactory.global().createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.PremiumLastSeenSet)).show();
         if (runnable != null) {
             runnable.run();
@@ -204,7 +204,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             return;
         }
         buttonWithCounterView.setLoading(false);
-        bottomSheet.dismiss();
+        bottomSheet.lambda$new$0();
         BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.PremiumReadSet)).show();
         if (runnable != null) {
             runnable.run();
@@ -256,7 +256,7 @@ public class MessagePrivateSeenView extends FrameLayout {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         if (lastFragment != null) {
             lastFragment.presentFragment(new PremiumPreviewFragment(z ? "lastseen" : "readtime"));
-            bottomSheet.dismiss();
+            bottomSheet.lambda$new$0();
             if (runnable != null) {
                 runnable.run();
             }

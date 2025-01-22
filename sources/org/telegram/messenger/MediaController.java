@@ -319,7 +319,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         long j = mediaController2.recordTimeCount;
                         int limit = mediaController2.fileBuffer.limit() / 2;
                         MediaController mediaController3 = MediaController.this;
-                        mediaController2.recordTimeCount = j + (limit / (mediaController3.sampleRate / 1000));
+                        mediaController2.recordTimeCount = j + (limit / (mediaController3.sampleRate / MediaDataController.MAX_STYLE_RUNS_COUNT));
                         mediaController3.writedFrame++;
                     } else {
                         FileLog.e("writing frame failed");
@@ -1171,6 +1171,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public CropState cropState;
         public ArrayList<VideoEditedInfo.MediaEntity> croppedMediaEntities;
         public String croppedPaintPath;
+        public boolean customThumb;
+        public long customThumbSavedPosition;
         public VideoEditedInfo editedInfo;
         public long effectId;
         public ArrayList<TLRPC.MessageEntity> entities;
@@ -3394,7 +3396,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$broadcastNewPhotos$52(int i, ArrayList arrayList, ArrayList arrayList2, Integer num, AlbumEntry albumEntry, AlbumEntry albumEntry2, AlbumEntry albumEntry3) {
         if (PhotoViewer.getInstance().isVisible() && !forceBroadcastNewPhotos) {
-            broadcastNewPhotos(i, arrayList, arrayList2, num, albumEntry, albumEntry2, albumEntry3, 1000);
+            broadcastNewPhotos(i, arrayList, arrayList2, num, albumEntry, albumEntry2, albumEntry3, MediaDataController.MAX_STYLE_RUNS_COUNT);
             return;
         }
         allMediaAlbums = arrayList;

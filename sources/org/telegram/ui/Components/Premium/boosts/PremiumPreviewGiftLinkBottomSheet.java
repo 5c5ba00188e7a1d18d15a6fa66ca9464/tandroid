@@ -110,7 +110,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$init$2(Void r3) {
         this.actionBtn.updateLoading(false);
-        dismiss();
+        lambda$new$0();
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.PremiumPreviewGiftLinkBottomSheet$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
@@ -151,7 +151,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
             j = ((MessagesStorage.TopicKey) arrayList.get(i2)).dialogId;
             getBaseFragment().getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(str, j, null, null, null, true, null, null, null, true, 0, null, false));
         }
-        dialogsActivity.lambda$onBackPressed$321();
+        dialogsActivity.lambda$onBackPressed$323();
         BoostDialogs.showGiftLinkForwardedBulletin(j);
         return true;
     }
@@ -172,7 +172,7 @@ public class PremiumPreviewGiftLinkBottomSheet extends PremiumPreviewBottomSheet
             }
         });
         getBaseFragment().presentFragment(dialogsActivity);
-        dismiss();
+        lambda$new$0();
     }
 
     public static void show(String str, TLRPC.TL_premiumGiftOption tL_premiumGiftOption, TLRPC.User user, Browser.Progress progress) {

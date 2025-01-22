@@ -121,7 +121,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
         selectorHeaderCell.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.MultiContactsSelectorBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                MultiContactsSelectorBottomSheet.this.dismiss();
+                MultiContactsSelectorBottomSheet.this.lambda$new$0();
             }
         });
         selectorHeaderCell.setText(getTitle());
@@ -420,7 +420,7 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
             }
         }
         this.selectorListener.onUserSelected(arrayList);
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -534,9 +534,10 @@ public class MultiContactsSelectorBottomSheet extends BottomSheetWithRecyclerLis
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         AndroidUtilities.hideKeyboard(this.searchField.getEditText());
-        super.dismiss();
+        super.lambda$new$0();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet

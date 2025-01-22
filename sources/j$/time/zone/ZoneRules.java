@@ -8,6 +8,7 @@ import j$.util.concurrent.ConcurrentHashMap;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.TimeZone;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes2.dex */
 public final class ZoneRules implements Serializable {
@@ -124,7 +125,7 @@ public final class ZoneRules implements Serializable {
     }
 
     private static ZoneOffset f(int i2) {
-        return ZoneOffset.j(i2 / 1000);
+        return ZoneOffset.j(i2 / MediaDataController.MAX_STYLE_RUNS_COUNT);
     }
 
     public final boolean c(Instant instant) {

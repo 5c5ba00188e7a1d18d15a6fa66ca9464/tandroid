@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.TranslateController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.webrtc.MediaStreamTrack;
@@ -534,7 +535,7 @@ public class DefaultTrackSelector extends MappingTrackSelector {
             Parameters build = new Builder().build();
             DEFAULT_WITHOUT_CONTEXT = build;
             DEFAULT = build;
-            FIELD_EXCEED_VIDEO_CONSTRAINTS_IF_NECESSARY = Util.intToStringMaxRadix(1000);
+            FIELD_EXCEED_VIDEO_CONSTRAINTS_IF_NECESSARY = Util.intToStringMaxRadix(MediaDataController.MAX_STYLE_RUNS_COUNT);
             FIELD_ALLOW_VIDEO_MIXED_MIME_TYPE_ADAPTIVENESS = Util.intToStringMaxRadix(1001);
             FIELD_ALLOW_VIDEO_NON_SEAMLESS_ADAPTIVENESS = Util.intToStringMaxRadix(1002);
             FIELD_EXCEED_AUDIO_CONSTRAINTS_IF_NECESSARY = Util.intToStringMaxRadix(1003);

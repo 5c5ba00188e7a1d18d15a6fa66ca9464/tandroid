@@ -500,7 +500,7 @@ public class CountrySelectActivity extends BaseFragment {
         if (i < 0) {
             return;
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
         if (item == null || (countrySelectActivityDelegate = this.delegate) == null) {
             return;
         }
@@ -522,7 +522,7 @@ public class CountrySelectActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    CountrySelectActivity.this.lambda$onBackPressed$321();
+                    CountrySelectActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

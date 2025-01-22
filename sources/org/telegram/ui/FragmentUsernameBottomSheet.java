@@ -51,7 +51,7 @@ public abstract class FragmentUsernameBottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$open$2(Runnable runnable, BottomSheet bottomSheet, View view) {
         runnable.run();
-        bottomSheet.dismiss();
+        bottomSheet.lambda$new$0();
     }
 
     /* JADX WARN: Multi-variable type inference failed */

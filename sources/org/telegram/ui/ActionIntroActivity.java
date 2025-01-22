@@ -1,7 +1,6 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.RectF;
@@ -76,7 +75,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$1(AlertDialog alertDialog, int i) {
         presentFragment(new LoginActivity().changePhoneNumber(), true);
     }
 
@@ -97,10 +96,10 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.PhoneNumberChangeTitle));
             builder.setMessage(LocaleController.getString(R.string.PhoneNumberAlert));
-            builder.setPositiveButton(LocaleController.getString(R.string.Change), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda7
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    ActionIntroActivity.this.lambda$createView$1(dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(R.string.Change), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda7
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    ActionIntroActivity.this.lambda$createView$1(alertDialog, i2);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -151,7 +150,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onRequestPermissionsResultFragment$6(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onRequestPermissionsResultFragment$6(AlertDialog alertDialog, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
             intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
@@ -243,7 +242,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i4) {
                     if (i4 == -1) {
-                        ActionIntroActivity.this.lambda$onBackPressed$321();
+                        ActionIntroActivity.this.lambda$onBackPressed$323();
                     }
                 }
             });
@@ -878,10 +877,10 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     public void onRequestPermissionsResultFragment(int i, String[] strArr, int[] iArr) {
         if (getParentActivity() != null && i == 34) {
             if (iArr.length <= 0 || iArr[0] != 0) {
-                new AlertDialog.Builder(getParentActivity()).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.QRCodePermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ActionIntroActivity.this.lambda$onRequestPermissionsResultFragment$6(dialogInterface, i2);
+                new AlertDialog.Builder(getParentActivity()).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.QRCodePermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ActionIntroActivity$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ActionIntroActivity.this.lambda$onRequestPermissionsResultFragment$6(alertDialog, i2);
                     }
                 }).setNegativeButton(LocaleController.getString(R.string.ContactsPermissionAlertNotNow), null).setTopAnimation(R.raw.permission_request_camera, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).show();
             } else {

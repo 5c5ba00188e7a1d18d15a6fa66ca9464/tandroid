@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
@@ -143,7 +144,7 @@ public abstract class DtsUtil {
         int i2 = SAMPLE_RATE_BY_SFREQ[normalizedFrameHeader.readBits(4)];
         int readBits = normalizedFrameHeader.readBits(5);
         int[] iArr = TWICE_BITRATE_KBPS_BY_RATE;
-        int i3 = readBits >= iArr.length ? -1 : (iArr[readBits] * 1000) / 2;
+        int i3 = readBits >= iArr.length ? -1 : (iArr[readBits] * MediaDataController.MAX_STYLE_RUNS_COUNT) / 2;
         normalizedFrameHeader.skipBits(10);
         return new Format.Builder().setId(str).setSampleMimeType("audio/vnd.dts").setAverageBitrate(i3).setChannelCount(i + (normalizedFrameHeader.readBits(2) > 0 ? 1 : 0)).setSampleRate(i2).setDrmInitData(drmInitData).setLanguage(str2).build();
     }

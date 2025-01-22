@@ -154,8 +154,8 @@ public class LegendSignatureView extends FrameLayout {
 
     /*  JADX ERROR: ConcurrentModificationException in pass: ConstructorVisitor
         java.util.ConcurrentModificationException
-        	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1043)
-        	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:997)
+        	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1013)
+        	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:967)
         	at jadx.core.dex.visitors.ConstructorVisitor.insertPhiInsn(ConstructorVisitor.java:139)
         	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:91)
         	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
@@ -164,8 +164,8 @@ public class LegendSignatureView extends FrameLayout {
     public java.lang.CharSequence formatWholeNumber(
     /*  JADX ERROR: ConcurrentModificationException in pass: ConstructorVisitor
         java.util.ConcurrentModificationException
-        	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1043)
-        	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:997)
+        	at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1013)
+        	at java.base/java.util.ArrayList$Itr.next(ArrayList.java:967)
         	at jadx.core.dex.visitors.ConstructorVisitor.insertPhiInsn(ConstructorVisitor.java:139)
         	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:91)
         	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
@@ -179,7 +179,7 @@ public class LegendSignatureView extends FrameLayout {
         	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:335)
         	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:301)
         	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
         	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:258)
         */

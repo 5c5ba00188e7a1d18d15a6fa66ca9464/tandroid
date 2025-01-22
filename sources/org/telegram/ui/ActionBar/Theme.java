@@ -94,7 +94,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda96;
+import org.telegram.messenger.MessagesController$$ExternalSyntheticLambda100;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
@@ -309,6 +309,7 @@ public abstract class Theme {
     public static TextPaint chat_topicTextPaint;
     public static TextPaint chat_unlockExtendedMediaTextPaint;
     public static Paint chat_urlPaint;
+    public static Paint chat_videoProgressPaint;
     public static Paint checkboxSquare_backgroundPaint;
     public static Paint checkboxSquare_checkPaint;
     public static Paint checkboxSquare_eraserPaint;
@@ -7586,7 +7587,7 @@ public abstract class Theme {
                 themeInfo3 = currentNightTheme;
             }
             applyTheme(themeInfo3, false, false, needSwitchToTheme == 2);
-            AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda96());
+            AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda100());
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.10
                 @Override // android.hardware.SensorEventListener
                 public void onAccuracyChanged(Sensor sensor, int i790) {
@@ -8326,7 +8327,7 @@ public abstract class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda96(), 2100L);
+                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda100(), 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -8520,7 +8521,7 @@ public abstract class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda96(), 2100L);
+                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda100(), 2100L);
                 }
             }
             currentTheme = themeInfo;
@@ -9633,6 +9634,7 @@ public abstract class Theme {
             chat_composeBackgroundPaint = new Paint();
             chat_radialProgressPausedPaint = new Paint(1);
             chat_radialProgressPausedSeekbarPaint = new Paint(1);
+            chat_videoProgressPaint = new Paint(1);
             chat_messageBackgroundSelectedPaint = new Paint(1);
             chat_actionBackgroundPaint = new Paint(7);
             chat_actionBackgroundSelectedPaint = new Paint(7);
@@ -12710,7 +12712,7 @@ public abstract class Theme {
                 if (isCurrentThemeNight()) {
                     switchNightThemeDelay = 2000;
                     lastDelayUpdateTime = SystemClock.elapsedRealtime();
-                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda96(), 2100L);
+                    AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda100(), 2100L);
                 }
             }
             currentTheme = themeInfo;

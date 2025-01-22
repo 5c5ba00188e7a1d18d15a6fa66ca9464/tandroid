@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -43,6 +42,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
@@ -131,7 +131,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
 
         @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-        protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
+        protected void onEmojiSelected(View view, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
             if (ChatCustomReactionsEditActivity.this.selectedEmojisMap.containsKey(l)) {
                 ChatCustomReactionsEditActivity.this.selectedEmojisIds.remove(l);
                 final AnimatedEmojiSpan animatedEmojiSpan = (AnimatedEmojiSpan) ChatCustomReactionsEditActivity.this.selectedEmojisMap.remove(l);
@@ -209,16 +209,16 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
             builder.setTitle(LocaleController.getString("UnsavedChanges", R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString("ReactionApplyChangesDialog", R.string.ReactionApplyChangesDialog));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$14(dialogInterface, i);
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$14(alertDialog, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString(R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$15(dialogInterface, i);
+            builder.setNegativeButton(LocaleController.getString(R.string.Discard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ChatCustomReactionsEditActivity.this.lambda$checkChangesBeforeExit$15(alertDialog, i);
                 }
             });
             builder.show();
@@ -355,13 +355,13 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkChangesBeforeExit$14(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkChangesBeforeExit$14(AlertDialog alertDialog, int i) {
         this.actionButton.performClick();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkChangesBeforeExit$15(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$checkChangesBeforeExit$15(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -418,7 +418,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
         this.actionButton.setLoading(false);
         if (tL_error.text.equals("CHAT_NOT_MODIFIED")) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         } else {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
@@ -460,7 +460,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }, new Runnable() { // from class: org.telegram.ui.Components.Reactions.ChatCustomReactionsEditActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
-                ChatCustomReactionsEditActivity.this.lambda$onBackPressed$321();
+                ChatCustomReactionsEditActivity.this.lambda$onBackPressed$323();
             }
         });
     }
@@ -697,7 +697,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                 if (i != -1 || ChatCustomReactionsEditActivity.this.checkChangesBeforeExit()) {
                     return;
                 }
-                ChatCustomReactionsEditActivity.this.lambda$onBackPressed$321();
+                ChatCustomReactionsEditActivity.this.lambda$onBackPressed$323();
             }
         });
         ScrollView scrollView = new ScrollView(context);
@@ -1009,7 +1009,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             if (iNavigationLayout == null || iNavigationLayout.getLastFragment() != this) {
                 removeSelfFromStack();
             } else {
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
             }
         }
     }

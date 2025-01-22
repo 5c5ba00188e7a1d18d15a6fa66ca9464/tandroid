@@ -120,9 +120,9 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x00c8  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00cb  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x00bc  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00cd  */
     /* renamed from: changeTimer, reason: merged with bridge method [inline-methods] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -147,7 +147,7 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
                     this.hint.setMultilineText(true);
                     HintView2 hintView2 = this.hint;
                     hintView2.setMaxWidthPx(HintView2.cutInFancyHalf(replaceTags, hintView2.getTextPaint()));
-                    this.hint.setInnerPadding(12, 7, 11, 7);
+                    this.hint.setInnerPadding(12.0f, 7.0f, 11.0f, 7.0f);
                     this.hint.setIconMargin(2);
                     this.hint.setIconTranslate(0.0f, 0.0f);
                     this.hint.setTranslationY(((-Math.min(AndroidUtilities.dp(34.0f), getEditTextHeight())) - AndroidUtilities.dp(14.0f)) * (isAtTop() ? -1.0f : 1.0f));
@@ -168,7 +168,7 @@ public abstract class CaptionPhotoViewer extends CaptionContainerView {
         replaceTags = LocaleController.getString(i2);
         this.hint.setMaxWidthPx(getMeasuredWidth());
         this.hint.setMultilineText(false);
-        this.hint.setInnerPadding(13, 4, 10, 4);
+        this.hint.setInnerPadding(13.0f, 4.0f, 10.0f, 4.0f);
         this.hint.setIconMargin(0);
         this.hint.setIconTranslate(0.0f, -AndroidUtilities.dp(1.0f));
         this.hint.setTranslationY(((-Math.min(AndroidUtilities.dp(34.0f), getEditTextHeight())) - AndroidUtilities.dp(14.0f)) * (isAtTop() ? -1.0f : 1.0f));

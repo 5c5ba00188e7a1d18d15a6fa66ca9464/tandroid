@@ -273,7 +273,7 @@ public abstract class MentionsContainerView extends BlurredFrameLayout implement
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z, boolean z2) {
                 ImageReceiver imageReceiver;
                 if (i >= 0 && i < MentionsContainerView.this.botContextResults.size()) {
                     int childCount = MentionsContainerView.this.getListView().getChildCount();

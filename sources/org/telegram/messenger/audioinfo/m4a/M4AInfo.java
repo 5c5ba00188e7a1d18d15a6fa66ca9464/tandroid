@@ -31,11 +31,11 @@ public class M4AInfo extends AudioInfo {
     }
 
     /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
-        java.lang.NullPointerException
+        java.lang.NullPointerException: Cannot invoke "jadx.core.dex.instructions.args.SSAVar.use(jadx.core.dex.instructions.args.RegisterArg)" because "ssaVar" is null
         	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:493)
         	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:496)
         */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0273 A[Catch: Exception -> 0x0255, TryCatch #1 {Exception -> 0x0255, blocks: (B:136:0x0239, B:138:0x0250, B:141:0x0268, B:143:0x0273, B:145:0x028a, B:146:0x02a3, B:148:0x02a7, B:152:0x02a1, B:154:0x0257, B:156:0x025f), top: B:135:0x0239 }] */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x0274 A[Catch: Exception -> 0x0256, TryCatch #1 {Exception -> 0x0256, blocks: (B:136:0x023a, B:138:0x0251, B:141:0x0269, B:143:0x0274, B:145:0x028b, B:146:0x02a4, B:148:0x02a8, B:152:0x02a2, B:154:0x0258, B:156:0x0260), top: B:135:0x023a }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

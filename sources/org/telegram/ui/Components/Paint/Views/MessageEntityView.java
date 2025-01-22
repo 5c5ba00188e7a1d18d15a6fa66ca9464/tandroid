@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -1151,7 +1152,7 @@ public abstract class MessageEntityView extends EntityView {
                 return new RecyclerListView.Holder(chatMessageCell);
             }
         });
-        GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.4
+        GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, MediaDataController.MAX_STYLE_RUNS_COUNT, 1, true) { // from class: org.telegram.ui.Components.Paint.Views.MessageEntityView.4
             @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
             protected boolean hasSiblingChild(int i4) {
                 byte b;
@@ -1193,13 +1194,10 @@ public abstract class MessageEntityView extends EntityView {
             public int getSpanSize(int i4) {
                 int size = (MessageEntityView.this.messageObjects.size() - 1) - i4;
                 if (MessageEntityView.this.groupedMessages == null || size < 0 || size >= MessageEntityView.this.groupedMessages.messages.size()) {
-                    return 1000;
+                    return MediaDataController.MAX_STYLE_RUNS_COUNT;
                 }
                 MessageObject.GroupedMessagePosition position = MessageEntityView.this.groupedMessages.getPosition(MessageEntityView.this.groupedMessages.messages.get(size));
-                if (position != null) {
-                    return position.spanSize;
-                }
-                return 1000;
+                return position != null ? position.spanSize : MediaDataController.MAX_STYLE_RUNS_COUNT;
             }
         });
         recyclerListView.setLayoutManager(gridLayoutManagerFixed);

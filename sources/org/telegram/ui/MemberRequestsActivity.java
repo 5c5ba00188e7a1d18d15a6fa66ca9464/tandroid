@@ -35,7 +35,7 @@ public class MemberRequestsActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    MemberRequestsActivity.this.lambda$onBackPressed$321();
+                    MemberRequestsActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

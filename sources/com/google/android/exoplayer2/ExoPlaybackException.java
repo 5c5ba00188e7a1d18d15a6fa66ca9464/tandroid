@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.source.MediaPeriodId;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class ExoPlaybackException extends PlaybackException {
@@ -77,7 +78,7 @@ public final class ExoPlaybackException extends PlaybackException {
     }
 
     public static ExoPlaybackException createForUnexpected(RuntimeException runtimeException) {
-        return createForUnexpected(runtimeException, 1000);
+        return createForUnexpected(runtimeException, MediaDataController.MAX_STYLE_RUNS_COUNT);
     }
 
     public static ExoPlaybackException createForUnexpected(RuntimeException runtimeException, int i) {

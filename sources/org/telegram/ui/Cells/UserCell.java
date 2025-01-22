@@ -712,14 +712,14 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.selfAsSavedMessages = z;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0402  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0416  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x044b  */
-    /* JADX WARN: Removed duplicated region for block: B:137:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:139:0x041c  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:188:0x0243 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x03e9  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x03fd  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0412  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0432  */
+    /* JADX WARN: Removed duplicated region for block: B:134:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0403  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x03ec  */
+    /* JADX WARN: Removed duplicated region for block: B:182:0x0243 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -895,37 +895,29 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             this.nameTextView.setRightDrawable((Drawable) null);
             this.nameTextView.setRightDrawableTopPadding(0);
         } else {
-            TLRPC.EmojiStatus emojiStatus = user.emoji_status;
-            if (!(emojiStatus instanceof TLRPC.TL_emojiStatusUntil) || ((TLRPC.TL_emojiStatusUntil) emojiStatus).until <= ((int) (System.currentTimeMillis() / 1000))) {
-                TLRPC.EmojiStatus emojiStatus2 = user.emoji_status;
-                if (emojiStatus2 instanceof TLRPC.TL_emojiStatus) {
-                    this.emojiStatus.set(((TLRPC.TL_emojiStatus) emojiStatus2).document_id, false);
-                } else {
-                    if (this.premiumDrawable == null) {
-                        this.premiumDrawable = getContext().getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
-                        AnimatedEmojiDrawable.WrapSizeDrawable wrapSizeDrawable = new AnimatedEmojiDrawable.WrapSizeDrawable(this.premiumDrawable, AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f)) { // from class: org.telegram.ui.Cells.UserCell.3
-                            @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.WrapSizeDrawable, android.graphics.drawable.Drawable
-                            public void draw(Canvas canvas) {
-                                canvas.save();
-                                canvas.translate(0.0f, AndroidUtilities.dp(1.0f));
-                                super.draw(canvas);
-                                canvas.restore();
-                            }
-                        };
-                        this.premiumDrawable = wrapSizeDrawable;
-                        wrapSizeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
-                    }
-                    simpleTextView2 = this.nameTextView;
-                    drawable = this.premiumDrawable;
-                    simpleTextView2.setRightDrawable(drawable);
-                    this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
-                }
+            if (DialogObject.getEmojiStatusDocumentId(user.emoji_status) != 0) {
+                this.emojiStatus.set(DialogObject.getEmojiStatusDocumentId(user.emoji_status), false);
+                this.emojiStatus.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
+                simpleTextView2 = this.nameTextView;
+                drawable = this.emojiStatus;
             } else {
-                this.emojiStatus.set(((TLRPC.TL_emojiStatusUntil) user.emoji_status).document_id, false);
+                if (this.premiumDrawable == null) {
+                    this.premiumDrawable = getContext().getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
+                    AnimatedEmojiDrawable.WrapSizeDrawable wrapSizeDrawable = new AnimatedEmojiDrawable.WrapSizeDrawable(this.premiumDrawable, AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f)) { // from class: org.telegram.ui.Cells.UserCell.3
+                        @Override // org.telegram.ui.Components.AnimatedEmojiDrawable.WrapSizeDrawable, android.graphics.drawable.Drawable
+                        public void draw(Canvas canvas) {
+                            canvas.save();
+                            canvas.translate(0.0f, AndroidUtilities.dp(1.0f));
+                            super.draw(canvas);
+                            canvas.restore();
+                        }
+                    };
+                    this.premiumDrawable = wrapSizeDrawable;
+                    wrapSizeDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                }
+                simpleTextView2 = this.nameTextView;
+                drawable = this.premiumDrawable;
             }
-            this.emojiStatus.setColor(Integer.valueOf(Theme.getColor(Theme.key_chats_verifiedBackground, this.resourcesProvider)));
-            simpleTextView2 = this.nameTextView;
-            drawable = this.emojiStatus;
             simpleTextView2.setRightDrawable(drawable);
             this.nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
         }

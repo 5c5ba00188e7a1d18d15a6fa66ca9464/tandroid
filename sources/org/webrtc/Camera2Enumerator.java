@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticApiModelOutline19;
 import org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticApiModelOutline9;
 import org.webrtc.CameraEnumerationAndroid;
@@ -72,10 +73,13 @@ public class Camera2Enumerator implements CameraEnumerator {
     static int getFpsUnitFactor(Range<Integer>[] rangeArr) {
         Comparable upper;
         if (rangeArr.length == 0) {
-            return 1000;
+            return MediaDataController.MAX_STYLE_RUNS_COUNT;
         }
         upper = rangeArr[0].getUpper();
-        return ((Integer) upper).intValue() < 1000 ? 1000 : 1;
+        if (((Integer) upper).intValue() < 1000) {
+            return MediaDataController.MAX_STYLE_RUNS_COUNT;
+        }
+        return 1;
     }
 
     static List<CameraEnumerationAndroid.CaptureFormat> getSupportedFormats(Context context, String str) {
@@ -125,7 +129,7 @@ public class Camera2Enumerator implements CameraEnumerator {
                         } else {
                             double d = j;
                             Double.isNaN(d);
-                            round = ((int) Math.round(NANO_SECONDS_PER_SECOND / d)) * 1000;
+                            round = ((int) Math.round(NANO_SECONDS_PER_SECOND / d)) * MediaDataController.MAX_STYLE_RUNS_COUNT;
                         }
                         arrayList.add(new CameraEnumerationAndroid.CaptureFormat(size.width, size.height, 0, round));
                         Logging.d(TAG, "Format: " + size.width + "x" + size.height + "@" + round);

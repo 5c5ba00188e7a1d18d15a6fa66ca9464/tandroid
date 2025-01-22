@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public class ItemTouchHelper extends RecyclerView.ItemDecoration implements RecyclerView.OnChildAttachStateChangeListener {
@@ -613,7 +614,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         int i2 = this.mDy > 0.0f ? 2 : 1;
         VelocityTracker velocityTracker = this.mVelocityTracker;
         if (velocityTracker != null && this.mActivePointerId > -1) {
-            velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
+            velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
             float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
             float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
             int i3 = yVelocity > 0.0f ? 2 : 1;
@@ -817,7 +818,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         int i2 = this.mDx > 0.0f ? 8 : 4;
         VelocityTracker velocityTracker = this.mVelocityTracker;
         if (velocityTracker != null && this.mActivePointerId > -1) {
-            velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
+            velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
             float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
             float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
             int i3 = xVelocity > 0.0f ? 8 : 4;

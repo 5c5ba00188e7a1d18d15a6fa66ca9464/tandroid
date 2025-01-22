@@ -221,7 +221,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
@@ -230,7 +230,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
         int i3;
         if (i == NotificationCenter.historyImportProgressChanged) {
             if (objArr.length > 1) {
-                dismiss();
+                lambda$new$0();
                 return;
             }
             SendMessagesHelper.ImportingHistory importingHistory = this.parentFragment.getSendMessagesHelper().getImportingHistory(this.parentFragment.getDialogId());
@@ -255,7 +255,7 @@ public class ImportingAlert extends BottomSheet implements NotificationCenter.No
                 return;
             }
             if (objArr.length > 1) {
-                dismiss();
+                lambda$new$0();
                 return;
             }
             SendMessagesHelper.ImportingStickers importingStickers = SendMessagesHelper.getInstance(this.currentAccount).getImportingStickers(this.stickersShortName);

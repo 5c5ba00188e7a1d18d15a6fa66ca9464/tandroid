@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -64,7 +65,7 @@ public class SpeedLineParticles$Drawable {
         }
 
         public void genPosition(long j, boolean z) {
-            this.lifeTime = j + SpeedLineParticles$Drawable.this.minLifeTime + Utilities.fastRandom.nextInt(1000);
+            this.lifeTime = j + SpeedLineParticles$Drawable.this.minLifeTime + Utilities.fastRandom.nextInt(MediaDataController.MAX_STYLE_RUNS_COUNT);
             SpeedLineParticles$Drawable speedLineParticles$Drawable = SpeedLineParticles$Drawable.this;
             RectF rectF = z ? speedLineParticles$Drawable.screenRect : speedLineParticles$Drawable.rect;
             float abs = rectF.left + Math.abs(Utilities.fastRandom.nextInt() % rectF.width());

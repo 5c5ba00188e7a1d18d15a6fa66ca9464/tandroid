@@ -17,6 +17,7 @@ import org.telegram.messenger.BillingController;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CheckBox2;
@@ -172,7 +173,7 @@ public class PremiumTierCell extends ViewGroup {
                 this.pricePerYearStrikeView.setVisibility(0);
                 this.pricePerYearView.setVisibility(0);
                 this.pricePerYearStrikeView.setText("USD00.00");
-                this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, 1000));
+                this.pricePerYearView.setText(LocaleController.formatString(R.string.PricePerYear, Integer.valueOf(MediaDataController.MAX_STYLE_RUNS_COUNT)));
                 textView2 = this.pricePerMonthView;
                 formatString = LocaleController.formatString(R.string.PricePerMonthMe, 100);
                 textView2.setText(formatString);

@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -26,6 +25,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
@@ -134,7 +134,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showBlockAlert$3(TLRPC.User user, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showBlockAlert$3(TLRPC.User user, AlertDialog alertDialog, int i) {
         int i2;
         if (MessagesController.isSupportUser(user)) {
             i2 = R.string.ErrorOccurred;
@@ -143,7 +143,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             i2 = R.string.UserBlocked;
         }
         AlertsCreator.showSimpleToast(this, LocaleController.getString(i2));
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -178,10 +178,10 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.BlockUser));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", R.string.AreYouSureBlockContact2, ContactsController.formatName(user.first_name, user.last_name))));
-        builder.setPositiveButton(LocaleController.getString(R.string.BlockContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                DialogOrContactPickerActivity.this.lambda$showBlockAlert$3(user, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.BlockContact), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                DialogOrContactPickerActivity.this.lambda$showBlockAlert$3(user, alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -253,7 +253,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    DialogOrContactPickerActivity.this.lambda$onBackPressed$321();
+                    DialogOrContactPickerActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -500,7 +500,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
                         prepareForMoving(motionEvent, x < 0);
                     }
                 } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
-                    this.velocityTracker.computeCurrentVelocity(1000, DialogOrContactPickerActivity.this.maximumVelocity);
+                    this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, DialogOrContactPickerActivity.this.maximumVelocity);
                     if (motionEvent == null || motionEvent.getAction() == 3) {
                         f = 0.0f;
                         f2 = 0.0f;

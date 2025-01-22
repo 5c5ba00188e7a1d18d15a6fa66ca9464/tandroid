@@ -2,7 +2,6 @@ package org.telegram.ui.Stars;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
@@ -636,7 +635,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$initWithdraw$20(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$initWithdraw$20(AlertDialog alertDialog, int i) {
         presentFragment(new TwoStepVerificationSetupActivity(6, null));
     }
 
@@ -668,7 +667,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
         int i2;
         if (tL_error == null) {
             twoStepVerificationActivity.needHideProgress();
-            twoStepVerificationActivity.lambda$onBackPressed$321();
+            twoStepVerificationActivity.lambda$onBackPressed$323();
             if (tLObject instanceof TL_stats.TL_broadcastRevenueWithdrawalUrl) {
                 context = getContext();
                 str = ((TL_stats.TL_broadcastRevenueWithdrawalUrl) tLObject).url;
@@ -695,7 +694,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
             }
             if (twoStepVerificationActivity != null) {
                 twoStepVerificationActivity.needHideProgress();
-                twoStepVerificationActivity.lambda$onBackPressed$321();
+                twoStepVerificationActivity.lambda$onBackPressed$323();
             }
             BulletinFactory.showError(tL_error);
             return;
@@ -760,10 +759,10 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
             linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
         }
         if ("PASSWORD_MISSING".equals(tL_error.text)) {
-            builder.setPositiveButton(LocaleController.getString(R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda27
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    BotStarsActivity.this.lambda$initWithdraw$20(dialogInterface, i5);
+            builder.setPositiveButton(LocaleController.getString(R.string.EditAdminTransferSetPassword), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stars.BotStarsActivity$$ExternalSyntheticLambda27
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i5) {
+                    BotStarsActivity.this.lambda$initWithdraw$20(alertDialog, i5);
                 }
             });
             i2 = R.string.Cancel;
@@ -1057,7 +1056,7 @@ public class BotStarsActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    BotStarsActivity.this.lambda$onBackPressed$321();
+                    BotStarsActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

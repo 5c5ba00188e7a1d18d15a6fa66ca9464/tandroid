@@ -172,6 +172,7 @@ import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import org.telegram.ui.CountrySelectActivity;
 import org.telegram.ui.LoginActivity;
+import org.telegram.ui.PhotoViewer;
 
 /* loaded from: classes4.dex */
 public class LoginActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -875,7 +876,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$10(final Bundle bundle, final TLRPC.TL_auth_resendCode tL_auth_resendCode, final TLObject tLObject, final TLRPC.TL_error tL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda19
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda18
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.LoginActivityEmailCodeView.this.lambda$new$9(tLObject, bundle, tL_error, tL_auth_resendCode);
@@ -975,7 +976,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$6(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$6(AlertDialog alertDialog, int i) {
             final Bundle bundle = new Bundle();
             bundle.putString("phone", this.phone);
             bundle.putString("ephone", this.emailPhone);
@@ -983,7 +984,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             final TLRPC.TL_auth_resetLoginEmail tL_auth_resetLoginEmail = new TLRPC.TL_auth_resetLoginEmail();
             tL_auth_resetLoginEmail.phone_number = this.requestPhone;
             tL_auth_resetLoginEmail.phone_code_hash = this.phoneHash;
-            LoginActivity.this.getConnectionsManager().sendRequest(tL_auth_resetLoginEmail, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda17
+            LoginActivity.this.getConnectionsManager().sendRequest(tL_auth_resetLoginEmail, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda19
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     LoginActivity.LoginActivityEmailCodeView.this.lambda$new$5(bundle, tL_auth_resetLoginEmail, tLObject, tL_error);
@@ -1005,10 +1006,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 textStyleRun.end = i;
                 spannableStringBuilder.setSpan(new TextStyleSpan(textStyleRun), indexOf, i, 0);
             }
-            new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.LoginEmailResetTitle)).setMessage(AndroidUtilities.formatSpannable(AndroidUtilities.replaceTags(LocaleController.getString(org.telegram.messenger.R.string.LoginEmailResetMessage)), spannableStringBuilder, getTimePattern(this.resetAvailablePeriod))).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.LoginEmailResetButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda15
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    LoginActivity.LoginActivityEmailCodeView.this.lambda$new$6(dialogInterface, i2);
+            new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.LoginEmailResetTitle)).setMessage(AndroidUtilities.formatSpannable(AndroidUtilities.replaceTags(LocaleController.getString(org.telegram.messenger.R.string.LoginEmailResetMessage)), spannableStringBuilder, getTimePattern(this.resetAvailablePeriod))).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.LoginEmailResetButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda15
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    LoginActivity.LoginActivityEmailCodeView.this.lambda$new$6(alertDialog, i2);
                 }
             }).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.Cancel), null).show();
         }
@@ -1038,7 +1039,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$18(TLObject tLObject, Bundle bundle) {
             if ((tLObject instanceof TL_account.TL_emailVerified) && LoginActivity.this.activityMode == 3) {
-                LoginActivity.this.lambda$onBackPressed$321();
+                LoginActivity.this.lambda$onBackPressed$323();
                 LoginActivity.this.emailChangeFinishCallback.run();
             } else if (tLObject instanceof TL_account.TL_emailVerifiedLogin) {
                 LoginActivity.this.lambda$resendCodeFromSafetyNet$19(bundle, ((TL_account.TL_emailVerifiedLogin) tLObject).sent_code);
@@ -1231,7 +1232,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPasscodeError$16() {
-            postDelayed(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda18
+            postDelayed(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityEmailCodeView$$ExternalSyntheticLambda17
                 @Override // java.lang.Runnable
                 public final void run() {
                     LoginActivity.LoginActivityEmailCodeView.this.lambda$onPasscodeError$15();
@@ -1995,7 +1996,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$recoverPassword$6(TLObject tLObject, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$recoverPassword$6(TLObject tLObject, AlertDialog alertDialog, int i) {
             LoginActivity.this.onAuthSuccess((TLRPC.TL_auth_authorization) tLObject);
         }
 
@@ -2016,10 +2017,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             LoginActivity.this.needHideProgress(false);
             if (tLObject instanceof TLRPC.auth_Authorization) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
-                builder.setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityNewPasswordView$$ExternalSyntheticLambda9
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LoginActivity.LoginActivityNewPasswordView.this.lambda$recoverPassword$6(tLObject, dialogInterface, i);
+                builder.setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Continue), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityNewPasswordView$$ExternalSyntheticLambda9
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LoginActivity.LoginActivityNewPasswordView.this.lambda$recoverPassword$6(tLObject, alertDialog, i);
                     }
                 });
                 builder.setMessage(LocaleController.getString(TextUtils.isEmpty(str) ? org.telegram.messenger.R.string.YourPasswordReset : org.telegram.messenger.R.string.YourPasswordChangedSuccessText));
@@ -2435,7 +2436,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$2(TLRPC.TL_auth_passwordRecovery tL_auth_passwordRecovery, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$2(TLRPC.TL_auth_passwordRecovery tL_auth_passwordRecovery, AlertDialog alertDialog, int i) {
             Bundle bundle = new Bundle();
             bundle.putString("email_unconfirmed_pattern", tL_auth_passwordRecovery.email_pattern);
             bundle.putString("password", this.passwordString);
@@ -2477,10 +2478,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             builder.setMessage(AndroidUtilities.formatSpannable(LocaleController.getString(org.telegram.messenger.R.string.RestoreEmailSent), valueOf));
             builder.setTitle(LocaleController.getString("RestoreEmailSentTitle", org.telegram.messenger.R.string.RestoreEmailSentTitle));
-            builder.setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPasswordView$$ExternalSyntheticLambda10
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    LoginActivity.LoginActivityPasswordView.this.lambda$new$2(tL_auth_passwordRecovery, dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Continue), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPasswordView$$ExternalSyntheticLambda10
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    LoginActivity.LoginActivityPasswordView.this.lambda$new$2(tL_auth_passwordRecovery, alertDialog, i2);
                 }
             });
             Dialog showDialog = LoginActivity.this.showDialog(builder.create());
@@ -2501,7 +2502,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$5(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$5(AlertDialog alertDialog, int i) {
             LoginActivity.this.tryResetAccount(this.requestPhone, this.phoneHash, this.phoneCode);
         }
 
@@ -2512,10 +2513,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             if (!this.currentPassword.has_recovery) {
                 AndroidUtilities.hideKeyboard(this.codeField);
-                new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailText)).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.ResetAccount), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPasswordView$$ExternalSyntheticLambda6
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LoginActivity.LoginActivityPasswordView.this.lambda$new$5(dialogInterface, i);
+                new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailText)).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.ResetAccount), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityPasswordView$$ExternalSyntheticLambda6
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LoginActivity.LoginActivityPasswordView.this.lambda$new$5(alertDialog, i);
                     }
                 }).show();
             } else {
@@ -2861,8 +2862,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 LoginActivityPhraseView.this.lastCurrentTime = currentTimeMillis;
                 LoginActivityPhraseView.access$17826(LoginActivityPhraseView.this, currentTimeMillis - d);
                 if (LoginActivityPhraseView.this.time >= 1000) {
-                    int i2 = (LoginActivityPhraseView.this.time / 1000) / 60;
-                    int i3 = (LoginActivityPhraseView.this.time / 1000) - (i2 * 60);
+                    int i2 = (LoginActivityPhraseView.this.time / MediaDataController.MAX_STYLE_RUNS_COUNT) / 60;
+                    int i3 = (LoginActivityPhraseView.this.time / MediaDataController.MAX_STYLE_RUNS_COUNT) - (i2 * 60);
                     LoginActivityPhraseView.this.timeText.setTextSize(1, 13.0f);
                     if (LoginActivityPhraseView.this.nextType == 4 || LoginActivityPhraseView.this.nextType == 3 || LoginActivityPhraseView.this.nextType == 11) {
                         loadingTextView2 = LoginActivityPhraseView.this.timeText;
@@ -4348,26 +4349,26 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$2(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$2(AlertDialog alertDialog, int i) {
             LoginActivity.this.setPage(6, true, new Bundle(), true);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$3(AlertDialog alertDialog, int i) {
             LoginActivity.this.tryResetAccount(this.requestPhone, this.phoneHash, this.phoneCode);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$4(View view) {
-            Dialog showDialog = LoginActivity.this.showDialog(new AlertDialog.Builder(LoginActivity.this.getParentActivity()).setTitle(LocaleController.getString("RestorePasswordNoEmailTitle", org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString("RestoreEmailTroubleText", org.telegram.messenger.R.string.RestoreEmailTroubleText)).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRecoverView$$ExternalSyntheticLambda6
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    LoginActivity.LoginActivityRecoverView.this.lambda$new$2(dialogInterface, i);
+            Dialog showDialog = LoginActivity.this.showDialog(new AlertDialog.Builder(LoginActivity.this.getParentActivity()).setTitle(LocaleController.getString("RestorePasswordNoEmailTitle", org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString("RestoreEmailTroubleText", org.telegram.messenger.R.string.RestoreEmailTroubleText)).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRecoverView$$ExternalSyntheticLambda6
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    LoginActivity.LoginActivityRecoverView.this.lambda$new$2(alertDialog, i);
                 }
-            }).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.ResetAccount), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRecoverView$$ExternalSyntheticLambda7
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    LoginActivity.LoginActivityRecoverView.this.lambda$new$3(dialogInterface, i);
+            }).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.ResetAccount), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRecoverView$$ExternalSyntheticLambda7
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    LoginActivity.LoginActivityRecoverView.this.lambda$new$3(alertDialog, i);
                 }
             }).create());
             if (showDialog != null) {
@@ -5057,7 +5058,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBackPressed$14(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onBackPressed$14(AlertDialog alertDialog, int i) {
             onBackPressed(true);
             LoginActivity.this.setPage(0, true, null, true);
             hidePrivacyView();
@@ -5094,7 +5095,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             if (tLObject instanceof TLRPC.TL_auth_authorization) {
                 hidePrivacyView();
                 LoginActivity.this.showDoneButton(false, true);
-                postDelayed(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda15
+                postDelayed(new Runnable() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda17
                     @Override // java.lang.Runnable
                     public final void run() {
                         LoginActivity.LoginActivityRegisterView.this.lambda$onNextPressed$17(tLObject);
@@ -5160,38 +5161,38 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showTermsOfService$0(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$showTermsOfService$0(AlertDialog alertDialog, int i) {
             LoginActivity.this.currentTermsOfService.popup = false;
             lambda$onNextPressed$14(null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showTermsOfService$1(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$showTermsOfService$1(AlertDialog alertDialog, int i) {
             LoginActivity.this.currentTermsOfService.popup = false;
             lambda$onNextPressed$14(null);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showTermsOfService$2(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$showTermsOfService$2(AlertDialog alertDialog, int i) {
             onBackPressed(true);
             LoginActivity.this.setPage(0, true, null, true);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showTermsOfService$3(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$showTermsOfService$3(AlertDialog alertDialog, int i) {
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
             builder.setTitle(LocaleController.getString("TermsOfService", org.telegram.messenger.R.string.TermsOfService));
             builder.setMessage(LocaleController.getString("TosDecline", org.telegram.messenger.R.string.TosDecline));
-            builder.setPositiveButton(LocaleController.getString("SignUp", org.telegram.messenger.R.string.SignUp), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda16
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface2, int i2) {
-                    LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$1(dialogInterface2, i2);
+            builder.setPositiveButton(LocaleController.getString("SignUp", org.telegram.messenger.R.string.SignUp), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda15
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog2, int i2) {
+                    LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$1(alertDialog2, i2);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Decline", org.telegram.messenger.R.string.Decline), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda17
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface2, int i2) {
-                    LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$2(dialogInterface2, i2);
+            builder.setNegativeButton(LocaleController.getString("Decline", org.telegram.messenger.R.string.Decline), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda16
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog2, int i2) {
+                    LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$2(alertDialog2, i2);
                 }
             });
             LoginActivity.this.showDialog(builder.create());
@@ -5261,16 +5262,16 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
             builder.setTitle(LocaleController.getString("TermsOfService", org.telegram.messenger.R.string.TermsOfService));
             if (z) {
-                builder.setPositiveButton(LocaleController.getString("Accept", org.telegram.messenger.R.string.Accept), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda10
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$0(dialogInterface, i);
+                builder.setPositiveButton(LocaleController.getString("Accept", org.telegram.messenger.R.string.Accept), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda10
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$0(alertDialog, i);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Decline", org.telegram.messenger.R.string.Decline), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda11
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$3(dialogInterface, i);
+                builder.setNegativeButton(LocaleController.getString("Decline", org.telegram.messenger.R.string.Decline), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda11
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LoginActivity.LoginActivityRegisterView.this.lambda$showTermsOfService$3(alertDialog, i);
                     }
                 });
             } else {
@@ -5288,8 +5289,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-        public /* synthetic */ void didStartUpload(boolean z) {
-            ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z);
+        public /* synthetic */ void didStartUpload(boolean z, boolean z2) {
+            ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z, z2);
         }
 
         @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -5305,6 +5306,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     LoginActivity.LoginActivityRegisterView.this.lambda$didUploadPhoto$13(photoSize2, photoSize);
                 }
             });
+        }
+
+        @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+        public /* bridge */ /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+            return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
         }
 
         @Override // org.telegram.ui.Components.SlideView
@@ -5333,10 +5339,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
             builder.setTitle(LocaleController.getString(org.telegram.messenger.R.string.Warning));
             builder.setMessage(LocaleController.getString("AreYouSureRegistration", org.telegram.messenger.R.string.AreYouSureRegistration));
-            builder.setNegativeButton(LocaleController.getString("Stop", org.telegram.messenger.R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    LoginActivity.LoginActivityRegisterView.this.lambda$onBackPressed$14(dialogInterface, i);
+            builder.setNegativeButton(LocaleController.getString("Stop", org.telegram.messenger.R.string.Stop), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityRegisterView$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    LoginActivity.LoginActivityRegisterView.this.lambda$onBackPressed$14(alertDialog, i);
                 }
             });
             builder.setPositiveButton(LocaleController.getString("Continue", org.telegram.messenger.R.string.Continue), null);
@@ -5469,6 +5475,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             this.requestPhone = bundle.getString("phoneFormated");
             this.phoneHash = bundle.getString("phoneHash");
             this.currentParams = bundle;
+        }
+
+        @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+        public /* synthetic */ boolean supportsBulletin() {
+            return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
         }
 
         @Override // org.telegram.ui.Components.SlideView
@@ -5608,7 +5619,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$2(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$2(AlertDialog alertDialog, int i) {
             LoginActivity.this.needShowProgress(0);
             TL_account.deleteAccount deleteaccount = new TL_account.deleteAccount();
             deleteaccount.reason = "Forgot password";
@@ -5626,10 +5637,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 return;
             }
             LoginActivity loginActivity = LoginActivity.this;
-            loginActivity.showDialog(new AlertDialog.Builder(loginActivity.getParentActivity()).setTitle(LocaleController.getString("ResetMyAccountWarning", org.telegram.messenger.R.string.ResetMyAccountWarning)).setMessage(LocaleController.getString("ResetMyAccountWarningText", org.telegram.messenger.R.string.ResetMyAccountWarningText)).setPositiveButton(LocaleController.getString("ResetMyAccountWarningReset", org.telegram.messenger.R.string.ResetMyAccountWarningReset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityResetWaitView$$ExternalSyntheticLambda1
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    LoginActivity.LoginActivityResetWaitView.this.lambda$new$2(dialogInterface, i);
+            loginActivity.showDialog(new AlertDialog.Builder(loginActivity.getParentActivity()).setTitle(LocaleController.getString("ResetMyAccountWarning", org.telegram.messenger.R.string.ResetMyAccountWarning)).setMessage(LocaleController.getString("ResetMyAccountWarningText", org.telegram.messenger.R.string.ResetMyAccountWarningText)).setPositiveButton(LocaleController.getString("ResetMyAccountWarningReset", org.telegram.messenger.R.string.ResetMyAccountWarningReset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivityResetWaitView$$ExternalSyntheticLambda1
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    LoginActivity.LoginActivityResetWaitView.this.lambda$new$2(alertDialog, i);
                 }
             }).setNegativeButton(LocaleController.getString("Cancel", org.telegram.messenger.R.string.Cancel), null).create());
         }
@@ -6011,7 +6022,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             String string;
             int i;
             if ((tLObject instanceof TL_account.TL_emailVerified) && LoginActivity.this.activityMode == 3) {
-                LoginActivity.this.lambda$onBackPressed$321();
+                LoginActivity.this.lambda$onBackPressed$323();
                 LoginActivity.this.emailChangeFinishCallback.run();
                 return;
             }
@@ -6402,8 +6413,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 LoginActivitySmsView.this.lastCurrentTime = currentTimeMillis;
                 LoginActivitySmsView.access$8426(LoginActivitySmsView.this, currentTimeMillis - d);
                 if (LoginActivitySmsView.this.time >= 1000) {
-                    int i2 = (LoginActivitySmsView.this.time / 1000) / 60;
-                    int i3 = (LoginActivitySmsView.this.time / 1000) - (i2 * 60);
+                    int i2 = (LoginActivitySmsView.this.time / MediaDataController.MAX_STYLE_RUNS_COUNT) / 60;
+                    int i3 = (LoginActivitySmsView.this.time / MediaDataController.MAX_STYLE_RUNS_COUNT) - (i2 * 60);
                     if (LoginActivitySmsView.this.nextType == 4 || LoginActivitySmsView.this.nextType == 3 || LoginActivitySmsView.this.nextType == 11) {
                         loadingTextView2 = LoginActivitySmsView.this.timeText;
                         formatString = LocaleController.formatString("CallAvailableIn", org.telegram.messenger.R.string.CallAvailableIn, Integer.valueOf(i2), Integer.valueOf(i3));
@@ -7099,7 +7110,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$7(String str, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$7(String str, AlertDialog alertDialog, int i) {
             String str2;
             try {
                 PackageInfo packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
@@ -7136,7 +7147,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$new$8(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$new$8(AlertDialog alertDialog, int i) {
             LoginActivity.this.setPage(0, true, null, true);
         }
 
@@ -7180,35 +7191,35 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     e = e2;
                     FileLog.e(e);
                     LoginActivity.this.getConnectionsManager().sendRequest(tL_auth_reportMissingCode, null, 8);
-                    new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DidNotGetTheCodeInfo", org.telegram.messenger.R.string.DidNotGetTheCodeInfo, this.phone))).setNeutralButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeHelpButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda17
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            LoginActivity.LoginActivitySmsView.this.lambda$new$7(str, dialogInterface, i);
+                    new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DidNotGetTheCodeInfo", org.telegram.messenger.R.string.DidNotGetTheCodeInfo, this.phone))).setNeutralButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeHelpButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda17
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            LoginActivity.LoginActivitySmsView.this.lambda$new$7(str, alertDialog, i);
                         }
-                    }).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeEditNumberButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda18
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            LoginActivity.LoginActivitySmsView.this.lambda$new$8(dialogInterface, i);
+                    }).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeEditNumberButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda18
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            LoginActivity.LoginActivitySmsView.this.lambda$new$8(alertDialog, i);
                         }
                     }).show();
                 }
                 LoginActivity.this.getConnectionsManager().sendRequest(tL_auth_reportMissingCode, null, 8);
-                new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DidNotGetTheCodeInfo", org.telegram.messenger.R.string.DidNotGetTheCodeInfo, this.phone))).setNeutralButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeHelpButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda17
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LoginActivity.LoginActivitySmsView.this.lambda$new$7(str, dialogInterface, i);
+                new AlertDialog.Builder(context).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DidNotGetTheCodeInfo", org.telegram.messenger.R.string.DidNotGetTheCodeInfo, this.phone))).setNeutralButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeHelpButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda17
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LoginActivity.LoginActivitySmsView.this.lambda$new$7(str, alertDialog, i);
                     }
-                }).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeEditNumberButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda18
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LoginActivity.LoginActivitySmsView.this.lambda$new$8(dialogInterface, i);
+                }).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.DidNotGetTheCodeEditNumberButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda18
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LoginActivity.LoginActivitySmsView.this.lambda$new$8(alertDialog, i);
                     }
                 }).show();
             }
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onBackPressed$42(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onBackPressed$42(AlertDialog alertDialog, int i) {
             onBackPressed(true);
             LoginActivity.this.setPage(0, true, null, true);
         }
@@ -7219,7 +7230,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$22(DialogInterface dialogInterface) {
-            LoginActivity.this.lambda$onBackPressed$321();
+            LoginActivity.this.lambda$onBackPressed$323();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -7374,7 +7385,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onNextPressed$26(DialogInterface dialogInterface) {
-            LoginActivity.this.lambda$onBackPressed$321();
+            LoginActivity.this.lambda$onBackPressed$323();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -8031,7 +8042,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             NotificationCenter globalInstance;
             int i;
             if (LoginActivity.this.activityMode != 0) {
-                LoginActivity.this.lambda$onBackPressed$321();
+                LoginActivity.this.lambda$onBackPressed$323();
                 return false;
             }
             int i2 = this.prevType;
@@ -8041,10 +8052,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             if (!z) {
                 LoginActivity loginActivity = LoginActivity.this;
-                loginActivity.showDialog(new AlertDialog.Builder(loginActivity.getParentActivity()).setTitle(LocaleController.getString(org.telegram.messenger.R.string.EditNumber)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("EditNumberInfo", org.telegram.messenger.R.string.EditNumberInfo, this.phone))).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.Edit), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda11
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
-                        LoginActivity.LoginActivitySmsView.this.lambda$onBackPressed$42(dialogInterface, i3);
+                loginActivity.showDialog(new AlertDialog.Builder(loginActivity.getParentActivity()).setTitle(LocaleController.getString(org.telegram.messenger.R.string.EditNumber)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("EditNumberInfo", org.telegram.messenger.R.string.EditNumberInfo, this.phone))).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.Close), null).setNegativeButton(LocaleController.getString(org.telegram.messenger.R.string.Edit), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$LoginActivitySmsView$$ExternalSyntheticLambda11
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
+                        LoginActivity.LoginActivitySmsView.this.lambda$onBackPressed$42(alertDialog, i3);
                     }
                 }).create());
                 return false;
@@ -10172,11 +10183,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onNextPressed$16(int i, DialogInterface dialogInterface, int i2) {
+        public /* synthetic */ void lambda$onNextPressed$16(int i, AlertDialog alertDialog, int i2) {
             if (UserConfig.selectedAccount != i) {
                 ((LaunchActivity) LoginActivity.this.getParentActivity()).switchToAccount(i, false);
             }
-            LoginActivity.this.lambda$onBackPressed$321();
+            LoginActivity.this.lambda$onBackPressed$323();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -10760,10 +10771,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         AlertDialog.Builder builder2 = new AlertDialog.Builder(LoginActivity.this.getParentActivity());
                         builder2.setTitle(LocaleController.getString(org.telegram.messenger.R.string.AppName));
                         builder2.setMessage(LocaleController.getString("AccountAlreadyLoggedIn", org.telegram.messenger.R.string.AccountAlreadyLoggedIn));
-                        builder2.setPositiveButton(LocaleController.getString("AccountSwitch", org.telegram.messenger.R.string.AccountSwitch), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda2
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i7) {
-                                LoginActivity.PhoneView.this.lambda$onNextPressed$16(i6, dialogInterface, i7);
+                        builder2.setPositiveButton(LocaleController.getString("AccountSwitch", org.telegram.messenger.R.string.AccountSwitch), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$PhoneView$$ExternalSyntheticLambda2
+                            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                            public final void onClick(AlertDialog alertDialog, int i7) {
+                                LoginActivity.PhoneView.this.lambda$onNextPressed$16(i6, alertDialog, i7);
                             }
                         });
                         builder2.setNegativeButton(LocaleController.getString("OK", org.telegram.messenger.R.string.OK), null);
@@ -11138,7 +11149,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             if (auth_sentcode.timeout == 0) {
                 auth_sentcode.timeout = BuildVars.DEBUG_PRIVATE_VERSION ? 5 : 60;
             }
-            bundle.putInt("timeout", auth_sentcode.timeout * 1000);
+            bundle.putInt("timeout", auth_sentcode.timeout * MediaDataController.MAX_STYLE_RUNS_COUNT);
             TLRPC.auth_SentCodeType auth_sentcodetype2 = auth_sentcode.type;
             if (auth_sentcodetype2 instanceof TLRPC.TL_auth_sentCodeTypeCall) {
                 bundle.putInt("type", 4);
@@ -11246,7 +11257,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$3(View view) {
         if (onBackPressed()) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
     }
 
@@ -11392,7 +11403,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$needShowInvalidAlert$11(boolean z, String str, BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$needShowInvalidAlert$11(boolean z, String str, BaseFragment baseFragment, AlertDialog alertDialog, int i) {
         StringBuilder sb;
         Locale locale;
         try {
@@ -11471,7 +11482,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onDoneButtonPressed$14(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onDoneButtonPressed$14(AlertDialog alertDialog, int i) {
         this.views[this.currentViewNum].onCancelPressed();
         needHideProgress(true);
     }
@@ -11496,7 +11507,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$resendCodeFromSafetyNet$20(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$resendCodeFromSafetyNet$20(AlertDialog alertDialog, int i) {
         this.forceDisableSafetyNet = true;
         if (this.currentViewNum != 0) {
             setPage(0, true, null, true);
@@ -11508,10 +11519,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         if (getParentActivity() == null || getParentActivity().isFinishing() || getContext() == null) {
             return;
         }
-        new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString(org.telegram.messenger.R.string.SafetyNetErrorOccurred)).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda35
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LoginActivity.this.lambda$resendCodeFromSafetyNet$20(dialogInterface, i);
+        new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(org.telegram.messenger.R.string.RestorePasswordNoEmailTitle)).setMessage(LocaleController.getString(org.telegram.messenger.R.string.SafetyNetErrorOccurred)).setPositiveButton(LocaleController.getString(org.telegram.messenger.R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda34
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LoginActivity.this.lambda$resendCodeFromSafetyNet$20(alertDialog, i);
             }
         }).show();
     }
@@ -11651,11 +11662,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$tryResetAccount$34(final String str, final String str2, final String str3, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$tryResetAccount$34(final String str, final String str2, final String str3, AlertDialog alertDialog, int i) {
         needShowProgress(0);
         TL_account.deleteAccount deleteaccount = new TL_account.deleteAccount();
         deleteaccount.reason = "Forgot password";
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(deleteaccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda34
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(deleteaccount, new RequestDelegate() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda35
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 LoginActivity.this.lambda$tryResetAccount$33(str, str2, str3, tLObject, tL_error);
@@ -11730,7 +11741,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 }
             });
             this.pendingSwitchingAccount = false;
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         if (z && z2) {
@@ -11810,10 +11821,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             string = LocaleController.getString(org.telegram.messenger.R.string.InvalidPhoneNumber);
         }
         builder.setMessage(string);
-        builder.setNeutralButton(LocaleController.getString("BotHelp", org.telegram.messenger.R.string.BotHelp), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                LoginActivity.lambda$needShowInvalidAlert$11(z, str, baseFragment, dialogInterface, i2);
+        builder.setNeutralButton(LocaleController.getString("BotHelp", org.telegram.messenger.R.string.BotHelp), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                LoginActivity.lambda$needShowInvalidAlert$11(z, str, baseFragment, alertDialog, i2);
             }
         });
         builder.setPositiveButton(LocaleController.getString("OK", org.telegram.messenger.R.string.OK), null);
@@ -11895,10 +11906,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             builder.setTitle(LocaleController.getString("StopLoadingTitle", org.telegram.messenger.R.string.StopLoadingTitle));
             builder.setMessage(LocaleController.getString("StopLoading", org.telegram.messenger.R.string.StopLoading));
             builder.setPositiveButton(LocaleController.getString("WaitMore", org.telegram.messenger.R.string.WaitMore), null);
-            builder.setNegativeButton(LocaleController.getString("Stop", org.telegram.messenger.R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda19
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    LoginActivity.this.lambda$onDoneButtonPressed$14(dialogInterface, i);
+            builder.setNegativeButton(LocaleController.getString("Stop", org.telegram.messenger.R.string.Stop), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda19
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    LoginActivity.this.lambda$onDoneButtonPressed$14(alertDialog, i);
                 }
             });
             showDialog(builder.create());
@@ -12402,10 +12413,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setMessage(LocaleController.getString("ResetMyAccountWarningText", org.telegram.messenger.R.string.ResetMyAccountWarningText));
         builder.setTitle(LocaleController.getString("ResetMyAccountWarning", org.telegram.messenger.R.string.ResetMyAccountWarning));
-        builder.setPositiveButton(LocaleController.getString("ResetMyAccountWarningReset", org.telegram.messenger.R.string.ResetMyAccountWarningReset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda32
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LoginActivity.this.lambda$tryResetAccount$34(str, str2, str3, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString("ResetMyAccountWarningReset", org.telegram.messenger.R.string.ResetMyAccountWarningReset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LoginActivity$$ExternalSyntheticLambda32
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LoginActivity.this.lambda$tryResetAccount$34(str, str2, str3, alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", org.telegram.messenger.R.string.Cancel), null);
@@ -12578,7 +12589,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 if (i7 == 1) {
                     LoginActivity.this.onDoneButtonPressed();
                 } else if (i7 == -1 && LoginActivity.this.onBackPressed()) {
-                    LoginActivity.this.lambda$onBackPressed$321();
+                    LoginActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

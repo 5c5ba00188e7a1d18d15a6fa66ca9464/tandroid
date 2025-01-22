@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
@@ -1171,7 +1172,7 @@ public class ViewPager extends ViewGroup {
         }
         if (this.mAdapter != null) {
             VelocityTracker velocityTracker = this.mVelocityTracker;
-            velocityTracker.computeCurrentVelocity(1000, this.mMaximumVelocity);
+            velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaximumVelocity);
             int xVelocity = (int) velocityTracker.getXVelocity(this.mActivePointerId);
             this.mPopulatePending = true;
             int clientWidth = getClientWidth();
@@ -1875,7 +1876,7 @@ public class ViewPager extends ViewGroup {
                 }
             } else if (this.mIsBeingDragged) {
                 VelocityTracker velocityTracker = this.mVelocityTracker;
-                velocityTracker.computeCurrentVelocity(1000, this.mMaximumVelocity);
+                velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaximumVelocity);
                 int xVelocity = (int) velocityTracker.getXVelocity(this.mActivePointerId);
                 this.mPopulatePending = true;
                 int clientWidth = getClientWidth();

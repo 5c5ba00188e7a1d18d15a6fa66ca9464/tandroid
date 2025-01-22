@@ -29,6 +29,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -55,6 +56,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RadialProgressView;
 import org.telegram.ui.LNavigation.NavigationExt;
+import org.telegram.ui.PhotoViewer;
 
 /* loaded from: classes4.dex */
 public class ContactAddActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
@@ -177,7 +179,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             user2.photo.photo_id = photo.id;
             ArrayList<TLRPC.PhotoSize> arrayList = photo.sizes;
             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
-            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, MediaDataController.MAX_STYLE_RUNS_COUNT);
             if (closestPhotoSizeWithSize != null) {
                 user2.photo.photo_small = closestPhotoSizeWithSize.location;
             }
@@ -384,7 +386,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         }
         if (user != null) {
             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
-            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, MediaDataController.MAX_STYLE_RUNS_COUNT);
             if (closestPhotoSizeWithSize != null && fileLocation != null) {
                 FileLoader.getInstance(this.currentAccount).getPathToAttach(fileLocation, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true));
                 ImageLoader.getInstance().replaceImageInCache(fileLocation.volume_id + "_" + fileLocation.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForUser(user, 1), false);
@@ -570,7 +572,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             this.oldPhotoCell.setVisibility(0);
             TLRPC.Photo photo = this.prevAvatar;
             if (photo != null) {
-                this.oldAvatarView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 1000), this.prevAvatar), "50_50", this.avatarDrawable, (Object) null);
+                this.oldAvatarView.setImage(ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(photo.sizes, MediaDataController.MAX_STYLE_RUNS_COUNT), this.prevAvatar), "50_50", this.avatarDrawable, (Object) null);
             }
         }
         if (this.avatarDrawable == null) {
@@ -610,7 +612,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    ContactAddActivity.this.lambda$onBackPressed$321();
+                    ContactAddActivity.this.lambda$onBackPressed$323();
                     return;
                 }
                 if (i2 != 1 || ContactAddActivity.this.firstNameField.getText().length() == 0) {
@@ -625,7 +627,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 MessagesController.getNotificationsSettings(((BaseFragment) ContactAddActivity.this).currentAccount).edit().putInt("dialog_bar_vis3" + ContactAddActivity.this.user_id, 3).commit();
                 ContactAddActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
                 ContactAddActivity.this.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.peerSettingsDidLoad, Long.valueOf(ContactAddActivity.this.user_id));
-                ContactAddActivity.this.lambda$onBackPressed$321();
+                ContactAddActivity.this.lambda$onBackPressed$323();
                 if (ContactAddActivity.this.delegate != null) {
                     ContactAddActivity.this.delegate.didAddToContacts();
                 }
@@ -928,7 +930,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didStartUpload(boolean z) {
+    public void didStartUpload(boolean z, boolean z2) {
         RadialProgressView radialProgressView = this.avatarProgressView;
         if (radialProgressView == null) {
             return;
@@ -955,6 +957,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 ContactAddActivity.this.lambda$didUploadPhoto$13(photoSize2, inputFile, inputFile2, photoSize, videoSize, d, z);
             }
         });
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -1076,5 +1083,10 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     public void setDelegate(ContactAddActivityDelegate contactAddActivityDelegate) {
         this.delegate = contactAddActivityDelegate;
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ boolean supportsBulletin() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
     }
 }

@@ -3,7 +3,6 @@ package org.telegram.ui.Components;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -702,8 +701,8 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onActionBarItemClick$2(ArrayList arrayList, DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
+    public /* synthetic */ void lambda$onActionBarItemClick$2(ArrayList arrayList, AlertDialog alertDialog, int i) {
+        alertDialog.dismiss();
         this.parent.getDownloadController().deleteRecentFiles(arrayList);
         hideActionMode();
     }
@@ -726,7 +725,7 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
                 }
                 AccountInstance.getInstance(this.currentAccount).getSendMessagesHelper().sendMessage(arrayList2, j, false, false, true, 0);
             }
-            dialogsActivity.lambda$onBackPressed$321();
+            dialogsActivity.lambda$onBackPressed$323();
         } else {
             long j2 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
             Bundle bundle = new Bundle();
@@ -1218,16 +1217,16 @@ public abstract class SearchViewPager extends ViewPagerFixed implements Filtered
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatPluralString("RemoveDocumentsMessage", this.selectedFiles.size(), new Object[0]))).append((CharSequence) "\n\n").append((CharSequence) LocaleController.getString(R.string.RemoveDocumentsAlertMessage));
             builder.setMessage(spannableStringBuilder);
-            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda3
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    dialogInterface.dismiss();
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda3
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    alertDialog.dismiss();
                 }
             });
-            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    SearchViewPager.this.lambda$onActionBarItemClick$2(arrayList, dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.SearchViewPager$$ExternalSyntheticLambda4
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    SearchViewPager.this.lambda$onActionBarItemClick$2(arrayList, alertDialog, i2);
                 }
             });
             TextView textView = (TextView) builder.show().getButton(-1);

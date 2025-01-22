@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -315,12 +314,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$deleteTheme$0(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$deleteTheme$0(AlertDialog alertDialog, int i) {
             Theme.deleteThemeAccent(ThemePreviewActivity.this.applyingTheme, ThemePreviewActivity.this.accent, true);
             Theme.applyPreviousTheme();
             Theme.refreshThemeColors();
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, ThemePreviewActivity.this.applyingTheme, Boolean.valueOf(ThemePreviewActivity.this.nightTheme), null, -1);
-            ThemePreviewActivity.this.lambda$onBackPressed$321();
+            ThemePreviewActivity.this.lambda$onBackPressed$323();
         }
 
         @Override // org.telegram.ui.Components.ColorPicker.ColorPickerDelegate
@@ -331,10 +330,10 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             AlertDialog.Builder builder = new AlertDialog.Builder(ThemePreviewActivity.this.getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.DeleteThemeTitle));
             builder.setMessage(LocaleController.getString(R.string.DeleteThemeAlert));
-            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$27$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ThemePreviewActivity.27.this.lambda$deleteTheme$0(dialogInterface, i);
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$27$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ThemePreviewActivity.27.this.lambda$deleteTheme$0(alertDialog, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -362,7 +361,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 return;
             }
             if (ThemePreviewActivity.this.accent.info == null) {
-                ThemePreviewActivity.this.lambda$onBackPressed$321();
+                ThemePreviewActivity.this.lambda$onBackPressed$323();
                 MessagesController.getInstance(((BaseFragment) ThemePreviewActivity.this).currentAccount).saveThemeToServer(ThemePreviewActivity.this.accent.parentTheme, ThemePreviewActivity.this.accent);
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needShareTheme, ThemePreviewActivity.this.accent.parentTheme, ThemePreviewActivity.this.accent);
                 return;
@@ -441,7 +440,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                 Theme.saveThemeAccents(ThemePreviewActivity.this.applyingTheme, true, false, false, true);
                 Theme.applyPreviousTheme();
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, ThemePreviewActivity.this.applyingTheme, Boolean.valueOf(ThemePreviewActivity.this.nightTheme), null, -1);
-                ThemePreviewActivity.this.lambda$onBackPressed$321();
+                ThemePreviewActivity.this.lambda$onBackPressed$323();
                 return;
             }
             if (i == 5) {
@@ -3240,7 +3239,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (wallpaperActivityDelegate != null) {
                                     wallpaperActivityDelegate.didSetNewBackground(tL_wallPaper8);
                                 }
-                                lambda$onBackPressed$321();
+                                lambda$onBackPressed$323();
                                 if (z4) {
                                     return;
                                 }
@@ -3248,7 +3247,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                                 if (wallpaperActivityDelegate2 != null) {
                                     wallpaperActivityDelegate2.didSetNewBackground(tL_wallPaper8);
                                 }
-                                lambda$onBackPressed$321();
+                                lambda$onBackPressed$323();
                                 return;
                             }
                             Theme.serviceMessageColorBackup = getThemedColor(Theme.key_chat_serviceBackground);
@@ -3722,7 +3721,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (z) {
                 return;
             }
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         Theme.applyPreviousTheme();
@@ -3761,7 +3760,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         if (z) {
             return;
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     private BitmapDrawable checkBlur(Drawable drawable) {
@@ -3846,16 +3845,16 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.SaveChangesAlertTitle));
             builder.setMessage(LocaleController.getString(R.string.SaveChangesAlertText));
-            builder.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda3
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ThemePreviewActivity.this.lambda$checkDiscard$25(dialogInterface, i);
+            builder.setPositiveButton(LocaleController.getString(R.string.Save), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda3
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ThemePreviewActivity.this.lambda$checkDiscard$25(alertDialog, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ThemePreviewActivity.this.lambda$checkDiscard$26(dialogInterface, i);
+            builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda4
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ThemePreviewActivity.this.lambda$checkDiscard$26(alertDialog, i);
                 }
             });
             showDialog(builder.create());
@@ -4114,12 +4113,12 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$25(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$25(AlertDialog alertDialog, int i) {
         this.actionBar2.getActionBarMenuOnItemClick().onItemClick(4);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$26(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$26(AlertDialog alertDialog, int i) {
         cancelThemeApply(false);
     }
 
@@ -4348,7 +4347,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             edit.commit();
         }
         BaseFragment baseFragment = (BaseFragment) getParentLayout().getFragmentStack().get(Math.max(0, getParentLayout().getFragmentStack().size() - 2));
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
         if (this.screenType == 0) {
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didApplyNewTheme, previousTheme, accent, Boolean.valueOf(this.deleteOnCancel));
         }
@@ -4599,7 +4598,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$selectColorType$22(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$selectColorType$22(AlertDialog alertDialog, int i) {
         Theme.ThemeAccent themeAccent = this.accent;
         if (themeAccent.backgroundOverrideColor == 4294967296L) {
             themeAccent.backgroundOverrideColor = 0L;
@@ -4615,7 +4614,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$selectColorType$23(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$selectColorType$23(AlertDialog alertDialog, int i) {
         if (Theme.isCustomWallpaperColor()) {
             Theme.ThemeAccent themeAccent = this.accent;
             Theme.OverrideWallpaperInfo overrideWallpaperInfo = themeAccent.overrideWallpaper;
@@ -4679,7 +4678,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$selectColorType$24(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$selectColorType$24(AlertDialog alertDialog, int i) {
         Theme.ThemeAccent themeAccent = this.accent;
         if (themeAccent.backgroundOverrideColor == 4294967296L) {
             themeAccent.backgroundOverrideColor = 0L;
@@ -4962,7 +4961,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
         ColorPicker colorPicker;
         float f;
         String string;
-        DialogInterface.OnClickListener onClickListener;
+        AlertDialog.OnButtonClickListener onButtonClickListener;
         if (getParentActivity() == null || this.colorType == i || this.patternViewAnimation != null || this.accent == null) {
             return;
         }
@@ -4971,31 +4970,31 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             builder.setTitle(LocaleController.getString(R.string.ChangeChatBackground));
             if (!Theme.hasCustomWallpaper() || Theme.isCustomWallpaperColor()) {
                 builder.setMessage(LocaleController.getString(R.string.ChangeColorToColor));
-                builder.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda30
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ThemePreviewActivity.this.lambda$selectColorType$22(dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Reset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda30
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ThemePreviewActivity.this.lambda$selectColorType$22(alertDialog, i2);
                     }
                 });
                 string = LocaleController.getString(R.string.Continue);
-                onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda31
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ThemePreviewActivity.this.lambda$selectColorType$23(dialogInterface, i2);
+                onButtonClickListener = new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda31
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ThemePreviewActivity.this.lambda$selectColorType$23(alertDialog, i2);
                     }
                 };
             } else {
                 builder.setMessage(LocaleController.getString(R.string.ChangeWallpaperToColor));
-                builder.setPositiveButton(LocaleController.getString(R.string.Change), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda29
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ThemePreviewActivity.this.lambda$selectColorType$24(dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Change), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemePreviewActivity$$ExternalSyntheticLambda29
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ThemePreviewActivity.this.lambda$selectColorType$24(alertDialog, i2);
                     }
                 });
                 string = LocaleController.getString(R.string.Cancel);
-                onClickListener = null;
+                onButtonClickListener = null;
             }
-            builder.setNegativeButton(string, onClickListener);
+            builder.setNegativeButton(string, onButtonClickListener);
             showDialog(builder.create());
             return;
         }
@@ -9769,7 +9768,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
             if (i != NotificationCenter.wallpaperSettedToUser || this.dialogId == 0) {
                 return;
             }
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         ArrayList arrayList = (ArrayList) objArr[0];

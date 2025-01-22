@@ -109,7 +109,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_username tL_username, boolean z, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_username tL_username, boolean z, AlertDialog alertDialog, int i) {
             ChangeUsernameActivity.this.toggleUsername(tL_username, z, true);
         }
 
@@ -123,10 +123,10 @@ public class ChangeUsernameActivity extends BaseFragment {
             } else {
                 tL_username.active = z;
                 ChangeUsernameActivity.this.toggleUsername(i, z);
-                new AlertDialog.Builder(ChangeUsernameActivity.this.getContext(), ChangeUsernameActivity.this.getResourceProvider()).setTitle(LocaleController.getString(R.string.UsernameActivateErrorTitle)).setMessage(LocaleController.getString(R.string.UsernameActivateErrorMessage)).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda4
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ChangeUsernameActivity.3.this.lambda$onItemClick$0(tL_username, z2, dialogInterface, i2);
+                new AlertDialog.Builder(ChangeUsernameActivity.this.getContext(), ChangeUsernameActivity.this.getResourceProvider()).setTitle(LocaleController.getString(R.string.UsernameActivateErrorTitle)).setMessage(LocaleController.getString(R.string.UsernameActivateErrorMessage)).setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda4
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ChangeUsernameActivity.3.this.lambda$onItemClick$0(tL_username, z2, alertDialog, i2);
                     }
                 }).show();
             }
@@ -145,7 +145,7 @@ public class ChangeUsernameActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        public /* synthetic */ void lambda$onItemClick$3(final TLRPC.TL_username tL_username, final int i, View view, DialogInterface dialogInterface, int i2) {
+        public /* synthetic */ void lambda$onItemClick$3(final TLRPC.TL_username tL_username, final int i, View view, AlertDialog alertDialog, int i2) {
             TL_bots.toggleUsername toggleusername;
             final boolean z = tL_username.active;
             final String str = tL_username.username;
@@ -187,15 +187,15 @@ public class ChangeUsernameActivity extends BaseFragment {
                 return;
             }
             if (!tL_username.editable) {
-                new AlertDialog.Builder(ChangeUsernameActivity.this.getContext(), ChangeUsernameActivity.this.getResourceProvider()).setTitle(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLink : R.string.UsernameActivateLink)).setMessage(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLinkProfileMessage : R.string.UsernameActivateLinkProfileMessage)).setPositiveButton(LocaleController.getString(tL_username.active ? R.string.Hide : R.string.Show), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ChangeUsernameActivity.3.this.lambda$onItemClick$3(tL_username, i, view, dialogInterface, i2);
+                new AlertDialog.Builder(ChangeUsernameActivity.this.getContext(), ChangeUsernameActivity.this.getResourceProvider()).setTitle(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLink : R.string.UsernameActivateLink)).setMessage(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLinkProfileMessage : R.string.UsernameActivateLinkProfileMessage)).setPositiveButton(LocaleController.getString(tL_username.active ? R.string.Hide : R.string.Show), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ChangeUsernameActivity.3.this.lambda$onItemClick$3(tL_username, i, view, alertDialog, i2);
                     }
-                }).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        dialogInterface.dismiss();
+                }).setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda1
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        alertDialog.dismiss();
                     }
                 }).show();
             } else {
@@ -1280,7 +1280,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         MessagesController.getInstance(this.currentAccount).putUsers(arrayList, false);
         MessagesStorage.getInstance(this.currentAccount).putUsersAndChats(arrayList, null, false, true);
         UserConfig.getInstance(this.currentAccount).saveConfig(true);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1290,7 +1290,7 @@ public class ChangeUsernameActivity extends BaseFragment {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1322,7 +1322,7 @@ public class ChangeUsernameActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public void saveName() {
         if (this.botId != 0) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         if (this.username.startsWith("@")) {
@@ -1341,7 +1341,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             publicUsername = "";
         }
         if (publicUsername.equals(this.username)) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
@@ -1420,7 +1420,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ChangeUsernameActivity.this.lambda$onBackPressed$321();
+                    ChangeUsernameActivity.this.lambda$onBackPressed$323();
                 } else if (i == 1) {
                     ChangeUsernameActivity.this.sendReorder();
                     ChangeUsernameActivity.this.saveName();

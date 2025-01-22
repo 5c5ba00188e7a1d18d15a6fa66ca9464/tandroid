@@ -9,7 +9,6 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -343,7 +342,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 }
             }
             if (this.needFinishFragment) {
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
                 return;
             }
             return;
@@ -367,10 +366,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 if (ChatObject.canAddAdmins(chat)) {
                     builder.setTitle(LocaleController.getString(R.string.AddBotAdminAlert));
                     builder.setMessage(LocaleController.getString(R.string.AddBotAsAdmin));
-                    builder.setPositiveButton(LocaleController.getString(R.string.AddAsAdmin), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda11
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            ContactsActivity.this.lambda$didSelectResult$6(user, str, dialogInterface, i);
+                    builder.setPositiveButton(LocaleController.getString(R.string.AddAsAdmin), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda11
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            ContactsActivity.this.lambda$didSelectResult$6(user, str, alertDialog, i);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -436,10 +435,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             builder2.setView(editTextBoldCursor);
         }
         builder2.setMessage(formatStringSimple);
-        builder2.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda12
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ContactsActivity.this.lambda$didSelectResult$7(user, editTextBoldCursor, dialogInterface, i);
+        builder2.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda12
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ContactsActivity.this.lambda$didSelectResult$7(user, editTextBoldCursor, alertDialog, i);
             }
         });
         builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -511,7 +510,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$1(String str, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$1(String str, AlertDialog alertDialog, int i) {
         try {
             Intent intent = new Intent("android.intent.action.VIEW", Uri.fromParts("sms", str, null));
             intent.putExtra("sms_body", ContactsController.getInstance(this.currentAccount).getInviteText(1));
@@ -670,10 +669,10 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setMessage(LocaleController.getString(R.string.InviteUser));
                 builder.setTitle(LocaleController.getString(R.string.AppName));
-                builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda6
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
-                        ContactsActivity.this.lambda$createView$1(str2, dialogInterface, i3);
+                builder.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda6
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
+                        ContactsActivity.this.lambda$createView$1(str2, alertDialog, i3);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -718,7 +717,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didSelectResult$6(TLRPC.User user, String str, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$didSelectResult$6(TLRPC.User user, String str, AlertDialog alertDialog, int i) {
         ContactsActivityDelegate contactsActivityDelegate = this.delegate;
         if (contactsActivityDelegate != null) {
             contactsActivityDelegate.didSelectContact(user, str, this);
@@ -727,7 +726,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didSelectResult$7(TLRPC.User user, EditText editText, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$didSelectResult$7(TLRPC.User user, EditText editText, AlertDialog alertDialog, int i) {
         didSelectResult(user, false, editText != null ? editText.getText().toString() : "0");
     }
 
@@ -943,7 +942,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$performSelectedContactsDelete$4(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$performSelectedContactsDelete$4(AlertDialog alertDialog, int i) {
         ArrayList<TLRPC.User> arrayList = new ArrayList<>(this.selectedContacts.size());
         for (int i2 = 0; i2 < this.selectedContacts.size(); i2++) {
             arrayList.add((TLRPC.User) this.selectedContacts.get(this.selectedContacts.keyAt(i2)));
@@ -964,16 +963,16 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             i = R.string.DeleteContactsSubtitle;
         }
         builder.setMessage(LocaleController.getString(i));
-        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda7
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                ContactsActivity.this.lambda$performSelectedContactsDelete$4(dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda7
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                ContactsActivity.this.lambda$performSelectedContactsDelete$4(alertDialog, i2);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda8
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda8
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                alertDialog.dismiss();
             }
         });
         AlertDialog create = builder.create();
@@ -1147,7 +1146,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                         ContactsActivity.this.hideActionMode();
                         return;
                     } else {
-                        ContactsActivity.this.lambda$onBackPressed$321();
+                        ContactsActivity.this.lambda$onBackPressed$323();
                         return;
                     }
                 }

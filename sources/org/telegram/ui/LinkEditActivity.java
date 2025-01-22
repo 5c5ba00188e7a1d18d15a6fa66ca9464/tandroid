@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -244,10 +243,10 @@ public class LinkEditActivity extends BaseFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setMessage(LocaleController.getString(R.string.RevokeAlert));
         builder.setTitle(LocaleController.getString(R.string.RevokeLink));
-        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda13
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LinkEditActivity.this.lambda$createView$9(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda13
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LinkEditActivity.this.lambda$createView$9(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -354,9 +353,9 @@ public class LinkEditActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$9(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$9(AlertDialog alertDialog, int i) {
         this.callback.revokeLink(this.inviteToEdit);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -405,7 +404,7 @@ public class LinkEditActivity extends BaseFragment {
         if (callback != null) {
             callback.onLinkCreated(tLObject);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -436,7 +435,7 @@ public class LinkEditActivity extends BaseFragment {
         if (callback != null) {
             callback.onLinkEdited(this.inviteToEdit, tLObject);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -600,7 +599,7 @@ public class LinkEditActivity extends BaseFragment {
                         z = true;
                     }
                     if (z) {
-                        lambda$onBackPressed$321();
+                        lambda$onBackPressed$323();
                         return;
                     }
                     this.loading = true;
@@ -724,7 +723,7 @@ public class LinkEditActivity extends BaseFragment {
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i9) {
                     if (i9 == -1) {
-                        LinkEditActivity.this.lambda$onBackPressed$321();
+                        LinkEditActivity.this.lambda$onBackPressed$323();
                         AndroidUtilities.hideKeyboard(LinkEditActivity.this.usesEditText);
                     }
                 }
@@ -2353,7 +2352,7 @@ public class LinkEditActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i93) {
                 if (i93 == -1) {
-                    LinkEditActivity.this.lambda$onBackPressed$321();
+                    LinkEditActivity.this.lambda$onBackPressed$323();
                     AndroidUtilities.hideKeyboard(LinkEditActivity.this.usesEditText);
                 }
             }
@@ -2771,10 +2770,10 @@ public class LinkEditActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /* renamed from: finishFragment */
-    public void lambda$onBackPressed$321() {
+    public void lambda$onBackPressed$323() {
         this.scrollView.getLayoutParams().height = this.scrollView.getHeight();
         this.finished = true;
-        super.lambda$onBackPressed$321();
+        super.lambda$onBackPressed$323();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment

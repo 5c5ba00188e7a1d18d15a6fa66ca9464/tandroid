@@ -37,6 +37,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import java.util.ArrayList;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 
@@ -1343,7 +1344,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         if (actionMasked != 0) {
             if (actionMasked == 1) {
                 VelocityTracker velocityTracker = this.mVelocityTracker;
-                velocityTracker.computeCurrentVelocity(1000, this.mMaximumVelocity);
+                velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaximumVelocity);
                 int yVelocity = (int) velocityTracker.getYVelocity(this.mActivePointerId);
                 if (Math.abs(yVelocity) >= this.mMinimumVelocity) {
                     if (!edgeEffectFling(yVelocity)) {

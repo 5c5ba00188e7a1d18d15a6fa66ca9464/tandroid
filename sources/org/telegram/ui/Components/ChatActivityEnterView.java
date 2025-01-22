@@ -1058,7 +1058,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClearEmojiRecent$3(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onClearEmojiRecent$3(AlertDialog alertDialog, int i) {
             ChatActivityEnterView.this.emojiView.clearRecentEmoji();
         }
 
@@ -1219,10 +1219,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivityEnterView.this.parentActivity, ChatActivityEnterView.this.resourcesProvider);
             builder.setTitle(LocaleController.getString(R.string.ClearRecentEmojiTitle));
             builder.setMessage(LocaleController.getString(R.string.ClearRecentEmojiText));
-            builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$72$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    ChatActivityEnterView.72.this.lambda$onClearEmojiRecent$3(dialogInterface, i);
+            builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$72$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    ChatActivityEnterView.72.this.lambda$onClearEmojiRecent$3(alertDialog, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1352,7 +1352,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public void onStickerSelected(View view, TLRPC.Document document, String str, Object obj, MessageObject.SendAnimationData sendAnimationData, boolean z, int i) {
             if (ChatActivityEnterView.this.trendingStickersAlert != null) {
-                ChatActivityEnterView.this.trendingStickersAlert.dismiss();
+                ChatActivityEnterView.this.trendingStickersAlert.lambda$new$0();
                 ChatActivityEnterView.this.trendingStickersAlert = null;
             }
             if (ChatActivityEnterView.this.slowModeTimer > 0 && !isInScheduleMode()) {
@@ -1421,8 +1421,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (baseFragment != null) {
                 ChatActivityEnterView.this.trendingStickersAlert = new TrendingStickersAlert(ChatActivityEnterView.this.getContext(), baseFragment, trendingStickersLayout, ChatActivityEnterView.this.resourcesProvider) { // from class: org.telegram.ui.Components.ChatActivityEnterView.72.1
                     @Override // org.telegram.ui.Components.TrendingStickersAlert, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-                    public void dismiss() {
-                        super.dismiss();
+                    /* renamed from: dismiss */
+                    public void lambda$new$0() {
+                        super.lambda$new$0();
                         if (ChatActivityEnterView.this.trendingStickersAlert == this) {
                             ChatActivityEnterView.this.trendingStickersAlert = null;
                         }
@@ -7908,7 +7909,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didPressedBotButton$64(MessageObject messageObject, TLRPC.KeyboardButton keyboardButton, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$didPressedBotButton$64(MessageObject messageObject, TLRPC.KeyboardButton keyboardButton, AlertDialog alertDialog, int i) {
         int checkSelfPermission;
         if (Build.VERSION.SDK_INT >= 23) {
             checkSelfPermission = this.parentActivity.checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION");
@@ -7932,7 +7933,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         TLRPC.User user = this.accountInstance.getMessagesController().getUser(Long.valueOf(j));
         if (user == null) {
-            dialogsActivity.lambda$onBackPressed$321();
+            dialogsActivity.lambda$onBackPressed$323();
             return true;
         }
         long j3 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
@@ -7954,7 +7955,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 return true;
             }
         }
-        dialogsActivity.lambda$onBackPressed$321();
+        dialogsActivity.lambda$onBackPressed$323();
         return true;
     }
 
@@ -7992,7 +7993,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_messages_sendBotRequestedPeer, null);
         }
-        dialogsActivity.lambda$onBackPressed$321();
+        dialogsActivity.lambda$onBackPressed$323();
         return true;
     }
 
@@ -10498,10 +10499,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.parentActivity);
                     builder.setTitle(LocaleController.getString("ShareYouLocationTitle", R.string.ShareYouLocationTitle));
                     builder.setMessage(LocaleController.getString("ShareYouLocationInfo", R.string.ShareYouLocationInfo));
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda58
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i2) {
-                            ChatActivityEnterView.this.lambda$didPressedBotButton$64(messageObject2, keyboardButton, dialogInterface, i2);
+                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda58
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i2) {
+                            ChatActivityEnterView.this.lambda$didPressedBotButton$64(messageObject2, keyboardButton, alertDialog, i2);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -12719,14 +12720,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+        	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
         	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
         	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)

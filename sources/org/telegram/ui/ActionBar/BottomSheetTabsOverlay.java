@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BotFullscreenButtons$$ExternalSyntheticApiModelOutline2;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
@@ -1222,7 +1223,7 @@ public class BottomSheetTabsOverlay extends FrameLayout {
                         } else if (this.offset < getScrollMin()) {
                             scrollTo(getScrollMin());
                         } else {
-                            this.velocityTracker.computeCurrentVelocity(1000, this.maximumVelocity);
+                            this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.maximumVelocity);
                             float yVelocity = this.velocityTracker.getYVelocity();
                             if (Math.abs(yVelocity) > this.minimumVelocity) {
                                 this.scroller.fling(0, (int) (getScrollOffset() * getScrollStep()), 0, (int) (-yVelocity), 0, 0, (int) (getScrollMin() * getScrollStep()), (int) (getScrollMax() * getScrollStep()), 0, (int) (getScrollStep() * 0.1f));

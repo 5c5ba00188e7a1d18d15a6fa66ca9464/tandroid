@@ -451,14 +451,14 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 DialogsActivity dialogsActivity = (DialogsActivity) AudioPlayerAlert.this.parentActivity.getActionBarLayout().getLastFragment();
                 if (!dialogsActivity.onlyDialogsAdapter()) {
                     dialogsActivity.setShowSearch(charSequence, 3);
-                    AudioPlayerAlert.this.dismiss();
+                    AudioPlayerAlert.this.lambda$new$0();
                 }
             }
             DialogsActivity dialogsActivity2 = new DialogsActivity(null);
             dialogsActivity2.setSearchString(charSequence);
             dialogsActivity2.setInitialSearchType(3);
             AudioPlayerAlert.this.parentActivity.presentFragment(dialogsActivity2, false, false);
-            AudioPlayerAlert.this.dismiss();
+            AudioPlayerAlert.this.lambda$new$0();
         }
 
         @Override // org.telegram.ui.Components.AudioPlayerAlert.ClippingTextViewSwitcher
@@ -1190,7 +1190,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 if (motionEvent.getAction() != 0 || AudioPlayerAlert.this.scrollOffsetY == 0 || AudioPlayerAlert.this.actionBar.getAlpha() != 0.0f || (AudioPlayerAlert.this.listAdapter.getItemCount() <= 0 ? motionEvent.getY() >= getMeasuredHeight() - AndroidUtilities.dp(191.0f) : motionEvent.getY() >= AudioPlayerAlert.this.scrollOffsetY + AndroidUtilities.dp(12.0f))) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                AudioPlayerAlert.this.dismiss();
+                AudioPlayerAlert.this.lambda$new$0();
                 return true;
             }
 
@@ -1348,7 +1348,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i6) {
                 if (i6 == -1) {
-                    AudioPlayerAlert.this.dismiss();
+                    AudioPlayerAlert.this.lambda$new$0();
                 } else {
                     AudioPlayerAlert.this.onSubItemClick(i6);
                 }
@@ -2084,7 +2084,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 return true;
             }
         }
-        dialogsActivity.lambda$onBackPressed$321();
+        dialogsActivity.lambda$onBackPressed$323();
         return true;
     }
 
@@ -2223,7 +2223,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.closeChats, new Object[0]);
             this.parentActivity.presentFragment(new ChatActivity(bundle2), false, false);
         }
-        dismiss();
+        lambda$new$0();
     }
 
     private void preloadNeighboringThumbs() {
@@ -2685,7 +2685,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         ActionBarMenuItem actionBarMenuItem2;
         MessageObject playingMessageObject = MediaController.getInstance().getPlayingMessageObject();
         if ((playingMessageObject == null && z) || (playingMessageObject != null && !playingMessageObject.isMusic())) {
-            dismiss();
+            lambda$new$0();
             return;
         }
         if (playingMessageObject == null) {
@@ -2863,8 +2863,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.messagePlayingDidStart);

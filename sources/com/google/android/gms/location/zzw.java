@@ -3,6 +3,7 @@ package com.google.android.gms.location;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelReader;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class zzw implements Parcelable.Creator {
@@ -11,7 +12,7 @@ public final class zzw implements Parcelable.Creator {
         int validateObjectHeader = SafeParcelReader.validateObjectHeader(parcel);
         long j = 0;
         zzac[] zzacVarArr = null;
-        int i = 1000;
+        int i = MediaDataController.MAX_STYLE_RUNS_COUNT;
         int i2 = 1;
         int i3 = 1;
         boolean z = false;

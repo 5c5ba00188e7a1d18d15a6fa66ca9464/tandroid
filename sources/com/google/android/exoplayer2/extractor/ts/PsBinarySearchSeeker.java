@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.extractor.ExtractorInput;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.TimestampAdjuster;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 final class PsBinarySearchSeeker extends BinarySearchSeeker {
@@ -99,7 +100,7 @@ final class PsBinarySearchSeeker extends BinarySearchSeeker {
     }
 
     public PsBinarySearchSeeker(TimestampAdjuster timestampAdjuster, long j, long j2) {
-        super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new PsScrSeeker(timestampAdjuster), j, 0L, j + 1, 0L, j2, 188L, 1000);
+        super(new BinarySearchSeeker.DefaultSeekTimestampConverter(), new PsScrSeeker(timestampAdjuster), j, 0L, j + 1, 0L, j2, 188L, MediaDataController.MAX_STYLE_RUNS_COUNT);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

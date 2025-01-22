@@ -361,10 +361,10 @@ public abstract class Weather {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
                     builder.setMessage(LocaleController.getString(R.string.GpsDisabledAlertText));
-                    builder.setPositiveButton(LocaleController.getString(R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda10
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            Weather.lambda$getUserLocation$9(context, dialogInterface, i);
+                    builder.setPositiveButton(LocaleController.getString(R.string.Enable), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda10
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            Weather.lambda$getUserLocation$9(context, alertDialog, i);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -378,7 +378,7 @@ public abstract class Weather {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getUserLocation$9(Context context, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$getUserLocation$9(Context context, AlertDialog alertDialog, int i) {
         try {
             context.startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
         } catch (Exception unused) {

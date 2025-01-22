@@ -300,10 +300,10 @@ public abstract class SetupEmojiStatusSheet {
         final Context context = findActivity;
         final boolean[] zArr = new boolean[1];
         final boolean[] zArr2 = new boolean[1];
-        AlertDialog create = new AlertDialog.Builder(context, null).setTopImage(new UserEmojiStatusDrawable(UserConfig.getInstance(i).getCurrentUser()), Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotEmojiStatusPermissionRequest, UserObject.getUserName(user), UserObject.getUserName(user)))).setPositiveButton(LocaleController.getString(R.string.BotEmojiStatusPermissionAllow), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda6
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                SetupEmojiStatusSheet.lambda$askPermission$12(i, zArr2, zArr, callback2, context, user, userFull, dialogInterface, i2);
+        AlertDialog create = new AlertDialog.Builder(context, null).setTopImage(new UserEmojiStatusDrawable(UserConfig.getInstance(i).getCurrentUser()), Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotEmojiStatusPermissionRequest, UserObject.getUserName(user), UserObject.getUserName(user)))).setPositiveButton(LocaleController.getString(R.string.BotEmojiStatusPermissionAllow), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda6
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                SetupEmojiStatusSheet.lambda$askPermission$12(i, zArr2, zArr, callback2, context, user, userFull, alertDialog, i2);
             }
         }).setNegativeButton(LocaleController.getString(R.string.BotEmojiStatusPermissionDecline), null).create();
         create.show();
@@ -366,14 +366,14 @@ public abstract class SetupEmojiStatusSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$askPermission$12(int i, boolean[] zArr, final boolean[] zArr2, final Utilities.Callback2 callback2, Context context, TLRPC.User user, final TLRPC.UserFull userFull, DialogInterface dialogInterface, int i2) {
+    public static /* synthetic */ void lambda$askPermission$12(int i, boolean[] zArr, final boolean[] zArr2, final Utilities.Callback2 callback2, Context context, TLRPC.User user, final TLRPC.UserFull userFull, AlertDialog alertDialog, int i2) {
         if (UserConfig.getInstance(i).isPremium()) {
             zArr[0] = true;
             saveAccessRequested(context, i, user.id);
             TL_bots.toggleUserEmojiStatusPermission toggleuseremojistatuspermission = new TL_bots.toggleUserEmojiStatusPermission();
             toggleuseremojistatuspermission.bot = MessagesController.getInstance(i).getInputUser(user);
             toggleuseremojistatuspermission.enabled = true;
-            ConnectionsManager.getInstance(i).sendRequest(toggleuseremojistatuspermission, new RequestDelegate() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(i).sendRequest(toggleuseremojistatuspermission, new RequestDelegate() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda11
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     SetupEmojiStatusSheet.lambda$askPermission$11(zArr2, callback2, userFull, tLObject, tL_error);
@@ -490,7 +490,7 @@ public abstract class SetupEmojiStatusSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$6(final int i, boolean[] zArr, int i2, TLRPC.Document document, final boolean[] zArr2, final Utilities.Callback callback, DialogInterface dialogInterface, int i3) {
+    public static /* synthetic */ void lambda$show$6(final int i, boolean[] zArr, TLRPC.Document document, int i2, final boolean[] zArr2, final Utilities.Callback callback, AlertDialog alertDialog, int i3) {
         if (!UserConfig.getInstance(i).isPremium()) {
             new PremiumFeatureBottomSheet(new BaseFragment() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet.1
                 @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -513,17 +513,14 @@ public abstract class SetupEmojiStatusSheet {
         }
         zArr[0] = true;
         final TL_account.updateEmojiStatus updateemojistatus = new TL_account.updateEmojiStatus();
+        TLRPC.TL_emojiStatus tL_emojiStatus = new TLRPC.TL_emojiStatus();
+        tL_emojiStatus.document_id = document.id;
         if (i2 > 0) {
-            TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil = new TLRPC.TL_emojiStatusUntil();
-            tL_emojiStatusUntil.until = ConnectionsManager.getInstance(i).getCurrentTime() + i2;
-            tL_emojiStatusUntil.document_id = document.id;
-            updateemojistatus.emoji_status = tL_emojiStatusUntil;
-        } else {
-            TLRPC.TL_emojiStatus tL_emojiStatus = new TLRPC.TL_emojiStatus();
-            tL_emojiStatus.document_id = document.id;
-            updateemojistatus.emoji_status = tL_emojiStatus;
+            tL_emojiStatus.flags |= 1;
+            tL_emojiStatus.until = ConnectionsManager.getInstance(i).getCurrentTime() + i2;
         }
-        ConnectionsManager.getInstance(i).sendRequest(updateemojistatus, new RequestDelegate() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda11
+        updateemojistatus.emoji_status = tL_emojiStatus;
+        ConnectionsManager.getInstance(i).sendRequest(updateemojistatus, new RequestDelegate() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 SetupEmojiStatusSheet.lambda$show$5(zArr2, callback, i, updateemojistatus, tLObject, tL_error);
@@ -613,10 +610,10 @@ public abstract class SetupEmojiStatusSheet {
         } else {
             formatString = LocaleController.formatString(R.string.BotEmojiStatusSetRequest, UserObject.getUserName(user));
         }
-        AlertDialog create = new AlertDialog.Builder(findActivity, null).setTopImage(new UserEmojiStatusDrawable(currentUser, document), Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(formatString)).setPositiveButton(LocaleController.getString(R.string.BotEmojiStatusConfirm), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i5) {
-                SetupEmojiStatusSheet.lambda$show$6(i, zArr2, i2, document, zArr, callback, dialogInterface, i5);
+        AlertDialog create = new AlertDialog.Builder(findActivity, null).setTopImage(new UserEmojiStatusDrawable(currentUser, document), Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(formatString)).setPositiveButton(LocaleController.getString(R.string.BotEmojiStatusConfirm), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.bots.SetupEmojiStatusSheet$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i5) {
+                SetupEmojiStatusSheet.lambda$show$6(i, zArr2, document, i2, zArr, callback, alertDialog, i5);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).create();
         create.show();

@@ -123,12 +123,12 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
             ImageView imageView2 = new ImageView(context);
             this.loadingView = imageView2;
             imageView2.setBackground(new CircularProgressDrawable(AndroidUtilities.dp(20.0f), AndroidUtilities.dp(2.4f), -15033089) { // from class: org.telegram.ui.Stories.recorder.StoryLinkSheet.WebpagePreviewView.1
-                @Override // android.graphics.drawable.Drawable
+                @Override // org.telegram.ui.Components.CircularProgressDrawable, android.graphics.drawable.Drawable
                 public int getIntrinsicHeight() {
                     return AndroidUtilities.dp(26.0f);
                 }
 
-                @Override // android.graphics.drawable.Drawable
+                @Override // org.telegram.ui.Components.CircularProgressDrawable, android.graphics.drawable.Drawable
                 public int getIntrinsicWidth() {
                     return AndroidUtilities.dp(26.0f);
                 }
@@ -582,7 +582,7 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
                 this.whenDone.run(webPagePreview);
                 this.whenDone = null;
             }
-            dismiss();
+            lambda$new$0();
         }
     }
 
@@ -632,10 +632,11 @@ public class StoryLinkSheet extends BottomSheetWithRecyclerListView implements N
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         AndroidUtilities.hideKeyboard(this.urlEditText.editText);
         AndroidUtilities.hideKeyboard(this.nameEditText.editText);
-        super.dismiss();
+        super.lambda$new$0();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.didReceivedWebpagesInUpdates);
     }
 

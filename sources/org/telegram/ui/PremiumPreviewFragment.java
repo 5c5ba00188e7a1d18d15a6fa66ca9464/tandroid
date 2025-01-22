@@ -69,6 +69,7 @@ import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_account;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
@@ -1655,14 +1656,13 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         TLRPC.EmojiStatus emojiStatus;
         if (l == null) {
             emojiStatus = new TLRPC.TL_emojiStatusEmpty();
-        } else if (num != null) {
-            TLRPC.TL_emojiStatusUntil tL_emojiStatusUntil = new TLRPC.TL_emojiStatusUntil();
-            tL_emojiStatusUntil.document_id = l.longValue();
-            tL_emojiStatusUntil.until = num.intValue();
-            emojiStatus = tL_emojiStatusUntil;
         } else {
             TLRPC.TL_emojiStatus tL_emojiStatus = new TLRPC.TL_emojiStatus();
             tL_emojiStatus.document_id = l.longValue();
+            if (num != null) {
+                tL_emojiStatus.flags |= 1;
+                tL_emojiStatus.until = num.intValue();
+            }
             emojiStatus = tL_emojiStatus;
         }
         getMessagesController().updateEmojiStatus(emojiStatus);
@@ -2760,7 +2760,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    PremiumPreviewFragment.this.lambda$onBackPressed$321();
+                    PremiumPreviewFragment.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -2944,7 +2944,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     }
 
                     @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-                    protected void onEmojiSelected(View view, Long l2, TLRPC.Document document, Integer num) {
+                    protected void onEmojiSelected(View view, Long l2, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
                         Utilities.Callback2 callback22 = callback2;
                         if (callback22 != null) {
                             callback22.run(l2, num);
@@ -2989,7 +2989,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             }
 
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-            protected void onEmojiSelected(View view, Long l2, TLRPC.Document document, Integer num) {
+            protected void onEmojiSelected(View view, Long l2, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
                 Utilities.Callback2 callback22 = callback2;
                 if (callback22 != null) {
                     callback22.run(l2, num);

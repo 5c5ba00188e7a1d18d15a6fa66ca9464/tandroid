@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class MediaMetadata implements Bundleable {
@@ -78,7 +79,7 @@ public final class MediaMetadata implements Bundleable {
     private static final String FIELD_STATION = Util.intToStringMaxRadix(30);
     private static final String FIELD_MEDIA_TYPE = Util.intToStringMaxRadix(31);
     private static final String FIELD_IS_BROWSABLE = Util.intToStringMaxRadix(32);
-    private static final String FIELD_EXTRAS = Util.intToStringMaxRadix(1000);
+    private static final String FIELD_EXTRAS = Util.intToStringMaxRadix(MediaDataController.MAX_STYLE_RUNS_COUNT);
     public static final Bundleable.Creator CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.MediaMetadata$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {

@@ -323,7 +323,7 @@ public class ImageLocation {
             int i3 = UserConfig.selectedAccount;
             if (MessagesController.getInstance(i3).isPremiumUser(user) && user.photo.has_video && (userFull = MessagesController.getInstance(i3).getUserFull(user.id)) != null && (photo = userFull.profile_photo) != null && (arrayList = photo.video_sizes) != null && !arrayList.isEmpty()) {
                 if (i == 4) {
-                    closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(userFull.profile_photo.video_sizes, 1000);
+                    closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(userFull.profile_photo.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
                 } else {
                     closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(userFull.profile_photo.video_sizes, 100);
                     int i4 = 0;

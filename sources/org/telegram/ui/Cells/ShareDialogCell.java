@@ -150,16 +150,16 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         super(context);
         int i2;
         float f;
-        this.avatarDrawable = new AvatarDrawable() { // from class: org.telegram.ui.Cells.ShareDialogCell.1
+        this.currentAccount = UserConfig.selectedAccount;
+        this.premiumBlockedT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
+        this.resourcesProvider = resourcesProvider;
+        this.avatarDrawable = new AvatarDrawable(resourcesProvider) { // from class: org.telegram.ui.Cells.ShareDialogCell.1
             @Override // android.graphics.drawable.Drawable
             public void invalidateSelf() {
                 super.invalidateSelf();
                 ShareDialogCell.this.imageView.invalidate();
             }
         };
-        this.currentAccount = UserConfig.selectedAccount;
-        this.premiumBlockedT = new AnimatedFloat(this, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
-        this.resourcesProvider = resourcesProvider;
         setWillNotDraw(false);
         this.currentType = i;
         BackupImageView backupImageView = new BackupImageView(context);
@@ -181,7 +181,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         };
         this.nameTextView = textView;
         NotificationCenter.listenEmojiLoading(textView);
-        textView.setTextColor(getThemedColor(this.premiumBlocked ? Theme.key_windowBackgroundWhiteGrayText5 : i == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
+        textView.setTextColor(getThemedColor(this.premiumBlocked ? Theme.key_windowBackgroundWhiteGrayText5 : Theme.key_dialogTextBlack));
         textView.setTextSize(1, 12.0f);
         textView.setMaxLines(2);
         textView.setGravity(49);
@@ -190,7 +190,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, i == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
         SimpleTextView simpleTextView = new SimpleTextView(context);
         this.topicTextView = simpleTextView;
-        simpleTextView.setTextColor(getThemedColor(i == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
+        simpleTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
         simpleTextView.setTextSize(12);
         simpleTextView.setMaxLines(2);
         simpleTextView.setGravity(49);
@@ -198,7 +198,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         addView(simpleTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 6.0f, i == 2 ? 58.0f : 66.0f, 6.0f, 0.0f));
         CheckBox2 checkBox2 = new CheckBox2(context, 21, resourcesProvider);
         this.checkBox = checkBox2;
-        checkBox2.setColor(Theme.key_dialogRoundCheckBox, i == 1 ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground, Theme.key_dialogRoundCheckBoxCheck);
+        checkBox2.setColor(Theme.key_dialogRoundCheckBox, Theme.key_dialogBackground, Theme.key_dialogRoundCheckBoxCheck);
         checkBox2.setDrawUnchecked(false);
         checkBox2.setDrawBackgroundAsArc(4);
         checkBox2.setProgressDelegate(new CheckBoxBase.ProgressDelegate() { // from class: org.telegram.ui.Cells.ShareDialogCell$$ExternalSyntheticLambda0
@@ -244,17 +244,32 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
             boolean z = this.premiumBlocked;
             boolean z2 = this.user != null && MessagesController.getInstance(this.currentAccount).isUserPremiumBlocked(this.user.id);
             this.premiumBlocked = z2;
-            this.nameTextView.setTextColor(getThemedColor(z2 ? Theme.key_windowBackgroundWhiteGrayText5 : this.currentType == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
+            this.nameTextView.setTextColor(getThemedColor(z2 ? Theme.key_windowBackgroundWhiteGrayText5 : Theme.key_dialogTextBlack));
             if (this.premiumBlocked != z) {
                 invalidate();
             }
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x01a2  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x01df  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x01f3  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x01a5  */
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x01df, code lost:
+    
+        if (r3 > 1.0f) goto L45;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x01e1, code lost:
+    
+        r25.onlineProgress = r4;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x01f4, code lost:
+    
+        r25.imageView.invalidate();
+        invalidate();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:46:0x01f1, code lost:
+    
+        if (r3 < 0.0f) goto L45;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x01d0  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x01e4  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -272,25 +287,26 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
             }
             this.lastUpdateTime = elapsedRealtime;
             float f = this.premiumBlockedT.set(this.premiumBlocked);
+            float f2 = 0.0f;
             if (f > 0.0f) {
                 int bottom = this.imageView.getBottom() - AndroidUtilities.dp(9.0f);
                 int right = this.imageView.getRight() - AndroidUtilities.dp(9.33f);
                 canvas.save();
-                Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(this.currentType == 1 ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_windowBackgroundWhite));
-                float f2 = right;
-                float f3 = bottom;
-                canvas.drawCircle(f2, f3, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
+                Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                float f3 = right;
+                float f4 = bottom;
+                canvas.drawCircle(f3, f4, AndroidUtilities.dp(12.0f) * f, Theme.dialogs_onlineCirclePaint);
                 if (this.premiumGradient == null) {
                     this.premiumGradient = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradient1, Theme.key_premiumGradient2, -1, -1, -1, this.resourcesProvider);
                 }
                 this.premiumGradient.gradientMatrix(right - AndroidUtilities.dp(10.0f), bottom - AndroidUtilities.dp(10.0f), right + AndroidUtilities.dp(10.0f), bottom + AndroidUtilities.dp(10.0f), 0.0f, 0.0f);
-                canvas.drawCircle(f2, f3, AndroidUtilities.dp(10.0f) * f, this.premiumGradient.paint);
+                canvas.drawCircle(f3, f4, AndroidUtilities.dp(10.0f) * f, this.premiumGradient.paint);
                 if (this.lockDrawable == null) {
                     Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_mini_lock2).mutate();
                     this.lockDrawable = mutate;
                     mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
                 }
-                this.lockDrawable.setBounds((int) (f2 - (((r5.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (f3 - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (f2 + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (f3 + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
+                this.lockDrawable.setBounds((int) (f3 - (((r4.getIntrinsicWidth() / 2.0f) * 0.875f) * f)), (int) (f4 - (((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f) * f)), (int) (f3 + ((this.lockDrawable.getIntrinsicWidth() / 2.0f) * 0.875f * f)), (int) (f4 + ((this.lockDrawable.getIntrinsicHeight() / 2.0f) * 0.875f * f)));
                 this.lockDrawable.setAlpha((int) (f * 255.0f));
                 this.lockDrawable.draw(canvas);
                 canvas.restore();
@@ -302,33 +318,24 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                         if (!z || this.onlineProgress != 0.0f) {
                             int bottom2 = this.imageView.getBottom() - AndroidUtilities.dp(6.0f);
                             int right2 = this.imageView.getRight() - AndroidUtilities.dp(10.0f);
-                            Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(this.currentType != 1 ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_windowBackgroundWhite));
-                            float f4 = right2;
-                            float f5 = bottom2;
-                            canvas.drawCircle(f4, f5, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                            Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                            float f5 = right2;
+                            float f6 = bottom2;
+                            canvas.drawCircle(f5, f6, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
                             Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_chats_onlineCircle));
-                            canvas.drawCircle(f4, f5, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                            canvas.drawCircle(f5, f6, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
                             if (z) {
-                                float f6 = this.onlineProgress;
-                                if (f6 > 0.0f) {
-                                    float f7 = f6 - (j2 / 150.0f);
-                                    this.onlineProgress = f7;
-                                    if (f7 < 0.0f) {
-                                        this.onlineProgress = 0.0f;
-                                    }
-                                    this.imageView.invalidate();
-                                    invalidate();
+                                float f7 = this.onlineProgress;
+                                if (f7 > 0.0f) {
+                                    float f8 = f7 - (j2 / 150.0f);
+                                    this.onlineProgress = f8;
                                 }
                             } else {
-                                float f8 = this.onlineProgress;
-                                if (f8 < 1.0f) {
-                                    float f9 = f8 + (j2 / 150.0f);
-                                    this.onlineProgress = f9;
-                                    if (f9 > 1.0f) {
-                                        this.onlineProgress = 1.0f;
-                                    }
-                                    this.imageView.invalidate();
-                                    invalidate();
+                                float f9 = this.onlineProgress;
+                                f2 = 1.0f;
+                                if (f9 < 1.0f) {
+                                    float f10 = f9 + (j2 / 150.0f);
+                                    this.onlineProgress = f10;
                                 }
                             }
                         }
@@ -339,12 +346,12 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                 }
                 int bottom22 = this.imageView.getBottom() - AndroidUtilities.dp(6.0f);
                 int right22 = this.imageView.getRight() - AndroidUtilities.dp(10.0f);
-                Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(this.currentType != 1 ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_windowBackgroundWhite));
-                float f42 = right22;
-                float f52 = bottom22;
-                canvas.drawCircle(f42, f52, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                float f52 = right22;
+                float f62 = bottom22;
+                canvas.drawCircle(f52, f62, AndroidUtilities.dp(7.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
                 Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_chats_onlineCircle));
-                canvas.drawCircle(f42, f52, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
+                canvas.drawCircle(f52, f62, AndroidUtilities.dp(5.0f) * this.onlineProgress, Theme.dialogs_onlineCirclePaint);
                 if (z) {
                 }
             }
@@ -429,7 +436,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                 this.user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
                 boolean isUserPremiumBlocked = MessagesController.getInstance(this.currentAccount).isUserPremiumBlocked(j);
                 this.premiumBlocked = isUserPremiumBlocked;
-                this.nameTextView.setTextColor(getThemedColor(isUserPremiumBlocked ? Theme.key_windowBackgroundWhiteGrayText5 : this.currentType == 1 ? Theme.key_voipgroup_nameText : Theme.key_dialogTextBlack));
+                this.nameTextView.setTextColor(getThemedColor(isUserPremiumBlocked ? Theme.key_windowBackgroundWhiteGrayText5 : Theme.key_dialogTextBlack));
                 this.premiumBlockedT.set(this.premiumBlocked, true);
                 invalidate();
                 this.avatarDrawable.setInfo(this.currentAccount, this.user);

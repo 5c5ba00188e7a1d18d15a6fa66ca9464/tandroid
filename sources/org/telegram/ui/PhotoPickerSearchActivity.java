@@ -27,6 +27,7 @@ import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -168,7 +169,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    PhotoPickerSearchActivity.this.lambda$onBackPressed$321();
+                    PhotoPickerSearchActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -176,7 +177,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.PhotoPickerSearchActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
             public boolean canCollapseSearch() {
-                PhotoPickerSearchActivity.this.lambda$onBackPressed$321();
+                PhotoPickerSearchActivity.this.lambda$onBackPressed$323();
                 return false;
             }
 
@@ -529,7 +530,7 @@ public class PhotoPickerSearchActivity extends BaseFragment {
                         prepareForMoving(motionEvent, x < 0);
                     }
                 } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
-                    this.velocityTracker.computeCurrentVelocity(1000, PhotoPickerSearchActivity.this.maximumVelocity);
+                    this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, PhotoPickerSearchActivity.this.maximumVelocity);
                     if (motionEvent == null || motionEvent.getAction() == 3) {
                         f = 0.0f;
                         f2 = 0.0f;

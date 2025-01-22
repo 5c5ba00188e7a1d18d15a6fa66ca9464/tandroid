@@ -16,6 +16,7 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
@@ -418,7 +419,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
             if (this.velocityTracker == null) {
                 this.velocityTracker = VelocityTracker.obtain();
             }
-            this.velocityTracker.computeCurrentVelocity(1000);
+            this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
             if (this.startedTracking) {
                 float f2 = this.swipeBackX;
                 float xVelocity = this.velocityTracker.getXVelocity();

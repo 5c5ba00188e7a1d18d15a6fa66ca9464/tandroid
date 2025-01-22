@@ -31,6 +31,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
@@ -429,14 +430,17 @@ public abstract class StoriesUtilities {
             setColorId(-1, z);
         }
 
-        public void setColorId(int i, boolean z) {
-            MessagesController.PeerColors peerColors = MessagesController.getInstance(this.currentAccount).profilePeerColors;
-            MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(i);
-            if (color != null) {
-                setColors(color.getStoryColor1(Theme.isCurrentThemeDark()), color.getStoryColor2(Theme.isCurrentThemeDark()), z);
+        public void setColor(MessagesController.PeerColor peerColor, boolean z) {
+            if (peerColor != null) {
+                setColors(peerColor.getStoryColor1(Theme.isCurrentThemeDark()), peerColor.getStoryColor2(Theme.isCurrentThemeDark()), z);
             } else {
                 resetColors(z);
             }
+        }
+
+        public void setColorId(int i, boolean z) {
+            MessagesController.PeerColors peerColors = MessagesController.getInstance(this.currentAccount).profilePeerColors;
+            setColor(peerColors == null ? null : peerColors.getColor(i), z);
         }
 
         public void setUser(TLRPC.User user, boolean z) {
@@ -1522,14 +1526,14 @@ public abstract class StoriesUtilities {
         TLRPC.MessageMedia messageMedia = storyItem.media;
         TLRPC.Document document = messageMedia.document;
         if (document != null) {
-            imageReceiver.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 1000), storyItem.media.document), "100_100", null, null, ImageLoader.createStripedBitmap(storyItem.media.document.thumbs), 0L, null, storyItem, 0);
+            imageReceiver.setImage(ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(document.thumbs, MediaDataController.MAX_STYLE_RUNS_COUNT), storyItem.media.document), "100_100", null, null, ImageLoader.createStripedBitmap(storyItem.media.document.thumbs), 0L, null, storyItem, 0);
             return;
         }
         TLRPC.Photo photo = messageMedia.photo;
         if (photo == null || (arrayList = photo.sizes) == null) {
             imageReceiver.clearImage();
         } else {
-            imageReceiver.setImage(null, null, ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000), photo), "100_100", null, null, ImageLoader.createStripedBitmap(photo.sizes), 0L, null, storyItem, 0);
+            imageReceiver.setImage(null, null, ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(arrayList, MediaDataController.MAX_STYLE_RUNS_COUNT), photo), "100_100", null, null, ImageLoader.createStripedBitmap(photo.sizes), 0L, null, storyItem, 0);
         }
     }
 

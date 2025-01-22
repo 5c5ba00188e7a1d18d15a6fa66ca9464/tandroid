@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class Loader implements LoaderErrorThrower {
@@ -73,7 +74,7 @@ public final class Loader implements LoaderErrorThrower {
         }
 
         private long getRetryDelayMillis() {
-            return Math.min((this.errorCount - 1) * 1000, 5000);
+            return Math.min((this.errorCount - 1) * MediaDataController.MAX_STYLE_RUNS_COUNT, 5000);
         }
 
         public void cancel(boolean z) {

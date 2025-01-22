@@ -78,8 +78,9 @@ public class GroupColorActivity extends ChannelColorActivity {
         }
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), i, this.currentAccount, this.resourceProvider) { // from class: org.telegram.ui.GroupColorActivity.4
             @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-            public void dismiss() {
-                super.dismiss();
+            /* renamed from: dismiss */
+            public void lambda$new$0() {
+                super.lambda$new$0();
                 GroupColorActivity.this.isLoading = false;
             }
 

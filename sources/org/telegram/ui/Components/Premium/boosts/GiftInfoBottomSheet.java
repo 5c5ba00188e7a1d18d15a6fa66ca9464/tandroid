@@ -55,7 +55,7 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
 
         @Override // org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter
         protected void dismiss() {
-            GiftInfoBottomSheet.this.dismiss();
+            GiftInfoBottomSheet.this.lambda$new$0();
         }
 
         @Override // org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter

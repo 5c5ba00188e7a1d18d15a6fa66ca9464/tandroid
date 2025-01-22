@@ -1,7 +1,6 @@
 package org.telegram.ui.web;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -908,10 +907,10 @@ public class AddressBarList extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void clearRecentSearches(View view) {
-        new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.WebRecentClearTitle)).setMessage(LocaleController.getString(R.string.WebRecentClearText)).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda11
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                AddressBarList.this.lambda$clearRecentSearches$1(dialogInterface, i);
+        new AlertDialog.Builder(getContext()).setTitle(LocaleController.getString(R.string.WebRecentClearTitle)).setMessage(LocaleController.getString(R.string.WebRecentClearText)).setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.AddressBarList$$ExternalSyntheticLambda11
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                AddressBarList.this.lambda$clearRecentSearches$1(alertDialog, i);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
     }
@@ -974,7 +973,7 @@ public class AddressBarList extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$clearRecentSearches$1(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$clearRecentSearches$1(AlertDialog alertDialog, int i) {
         clearRecentSearches(getContext());
         this.listView.adapter.update(true);
     }

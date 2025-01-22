@@ -163,7 +163,7 @@ public class CreateRtmpStreamBottomSheet extends BottomSheetWithRecyclerListView
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(TLRPC.Peer peer, View view) {
         this.selectAfterDismiss = MessagesController.getInstance(this.currentAccount).getInputPeer(MessageObject.getPeerId(peer));
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

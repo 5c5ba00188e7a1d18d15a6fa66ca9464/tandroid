@@ -229,7 +229,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClearEmojiRecent$0(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onClearEmojiRecent$0(AlertDialog alertDialog, int i) {
             LPhotoPaintView.this.emojiView.clearRecentEmoji();
         }
 
@@ -297,10 +297,10 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
             AlertDialog.Builder builder = new AlertDialog.Builder(LPhotoPaintView.this.getContext(), LPhotoPaintView.this.resourcesProvider);
             builder.setTitle(LocaleController.getString(R.string.ClearRecentEmojiTitle));
             builder.setMessage(LocaleController.getString(R.string.ClearRecentEmojiText));
-            builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$22$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    LPhotoPaintView.22.this.lambda$onClearEmojiRecent$0(dialogInterface, i);
+            builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$22$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    LPhotoPaintView.22.this.lambda$onClearEmojiRecent$0(alertDialog, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -3021,7 +3021,7 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
                     }
                     LPhotoPaintView lPhotoPaintView = LPhotoPaintView.this;
                     lPhotoPaintView.appearAnimation(lPhotoPaintView.createPhoto(str, true));
-                    chatAttachAlert.dismiss();
+                    chatAttachAlert.lambda$new$0();
                 } catch (Throwable th) {
                     FileLog.e(th);
                 }
@@ -3833,9 +3833,9 @@ public abstract class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto imple
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, this.resourcesProvider);
         builder.setMessage(LocaleController.getString(R.string.PhotoEditorDiscardAlert));
         builder.setTitle(LocaleController.getString(R.string.DiscardChanges));
-        builder.setPositiveButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda19
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
+        builder.setPositiveButton(LocaleController.getString(R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda19
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
                 runnable.run();
             }
         });

@@ -12,6 +12,7 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.webrtc.EglBase;
 import org.webrtc.EglBase14;
 import org.webrtc.EncodedImage;
@@ -519,7 +520,7 @@ class HardwareVideoEncoder implements VideoEncoder {
         this.useSurfaceMode = canUseSurface();
         int i2 = settings.startBitrate;
         if (i2 != 0 && (i = settings.maxFramerate) != 0) {
-            this.bitrateAdjuster.setTargets(i2 * 1000, i);
+            this.bitrateAdjuster.setTargets(i2 * MediaDataController.MAX_STYLE_RUNS_COUNT, i);
         }
         this.adjustedBitrate = this.bitrateAdjuster.getAdjustedBitrateBps();
         Logging.d(TAG, "initEncode: " + this.width + " x " + this.height + ". @ " + settings.startBitrate + "kbps. Fps: " + settings.maxFramerate + " Use surface mode: " + this.useSurfaceMode);

@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
@@ -197,7 +198,7 @@ public class SpoilerEffect extends Drawable {
             return;
         }
         TextStyleSpan[] textStyleSpanArr = (TextStyleSpan[]) spanned.getSpans(0, layout.getText().length(), TextStyleSpan.class);
-        for (int i5 = 0; i5 < textStyleSpanArr.length; i5++) {
+        for (int i5 = 0; i5 < Math.min(100, textStyleSpanArr.length); i5++) {
             if (textStyleSpanArr[i5].isSpoiler()) {
                 int spanStart = spanned.getSpanStart(textStyleSpanArr[i5]);
                 int spanEnd = spanned.getSpanEnd(textStyleSpanArr[i5]);
@@ -332,59 +333,55 @@ public class SpoilerEffect extends Drawable {
         StaticLayout.Builder alignment;
         StaticLayout.Builder lineSpacing;
         TextStyleSpan[] textStyleSpanArr;
-        int i4;
         if (list == null || list.isEmpty()) {
             layoutDrawMaybe(layout, canvas);
             return;
         }
         Layout layout2 = (Layout) atomicReference.get();
+        int i4 = 0;
         if (layout2 == null || !layout.getText().toString().equals(layout2.getText().toString()) || layout.getWidth() != layout2.getWidth() || layout.getHeight() != layout2.getHeight()) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(layout.getText());
             if (layout.getText() instanceof Spanned) {
                 Spanned spanned = (Spanned) layout.getText();
                 TextStyleSpan[] textStyleSpanArr2 = (TextStyleSpan[]) spanned.getSpans(0, spanned.length(), TextStyleSpan.class);
-                int length = textStyleSpanArr2.length;
                 int i5 = 0;
-                while (i5 < length) {
+                while (i5 < Math.min(100, textStyleSpanArr2.length)) {
                     TextStyleSpan textStyleSpan = textStyleSpanArr2[i5];
                     if (textStyleSpan.isSpoiler()) {
                         int spanStart = spanned.getSpanStart(textStyleSpan);
                         int spanEnd = spanned.getSpanEnd(textStyleSpan);
                         Emoji.EmojiSpan[] emojiSpanArr = (Emoji.EmojiSpan[]) spanned.getSpans(spanStart, spanEnd, Emoji.EmojiSpan.class);
-                        int length2 = emojiSpanArr.length;
-                        textStyleSpanArr = textStyleSpanArr2;
-                        int i6 = 0;
+                        int length = emojiSpanArr.length;
                         while (true) {
-                            i4 = length;
-                            if (i6 >= length2) {
+                            textStyleSpanArr = textStyleSpanArr2;
+                            if (i4 >= length) {
                                 break;
                             }
-                            final Emoji.EmojiSpan emojiSpan = emojiSpanArr[i6];
+                            final Emoji.EmojiSpan emojiSpan = emojiSpanArr[i4];
                             spannableStringBuilder.setSpan(new ReplacementSpan() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect.3
                                 @Override // android.text.style.ReplacementSpan
-                                public void draw(Canvas canvas2, CharSequence charSequence, int i7, int i8, float f, int i9, int i10, int i11, Paint paint) {
+                                public void draw(Canvas canvas2, CharSequence charSequence, int i6, int i7, float f, int i8, int i9, int i10, Paint paint) {
                                 }
 
                                 @Override // android.text.style.ReplacementSpan
-                                public int getSize(Paint paint, CharSequence charSequence, int i7, int i8, Paint.FontMetricsInt fontMetricsInt) {
-                                    return Emoji.EmojiSpan.this.getSize(paint, charSequence, i7, i8, fontMetricsInt);
+                                public int getSize(Paint paint, CharSequence charSequence, int i6, int i7, Paint.FontMetricsInt fontMetricsInt) {
+                                    return Emoji.EmojiSpan.this.getSize(paint, charSequence, i6, i7, fontMetricsInt);
                                 }
                             }, spanned.getSpanStart(emojiSpan), spanned.getSpanEnd(emojiSpan), spanned.getSpanFlags(textStyleSpan));
                             spannableStringBuilder.removeSpan(emojiSpan);
-                            i6++;
-                            length = i4;
+                            i4++;
+                            textStyleSpanArr2 = textStyleSpanArr;
+                            length = length;
                             emojiSpanArr = emojiSpanArr;
-                            length2 = length2;
                         }
                         spannableStringBuilder.setSpan(new ForegroundColorSpan(0), spanStart, spanEnd, spanned.getSpanFlags(textStyleSpan));
                         spannableStringBuilder.removeSpan(textStyleSpan);
                     } else {
                         textStyleSpanArr = textStyleSpanArr2;
-                        i4 = length;
                     }
                     i5++;
                     textStyleSpanArr2 = textStyleSpanArr;
-                    length = i4;
+                    i4 = 0;
                 }
             }
             if (i3 == 1) {
@@ -553,7 +550,7 @@ public class SpoilerEffect extends Drawable {
                 particle.vecX = cos;
                 particle.vecY = sin;
                 particle.currentTime = 0.0f;
-                particle.lifeTime = Math.abs(Utilities.fastRandom.nextInt(2000)) + 1000;
+                particle.lifeTime = Math.abs(Utilities.fastRandom.nextInt(2000)) + MediaDataController.MAX_STYLE_RUNS_COUNT;
                 particle.velocity = (f * 6.0f) + 4.0f;
                 particle.alpha = Utilities.fastRandom.nextInt(ALPHAS.length);
                 this.particles.add(particle);

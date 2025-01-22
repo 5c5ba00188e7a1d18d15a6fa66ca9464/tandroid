@@ -13,6 +13,7 @@ import android.view.View;
 import java.util.Random;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -144,6 +145,8 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
                 return AndroidUtilities.dp(58.0f);
             case 34:
                 return AndroidUtilities.dp(140.0f);
+            case 35:
+                return AndroidUtilities.dp(112.0f);
         }
     }
 
@@ -181,7 +184,7 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
             paint = this.globalGradientView.paint;
         }
         Paint paint2 = paint;
-        if (getViewType() == 34) {
+        if (getViewType() == 34 || getViewType() == 35) {
             this.parentXOffset = -getX();
         }
         updateColors();
@@ -804,7 +807,7 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
                                         i3 = i39;
                                     }
                                 }
-                            } else if (getViewType() == 34) {
+                            } else if (getViewType() == 34 || getViewType() == 35) {
                                 this.rectF.set(this.paddingLeft, this.paddingTop, getMeasuredWidth() - this.paddingLeft, getMeasuredHeight() - this.paddingTop);
                                 this.rectF.inset(AndroidUtilities.dp(3.33f), AndroidUtilities.dp(4.0f));
                                 rectF = this.rectF;
@@ -885,7 +888,7 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
             Random random = new Random();
             this.randomParams = new float[2];
             for (int i2 = 0; i2 < 2; i2++) {
-                this.randomParams[i2] = Math.abs(random.nextInt() % 1000) / 1000.0f;
+                this.randomParams[i2] = Math.abs(random.nextInt() % MediaDataController.MAX_STYLE_RUNS_COUNT) / 1000.0f;
             }
         }
         invalidate();
@@ -901,8 +904,8 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
 
     @Override // org.telegram.ui.ActionBar.Theme.Colorable
     public void updateColors() {
-        int dp;
         int i;
+        int i2;
         FlickerLoadingView flickerLoadingView = this.globalGradientView;
         if (flickerLoadingView != null) {
             flickerLoadingView.updateColors();
@@ -915,14 +918,14 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
         }
         this.color0 = themedColor;
         this.color1 = themedColor2;
-        int i2 = this.viewType;
-        if (i2 == 34) {
-            dp = AndroidUtilities.displaySize.x;
+        int i3 = this.viewType;
+        if (i3 == 34 || i3 == 35) {
+            i = AndroidUtilities.displaySize.x;
         } else {
-            dp = AndroidUtilities.dp((this.isSingleCell || i2 == 13 || i2 == 14 || i2 == 17) ? 200.0f : 600.0f);
+            i = AndroidUtilities.dp((this.isSingleCell || i3 == 13 || i3 == 14 || i3 == 17) ? 200.0f : 600.0f);
         }
-        this.gradientWidth = dp;
-        this.gradient = (this.isSingleCell || (i = this.viewType) == 13 || i == 14 || i == 17) ? new LinearGradient(0.0f, 0.0f, this.gradientWidth, 0.0f, new int[]{themedColor2, themedColor, themedColor, themedColor2}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP) : new LinearGradient(0.0f, 0.0f, 0.0f, this.gradientWidth, new int[]{themedColor2, themedColor, themedColor, themedColor2}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
+        this.gradientWidth = i;
+        this.gradient = (this.isSingleCell || (i2 = this.viewType) == 13 || i2 == 14 || i2 == 17) ? new LinearGradient(0.0f, 0.0f, this.gradientWidth, 0.0f, new int[]{themedColor2, themedColor, themedColor, themedColor2}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP) : new LinearGradient(0.0f, 0.0f, 0.0f, this.gradientWidth, new int[]{themedColor2, themedColor, themedColor, themedColor2}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
         this.paint.setShader(this.gradient);
     }
 
@@ -947,27 +950,28 @@ public class FlickerLoadingView extends View implements Theme.Colorable {
         if (i == 0) {
             i = getMeasuredWidth();
         }
-        if (this.viewType == 34) {
+        int i2 = this.viewType;
+        if (i2 == 34 || i2 == 35) {
             i = Math.max(i, AndroidUtilities.displaySize.x);
         }
-        int i2 = this.parentHeight;
-        if (i2 == 0) {
-            i2 = getMeasuredHeight();
+        int i3 = this.parentHeight;
+        if (i3 == 0) {
+            i3 = getMeasuredHeight();
         }
         this.lastUpdateTime = elapsedRealtime;
         if (this.isSingleCell || this.viewType == 13 || getViewType() == 14 || getViewType() == 17) {
-            int i3 = (int) (this.totalTranslation + ((abs * i) / 400.0f));
-            this.totalTranslation = i3;
-            if (i3 >= i * 2) {
+            int i4 = (int) (this.totalTranslation + ((abs * i) / 400.0f));
+            this.totalTranslation = i4;
+            if (i4 >= i * 2) {
                 this.totalTranslation = (-this.gradientWidth) * 2;
             }
             matrix = this.matrix;
             f = this.totalTranslation + this.parentXOffset;
             f2 = 0.0f;
         } else {
-            int i4 = (int) (this.totalTranslation + ((abs * i2) / 400.0f));
-            this.totalTranslation = i4;
-            if (i4 >= i2 * 2) {
+            int i5 = (int) (this.totalTranslation + ((abs * i3) / 400.0f));
+            this.totalTranslation = i5;
+            if (i5 >= i3 * 2) {
                 this.totalTranslation = (-this.gradientWidth) * 2;
             }
             matrix = this.matrix;

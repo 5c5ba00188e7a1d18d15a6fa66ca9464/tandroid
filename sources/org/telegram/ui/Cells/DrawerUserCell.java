@@ -162,7 +162,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x00fb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -186,9 +186,11 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
         if (emojiStatusDocumentId != null) {
             this.textView.setDrawablePadding(AndroidUtilities.dp(4.0f));
             this.status.set(emojiStatusDocumentId.longValue(), true);
+            this.status.setParticles(DialogObject.isEmojiStatusCollectible(currentUser.emoji_status), true);
         } else {
             if (!MessagesController.getInstance(i).isPremiumUser(currentUser)) {
                 this.status.set((Drawable) null, true);
+                this.status.setParticles(false, true);
                 this.textView.setRightDrawableOutside(false);
                 botVerificationIcon = DialogObject.getBotVerificationIcon(currentUser);
                 if (botVerificationIcon == 0 && ConnectionsManager.getInstance(i).isTestBackend() == ConnectionsManager.getInstance(UserConfig.selectedAccount).isTestBackend()) {
@@ -208,6 +210,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
             }
             this.textView.setDrawablePadding(AndroidUtilities.dp(6.0f));
             this.status.set(PremiumGradient.getInstance().premiumStarDrawableMini, true);
+            this.status.setParticles(false, true);
         }
         this.textView.setRightDrawableOutside(true);
         botVerificationIcon = DialogObject.getBotVerificationIcon(currentUser);

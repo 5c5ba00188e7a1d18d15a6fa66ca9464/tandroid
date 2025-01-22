@@ -48,6 +48,7 @@ import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -121,9 +122,11 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     protected int navBarColorKey;
     protected float navigationBarAlpha;
     protected ValueAnimator navigationBarAnimation;
+    protected int navigationBarHeight;
     protected View nestedScrollChild;
     private AnimationNotificationsLocker notificationsLocker;
     public boolean occupyNavigationBar;
+    public boolean occupyNavigationBarWithoutKeyboard;
     private DialogInterface.OnClickListener onClickListener;
     private DialogInterface.OnDismissListener onHideListener;
     protected Interpolator openInterpolator;
@@ -1082,22 +1085,23 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             this.keyboardChanged = false;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:43:0x0112  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x0150  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x0159  */
-        /* JADX WARN: Removed duplicated region for block: B:69:0x01a7  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0118  */
+        /* JADX WARN: Removed duplicated region for block: B:61:0x0171  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x017a  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x01c8  */
         @Override // android.widget.FrameLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onMeasure(int i, int i2) {
             int i3;
+            BottomSheet bottomSheet;
             ViewGroup viewGroup;
             int childCount;
             int makeMeasureSpec;
             int bottomSheetWidth;
             int i4;
-            BottomSheet bottomSheet;
+            BottomSheet bottomSheet2;
             int systemWindowInsetBottom;
             int i5;
             int systemWindowInsetBottom2;
@@ -1107,65 +1111,70 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             int size2 = View.MeasureSpec.getSize(i2);
             View rootView = getRootView();
             getWindowVisibleDisplayFrame(this.rect);
-            BottomSheet bottomSheet2 = BottomSheet.this;
-            int i6 = bottomSheet2.keyboardHeight;
+            BottomSheet bottomSheet3 = BottomSheet.this;
+            int i6 = bottomSheet3.keyboardHeight;
             Rect rect = this.rect;
             if (rect.bottom == 0 || rect.top == 0) {
-                bottomSheet2.keyboardHeight = 0;
+                bottomSheet3.keyboardHeight = 0;
             } else {
                 int height = (int) ((rootView.getHeight() - (this.rect.top != 0 ? AndroidUtilities.statusBarHeight * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress) : 0.0f)) - (AndroidUtilities.getViewInset(rootView) * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress)));
-                BottomSheet bottomSheet3 = BottomSheet.this;
+                BottomSheet bottomSheet4 = BottomSheet.this;
                 Rect rect2 = this.rect;
-                bottomSheet3.keyboardHeight = Math.max(0, height - (rect2.bottom - rect2.top));
+                bottomSheet4.keyboardHeight = Math.max(0, height - (rect2.bottom - rect2.top));
                 if (BottomSheet.this.keyboardHeight < AndroidUtilities.dp(20.0f)) {
                     BottomSheet.this.keyboardHeight = 0;
                 } else {
-                    BottomSheet bottomSheet4 = BottomSheet.this;
-                    bottomSheet4.lastKeyboardHeight = bottomSheet4.keyboardHeight;
+                    BottomSheet bottomSheet5 = BottomSheet.this;
+                    bottomSheet5.lastKeyboardHeight = bottomSheet5.keyboardHeight;
                 }
-                BottomSheet bottomSheet5 = BottomSheet.this;
-                BottomSheet.access$1020(bottomSheet5, bottomSheet5.keyboardHeight);
+                BottomSheet bottomSheet6 = BottomSheet.this;
+                BottomSheet.access$1020(bottomSheet6, bottomSheet6.keyboardHeight);
             }
-            BottomSheet bottomSheet6 = BottomSheet.this;
-            int i7 = bottomSheet6.keyboardHeight;
+            BottomSheet bottomSheet7 = BottomSheet.this;
+            int i7 = bottomSheet7.keyboardHeight;
             if (i6 != i7) {
                 this.keyboardChanged = true;
             }
-            bottomSheet6.keyboardVisible = i7 > AndroidUtilities.dp(20.0f);
+            bottomSheet7.keyboardVisible = i7 > AndroidUtilities.dp(20.0f);
             if (BottomSheet.this.lastInsets != null && (i5 = Build.VERSION.SDK_INT) >= 21) {
-                BottomSheet bottomSheet7 = BottomSheet.this;
-                systemWindowInsetBottom2 = bottomSheet7.lastInsets.getSystemWindowInsetBottom();
-                bottomSheet7.bottomInset = systemWindowInsetBottom2;
                 BottomSheet bottomSheet8 = BottomSheet.this;
-                systemWindowInsetLeft = bottomSheet8.lastInsets.getSystemWindowInsetLeft();
-                bottomSheet8.leftInset = systemWindowInsetLeft;
+                systemWindowInsetBottom2 = bottomSheet8.lastInsets.getSystemWindowInsetBottom();
+                bottomSheet8.bottomInset = systemWindowInsetBottom2;
                 BottomSheet bottomSheet9 = BottomSheet.this;
-                systemWindowInsetRight = bottomSheet9.lastInsets.getSystemWindowInsetRight();
-                bottomSheet9.rightInset = systemWindowInsetRight;
+                systemWindowInsetLeft = bottomSheet9.lastInsets.getSystemWindowInsetLeft();
+                bottomSheet9.leftInset = systemWindowInsetLeft;
+                BottomSheet bottomSheet10 = BottomSheet.this;
+                systemWindowInsetRight = bottomSheet10.lastInsets.getSystemWindowInsetRight();
+                bottomSheet10.rightInset = systemWindowInsetRight;
                 if (i5 >= 29) {
-                    BottomSheet bottomSheet10 = BottomSheet.this;
-                    BottomSheet.access$1012(bottomSheet10, bottomSheet10.getAdditionalMandatoryOffsets());
-                }
-                BottomSheet bottomSheet11 = BottomSheet.this;
-                if (bottomSheet11.keyboardVisible) {
-                    Rect rect3 = this.rect;
-                    if (rect3.bottom != 0 && rect3.top != 0) {
-                        BottomSheet.access$1020(bottomSheet11, bottomSheet11.keyboardHeight);
-                    }
+                    BottomSheet bottomSheet11 = BottomSheet.this;
+                    BottomSheet.access$1012(bottomSheet11, bottomSheet11.getAdditionalMandatoryOffsets());
                 }
                 BottomSheet bottomSheet12 = BottomSheet.this;
-                if (!bottomSheet12.drawNavigationBar && !bottomSheet12.occupyNavigationBar) {
-                    i3 = size2 - bottomSheet12.getBottomInset();
+                if (bottomSheet12.keyboardVisible) {
+                    Rect rect3 = this.rect;
+                    if (rect3.bottom != 0 && rect3.top != 0) {
+                        BottomSheet.access$1020(bottomSheet12, bottomSheet12.keyboardHeight);
+                    }
+                }
+                BottomSheet bottomSheet13 = BottomSheet.this;
+                if (!bottomSheet13.drawNavigationBar && !bottomSheet13.occupyNavigationBar && !bottomSheet13.occupyNavigationBarWithoutKeyboard) {
+                    i3 = size2 - bottomSheet13.getBottomInset();
                     setMeasuredDimension(size, i3);
-                    if (BottomSheet.this.lastInsets != null && (i4 = Build.VERSION.SDK_INT) >= 21) {
-                        bottomSheet = BottomSheet.this;
-                        if (!bottomSheet.occupyNavigationBar) {
-                            systemWindowInsetBottom = bottomSheet.lastInsets.getSystemWindowInsetBottom();
+                    bottomSheet = BottomSheet.this;
+                    bottomSheet.navigationBarHeight = 0;
+                    if (bottomSheet.lastInsets != null && (i4 = Build.VERSION.SDK_INT) >= 21) {
+                        bottomSheet2 = BottomSheet.this;
+                        if (!bottomSheet2.occupyNavigationBar) {
+                            systemWindowInsetBottom = bottomSheet2.lastInsets.getSystemWindowInsetBottom();
                             int i8 = (int) (systemWindowInsetBottom * (1.0f - BottomSheet.this.hideSystemVerticalInsetsProgress));
                             if (i4 >= 29) {
                                 i8 += BottomSheet.this.getAdditionalMandatoryOffsets();
                             }
-                            size2 -= i8;
+                            if (!BottomSheet.this.occupyNavigationBarWithoutKeyboard || i8 > AndroidUtilities.navigationBarHeight + AndroidUtilities.dp(10.0f)) {
+                                size2 -= i8;
+                            }
+                            BottomSheet.this.navigationBarHeight = Math.min(i8, AndroidUtilities.navigationBarHeight);
                         }
                     }
                     int i9 = size2;
@@ -1173,19 +1182,19 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                         size -= BottomSheet.this.getRightInset() + BottomSheet.this.getLeftInset();
                     }
                     int i10 = size;
-                    BottomSheet bottomSheet13 = BottomSheet.this;
-                    bottomSheet13.isPortrait = i10 < i9;
-                    viewGroup = bottomSheet13.containerView;
+                    BottomSheet bottomSheet14 = BottomSheet.this;
+                    bottomSheet14.isPortrait = i10 < i9;
+                    viewGroup = bottomSheet14.containerView;
                     if (viewGroup != null) {
-                        if (bottomSheet13.fullWidth) {
-                            makeMeasureSpec = View.MeasureSpec.makeMeasureSpec((bottomSheet13.backgroundPaddingLeft * 2) + i10, 1073741824);
+                        if (bottomSheet14.fullWidth) {
+                            makeMeasureSpec = View.MeasureSpec.makeMeasureSpec((bottomSheet14.backgroundPaddingLeft * 2) + i10, 1073741824);
                         } else {
                             if (AndroidUtilities.isTablet()) {
                                 Point point = AndroidUtilities.displaySize;
                                 bottomSheetWidth = (int) (Math.min(point.x, point.y) * 0.8f);
                             } else {
-                                BottomSheet bottomSheet14 = BottomSheet.this;
-                                bottomSheetWidth = bottomSheet14.getBottomSheetWidth(bottomSheet14.isPortrait, i10, i9);
+                                BottomSheet bottomSheet15 = BottomSheet.this;
+                                bottomSheetWidth = bottomSheet15.getBottomSheetWidth(bottomSheet15.isPortrait, i10, i9);
                             }
                             makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(bottomSheetWidth + (BottomSheet.this.backgroundPaddingLeft * 2), 1073741824);
                             viewGroup = BottomSheet.this.containerView;
@@ -1196,8 +1205,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                     for (int i11 = 0; i11 < childCount; i11++) {
                         View childAt = getChildAt(i11);
                         if (childAt.getVisibility() != 8) {
-                            BottomSheet bottomSheet15 = BottomSheet.this;
-                            if (childAt != bottomSheet15.containerView && !bottomSheet15.onCustomMeasure(childAt, i10, i9)) {
+                            BottomSheet bottomSheet16 = BottomSheet.this;
+                            if (childAt != bottomSheet16.containerView && !bottomSheet16.onCustomMeasure(childAt, i10, i9)) {
                                 measureChildWithMargins(childAt, View.MeasureSpec.makeMeasureSpec(i10, 1073741824), 0, View.MeasureSpec.makeMeasureSpec(i9, 1073741824), 0);
                             }
                         }
@@ -1206,9 +1215,11 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             }
             i3 = size2;
             setMeasuredDimension(size, i3);
-            if (BottomSheet.this.lastInsets != null) {
-                bottomSheet = BottomSheet.this;
-                if (!bottomSheet.occupyNavigationBar) {
+            bottomSheet = BottomSheet.this;
+            bottomSheet.navigationBarHeight = 0;
+            if (bottomSheet.lastInsets != null) {
+                bottomSheet2 = BottomSheet.this;
+                if (!bottomSheet2.occupyNavigationBar) {
                 }
             }
             int i92 = size2;
@@ -1216,9 +1227,9 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 size -= BottomSheet.this.getRightInset() + BottomSheet.this.getLeftInset();
             }
             int i102 = size;
-            BottomSheet bottomSheet132 = BottomSheet.this;
-            bottomSheet132.isPortrait = i102 < i92;
-            viewGroup = bottomSheet132.containerView;
+            BottomSheet bottomSheet142 = BottomSheet.this;
+            bottomSheet142.isPortrait = i102 < i92;
+            viewGroup = bottomSheet142.containerView;
             if (viewGroup != null) {
             }
             childCount = getChildCount();
@@ -1448,7 +1459,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 if (this.velocityTracker == null) {
                     this.velocityTracker = VelocityTracker.obtain();
                 }
-                this.velocityTracker.computeCurrentVelocity(1000);
+                this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                 BottomSheet.this.onScrollUpEnd(this.y);
                 if (this.startedTracking || this.y > 0.0f) {
                     checkDismiss(this.velocityTracker.getXVelocity(), this.velocityTracker.getYVelocity());
@@ -1482,7 +1493,7 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         this(context, z, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:7:0x00ca  */
+    /* JADX WARN: Removed duplicated region for block: B:7:0x00d5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1620,7 +1631,9 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
                 }
             };
             this.container = containerView;
-            containerView.setBackground(this.backDrawable);
+            containerView.setClipChildren(false);
+            this.container.setClipToPadding(false);
+            this.container.setBackground(this.backDrawable);
             this.focusable = z;
             if (i3 >= 21) {
                 this.container.setFitsSystemWindows(true);
@@ -1730,7 +1743,9 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
             }
         };
         this.container = containerView2;
-        containerView2.setBackground(this.backDrawable);
+        containerView2.setClipChildren(false);
+        this.container.setClipToPadding(false);
+        this.container.setBackground(this.backDrawable);
         this.focusable = z;
         if (i3 >= 21) {
         }

@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -208,7 +207,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                     bottomSheetParams.allowNestedScroll = false;
                     bottomSheetParams.occupyNavigationBar = true;
                     this.val$fragment.showAsSheet(themePreviewActivity, bottomSheetParams);
-                    this.val$chatAttachAlert.dismiss();
+                    this.val$chatAttachAlert.lambda$new$0();
                 }
             } catch (Throwable th) {
                 FileLog.e(th);
@@ -288,13 +287,13 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$didPressedButton$0(TLRPC.WallPaper wallPaper) {
             ChatThemeBottomSheet.this.chatAttachAlert.dismissInternal();
-            ChatThemeBottomSheet.this.dismiss();
+            ChatThemeBottomSheet.this.lambda$new$0();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onWallpaperSelected$1(TLRPC.WallPaper wallPaper) {
             ChatThemeBottomSheet.this.chatAttachAlert.dismissInternal();
-            ChatThemeBottomSheet.this.dismiss();
+            ChatThemeBottomSheet.this.lambda$new$0();
         }
 
         @Override // org.telegram.ui.Components.ChatAttachAlert.ChatAttachViewDelegate
@@ -466,8 +465,8 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
             });
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:96:0x01c8 A[Catch: all -> 0x00a3, TryCatch #0 {all -> 0x00a3, blocks: (B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0083, B:22:0x008f, B:25:0x0093, B:27:0x0096, B:31:0x00a0, B:29:0x00a7, B:33:0x00aa, B:40:0x00b6, B:42:0x00c2, B:44:0x00dc, B:46:0x00e6, B:47:0x00f3, B:49:0x00fb, B:51:0x0105, B:52:0x0113, B:54:0x011b, B:56:0x0125, B:36:0x01f0, B:38:0x01f4, B:58:0x0133, B:60:0x013f, B:61:0x0149, B:63:0x0155, B:64:0x015f, B:66:0x0163, B:71:0x016a, B:116:0x0172, B:73:0x0178, B:75:0x0181, B:77:0x018e, B:79:0x0192, B:81:0x0196, B:83:0x019a, B:85:0x019e, B:87:0x01a2, B:89:0x01ae, B:93:0x01b7, B:94:0x01c4, B:96:0x01c8, B:97:0x01cc, B:99:0x01d0, B:100:0x01d4, B:102:0x01d8, B:103:0x01dc, B:105:0x01e0, B:106:0x01e3, B:108:0x01e7, B:109:0x01ea, B:111:0x01ee, B:114:0x01bc, B:119:0x01ff), top: B:9:0x001c, outer: #5 }] */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x01cc A[Catch: all -> 0x00a3, TryCatch #0 {all -> 0x00a3, blocks: (B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0083, B:22:0x008f, B:25:0x0093, B:27:0x0096, B:31:0x00a0, B:29:0x00a7, B:33:0x00aa, B:40:0x00b6, B:42:0x00c2, B:44:0x00dc, B:46:0x00e6, B:47:0x00f3, B:49:0x00fb, B:51:0x0105, B:52:0x0113, B:54:0x011b, B:56:0x0125, B:36:0x01f0, B:38:0x01f4, B:58:0x0133, B:60:0x013f, B:61:0x0149, B:63:0x0155, B:64:0x015f, B:66:0x0163, B:71:0x016a, B:116:0x0172, B:73:0x0178, B:75:0x0181, B:77:0x018e, B:79:0x0192, B:81:0x0196, B:83:0x019a, B:85:0x019e, B:87:0x01a2, B:89:0x01ae, B:93:0x01b7, B:94:0x01c4, B:96:0x01c8, B:97:0x01cc, B:99:0x01d0, B:100:0x01d4, B:102:0x01d8, B:103:0x01dc, B:105:0x01e0, B:106:0x01e3, B:108:0x01e7, B:109:0x01ea, B:111:0x01ee, B:114:0x01bc, B:119:0x01ff), top: B:9:0x001c, outer: #5 }] */
+        /* JADX WARN: Removed duplicated region for block: B:96:0x01c9 A[Catch: all -> 0x00a3, TryCatch #2 {all -> 0x00a3, blocks: (B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0083, B:22:0x008f, B:25:0x0093, B:27:0x0096, B:31:0x00a0, B:29:0x00a7, B:33:0x00aa, B:40:0x00b6, B:42:0x00c2, B:44:0x00dc, B:46:0x00e6, B:47:0x00f3, B:49:0x00fb, B:51:0x0105, B:52:0x0113, B:54:0x011b, B:56:0x0125, B:36:0x01f1, B:38:0x01f5, B:58:0x0133, B:60:0x0140, B:61:0x014a, B:63:0x0156, B:64:0x0160, B:66:0x0164, B:71:0x016b, B:116:0x0173, B:73:0x0179, B:75:0x0182, B:77:0x018f, B:79:0x0193, B:81:0x0197, B:83:0x019b, B:85:0x019f, B:87:0x01a3, B:89:0x01af, B:93:0x01b8, B:94:0x01c5, B:96:0x01c9, B:97:0x01cd, B:99:0x01d1, B:100:0x01d5, B:102:0x01d9, B:103:0x01dd, B:105:0x01e1, B:106:0x01e4, B:108:0x01e8, B:109:0x01eb, B:111:0x01ef, B:114:0x01bd, B:119:0x0200), top: B:9:0x001c, outer: #0 }] */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x01cd A[Catch: all -> 0x00a3, TryCatch #2 {all -> 0x00a3, blocks: (B:10:0x001c, B:14:0x002a, B:16:0x0032, B:18:0x0045, B:20:0x0083, B:22:0x008f, B:25:0x0093, B:27:0x0096, B:31:0x00a0, B:29:0x00a7, B:33:0x00aa, B:40:0x00b6, B:42:0x00c2, B:44:0x00dc, B:46:0x00e6, B:47:0x00f3, B:49:0x00fb, B:51:0x0105, B:52:0x0113, B:54:0x011b, B:56:0x0125, B:36:0x01f1, B:38:0x01f5, B:58:0x0133, B:60:0x0140, B:61:0x014a, B:63:0x0156, B:64:0x0160, B:66:0x0164, B:71:0x016b, B:116:0x0173, B:73:0x0179, B:75:0x0182, B:77:0x018f, B:79:0x0193, B:81:0x0197, B:83:0x019b, B:85:0x019f, B:87:0x01a3, B:89:0x01af, B:93:0x01b8, B:94:0x01c5, B:96:0x01c9, B:97:0x01cd, B:99:0x01d1, B:100:0x01d5, B:102:0x01d9, B:103:0x01dd, B:105:0x01e1, B:106:0x01e4, B:108:0x01e8, B:109:0x01eb, B:111:0x01ef, B:114:0x01bd, B:119:0x0200), top: B:9:0x001c, outer: #0 }] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -960,7 +959,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
                 bulletin = Bulletin.make(this.chatActivity, stickerSetBulletinLayout, 2750);
             }
         }
-        dismiss();
+        lambda$new$0();
         if (bulletin != null) {
             bulletin.show();
         }
@@ -1069,13 +1068,13 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$close$8(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$close$8(AlertDialog alertDialog, int i) {
         applySelectedTheme();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$close$9(DialogInterface dialogInterface, int i) {
-        dismiss();
+    public /* synthetic */ void lambda$close$9(AlertDialog alertDialog, int i) {
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1086,7 +1085,7 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         if (!hasChanges()) {
-            dismiss();
+            lambda$new$0();
         } else {
             resetToPrimaryState(true);
             updateState(true);
@@ -1140,11 +1139,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(ChatActivity chatActivity, View view) {
         if (this.currentWallpaper == null) {
-            dismiss();
+            lambda$new$0();
             return;
         }
         this.currentWallpaper = null;
-        dismiss();
+        lambda$new$0();
         ChatThemeController.getInstance(this.currentAccount).clearWallpaper(chatActivity.getDialogId(), true);
     }
 
@@ -1629,22 +1628,22 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
 
     public void close() {
         if (!hasChanges()) {
-            dismiss();
+            lambda$new$0();
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
         builder.setTitle(LocaleController.getString(R.string.ChatThemeSaveDialogTitle));
         builder.setSubtitle(LocaleController.getString(R.string.ChatThemeSaveDialogText));
-        builder.setPositiveButton(LocaleController.getString(R.string.ChatThemeSaveDialogApply), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChatThemeBottomSheet.this.lambda$close$8(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.ChatThemeSaveDialogApply), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChatThemeBottomSheet.this.lambda$close$8(alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.ChatThemeSaveDialogDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChatThemeBottomSheet.this.lambda$close$9(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.ChatThemeSaveDialogDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.ChatThemeBottomSheet$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChatThemeBottomSheet.this.lambda$close$9(alertDialog, i);
             }
         });
         builder.show();
@@ -1663,10 +1662,11 @@ public class ChatThemeBottomSheet extends BottomSheet implements NotificationCen
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         Theme.ThemeInfo theme;
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
-        super.dismiss();
+        super.lambda$new$0();
         this.chatActivity.forceDisallowApplyWallpeper = false;
         if (!this.isApplyClicked) {
             TLRPC.WallPaper currentWallpaper = this.themeDelegate.getCurrentWallpaper();

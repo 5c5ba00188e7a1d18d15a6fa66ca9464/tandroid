@@ -1,7 +1,6 @@
 package org.telegram.messenger;
 
 import android.app.ActivityManager;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.media.MediaCodecInfo;
@@ -637,7 +636,7 @@ public class SharedConfig {
                     RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i5)), "r");
                     String readLine = randomAccessFile.readLine();
                     if (readLine != null) {
-                        i4 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                        i4 += Utilities.parseInt((CharSequence) readLine).intValue() / MediaDataController.MAX_STYLE_RUNS_COUNT;
                         i3++;
                     }
                     randomAccessFile.close();
@@ -820,7 +819,7 @@ public class SharedConfig {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkSdCard$1(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$checkSdCard$1(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -841,10 +840,10 @@ public class SharedConfig {
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.SdCardError));
         builder.setSubtitle(LocaleController.getString(R.string.SdCardErrorDescription));
-        builder.setPositiveButton(LocaleController.getString(R.string.DoNotUseSDCard), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                SharedConfig.lambda$checkSdCard$1(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.DoNotUseSDCard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                SharedConfig.lambda$checkSdCard$1(alertDialog, i);
             }
         });
         AlertDialog create = builder.create();
@@ -1258,7 +1257,7 @@ public class SharedConfig {
                 RandomAccessFile randomAccessFile = new RandomAccessFile(String.format(Locale.ENGLISH, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_max_freq", Integer.valueOf(i7)), "r");
                 String readLine = randomAccessFile.readLine();
                 if (readLine != null) {
-                    i6 += Utilities.parseInt((CharSequence) readLine).intValue() / 1000;
+                    i6 += Utilities.parseInt((CharSequence) readLine).intValue() / MediaDataController.MAX_STYLE_RUNS_COUNT;
                     i5++;
                 }
                 randomAccessFile.close();

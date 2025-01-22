@@ -3146,7 +3146,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case 197:
+            case NotificationCenter.savedMessagesForwarded /* 197 */:
             case NotificationCenter.starGiftOptionsLoaded /* 210 */:
                 // fill-array-data instruction
                 iArr[0] = 4;
@@ -3156,7 +3156,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 iArr[4] = 2;
                 iArr[5] = 2;
                 break;
-            case NotificationCenter.emojiKeywordsLoaded /* 198 */:
+            case 198:
                 // fill-array-data instruction
                 iArr[0] = 2;
                 iArr[1] = 2;

@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -52,6 +51,7 @@ import org.telegram.ui.Components.BottomPagerTabs;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugController;
 import org.telegram.ui.Components.FloatingDebug.FloatingDebugProvider;
+import org.telegram.ui.Components.MediaActivity;
 import org.telegram.ui.Components.Paint.ShapeDetector;
 import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.ProfileActivity;
@@ -102,13 +102,19 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         1() {
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onItemClick$0(ArrayList arrayList, AlertDialog alertDialog, int i) {
+            MediaActivity.this.getMessagesController().getStoriesController().deleteStories(MediaActivity.this.dialogId, arrayList);
+            MediaActivity.this.sharedMediaLayout.closeActionMode(false);
+        }
+
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         public void onItemClick(int i) {
             if (i == -1) {
                 if (MediaActivity.this.sharedMediaLayout.closeActionMode(true)) {
                     return;
                 }
-                MediaActivity.this.lambda$onBackPressed$321();
+                MediaActivity.this.lambda$onBackPressed$323();
                 return;
             }
             if (i != 2) {
@@ -139,17 +145,16 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                 AlertDialog.Builder builder = new AlertDialog.Builder(MediaActivity.this.getContext(), MediaActivity.this.getResourceProvider());
                 builder.setTitle(LocaleController.getString(arrayList.size() > 1 ? R.string.DeleteStoriesTitle : R.string.DeleteStoryTitle));
                 builder.setMessage(LocaleController.formatPluralString("DeleteStoriesSubtitle", arrayList.size(), new Object[0]));
-                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.MediaActivity.1.1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public void onClick(DialogInterface dialogInterface, int i3) {
-                        MediaActivity.this.getMessagesController().getStoriesController().deleteStories(MediaActivity.this.dialogId, arrayList);
-                        MediaActivity.this.sharedMediaLayout.closeActionMode(false);
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.MediaActivity$1$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
+                        MediaActivity.1.this.lambda$onItemClick$0(arrayList, alertDialog, i3);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.MediaActivity$1$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
-                        dialogInterface.dismiss();
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.MediaActivity$1$$ExternalSyntheticLambda1
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
+                        alertDialog.dismiss();
                     }
                 });
                 AlertDialog create = builder.create();

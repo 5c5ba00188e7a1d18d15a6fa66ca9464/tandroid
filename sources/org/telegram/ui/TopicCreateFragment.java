@@ -35,6 +35,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -159,7 +160,7 @@ public class TopicCreateFragment extends BaseFragment {
         public void onItemClick(int i) {
             final String obj;
             if (i == -1) {
-                TopicCreateFragment.this.lambda$onBackPressed$321();
+                TopicCreateFragment.this.lambda$onBackPressed$323();
                 return;
             }
             if (i == 1) {
@@ -259,7 +260,7 @@ public class TopicCreateFragment extends BaseFragment {
                 TopicsController topicsController = TopicCreateFragment.this.getMessagesController().getTopicsController();
                 TopicCreateFragment topicCreateFragment6 = TopicCreateFragment.this;
                 topicsController.onTopicEdited(-topicCreateFragment6.chatId, topicCreateFragment6.topicForEdit);
-                TopicCreateFragment.this.lambda$onBackPressed$321();
+                TopicCreateFragment.this.lambda$onBackPressed$323();
             }
         }
     }
@@ -526,7 +527,7 @@ public class TopicCreateFragment extends BaseFragment {
                 private boolean firstLayout = true;
 
                 @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-                protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
+                protected void onEmojiSelected(View view, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
                     boolean z = false;
                     if (!TextUtils.isEmpty(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons)) {
                         TLRPC.TL_messages_stickerSet stickerSetByEmojiOrName = TopicCreateFragment.this.getMediaDataController().getStickerSetByEmojiOrName(UserConfig.getInstance(((BaseFragment) TopicCreateFragment.this).currentAccount).defaultTopicIcons);

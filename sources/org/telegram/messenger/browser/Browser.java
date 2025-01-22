@@ -77,6 +77,15 @@ public abstract class Browser {
     public static class Progress {
         private Runnable onCancelListener;
         private Runnable onEndListener;
+        private Runnable onInitListener;
+
+        public Progress() {
+        }
+
+        public Progress(Runnable runnable, Runnable runnable2) {
+            this.onInitListener = runnable;
+            this.onEndListener = runnable2;
+        }
 
         public void cancel() {
             cancel(false);
@@ -102,14 +111,21 @@ public abstract class Browser {
         }
 
         public void init() {
+            Runnable runnable = this.onInitListener;
+            if (runnable != null) {
+                runnable.run();
+                this.onInitListener = null;
+            }
         }
 
-        public void onCancel(Runnable runnable) {
+        public Progress onCancel(Runnable runnable) {
             this.onCancelListener = runnable;
+            return this;
         }
 
-        public void onEnd(Runnable runnable) {
+        public Progress onEnd(Runnable runnable) {
             this.onEndListener = runnable;
+            return this;
         }
     }
 
@@ -998,6 +1014,13 @@ public abstract class Browser {
 
     public static void openUrl(Context context, String str, boolean z, boolean z2) {
         openUrl(context, Uri.parse(str), z, z2);
+    }
+
+    public static void openUrlInSystemBrowser(Context context, String str) {
+        if (str == null) {
+            return;
+        }
+        openUrl(context, Uri.parse(str), false, true, false, null, null, false, false, false);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:35:0x002e, code lost:

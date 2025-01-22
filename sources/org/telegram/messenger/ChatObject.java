@@ -202,7 +202,7 @@ public class ChatObject {
                 }
             }
             if (i != Integer.MAX_VALUE) {
-                AndroidUtilities.runOnUIThread(this.typingUpdateRunnable, i * 1000);
+                AndroidUtilities.runOnUIThread(this.typingUpdateRunnable, i * MediaDataController.MAX_STYLE_RUNS_COUNT);
                 this.typingUpdateRunnableScheduled = true;
             }
         }
@@ -2303,6 +2303,17 @@ public class ChatObject {
         return null;
     }
 
+    public static long getProfileCollectibleId(TLRPC.Chat chat) {
+        if (chat == null) {
+            return 0L;
+        }
+        TLRPC.EmojiStatus emojiStatus = chat.emoji_status;
+        if (emojiStatus instanceof TLRPC.TL_emojiStatusCollectible) {
+            return ((TLRPC.TL_emojiStatusCollectible) emojiStatus).collectible_id;
+        }
+        return 0L;
+    }
+
     public static int getProfileColorId(TLRPC.Chat chat) {
         if (chat == null) {
             return 0;
@@ -2316,6 +2327,12 @@ public class ChatObject {
 
     public static long getProfileEmojiId(TLRPC.Chat chat) {
         TLRPC.TL_peerColor tL_peerColor;
+        if (chat != null) {
+            TLRPC.EmojiStatus emojiStatus = chat.emoji_status;
+            if (emojiStatus instanceof TLRPC.TL_emojiStatusCollectible) {
+                return ((TLRPC.TL_emojiStatusCollectible) emojiStatus).pattern_document_id;
+            }
+        }
         if (chat == null || (tL_peerColor = chat.profile_color) == null || (tL_peerColor.flags & 2) == 0) {
             return 0L;
         }

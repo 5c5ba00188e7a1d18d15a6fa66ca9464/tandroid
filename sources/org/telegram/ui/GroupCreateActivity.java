@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -1224,7 +1223,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(TLRPC.User user, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$2(TLRPC.User user, AlertDialog alertDialog, int i) {
         this.delegate2.needAddBot(user);
         if (this.editText.length() > 0) {
             this.editText.setText((CharSequence) null);
@@ -1314,10 +1313,10 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                                         if (ChatObject.canAddAdmins(chat)) {
                                             builder2.setTitle(LocaleController.getString(R.string.AddBotAdminAlert));
                                             builder2.setMessage(LocaleController.getString(R.string.AddBotAsAdmin));
-                                            builder2.setPositiveButton(LocaleController.getString(R.string.AddAsAdmin), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda6
-                                                @Override // android.content.DialogInterface.OnClickListener
-                                                public final void onClick(DialogInterface dialogInterface, int i2) {
-                                                    GroupCreateActivity.this.lambda$createView$2(user, dialogInterface, i2);
+                                            builder2.setPositiveButton(LocaleController.getString(R.string.AddAsAdmin), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda6
+                                                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                                public final void onClick(AlertDialog alertDialog, int i2) {
+                                                    GroupCreateActivity.this.lambda$createView$2(user, alertDialog, i2);
                                                 }
                                             });
                                             builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1380,7 +1379,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onDonePressed$8(CheckBoxCell[] checkBoxCellArr, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onDonePressed$8(CheckBoxCell[] checkBoxCellArr, AlertDialog alertDialog, int i) {
         int i2 = 0;
         CheckBoxCell checkBoxCell = checkBoxCellArr[0];
         if (checkBoxCell != null && checkBoxCell.isChecked()) {
@@ -1403,7 +1402,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         if (contactsAddActivityDelegate != null) {
             contactsAddActivityDelegate.didSelectUsers(arrayList, i);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1470,10 +1469,10 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 });
                 builder.setView(linearLayout);
             }
-            builder.setPositiveButton(LocaleController.getString(R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda8
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    GroupCreateActivity.this.lambda$onDonePressed$8(checkBoxCellArr, dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(R.string.Add), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.GroupCreateActivity$$ExternalSyntheticLambda8
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    GroupCreateActivity.this.lambda$onDonePressed$8(checkBoxCellArr, alertDialog, i2);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1508,7 +1507,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     if (groupCreateActivityDelegate != null) {
                         groupCreateActivityDelegate.didSelectUsers(this.selectedPremium != null, this.selectedMiniapps != null, arrayList2);
                     }
-                    lambda$onBackPressed$321();
+                    lambda$onBackPressed$323();
                 } else {
                     Bundle bundle2 = new Bundle();
                     int size = arrayList2.size();
@@ -1700,7 +1699,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                         public void onItemClick(int i5) {
                             if (i5 == -1) {
-                                GroupCreateActivity.this.lambda$onBackPressed$321();
+                                GroupCreateActivity.this.lambda$onBackPressed$323();
                             } else if (i5 == 1) {
                                 GroupCreateActivity.this.onDonePressed(true);
                             }
@@ -2047,7 +2046,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i52) {
                     if (i52 == -1) {
-                        GroupCreateActivity.this.lambda$onBackPressed$321();
+                        GroupCreateActivity.this.lambda$onBackPressed$323();
                     } else if (i52 == 1) {
                         GroupCreateActivity.this.onDonePressed(true);
                     }
@@ -2360,7 +2359,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i52) {
                 if (i52 == -1) {
-                    GroupCreateActivity.this.lambda$onBackPressed$321();
+                    GroupCreateActivity.this.lambda$onBackPressed$323();
                 } else if (i52 == 1) {
                     GroupCreateActivity.this.onDonePressed(true);
                 }

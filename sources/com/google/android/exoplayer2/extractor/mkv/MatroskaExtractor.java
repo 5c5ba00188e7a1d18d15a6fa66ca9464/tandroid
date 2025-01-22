@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
@@ -200,7 +201,7 @@ public class MatroskaExtractor implements Extractor {
         public int colorSpace = -1;
         public int colorTransfer = -1;
         public int colorRange = -1;
-        public int maxContentLuminance = 1000;
+        public int maxContentLuminance = MediaDataController.MAX_STYLE_RUNS_COUNT;
         public int maxFrameAverageLuminance = NotificationCenter.storyQualityUpdate;
         public float primaryRChromaticityX = -1.0f;
         public float primaryRChromaticityY = -1.0f;
@@ -2201,7 +2202,7 @@ public class MatroskaExtractor implements Extractor {
                     this.blockState = 0;
                     return;
                 } else {
-                    commitSampleToOutput(track, ((this.blockSampleIndex * track.defaultSampleDurationNs) / 1000) + this.blockTimeUs, this.blockFlags, writeSampleData(extractorInput, track, this.blockSampleSizes[i24], false), 0);
+                    commitSampleToOutput(track, ((this.blockSampleIndex * track.defaultSampleDurationNs) / MediaDataController.MAX_STYLE_RUNS_COUNT) + this.blockTimeUs, this.blockFlags, writeSampleData(extractorInput, track, this.blockSampleSizes[i24], false), 0);
                     this.blockSampleIndex++;
                 }
             }
@@ -2235,7 +2236,7 @@ public class MatroskaExtractor implements Extractor {
             }
             int i4 = 0;
             while (i4 < this.blockSampleCount) {
-                long j = this.blockTimeUs + ((track.defaultSampleDurationNs * i4) / 1000);
+                long j = this.blockTimeUs + ((track.defaultSampleDurationNs * i4) / MediaDataController.MAX_STYLE_RUNS_COUNT);
                 int i5 = this.blockFlags;
                 if (i4 == 0 && !this.blockHasReferenceBlock) {
                     i5 |= 1;

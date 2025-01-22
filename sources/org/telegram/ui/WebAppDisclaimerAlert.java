@@ -29,10 +29,10 @@ public class WebAppDisclaimerAlert {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$show$1(Consumer consumer, boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$show$1(Consumer consumer, boolean[] zArr, AlertDialog alertDialog, int i) {
         consumer.accept(Boolean.TRUE);
         zArr[0] = true;
-        dialogInterface.dismiss();
+        alertDialog.dismiss();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -80,16 +80,16 @@ public class WebAppDisclaimerAlert {
             }
         }), "", false, false);
         builder.setView(linearLayout);
-        builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                WebAppDisclaimerAlert.lambda$show$1(Consumer.this, zArr, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Continue), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                WebAppDisclaimerAlert.lambda$show$1(Consumer.this, zArr, alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.WebAppDisclaimerAlert$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                alertDialog.dismiss();
             }
         });
         AlertDialog create = builder.create();

@@ -43,6 +43,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -269,7 +270,7 @@ public class RecyclerListView extends RecyclerView {
                         }
                         this.currentLetter = letter;
                         if (this.type == 0) {
-                            this.letterLayout = new StaticLayout(letter, this.letterPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            this.letterLayout = new StaticLayout(letter, this.letterPaint, MediaDataController.MAX_STYLE_RUNS_COUNT, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         } else {
                             this.outLetterLayout = this.letterLayout;
                             int measureText = ((int) this.letterPaint.measureText(letter)) + 1;
@@ -2324,28 +2325,32 @@ public class RecyclerListView extends RecyclerView {
     }
 
     protected void drawSectionBackground(Canvas canvas, int i, int i2, int i3) {
-        if (i2 < i) {
+        drawSectionBackground(canvas, i, i2, i3, 0, 0);
+    }
+
+    protected void drawSectionBackground(Canvas canvas, int i, int i2, int i3, int i4, int i5) {
+        if (i2 < i || i < 0 || i2 < 0) {
             return;
         }
-        int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
-        int i5 = Integer.MIN_VALUE;
-        for (int i6 = 0; i6 < getChildCount(); i6++) {
-            View childAt = getChildAt(i6);
+        int i6 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+        int i7 = Integer.MIN_VALUE;
+        for (int i8 = 0; i8 < getChildCount(); i8++) {
+            View childAt = getChildAt(i8);
             if (childAt != null) {
                 int childAdapterPosition = getChildAdapterPosition(childAt);
                 int top = childAt.getTop();
                 if (childAdapterPosition >= i && childAdapterPosition <= i2) {
-                    i4 = Math.min(top, i4);
-                    i5 = Math.max((int) (top + (childAt.getHeight() * childAt.getAlpha())), i5);
+                    i6 = Math.min(top, i6);
+                    i7 = Math.max((int) (top + (childAt.getHeight() * childAt.getAlpha())), i7);
                 }
             }
         }
-        if (i4 < i5) {
+        if (i6 < i7) {
             if (this.backgroundPaint == null) {
                 this.backgroundPaint = new Paint(1);
             }
             this.backgroundPaint.setColor(i3);
-            canvas.drawRect(0.0f, i4, getWidth(), i5, this.backgroundPaint);
+            canvas.drawRect(0.0f, i6 - i4, getWidth(), i7 + i5, this.backgroundPaint);
         }
     }
 

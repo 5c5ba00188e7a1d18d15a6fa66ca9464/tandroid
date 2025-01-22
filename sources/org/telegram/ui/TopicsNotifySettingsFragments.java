@@ -1,7 +1,6 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +109,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$2(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onItemClick$2(AlertDialog alertDialog, int i) {
             Iterator it = TopicsNotifySettingsFragments.this.exceptionsTopics.iterator();
             while (it.hasNext()) {
                 TopicsNotifySettingsFragments.this.removeException(((Integer) it.next()).intValue());
@@ -149,10 +148,10 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(TopicsNotifySettingsFragments.this.getParentActivity());
                 builder.setTitle(LocaleController.getString(R.string.NotificationsDeleteAllExceptionTitle));
                 builder.setMessage(LocaleController.getString(R.string.NotificationsDeleteAllExceptionAlert));
-                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        TopicsNotifySettingsFragments.2.this.lambda$onItemClick$2(dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.TopicsNotifySettingsFragments$2$$ExternalSyntheticLambda1
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        TopicsNotifySettingsFragments.2.this.lambda$onItemClick$2(alertDialog, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -348,7 +347,7 @@ public class TopicsNotifySettingsFragments extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    TopicsNotifySettingsFragments.this.lambda$onBackPressed$321();
+                    TopicsNotifySettingsFragments.this.lambda$onBackPressed$323();
                 }
             }
         });

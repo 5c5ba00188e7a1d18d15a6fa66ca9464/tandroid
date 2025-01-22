@@ -1294,7 +1294,7 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkCreateView$5(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkCreateView$5(AlertDialog alertDialog, int i) {
         BaseFragment baseFragment = this.fragment;
         if (!(baseFragment instanceof DialogsActivity)) {
             LocationController.getInstance(baseFragment.getCurrentAccount()).removeSharingLocation(this.chatActivity.getDialogId());
@@ -1334,10 +1334,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
             }
             replaceTags = AndroidUtilities.replaceTags(formatString);
             builder.setMessage(replaceTags);
-            builder.setPositiveButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda12
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    FragmentContextView.this.lambda$checkCreateView$5(dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(R.string.Stop), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda12
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    FragmentContextView.this.lambda$checkCreateView$5(alertDialog, i2);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1353,10 +1353,10 @@ public class FragmentContextView extends FrameLayout implements NotificationCent
         i = R.string.StopLiveLocationAlertAllText;
         replaceTags = LocaleController.getString(i);
         builder.setMessage(replaceTags);
-        builder.setPositiveButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda12
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                FragmentContextView.this.lambda$checkCreateView$5(dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.Stop), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.FragmentContextView$$ExternalSyntheticLambda12
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                FragmentContextView.this.lambda$checkCreateView$5(alertDialog, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);

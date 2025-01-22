@@ -526,7 +526,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
         new EmojiPacksAlert(baseFragment, getContext(), this.resourcesProvider, arrayList) { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet.3
             @Override // org.telegram.ui.Components.EmojiPacksAlert
             protected void onCloseByLink() {
-                PremiumPreviewBottomSheet.this.dismiss();
+                PremiumPreviewBottomSheet.this.lambda$new$0();
             }
         }.show();
     }
@@ -631,8 +631,9 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.startAllHeavyOperations, 4);
         ValueAnimator valueAnimator = this.enterAnimator;
         if (valueAnimator != null) {

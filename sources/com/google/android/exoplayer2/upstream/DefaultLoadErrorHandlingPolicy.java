@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.upstream.LoadErrorHandlingPolicy;
 import com.google.android.exoplayer2.upstream.Loader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
@@ -45,7 +46,7 @@ public class DefaultLoadErrorHandlingPolicy implements LoadErrorHandlingPolicy {
         if ((iOException instanceof ParserException) || (iOException instanceof FileNotFoundException) || (iOException instanceof HttpDataSource.CleartextNotPermittedException) || (iOException instanceof Loader.UnexpectedLoaderException) || DataSourceException.isCausedByPositionOutOfRange(iOException)) {
             return -9223372036854775807L;
         }
-        return Math.min((loadErrorInfo.errorCount - 1) * 1000, 5000);
+        return Math.min((loadErrorInfo.errorCount - 1) * MediaDataController.MAX_STYLE_RUNS_COUNT, 5000);
     }
 
     protected boolean isEligibleForFallback(IOException iOException) {

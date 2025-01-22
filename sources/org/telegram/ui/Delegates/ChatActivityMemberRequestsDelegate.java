@@ -173,11 +173,12 @@ public class ChatActivityMemberRequestsDelegate {
         if (this.bottomSheet == null) {
             this.bottomSheet = new MemberRequestsBottomSheet(this.fragment, this.currentChat.id) { // from class: org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate.2
                 @Override // org.telegram.ui.Components.UsersAlertBase, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-                public void dismiss() {
+                /* renamed from: dismiss */
+                public void lambda$new$0() {
                     if (ChatActivityMemberRequestsDelegate.this.bottomSheet != null && !ChatActivityMemberRequestsDelegate.this.bottomSheet.isNeedRestoreDialog()) {
                         ChatActivityMemberRequestsDelegate.this.bottomSheet = null;
                     }
-                    super.dismiss();
+                    super.lambda$new$0();
                 }
             };
         }

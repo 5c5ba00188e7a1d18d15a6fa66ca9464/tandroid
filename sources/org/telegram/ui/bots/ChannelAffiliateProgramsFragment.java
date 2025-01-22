@@ -424,27 +424,27 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(TL_payments.connectedBotStarRef connectedbotstarref, DialogInterface dialogInterface, int i) {
-        final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
-        alertDialog.showDelayed(200L);
+    public /* synthetic */ void lambda$createView$6(TL_payments.connectedBotStarRef connectedbotstarref, AlertDialog alertDialog, int i) {
+        final AlertDialog alertDialog2 = new AlertDialog(getParentActivity(), 3);
+        alertDialog2.showDelayed(200L);
         TL_payments.editConnectedStarRefBot editconnectedstarrefbot = new TL_payments.editConnectedStarRefBot();
         editconnectedstarrefbot.link = connectedbotstarref.url;
         editconnectedstarrefbot.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
         editconnectedstarrefbot.revoked = true;
-        getConnectionsManager().sendRequest(editconnectedstarrefbot, new RequestDelegate() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda28
+        getConnectionsManager().sendRequest(editconnectedstarrefbot, new RequestDelegate() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda27
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                ChannelAffiliateProgramsFragment.this.lambda$createView$5(alertDialog, tLObject, tL_error);
+                ChannelAffiliateProgramsFragment.this.lambda$createView$5(alertDialog2, tLObject, tL_error);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$7(Context context, TLRPC.User user, final TL_payments.connectedBotStarRef connectedbotstarref) {
-        new AlertDialog.Builder(context, this.resourceProvider).setTitle(LocaleController.getString(R.string.LeaveAffiliateLink)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.LeaveAffiliateLinkAlert, UserObject.getUserName(user)))).setPositiveButton(LocaleController.getString(R.string.LeaveAffiliateLinkButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda25
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChannelAffiliateProgramsFragment.this.lambda$createView$6(connectedbotstarref, dialogInterface, i);
+        new AlertDialog.Builder(context, this.resourceProvider).setTitle(LocaleController.getString(R.string.LeaveAffiliateLink)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.LeaveAffiliateLinkAlert, UserObject.getUserName(user)))).setPositiveButton(LocaleController.getString(R.string.LeaveAffiliateLinkButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda25
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChannelAffiliateProgramsFragment.this.lambda$createView$6(connectedbotstarref, alertDialog, i);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
     }
@@ -712,7 +712,7 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showShareAffiliateAlert$25(final BottomSheet bottomSheet, final Context context, final int i, final long j, final Theme.ResourcesProvider resourcesProvider, final TLRPC.UserFull userFull) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda27
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda28
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelAffiliateProgramsFragment.lambda$showShareAffiliateAlert$24(TLRPC.UserFull.this, bottomSheet, context, i, j, resourcesProvider);

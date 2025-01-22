@@ -25,6 +25,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
@@ -863,7 +864,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                             this.videoLocations.add(null);
                             arrayList3 = this.videoFileNames;
                         } else {
-                            TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(this.chatInfo.chat_photo.video_sizes, 1000);
+                            TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(this.chatInfo.chat_photo.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
                             this.videoLocations.add(ImageLocation.getForPhoto(closestVideoSizeWithSize, this.chatInfo.chat_photo));
                             this.videoFileNames.add(FileLoader.getAttachFileName(closestVideoSizeWithSize));
                             this.imagesLocationsSizes.add(-1);
@@ -919,7 +920,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                     if (fileLocation.volume_id == tL_fileLocationToBeDeprecated.volume_id) {
                                         this.photos.set(0, photo2);
                                         if (!photo2.video_sizes.isEmpty()) {
-                                            this.videoLocations.set(0, ImageLocation.getForPhoto(FileLoader.getClosestVideoSizeWithSize(photo2.video_sizes, 1000), photo2));
+                                            this.videoLocations.set(0, ImageLocation.getForPhoto(FileLoader.getClosestVideoSizeWithSize(photo2.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT), photo2));
                                         }
                                         obj2 = null;
                                     } else {
@@ -955,7 +956,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                     this.videoFileNames.add(null);
                                     arrayList2 = this.vectorAvatars;
                                 } else {
-                                    TLRPC.VideoSize closestVideoSizeWithSize2 = FileLoader.getClosestVideoSizeWithSize(photo2.video_sizes, 1000);
+                                    TLRPC.VideoSize closestVideoSizeWithSize2 = FileLoader.getClosestVideoSizeWithSize(photo2.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
                                     TLRPC.VideoSize vectorMarkupVideoSize = FileLoader.getVectorMarkupVideoSize(photo2);
                                     if (vectorMarkupVideoSize != null) {
                                         this.vectorAvatars.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize, user != null && user.premium, 2));
@@ -987,7 +988,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                 if (photo2.video_sizes.isEmpty()) {
                                     this.vectorAvatars.add(this.prevVectorAvatarThumbDrawable);
                                 } else {
-                                    TLRPC.VideoSize closestVideoSizeWithSize3 = FileLoader.getClosestVideoSizeWithSize(photo2.video_sizes, 1000);
+                                    TLRPC.VideoSize closestVideoSizeWithSize3 = FileLoader.getClosestVideoSizeWithSize(photo2.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
                                     TLRPC.VideoSize vectorMarkupVideoSize2 = FileLoader.getVectorMarkupVideoSize(photo2);
                                     if (vectorMarkupVideoSize2 != null) {
                                         this.vectorAvatars.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize2, user != null && user.premium, 2));
@@ -1456,7 +1457,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
             this.videoLocations.set(0, null);
             this.videoFileNames.add(0, null);
         } else {
-            TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(this.chatInfo.chat_photo.video_sizes, 1000);
+            TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(this.chatInfo.chat_photo.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
             this.videoLocations.set(0, ImageLocation.getForPhoto(closestVideoSizeWithSize, this.chatInfo.chat_photo));
             this.videoFileNames.set(0, FileLoader.getAttachFileName(closestVideoSizeWithSize));
             this.callback.onPhotosLoaded();

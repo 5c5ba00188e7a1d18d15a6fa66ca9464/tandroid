@@ -46,6 +46,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -1166,7 +1167,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             }
         });
         recyclerListView.setItemAnimator(new 7(null, recyclerListView, resourcesProvider));
-        GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true) { // from class: org.telegram.ui.MessageSendPreview.8
+        GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, MediaDataController.MAX_STYLE_RUNS_COUNT, 1, true) { // from class: org.telegram.ui.MessageSendPreview.8
             boolean computingScroll;
 
             @Override // androidx.recyclerview.widget.LinearLayoutManager, androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -1236,10 +1237,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             public int getSpanSize(int i2) {
                 MessageObject messageObject = (MessageObject) MessageSendPreview.this.messageObjects.get((MessageSendPreview.this.messageObjects.size() - 1) - i2);
                 MessageObject.GroupedMessages validGroupedMessage = MessageSendPreview.this.getValidGroupedMessage(messageObject);
-                if (validGroupedMessage != null) {
-                    return validGroupedMessage.getPosition(messageObject).spanSize;
-                }
-                return 1000;
+                return validGroupedMessage != null ? validGroupedMessage.getPosition(messageObject).spanSize : MediaDataController.MAX_STYLE_RUNS_COUNT;
             }
         });
         recyclerListView.setLayoutManager(gridLayoutManagerFixed);

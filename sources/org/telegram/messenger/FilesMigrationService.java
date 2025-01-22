@@ -126,8 +126,9 @@ public class FilesMigrationService extends Service {
         }
 
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-        public void dismiss() {
-            super.dismiss();
+        /* renamed from: dismiss */
+        public void lambda$new$0() {
+            super.lambda$new$0();
             FilesMigrationService.filesMigrationBottomSheet = null;
         }
 
@@ -171,7 +172,7 @@ public class FilesMigrationService extends Service {
             }
             if (z && z2) {
                 FilesMigrationService.start();
-                dismiss();
+                lambda$new$0();
                 return;
             }
             ArrayList arrayList = new ArrayList();

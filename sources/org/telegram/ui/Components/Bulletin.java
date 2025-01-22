@@ -46,6 +46,7 @@ import androidx.dynamicanimation.animation.FloatPropertyCompat;
 import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +97,7 @@ public class Bulletin {
     private Runnable onHideListener;
     private final ParentLayout parentLayout;
     private boolean showing;
+    private boolean skipShowAnimation;
     public int tag;
 
     class 2 implements View.OnLayoutChangeListener {
@@ -134,7 +136,7 @@ public class Bulletin {
                 if (Bulletin.this.currentDelegate != null) {
                     Bulletin.this.currentDelegate.onShow(Bulletin.this);
                 }
-                if (!Bulletin.isTransitionsEnabled()) {
+                if (!Bulletin.isTransitionsEnabled() || Bulletin.this.skipShowAnimation) {
                     if (Bulletin.this.currentDelegate != null && !this.val$top) {
                         Bulletin.this.currentDelegate.onBottomOffsetChange(Bulletin.this.layout.getHeight() - Bulletin.this.currentBottomOffset);
                     }
@@ -1519,7 +1521,7 @@ public class Bulletin {
 
             @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
             public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float f, float f2) {
-                this.val$layout.setTranslationX(ParentLayout.access$1524(ParentLayout.this, f));
+                this.val$layout.setTranslationX(ParentLayout.access$1624(ParentLayout.this, f));
                 if (ParentLayout.this.translationX != 0.0f && ((ParentLayout.this.translationX >= 0.0f || !ParentLayout.this.needLeftAlphaAnimation) && (ParentLayout.this.translationX <= 0.0f || !ParentLayout.this.needRightAlphaAnimation))) {
                     return true;
                 }
@@ -1538,7 +1540,7 @@ public class Bulletin {
             addView(layout);
         }
 
-        static /* synthetic */ float access$1524(ParentLayout parentLayout, float f) {
+        static /* synthetic */ float access$1624(ParentLayout parentLayout, float f) {
             float f2 = parentLayout.translationX - f;
             parentLayout.translationX = f2;
             return f2;
@@ -1595,6 +1597,95 @@ public class Bulletin {
                 onPressedStateChanged(false);
             }
             return true;
+        }
+    }
+
+    public static class ProgressLayout extends ButtonLayout {
+        public BackupImageView imageView;
+        private boolean inprogress;
+        public float progress;
+        public FrameLayout progressView;
+        public AnimatedTextView textView;
+
+        public ProgressLayout(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, resourcesProvider);
+            FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.Bulletin.ProgressLayout.1
+                private final AnimatedFloat animatedDone;
+                private final AnimatedFloat animatedProgress;
+                private final RectF rect;
+                private final long start;
+                private final Paint strokePaint;
+
+                {
+                    CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
+                    this.animatedProgress = new AnimatedFloat(this, 320L, cubicBezierInterpolator);
+                    this.animatedDone = new AnimatedFloat(this, 320L, cubicBezierInterpolator);
+                    Paint paint = new Paint(1);
+                    this.strokePaint = paint;
+                    paint.setStyle(Paint.Style.STROKE);
+                    paint.setColor(268435455);
+                    paint.setStrokeWidth(AndroidUtilities.dp(1.66f));
+                    paint.setStrokeCap(Paint.Cap.ROUND);
+                    paint.setStrokeJoin(Paint.Join.ROUND);
+                    this.rect = new RectF();
+                    this.start = System.currentTimeMillis();
+                }
+
+                @Override // android.view.View
+                protected void onDraw(Canvas canvas) {
+                    float f = this.animatedProgress.set(ProgressLayout.this.progress);
+                    float f2 = this.animatedDone.set(ProgressLayout.this.progress >= 1.0f);
+                    float width = getWidth() / 2.0f;
+                    float height = getHeight() / 2.0f;
+                    this.rect.set(width - AndroidUtilities.dpf2(13.0f), height - AndroidUtilities.dpf2(13.0f), width + AndroidUtilities.dpf2(13.0f), height + AndroidUtilities.dpf2(13.0f));
+                    float currentTimeMillis = ((System.currentTimeMillis() - this.start) * 0.45f) % 5400.0f;
+                    float max = Math.max(0.0f, ((1520.0f * currentTimeMillis) / 5400.0f) - 20.0f);
+                    for (int i = 0; i < 4; i++) {
+                        FastOutSlowInInterpolator fastOutSlowInInterpolator = CircularProgressDrawable.interpolator;
+                        fastOutSlowInInterpolator.getInterpolation((currentTimeMillis - (i * 1350)) / 667.0f);
+                        max += fastOutSlowInInterpolator.getInterpolation((currentTimeMillis - (r7 + 667)) / 667.0f) * 250.0f;
+                    }
+                    this.strokePaint.setColor(Theme.multAlpha(-1, (1.0f - f2) * 1.0f));
+                    canvas.drawArc(this.rect, (-90.0f) - max, Math.max(0.02f, f) * (-360.0f), false, this.strokePaint);
+                    if (f < 1.0f && f2 < 1.0f) {
+                        invalidate();
+                    }
+                    super.onDraw(canvas);
+                }
+            };
+            this.progressView = frameLayout;
+            frameLayout.setWillNotDraw(false);
+            addView(this.progressView, LayoutHelper.createFrameRelatively(32.0f, 32.0f, 8388627, 12.0f, 8.0f, 12.0f, 8.0f));
+            BackupImageView backupImageView = new BackupImageView(context);
+            this.imageView = backupImageView;
+            backupImageView.setRoundRadius(AndroidUtilities.dp(14.0f));
+            this.progressView.addView(this.imageView, LayoutHelper.createFrame(28, 28, 17));
+            AnimatedTextView animatedTextView = new AnimatedTextView(context);
+            this.textView = animatedTextView;
+            animatedTextView.setTypeface(Typeface.SANS_SERIF);
+            this.textView.setTextSize(AndroidUtilities.dp(15.0f));
+            this.textView.setPadding(0, AndroidUtilities.dp(8.0f), 0, AndroidUtilities.dp(8.0f));
+            addView(this.textView, LayoutHelper.createFrameRelatively(-2.0f, 18.0f, 8388627, 56.0f, 0.0f, 8.0f, 0.0f));
+            setTextColor(getThemedColor(Theme.key_undo_infoColor));
+            setBackground(getThemedColor(Theme.key_undo_background));
+        }
+
+        @Override // org.telegram.ui.Components.Bulletin.Layout
+        public CharSequence getAccessibilityText() {
+            return this.textView.getText();
+        }
+
+        public void setProgress(float f) {
+            if (this.inprogress != (f < 1.0f)) {
+                this.inprogress = f < 1.0f;
+                this.imageView.animate().scaleX(this.inprogress ? 0.78f : 1.0f).scaleY(this.inprogress ? 0.78f : 1.0f).setDuration(320L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).start();
+            }
+            this.progress = f;
+            this.progressView.invalidate();
+        }
+
+        public void setTextColor(int i) {
+            this.textView.setTextColor(i);
         }
     }
 
@@ -2515,6 +2606,11 @@ public class Bulletin {
             });
             this.containerLayout.addView(this.parentLayout);
         }
+        return this;
+    }
+
+    public Bulletin skipShowAnimation() {
+        this.skipShowAnimation = true;
         return this;
     }
 

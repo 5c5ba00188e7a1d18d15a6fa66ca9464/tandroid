@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
@@ -375,7 +376,7 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
             if (this.isFinished || this.finishing) {
                 return;
             }
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
     }
 
@@ -475,7 +476,7 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
             return;
         }
         if (!hasChanges()) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         this.doneButtonDrawable.animateToProgress(1.0f);
@@ -587,7 +588,7 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
             sb.append("\n");
         }
         TLRPC.TL_timezone findTimezone = TimezonesController.getInstance(i).findTimezone(tL_businessWorkHours.timezone_id);
-        if (((Calendar.getInstance().getTimeZone().getRawOffset() / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60 != 0 && findTimezone != null) {
+        if (((Calendar.getInstance().getTimeZone().getRawOffset() / MediaDataController.MAX_STYLE_RUNS_COUNT) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60 != 0 && findTimezone != null) {
             sb.append(LocaleController.formatString(R.string.BusinessHoursCopyFooter, TimezonesController.getInstance(i).getTimezoneName(findTimezone, true)));
         }
         return sb.toString();
@@ -603,7 +604,7 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (OpeningHoursActivity.this.onBackPressed()) {
-                        OpeningHoursActivity.this.lambda$onBackPressed$321();
+                        OpeningHoursActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i == 1) {
                     OpeningHoursActivity.this.processDone();

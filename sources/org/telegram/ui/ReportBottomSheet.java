@@ -237,7 +237,7 @@ public class ReportBottomSheet extends BottomSheet {
             if (motionEvent.getAction() != 0 || motionEvent.getY() >= this.top) {
                 return super.dispatchTouchEvent(motionEvent);
             }
-            ReportBottomSheet.this.dismiss();
+            ReportBottomSheet.this.lambda$new$0();
             return true;
         }
 
@@ -403,7 +403,7 @@ public class ReportBottomSheet extends BottomSheet {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0() {
             if (this.pageType == 0) {
-                ReportBottomSheet.this.dismiss();
+                ReportBottomSheet.this.lambda$new$0();
             } else {
                 ReportBottomSheet.this.onBackPressed();
             }
@@ -975,7 +975,7 @@ public class ReportBottomSheet extends BottomSheet {
                 listener = this.listener;
             }
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -1,7 +1,6 @@
 package org.telegram.ui.Business;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -113,13 +112,13 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$3(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onBackPressed$3(AlertDialog alertDialog, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onBackPressed$4(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$onBackPressed$4(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -142,7 +141,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.showError(tL_error);
         } else if (!(tLObject instanceof TLRPC.TL_boolFalse)) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         } else {
             this.doneButtonDrawable.animateToProgress(0.0f);
             BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.UnknownError)).show();
@@ -247,7 +246,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             return;
         }
         if (!hasChanges()) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         QuickRepliesController.QuickReply findReply = QuickRepliesController.getInstance(this.currentAccount).findReply("away");
@@ -385,7 +384,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (AwayMessagesActivity.this.onBackPressed()) {
-                        AwayMessagesActivity.this.lambda$onBackPressed$321();
+                        AwayMessagesActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i == 1) {
                     AwayMessagesActivity.this.processDone();
@@ -488,16 +487,16 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
         builder.setMessage(LocaleController.getString(R.string.BusinessAwayUnsavedChanges));
-        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                AwayMessagesActivity.this.lambda$onBackPressed$3(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                AwayMessagesActivity.this.lambda$onBackPressed$3(alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda4
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                AwayMessagesActivity.this.lambda$onBackPressed$4(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda4
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                AwayMessagesActivity.this.lambda$onBackPressed$4(alertDialog, i);
             }
         });
         showDialog(builder.create());

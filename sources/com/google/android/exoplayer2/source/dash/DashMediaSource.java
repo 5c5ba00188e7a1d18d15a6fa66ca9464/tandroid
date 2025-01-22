@@ -58,6 +58,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class DashMediaSource extends BaseMediaSource {
@@ -469,7 +470,7 @@ public final class DashMediaSource extends BaseMediaSource {
     }
 
     private long getManifestLoadRetryDelayMillis() {
-        return Math.min((this.staleManifestReloadAttempt - 1) * 1000, 5000);
+        return Math.min((this.staleManifestReloadAttempt - 1) * MediaDataController.MAX_STYLE_RUNS_COUNT, 5000);
     }
 
     private static boolean hasVideoOrAudioAdaptationSets(Period period) {

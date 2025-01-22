@@ -1788,7 +1788,7 @@ public class StoriesController {
             	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:335)
             	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:301)
             	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
-            	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+            	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
             	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
             	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:258)
             */
@@ -3608,7 +3608,7 @@ public class StoriesController {
             }
             return;
         }
-        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageMedia2.getDocument().thumbs, 1000);
+        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageMedia2.getDocument().thumbs, MediaDataController.MAX_STYLE_RUNS_COUNT);
         FileLoader.getInstance(this.currentAccount).loadFile(storyItem.media.getDocument(), storyItem, 0, 1);
         fileLoader = FileLoader.getInstance(this.currentAccount);
         forPhoto = ImageLocation.getForDocument(closestPhotoSizeWithSize2, storyItem.media.getDocument());

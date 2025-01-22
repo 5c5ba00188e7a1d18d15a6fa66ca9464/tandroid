@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
@@ -170,7 +171,7 @@ public class ChecksHintView extends FrameLayout {
         ((View) getParent()).getLocationInWindow(iArr);
         int i3 = i2 - iArr[1];
         View view = (View) chatMessageCell.getParent();
-        measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+        measure(View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE));
         if (i3 <= getMeasuredHeight() + AndroidUtilities.dp(10.0f)) {
             return false;
         }

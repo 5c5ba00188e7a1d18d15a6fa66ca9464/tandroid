@@ -224,7 +224,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$addInfoView$0(VenueLocation venueLocation, boolean z, int i) {
             LocationActivity.this.delegate.didSelectLocation(venueLocation.venue, LocationActivity.this.locationType, z, i);
-            LocationActivity.this.lambda$onBackPressed$321();
+            LocationActivity.this.lambda$onBackPressed$323();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -238,7 +238,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 });
             } else {
                 LocationActivity.this.delegate.didSelectLocation(venueLocation.venue, LocationActivity.this.locationType, true, 0);
-                LocationActivity.this.lambda$onBackPressed$321();
+                LocationActivity.this.lambda$onBackPressed$323();
             }
         }
 
@@ -652,10 +652,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTopAnimation(R.raw.permission_request_location, 72, false, getThemedColor(Theme.key_dialogTopBackground));
                 builder.setMessage(LocaleController.getString(R.string.GpsDisabledAlertText));
-                builder.setPositiveButton(LocaleController.getString(R.string.ConnectingToProxyEnable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda22
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        LocationActivity.this.lambda$checkGpsEnabled$38(dialogInterface, i);
+                builder.setPositiveButton(LocaleController.getString(R.string.ConnectingToProxyEnable), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda22
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        LocationActivity.this.lambda$checkGpsEnabled$38(alertDialog, i);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -967,7 +967,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkGpsEnabled$38(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkGpsEnabled$38(AlertDialog alertDialog, int i) {
         if (getParentActivity() == null) {
             return;
         }
@@ -1054,7 +1054,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
         alertDialogArr[0] = null;
         this.delegate.didSelectLocation(tL_messageMediaVenue, 4, true, 0);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1075,13 +1075,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$15(TLRPC.TL_messageMediaGeo tL_messageMediaGeo, boolean z, int i) {
         this.delegate.didSelectLocation(tL_messageMediaGeo, this.locationType, z, i);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$16(Object obj, boolean z, int i) {
         this.delegate.didSelectLocation((TLRPC.TL_messageMediaVenue) obj, this.locationType, z, i);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1219,7 +1219,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             return;
         }
         this.delegate.didSelectLocation(tL_messageMediaVenue2, 4, true, 0);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1369,7 +1369,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$26(TLRPC.TL_messageMediaVenue tL_messageMediaVenue, boolean z, int i) {
         this.delegate.didSelectLocation(tL_messageMediaVenue, this.locationType, z, i);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1392,7 +1392,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 return;
             } else {
                 this.delegate.didSelectLocation(item, this.locationType, true, 0);
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
                 return;
             }
         }
@@ -1652,7 +1652,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             FileLog.e(e);
         }
         this.hasScreenshot = true;
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1793,7 +1793,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$openProximityAlert$29(TLRPC.User user, int i, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$openProximityAlert$29(TLRPC.User user, int i, AlertDialog alertDialog, int i2) {
         shareLiveLocation(user, 900, i);
     }
 
@@ -1809,10 +1809,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.ShareLocationAlertTitle));
         builder.setMessage(LocaleController.getString(R.string.ShareLocationAlertText));
-        builder.setPositiveButton(LocaleController.getString(R.string.ShareLocationAlertButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda46
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                LocationActivity.this.lambda$openProximityAlert$29(user, i, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.ShareLocationAlertButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda46
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                LocationActivity.this.lambda$openProximityAlert$29(user, i, alertDialog, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1903,7 +1903,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showPermissionAlert$39(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showPermissionAlert$39(AlertDialog alertDialog, int i) {
         if (getParentActivity() == null) {
             return;
         }
@@ -2341,7 +2341,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         tL_messageMediaGeoLive.flags = i3 | 9;
         this.delegate.didSelectLocation(tL_messageMediaGeoLive, this.locationType, true, 0);
         if (i2 <= 0) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             return;
         }
         this.proximitySheet.setRadiusSet();
@@ -2360,10 +2360,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTopAnimation(R.raw.permission_request_location, 72, false, getThemedColor(Theme.key_dialogTopBackground));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(z ? R.string.PermissionNoLocationNavigation : R.string.PermissionNoLocationFriends)));
-        builder.setNegativeButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda35
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LocationActivity.this.lambda$showPermissionAlert$39(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.PermissionOpenSettings), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.LocationActivity$$ExternalSyntheticLambda35
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LocationActivity.this.lambda$showPermissionAlert$39(alertDialog, i);
             }
         });
         builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
@@ -2670,7 +2670,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                         public void onItemClick(int i12) {
                             if (i12 == -1) {
-                                LocationActivity.this.lambda$onBackPressed$321();
+                                LocationActivity.this.lambda$onBackPressed$323();
                                 return;
                             }
                             if (i12 != 1) {
@@ -3699,7 +3699,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                 @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                 public void onItemClick(int i122) {
                     if (i122 == -1) {
-                        LocationActivity.this.lambda$onBackPressed$321();
+                        LocationActivity.this.lambda$onBackPressed$323();
                         return;
                     }
                     if (i122 != 1) {
@@ -4080,7 +4080,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i122) {
                 if (i122 == -1) {
-                    LocationActivity.this.lambda$onBackPressed$321();
+                    LocationActivity.this.lambda$onBackPressed$323();
                     return;
                 }
                 if (i122 != 1) {

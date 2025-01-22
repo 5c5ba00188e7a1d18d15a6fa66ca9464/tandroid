@@ -1346,7 +1346,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             public boolean hasSibling;
             public ArrayList posArray = new ArrayList();
             public HashMap positions = new HashMap();
-            private int maxSizeWidth = 1000;
+            private int maxSizeWidth = MediaDataController.MAX_STYLE_RUNS_COUNT;
 
             private class MessageGroupedLayoutAttempt {
                 public float[] heights;
@@ -1889,7 +1889,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
             });
-            GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, 1000, 1, true) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.3
+            GridLayoutManagerFixed gridLayoutManagerFixed = new GridLayoutManagerFixed(context, MediaDataController.MAX_STYLE_RUNS_COUNT, 1, true) { // from class: org.telegram.ui.ArticleViewer.BlockCollageCell.3
                 @Override // androidx.recyclerview.widget.GridLayoutManagerFixed
                 protected boolean hasSiblingChild(int i) {
                     byte b;
@@ -7190,7 +7190,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
+        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z, boolean z2) {
             ImageReceiver imageReceiverFromListView;
             if (i < 0 || i >= this.pageBlocks.size() || (imageReceiverFromListView = getImageReceiverFromListView(ArticleViewer.this.pages[0].listView, (TLRPC.PageBlock) this.pageBlocks.get(i), this.tempArr)) == null) {
                 return null;
@@ -8860,7 +8860,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet, android.content.DialogInterface
-        public void dismiss() {
+        /* renamed from: dismiss */
+        public void lambda$new$0() {
             dismiss(true);
         }
 
@@ -10739,7 +10740,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 if (this.tracker == null) {
                     this.tracker = VelocityTracker.obtain();
                 }
-                this.tracker.computeCurrentVelocity(1000);
+                this.tracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                 float xVelocity = this.tracker.getXVelocity();
                 float yVelocity = this.tracker.getYVelocity();
                 Sheet sheet4 = ArticleViewer.this.sheet;
@@ -11312,7 +11313,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (url != null) {
                         BottomSheet bottomSheet = this.linkSheet;
                         if (bottomSheet != null) {
-                            bottomSheet.dismiss();
+                            bottomSheet.lambda$new$0();
                             this.linkSheet = null;
                         }
                         int lastIndexOf = url.lastIndexOf(35);
@@ -13336,7 +13337,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 WebpageAdapter webpageAdapter = this.pages[c].adapter;
                 String str6 = null;
                 pageBlock = pageBlock3;
-                CharSequence text = getText(webpageAdapter, (View) null, richText, richText, pageBlock3, 1000);
+                CharSequence text = getText(webpageAdapter, (View) null, richText, richText, pageBlock3, MediaDataController.MAX_STYLE_RUNS_COUNT);
                 str3 = str6;
                 if (!TextUtils.isEmpty(text)) {
                     str2 = text.toString();
@@ -13981,7 +13982,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setParentActivity$36(CheckBoxCell checkBoxCell, Utilities.Callback callback, Runnable runnable, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$setParentActivity$36(CheckBoxCell checkBoxCell, Utilities.Callback callback, Runnable runnable, AlertDialog alertDialog, int i) {
         if (checkBoxCell.isChecked()) {
             callback.run(Boolean.TRUE);
         }
@@ -13989,7 +13990,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$setParentActivity$37(CheckBoxCell checkBoxCell, Utilities.Callback callback, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$setParentActivity$37(CheckBoxCell checkBoxCell, Utilities.Callback callback, AlertDialog alertDialog, int i) {
         if (checkBoxCell.isChecked()) {
             callback.run(Boolean.FALSE);
         }
@@ -14178,16 +14179,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     textView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BrowserExternalText)));
                     checkBoxCell.setText(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BrowserExternalCheck, hostAuthority2)), "", false, false);
                     builder.setView(linearLayout);
-                    builder.setPositiveButton(LocaleController.getString(R.string.Continue), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda50
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            ArticleViewer.lambda$setParentActivity$36(CheckBoxCell.this, callback, runnable, dialogInterface, i);
+                    builder.setPositiveButton(LocaleController.getString(R.string.Continue), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda50
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            ArticleViewer.lambda$setParentActivity$36(CheckBoxCell.this, callback, runnable, alertDialog, i);
                         }
                     });
-                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda42
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            ArticleViewer.lambda$setParentActivity$37(CheckBoxCell.this, callback, dialogInterface, i);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ArticleViewer$$ExternalSyntheticLambda42
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            ArticleViewer.lambda$setParentActivity$37(CheckBoxCell.this, callback, alertDialog, i);
                         }
                     });
                     builder.show();
@@ -15168,7 +15169,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         BottomSheet bottomSheet = this.linkSheet;
         if (bottomSheet != null) {
-            bottomSheet.dismiss();
+            bottomSheet.lambda$new$0();
             this.linkSheet = null;
         }
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);

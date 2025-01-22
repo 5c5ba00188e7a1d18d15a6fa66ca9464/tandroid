@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import com.google.android.exoplayer2.Bundleable;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public class PlaybackException extends Exception implements Bundleable {
@@ -24,7 +25,7 @@ public class PlaybackException extends Exception implements Bundleable {
     };
 
     protected PlaybackException(Bundle bundle) {
-        this(bundle.getString(FIELD_STRING_MESSAGE), getCauseFromBundle(bundle), bundle.getInt(FIELD_INT_ERROR_CODE, 1000), bundle.getLong(FIELD_LONG_TIMESTAMP_MS, SystemClock.elapsedRealtime()));
+        this(bundle.getString(FIELD_STRING_MESSAGE), getCauseFromBundle(bundle), bundle.getInt(FIELD_INT_ERROR_CODE, MediaDataController.MAX_STYLE_RUNS_COUNT), bundle.getLong(FIELD_LONG_TIMESTAMP_MS, SystemClock.elapsedRealtime()));
     }
 
     protected PlaybackException(String str, Throwable th, int i, long j) {

@@ -27,6 +27,7 @@ import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
@@ -468,7 +469,7 @@ public class ProximitySheet extends FrameLayout {
     */
     public float getValue() {
         float f;
-        float value = this.kmPicker.getValue() * 1000;
+        float value = this.kmPicker.getValue() * MediaDataController.MAX_STYLE_RUNS_COUNT;
         int value2 = this.mPicker.getValue();
         boolean z = this.useImperialSystem;
         if (z) {
@@ -596,7 +597,7 @@ public class ProximitySheet extends FrameLayout {
                 if (this.velocityTracker == null) {
                     this.velocityTracker = VelocityTracker.obtain();
                 }
-                this.velocityTracker.computeCurrentVelocity(1000);
+                this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                 float translationY2 = this.containerView.getTranslationY();
                 if (this.startedTracking || translationY2 != 0.0f) {
                     checkDismiss(this.velocityTracker.getXVelocity(), this.velocityTracker.getYVelocity());

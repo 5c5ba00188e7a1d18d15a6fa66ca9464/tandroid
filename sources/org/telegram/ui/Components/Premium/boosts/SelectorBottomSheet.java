@@ -129,7 +129,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         selectorHeaderCell.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
-                SelectorBottomSheet.this.dismiss();
+                SelectorBottomSheet.this.lambda$new$0();
             }
         });
         selectorHeaderCell.setText(getTitle());
@@ -262,7 +262,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     public /* synthetic */ void lambda$hasChanges$11() {
         this.selectedIds.clear();
         this.openedIds.clear();
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -672,7 +672,8 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
         Runnable runnable = this.onCloseClick;
         if (runnable != null) {
             runnable.run();

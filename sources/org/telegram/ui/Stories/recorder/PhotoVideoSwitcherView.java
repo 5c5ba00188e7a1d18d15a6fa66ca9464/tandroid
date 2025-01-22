@@ -15,6 +15,7 @@ import android.view.ViewConfiguration;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Stories.recorder.FlashViews;
@@ -157,7 +158,7 @@ public abstract class PhotoVideoSwitcherView extends View implements FlashViews.
         this.mIsTouch = false;
         VelocityTracker velocityTracker = this.mVelocityTracker;
         if (velocityTracker != null) {
-            velocityTracker.computeCurrentVelocity(1000);
+            velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
             f = this.mVelocityTracker.getXVelocity();
         } else {
             f = 0.0f;

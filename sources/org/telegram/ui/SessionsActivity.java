@@ -1,7 +1,6 @@
 package org.telegram.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -801,22 +800,22 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$12(int i, boolean[] zArr, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$createView$12(int i, boolean[] zArr, AlertDialog alertDialog, int i2) {
         if (getParentActivity() == null) {
             return;
         }
-        final AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
-        alertDialog.setCanCancel(false);
-        alertDialog.show();
+        final AlertDialog alertDialog2 = new AlertDialog(getParentActivity(), 3);
+        alertDialog2.setCanCancel(false);
+        alertDialog2.show();
         if (this.currentType == 0) {
             int i3 = this.otherSessionsStartRow;
             final TLRPC.TL_authorization tL_authorization = (TLRPC.TL_authorization) ((i < i3 || i >= this.otherSessionsEndRow) ? this.passwordSessions.get(i - this.passwordSessionsStartRow) : this.sessions.get(i - i3));
             TL_account.resetAuthorization resetauthorization = new TL_account.resetAuthorization();
             resetauthorization.hash = tL_authorization.hash;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(resetauthorization, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda13
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(resetauthorization, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda11
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    SessionsActivity.this.lambda$createView$9(alertDialog, tL_authorization, tLObject, tL_error);
+                    SessionsActivity.this.lambda$createView$9(alertDialog2, tL_authorization, tLObject, tL_error);
                 }
             });
             return;
@@ -824,10 +823,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         final TLRPC.TL_webAuthorization tL_webAuthorization = (TLRPC.TL_webAuthorization) this.sessions.get(i - this.otherSessionsStartRow);
         TL_account.resetWebAuthorization resetwebauthorization = new TL_account.resetWebAuthorization();
         resetwebauthorization.hash = tL_webAuthorization.hash;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(resetwebauthorization, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda14
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(resetwebauthorization, new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda12
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                SessionsActivity.this.lambda$createView$11(alertDialog, tL_webAuthorization, tLObject, tL_error);
+                SessionsActivity.this.lambda$createView$11(alertDialog2, tL_webAuthorization, tLObject, tL_error);
             }
         });
         if (zArr[0]) {
@@ -889,10 +888,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 builder2.setTitle(LocaleController.getString(R.string.TerminateWebSessionsTitle));
                 i2 = R.string.Disconnect;
             }
-            builder2.setPositiveButton(LocaleController.getString(i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda6
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i6) {
-                    SessionsActivity.this.lambda$createView$6(dialogInterface, i6);
+            builder2.setPositiveButton(LocaleController.getString(i2), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda6
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i6) {
+                    SessionsActivity.this.lambda$createView$6(alertDialog, i6);
                 }
             });
             builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -946,10 +945,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 builder3.setView(frameLayout);
                 charSequence = string;
             }
-            builder3.setPositiveButton(charSequence, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda8
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i7) {
-                    SessionsActivity.this.lambda$createView$12(i, zArr, dialogInterface, i7);
+            builder3.setPositiveButton(charSequence, new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda8
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i7) {
+                    SessionsActivity.this.lambda$createView$12(i, zArr, alertDialog, i7);
                 }
             });
             builder3.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1022,14 +1021,14 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$6(AlertDialog alertDialog, int i) {
         TLObject resetwebauthorizations;
         ConnectionsManager connectionsManager;
         RequestDelegate requestDelegate;
         if (this.currentType == 0) {
             resetwebauthorizations = new TLRPC.TL_auth_resetAuthorizations();
             connectionsManager = ConnectionsManager.getInstance(this.currentAccount);
-            requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda11
+            requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda14
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     SessionsActivity.this.lambda$createView$3(tLObject, tL_error);
@@ -1038,7 +1037,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
         } else {
             resetwebauthorizations = new TL_account.resetWebAuthorizations();
             connectionsManager = ConnectionsManager.getInstance(this.currentAccount);
-            requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda12
+            requestDelegate = new RequestDelegate() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda15
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                     SessionsActivity.this.lambda$createView$5(tLObject, tL_error);
@@ -1125,7 +1124,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             int i3 = i2 - 1;
             this.repeatLoad = i3;
             if (i3 > 0) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda15
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda13
                     @Override // java.lang.Runnable
                     public final void run() {
                         SessionsActivity.this.lambda$loadSessions$14(z);
@@ -1189,7 +1188,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onRequestPermissionsResultFragment$20(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onRequestPermissionsResultFragment$20(AlertDialog alertDialog, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
             intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
@@ -1322,7 +1321,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    SessionsActivity.this.lambda$onBackPressed$321();
+                    SessionsActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -1496,10 +1495,10 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
     public void onRequestPermissionsResultFragment(int i, String[] strArr, int[] iArr) {
         if (getParentActivity() != null && i == 34) {
             if (iArr.length <= 0 || iArr[0] != 0) {
-                new AlertDialog.Builder(getParentActivity()).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.QRCodePermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda3
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        SessionsActivity.this.lambda$onRequestPermissionsResultFragment$20(dialogInterface, i2);
+                new AlertDialog.Builder(getParentActivity()).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.QRCodePermissionNoCameraWithHint))).setPositiveButton(LocaleController.getString(R.string.PermissionOpenSettings), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.SessionsActivity$$ExternalSyntheticLambda3
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        SessionsActivity.this.lambda$onRequestPermissionsResultFragment$20(alertDialog, i2);
                     }
                 }).setNegativeButton(LocaleController.getString(R.string.ContactsPermissionAlertNotNow), null).setTopAnimation(R.raw.permission_request_camera, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).show();
             } else {

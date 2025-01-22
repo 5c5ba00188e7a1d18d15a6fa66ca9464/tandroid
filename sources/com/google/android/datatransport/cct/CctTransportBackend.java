@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 final class CctTransportBackend implements TransportBackend {
@@ -276,7 +277,7 @@ final class CctTransportBackend implements TransportBackend {
 
     static long getTzOffset() {
         Calendar.getInstance();
-        return TimeZone.getDefault().getOffset(Calendar.getInstance().getTimeInMillis()) / 1000;
+        return TimeZone.getDefault().getOffset(Calendar.getInstance().getTimeInMillis()) / MediaDataController.MAX_STYLE_RUNS_COUNT;
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -703,7 +703,7 @@ public class FilterChatlistActivity extends BaseFragment {
                 if (FilterChatlistActivity.this.onDelete != null) {
                     FilterChatlistActivity.this.onDelete.run(FilterChatlistActivity.this.invite);
                 }
-                FilterChatlistActivity.this.lambda$onBackPressed$321();
+                FilterChatlistActivity.this.lambda$onBackPressed$323();
             }
 
             /* JADX INFO: Access modifiers changed from: private */
@@ -724,7 +724,7 @@ public class FilterChatlistActivity extends BaseFragment {
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$editname$6(EditTextBoldCursor editTextBoldCursor, AlertDialog.Builder builder, DialogInterface dialogInterface, int i) {
+            public /* synthetic */ void lambda$editname$6(EditTextBoldCursor editTextBoldCursor, AlertDialog.Builder builder, AlertDialog alertDialog, int i) {
                 AndroidUtilities.hideKeyboard(editTextBoldCursor);
                 builder.getDismissRunnable().run();
                 FilterChatlistActivity.this.invite.title = editTextBoldCursor.getText().toString();
@@ -778,9 +778,9 @@ public class FilterChatlistActivity extends BaseFragment {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setDialogButtonColorKey(Theme.key_dialogButton);
                 builder.setTitle(LocaleController.getString(R.string.FilterInviteEditName));
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda2
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda2
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
                         AndroidUtilities.hideKeyboard(EditTextBoldCursor.this);
                     }
                 });
@@ -840,10 +840,10 @@ public class FilterChatlistActivity extends BaseFragment {
                     editTextBoldCursor.setText(FilterChatlistActivity.this.invite.title);
                     editTextBoldCursor.setSelection(editTextBoldCursor.length());
                 }
-                builder.setPositiveButton(LocaleController.getString(R.string.Save), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda4
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        FilterChatlistActivity.ListAdapter.1.this.lambda$editname$6(editTextBoldCursor, builder, dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Save), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$ListAdapter$1$$ExternalSyntheticLambda4
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        FilterChatlistActivity.ListAdapter.1.this.lambda$editname$6(editTextBoldCursor, builder, alertDialog, i2);
                     }
                 });
                 AlertDialog create = builder.create();
@@ -1042,16 +1042,16 @@ public class FilterChatlistActivity extends BaseFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
         builder.setMessage(LocaleController.getString(R.string.UnsavedChangesMessage));
-        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                FilterChatlistActivity.this.lambda$checkDiscard$9(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                FilterChatlistActivity.this.lambda$checkDiscard$9(alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                FilterChatlistActivity.this.lambda$checkDiscard$10(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                FilterChatlistActivity.this.lambda$checkDiscard$10(alertDialog, i);
             }
         });
         showDialog(builder.create());
@@ -1135,12 +1135,12 @@ public class FilterChatlistActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$10(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$checkDiscard$10(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$9(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$9(AlertDialog alertDialog, int i) {
         save();
     }
 
@@ -1216,7 +1216,7 @@ public class FilterChatlistActivity extends BaseFragment {
             limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), 4, this.currentAccount, null);
         } else {
             if (tL_error == null || !"CHATLISTS_TOO_MUCH".equals(tL_error.text)) {
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
                 return;
             }
             limitReachedBottomSheet = new LimitReachedBottomSheet(this, getContext(), 13, this.currentAccount, null);
@@ -1422,7 +1422,7 @@ public class FilterChatlistActivity extends BaseFragment {
             public void onItemClick(int i) {
                 if (i == -1) {
                     if (FilterChatlistActivity.this.checkDiscard()) {
-                        FilterChatlistActivity.this.lambda$onBackPressed$321();
+                        FilterChatlistActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i == 1) {
                     if (Math.abs(FilterChatlistActivity.this.doneButtonAlpha - 1.0f) < 0.1f) {

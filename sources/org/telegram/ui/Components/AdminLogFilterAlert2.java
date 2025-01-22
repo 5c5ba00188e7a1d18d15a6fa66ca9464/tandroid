@@ -198,7 +198,7 @@ public class AdminLogFilterAlert2 extends BottomSheetWithRecyclerListView {
             this.selectedAdmins = null;
         }
         this.delegate.didSelectRights(this.currentFilter, this.selectedAdmins);
-        dismiss();
+        lambda$new$0();
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView, org.telegram.ui.ActionBar.BottomSheet

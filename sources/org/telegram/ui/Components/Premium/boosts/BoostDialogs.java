@@ -85,16 +85,16 @@ public abstract class BoostDialogs {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
         builder.setTitle(LocaleController.getString("BoostingReduceQuantity", R.string.BoostingReduceQuantity));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingReduceQuantityTextPlural", i3, formatPluralString, Integer.valueOf(i4))));
-        builder.setPositiveButton(LocaleController.getString("Reduce", R.string.Reduce), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda21
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i5) {
+        builder.setPositiveButton(LocaleController.getString("Reduce", R.string.Reduce), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda21
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i5) {
                 Utilities.Callback.this.run(tL_premiumGiftCodeOption3);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda22
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i5) {
-                BoostDialogs.lambda$checkReduceQuantity$13(dialogInterface, i5);
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda22
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i5) {
+                BoostDialogs.lambda$checkReduceQuantity$13(alertDialog, i5);
             }
         });
         builder.show();
@@ -118,10 +118,10 @@ public abstract class BoostDialogs {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
         builder.setTitle(LocaleController.getString("BoostingReduceQuantity", R.string.BoostingReduceQuantity));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingReduceUsersTextPlural", i, join)));
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda17
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                BoostDialogs.lambda$checkReduceUsers$11(dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda17
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                BoostDialogs.lambda$checkReduceUsers$11(alertDialog, i2);
             }
         });
         builder.show();
@@ -153,11 +153,11 @@ public abstract class BoostDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkReduceQuantity$13(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$checkReduceQuantity$13(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$checkReduceUsers$11(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$checkReduceUsers$11(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -182,15 +182,15 @@ public abstract class BoostDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAbout$14(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAbout$14(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAboutEnd$15(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAboutEnd$15(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAboutEnd$16(TLRPC.TL_payments_giveawayInfoResults tL_payments_giveawayInfoResults, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAboutEnd$16(TLRPC.TL_payments_giveawayInfoResults tL_payments_giveawayInfoResults, AlertDialog alertDialog, int i) {
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         if (lastFragment == null) {
             return;
@@ -199,11 +199,11 @@ public abstract class BoostDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAboutEnd$17(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAboutEnd$17(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showAboutEnd$18(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showAboutEnd$18(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -404,23 +404,23 @@ public abstract class BoostDialogs {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMoreBoostsNeeded$28(BottomSheet bottomSheet, DialogInterface dialogInterface, int i) {
-        bottomSheet.dismiss();
+    public static /* synthetic */ void lambda$showMoreBoostsNeeded$28(BottomSheet bottomSheet, AlertDialog alertDialog, int i) {
+        bottomSheet.lambda$new$0();
         UserSelectorBottomSheet.open();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showMoreBoostsNeeded$29(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showMoreBoostsNeeded$29(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showPrivateChannelAlert$19(AtomicBoolean atomicBoolean, Runnable runnable, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showPrivateChannelAlert$19(AtomicBoolean atomicBoolean, Runnable runnable, AlertDialog alertDialog, int i) {
         atomicBoolean.set(true);
         runnable.run();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$showPrivateChannelAlert$20(DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$showPrivateChannelAlert$20(AlertDialog alertDialog, int i) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -545,10 +545,10 @@ public abstract class BoostDialogs {
         }
         spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(formatString));
         builder.setMessage(spannableStringBuilder);
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda28
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                BoostDialogs.lambda$showAbout$14(dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda28
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                BoostDialogs.lambda$showAbout$14(alertDialog, i2);
             }
         });
         applyDialogStyle(builder.show(), false);
@@ -604,10 +604,10 @@ public abstract class BoostDialogs {
             textView.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f));
             builder.addBottomView(textView);
             builder.setMessage(spannableStringBuilder);
-            builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda29
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    BoostDialogs.lambda$showAboutEnd$15(dialogInterface, i5);
+            builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda29
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i5) {
+                    BoostDialogs.lambda$showAboutEnd$15(alertDialog, i5);
                 }
             });
             applyDialogStyle(builder.show(), true);
@@ -617,25 +617,25 @@ public abstract class BoostDialogs {
         if (tL_payments_giveawayInfoResults.winner) {
             string = LocaleController.getString(R.string.BoostingGiveawayYouWon);
             if ((tL_payments_giveawayInfoResults.flags & 16) == 0) {
-                builder.setPositiveButton(LocaleController.getString("BoostingGiveawayViewPrize", R.string.BoostingGiveawayViewPrize), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda30
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        BoostDialogs.lambda$showAboutEnd$16(TLRPC.TL_payments_giveawayInfoResults.this, dialogInterface, i5);
+                builder.setPositiveButton(LocaleController.getString("BoostingGiveawayViewPrize", R.string.BoostingGiveawayViewPrize), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda30
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i5) {
+                        BoostDialogs.lambda$showAboutEnd$16(TLRPC.TL_payments_giveawayInfoResults.this, alertDialog, i5);
                     }
                 });
             }
-            builder.setNegativeButton(LocaleController.getString("Close", R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda31
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    BoostDialogs.lambda$showAboutEnd$17(dialogInterface, i5);
+            builder.setNegativeButton(LocaleController.getString("Close", R.string.Close), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda31
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i5) {
+                    BoostDialogs.lambda$showAboutEnd$17(alertDialog, i5);
                 }
             });
         } else {
             string = LocaleController.getString("BoostingGiveawayYouNotWon", R.string.BoostingGiveawayYouNotWon);
-            builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda32
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i5) {
-                    BoostDialogs.lambda$showAboutEnd$18(dialogInterface, i5);
+            builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda32
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i5) {
+                    BoostDialogs.lambda$showAboutEnd$18(alertDialog, i5);
                 }
             });
         }
@@ -905,10 +905,10 @@ public abstract class BoostDialogs {
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getContext(), lastFragment.getResourceProvider());
         builder.setTitle(LocaleController.getString(R.string.CantBoostTooOften));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CantBoostTooOftenDescription", R.string.CantBoostTooOftenDescription, str)));
-        builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                dialogInterface.dismiss();
+        builder.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i3) {
+                alertDialog.dismiss();
             }
         });
         builder.show();
@@ -941,16 +941,16 @@ public abstract class BoostDialogs {
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getContext(), lastFragment.getResourceProvider());
         builder.setTitle(LocaleController.getString(R.string.BoostingMoreBoostsNeeded));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("BoostingGetMoreBoostByGiftingCount", BoostRepository.boostsPerSentGift(), chat.title)));
-        builder.setNegativeButton(LocaleController.getString("GiftPremium", R.string.GiftPremium), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda5
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BoostDialogs.lambda$showMoreBoostsNeeded$28(BottomSheet.this, dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString("GiftPremium", R.string.GiftPremium), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BoostDialogs.lambda$showMoreBoostsNeeded$28(BottomSheet.this, alertDialog, i);
             }
         });
-        builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda6
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BoostDialogs.lambda$showMoreBoostsNeeded$29(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString("Close", R.string.Close), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda6
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BoostDialogs.lambda$showMoreBoostsNeeded$29(alertDialog, i);
             }
         });
         builder.show();
@@ -962,16 +962,16 @@ public abstract class BoostDialogs {
         boolean isChannelAndNotMegaGroup = ChatObject.isChannelAndNotMegaGroup(chat);
         builder.setTitle(LocaleController.getString(isChannelAndNotMegaGroup ? R.string.BoostingGiveawayPrivateChannel : R.string.BoostingGiveawayPrivateGroup));
         builder.setMessage(LocaleController.getString(isChannelAndNotMegaGroup ? R.string.BoostingGiveawayPrivateChannelWarning : R.string.BoostingGiveawayPrivateGroupWarning));
-        builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda18
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BoostDialogs.lambda$showPrivateChannelAlert$19(atomicBoolean, runnable2, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda18
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BoostDialogs.lambda$showPrivateChannelAlert$19(atomicBoolean, runnable2, alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda19
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BoostDialogs.lambda$showPrivateChannelAlert$20(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda19
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BoostDialogs.lambda$showPrivateChannelAlert$20(alertDialog, i);
             }
         });
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda20
@@ -991,16 +991,16 @@ public abstract class BoostDialogs {
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getContext(), lastFragment.getResourceProvider());
         builder.setTitle(LocaleController.getString(R.string.BoostingStartGiveawayConfirmTitle));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.BoostingStartGiveawayConfirmText)));
-        builder.setPositiveButton(LocaleController.getString(R.string.Start), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda15
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
+        builder.setPositiveButton(LocaleController.getString(R.string.Start), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda15
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
                 runnable.run();
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda16
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda16
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                alertDialog.dismiss();
             }
         });
         builder.show();
@@ -1030,15 +1030,15 @@ public abstract class BoostDialogs {
             if (i != 3) {
                 string = "";
                 builder.setMessage(string);
-                builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda3
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda3
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
                         runnable.run();
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda4
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
+                builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda4
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
                         runnable2.run();
                     }
                 });
@@ -1049,15 +1049,15 @@ public abstract class BoostDialogs {
         }
         string = LocaleController.getString(str, i2);
         builder.setMessage(string);
-        builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
+        builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i3) {
                 runnable.run();
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda4
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
+        builder.setNegativeButton(LocaleController.getString("Discard", R.string.Discard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostDialogs$$ExternalSyntheticLambda4
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i3) {
                 runnable2.run();
             }
         });

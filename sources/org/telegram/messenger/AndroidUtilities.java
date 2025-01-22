@@ -11,7 +11,6 @@ import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -1147,6 +1146,7 @@ public class AndroidUtilities {
                 FileLog.e("density = " + density + " display size = " + displaySize.x + " " + displaySize.y + " " + displayMetrics.xdpi + "x" + displayMetrics.ydpi + ", screen layout: " + configuration.screenLayout + ", statusbar height: " + statusBarHeight + ", navbar height: " + navigationBarHeight);
             }
             touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+            isSmallScreen = null;
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -1745,8 +1745,8 @@ public class AndroidUtilities {
         }
         ArrayList arrayList = new ArrayList();
         while (i != 0) {
-            int i2 = i % 1000;
-            i /= 1000;
+            int i2 = i % MediaDataController.MAX_STYLE_RUNS_COUNT;
+            i /= MediaDataController.MAX_STYLE_RUNS_COUNT;
             arrayList.add(i > 0 ? String.format(Locale.ENGLISH, "%03d", Integer.valueOf(i2)) : Integer.toString(i2));
         }
         StringBuilder sb = new StringBuilder();
@@ -1914,6 +1914,13 @@ public class AndroidUtilities {
         return sb.toString();
     }
 
+    public static String formatTimestamp(int i) {
+        int i2 = i / 3600;
+        int i3 = (i / 60) % 60;
+        int i4 = i % 60;
+        return i2 > 0 ? String.format(Locale.US, "%dh%02dm%02ds", Integer.valueOf(i2), Integer.valueOf(i3), Integer.valueOf(i4)) : i3 > 0 ? i4 > 0 ? String.format(Locale.US, "%dm%02ds", Integer.valueOf(i3), Integer.valueOf(i4)) : String.format(Locale.US, "%dm", Integer.valueOf(i3)) : String.format(Locale.US, "%d", Integer.valueOf(i4));
+    }
+
     public static String formatVideoDuration(int i, int i2) {
         int i3 = i2 / 3600;
         int i4 = (i2 / 60) % 60;
@@ -1950,7 +1957,7 @@ public class AndroidUtilities {
         }
         int i3 = 0;
         while (i2 >= 1000 && i3 < numbersSignatureArray.length - 1) {
-            i2 /= 1000;
+            i2 /= MediaDataController.MAX_STYLE_RUNS_COUNT;
             f /= 1000.0f;
             i3++;
         }
@@ -1989,7 +1996,7 @@ public class AndroidUtilities {
     public static String generateFileName(int i, String str) {
         StringBuilder sb;
         Date date = new Date();
-        date.setTime(System.currentTimeMillis() + Utilities.random.nextInt(1000) + 1);
+        date.setTime(System.currentTimeMillis() + Utilities.random.nextInt(MediaDataController.MAX_STYLE_RUNS_COUNT) + 1);
         String format = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US).format(date);
         if (i == 0) {
             sb = new StringBuilder();
@@ -2096,7 +2103,7 @@ public class AndroidUtilities {
         try {
             File albumDir = getAlbumDir(z);
             Date date = new Date();
-            date.setTime(System.currentTimeMillis() + Utilities.random.nextInt(1000) + 1);
+            date.setTime(System.currentTimeMillis() + Utilities.random.nextInt(MediaDataController.MAX_STYLE_RUNS_COUNT) + 1);
             if (generatingVideoPathFormat == null) {
                 generatingVideoPathFormat = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS", Locale.US);
             }
@@ -3626,10 +3633,10 @@ public class AndroidUtilities {
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
             builder.setMessage(LocaleController.getString(ApplicationLoader.getMapsProvider().getInstallMapsString()));
-            builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda34
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    AndroidUtilities.lambda$isMapsInstalled$10(mapsAppPackageName, baseFragment, dialogInterface, i);
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda34
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    AndroidUtilities.lambda$isMapsInstalled$10(mapsAppPackageName, baseFragment, alertDialog, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -3906,7 +3913,7 @@ public class AndroidUtilities {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$isMapsInstalled$10(String str, BaseFragment baseFragment, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$isMapsInstalled$10(String str, BaseFragment baseFragment, AlertDialog alertDialog, int i) {
         try {
             baseFragment.getParentActivity().startActivityForResult(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + str)), 500);
         } catch (Exception e) {
@@ -6520,11 +6527,8 @@ public class AndroidUtilities {
             view.setVisibility(z ? 0 : 8);
             view.setTag(z ? 1 : null);
             view.setAlpha(1.0f);
-            view.setScaleX((!z2 || z) ? 1.0f : 0.0f);
-            if (z2 && !z) {
-                r3 = 0.0f;
-            }
-            view.setScaleY(r3);
+            view.setScaleX((!z2 || z) ? 1.0f : 0.5f);
+            view.setScaleY((!z2 || z) ? 1.0f : 0.5f);
             if (f != 0.0f) {
                 view.setTranslationY(z ? 0.0f : dp(-16.0f) * f);
             }
@@ -6538,8 +6542,8 @@ public class AndroidUtilities {
             if (view.getVisibility() != 0) {
                 view.setVisibility(0);
                 view.setAlpha(0.0f);
-                view.setScaleX(z2 ? 0.0f : 1.0f);
-                view.setScaleY(z2 ? 0.0f : 1.0f);
+                view.setScaleX(z2 ? 0.5f : 1.0f);
+                view.setScaleY(z2 ? 0.5f : 1.0f);
                 if (f != 0.0f) {
                     view.setTranslationY(dp(-16.0f) * f);
                 }
@@ -6549,7 +6553,7 @@ public class AndroidUtilities {
                 withEndAction.translationY(0.0f);
             }
         } else {
-            withEndAction = view.animate().alpha(0.0f).scaleY(z2 ? 0.0f : 1.0f).scaleX(z2 ? 0.0f : 1.0f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
+            withEndAction = view.animate().alpha(0.0f).scaleY(z2 ? 0.5f : 1.0f).scaleX(z2 ? 0.5f : 1.0f).setListener(new HideViewAfterAnimation(view)).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).withEndAction(runnable);
             if (f != 0.0f) {
                 withEndAction.translationY(dp(-16.0f) * f);
             }

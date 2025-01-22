@@ -1,7 +1,6 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.view.View;
@@ -118,7 +117,7 @@ public class TermsOfServiceView extends FrameLayout {
         this.delegate.onAcceptTerms(this.currentAccount);
         TLRPC.TL_help_acceptTermsOfService tL_help_acceptTermsOfService = new TLRPC.TL_help_acceptTermsOfService();
         tL_help_acceptTermsOfService.id = this.currentTos.id;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_help_acceptTermsOfService, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 TermsOfServiceView.lambda$accept$7(tLObject, tL_error);
@@ -182,29 +181,29 @@ public class TermsOfServiceView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$2(DialogInterface dialogInterface, int i) {
-        final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
-        alertDialog.setCanCancel(false);
+    public /* synthetic */ void lambda$new$2(AlertDialog alertDialog, int i) {
+        final AlertDialog alertDialog2 = new AlertDialog(getContext(), 3);
+        alertDialog2.setCanCancel(false);
         TL_account.deleteAccount deleteaccount = new TL_account.deleteAccount();
         deleteaccount.reason = "Decline ToS update";
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(deleteaccount, new RequestDelegate() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                TermsOfServiceView.this.lambda$new$1(alertDialog, tLObject, tL_error);
+                TermsOfServiceView.this.lambda$new$1(alertDialog2, tLObject, tL_error);
             }
         });
-        alertDialog.show();
+        alertDialog2.show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$new$3(AlertDialog alertDialog, int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage(LocaleController.getString(R.string.TosDeclineDeleteAccount));
         builder.setTitle(LocaleController.getString(R.string.AppName));
-        builder.setPositiveButton(LocaleController.getString(R.string.Deactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda4
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface2, int i2) {
-                TermsOfServiceView.this.lambda$new$2(dialogInterface2, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.Deactivate), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog2, int i2) {
+                TermsOfServiceView.this.lambda$new$2(alertDialog2, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -215,10 +214,10 @@ public class TermsOfServiceView extends FrameLayout {
     public /* synthetic */ void lambda$new$4(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle(LocaleController.getString(R.string.TermsOfService));
-        builder.setPositiveButton(LocaleController.getString(R.string.DeclineDeactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                TermsOfServiceView.this.lambda$new$3(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.DeclineDeactivate), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                TermsOfServiceView.this.lambda$new$3(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Back), null);
@@ -227,7 +226,7 @@ public class TermsOfServiceView extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$5(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$new$5(AlertDialog alertDialog, int i) {
         accept();
     }
 
@@ -239,10 +238,10 @@ public class TermsOfServiceView extends FrameLayout {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle(LocaleController.getString(R.string.TosAgeTitle));
-        builder.setPositiveButton(LocaleController.getString(R.string.Agree), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                TermsOfServiceView.this.lambda$new$5(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Agree), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                TermsOfServiceView.this.lambda$new$5(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);

@@ -729,7 +729,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         if (this.isChannel) {
             return;
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -763,7 +763,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$5(AlertDialog alertDialog, int i) {
         TLRPC.InputChannel inputChannel;
         if (this.isChannel && this.info.linked_chat_id == 0) {
             return;
@@ -860,10 +860,10 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             }
             builder.setTitle(string);
             builder.setMessage(AndroidUtilities.replaceTags(formatString));
-            builder.setPositiveButton(LocaleController.getString(R.string.DiscussionUnlink), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda5
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i3) {
-                    ChatLinkActivity.this.lambda$createView$5(dialogInterface, i3);
+            builder.setPositiveButton(LocaleController.getString(R.string.DiscussionUnlink), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda5
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i3) {
+                    ChatLinkActivity.this.lambda$createView$5(alertDialog, i3);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -925,10 +925,10 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             }
         }, 1000L);
         if (baseFragment == null) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         } else {
             removeSelfFromStack();
-            baseFragment.lambda$onBackPressed$321();
+            baseFragment.lambda$onBackPressed$323();
         }
     }
 
@@ -1012,7 +1012,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showLinkAlert$9(TLRPC.ChatFull chatFull, TLRPC.Chat chat, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showLinkAlert$9(TLRPC.ChatFull chatFull, TLRPC.Chat chat, AlertDialog alertDialog, int i) {
         if (chatFull.hidden_prehistory) {
             getMessagesController().toggleChannelInvitesHistory(chat.id, false);
         }
@@ -1123,10 +1123,10 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 57.0f, 24.0f, 9.0f));
         avatarDrawable.setInfo(this.currentAccount, chat);
         backupImageView.setForUserOrChat(chat, avatarDrawable);
-        builder.setPositiveButton(LocaleController.getString(R.string.DiscussionLinkGroup), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChatLinkActivity.this.lambda$showLinkAlert$9(chatFull, chat, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.DiscussionLinkGroup), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChatLinkActivity.this.lambda$showLinkAlert$9(chatFull, chat, alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1202,7 +1202,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ChatLinkActivity.this.lambda$onBackPressed$321();
+                    ChatLinkActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -1322,7 +1322,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                         removeSelfFromStack();
                         return;
                     } else {
-                        lambda$onBackPressed$321();
+                        lambda$onBackPressed$323();
                         return;
                     }
                 }

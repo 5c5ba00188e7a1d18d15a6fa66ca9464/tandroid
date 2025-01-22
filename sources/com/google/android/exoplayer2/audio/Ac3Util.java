@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
@@ -82,7 +83,7 @@ public abstract class Ac3Util {
         if (parsableBitArray.readBits(1) != 0) {
             i2++;
         }
-        int i3 = BITRATE_BY_HALF_FRMSIZECOD[parsableBitArray.readBits(5)] * 1000;
+        int i3 = BITRATE_BY_HALF_FRMSIZECOD[parsableBitArray.readBits(5)] * MediaDataController.MAX_STYLE_RUNS_COUNT;
         parsableBitArray.byteAlign();
         parsableByteArray.setPosition(parsableBitArray.getBytePosition());
         return new Format.Builder().setId(str).setSampleMimeType("audio/ac3").setChannelCount(i2).setSampleRate(i).setDrmInitData(drmInitData).setLanguage(str2).setAverageBitrate(i3).setPeakBitrate(i3).build();
@@ -296,7 +297,7 @@ public abstract class Ac3Util {
             int readBits8 = parsableBitArray.readBits(2);
             String str2 = readBits8 == 3 ? null : "audio/ac3";
             int readBits9 = parsableBitArray.readBits(6);
-            int i18 = BITRATE_BY_HALF_FRMSIZECOD[readBits9 / 2] * 1000;
+            int i18 = BITRATE_BY_HALF_FRMSIZECOD[readBits9 / 2] * MediaDataController.MAX_STYLE_RUNS_COUNT;
             int ac3SyncframeSize = getAc3SyncframeSize(readBits8, readBits9);
             parsableBitArray.skipBits(8);
             int readBits10 = parsableBitArray.readBits(3);
@@ -336,7 +337,7 @@ public abstract class Ac3Util {
         String str3;
         ParsableBitArray parsableBitArray = new ParsableBitArray();
         parsableBitArray.reset(parsableByteArray);
-        int readBits = parsableBitArray.readBits(13) * 1000;
+        int readBits = parsableBitArray.readBits(13) * MediaDataController.MAX_STYLE_RUNS_COUNT;
         parsableBitArray.skipBits(3);
         int i = SAMPLE_RATE_BY_FSCOD[parsableBitArray.readBits(2)];
         parsableBitArray.skipBits(10);

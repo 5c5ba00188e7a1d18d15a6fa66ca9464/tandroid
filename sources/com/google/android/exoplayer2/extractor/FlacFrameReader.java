@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.extractor;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
@@ -53,7 +54,7 @@ public abstract class FlacFrameReader {
             return i == flacStreamMetadata.sampleRateLookupKey;
         }
         if (i == 12) {
-            return parsableByteArray.readUnsignedByte() * 1000 == i2;
+            return parsableByteArray.readUnsignedByte() * MediaDataController.MAX_STYLE_RUNS_COUNT == i2;
         }
         if (i > 14) {
             return false;

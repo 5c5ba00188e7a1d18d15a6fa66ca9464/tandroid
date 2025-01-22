@@ -1,5 +1,6 @@
 package j$.util;
 
+import j$.util.function.ToIntFunction;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -22,5 +23,14 @@ public final /* synthetic */ class Comparator$-EL {
         }
         ((f) ((e) comparator)).getClass();
         return Comparator$-CC.reverseOrder();
+    }
+
+    public static Comparator thenComparingInt(Comparator comparator, ToIntFunction toIntFunction) {
+        if (!(comparator instanceof e)) {
+            return a(comparator, Comparator$-CC.comparingInt(toIntFunction));
+        }
+        f fVar = (f) ((e) comparator);
+        fVar.getClass();
+        return a(fVar, Comparator$-CC.comparingInt(toIntFunction));
     }
 }

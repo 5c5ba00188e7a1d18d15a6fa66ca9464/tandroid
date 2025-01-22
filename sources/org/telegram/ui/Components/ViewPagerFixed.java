@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
@@ -1782,7 +1783,7 @@ public class ViewPagerFixed extends FrameLayout {
         } else if (motionEvent == null || (motionEvent.getPointerId(0) == this.startedTrackingPointerId && (motionEvent.getAction() == 3 || motionEvent.getAction() == 1 || motionEvent.getAction() == 6))) {
             VelocityTracker velocityTracker = this.velocityTracker;
             if (velocityTracker != null) {
-                velocityTracker.computeCurrentVelocity(1000, this.maximumVelocity);
+                velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.maximumVelocity);
             }
             if (motionEvent == null || motionEvent.getAction() == 3) {
                 f = 0.0f;

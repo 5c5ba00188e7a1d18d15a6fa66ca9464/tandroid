@@ -137,7 +137,7 @@ public class ID3v2Info extends AudioInfo {
     }
 
     /*  JADX ERROR: NullPointerException in pass: LoopRegionVisitor
-        java.lang.NullPointerException
+        java.lang.NullPointerException: Cannot invoke "jadx.core.dex.instructions.args.SSAVar.use(jadx.core.dex.instructions.args.RegisterArg)" because "ssaVar" is null
         	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:493)
         	at jadx.core.dex.nodes.InsnNode.rebindArgs(InsnNode.java:496)
         */

@@ -118,7 +118,7 @@ public abstract class JoinCallByUrlAlert extends BottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
         this.joinAfterDismiss = true;
-        dismiss();
+        lambda$new$0();
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet

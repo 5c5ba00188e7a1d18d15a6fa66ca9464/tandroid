@@ -3,6 +3,7 @@ package j$.time;
 import j$.time.temporal.q;
 import java.io.Serializable;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes2.dex */
 public final class i implements j$.time.temporal.k, Comparable, Serializable {
@@ -48,7 +49,7 @@ public final class i implements j$.time.temporal.k, Comparable, Serializable {
             case 2:
                 throw new j$.time.temporal.p("Invalid field 'NanoOfDay' for get() method, use getLong() instead");
             case 3:
-                return i2 / 1000;
+                return i2 / MediaDataController.MAX_STYLE_RUNS_COUNT;
             case 4:
                 throw new j$.time.temporal.p("Invalid field 'MicroOfDay' for get() method, use getLong() instead");
             case 5:
@@ -200,10 +201,10 @@ public final class i implements j$.time.temporal.k, Comparable, Serializable {
                 sb.append('.');
                 int i3 = MediaController.VIDEO_BITRATE_480;
                 if (i2 % MediaController.VIDEO_BITRATE_480 == 0) {
-                    i = (i2 / MediaController.VIDEO_BITRATE_480) + 1000;
+                    i = (i2 / MediaController.VIDEO_BITRATE_480) + MediaDataController.MAX_STYLE_RUNS_COUNT;
                 } else {
-                    if (i2 % 1000 == 0) {
-                        i2 /= 1000;
+                    if (i2 % MediaDataController.MAX_STYLE_RUNS_COUNT == 0) {
+                        i2 /= MediaDataController.MAX_STYLE_RUNS_COUNT;
                     } else {
                         i3 = 1000000000;
                     }

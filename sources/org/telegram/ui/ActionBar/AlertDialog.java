@@ -51,6 +51,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -112,18 +113,18 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     private CharSequence message;
     private TextView messageTextView;
     private boolean messageTextViewClickable;
-    private DialogInterface.OnClickListener negativeButtonListener;
+    private OnButtonClickListener negativeButtonListener;
     private CharSequence negativeButtonText;
-    private DialogInterface.OnClickListener neutralButtonListener;
+    private OnButtonClickListener neutralButtonListener;
     private CharSequence neutralButtonText;
     private boolean notDrawBackgroundOnTopView;
-    private DialogInterface.OnClickListener onBackButtonListener;
+    private OnButtonClickListener onBackButtonListener;
     private DialogInterface.OnCancelListener onCancelListener;
     private DialogInterface.OnClickListener onClickListener;
     private DialogInterface.OnDismissListener onDismissListener;
     private ViewTreeObserver.OnScrollChangedListener onScrollChangedListener;
     private Utilities.Callback overridenDissmissListener;
-    private DialogInterface.OnClickListener positiveButtonListener;
+    private OnButtonClickListener positiveButtonListener;
     private CharSequence positiveButtonText;
     private FrameLayout progressViewContainer;
     private int progressViewStyle;
@@ -642,20 +643,20 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             return this;
         }
 
-        public Builder setNegativeButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+        public Builder setNegativeButton(CharSequence charSequence, OnButtonClickListener onButtonClickListener) {
             this.alertDialog.negativeButtonText = charSequence;
-            this.alertDialog.negativeButtonListener = onClickListener;
+            this.alertDialog.negativeButtonListener = onButtonClickListener;
             return this;
         }
 
-        public Builder setNeutralButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+        public Builder setNeutralButton(CharSequence charSequence, OnButtonClickListener onButtonClickListener) {
             this.alertDialog.neutralButtonText = charSequence;
-            this.alertDialog.neutralButtonListener = onClickListener;
+            this.alertDialog.neutralButtonListener = onButtonClickListener;
             return this;
         }
 
-        public Builder setOnBackButtonListener(DialogInterface.OnClickListener onClickListener) {
-            this.alertDialog.onBackButtonListener = onClickListener;
+        public Builder setOnBackButtonListener(OnButtonClickListener onButtonClickListener) {
+            this.alertDialog.onBackButtonListener = onButtonClickListener;
             return this;
         }
 
@@ -674,9 +675,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             return this;
         }
 
-        public Builder setPositiveButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+        public Builder setPositiveButton(CharSequence charSequence, OnButtonClickListener onButtonClickListener) {
             this.alertDialog.positiveButtonText = charSequence;
-            this.alertDialog.positiveButtonListener = onClickListener;
+            this.alertDialog.positiveButtonListener = onButtonClickListener;
             return this;
         }
 
@@ -753,6 +754,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 i++;
             }
         }
+    }
+
+    public interface OnButtonClickListener {
+        void onClick(AlertDialog alertDialog, int i);
     }
 
     public AlertDialog(Context context, int i) {
@@ -840,10 +845,13 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$inflateContent$2(View view) {
-        DialogInterface.OnClickListener onClickListener = this.positiveButtonListener;
-        if (onClickListener != null) {
-            onClickListener.onClick(this, -1);
+    public /* synthetic */ void lambda$inflateContent$2(TextViewWithLoading textViewWithLoading, View view) {
+        if (textViewWithLoading.isLoading()) {
+            return;
+        }
+        OnButtonClickListener onButtonClickListener = this.positiveButtonListener;
+        if (onButtonClickListener != null) {
+            onButtonClickListener.onClick(this, -1);
         }
         if (this.dismissDialogByButtons) {
             dismiss();
@@ -851,10 +859,13 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$inflateContent$3(View view) {
-        DialogInterface.OnClickListener onClickListener = this.negativeButtonListener;
-        if (onClickListener != null) {
-            onClickListener.onClick(this, -2);
+    public /* synthetic */ void lambda$inflateContent$3(TextViewWithLoading textViewWithLoading, View view) {
+        if (textViewWithLoading.isLoading()) {
+            return;
+        }
+        OnButtonClickListener onButtonClickListener = this.negativeButtonListener;
+        if (onButtonClickListener != null) {
+            onButtonClickListener.onClick(this, -2);
         }
         if (this.dismissDialogByButtons) {
             cancel();
@@ -862,10 +873,13 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$inflateContent$4(View view) {
-        DialogInterface.OnClickListener onClickListener = this.neutralButtonListener;
-        if (onClickListener != null) {
-            onClickListener.onClick(this, -2);
+    public /* synthetic */ void lambda$inflateContent$4(TextViewWithLoading textViewWithLoading, View view) {
+        if (textViewWithLoading.isLoading()) {
+            return;
+        }
+        OnButtonClickListener onButtonClickListener = this.neutralButtonListener;
+        if (onButtonClickListener != null) {
+            onButtonClickListener.onClick(this, -2);
         }
         if (this.dismissDialogByButtons) {
             dismiss();
@@ -897,6 +911,21 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ void lambda$makeButtonLoading$6(View view) {
+        if (view instanceof TextViewWithLoading) {
+            ((TextViewWithLoading) view).setLoading(true, true);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$makeButtonLoading$7(View view) {
+        if (view instanceof TextViewWithLoading) {
+            ((TextViewWithLoading) view).setLoading(false, true);
+        }
+        dismiss();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0() {
         if (isShowing()) {
             return;
@@ -908,7 +937,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showCancelAlert$6(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showCancelAlert$8(AlertDialog alertDialog, int i) {
         DialogInterface.OnCancelListener onCancelListener = this.onCancelListener;
         if (onCancelListener != null) {
             onCancelListener.onCancel(this);
@@ -917,7 +946,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showCancelAlert$7(DialogInterface dialogInterface) {
+    public /* synthetic */ void lambda$showCancelAlert$9(DialogInterface dialogInterface) {
         this.cancelDialog = null;
     }
 
@@ -1514,111 +1543,111 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                         this.buttonsLayout.setTranslationY(-AndroidUtilities.dp(8.0f));
                     }
                     if (this.positiveButtonText != null) {
-                        TextView textView4 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
+                        final TextViewWithLoading textViewWithLoading = new TextViewWithLoading(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.5
                             @Override // android.widget.TextView, android.view.View
                             public void setEnabled(boolean z4) {
                                 super.setEnabled(z4);
                                 setAlpha(z4 ? 1.0f : 0.5f);
                             }
 
-                            @Override // android.widget.TextView
+                            @Override // org.telegram.ui.ActionBar.TextViewWithLoading, android.widget.TextView
                             public void setTextColor(int i7) {
                                 super.setTextColor(i7);
                                 setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), i7));
                             }
                         };
-                        textView4.setMinWidth(AndroidUtilities.dp(64.0f));
-                        textView4.setTag(-1);
-                        textView4.setTextSize(1, 16.0f);
-                        textView4.setTextColor(getThemedColor(this.dialogButtonColorKey));
-                        textView4.setGravity(17);
-                        textView4.setTypeface(AndroidUtilities.bold());
-                        textView4.setText(this.positiveButtonText);
-                        textView4.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
-                        textView4.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
+                        textViewWithLoading.setMinWidth(AndroidUtilities.dp(64.0f));
+                        textViewWithLoading.setTag(-1);
+                        textViewWithLoading.setTextSize(1, 16.0f);
+                        textViewWithLoading.setTextColor(getThemedColor(this.dialogButtonColorKey));
+                        textViewWithLoading.setGravity(17);
+                        textViewWithLoading.setTypeface(AndroidUtilities.bold());
+                        textViewWithLoading.setText(this.positiveButtonText);
+                        textViewWithLoading.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
+                        textViewWithLoading.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                         if (this.verticalButtons) {
-                            this.buttonsLayout.addView(textView4, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
+                            this.buttonsLayout.addView(textViewWithLoading, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
                         } else {
-                            this.buttonsLayout.addView(textView4, LayoutHelper.createFrame(-2, 36, 53));
+                            this.buttonsLayout.addView(textViewWithLoading, LayoutHelper.createFrame(-2, 36, 53));
                         }
-                        textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda4
+                        textViewWithLoading.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda4
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view7) {
-                                AlertDialog.this.lambda$inflateContent$2(view7);
+                                AlertDialog.this.lambda$inflateContent$2(textViewWithLoading, view7);
                             }
                         });
                     }
                     if (this.negativeButtonText != null) {
-                        TextView textView5 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
+                        final TextViewWithLoading textViewWithLoading2 = new TextViewWithLoading(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.6
                             @Override // android.widget.TextView, android.view.View
                             public void setEnabled(boolean z4) {
                                 super.setEnabled(z4);
                                 setAlpha(z4 ? 1.0f : 0.5f);
                             }
 
-                            @Override // android.widget.TextView
+                            @Override // org.telegram.ui.ActionBar.TextViewWithLoading, android.widget.TextView
                             public void setTextColor(int i7) {
                                 super.setTextColor(i7);
                                 setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), i7));
                             }
                         };
-                        textView5.setMinWidth(AndroidUtilities.dp(64.0f));
-                        textView5.setTag(-2);
-                        textView5.setTextSize(1, 16.0f);
-                        textView5.setTextColor(getThemedColor(this.dialogButtonColorKey));
-                        textView5.setGravity(17);
-                        textView5.setTypeface(AndroidUtilities.bold());
-                        textView5.setEllipsize(TextUtils.TruncateAt.END);
-                        textView5.setSingleLine(true);
-                        textView5.setText(this.negativeButtonText.toString());
-                        textView5.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
-                        textView5.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
+                        textViewWithLoading2.setMinWidth(AndroidUtilities.dp(64.0f));
+                        textViewWithLoading2.setTag(-2);
+                        textViewWithLoading2.setTextSize(1, 16.0f);
+                        textViewWithLoading2.setTextColor(getThemedColor(this.dialogButtonColorKey));
+                        textViewWithLoading2.setGravity(17);
+                        textViewWithLoading2.setTypeface(AndroidUtilities.bold());
+                        textViewWithLoading2.setEllipsize(TextUtils.TruncateAt.END);
+                        textViewWithLoading2.setSingleLine(true);
+                        textViewWithLoading2.setText(this.negativeButtonText.toString());
+                        textViewWithLoading2.setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
+                        textViewWithLoading2.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                         if (this.verticalButtons) {
-                            this.buttonsLayout.addView(textView5, 0, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
+                            this.buttonsLayout.addView(textViewWithLoading2, 0, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
                         } else {
-                            this.buttonsLayout.addView(textView5, LayoutHelper.createFrame(-2, 36, 53));
+                            this.buttonsLayout.addView(textViewWithLoading2, LayoutHelper.createFrame(-2, 36, 53));
                         }
-                        textView5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda5
+                        textViewWithLoading2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda5
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view7) {
-                                AlertDialog.this.lambda$inflateContent$3(view7);
+                                AlertDialog.this.lambda$inflateContent$3(textViewWithLoading2, view7);
                             }
                         });
                     }
                     if (this.neutralButtonText != null) {
-                        TextView textView6 = new TextView(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.7
+                        final TextViewWithLoading textViewWithLoading3 = new TextViewWithLoading(getContext()) { // from class: org.telegram.ui.ActionBar.AlertDialog.7
                             @Override // android.widget.TextView, android.view.View
                             public void setEnabled(boolean z4) {
                                 super.setEnabled(z4);
                                 setAlpha(z4 ? 1.0f : 0.5f);
                             }
 
-                            @Override // android.widget.TextView
+                            @Override // org.telegram.ui.ActionBar.TextViewWithLoading, android.widget.TextView
                             public void setTextColor(int i7) {
                                 super.setTextColor(i7);
                                 setBackgroundDrawable(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), i7));
                             }
                         };
-                        textView6.setMinWidth(AndroidUtilities.dp(64.0f));
-                        textView6.setTag(-3);
-                        textView6.setTextSize(1, 16.0f);
-                        textView6.setTextColor(getThemedColor(this.dialogButtonColorKey));
-                        textView6.setGravity(17);
-                        textView6.setTypeface(AndroidUtilities.bold());
-                        textView6.setEllipsize(TextUtils.TruncateAt.END);
-                        textView6.setSingleLine(true);
-                        textView6.setText(this.neutralButtonText.toString());
-                        textView6.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
-                        textView6.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
+                        textViewWithLoading3.setMinWidth(AndroidUtilities.dp(64.0f));
+                        textViewWithLoading3.setTag(-3);
+                        textViewWithLoading3.setTextSize(1, 16.0f);
+                        textViewWithLoading3.setTextColor(getThemedColor(this.dialogButtonColorKey));
+                        textViewWithLoading3.setGravity(17);
+                        textViewWithLoading3.setTypeface(AndroidUtilities.bold());
+                        textViewWithLoading3.setEllipsize(TextUtils.TruncateAt.END);
+                        textViewWithLoading3.setSingleLine(true);
+                        textViewWithLoading3.setText(this.neutralButtonText.toString());
+                        textViewWithLoading3.setBackground(Theme.getRoundRectSelectorDrawable(AndroidUtilities.dp(6.0f), getThemedColor(this.dialogButtonColorKey)));
+                        textViewWithLoading3.setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
                         if (this.verticalButtons) {
-                            this.buttonsLayout.addView(textView6, 1, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
+                            this.buttonsLayout.addView(textViewWithLoading3, 1, LayoutHelper.createLinear(-2, 36, LocaleController.isRTL ? 3 : 5));
                         } else {
-                            this.buttonsLayout.addView(textView6, LayoutHelper.createFrame(-2, 36, 51));
+                            this.buttonsLayout.addView(textViewWithLoading3, LayoutHelper.createFrame(-2, 36, 51));
                         }
-                        textView6.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda6
+                        textViewWithLoading3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda6
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view7) {
-                                AlertDialog.this.lambda$inflateContent$4(view7);
+                                AlertDialog.this.lambda$inflateContent$4(textViewWithLoading3, view7);
                             }
                         });
                     }
@@ -1708,9 +1737,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         if (this.title != null) {
         }
         if (this.secondTitle != null) {
-            TextView textView7 = new TextView(getContext());
-            this.secondTitleTextView = textView7;
-            textView7.setText(this.secondTitle);
+            TextView textView4 = new TextView(getContext());
+            this.secondTitleTextView = textView4;
+            textView4.setText(this.secondTitle);
             this.secondTitleTextView.setTextColor(getThemedColor(Theme.key_dialogTextGray3));
             this.secondTitleTextView.setTextSize(1, 18.0f);
             this.secondTitleTextView.setGravity((!LocaleController.isRTL ? 3 : 5) | 48);
@@ -1765,12 +1794,28 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.scrollContainer.invalidate();
     }
 
+    public Browser.Progress makeButtonLoading(int i) {
+        final View button = getButton(i);
+        this.dismissDialogByButtons = false;
+        return new Browser.Progress(new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda11
+            @Override // java.lang.Runnable
+            public final void run() {
+                AlertDialog.lambda$makeButtonLoading$6(button);
+            }
+        }, new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda12
+            @Override // java.lang.Runnable
+            public final void run() {
+                AlertDialog.this.lambda$makeButtonLoading$7(button);
+            }
+        });
+    }
+
     @Override // android.app.Dialog
     public void onBackPressed() {
         super.onBackPressed();
-        DialogInterface.OnClickListener onClickListener = this.onBackButtonListener;
-        if (onClickListener != null) {
-            onClickListener.onClick(this, -2);
+        OnButtonClickListener onButtonClickListener = this.onBackButtonListener;
+        if (onButtonClickListener != null) {
+            onButtonClickListener.onClick(this, -2);
         }
     }
 
@@ -1879,14 +1924,14 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         }
     }
 
-    public void setNegativeButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+    public void setNegativeButton(CharSequence charSequence, OnButtonClickListener onButtonClickListener) {
         this.negativeButtonText = charSequence;
-        this.negativeButtonListener = onClickListener;
+        this.negativeButtonListener = onButtonClickListener;
     }
 
-    public void setNeutralButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+    public void setNeutralButton(CharSequence charSequence, OnButtonClickListener onButtonClickListener) {
         this.neutralButtonText = charSequence;
-        this.neutralButtonListener = onClickListener;
+        this.neutralButtonListener = onButtonClickListener;
     }
 
     @Override // android.app.Dialog
@@ -1895,13 +1940,13 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         super.setOnCancelListener(onCancelListener);
     }
 
-    public void setPositiveButton(CharSequence charSequence, DialogInterface.OnClickListener onClickListener) {
+    public void setPositiveButton(CharSequence charSequence, OnButtonClickListener onButtonClickListener) {
         this.positiveButtonText = charSequence;
-        this.positiveButtonListener = onClickListener;
+        this.positiveButtonListener = onButtonClickListener;
     }
 
-    public void setPositiveButtonListener(DialogInterface.OnClickListener onClickListener) {
-        this.positiveButtonListener = onClickListener;
+    public void setPositiveButtonListener(OnButtonClickListener onButtonClickListener) {
+        this.positiveButtonListener = onButtonClickListener;
     }
 
     public void setProgress(int i) {
@@ -1965,16 +2010,16 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             builder.setTitle(LocaleController.getString(R.string.StopLoadingTitle));
             builder.setMessage(LocaleController.getString(R.string.StopLoading));
             builder.setPositiveButton(LocaleController.getString(R.string.WaitMore), null);
-            builder.setNegativeButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda9
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    AlertDialog.this.lambda$showCancelAlert$6(dialogInterface, i);
+            builder.setNegativeButton(LocaleController.getString(R.string.Stop), new OnButtonClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda9
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    AlertDialog.this.lambda$showCancelAlert$8(alertDialog, i);
                 }
             });
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda10
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
-                    AlertDialog.this.lambda$showCancelAlert$7(dialogInterface);
+                    AlertDialog.this.lambda$showCancelAlert$9(dialogInterface);
                 }
             });
             try {

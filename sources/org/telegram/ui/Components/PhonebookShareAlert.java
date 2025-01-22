@@ -457,7 +457,7 @@ public class PhonebookShareAlert extends BottomSheet {
                         if (motionEvent.getAction() != 0 || PhonebookShareAlert.this.scrollOffsetY == 0 || motionEvent.getY() >= PhonebookShareAlert.this.scrollOffsetY || PhonebookShareAlert.this.actionBar.getAlpha() != 0.0f) {
                             return super.onInterceptTouchEvent(motionEvent);
                         }
-                        PhonebookShareAlert.this.dismiss();
+                        PhonebookShareAlert.this.lambda$new$0();
                         return true;
                     }
 
@@ -601,7 +601,7 @@ public class PhonebookShareAlert extends BottomSheet {
                     @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
                     public void onItemClick(int i7) {
                         if (i7 == -1) {
-                            PhonebookShareAlert.this.dismiss();
+                            PhonebookShareAlert.this.lambda$new$0();
                         }
                     }
                 });
@@ -685,7 +685,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (motionEvent.getAction() != 0 || PhonebookShareAlert.this.scrollOffsetY == 0 || motionEvent.getY() >= PhonebookShareAlert.this.scrollOffsetY || PhonebookShareAlert.this.actionBar.getAlpha() != 0.0f) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                PhonebookShareAlert.this.dismiss();
+                PhonebookShareAlert.this.lambda$new$0();
                 return true;
             }
 
@@ -805,7 +805,7 @@ public class PhonebookShareAlert extends BottomSheet {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i72) {
                 if (i72 == -1) {
-                    PhonebookShareAlert.this.dismiss();
+                    PhonebookShareAlert.this.lambda$new$0();
                 }
             }
         });
@@ -1011,7 +1011,7 @@ public class PhonebookShareAlert extends BottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(boolean z, int i) {
         this.delegate.didSelectContact(this.currentUser, z, i, 0L, false);
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1326,14 +1326,14 @@ public class PhonebookShareAlert extends BottomSheet {
                                 intent3.putExtra("finishActivityOnSaveCompleted", true);
                                 intent3.putParcelableArrayListExtra("data", arrayList);
                                 PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent3);
-                                PhonebookShareAlert.this.dismiss();
+                                PhonebookShareAlert.this.lambda$new$0();
                                 return;
                             }
                             intent = new Intent("android.intent.action.INSERT_OR_EDIT");
                             str = "vnd.android.cursor.item/contact";
                         }
                         PhonebookShareAlert.this.parentFragment.getParentActivity().startActivity(intent3);
-                        PhonebookShareAlert.this.dismiss();
+                        PhonebookShareAlert.this.lambda$new$0();
                         return;
                     } catch (Exception e) {
                         FileLog.e(e);
@@ -1405,7 +1405,7 @@ public class PhonebookShareAlert extends BottomSheet {
             }, resourcesProvider);
         } else {
             this.delegate.didSelectContact(this.currentUser, true, 0, 0L, false);
-            dismiss();
+            lambda$new$0();
         }
     }
 

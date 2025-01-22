@@ -3,7 +3,6 @@ package org.telegram.ui;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -183,7 +182,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        public /* synthetic */ void lambda$onItemClick$2(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onItemClick$2(AlertDialog alertDialog, int i) {
             TLRPC.TL_inputWallPaper tL_inputWallPaper;
             WallpapersListActivity.this.progressDialog = new AlertDialog(WallpapersListActivity.this.getParentActivity(), 3);
             WallpapersListActivity.this.progressDialog.setCanCancel(false);
@@ -278,7 +277,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
                         SendMessagesHelper.getInstance(((BaseFragment) WallpapersListActivity.this).currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(sb.toString(), j, null, null, null, true, null, null, null, true, 0, null, false));
                     }
                 }
-                dialogsActivity.lambda$onBackPressed$321();
+                dialogsActivity.lambda$onBackPressed$323();
             } else {
                 long j3 = ((MessagesStorage.TopicKey) arrayList.get(0)).dialogId;
                 Bundle bundle = new Bundle();
@@ -306,7 +305,7 @@ public class WallpapersListActivity extends BaseFragment implements Notification
         public void onItemClick(int i) {
             if (i == -1) {
                 if (!((BaseFragment) WallpapersListActivity.this).actionBar.isActionModeShowed()) {
-                    WallpapersListActivity.this.lambda$onBackPressed$321();
+                    WallpapersListActivity.this.lambda$onBackPressed$323();
                     return;
                 }
                 WallpapersListActivity.this.selectedWallPapers.clear();
@@ -339,10 +338,10 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             AlertDialog.Builder builder = new AlertDialog.Builder(WallpapersListActivity.this.getParentActivity());
             builder.setTitle(LocaleController.formatPluralString("DeleteBackground", WallpapersListActivity.this.selectedWallPapers.size(), new Object[0]));
             builder.setMessage(LocaleController.formatString("DeleteChatBackgroundsAlert", R.string.DeleteChatBackgroundsAlert, new Object[0]));
-            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    WallpapersListActivity.2.this.lambda$onItemClick$2(dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.WallpapersListActivity$2$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    WallpapersListActivity.2.this.lambda$onItemClick$2(alertDialog, i2);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1426,15 +1425,15 @@ public class WallpapersListActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$3(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$3(AlertDialog alertDialog, int i) {
         if (this.actionBar.isActionModeShowed()) {
             this.selectedWallPapers.clear();
             this.actionBar.hideActionMode();
             updateRowsSelection();
         }
-        AlertDialog alertDialog = new AlertDialog(getParentActivity(), 3);
-        this.progressDialog = alertDialog;
-        alertDialog.setCanCancel(false);
+        AlertDialog alertDialog2 = new AlertDialog(getParentActivity(), 3);
+        this.progressDialog = alertDialog2;
+        alertDialog2.setCanCancel(false);
         this.progressDialog.show();
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TL_account.resetWallPapers(), new RequestDelegate() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
@@ -1461,10 +1460,10 @@ public class WallpapersListActivity extends BaseFragment implements Notification
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.ResetChatBackgroundsAlertTitle));
             builder.setMessage(LocaleController.getString(R.string.ResetChatBackgroundsAlert));
-            builder.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda4
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    WallpapersListActivity.this.lambda$createView$3(dialogInterface, i2);
+            builder.setPositiveButton(LocaleController.getString(R.string.Reset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.WallpapersListActivity$$ExternalSyntheticLambda4
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    WallpapersListActivity.this.lambda$createView$3(alertDialog, i2);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);

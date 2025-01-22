@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.VoIPFragment;
@@ -163,7 +164,7 @@ public abstract class VoIPWindowView extends FrameLayout {
                 if (this.velocityTracker == null) {
                     this.velocityTracker = VelocityTracker.obtain();
                 }
-                this.velocityTracker.computeCurrentVelocity(1000);
+                this.velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                 float xVelocity = this.velocityTracker.getXVelocity();
                 float yVelocity = this.velocityTracker.getYVelocity();
                 if (translationY >= getMeasuredHeight() / 3.0f || (xVelocity >= 3500.0f && xVelocity >= yVelocity)) {

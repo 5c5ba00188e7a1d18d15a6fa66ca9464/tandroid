@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -742,7 +741,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$10(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$10(AlertDialog alertDialog, int i) {
         AlertDialog show = new AlertDialog.Builder(getParentActivity(), 3, null).show();
         this.progressDialog = show;
         show.setCanCancel(false);
@@ -770,7 +769,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$12(final TextCheckCell textCheckCell, TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda20
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$11(textCheckCell);
@@ -779,14 +778,14 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$13(final TextCheckCell textCheckCell, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$13(final TextCheckCell textCheckCell, AlertDialog alertDialog, int i) {
         TLRPC.TL_payments_clearSavedInfo tL_payments_clearSavedInfo = new TLRPC.TL_payments_clearSavedInfo();
         boolean[] zArr = this.clear;
         tL_payments_clearSavedInfo.credentials = zArr[1];
         tL_payments_clearSavedInfo.info = zArr[0];
         getUserConfig().tmpPassword = null;
         getUserConfig().saveConfig(false);
-        getConnectionsManager().sendRequest(tL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda16
+        getConnectionsManager().sendRequest(tL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda19
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 PrivacySettingsActivity.this.lambda$createView$12(textCheckCell, tLObject, tL_error);
@@ -815,7 +814,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$17(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$17(AlertDialog alertDialog, int i) {
         int i2;
         String str;
         TLRPC.TL_payments_clearSavedInfo tL_payments_clearSavedInfo = new TLRPC.TL_payments_clearSavedInfo();
@@ -824,7 +823,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         tL_payments_clearSavedInfo.info = zArr[0];
         getUserConfig().tmpPassword = null;
         getUserConfig().saveConfig(false);
-        getConnectionsManager().sendRequest(tL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda22
+        getConnectionsManager().sendRequest(tL_payments_clearSavedInfo, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda20
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 PrivacySettingsActivity.lambda$createView$16(tLObject, tL_error);
@@ -849,7 +848,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$18(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$18(AlertDialog alertDialog, int i) {
         try {
             Dialog dialog = this.visibleDialog;
             if (dialog != null) {
@@ -861,10 +860,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("PrivacyPaymentsClearAlertTitle", R.string.PrivacyPaymentsClearAlertTitle));
         builder.setMessage(LocaleController.getString("PrivacyPaymentsClearAlert", R.string.PrivacyPaymentsClearAlert));
-        builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda17
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface2, int i2) {
-                PrivacySettingsActivity.this.lambda$createView$17(dialogInterface2, i2);
+        builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda17
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog2, int i2) {
+                PrivacySettingsActivity.this.lambda$createView$17(alertDialog2, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -981,10 +980,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                             textStyleRun.end = i5;
                             valueOf.setSpan(new TextStyleSpan(textStyleRun), indexOf, i5, 0);
                         }
-                        new AlertDialog.Builder(context).setTitle(valueOf).setMessage(LocaleController.getString(R.string.EmailLoginChangeMessage)).setPositiveButton(LocaleController.getString(R.string.ChangeEmail), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda8
-                            @Override // android.content.DialogInterface.OnClickListener
-                            public final void onClick(DialogInterface dialogInterface, int i6) {
-                                PrivacySettingsActivity.this.lambda$createView$8(dialogInterface, i6);
+                        new AlertDialog.Builder(context).setTitle(valueOf).setMessage(LocaleController.getString(R.string.EmailLoginChangeMessage)).setPositiveButton(LocaleController.getString(R.string.ChangeEmail), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda8
+                            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                            public final void onClick(AlertDialog alertDialog, int i6) {
+                                PrivacySettingsActivity.this.lambda$createView$8(alertDialog, i6);
                             }
                         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
                         return;
@@ -1016,10 +1015,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                                     builder2.setTitle(LocaleController.getString("SyncContactsDeleteTitle", R.string.SyncContactsDeleteTitle));
                                     builder2.setMessage(AndroidUtilities.replaceTags(LocaleController.getString("SyncContactsDeleteText", R.string.SyncContactsDeleteText)));
                                     builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                                    builder2.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda9
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i6) {
-                                            PrivacySettingsActivity.this.lambda$createView$10(dialogInterface, i6);
+                                    builder2.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda9
+                                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                        public final void onClick(AlertDialog alertDialog, int i6) {
+                                            PrivacySettingsActivity.this.lambda$createView$10(alertDialog, i6);
                                         }
                                     });
                                     AlertDialog create = builder2.create();
@@ -1083,10 +1082,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                                                         }
                                                     });
                                                 }
-                                                builder3.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda13
-                                                    @Override // android.content.DialogInterface.OnClickListener
-                                                    public final void onClick(DialogInterface dialogInterface, int i7) {
-                                                        PrivacySettingsActivity.this.lambda$createView$18(dialogInterface, i7);
+                                                builder3.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda13
+                                                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                                    public final void onClick(AlertDialog alertDialog, int i7) {
+                                                        PrivacySettingsActivity.this.lambda$createView$18(alertDialog, i7);
                                                     }
                                                 });
                                                 builder3.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1113,10 +1112,10 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                                         AlertDialog.Builder builder4 = new AlertDialog.Builder(getParentActivity());
                                         builder4.setTitle(LocaleController.getString("SuggestContactsTitle", R.string.SuggestContactsTitle));
                                         builder4.setMessage(LocaleController.getString("SuggestContactsAlert", R.string.SuggestContactsAlert));
-                                        builder4.setPositiveButton(LocaleController.getString("MuteDisable", R.string.MuteDisable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda10
-                                            @Override // android.content.DialogInterface.OnClickListener
-                                            public final void onClick(DialogInterface dialogInterface, int i7) {
-                                                PrivacySettingsActivity.this.lambda$createView$13(textCheckCell2, dialogInterface, i7);
+                                        builder4.setPositiveButton(LocaleController.getString("MuteDisable", R.string.MuteDisable), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda10
+                                            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                            public final void onClick(AlertDialog alertDialog, int i7) {
+                                                PrivacySettingsActivity.this.lambda$createView$13(textCheckCell2, alertDialog, i7);
                                             }
                                         });
                                         builder4.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1180,7 +1179,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$5(final AlertDialog alertDialog, final TL_account.setAccountTTL setaccountttl, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda21
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$4(alertDialog, tLObject, setaccountttl);
@@ -1200,7 +1199,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         TLRPC.TL_accountDaysTTL tL_accountDaysTTL = new TLRPC.TL_accountDaysTTL();
         setaccountttl.ttl = tL_accountDaysTTL;
         tL_accountDaysTTL.days = i;
-        getConnectionsManager().sendRequest(setaccountttl, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda19
+        getConnectionsManager().sendRequest(setaccountttl, new RequestDelegate() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda18
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 PrivacySettingsActivity.this.lambda$createView$5(alertDialog, setaccountttl, tLObject, tL_error);
@@ -1222,8 +1221,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$8(DialogInterface dialogInterface, int i) {
-        presentFragment(new LoginActivity().changeEmail(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda18
+    public /* synthetic */ void lambda$createView$8(AlertDialog alertDialog, int i) {
+        presentFragment(new LoginActivity().changeEmail(new Runnable() { // from class: org.telegram.ui.PrivacySettingsActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 PrivacySettingsActivity.this.lambda$createView$7();
@@ -1422,7 +1421,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    PrivacySettingsActivity.this.lambda$onBackPressed$321();
+                    PrivacySettingsActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

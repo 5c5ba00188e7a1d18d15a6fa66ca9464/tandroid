@@ -7,6 +7,7 @@ import android.view.ScaleGestureDetector;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes3.dex */
@@ -115,7 +116,7 @@ public class CropGestureDetector {
                         this.mLastTouchX = getActiveX(motionEvent);
                         this.mLastTouchY = getActiveY(motionEvent);
                         this.mVelocityTracker.addMovement(motionEvent);
-                        this.mVelocityTracker.computeCurrentVelocity(1000);
+                        this.mVelocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                         float xVelocity = this.mVelocityTracker.getXVelocity();
                         float yVelocity = this.mVelocityTracker.getYVelocity();
                         if (Math.max(Math.abs(xVelocity), Math.abs(yVelocity)) >= this.mMinimumVelocity) {

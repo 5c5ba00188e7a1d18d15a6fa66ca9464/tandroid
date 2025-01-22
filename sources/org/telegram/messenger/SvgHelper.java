@@ -616,8 +616,8 @@ public class SvgHelper {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:16:0x006f  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0077  */
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0070  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0078  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -763,19 +763,19 @@ public class SvgHelper {
         }
 
         /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-        /* JADX WARN: Code restructure failed: missing block: B:155:0x0444, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:155:0x0445, code lost:
         
             if (r2 != null) goto L160;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:88:0x029d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:88:0x029e, code lost:
         
             if (r2 != null) goto L160;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:89:0x044d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:89:0x044e, code lost:
         
             r18.canvas.drawPath(r1, r18.paint);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:90:0x0446, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:90:0x0447, code lost:
         
             r2.addCommand(r1, r18.paint);
          */

@@ -4117,16 +4117,16 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             AlertDialog alertDialog = new AlertDialog(getContext(), 0, this.resourcesProvider);
             alertDialog.setTitle(LocaleController.getString(R.string.StealthModeConfirmTitle));
             alertDialog.setMessage(LocaleController.getString(R.string.StealthModeConfirmMessage));
-            alertDialog.setPositiveButton(LocaleController.getString(R.string.Proceed), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda14
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i3) {
+            alertDialog.setPositiveButton(LocaleController.getString(R.string.Proceed), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda14
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog2, int i3) {
                     runnable.run();
                 }
             });
-            alertDialog.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda15
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i3) {
-                    dialogInterface.dismiss();
+            alertDialog.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda15
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog2, int i3) {
+                    alertDialog2.dismiss();
                 }
             });
             alertDialog.show();
@@ -4989,16 +4989,16 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
         builder.setTitle(LocaleController.getString(isBotsPreview() ? R.string.DeleteBotPreviewTitle : R.string.DeleteStoryTitle));
         builder.setMessage(LocaleController.getString(isBotsPreview() ? R.string.DeleteBotPreviewSubtitle : R.string.DeleteStorySubtitle));
-        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda35
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                PeerStoriesView.this.lambda$deleteStory$35(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda35
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                PeerStoriesView.this.lambda$deleteStory$35(alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda36
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda36
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                alertDialog.dismiss();
             }
         });
         AlertDialog create = builder.create();
@@ -5256,7 +5256,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkRecordLocked$48(boolean z, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkRecordLocked$48(boolean z, AlertDialog alertDialog, int i) {
         ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
         if (chatActivityEnterView != null) {
             if (z) {
@@ -5391,7 +5391,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteStory$35(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$deleteStory$35(AlertDialog alertDialog, int i) {
         this.currentStory.cancelOrDelete();
         updateStoryItems();
         if (this.isActive && this.count == 0) {
@@ -5666,11 +5666,11 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             str = str.substring(0, indexOf);
         }
         if (storyItem.close_friends) {
-            this.privacyHint.setInnerPadding(15, 8, 15, 8);
+            this.privacyHint.setInnerPadding(15.0f, 8.0f, 15.0f, 8.0f);
             formatString = LocaleController.formatString("StoryCloseFriendsHint", R.string.StoryCloseFriendsHint, str);
         } else {
             if (storyItem.contacts) {
-                this.privacyHint.setInnerPadding(11, 6, 11, 7);
+                this.privacyHint.setInnerPadding(11.0f, 6.0f, 11.0f, 7.0f);
                 replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("StoryContactsHint", R.string.StoryContactsHint, str));
                 z = false;
                 CharSequence replaceEmoji = Emoji.replaceEmoji(replaceTags, this.privacyHint.getTextPaint().getFontMetricsInt(), false);
@@ -5687,7 +5687,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             if (!storyItem.selected_contacts) {
                 return;
             }
-            this.privacyHint.setInnerPadding(15, 8, 15, 8);
+            this.privacyHint.setInnerPadding(15.0f, 8.0f, 15.0f, 8.0f);
             formatString = LocaleController.formatString("StorySelectedContactsHint", R.string.StorySelectedContactsHint, str);
         }
         replaceTags = AndroidUtilities.replaceTags(formatString);
@@ -6391,7 +6391,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             str2 = null;
         } else {
             if (z) {
-                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(storyItem.media.getDocument().thumbs, 1000);
+                TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(storyItem.media.getDocument().thumbs, MediaDataController.MAX_STYLE_RUNS_COUNT);
                 ImageLocation forDocument = ImageLocation.getForDocument(storyItem.media.getDocument());
                 ImageLocation forDocument2 = ImageLocation.getForDocument(closestPhotoSizeWithSize, storyItem.media.getDocument());
                 str2 = null;
@@ -6456,7 +6456,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             LaunchActivity.instance.startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.StickersShare)), 500);
             return;
         }
-        ShareAlert shareAlert = new ShareAlert(this.storyViewer.fragment.getContext(), null, null, createLink, null, false, createLink, null, false, false, !DISABLE_STORY_REPOSTING && MessagesController.getInstance(this.currentAccount).storiesEnabled() && (!(this.isChannel || UserObject.isService(this.dialogId)) || ChatObject.isPublic(this.isChannel ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)) : null)), new WrappedResourceProvider(this.resourcesProvider) { // from class: org.telegram.ui.Stories.PeerStoriesView.24
+        ShareAlert shareAlert = new ShareAlert(this.storyViewer.fragment.getContext(), null, null, createLink, null, false, createLink, null, false, false, !DISABLE_STORY_REPOSTING && MessagesController.getInstance(this.currentAccount).storiesEnabled() && (!(this.isChannel || UserObject.isService(this.dialogId)) || ChatObject.isPublic(this.isChannel ? MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId)) : null)), null, new WrappedResourceProvider(this.resourcesProvider) { // from class: org.telegram.ui.Stories.PeerStoriesView.24
             @Override // org.telegram.ui.WrappedResourceProvider
             public void appendColors() {
                 this.sparseIntArray.put(Theme.key_chat_emojiPanelBackground, ColorUtils.blendARGB(-16777216, -1, 0.2f));
@@ -6473,8 +6473,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             protected void onSend(LongSparseArray longSparseArray, int i, TLRPC.TL_forumTopic tL_forumTopic) {
                 Bulletin createSimpleBulletin;
                 super.onSend(longSparseArray, i, tL_forumTopic);
-                PeerStoriesView peerStoriesView = PeerStoriesView.this;
-                BulletinFactory of = BulletinFactory.of(peerStoriesView.storyContainer, peerStoriesView.resourcesProvider);
+                BulletinFactory of = BulletinFactory.of(PeerStoriesView.this.storyContainer, this.resourcesProvider);
                 if (of != null) {
                     if (longSparseArray.size() == 1) {
                         long keyAt = longSparseArray.keyAt(0);
@@ -7000,7 +6999,7 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
                                 Drawable drawable2 = ((storyViewer2.storiesList != null || storyViewer2.isSingleStory) && (transitionViewHolder = storyViewer2.transitionViewHolder) != null && (imageReceiver = transitionViewHolder.storyImage) != null && transitionViewHolder.storyId == storyItem12.id) ? imageReceiver.getDrawable() : null;
                                 storyItem12.dialogId = this.dialogId;
                                 if (z14) {
-                                    TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(storyItem12.media.getDocument().thumbs, 1000);
+                                    TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(storyItem12.media.getDocument().thumbs, MediaDataController.MAX_STYLE_RUNS_COUNT);
                                     createStripedBitmap = drawable2 == null ? ImageLoader.createStripedBitmap(storyItem12.media.getDocument().thumbs) : drawable2;
                                     ImageReceiver imageReceiver5 = this.imageReceiver;
                                     forPhoto = ImageLocation.getForDocument(storyItem12.media.getDocument());
@@ -9002,10 +9001,10 @@ public abstract class PeerStoriesView extends SizeNotifierFrameLayout implements
             i = R.string.DiscardVoiceMessageDescription;
         }
         builder.setMessage(LocaleController.getString(i));
-        builder.setPositiveButton(LocaleController.getString(R.string.DiscardVoiceMessageAction), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                PeerStoriesView.this.lambda$checkRecordLocked$48(z, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.DiscardVoiceMessageAction), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Stories.PeerStoriesView$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                PeerStoriesView.this.lambda$checkRecordLocked$48(z, alertDialog, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Continue), null);

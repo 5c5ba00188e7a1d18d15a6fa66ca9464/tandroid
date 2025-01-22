@@ -62,6 +62,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MrzRecognizer;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
@@ -154,14 +155,14 @@ public class CameraScanActivity extends BaseFragment {
             CameraScanActivity cameraScanActivity = new CameraScanActivity(i) { // from class: org.telegram.ui.CameraScanActivity.1.1
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 /* renamed from: finishFragment */
-                public void lambda$onBackPressed$321() {
+                public void lambda$onBackPressed$323() {
                     setFinishing(true);
-                    1.this.dismiss();
+                    1.this.lambda$new$0();
                 }
 
                 @Override // org.telegram.ui.ActionBar.BaseFragment
                 public void removeSelfFromStack() {
-                    1.this.dismiss();
+                    1.this.lambda$new$0();
                 }
             };
             this.fragment = cameraScanActivity;
@@ -198,8 +199,9 @@ public class CameraScanActivity extends BaseFragment {
         }
 
         @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-        public void dismiss() {
-            super.dismiss();
+        /* renamed from: dismiss */
+        public void lambda$new$0() {
+            super.lambda$new$0();
             this.val$actionBarLayout[0] = null;
             this.val$cameraDelegate.onDismiss();
         }
@@ -584,7 +586,7 @@ public class CameraScanActivity extends BaseFragment {
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
-                CameraScanActivity.this.lambda$onBackPressed$321();
+                CameraScanActivity.this.lambda$onBackPressed$323();
             }
         }, 1200L);
     }
@@ -595,7 +597,7 @@ public class CameraScanActivity extends BaseFragment {
         if (cameraScanActivityDelegate != null) {
             cameraScanActivityDelegate.didFindQr(this.recognizedText);
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -624,7 +626,7 @@ public class CameraScanActivity extends BaseFragment {
             cameraScanActivityDelegate.didFindQr(str);
         }
         if (this.currentType != 3) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
     }
 
@@ -1068,7 +1070,7 @@ public class CameraScanActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    CameraScanActivity.this.lambda$onBackPressed$321();
+                    CameraScanActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -1503,7 +1505,7 @@ public class CameraScanActivity extends BaseFragment {
                 if (cameraScanActivityDelegate != null) {
                     cameraScanActivityDelegate.didFindQr(tryReadQr.text);
                 }
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
             }
         } catch (Throwable th) {
             FileLog.e(th);
@@ -1609,7 +1611,7 @@ public class CameraScanActivity extends BaseFragment {
                         public final void run() {
                             CameraScanActivity.this.lambda$processShot$17();
                         }
-                    }, Math.max(16L, (1000 / this.sps) - ((long) this.averageProcessTime)));
+                    }, Math.max(16L, (MediaDataController.MAX_STYLE_RUNS_COUNT / this.sps) - ((long) this.averageProcessTime)));
                 }
             }
         } catch (Throwable unused) {

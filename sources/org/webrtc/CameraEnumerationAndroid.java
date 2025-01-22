@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes5.dex */
@@ -121,7 +122,7 @@ public class CameraEnumerationAndroid {
             /* JADX INFO: Access modifiers changed from: package-private */
             @Override // org.webrtc.CameraEnumerationAndroid.ClosestComparator
             public int diff(CaptureFormat.FramerateRange framerateRange) {
-                return progressivePenalty(framerateRange.min, MIN_FPS_THRESHOLD, 1, 4) + progressivePenalty(Math.abs((i * 1000) - framerateRange.max), MAX_FPS_DIFF_THRESHOLD, 1, 3);
+                return progressivePenalty(framerateRange.min, MIN_FPS_THRESHOLD, 1, 4) + progressivePenalty(Math.abs((i * MediaDataController.MAX_STYLE_RUNS_COUNT) - framerateRange.max), MAX_FPS_DIFF_THRESHOLD, 1, 3);
             }
         });
     }

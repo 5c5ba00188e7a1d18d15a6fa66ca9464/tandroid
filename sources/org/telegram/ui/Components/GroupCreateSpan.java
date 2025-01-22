@@ -22,6 +22,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
@@ -160,7 +161,7 @@ public class GroupCreateSpan extends View {
             } else {
                 min = AndroidUtilities.dp(398 - (z ? 28 : 32)) / 2;
             }
-            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, MediaDataController.MAX_STYLE_RUNS_COUNT, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.textWidth = (int) Math.ceil(this.nameLayout.getLineWidth(0));
@@ -345,7 +346,7 @@ public class GroupCreateSpan extends View {
         this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
         if (AndroidUtilities.isTablet()) {
         }
-        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji(str.replace('\n', ' '), textPaint.getFontMetricsInt(), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, MediaDataController.MAX_STYLE_RUNS_COUNT, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         this.nameLayout = staticLayout;
         if (staticLayout.getLineCount() > 0) {
         }

@@ -56,6 +56,7 @@ import java.util.Collections;
 import java.util.List;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 
@@ -5310,7 +5311,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         if (velocityTracker == null) {
             return 0.0f;
         }
-        velocityTracker.computeCurrentVelocity(1000, this.mMaxFlingVelocity);
+        velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaxFlingVelocity);
         return this.mVelocityTracker.getYVelocity();
     }
 
@@ -6049,7 +6050,7 @@ public abstract class RecyclerView extends ViewGroup implements NestedScrollingC
         } else {
             if (actionMasked == 1) {
                 this.mVelocityTracker.addMovement(obtain);
-                this.mVelocityTracker.computeCurrentVelocity(1000, this.mMaxFlingVelocity);
+                this.mVelocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaxFlingVelocity);
                 float f = canScrollHorizontally != 0 ? -this.mVelocityTracker.getXVelocity(this.mScrollPointerId) : 0.0f;
                 float f2 = canScrollVertically ? -this.mVelocityTracker.getYVelocity(this.mScrollPointerId) : 0.0f;
                 if ((f == 0.0f && f2 == 0.0f) || !fling((int) f, (int) f2)) {

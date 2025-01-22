@@ -61,6 +61,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
@@ -431,7 +432,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
                 } else if (i4 > measuredWidth) {
                     this.currentProgressX = measuredWidth;
                 }
-                setProgress((int) (this.duration * 1000 * ((this.currentProgressX - i) / (measuredWidth - i))));
+                setProgress((int) (this.duration * MediaDataController.MAX_STYLE_RUNS_COUNT * ((this.currentProgressX - i) / (measuredWidth - i))));
                 invalidate();
             }
             super.onTouchEvent(motionEvent);
@@ -1788,6 +1789,9 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     public static String getYouTubeVideoId(String str) {
+        if (str == null) {
+            return null;
+        }
         Matcher matcher = youtubeIdRegex.matcher(str);
         if (matcher.find()) {
             return matcher.group(1);
@@ -1958,7 +1962,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
         updateInlineButton();
         this.controlsView.invalidate();
         if (this.seekToTime != -1) {
-            this.videoPlayer.seekTo(r0 * 1000);
+            this.videoPlayer.seekTo(r0 * MediaDataController.MAX_STYLE_RUNS_COUNT);
         }
     }
 

@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.text.SpannableStringBuilder;
@@ -331,7 +330,7 @@ public class LinkActionView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$new$3(AlertDialog alertDialog, int i) {
         Delegate delegate = this.delegate;
         if (delegate != null) {
             delegate.removeLink();
@@ -343,10 +342,10 @@ public class LinkActionView extends LinearLayout {
         AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.DeleteLink));
         builder.setMessage(LocaleController.getString(R.string.DeleteLinkHelp));
-        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda9
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LinkActionView.this.lambda$new$3(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda9
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LinkActionView.this.lambda$new$3(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -495,7 +494,7 @@ public class LinkActionView extends LinearLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$revokeLink$10(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$revokeLink$10(AlertDialog alertDialog, int i) {
         Delegate delegate = this.delegate;
         if (delegate != null) {
             delegate.revokeLink();
@@ -509,10 +508,10 @@ public class LinkActionView extends LinearLayout {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.fragment.getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.RevokeLink));
         builder.setMessage(LocaleController.getString(R.string.RevokeAlert));
-        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda11
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                LinkActionView.this.lambda$revokeLink$10(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda11
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                LinkActionView.this.lambda$revokeLink$10(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -533,8 +532,9 @@ public class LinkActionView extends LinearLayout {
         }
         QRCodeBottomSheet qRCodeBottomSheet = new QRCodeBottomSheet(context, string, str, str2, false) { // from class: org.telegram.ui.Components.LinkActionView.6
             @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-            public void dismiss() {
-                super.dismiss();
+            /* renamed from: dismiss */
+            public void lambda$new$0() {
+                super.lambda$new$0();
                 LinkActionView.this.qrCodeBottomSheet = null;
             }
         };

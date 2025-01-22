@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import java.io.File;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.camera.CameraController;
@@ -362,7 +363,7 @@ public abstract class RoundVideoRecorder extends FrameLayout {
     public String sinceRecordingText() {
         long sinceRecording = sinceRecording();
         int i = (int) (sinceRecording / 1000);
-        int i2 = (int) ((sinceRecording - (i * 1000)) / 100);
+        int i2 = (int) ((sinceRecording - (i * MediaDataController.MAX_STYLE_RUNS_COUNT)) / 100);
         int i3 = i / 60;
         int i4 = i % 60;
         StringBuilder sb = new StringBuilder();

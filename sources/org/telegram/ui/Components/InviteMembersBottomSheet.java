@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -1011,7 +1010,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             }
             ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", this.invite.link));
             BulletinFactory.createCopyLinkBulletin(this.parentFragment).show();
-            dismiss();
+            lambda$new$0();
         }
         this.linkGenerating = false;
     }
@@ -1078,7 +1077,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                         return;
                     }
                     ((ClipboardManager) ApplicationLoader.applicationContext.getSystemService("clipboard")).setPrimaryClip(ClipData.newPlainText("label", str));
-                    dismiss();
+                    lambda$new$0();
                     BulletinFactory.createCopyLinkBulletin(baseFragment).show();
                 }
             }
@@ -1115,7 +1114,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$1(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$new$1(AlertDialog alertDialog, int i) {
         onAddToGroupDone(0);
     }
 
@@ -1132,7 +1131,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 arrayList.add(Long.valueOf(this.selectedContacts.keyAt(i)));
             }
             this.dialogsDelegate.didSelectDialogs(arrayList);
-            dismiss();
+            lambda$new$0();
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(findActivity);
@@ -1161,10 +1160,10 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             replaceTags = AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, sb, chat.title));
         }
         builder.setMessage(replaceTags);
-        builder.setPositiveButton(LocaleController.getString(R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i3) {
-                InviteMembersBottomSheet.this.lambda$new$1(dialogInterface, i3);
+        builder.setPositiveButton(LocaleController.getString(R.string.Add), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i3) {
+                InviteMembersBottomSheet.this.lambda$new$1(alertDialog, i3);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1199,7 +1198,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         if (contactsAddActivityDelegate != null) {
             contactsAddActivityDelegate.didSelectUsers(arrayList, i);
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1414,8 +1413,9 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
     }
 
     @Override // org.telegram.ui.Components.UsersAlertBase, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }
 

@@ -226,7 +226,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     });
                     InviteLinkBottomSheet.this.fragment.presentFragment(linkEditActivity);
                 }
-                InviteLinkBottomSheet.this.dismiss();
+                InviteLinkBottomSheet.this.lambda$new$0();
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -247,7 +247,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         }
                     });
                 }
-                InviteLinkBottomSheet.this.dismiss();
+                InviteLinkBottomSheet.this.lambda$new$0();
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -269,7 +269,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                         }
                     });
                 }
-                InviteLinkBottomSheet.this.dismiss();
+                InviteLinkBottomSheet.this.lambda$new$0();
             }
 
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
@@ -939,7 +939,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 if (motionEvent.getAction() != 0 || InviteLinkBottomSheet.this.scrollOffsetY == 0 || motionEvent.getY() >= InviteLinkBottomSheet.this.scrollOffsetY) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                InviteLinkBottomSheet.this.dismiss();
+                InviteLinkBottomSheet.this.lambda$new$0();
                 return true;
             }
 
@@ -1211,7 +1211,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                                     InviteLinkBottomSheet.this.lambda$new$2(user, baseFragment);
                                 }
                             }, 100L);
-                            dismiss();
+                            lambda$new$0();
                             return;
                         }
                         if (chatFull != null && chatFull.participants != null) {
@@ -1264,7 +1264,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showSubscriptionSheet$9(BottomSheet[] bottomSheetArr, View view) {
-        bottomSheetArr[0].dismiss();
+        bottomSheetArr[0].lambda$new$0();
     }
 
     private void loadCreator() {
@@ -1434,7 +1434,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
         spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.5
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
-                bottomSheetArr[0].dismiss();
+                bottomSheetArr[0].lambda$new$0();
                 BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
                 if (safeLastFragment != null) {
                     safeLastFragment.presentFragment(ProfileActivity.of(tL_chatInviteImporter.user_id));

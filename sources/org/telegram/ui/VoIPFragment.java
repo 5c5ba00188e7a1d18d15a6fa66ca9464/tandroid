@@ -775,7 +775,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$requestInlinePermissions$42(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$requestInlinePermissions$42(AlertDialog alertDialog, int i) {
         VoIPWindowView voIPWindowView = this.windowView;
         if (voIPWindowView != null) {
             voIPWindowView.finish();
@@ -863,7 +863,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setVideoAction$35(VoIPService voIPService, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$setVideoAction$35(VoIPService voIPService, AlertDialog alertDialog, int i) {
         voIPService.sharedUIParams.cameraAlertWasShowed = true;
         toggleCameraInput();
     }
@@ -888,10 +888,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this.activity);
         builder.setMessage(LocaleController.getString(R.string.VoipSwitchToVideoCall));
-        builder.setPositiveButton(LocaleController.getString(R.string.VoipSwitch), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda44
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                VoIPFragment.this.lambda$setVideoAction$35(voIPService, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.VoipSwitch), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda44
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                VoIPFragment.this.lambda$setVideoAction$35(voIPService, alertDialog, i2);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1040,12 +1040,12 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateViewState$26(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$updateViewState$26(AlertDialog alertDialog, int i) {
         this.windowView.finish();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateViewState$27(boolean[] zArr, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$updateViewState$27(boolean[] zArr, AlertDialog alertDialog, int i) {
         zArr[0] = true;
         this.currentState = 17;
         Intent intent = new Intent(this.activity, (Class<?>) VoIPService.class);
@@ -1192,10 +1192,10 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
 
     private void requestInlinePermissions() {
         if (Build.VERSION.SDK_INT >= 21) {
-            AlertsCreator.createDrawOverlayPermissionDialog(this.activity, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda11
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    VoIPFragment.this.lambda$requestInlinePermissions$42(dialogInterface, i);
+            AlertsCreator.createDrawOverlayPermissionDialog(this.activity, new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda11
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    VoIPFragment.this.lambda$requestInlinePermissions$42(alertDialog, i);
                 }
             }).show();
         }
@@ -2148,15 +2148,15 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
                             if (TextUtils.equals(lastError, Instance.ERROR_PEER_OUTDATED)) {
                                 if (this.isVideoCall) {
                                     final boolean[] zArr = new boolean[1];
-                                    AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString(i7)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerVideoOutdated", R.string.VoipPeerVideoOutdated, UserObject.getFirstName(this.callingUser)))).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda18
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i8) {
-                                            VoIPFragment.this.lambda$updateViewState$26(dialogInterface, i8);
+                                    AlertDialog show = new DarkAlertDialog.Builder(this.activity).setTitle(LocaleController.getString(i7)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("VoipPeerVideoOutdated", R.string.VoipPeerVideoOutdated, UserObject.getFirstName(this.callingUser)))).setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda18
+                                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                        public final void onClick(AlertDialog alertDialog, int i8) {
+                                            VoIPFragment.this.lambda$updateViewState$26(alertDialog, i8);
                                         }
-                                    }).setPositiveButton(LocaleController.getString(R.string.VoipPeerVideoOutdatedMakeVoice), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda19
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i8) {
-                                            VoIPFragment.this.lambda$updateViewState$27(zArr, dialogInterface, i8);
+                                    }).setPositiveButton(LocaleController.getString(R.string.VoipPeerVideoOutdatedMakeVoice), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda19
+                                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                        public final void onClick(AlertDialog alertDialog, int i8) {
+                                            VoIPFragment.this.lambda$updateViewState$27(zArr, alertDialog, i8);
                                         }
                                     }).show();
                                     show.setCanceledOnTouchOutside(true);
@@ -3295,7 +3295,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.bottomEndCallBtn.setTranslationY(AndroidUtilities.dp(100.0f));
         this.bottomEndCallBtn.setScaleX(0.0f);
         this.bottomEndCallBtn.setScaleY(0.0f);
-        this.bottomEndCallBtn.animate().setStartDelay(NotificationCenter.emojiKeywordsLoaded).translationY(0.0f).scaleY(1.0f).scaleX(1.0f).setDuration(250L).start();
+        this.bottomEndCallBtn.animate().setStartDelay(198).translationY(0.0f).scaleY(1.0f).scaleX(1.0f).setDuration(250L).start();
         this.buttonsLayout.addView(this.bottomSpeakerBtn);
         this.buttonsLayout.addView(this.bottomVideoBtn);
         this.buttonsLayout.addView(this.bottomMuteBtn);
@@ -3365,11 +3365,11 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             public final void run() {
                 VoIPFragment.this.startWaitingFoHideUi();
             }
-        }).setHideByTouch(true).setMaxWidth(320.0f).useScale(true).setInnerPadding(10, 6, 10, 6).setRounding(8.0f);
+        }).setHideByTouch(true).setMaxWidth(320.0f).useScale(true).setInnerPadding(10.0f, 6.0f, 10.0f, 6.0f).setRounding(8.0f);
         this.tapToVideoTooltip = rounding;
         rounding.setText(LocaleController.getString(R.string.TapToTurnCamera));
         frameLayout.addView(this.tapToVideoTooltip, LayoutHelper.createFrame(-2, -2.0f, 80, 19.0f, 0.0f, 19.0f, 0.0f));
-        HintView2 rounding2 = new VoIpHintView(context, 1, this.backgroundProvider, false).setMultilineText(true).setTextAlign(alignment).setDuration(4000L).setHideByTouch(true).setMaxWidth(320.0f).useScale(true).setInnerPadding(10, 6, 10, 6).setRounding(8.0f);
+        HintView2 rounding2 = new VoIpHintView(context, 1, this.backgroundProvider, false).setMultilineText(true).setTextAlign(alignment).setDuration(4000L).setHideByTouch(true).setMaxWidth(320.0f).useScale(true).setInnerPadding(10.0f, 6.0f, 10.0f, 6.0f).setRounding(8.0f);
         this.encryptionTooltip = rounding2;
         rounding2.setText(LocaleController.getString(R.string.VoipHintEncryptionKey));
         frameLayout.addView(this.encryptionTooltip, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 0.0f, 0.0f, 0.0f));

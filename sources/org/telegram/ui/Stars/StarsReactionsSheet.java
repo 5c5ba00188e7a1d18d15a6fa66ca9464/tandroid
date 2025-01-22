@@ -35,6 +35,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -95,6 +96,7 @@ public class StarsReactionsSheet extends BottomSheet {
     private final MessageObject messageObject;
     private final ArrayList reactors;
     private final Theme.ResourcesProvider resourcesProvider;
+    private long selectedDialogId;
     private boolean sending;
     private final View separatorView;
     private final StarsSlider slider;
@@ -231,17 +233,31 @@ public class StarsReactionsSheet extends BottomSheet {
             this.lastTime = currentTimeMillis;
         }
 
-        public void setBounds(RectF rectF) {
-            this.bounds.set(rectF);
-            if (this.type == 1) {
+        public void removeParticlesOutside() {
+            if (this.type == 2) {
                 long currentTimeMillis = System.currentTimeMillis();
                 for (int i = 0; i < this.particles.size(); i++) {
                     Particle particle = (Particle) this.particles.get(i);
-                    if (!rectF.contains(particle.x, particle.y)) {
+                    if (!this.bounds.contains((int) particle.x, (int) particle.y)) {
                         gen(particle, currentTimeMillis, this.firstDraw);
                     }
                 }
             }
+        }
+
+        public void setBounds(int i, int i2, int i3, int i4) {
+            this.bounds.set(i, i2, i3, i4);
+            removeParticlesOutside();
+        }
+
+        public void setBounds(Rect rect) {
+            this.bounds.set(rect);
+            removeParticlesOutside();
+        }
+
+        public void setBounds(RectF rectF) {
+            this.bounds.set(rectF);
+            removeParticlesOutside();
         }
 
         public void setSpeed(float f) {
@@ -311,7 +327,7 @@ public class StarsReactionsSheet extends BottomSheet {
             this.sliderCirclePaint = new Paint(1);
             this.textBackgroundPaint = new Paint(1);
             this.sliderParticles = new Particles(0, NotificationCenter.uploadStoryProgress);
-            this.textParticles = new Particles(1, 30);
+            this.textParticles = new Particles(2, 30);
             this.gradient = new LinearGradient(0.0f, 0.0f, 255.0f, 0.0f, new int[]{-1135603, -404714}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
             this.gradientMatrix = new Matrix();
             this.drawCounterImage = true;
@@ -987,6 +1003,7 @@ public class StarsReactionsSheet extends BottomSheet {
         this.currentAccount = i;
         this.messageObject = messageObject;
         this.reactors = arrayList;
+        this.selectedDialogId = UserConfig.getInstance(i).getClientUserId();
         long clientUserId = UserConfig.getInstance(i).getClientUserId();
         if (arrayList != null) {
             Iterator it = arrayList.iterator();
@@ -1024,7 +1041,7 @@ public class StarsReactionsSheet extends BottomSheet {
                 }
             }
         };
-        int[] iArr = {1, 50, 100, 500, 1000, 2000, 5000, 7500, 10000};
+        int[] iArr = {1, 50, 100, 500, MediaDataController.MAX_STYLE_RUNS_COUNT, 2000, 5000, 7500, 10000};
         long j2 = MessagesController.getInstance(i).starsPaidReactionAmountMax;
         ArrayList arrayList2 = new ArrayList();
         int i3 = 0;
@@ -1053,6 +1070,12 @@ public class StarsReactionsSheet extends BottomSheet {
         if (z) {
             this.topLayout.addView(this.slider, LayoutHelper.createFrame(-1, -2.0f));
         }
+        LinearLayout linearLayout2 = new LinearLayout(context);
+        linearLayout2.setOrientation(0);
+        this.topLayout.addView(linearLayout2, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, 0.0f, 0.0f, 0.0f));
+        StarsIntroActivity.StarsBalanceView starsBalanceView = new StarsIntroActivity.StarsBalanceView(context, i);
+        this.balanceView = starsBalanceView;
+        starsBalanceView.setDialogId(this.selectedDialogId);
         TextView textView = new TextView(context) { // from class: org.telegram.ui.Stars.StarsReactionsSheet.2
             @Override // android.widget.TextView, android.view.View
             protected void onMeasure(int i7, int i8) {
@@ -1063,12 +1086,11 @@ public class StarsReactionsSheet extends BottomSheet {
         int i7 = Theme.key_windowBackgroundWhiteBlackText;
         textView.setTextColor(Theme.getColor(i7));
         textView.setTextSize(1, 20.0f);
+        textView.setGravity(3);
         textView.setText(LocaleController.getString(R.string.StarsReactionTitle));
-        textView.setGravity(16);
         textView.setTypeface(AndroidUtilities.bold());
-        this.topLayout.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 51, 22.0f, 0.0f, 22.0f, 0.0f));
-        StarsIntroActivity.StarsBalanceView starsBalanceView = new StarsIntroActivity.StarsBalanceView(context, i);
-        this.balanceView = starsBalanceView;
+        textView.setMaxLines(2);
+        linearLayout2.addView(textView, LayoutHelper.createLinear(-2, -2, 1.0f, 51, 6, 0, 6, 0));
         ScaleStateListAnimator.apply(starsBalanceView);
         starsBalanceView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
@@ -1076,10 +1098,10 @@ public class StarsReactionsSheet extends BottomSheet {
                 StarsReactionsSheet.this.lambda$new$0(chatActivity, view);
             }
         });
-        this.topLayout.addView(starsBalanceView, LayoutHelper.createFrame(-2, -2.0f, 53, 6.0f, 0.0f, 6.0f, 0.0f));
-        LinearLayout linearLayout2 = new LinearLayout(context);
-        linearLayout2.setOrientation(1);
-        this.topLayout.addView(linearLayout2, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, z ? 179.0f : 45.0f, 0.0f, 15.0f));
+        linearLayout2.addView(starsBalanceView, LayoutHelper.createLinear(-2, -2, 0.0f, 53, 6, 0, 6, 0));
+        LinearLayout linearLayout3 = new LinearLayout(context);
+        linearLayout3.setOrientation(1);
+        this.topLayout.addView(linearLayout3, LayoutHelper.createFrame(-1, -2.0f, 55, 0.0f, z ? 179.0f : 45.0f, 0.0f, 15.0f));
         final TLRPC.Chat chat = MessagesController.getInstance(i).getChat(Long.valueOf(-j));
         TextView textView2 = new TextView(context);
         this.statusView = textView2;
@@ -1090,7 +1112,7 @@ public class StarsReactionsSheet extends BottomSheet {
         textView2.setMaxLines(3);
         textView2.setText(AndroidUtilities.replaceTags(messageReactor != null ? LocaleController.formatPluralStringComma("StarsReactionTextSent", messageReactor.count) : LocaleController.formatString(R.string.StarsReactionText, chat == null ? "" : chat.title)));
         if (z) {
-            linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2, 55, 40, 0, 40, 0));
+            linearLayout3.addView(textView2, LayoutHelper.createLinear(-1, -2, 55, 40, 0, 40, 0));
         }
         if (z2) {
             View view = new View(context) { // from class: org.telegram.ui.Stars.StarsReactionsSheet.4
@@ -1118,7 +1140,7 @@ public class StarsReactionsSheet extends BottomSheet {
                 }
             };
             this.separatorView = view;
-            linearLayout2.addView(view, LayoutHelper.createLinear(-1, 30, 55, 0, 20, 0, 0));
+            linearLayout3.addView(view, LayoutHelper.createLinear(-1, 30, 55, 0, 20, 0, 0));
             TopSendersView topSendersView = new TopSendersView(context);
             this.topSendersView = topSendersView;
             topSendersView.setOnSenderClickListener(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda1
@@ -1154,22 +1176,22 @@ public class StarsReactionsSheet extends BottomSheet {
         textView3.setTextColor(Theme.getColor(i7, resourcesProvider));
         textView3.setTextSize(1, 14.0f);
         textView3.setText(LocaleController.getString(R.string.StarsReactionShowMeInTopSenders));
-        LinearLayout linearLayout3 = new LinearLayout(context);
-        this.checkLayout = linearLayout3;
-        linearLayout3.setOrientation(0);
-        linearLayout3.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(8.0f));
-        linearLayout3.addView(checkBox2, LayoutHelper.createLinear(21, 21, 16, 0, 0, 9, 0));
-        linearLayout3.addView(textView3, LayoutHelper.createLinear(-2, -2, 16));
-        linearLayout3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda2
+        LinearLayout linearLayout4 = new LinearLayout(context);
+        this.checkLayout = linearLayout4;
+        linearLayout4.setOrientation(0);
+        linearLayout4.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(8.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(8.0f));
+        linearLayout4.addView(checkBox2, LayoutHelper.createLinear(21, 21, 16, 0, 0, 9, 0));
+        linearLayout4.addView(textView3, LayoutHelper.createLinear(-2, -2, 16));
+        linearLayout4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarsReactionsSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 StarsReactionsSheet.this.lambda$new$2(view3);
             }
         });
-        ScaleStateListAnimator.apply(linearLayout3, 0.05f, 1.2f);
-        linearLayout3.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 6, 6));
+        ScaleStateListAnimator.apply(linearLayout4, 0.05f, 1.2f);
+        linearLayout4.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 6, 6));
         if (z || messageReactor != null) {
-            this.layout.addView(linearLayout3, LayoutHelper.createLinear(-2, -2, 1, 0, z2 ? 10 : 4, 0, 10));
+            this.layout.addView(linearLayout4, LayoutHelper.createLinear(-2, -2, 1, 0, z2 ? 10 : 4, 0, 10));
         }
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
         this.buttonView = buttonWithCounterView;

@@ -2,6 +2,7 @@ package org.telegram.messenger.time;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes3.dex */
@@ -27,7 +28,7 @@ public class SunDate {
         calendar.setTimeInMillis(System.currentTimeMillis());
         double[] dArr = new double[2];
         sunRiseSetForYear(calendar.get(1), calendar.get(2) + 1, calendar.get(5), d2, d, dArr);
-        int offset = (TimeZone.getDefault().getOffset(System.currentTimeMillis()) / 1000) / 60;
+        int offset = (TimeZone.getDefault().getOffset(System.currentTimeMillis()) / MediaDataController.MAX_STYLE_RUNS_COUNT) / 60;
         int i = ((int) (dArr[0] * 60.0d)) + offset;
         int i2 = ((int) (dArr[1] * 60.0d)) + offset;
         if (i < 0) {

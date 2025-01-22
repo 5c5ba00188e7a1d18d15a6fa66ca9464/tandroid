@@ -519,7 +519,7 @@ public class DataSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$2(AlertDialog alertDialog, int i) {
         DownloadController.Preset preset;
         DownloadController.Preset preset2;
         String str;
@@ -579,7 +579,13 @@ public class DataSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(final String str, boolean z, final AlertDialog.Builder builder, View view) {
+    public /* synthetic */ void lambda$createView$4(String str, AlertDialog.Builder builder, AlertDialog alertDialog, int i) {
+        setStorageDirectory(str);
+        builder.getDismissRunnable().run();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public /* synthetic */ void lambda$createView$5(final String str, boolean z, final AlertDialog.Builder builder, View view) {
         if (TextUtils.equals(SharedConfig.storageCacheDir, str)) {
             return;
         }
@@ -591,11 +597,10 @@ public class DataSettingsActivity extends BaseFragment {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
         builder2.setTitle(LocaleController.getString(R.string.DecreaseSpeed));
         builder2.setMessage(LocaleController.getString(R.string.SdCardAlert));
-        builder2.setPositiveButton(LocaleController.getString(R.string.Proceed), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity.3
-            @Override // android.content.DialogInterface.OnClickListener
-            public void onClick(DialogInterface dialogInterface, int i) {
-                DataSettingsActivity.this.setStorageDirectory(str);
-                builder.getDismissRunnable().run();
+        builder2.setPositiveButton(LocaleController.getString(R.string.Proceed), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda7
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                DataSettingsActivity.this.lambda$createView$4(str, builder, alertDialog, i);
             }
         });
         builder2.setNegativeButton(LocaleController.getString(R.string.Back), null);
@@ -603,26 +608,26 @@ public class DataSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$5() {
+    public /* synthetic */ void lambda$createView$6() {
         getMediaDataController().clearAllDrafts(true);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$6(TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda9
+    public /* synthetic */ void lambda$createView$7(TLObject tLObject, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
-                DataSettingsActivity.this.lambda$createView$5();
+                DataSettingsActivity.this.lambda$createView$6();
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$7(DialogInterface dialogInterface, int i) {
-        getConnectionsManager().sendRequest(new TLRPC.TL_messages_clearAllDrafts(), new RequestDelegate() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda7
+    public /* synthetic */ void lambda$createView$8(AlertDialog alertDialog, int i) {
+        getConnectionsManager().sendRequest(new TLRPC.TL_messages_clearAllDrafts(), new RequestDelegate() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                DataSettingsActivity.this.lambda$createView$6(tLObject, tL_error);
+                DataSettingsActivity.this.lambda$createView$7(tLObject, tL_error);
             }
         });
     }
@@ -632,7 +637,7 @@ public class DataSettingsActivity extends BaseFragment {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public /* synthetic */ void lambda$createView$8(Context context, View view, final int i, float f, float f2) {
+    public /* synthetic */ void lambda$createView$9(Context context, View view, final int i, float f, float f2) {
         BaseFragment dataAutoDownloadActivity;
         DownloadController.Preset preset;
         String str;
@@ -671,10 +676,10 @@ public class DataSettingsActivity extends BaseFragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString(R.string.ResetAutomaticMediaDownloadAlertTitle));
                 builder.setMessage(LocaleController.getString(R.string.ResetAutomaticMediaDownloadAlert));
-                builder.setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda3
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i5) {
-                        DataSettingsActivity.this.lambda$createView$2(dialogInterface, i5);
+                builder.setPositiveButton(LocaleController.getString(R.string.Reset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda3
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i5) {
+                        DataSettingsActivity.this.lambda$createView$2(alertDialog, i5);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -760,7 +765,7 @@ public class DataSettingsActivity extends BaseFragment {
                                     languageCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda5
                                         @Override // android.view.View.OnClickListener
                                         public final void onClick(View view2) {
-                                            DataSettingsActivity.this.lambda$createView$4(absolutePath3, contains, builder2, view2);
+                                            DataSettingsActivity.this.lambda$createView$5(absolutePath3, contains, builder2, view2);
                                         }
                                     });
                                     i3++;
@@ -820,10 +825,10 @@ public class DataSettingsActivity extends BaseFragment {
                             AlertDialog.Builder builder3 = new AlertDialog.Builder(getParentActivity());
                             builder3.setTitle(LocaleController.getString(R.string.AreYouSureClearDraftsTitle));
                             builder3.setMessage(LocaleController.getString(R.string.AreYouSureClearDrafts));
-                            builder3.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda6
-                                @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i8) {
-                                    DataSettingsActivity.this.lambda$createView$7(dialogInterface, i8);
+                            builder3.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda6
+                                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                public final void onClick(AlertDialog alertDialog, int i8) {
+                                    DataSettingsActivity.this.lambda$createView$8(alertDialog, i8);
                                 }
                             });
                             builder3.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -915,7 +920,7 @@ public class DataSettingsActivity extends BaseFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$setStorageDirectory$9() {
+    public /* synthetic */ void lambda$setStorageDirectory$10() {
         CacheControlActivity.resetCalculatedTotalSIze();
         loadCacheSize();
     }
@@ -963,18 +968,17 @@ public class DataSettingsActivity extends BaseFragment {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void setStorageDirectory(String str) {
+    private void setStorageDirectory(String str) {
         SharedConfig.storageCacheDir = str;
         SharedConfig.saveConfig();
         if (str != null) {
             SharedConfig.readOnlyStorageDirAlertShowed = false;
         }
         rebind(this.storageNumRow);
-        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda8
+        ImageLoader.getInstance().checkMediaPaths(new Runnable() { // from class: org.telegram.ui.DataSettingsActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
-                DataSettingsActivity.this.lambda$setStorageDirectory$9();
+                DataSettingsActivity.this.lambda$setStorageDirectory$10();
             }
         });
     }
@@ -1075,7 +1079,7 @@ public class DataSettingsActivity extends BaseFragment {
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    DataSettingsActivity.this.lambda$onBackPressed$321();
+                    DataSettingsActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -1111,7 +1115,7 @@ public class DataSettingsActivity extends BaseFragment {
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public final void onItemClick(View view, int i, float f, float f2) {
-                DataSettingsActivity.this.lambda$createView$8(context, view, i, f, f2);
+                DataSettingsActivity.this.lambda$createView$9(context, view, i, f, f2);
             }
         });
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();

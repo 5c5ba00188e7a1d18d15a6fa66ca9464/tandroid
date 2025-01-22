@@ -165,7 +165,7 @@ public class BoostPagerBottomSheet extends BottomSheet {
         boostViaGiftsBottomSheet.setOnCloseClick(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
-                BoostPagerBottomSheet.this.dismiss();
+                BoostPagerBottomSheet.this.lambda$new$0();
             }
         });
         boostViaGiftsBottomSheet.setActionListener(new BoostViaGiftsBottomSheet.ActionListener() { // from class: org.telegram.ui.Components.Premium.boosts.BoostPagerBottomSheet.3

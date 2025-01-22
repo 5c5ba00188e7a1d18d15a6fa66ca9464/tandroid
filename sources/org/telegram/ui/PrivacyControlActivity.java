@@ -40,6 +40,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -83,6 +84,7 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.GroupCreateActivity;
+import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.PrivacyControlActivity;
 
 /* loaded from: classes4.dex */
@@ -1301,7 +1303,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             imageUpdater.parentFragment = this;
             imageUpdater.setDelegate(this);
             TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().clientUserId);
-            if (!UserObject.hasFallbackPhoto(userFull) || (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(userFull.fallback_photo.sizes, 1000)) == null) {
+            if (!UserObject.hasFallbackPhoto(userFull) || (closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(userFull.fallback_photo.sizes, MediaDataController.MAX_STYLE_RUNS_COUNT)) == null) {
                 return;
             }
             this.avatarForRest = closestPhotoSizeWithSize;
@@ -1492,16 +1494,16 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString(R.string.UserRestrictionsApplyChanges));
         builder.setMessage(LocaleController.getString(R.string.PrivacySettingsChangedAlert));
-        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                PrivacyControlActivity.this.lambda$checkDiscard$19(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                PrivacyControlActivity.this.lambda$checkDiscard$19(alertDialog, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                PrivacyControlActivity.this.lambda$checkDiscard$20(dialogInterface, i);
+        builder.setNegativeButton(LocaleController.getString(R.string.PassportDiscard), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                PrivacyControlActivity.this.lambda$checkDiscard$20(alertDialog, i);
             }
         });
         showDialog(builder.create());
@@ -1718,7 +1720,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         if (tL_globalPrivacySettings != null) {
             tL_globalPrivacySettings.new_noncontact_peers_require_premium = setglobalprivacysettings.settings.new_noncontact_peers_require_premium;
         }
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.privacyRulesUpdated, new Object[0]);
     }
 
@@ -1766,7 +1768,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         MessagesController.getInstance(this.currentAccount).putUsers(privacyrules.users, false);
         MessagesController.getInstance(this.currentAccount).putChats(privacyrules.chats, false);
         ContactsController.getInstance(this.currentAccount).setPrivacyRules(privacyrules.rules, this.rulesType);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1797,13 +1799,13 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$19(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$checkDiscard$19(AlertDialog alertDialog, int i) {
         processDone();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$checkDiscard$20(DialogInterface dialogInterface, int i) {
-        lambda$onBackPressed$321();
+    public /* synthetic */ void lambda$checkDiscard$20(AlertDialog alertDialog, int i) {
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2053,7 +2055,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             getMessagesStorage().updateUserInfo(userFull, true);
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.reloadDialogPhotos, new Object[0]);
             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, 100);
-            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, 1000);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
             if (closestPhotoSizeWithSize != null && this.avatarForRest != null) {
                 FileLoader.getInstance(this.currentAccount).getPathToAttach(this.avatarForRest, true).renameTo(FileLoader.getInstance(this.currentAccount).getPathToAttach(closestPhotoSizeWithSize, true));
                 ImageLoader.getInstance().replaceImageInCache(this.avatarForRest.location.volume_id + "_" + this.avatarForRest.location.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForLocal(closestPhotoSizeWithSize.location), false);
@@ -2118,7 +2120,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$processDone$18(SharedPreferences sharedPreferences, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$processDone$18(SharedPreferences sharedPreferences, AlertDialog alertDialog, int i) {
         applyCurrentPrivacySettings();
         sharedPreferences.edit().putBoolean("privacyAlertShowed", true).commit();
     }
@@ -2134,10 +2136,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setMessage(LocaleController.getString(this.rulesType == 1 ? R.string.WhoCanAddMeInfo : R.string.CustomHelp));
                 builder.setTitle(LocaleController.getString(R.string.AppName));
-                builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda11
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        PrivacyControlActivity.this.lambda$processDone$18(globalMainSettings, dialogInterface, i);
+                builder.setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PrivacyControlActivity$$ExternalSyntheticLambda11
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        PrivacyControlActivity.this.lambda$processDone$18(globalMainSettings, alertDialog, i);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -2452,7 +2454,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                     public void onItemClick(int i3) {
                         if (i3 == -1) {
                             if (PrivacyControlActivity.this.checkDiscard()) {
-                                PrivacyControlActivity.this.lambda$onBackPressed$321();
+                                PrivacyControlActivity.this.lambda$onBackPressed$323();
                             }
                         } else if (i3 == 1) {
                             PrivacyControlActivity.this.processDone();
@@ -2511,7 +2513,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
             public void onItemClick(int i3) {
                 if (i3 == -1) {
                     if (PrivacyControlActivity.this.checkDiscard()) {
-                        PrivacyControlActivity.this.lambda$onBackPressed$321();
+                        PrivacyControlActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i3 == 1) {
                     PrivacyControlActivity.this.processDone();
@@ -2580,7 +2582,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didStartUpload(boolean z) {
+    public void didStartUpload(boolean z, boolean z2) {
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -2596,6 +2598,11 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
                 PrivacyControlActivity.this.lambda$didUploadPhoto$2(photoSize2, inputFile, inputFile2, d, videoSize, photoSize);
             }
         });
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -2718,5 +2725,10 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public /* synthetic */ void onUploadProgressChanged(float f) {
         ImageUpdater.ImageUpdaterDelegate.-CC.$default$onUploadProgressChanged(this, f);
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ boolean supportsBulletin() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
     }
 }

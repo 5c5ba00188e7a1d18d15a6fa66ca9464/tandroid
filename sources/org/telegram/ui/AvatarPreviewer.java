@@ -29,6 +29,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -272,7 +273,7 @@ public class AvatarPreviewer {
                 imageLocation = null;
                 str = null;
             } else {
-                TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(chatFull.chat_photo.video_sizes, 1000);
+                TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(chatFull.chat_photo.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
                 imageLocation = ImageLocation.getForPhoto(closestVideoSizeWithSize, chatFull.chat_photo);
                 str = FileLoader.getAttachFileName(closestVideoSizeWithSize);
             }
@@ -309,7 +310,7 @@ public class AvatarPreviewer {
                 imageLocation = null;
                 str = null;
             } else {
-                TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(userFull.profile_photo.video_sizes, 1000);
+                TLRPC.VideoSize closestVideoSizeWithSize = FileLoader.getClosestVideoSizeWithSize(userFull.profile_photo.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
                 ImageLocation forPhoto = ImageLocation.getForPhoto(closestVideoSizeWithSize, userFull.profile_photo);
                 str = FileLoader.getAttachFileName(closestVideoSizeWithSize);
                 imageLocation = forPhoto;
@@ -806,7 +807,7 @@ public class AvatarPreviewer {
         if (this.layout.getParent() != null) {
             this.windowManager.removeView(this.layout);
         }
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(-1, -1, 1000, 0, -3);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(-1, -1, MediaDataController.MAX_STYLE_RUNS_COUNT, 0, -3);
         if (Build.VERSION.SDK_INT >= 21) {
             layoutParams.flags = 196864;
         }

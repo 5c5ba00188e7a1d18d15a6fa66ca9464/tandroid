@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes5.dex */
 public class FileVideoCapturer implements VideoCapturer {
@@ -153,7 +154,7 @@ public class FileVideoCapturer implements VideoCapturer {
 
     @Override // org.webrtc.VideoCapturer
     public void startCapture(int i, int i2, int i3) {
-        this.timer.schedule(this.tickTask, 0L, 1000 / i3);
+        this.timer.schedule(this.tickTask, 0L, MediaDataController.MAX_STYLE_RUNS_COUNT / i3);
     }
 
     @Override // org.webrtc.VideoCapturer

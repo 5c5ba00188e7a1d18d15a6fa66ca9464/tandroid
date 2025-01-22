@@ -232,7 +232,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
-        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
+        public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z, boolean z2) {
             ChatActionCell chatActionCell;
             MessageObject messageObject2;
             ChatMessageCell chatMessageCell;
@@ -1811,7 +1811,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.ChannelAdminLogActivity.14
                             @Override // android.text.style.ClickableSpan
                             public void onClick(View view2) {
-                                ChannelAdminLogActivity.this.lambda$onBackPressed$321();
+                                ChannelAdminLogActivity.this.lambda$onBackPressed$323();
                             }
 
                             @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
@@ -2797,7 +2797,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$showOpenUrlAlert$24(String str, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$showOpenUrlAlert$24(String str, AlertDialog alertDialog, int i) {
         Browser.openUrl((Context) getParentActivity(), str, true);
     }
 
@@ -3710,7 +3710,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
                 if (i2 == -1) {
-                    ChannelAdminLogActivity.this.lambda$onBackPressed$321();
+                    ChannelAdminLogActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -4969,10 +4969,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
         builder.setMessage(LocaleController.formatString("OpenUrlAlert2", R.string.OpenUrlAlert2, str));
-        builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda19
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChannelAdminLogActivity.this.lambda$showOpenUrlAlert$24(str, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda19
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChannelAdminLogActivity.this.lambda$showOpenUrlAlert$24(str, alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);

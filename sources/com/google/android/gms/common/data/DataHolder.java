@@ -10,6 +10,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class DataHolder extends AbstractSafeParcelable implements Closeable {
@@ -96,7 +97,7 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
         SafeParcelWriter.writeTypedArray(parcel, 2, this.zah, i, false);
         SafeParcelWriter.writeInt(parcel, 3, getStatusCode());
         SafeParcelWriter.writeBundle(parcel, 4, getMetadata(), false);
-        SafeParcelWriter.writeInt(parcel, 1000, this.zaa);
+        SafeParcelWriter.writeInt(parcel, MediaDataController.MAX_STYLE_RUNS_COUNT, this.zaa);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
         if ((i & 1) != 0) {
             close();

@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -141,7 +140,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         public void onItemClick(int i) {
             if (i == -1) {
-                PasscodeActivity.this.lambda$onBackPressed$321();
+                PasscodeActivity.this.lambda$onBackPressed$323();
                 return;
             }
             if (i == 1) {
@@ -494,7 +493,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$2(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$2(AlertDialog alertDialog, int i) {
         SharedConfig.passcodeHash = "";
         SharedConfig.appLocked = false;
         SharedConfig.saveConfig();
@@ -513,7 +512,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             i2++;
         }
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetPasscode, new Object[0]);
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -522,7 +521,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$4(NumberPicker numberPicker, int i, DialogInterface dialogInterface, int i2) {
+    public /* synthetic */ void lambda$createView$4(NumberPicker numberPicker, int i, AlertDialog alertDialog, int i2) {
         int i3;
         int value = numberPicker.getValue();
         if (value == 0) {
@@ -548,10 +547,10 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         int i2 = 0;
         if (view.isEnabled()) {
             if (i == this.disablePasscodeRow) {
-                AlertDialog create = new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString(R.string.DisablePasscode)).setMessage(LocaleController.getString(R.string.DisablePasscodeConfirmMessage)).setNegativeButton(LocaleController.getString(R.string.Cancel), null).setPositiveButton(LocaleController.getString(R.string.DisablePasscodeTurnOff), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda16
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i3) {
-                        PasscodeActivity.this.lambda$createView$2(dialogInterface, i3);
+                AlertDialog create = new AlertDialog.Builder(getParentActivity()).setTitle(LocaleController.getString(R.string.DisablePasscode)).setMessage(LocaleController.getString(R.string.DisablePasscodeConfirmMessage)).setNegativeButton(LocaleController.getString(R.string.Cancel), null).setPositiveButton(LocaleController.getString(R.string.DisablePasscodeTurnOff), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda16
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i3) {
+                        PasscodeActivity.this.lambda$createView$2(alertDialog, i3);
                     }
                 }).create();
                 create.show();
@@ -611,10 +610,10 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     }
                 });
                 builder.setView(numberPicker);
-                builder.setNegativeButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda18
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i4) {
-                        PasscodeActivity.this.lambda$createView$4(numberPicker, i, dialogInterface, i4);
+                builder.setNegativeButton(LocaleController.getString(R.string.Done), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda18
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i4) {
+                        PasscodeActivity.this.lambda$createView$4(numberPicker, i, alertDialog, i4);
                     }
                 });
                 showDialog(builder.create());
@@ -629,10 +628,10 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 }
             });
             builder.setView(numberPicker);
-            builder.setNegativeButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda18
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i4) {
-                    PasscodeActivity.this.lambda$createView$4(numberPicker, i, dialogInterface, i4);
+            builder.setNegativeButton(LocaleController.getString(R.string.Done), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda18
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i4) {
+                    PasscodeActivity.this.lambda$createView$4(numberPicker, i, alertDialog, i4);
                 }
             });
             showDialog(builder.create());
@@ -708,7 +707,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         if (z) {
             presentFragment(new PasscodeActivity(0), true);
         } else {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didSetPasscode, new Object[0]);
     }
@@ -1152,7 +1151,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i5) {
                 if (i5 == -1) {
-                    PasscodeActivity.this.lambda$onBackPressed$321();
+                    PasscodeActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

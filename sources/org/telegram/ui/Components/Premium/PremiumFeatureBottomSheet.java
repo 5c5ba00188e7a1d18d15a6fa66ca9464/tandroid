@@ -715,7 +715,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                     float y = motionEvent.getY();
                     PremiumFeatureBottomSheet premiumFeatureBottomSheet = PremiumFeatureBottomSheet.this;
                     if (y < (premiumFeatureBottomSheet.topCurrentOffset - ((BottomSheet) premiumFeatureBottomSheet).backgroundPaddingTop) + AndroidUtilities.dp(2.0f)) {
-                        PremiumFeatureBottomSheet.this.dismiss();
+                        PremiumFeatureBottomSheet.this.lambda$new$0();
                     }
                 }
                 return super.dispatchTouchEvent(motionEvent);
@@ -781,7 +781,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -819,12 +819,12 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
         } else {
             PremiumPreviewFragment.buyPremium(baseFragment, this.selectedTier, PremiumPreviewFragment.featureTypeToServerString(premiumFeatureData.type));
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     private void setButtonText() {
@@ -950,8 +950,9 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingProductDetailsUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.premiumPromoUpdated);
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
@@ -1032,7 +1033,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i3) {
                 if (i3 == -1) {
-                    PremiumFeatureBottomSheet.this.dismiss();
+                    PremiumFeatureBottomSheet.this.lambda$new$0();
                 }
             }
         });

@@ -3,6 +3,7 @@ package j$.time;
 import j$.time.temporal.q;
 import java.io.Serializable;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes2.dex */
 public final class Instant implements j$.time.temporal.k, Comparable<Instant>, Serializable {
@@ -72,7 +73,7 @@ public final class Instant implements j$.time.temporal.k, Comparable<Instant>, S
             return i3;
         }
         if (i2 == 2) {
-            i = i3 / 1000;
+            i = i3 / MediaDataController.MAX_STYLE_RUNS_COUNT;
         } else {
             if (i2 != 3) {
                 if (i2 == 4) {
@@ -109,7 +110,7 @@ public final class Instant implements j$.time.temporal.k, Comparable<Instant>, S
             return i2;
         }
         if (i == 2) {
-            return i2 / 1000;
+            return i2 / MediaDataController.MAX_STYLE_RUNS_COUNT;
         }
         if (i == 3) {
             return i2 / MediaController.VIDEO_BITRATE_480;

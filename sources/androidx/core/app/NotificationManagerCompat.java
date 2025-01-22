@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class NotificationManagerCompat {
@@ -235,7 +236,7 @@ public final class NotificationManagerCompat {
             int i2 = i + 1;
             listenerRecord.retryCount = i2;
             if (i2 <= 6) {
-                int i3 = (1 << i) * 1000;
+                int i3 = (1 << i) * MediaDataController.MAX_STYLE_RUNS_COUNT;
                 if (Log.isLoggable("NotifManCompat", 3)) {
                     Log.d("NotifManCompat", "Scheduling retry for " + i3 + " ms");
                 }

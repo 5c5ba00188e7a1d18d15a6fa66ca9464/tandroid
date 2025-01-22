@@ -17,6 +17,7 @@ import com.google.android.gms.internal.clearcut.zzr;
 import com.google.android.gms.phenotype.ExperimentTokens;
 import java.util.ArrayList;
 import java.util.TimeZone;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class ClearcutLogger {
@@ -80,7 +81,7 @@ public final class ClearcutLogger {
             zzhaVar.zzbjf = ClearcutLogger.this.zzq.currentTimeMillis();
             zzhaVar.zzbjg = ClearcutLogger.this.zzq.elapsedRealtime();
             zzc unused = ClearcutLogger.this.zzr;
-            zzhaVar.zzbju = TimeZone.getDefault().getOffset(zzhaVar.zzbjf) / 1000;
+            zzhaVar.zzbju = TimeZone.getDefault().getOffset(zzhaVar.zzbjf) / MediaDataController.MAX_STYLE_RUNS_COUNT;
             if (bArr != null) {
                 zzhaVar.zzbjp = bArr;
             }

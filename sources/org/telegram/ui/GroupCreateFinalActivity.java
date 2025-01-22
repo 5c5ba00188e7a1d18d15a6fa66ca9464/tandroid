@@ -72,6 +72,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.LocationActivity;
+import org.telegram.ui.PhotoViewer;
 
 /* loaded from: classes4.dex */
 public class GroupCreateFinalActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
@@ -618,7 +619,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    GroupCreateFinalActivity.this.lambda$onBackPressed$321();
+                    GroupCreateFinalActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -1016,7 +1017,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-    public void didStartUpload(boolean z) {
+    public void didStartUpload(boolean z, boolean z2) {
         RadialProgressView radialProgressView = this.avatarProgressView;
         if (radialProgressView == null) {
             return;
@@ -1050,6 +1051,11 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean dismissDialogOnPause(Dialog dialog) {
         return this.imageUpdater.dismissDialogOnPause(dialog) && super.dismissDialogOnPause(dialog);
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
     }
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -1281,5 +1287,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     public void setDelegate(GroupCreateFinalActivityDelegate groupCreateFinalActivityDelegate) {
         this.delegate = groupCreateFinalActivityDelegate;
+    }
+
+    @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+    public /* synthetic */ boolean supportsBulletin() {
+        return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
     }
 }

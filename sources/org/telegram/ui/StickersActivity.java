@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -334,7 +333,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$processSelectionMenu$0(ArrayList arrayList, int i, DialogInterface dialogInterface, int i2) {
+        public /* synthetic */ void lambda$processSelectionMenu$0(ArrayList arrayList, int i, AlertDialog alertDialog, int i2) {
             StickersActivity.this.listAdapter.clearSelected();
             MediaDataController.getInstance(((BaseFragment) StickersActivity.this).currentAccount).toggleStickerSets(arrayList, StickersActivity.this.currentType, i == 1 ? 0 : 1, StickersActivity.this, true);
         }
@@ -425,10 +424,10 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                         builder.setMessage(LocaleController.formatString("ArchiveStickersAlertMessage", R.string.ArchiveStickersAlertMessage, Integer.valueOf(size3)));
                         i2 = R.string.Archive;
                     }
-                    builder.setPositiveButton(LocaleController.getString(i2), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda0
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i5) {
-                            StickersActivity.ListAdapter.this.lambda$processSelectionMenu$0(arrayList, i, dialogInterface, i5);
+                    builder.setPositiveButton(LocaleController.getString(i2), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.StickersActivity$ListAdapter$$ExternalSyntheticLambda0
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i5) {
+                            StickersActivity.ListAdapter.this.lambda$processSelectionMenu$0(arrayList, i, alertDialog, i5);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -1648,7 +1647,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
                     public void onItemClick(int i3) {
                         if (i3 == -1) {
                             if (StickersActivity.this.onBackPressed()) {
-                                StickersActivity.this.lambda$onBackPressed$321();
+                                StickersActivity.this.lambda$onBackPressed$323();
                             }
                         } else if (i3 == 0 || i3 == 1 || i3 == 2) {
                             if (StickersActivity.this.needReorder) {
@@ -1751,7 +1750,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             public void onItemClick(int i3) {
                 if (i3 == -1) {
                     if (StickersActivity.this.onBackPressed()) {
-                        StickersActivity.this.lambda$onBackPressed$321();
+                        StickersActivity.this.lambda$onBackPressed$323();
                     }
                 } else if (i3 == 0 || i3 == 1 || i3 == 2) {
                     if (StickersActivity.this.needReorder) {

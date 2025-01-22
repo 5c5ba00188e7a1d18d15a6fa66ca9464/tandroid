@@ -378,7 +378,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$3(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onClick$3(AlertDialog alertDialog, int i) {
         ApplicationLoader.applicationContext.deleteDatabase("webview.db");
         ApplicationLoader.applicationContext.deleteDatabase("webviewCache.db");
         WebStorage.getInstance().deleteAllData();
@@ -410,7 +410,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$4(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onClick$4(AlertDialog alertDialog, int i) {
         CookieManager cookieManager = CookieManager.getInstance();
         if (Build.VERSION.SDK_INT >= 21) {
             cookieManager.removeAllCookies(null);
@@ -428,7 +428,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onClick$5(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onClick$5(AlertDialog alertDialog, int i) {
         BrowserHistory.clearHistory();
         this.historySize = 0L;
         this.listView.adapter.update(true);
@@ -436,11 +436,11 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onClick$6(HistoryFragment[] historyFragmentArr, BrowserHistory.Entry entry) {
-        historyFragmentArr[0].lambda$onBackPressed$321();
+        historyFragmentArr[0].lambda$onBackPressed$323();
         if (this.whenHistoryClicked == null) {
             Browser.openUrl(getContext(), entry.url);
         } else {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
             this.whenHistoryClicked.run(entry);
         }
     }
@@ -597,7 +597,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     protected void onClick(UItem uItem, final View view, int i, float f, float f2) {
         AlertDialog.Builder message;
         String string;
-        DialogInterface.OnClickListener onClickListener;
+        AlertDialog.OnButtonClickListener onButtonClickListener;
         TextCheckCell textCheckCell;
         boolean z;
         int i2 = uItem.id;
@@ -626,10 +626,10 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                             }
                             message = title.setMessage(LocaleController.formatString(i3, str));
                             string = LocaleController.getString(R.string.Clear);
-                            onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
-                                @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i4) {
-                                    WebBrowserSettings.this.lambda$onClick$3(dialogInterface, i4);
+                            onButtonClickListener = new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
+                                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                public final void onClick(AlertDialog alertDialog, int i4) {
+                                    WebBrowserSettings.this.lambda$onClick$3(alertDialog, i4);
                                 }
                             };
                         } else if (i2 == 3) {
@@ -640,10 +640,10 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                             }
                             message = title2.setMessage(LocaleController.formatString(i4, str));
                             string = LocaleController.getString(R.string.Clear);
-                            onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
-                                @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i5) {
-                                    WebBrowserSettings.this.lambda$onClick$4(dialogInterface, i5);
+                            onButtonClickListener = new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
+                                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                public final void onClick(AlertDialog alertDialog, int i5) {
+                                    WebBrowserSettings.this.lambda$onClick$4(alertDialog, i5);
                                 }
                             };
                         } else if (i2 == 7) {
@@ -654,10 +654,10 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                             }
                             message = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsHistoryClear)).setMessage(LocaleController.formatString(R.string.BrowserSettingsHistoryClearText, LocaleController.formatDateChat(j / 1000)));
                             string = LocaleController.getString(R.string.Clear);
-                            onClickListener = new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda6
-                                @Override // android.content.DialogInterface.OnClickListener
-                                public final void onClick(DialogInterface dialogInterface, int i5) {
-                                    WebBrowserSettings.this.lambda$onClick$5(dialogInterface, i5);
+                            onButtonClickListener = new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda6
+                                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                public final void onClick(AlertDialog alertDialog, int i5) {
+                                    WebBrowserSettings.this.lambda$onClick$5(alertDialog, i5);
                                 }
                             };
                         } else {
@@ -766,16 +766,16 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                                     linearLayout2.addView(editTextBoldCursor, LayoutHelper.createLinear(-1, -2, 24.0f, 0.0f, 24.0f, 10.0f));
                                     builder.setView(linearLayout2);
                                     builder.setWidth(AndroidUtilities.dp(292.0f));
-                                    builder.setPositiveButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda11
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i8) {
+                                    builder.setPositiveButton(LocaleController.getString(R.string.Done), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda11
+                                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                        public final void onClick(AlertDialog alertDialog, int i8) {
                                             runnable.run();
                                         }
                                     });
-                                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda12
-                                        @Override // android.content.DialogInterface.OnClickListener
-                                        public final void onClick(DialogInterface dialogInterface, int i8) {
-                                            dialogInterface.dismiss();
+                                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda12
+                                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                        public final void onClick(AlertDialog alertDialog, int i8) {
+                                            alertDialog.dismiss();
                                         }
                                     });
                                     AlertDialog create2 = builder.create();
@@ -801,7 +801,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
                             RestrictedDomainsList.getInstance().restrictedDomains.clear();
                             RestrictedDomainsList.getInstance().scheduleSave();
                         }
-                        message.setPositiveButton(string, onClickListener).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
+                        message.setPositiveButton(string, onButtonClickListener).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
                         return;
                     }
                     SharedConfig.toggleCustomTabs(false);

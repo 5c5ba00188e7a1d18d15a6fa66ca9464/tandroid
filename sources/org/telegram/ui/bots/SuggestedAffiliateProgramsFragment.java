@@ -42,7 +42,7 @@ public class SuggestedAffiliateProgramsFragment extends BaseFragment implements 
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    SuggestedAffiliateProgramsFragment.this.lambda$onBackPressed$321();
+                    SuggestedAffiliateProgramsFragment.this.lambda$onBackPressed$323();
                 }
             }
         });

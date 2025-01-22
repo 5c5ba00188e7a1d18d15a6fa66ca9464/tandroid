@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import java.util.Arrays;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class LocationAvailability extends AbstractSafeParcelable implements ReflectedParcelable {
@@ -16,11 +17,11 @@ public final class LocationAvailability extends AbstractSafeParcelable implement
     private final long zzf;
     private final zzac[] zzg;
     public static final LocationAvailability zza = new LocationAvailability(0, 1, 1, 0, null, true);
-    public static final LocationAvailability zzb = new LocationAvailability(1000, 1, 1, 0, null, false);
+    public static final LocationAvailability zzb = new LocationAvailability(MediaDataController.MAX_STYLE_RUNS_COUNT, 1, 1, 0, null, false);
     public static final Parcelable.Creator<LocationAvailability> CREATOR = new zzw();
 
     LocationAvailability(int i, int i2, int i3, long j, zzac[] zzacVarArr, boolean z) {
-        this.zzc = i < 1000 ? 0 : 1000;
+        this.zzc = i < 1000 ? 0 : MediaDataController.MAX_STYLE_RUNS_COUNT;
         this.zzd = i2;
         this.zze = i3;
         this.zzf = j;

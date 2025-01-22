@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
@@ -594,10 +593,10 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$0(String str, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$0(String str, AlertDialog alertDialog, int i) {
         this.needReset = true;
         MessagesController.getNotificationsSettings(this.currentAccount).edit().putBoolean(NotificationsSettingsFacade.PROPERTY_CUSTOM + str, false).remove(NotificationsSettingsFacade.PROPERTY_NOTIFY + str).apply();
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
         ProfileNotificationsActivityDelegate profileNotificationsActivityDelegate = this.delegate;
         if (profileNotificationsActivityDelegate != null) {
             profileNotificationsActivityDelegate.didRemoveException(this.dialogId);
@@ -652,10 +651,10 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         if (view.isEnabled()) {
             Parcelable parcelable = null;
             if (i == this.customResetRow) {
-                AlertDialog create = new AlertDialog.Builder(context, this.resourcesProvider).setTitle(LocaleController.getString(R.string.ResetCustomNotificationsAlertTitle)).setMessage(LocaleController.getString(R.string.ResetCustomNotificationsAlert)).setPositiveButton(LocaleController.getString(R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda2
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ProfileNotificationsActivity.this.lambda$createView$0(str, dialogInterface, i2);
+                AlertDialog create = new AlertDialog.Builder(context, this.resourcesProvider).setTitle(LocaleController.getString(R.string.ResetCustomNotificationsAlertTitle)).setMessage(LocaleController.getString(R.string.ResetCustomNotificationsAlert)).setPositiveButton(LocaleController.getString(R.string.Reset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda2
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ProfileNotificationsActivity.this.lambda$createView$0(str, alertDialog, i2);
                     }
                 }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).create();
                 showDialog(create);
@@ -871,7 +870,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                         ProfileNotificationsActivity.this.delegate.didCreateNewException(notificationException);
                     }
                 }
-                ProfileNotificationsActivity.this.lambda$onBackPressed$321();
+                ProfileNotificationsActivity.this.lambda$onBackPressed$323();
             }
         });
         ChatAvatarContainer chatAvatarContainer2 = new ChatAvatarContainer(context, null, false, this.resourcesProvider);

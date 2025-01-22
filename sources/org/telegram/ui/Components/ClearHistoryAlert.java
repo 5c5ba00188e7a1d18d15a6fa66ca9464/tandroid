@@ -169,7 +169,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 if (motionEvent.getAction() != 0 || ClearHistoryAlert.this.scrollOffsetY == 0 || motionEvent.getY() >= ClearHistoryAlert.this.scrollOffsetY) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                ClearHistoryAlert.this.dismiss();
+                ClearHistoryAlert.this.lambda$new$0();
                 return true;
             }
 
@@ -473,7 +473,7 @@ public class ClearHistoryAlert extends BottomSheet {
         ClearHistoryAlertDelegate clearHistoryAlertDelegate = this.delegate;
         CheckBoxCell checkBoxCell = this.cell;
         clearHistoryAlertDelegate.onClearHistory(checkBoxCell != null && checkBoxCell.isChecked());
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -502,11 +502,11 @@ public class ClearHistoryAlert extends BottomSheet {
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ClearHistoryAlert.this.dismiss();
+                    ClearHistoryAlert.this.lambda$new$0();
                 }
             }, 200L);
         } else {
-            dismiss();
+            lambda$new$0();
         }
     }
 

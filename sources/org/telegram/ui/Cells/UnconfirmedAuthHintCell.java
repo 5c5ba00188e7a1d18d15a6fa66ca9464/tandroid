@@ -237,7 +237,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showLoginPreventedSheet$6(ButtonWithCounterView buttonWithCounterView, BottomSheet bottomSheet, View view) {
         if (!buttonWithCounterView.isTimerActive()) {
-            bottomSheet.dismiss();
+            bottomSheet.lambda$new$0();
         } else {
             AndroidUtilities.shakeViewSpring(buttonWithCounterView, 3.0f);
             BotWebViewVibrationEffect.APP_ERROR.vibrate();

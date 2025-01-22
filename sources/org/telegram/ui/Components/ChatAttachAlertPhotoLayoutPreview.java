@@ -40,6 +40,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -99,7 +100,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
         int width;
         public ArrayList posArray = new ArrayList();
         public HashMap positions = new HashMap();
-        private final int maxSizeWidth = 1000;
+        private final int maxSizeWidth = MediaDataController.MAX_STYLE_RUNS_COUNT;
 
         private class MessageGroupedLayoutAttempt {
             public float[] heights;
@@ -488,7 +489,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         }
                         int i55 = iArr2[i54];
                         float f12 = messageGroupedLayoutAttempt.heights[i54];
-                        int i56 = 1000;
+                        int i56 = MediaDataController.MAX_STYLE_RUNS_COUNT;
                         MessageObject.GroupedMessagePosition groupedMessagePosition4 = null;
                         for (int i57 = 0; i57 < i55; i57++) {
                             int i58 = (int) (fArr3[i53] * f12);
@@ -530,11 +531,11 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             float f14 = groupedMessagePosition6.aspectRatio;
                             float f15 = groupedMessagePosition7.aspectRatio;
                             if (f14 - f15 < 0.2d) {
-                                i17 = 1000;
+                                i17 = MediaDataController.MAX_STYLE_RUNS_COUNT;
                                 i21 = 0;
                                 i22 = 0;
                                 round = Math.round(Math.min(1000.0f / f14, Math.min(1000.0f / f15, 407.0f))) / 814.0f;
-                                groupedMessagePosition6.set(0, 0, 0, 0, 1000, round, 7);
+                                groupedMessagePosition6.set(0, 0, 0, 0, MediaDataController.MAX_STYLE_RUNS_COUNT, round, 7);
                                 i20 = 11;
                                 i18 = 1;
                                 i19 = 1;
@@ -600,12 +601,12 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             groupedMessagePosition9.set(1, 1, 0, 0, max2, f19, 6);
                             float f20 = min3 / 814.0f;
                             groupedMessagePosition10.set(1, 1, 1, 1, max2, f20, 10);
-                            groupedMessagePosition10.spanSize = 1000;
+                            groupedMessagePosition10.spanSize = MediaDataController.MAX_STYLE_RUNS_COUNT;
                             groupedMessagePosition8.siblingHeights = new float[]{f20, f19};
                             groupedMessagePosition8.spanSize = i61;
                         } else {
                             float round2 = Math.round(Math.min(1000.0f / groupedMessagePosition8.aspectRatio, 537.24005f)) / 814.0f;
-                            groupedMessagePosition8.set(0, 1, 0, 0, 1000, round2, 7);
+                            groupedMessagePosition8.set(0, 1, 0, 0, MediaDataController.MAX_STYLE_RUNS_COUNT, round2, 7);
                             float f21 = 500;
                             float min4 = Math.min(814.0f - round2, Math.round(Math.min(f21 / groupedMessagePosition9.aspectRatio, f21 / groupedMessagePosition10.aspectRatio))) / 814.0f;
                             if (min4 < dp4) {
@@ -629,12 +630,12 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         MessageObject.GroupedMessagePosition groupedMessagePosition14 = (MessageObject.GroupedMessagePosition) groupCalculator.posArray.get(3);
                         if (str.charAt(0) == 'w') {
                             float round3 = Math.round(Math.min(1000.0f / groupedMessagePosition11.aspectRatio, 537.24005f)) / 814.0f;
-                            groupedMessagePosition11.set(0, 2, 0, 0, 1000, round3, 7);
+                            groupedMessagePosition11.set(0, 2, 0, 0, MediaDataController.MAX_STYLE_RUNS_COUNT, round3, 7);
                             float round4 = Math.round(1000.0f / ((groupedMessagePosition12.aspectRatio + groupedMessagePosition13.aspectRatio) + groupedMessagePosition14.aspectRatio));
                             float f22 = min;
                             int max3 = (int) Math.max(f22, Math.min(400.0f, groupedMessagePosition12.aspectRatio * round4));
                             int max4 = (int) Math.max(Math.max(f22, 330.0f), groupedMessagePosition14.aspectRatio * round4);
-                            int i62 = (1000 - max3) - max4;
+                            int i62 = (MediaDataController.MAX_STYLE_RUNS_COUNT - max3) - max4;
                             if (i62 < AndroidUtilities.dp(58.0f)) {
                                 int dp5 = AndroidUtilities.dp(58.0f) - i62;
                                 i62 = AndroidUtilities.dp(58.0f);
@@ -669,9 +670,9 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                             groupedMessagePosition11.set(0, 0, 0, 2, Math.round(Math.min((groupedMessagePosition11.aspectRatio * 814.0f) + min2, i65)), min6 + min7 + f25, 13);
                             groupedMessagePosition12.set(1, 1, 0, 0, max5, min6, 6);
                             groupedMessagePosition13.set(1, 1, 1, 1, max5, min7, 2);
-                            groupedMessagePosition13.spanSize = 1000;
+                            groupedMessagePosition13.spanSize = MediaDataController.MAX_STYLE_RUNS_COUNT;
                             groupedMessagePosition14.set(1, 1, 2, 2, max5, f25, 10);
-                            groupedMessagePosition14.spanSize = 1000;
+                            groupedMessagePosition14.spanSize = MediaDataController.MAX_STYLE_RUNS_COUNT;
                             groupedMessagePosition11.spanSize = i65;
                             groupedMessagePosition11.siblingHeights = new float[]{min6, min7, f25};
                         }
@@ -805,7 +806,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
             }
 
             @Override // org.telegram.ui.PhotoViewer.EmptyPhotoViewerProvider, org.telegram.ui.PhotoViewer.PhotoViewerProvider
-            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z) {
+            public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int i, boolean z, boolean z2) {
                 MediaController.PhotoEntry photoEntry;
                 ArrayList arrayList;
                 PhotoViewer.PlaceProviderObject placeProviderObject = null;
@@ -848,7 +849,7 @@ public class ChatAttachAlertPhotoLayoutPreview extends ChatAttachAlert.AttachAle
                         ImageReceiver imageReceiver = mediaCell.image;
                         placeProviderObject.imageReceiver = imageReceiver;
                         placeProviderObject.thumb = imageReceiver.getBitmapSafe();
-                        placeProviderObject.radius = new int[]{(int) r1.left, (int) r1.top, (int) r1.right, (int) r1.bottom};
+                        placeProviderObject.radius = new int[]{(int) r0.left, (int) r0.top, (int) r0.right, (int) r0.bottom};
                         RectF rectF = mediaCell.roundRadiuses;
                         placeProviderObject.clipTopAddition = (int) (-PreviewGroupsView.this.getY());
                         placeProviderObject.clipBottomAddition = PreviewGroupsView.this.getHeight() - ((int) (((-PreviewGroupsView.this.getY()) + ChatAttachAlertPhotoLayoutPreview.this.listView.getHeight()) - ChatAttachAlertPhotoLayoutPreview.this.parentAlert.getClipLayoutBottom()));

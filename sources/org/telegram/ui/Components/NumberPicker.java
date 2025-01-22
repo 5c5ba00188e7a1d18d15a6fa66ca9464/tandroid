@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -936,7 +937,7 @@ public class NumberPicker extends LinearLayout {
             removeChangeCurrentByOneFromLongPress();
             this.mPressedStateHelper.cancel();
             VelocityTracker velocityTracker = this.mVelocityTracker;
-            velocityTracker.computeCurrentVelocity(1000, this.mMaximumFlingVelocity);
+            velocityTracker.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT, this.mMaximumFlingVelocity);
             int yVelocity = (int) velocityTracker.getYVelocity();
             if (Math.abs(yVelocity) > this.mMinimumFlingVelocity) {
                 fling(yVelocity);

@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.animation.TimeInterpolator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.TransitionManager;
@@ -136,8 +135,8 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateItems$1(View view, DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
+    public /* synthetic */ void lambda$updateItems$1(View view, AlertDialog alertDialog, int i) {
+        alertDialog.dismiss();
         selectRadioButton(view, true);
     }
 
@@ -155,16 +154,16 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(LocaleController.getString(R.string.MessageLifetime));
         builder.setMessage(LocaleController.formatString("AutoDeleteConfirmMessage", R.string.AutoDeleteConfirmMessage, LocaleController.formatTTLString(i * 60)));
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.AutoDeleteMessagesActivity$$ExternalSyntheticLambda1
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.AutoDeleteMessagesActivity$$ExternalSyntheticLambda1
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                alertDialog.dismiss();
             }
         });
-        builder.setPositiveButton(LocaleController.getString(R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.AutoDeleteMessagesActivity$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                AutoDeleteMessagesActivity.this.lambda$updateItems$1(view, dialogInterface, i2);
+        builder.setPositiveButton(LocaleController.getString(R.string.Enable), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.AutoDeleteMessagesActivity$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                AutoDeleteMessagesActivity.this.lambda$updateItems$1(view, alertDialog, i2);
             }
         });
         builder.show();
@@ -254,7 +253,7 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    AutoDeleteMessagesActivity.this.lambda$onBackPressed$321();
+                    AutoDeleteMessagesActivity.this.lambda$onBackPressed$323();
                 }
             }
         });

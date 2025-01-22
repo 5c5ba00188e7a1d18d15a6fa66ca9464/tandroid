@@ -203,7 +203,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$0(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onItemClick$0(AlertDialog alertDialog, int i) {
             boolean fontSize = ThemeActivity.this.setFontSize(AndroidUtilities.isTablet() ? 18 : 16);
             if (ThemeActivity.this.setBubbleRadius(17, true)) {
                 fontSize = true;
@@ -248,7 +248,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         */
         public void onItemClick(int i) {
             if (i == -1) {
-                ThemeActivity.this.lambda$onBackPressed$321();
+                ThemeActivity.this.lambda$onBackPressed$323();
                 return;
             }
             if (i == 1) {
@@ -277,10 +277,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThemeActivity.this.getParentActivity());
                 builder.setTitle(LocaleController.getString("ThemeResetToDefaultsTitle", R.string.ThemeResetToDefaultsTitle));
                 builder.setMessage(LocaleController.getString("ThemeResetToDefaultsText", R.string.ThemeResetToDefaultsText));
-                builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$1$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        ThemeActivity.1.this.lambda$onItemClick$0(dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString("Reset", R.string.Reset), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemeActivity$1$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ThemeActivity.1.this.lambda$onItemClick$0(alertDialog, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -656,7 +656,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onCreateViewHolder$3(ThemeAccentsListAdapter themeAccentsListAdapter, Theme.ThemeAccent themeAccent, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onCreateViewHolder$3(ThemeAccentsListAdapter themeAccentsListAdapter, Theme.ThemeAccent themeAccent, AlertDialog alertDialog, int i) {
             if (Theme.deleteThemeAccent(themeAccentsListAdapter.currentTheme, themeAccent, true)) {
                 Theme.refreshThemeColors();
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.needSetDayNightTheme, Theme.getActiveTheme(), Boolean.valueOf(ThemeActivity.this.currentType == 1), null, -1);
@@ -692,10 +692,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             AlertDialog.Builder builder = new AlertDialog.Builder(ThemeActivity.this.getParentActivity());
             builder.setTitle(LocaleController.getString("DeleteThemeTitle", R.string.DeleteThemeTitle));
             builder.setMessage(LocaleController.getString("DeleteThemeAlert", R.string.DeleteThemeAlert));
-            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda3
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface2, int i2) {
-                    ThemeActivity.ListAdapter.this.lambda$onCreateViewHolder$3(themeAccentsListAdapter, themeAccent, dialogInterface2, i2);
+            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda3
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i2) {
+                    ThemeActivity.ListAdapter.this.lambda$onCreateViewHolder$3(themeAccentsListAdapter, themeAccent, alertDialog, i2);
                 }
             });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -732,7 +732,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$showOptionsForTheme$0(Theme.ThemeInfo themeInfo, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$showOptionsForTheme$0(Theme.ThemeInfo themeInfo, AlertDialog alertDialog, int i) {
             MessagesController.getInstance(themeInfo.account).saveTheme(themeInfo, null, themeInfo == Theme.getCurrentNightTheme(), true);
             if (Theme.deleteTheme(themeInfo)) {
                 ((BaseFragment) ThemeActivity.this).parentLayout.rebuildAllFragmentViews(true, true);
@@ -786,10 +786,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThemeActivity.this.getParentActivity());
                 builder.setTitle(LocaleController.getString("DeleteThemeTitle", R.string.DeleteThemeTitle));
                 builder.setMessage(LocaleController.getString("DeleteThemeAlert", R.string.DeleteThemeAlert));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda5
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface2, int i2) {
-                        ThemeActivity.ListAdapter.this.lambda$showOptionsForTheme$0(themeInfo, dialogInterface2, i2);
+                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemeActivity$ListAdapter$$ExternalSyntheticLambda5
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        ThemeActivity.ListAdapter.this.lambda$showOptionsForTheme$0(themeInfo, alertDialog, i2);
                     }
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -1767,10 +1767,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         builder.setTitle(LocaleController.getString("NewTheme", R.string.NewTheme));
         builder.setMessage(LocaleController.getString("CreateNewThemeAlert", R.string.CreateNewThemeAlert));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("CreateTheme", R.string.CreateTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda18
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ThemeActivity.this.lambda$createNewTheme$14(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString("CreateTheme", R.string.CreateTheme), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda18
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ThemeActivity.this.lambda$createNewTheme$14(alertDialog, i);
             }
         });
         showDialog(builder.create());
@@ -1793,7 +1793,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createNewTheme$14(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createNewTheme$14(AlertDialog alertDialog, int i) {
         AlertsCreator.createThemeCreateDialog(this, 0, null, null);
     }
 
@@ -2094,10 +2094,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                                                 textCheckCell = (TextCheckCell) view;
                                                 chatBlurEnabled = getMessagesController().showSensitiveContent();
                                             } else {
-                                                builder = new AlertDialog.Builder(context, this.resourceProvider).setTitle(LocaleController.getString(R.string.ConfirmSensitiveContentTitle)).setMessage(LocaleController.getString(R.string.ConfirmSensitiveContentText)).setPositiveButton(LocaleController.getString(R.string.Confirm), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda14
-                                                    @Override // android.content.DialogInterface.OnClickListener
-                                                    public final void onClick(DialogInterface dialogInterface, int i13) {
-                                                        ThemeActivity.this.lambda$createView$8(view, dialogInterface, i13);
+                                                builder = new AlertDialog.Builder(context, this.resourceProvider).setTitle(LocaleController.getString(R.string.ConfirmSensitiveContentTitle)).setMessage(LocaleController.getString(R.string.ConfirmSensitiveContentText)).setPositiveButton(LocaleController.getString(R.string.Confirm), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda14
+                                                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                                                    public final void onClick(AlertDialog alertDialog, int i13) {
+                                                        ThemeActivity.this.lambda$createView$8(view, alertDialog, i13);
                                                     }
                                                 }).setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                                                 create = builder.create();
@@ -2289,7 +2289,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$createView$8(View view, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$createView$8(View view, AlertDialog alertDialog, int i) {
         getMessagesController().setContentSettings(true);
         if (view instanceof TextCheckCell) {
             ((TextCheckCell) view).setChecked(getMessagesController().showSensitiveContent());
@@ -2356,7 +2356,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$updateSunTime$15(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$updateSunTime$15(AlertDialog alertDialog, int i) {
         if (getParentActivity() == null) {
             return;
         }
@@ -2931,10 +2931,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
                     builder.setMessage(LocaleController.getString("GpsDisabledAlertText", R.string.GpsDisabledAlertText));
-                    builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda2
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            ThemeActivity.this.lambda$updateSunTime$15(dialogInterface, i);
+                    builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ThemeActivity$$ExternalSyntheticLambda2
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i) {
+                            ThemeActivity.this.lambda$updateSunTime$15(alertDialog, i);
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);

@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -161,9 +160,9 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onItemClick$1(DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onItemClick$1(AlertDialog alertDialog, int i) {
             deleteSelectedMessages();
-            dialogInterface.dismiss();
+            alertDialog.dismiss();
         }
 
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -174,7 +173,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                     NotificationsSoundActivity.this.hideActionMode();
                     return;
                 } else {
-                    NotificationsSoundActivity.this.lambda$onBackPressed$321();
+                    NotificationsSoundActivity.this.lambda$onBackPressed$323();
                     return;
                 }
             }
@@ -182,16 +181,16 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 AlertDialog.Builder builder = new AlertDialog.Builder(NotificationsSoundActivity.this.getParentActivity(), NotificationsSoundActivity.this.resourcesProvider);
                 builder.setTitle(LocaleController.formatPluralString("DeleteTones", NotificationsSoundActivity.this.selectedTones.size(), new Object[0]));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatPluralString("DeleteTonesMessage", NotificationsSoundActivity.this.selectedTones.size(), new Object[0])));
-                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSoundActivity$1$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        dialogInterface.dismiss();
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.NotificationsSoundActivity$1$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        alertDialog.dismiss();
                     }
                 });
-                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.NotificationsSoundActivity$1$$ExternalSyntheticLambda1
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i2) {
-                        NotificationsSoundActivity.1.this.lambda$onItemClick$1(dialogInterface, i2);
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.NotificationsSoundActivity$1$$ExternalSyntheticLambda1
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i2) {
+                        NotificationsSoundActivity.1.this.lambda$onItemClick$1(alertDialog, i2);
                     }
                 });
                 TextView textView = (TextView) builder.show().getButton(-1);
@@ -1010,7 +1009,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             z = false;
         }
         if (z) {
-            this.chatAttachAlert.dismiss();
+            this.chatAttachAlert.lambda$new$0();
         }
     }
 

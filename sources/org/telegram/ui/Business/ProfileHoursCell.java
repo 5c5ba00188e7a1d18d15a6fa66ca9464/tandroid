@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
@@ -233,7 +234,7 @@ public abstract class ProfileHoursCell extends LinearLayout {
         this.todayTimeTextContainer2.setTranslationX(is24x7 ? AndroidUtilities.dp(11.0f) : 0.0f);
         TLRPC.TL_timezone findTimezone = TimezonesController.getInstance(UserConfig.selectedAccount).findTimezone(tL_businessWorkHours.timezone_id);
         Calendar calendar = Calendar.getInstance();
-        int offset = ((calendar.getTimeZone().getOffset(System.currentTimeMillis()) / 1000) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
+        int offset = ((calendar.getTimeZone().getOffset(System.currentTimeMillis()) / MediaDataController.MAX_STYLE_RUNS_COUNT) - (findTimezone == null ? 0 : findTimezone.utc_offset)) / 60;
         ClickableAnimatedTextView clickableAnimatedTextView = this.switchText;
         if (offset != 0 && !is24x7) {
             i5 = 0;

@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public class SampleQueue implements TrackOutput {
@@ -40,13 +41,13 @@ public class SampleQueue implements TrackOutput {
     private UpstreamFormatChangedListener upstreamFormatChangeListener;
     private int upstreamSourceId;
     private final SampleExtrasHolder extrasHolder = new SampleExtrasHolder();
-    private int capacity = 1000;
-    private int[] sourceIds = new int[1000];
-    private long[] offsets = new long[1000];
-    private long[] timesUs = new long[1000];
-    private int[] flags = new int[1000];
-    private int[] sizes = new int[1000];
-    private TrackOutput.CryptoData[] cryptoDatas = new TrackOutput.CryptoData[1000];
+    private int capacity = MediaDataController.MAX_STYLE_RUNS_COUNT;
+    private int[] sourceIds = new int[MediaDataController.MAX_STYLE_RUNS_COUNT];
+    private long[] offsets = new long[MediaDataController.MAX_STYLE_RUNS_COUNT];
+    private long[] timesUs = new long[MediaDataController.MAX_STYLE_RUNS_COUNT];
+    private int[] flags = new int[MediaDataController.MAX_STYLE_RUNS_COUNT];
+    private int[] sizes = new int[MediaDataController.MAX_STYLE_RUNS_COUNT];
+    private TrackOutput.CryptoData[] cryptoDatas = new TrackOutput.CryptoData[MediaDataController.MAX_STYLE_RUNS_COUNT];
     private final SpannedData sharedSampleMetadata = new SpannedData(new Consumer() { // from class: com.google.android.exoplayer2.source.SampleQueue$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.util.Consumer
         public final void accept(Object obj) {
@@ -124,7 +125,7 @@ public class SampleQueue implements TrackOutput {
             this.length = i4;
             int i5 = this.capacity;
             if (i4 == i5) {
-                int i6 = i5 + 1000;
+                int i6 = i5 + MediaDataController.MAX_STYLE_RUNS_COUNT;
                 int[] iArr = new int[i6];
                 long[] jArr = new long[i6];
                 long[] jArr2 = new long[i6];

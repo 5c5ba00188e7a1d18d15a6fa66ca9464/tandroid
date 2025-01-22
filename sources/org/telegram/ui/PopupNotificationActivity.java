@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -37,6 +36,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -627,7 +627,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onRequestPermissionsResult$0(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$onRequestPermissionsResult$0(AlertDialog alertDialog, int i) {
         try {
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
             intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
@@ -1339,7 +1339,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         }
         ChatActivityEnterView chatActivityEnterView2 = new ChatActivityEnterView(this, sizeNotifierFrameLayout, null, false);
         this.chatActivityEnterView = chatActivityEnterView2;
-        chatActivityEnterView2.setId(1000);
+        chatActivityEnterView2.setId(MediaDataController.MAX_STYLE_RUNS_COUNT);
         this.popupContainer.addView(this.chatActivityEnterView, LayoutHelper.createRelative(-1, -2, 12));
         this.chatActivityEnterView.setDelegate(new ChatActivityEnterView.ChatActivityEnterViewDelegate() { // from class: org.telegram.ui.PopupNotificationActivity.3
             @Override // org.telegram.ui.Components.ChatActivityEnterView.ChatActivityEnterViewDelegate
@@ -1699,10 +1699,10 @@ public class PopupNotificationActivity extends Activity implements NotificationC
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(LocaleController.getString(R.string.AppName));
         builder.setMessage(LocaleController.getString(R.string.PermissionNoAudioWithHint));
-        builder.setNegativeButton(LocaleController.getString(R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i2) {
-                PopupNotificationActivity.this.lambda$onRequestPermissionsResult$0(dialogInterface, i2);
+        builder.setNegativeButton(LocaleController.getString(R.string.PermissionOpenSettings), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.PopupNotificationActivity$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i2) {
+                PopupNotificationActivity.this.lambda$onRequestPermissionsResult$0(alertDialog, i2);
             }
         });
         builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
@@ -1772,7 +1772,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 int dp = AndroidUtilities.displaySize.x - AndroidUtilities.dp(24.0f);
                 VelocityTracker velocityTracker3 = this.velocityTracker;
                 if (velocityTracker3 != null) {
-                    velocityTracker3.computeCurrentVelocity(1000);
+                    velocityTracker3.computeCurrentVelocity(MediaDataController.MAX_STYLE_RUNS_COUNT);
                     if (this.velocityTracker.getXVelocity() >= 3500.0f) {
                         c = 1;
                     } else if (this.velocityTracker.getXVelocity() <= -3500.0f) {

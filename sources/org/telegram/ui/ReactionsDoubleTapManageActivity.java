@@ -20,6 +20,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -160,7 +161,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
                 if (i == -1) {
-                    ReactionsDoubleTapManageActivity.this.lambda$onBackPressed$321();
+                    ReactionsDoubleTapManageActivity.this.lambda$onBackPressed$323();
                 }
             }
         });
@@ -341,7 +342,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                 int i4 = i2;
                 selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 2, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
                     @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-                    protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
+                    protected void onEmojiSelected(View view, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
                         if (l == null) {
                             return;
                         }
@@ -410,7 +411,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         int i42 = i2;
         selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog(this, getContext(), false, Integer.valueOf(i), 2, null) { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.3
             @Override // org.telegram.ui.SelectAnimatedEmojiDialog
-            protected void onEmojiSelected(View view, Long l, TLRPC.Document document, Integer num) {
+            protected void onEmojiSelected(View view, Long l, TLRPC.Document document, TL_stars.TL_starGiftUnique tL_starGiftUnique, Integer num) {
                 if (l == null) {
                     return;
                 }

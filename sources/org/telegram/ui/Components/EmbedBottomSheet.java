@@ -876,7 +876,7 @@ public class EmbedBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -916,13 +916,13 @@ public class EmbedBottomSheet extends BottomSheet {
                 }
             });
         }
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$5(View view) {
         Browser.openUrl(this.parentActivity, this.openUrl);
-        dismiss();
+        lambda$new$0();
     }
 
     private void runJsCode(String str) {

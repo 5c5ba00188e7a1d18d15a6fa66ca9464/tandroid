@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 final class ExoPlayerImplInternal implements Handler.Callback, MediaPeriod.Callback, TrackSelector.InvalidationListener, MediaSourceList.MediaSourceListInfoRefreshListener, DefaultMediaClock.PlaybackParametersListener, PlayerMessage.Sender {
@@ -2234,6 +2235,7 @@ final class ExoPlayerImplInternal implements Handler.Callback, MediaPeriod.Callb
         int i;
         IOException iOException;
         MediaPeriodHolder readingPeriod;
+        int i2 = MediaDataController.MAX_STYLE_RUNS_COUNT;
         try {
             switch (message.what) {
                 case 0:
@@ -2339,13 +2341,13 @@ final class ExoPlayerImplInternal implements Handler.Callback, MediaPeriod.Callb
                 this.playbackInfo = this.playbackInfo.copyWithPlaybackError(e);
             }
         } catch (ParserException e3) {
-            int i2 = e3.dataType;
-            if (i2 == 1) {
-                r2 = e3.contentIsMalformed ? 3001 : 3003;
-            } else if (i2 == 4) {
-                r2 = e3.contentIsMalformed ? 3002 : 3004;
+            int i3 = e3.dataType;
+            if (i3 == 1) {
+                i2 = e3.contentIsMalformed ? 3001 : 3003;
+            } else if (i3 == 4) {
+                i2 = e3.contentIsMalformed ? 3002 : 3004;
             }
-            handleIoException(e3, r2);
+            handleIoException(e3, i2);
         } catch (DrmSession.DrmSessionException e4) {
             i = e4.errorCode;
             iOException = e4;
@@ -2363,7 +2365,10 @@ final class ExoPlayerImplInternal implements Handler.Callback, MediaPeriod.Callb
             iOException = e7;
             handleIoException(iOException, i);
         } catch (RuntimeException e8) {
-            e = ExoPlaybackException.createForUnexpected(e8, ((e8 instanceof IllegalStateException) || (e8 instanceof IllegalArgumentException)) ? 1004 : 1000);
+            if ((e8 instanceof IllegalStateException) || (e8 instanceof IllegalArgumentException)) {
+                i2 = 1004;
+            }
+            e = ExoPlaybackException.createForUnexpected(e8, i2);
             Log.e("ExoPlayerImplInternal", "Playback error", e);
             stopInternal(true, false);
             this.playbackInfo = this.playbackInfo.copyWithPlaybackError(e);

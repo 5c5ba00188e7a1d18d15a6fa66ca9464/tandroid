@@ -55,9 +55,9 @@ public class SessionBottomSheet extends BottomSheet {
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$0(Callback callback, TLRPC.TL_authorization tL_authorization, DialogInterface dialogInterface, int i) {
+        public /* synthetic */ void lambda$onClick$0(Callback callback, TLRPC.TL_authorization tL_authorization, AlertDialog alertDialog, int i) {
             callback.onSessionTerminated(tL_authorization);
-            SessionBottomSheet.this.dismiss();
+            SessionBottomSheet.this.lambda$new$0();
         }
 
         @Override // android.view.View.OnClickListener
@@ -68,10 +68,10 @@ public class SessionBottomSheet extends BottomSheet {
             String string = LocaleController.getString(R.string.Terminate);
             final Callback callback = this.val$callback;
             final TLRPC.TL_authorization tL_authorization = this.val$session;
-            builder.setPositiveButton(string, new DialogInterface.OnClickListener() { // from class: org.telegram.ui.SessionBottomSheet$8$$ExternalSyntheticLambda0
-                @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i) {
-                    SessionBottomSheet.8.this.lambda$onClick$0(callback, tL_authorization, dialogInterface, i);
+            builder.setPositiveButton(string, new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.SessionBottomSheet$8$$ExternalSyntheticLambda0
+                @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                public final void onClick(AlertDialog alertDialog, int i) {
+                    SessionBottomSheet.8.this.lambda$onClick$0(callback, tL_authorization, alertDialog, i);
                 }
             });
             builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);

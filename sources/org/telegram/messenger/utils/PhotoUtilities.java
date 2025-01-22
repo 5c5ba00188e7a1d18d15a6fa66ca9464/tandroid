@@ -10,6 +10,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -22,6 +23,7 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ImageUpdater;
+import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.ProfileActivity;
 
 /* loaded from: classes3.dex */
@@ -29,7 +31,7 @@ public abstract class PhotoUtilities {
     public static void applyPhotoToUser(TLRPC.Photo photo, TLRPC.User user, boolean z) {
         ArrayList<TLRPC.PhotoSize> arrayList = photo.sizes;
         TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 100);
-        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 1000);
+        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, MediaDataController.MAX_STYLE_RUNS_COUNT);
         user.flags |= 32;
         TLRPC.TL_userProfilePhoto tL_userProfilePhoto = new TLRPC.TL_userProfilePhoto();
         user.photo = tL_userProfilePhoto;
@@ -78,7 +80,7 @@ public abstract class PhotoUtilities {
                 return;
             }
             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 100);
-            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, 1000);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tL_photos_photo.photo.sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
             if (closestPhotoSizeWithSize != null && photoSize != null && photoSize.location != null) {
                 FileLoader.getInstance(i).getPathToAttach(photoSize.location, true).renameTo(FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize, true));
                 ImageLoader.getInstance().replaceImageInCache(photoSize.location.volume_id + "_" + photoSize.location.local_id + "@50_50", closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", ImageLocation.getForUser(user, 1), false);
@@ -162,7 +164,7 @@ public abstract class PhotoUtilities {
             ArrayList<TLRPC.PhotoSize> arrayList = tL_photos_photo.photo.sizes;
             TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList, 150);
             TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(arrayList, 800);
-            TLRPC.VideoSize closestVideoSizeWithSize = tL_photos_photo.photo.video_sizes.isEmpty() ? null : FileLoader.getClosestVideoSizeWithSize(tL_photos_photo.photo.video_sizes, 1000);
+            TLRPC.VideoSize closestVideoSizeWithSize = tL_photos_photo.photo.video_sizes.isEmpty() ? null : FileLoader.getClosestVideoSizeWithSize(tL_photos_photo.photo.video_sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
             TLRPC.TL_userProfilePhoto tL_userProfilePhoto = new TLRPC.TL_userProfilePhoto();
             user.photo = tL_userProfilePhoto;
             tL_userProfilePhoto.photo_id = tL_photos_photo.photo.id;
@@ -239,9 +241,9 @@ public abstract class PhotoUtilities {
 
     public static void replacePhotoImagesInCache(int i, TLRPC.Photo photo, TLRPC.Photo photo2) {
         TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 100);
-        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 1000);
+        TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
         TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, 100);
-        TLRPC.PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, 1000);
+        TLRPC.PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, MediaDataController.MAX_STYLE_RUNS_COUNT);
         if (closestPhotoSizeWithSize3 != null && closestPhotoSizeWithSize != null) {
             FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize, true).renameTo(FileLoader.getInstance(i).getPathToAttach(closestPhotoSizeWithSize3, true));
             ImageLoader.getInstance().replaceImageInCache(closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id + "@50_50", closestPhotoSizeWithSize3.location.volume_id + "_" + closestPhotoSizeWithSize3.location.local_id + "@50_50", ImageLocation.getForPhoto(closestPhotoSizeWithSize, photo), false);
@@ -266,8 +268,8 @@ public abstract class PhotoUtilities {
             }
 
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-            public /* synthetic */ void didStartUpload(boolean z) {
-                ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z);
+            public /* synthetic */ void didStartUpload(boolean z, boolean z2) {
+                ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z, z2);
             }
 
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -281,6 +283,11 @@ public abstract class PhotoUtilities {
             }
 
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+            public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+                return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
+            }
+
+            @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
             public /* synthetic */ String getInitialSearchString() {
                 return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getInitialSearchString(this);
             }
@@ -288,6 +295,11 @@ public abstract class PhotoUtilities {
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
             public /* synthetic */ void onUploadProgressChanged(float f) {
                 ImageUpdater.ImageUpdaterDelegate.-CC.$default$onUploadProgressChanged(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+            public /* synthetic */ boolean supportsBulletin() {
+                return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
             }
         });
     }
@@ -306,8 +318,8 @@ public abstract class PhotoUtilities {
             }
 
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
-            public /* synthetic */ void didStartUpload(boolean z) {
-                ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z);
+            public /* synthetic */ void didStartUpload(boolean z, boolean z2) {
+                ImageUpdater.ImageUpdaterDelegate.-CC.$default$didStartUpload(this, z, z2);
             }
 
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
@@ -321,6 +333,11 @@ public abstract class PhotoUtilities {
             }
 
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+            public /* synthetic */ PhotoViewer.PlaceProviderObject getCloseIntoObject() {
+                return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getCloseIntoObject(this);
+            }
+
+            @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
             public /* synthetic */ String getInitialSearchString() {
                 return ImageUpdater.ImageUpdaterDelegate.-CC.$default$getInitialSearchString(this);
             }
@@ -328,6 +345,11 @@ public abstract class PhotoUtilities {
             @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
             public /* synthetic */ void onUploadProgressChanged(float f) {
                 ImageUpdater.ImageUpdaterDelegate.-CC.$default$onUploadProgressChanged(this, f);
+            }
+
+            @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
+            public /* synthetic */ boolean supportsBulletin() {
+                return ImageUpdater.ImageUpdaterDelegate.-CC.$default$supportsBulletin(this);
             }
         });
     }

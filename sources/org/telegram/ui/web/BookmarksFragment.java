@@ -1,7 +1,6 @@
 package org.telegram.ui.web;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -73,7 +72,7 @@ public class BookmarksFragment extends UniversalFragment {
         public void onItemClick(int i) {
             if (i == -1) {
                 if (!((BaseFragment) BookmarksFragment.this).actionBar.isActionModeShowed()) {
-                    BookmarksFragment.this.lambda$onBackPressed$321();
+                    BookmarksFragment.this.lambda$onBackPressed$323();
                     return;
                 }
                 ((BaseFragment) BookmarksFragment.this).actionBar.hideActionMode();
@@ -186,7 +185,7 @@ public class BookmarksFragment extends UniversalFragment {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$deleteSelectedMessages$0(HashSet hashSet, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$deleteSelectedMessages$0(HashSet hashSet, AlertDialog alertDialog, int i) {
         MessagesController.getInstance(this.currentAccount).deleteMessages(new ArrayList<>(hashSet), null, null, UserConfig.getInstance(this.currentAccount).getClientUserId(), 0, true, 0);
         this.list.delete(new ArrayList(hashSet));
         AddressBarList.BookmarksList bookmarksList = this.searchList;
@@ -333,14 +332,14 @@ public class BookmarksFragment extends UniversalFragment {
                 	at jadx.core.dex.visitors.regions.TernaryMod.enterRegion(TernaryMod.java:45)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:67)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
-                	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1085)
+                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+                	at java.base/java.util.Collections$UnmodifiableCollection.forEach(Collections.java:1092)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.lambda$traverseInternal$0(DepthRegionTraversal.java:68)
-                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+                	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverseInternal(DepthRegionTraversal.java:68)
                 	at jadx.core.dex.visitors.regions.DepthRegionTraversal.traverse(DepthRegionTraversal.java:19)
                 	at jadx.core.dex.visitors.regions.TernaryMod.process(TernaryMod.java:35)
@@ -435,10 +434,10 @@ public class BookmarksFragment extends UniversalFragment {
                 hashSet.add(AddressBarList.getLink(messageObject));
             }
         }
-        new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.formatPluralString("DeleteOptionsTitle", hashSet2.size(), new Object[0])).setMessage(LocaleController.getString(hashSet2.size() == 1 ? "AreYouSureUnsaveSingleMessage" : "AreYouSureUnsaveFewMessages")).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda3
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                BookmarksFragment.this.lambda$deleteSelectedMessages$0(hashSet2, dialogInterface, i);
+        new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.formatPluralString("DeleteOptionsTitle", hashSet2.size(), new Object[0])).setMessage(LocaleController.getString(hashSet2.size() == 1 ? "AreYouSureUnsaveSingleMessage" : "AreYouSureUnsaveFewMessages")).setPositiveButton(LocaleController.getString(R.string.Delete), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda3
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                BookmarksFragment.this.lambda$deleteSelectedMessages$0(hashSet2, alertDialog, i);
             }
         }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).makeRed(-1).show();
     }
@@ -519,7 +518,7 @@ public class BookmarksFragment extends UniversalFragment {
         }
         final long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
         final int intValue = ((Integer) this.selected.iterator().next()).intValue();
-        lambda$onBackPressed$321();
+        lambda$onBackPressed$323();
         Runnable runnable = this.closeToTabs;
         if (runnable != null) {
             runnable.run();
@@ -547,7 +546,7 @@ public class BookmarksFragment extends UniversalFragment {
             if (this.actionBar.isActionModeShowed()) {
                 clickSelect(uItem, view);
             } else {
-                lambda$onBackPressed$321();
+                lambda$onBackPressed$323();
                 this.whenClicked.run(AddressBarList.getLink((MessageObject) uItem.object2));
             }
         }

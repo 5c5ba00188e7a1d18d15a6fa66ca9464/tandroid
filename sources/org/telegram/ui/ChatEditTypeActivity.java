@@ -2,7 +2,6 @@ package org.telegram.ui;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -251,17 +250,17 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_username tL_username, boolean z, DialogInterface dialogInterface, int i) {
+            public /* synthetic */ void lambda$onItemClick$0(TLRPC.TL_username tL_username, boolean z, AlertDialog alertDialog, int i) {
                 UsernamesListView.this.toggleUsername(tL_username, z, true);
                 ChatEditTypeActivity.this.checkDoneButton();
             }
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onItemClick$1(final TLRPC.TL_username tL_username, final boolean z) {
-                new AlertDialog.Builder(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider).setTitle(LocaleController.getString(R.string.UsernameActivateErrorTitle)).setMessage(LocaleController.getString(R.string.UsernameActivateErrorMessage)).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda0
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public final void onClick(DialogInterface dialogInterface, int i) {
-                        ChatEditTypeActivity.UsernamesListView.1.this.lambda$onItemClick$0(tL_username, z, dialogInterface, i);
+                new AlertDialog.Builder(UsernamesListView.this.getContext(), ((RecyclerListView) UsernamesListView.this).resourcesProvider).setTitle(LocaleController.getString(R.string.UsernameActivateErrorTitle)).setMessage(LocaleController.getString(R.string.UsernameActivateErrorMessage)).setPositiveButton(LocaleController.getString(R.string.OK), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda0
+                    @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                    public final void onClick(AlertDialog alertDialog, int i) {
+                        ChatEditTypeActivity.UsernamesListView.1.this.lambda$onItemClick$0(tL_username, z, alertDialog, i);
                     }
                 }).show();
             }
@@ -296,7 +295,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            public /* synthetic */ void lambda$onItemClick$4(final TLRPC.TL_username tL_username, View view, DialogInterface dialogInterface, int i) {
+            public /* synthetic */ void lambda$onItemClick$4(final TLRPC.TL_username tL_username, View view, AlertDialog alertDialog, int i) {
                 if (tL_username.editable) {
                     if (ChatEditTypeActivity.this.editableUsernameWasActive == null) {
                         ChatEditTypeActivity.this.editableUsernameWasActive = Boolean.valueOf(tL_username.active);
@@ -333,15 +332,15 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     return;
                 }
                 if (!tL_username.editable) {
-                    new AlertDialog.Builder(UsernamesListView.this.getContext(), ChatEditTypeActivity.this.getResourceProvider()).setTitle(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLink : R.string.UsernameActivateLink)).setMessage(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLinkChannelMessage : R.string.UsernameActivateLinkChannelMessage)).setPositiveButton(LocaleController.getString(tL_username.active ? R.string.Hide : R.string.Show), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda1
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i2) {
-                            ChatEditTypeActivity.UsernamesListView.1.this.lambda$onItemClick$4(tL_username, view, dialogInterface, i2);
+                    new AlertDialog.Builder(UsernamesListView.this.getContext(), ChatEditTypeActivity.this.getResourceProvider()).setTitle(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLink : R.string.UsernameActivateLink)).setMessage(LocaleController.getString(tL_username.active ? R.string.UsernameDeactivateLinkChannelMessage : R.string.UsernameActivateLinkChannelMessage)).setPositiveButton(LocaleController.getString(tL_username.active ? R.string.Hide : R.string.Show), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda1
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i2) {
+                            ChatEditTypeActivity.UsernamesListView.1.this.lambda$onItemClick$4(tL_username, view, alertDialog, i2);
                         }
-                    }).setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda2
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i2) {
-                            dialogInterface.dismiss();
+                    }).setNegativeButton(LocaleController.getString(R.string.Cancel), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda2
+                        @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+                        public final void onClick(AlertDialog alertDialog, int i2) {
+                            alertDialog.dismiss();
                         }
                     }).show();
                     return;
@@ -985,7 +984,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdminedChannels$19(TLRPC.Chat chat, DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$loadAdminedChannels$19(TLRPC.Chat chat, AlertDialog alertDialog, int i) {
         TLRPC.TL_channels_updateUsername tL_channels_updateUsername = new TLRPC.TL_channels_updateUsername();
         tL_channels_updateUsername.channel = MessagesController.getInputChannel(chat);
         tL_channels_updateUsername.username = "";
@@ -1010,10 +1009,10 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
         builder.setMessage(AndroidUtilities.replaceTags(formatString));
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda0
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                ChatEditTypeActivity.this.lambda$loadAdminedChannels$19(currentChannel, dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda0
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                ChatEditTypeActivity.this.lambda$loadAdminedChannels$19(currentChannel, alertDialog, i);
             }
         });
         showDialog(builder.create());
@@ -1187,7 +1186,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     public void processDone() {
         AndroidUtilities.runOnUIThread(this.enableDoneLoading, 200L);
         if (trySetUsername() && trySetRestrict() && tryUpdateJoinSettings()) {
-            lambda$onBackPressed$321();
+            lambda$onBackPressed$323();
         }
     }
 
@@ -1543,7 +1542,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i6) {
                 if (i6 == -1) {
-                    ChatEditTypeActivity.this.lambda$onBackPressed$321();
+                    ChatEditTypeActivity.this.lambda$onBackPressed$323();
                 } else if (i6 == 1) {
                     if (ChatEditTypeActivity.this.doneButtonDrawable == null || ChatEditTypeActivity.this.doneButtonDrawable.getProgress() <= 0.0f) {
                         ChatEditTypeActivity.this.processDone();
@@ -1883,7 +1882,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 if (iNavigationLayout == null || iNavigationLayout.getLastFragment() != this) {
                     removeSelfFromStack();
                 } else {
-                    lambda$onBackPressed$321();
+                    lambda$onBackPressed$323();
                 }
             }
         }

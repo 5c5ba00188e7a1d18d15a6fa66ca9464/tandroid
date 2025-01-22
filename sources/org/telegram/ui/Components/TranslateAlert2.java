@@ -347,7 +347,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$0(View view) {
-            TranslateAlert2.this.dismiss();
+            TranslateAlert2.this.lambda$new$0();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -615,7 +615,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
                 if (motionEvent.getAction() != 0 || motionEvent.getY() >= TranslateAlert2.this.getSheetTop() - getTop()) {
                     return super.dispatchTouchEvent(motionEvent);
                 }
-                TranslateAlert2.this.dismiss();
+                TranslateAlert2.this.lambda$new$0();
                 return true;
             }
 
@@ -791,7 +791,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$0(View view) {
-        dismiss();
+        lambda$new$0();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -809,7 +809,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
             }
         }
         if (this.firstTranslation) {
-            dismiss();
+            lambda$new$0();
             NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.getString(R.string.TranslationFailedAlert2));
             return;
         }
@@ -978,7 +978,7 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
                         public void onClick(View view) {
                             if (TranslateAlert2.this.onLinkPress != null) {
                                 if (((Boolean) TranslateAlert2.this.onLinkPress.run(uRLSpan)).booleanValue()) {
-                                    TranslateAlert2.this.dismiss();
+                                    TranslateAlert2.this.lambda$new$0();
                                 }
                             } else if (TranslateAlert2.this.fragment != null) {
                                 AlertsCreator.showOpenUrlAlert(TranslateAlert2.this.fragment, uRLSpan.getURL(), false, false);
@@ -1011,8 +1011,9 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
         }
         TranslateAlert2 translateAlert2 = new TranslateAlert2(context, str, str2, charSequence, arrayList, null) { // from class: org.telegram.ui.Components.TranslateAlert2.7
             @Override // org.telegram.ui.Components.TranslateAlert2, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-            public void dismiss() {
-                super.dismiss();
+            /* renamed from: dismiss */
+            public void lambda$new$0() {
+                super.lambda$new$0();
                 Runnable runnable2 = runnable;
                 if (runnable2 != null) {
                     runnable2.run();
@@ -1033,8 +1034,9 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
     public static TranslateAlert2 showAlert(Context context, BaseFragment baseFragment, int i, TLRPC.InputPeer inputPeer, int i2, String str, String str2, CharSequence charSequence, ArrayList arrayList, boolean z, Utilities.CallbackReturn callbackReturn, final Runnable runnable) {
         TranslateAlert2 translateAlert2 = new TranslateAlert2(context, str, str2, charSequence, arrayList, inputPeer, i2, null) { // from class: org.telegram.ui.Components.TranslateAlert2.6
             @Override // org.telegram.ui.Components.TranslateAlert2, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-            public void dismiss() {
-                super.dismiss();
+            /* renamed from: dismiss */
+            public void lambda$new$0() {
+                super.lambda$new$0();
                 Runnable runnable2 = runnable;
                 if (runnable2 != null) {
                     runnable2.run();
@@ -1117,8 +1119,9 @@ public abstract class TranslateAlert2 extends BottomSheet implements Notificatio
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public void dismiss() {
-        super.dismiss();
+    /* renamed from: dismiss */
+    public void lambda$new$0() {
+        super.lambda$new$0();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
     }
 

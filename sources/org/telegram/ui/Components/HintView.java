@@ -22,6 +22,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
@@ -597,7 +598,7 @@ public class HintView extends FrameLayout {
                 return false;
             }
             forwardNameCenterX = chatMessageCell.getNoSoundIconCenterX();
-            measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+            measure(View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE));
         } else if (i7 == 5) {
             Integer num = (Integer) obj;
             dp = i6 + i2;
@@ -613,7 +614,7 @@ public class HintView extends FrameLayout {
                     textView = this.textView;
                     formatPluralString = LocaleController.formatPluralString("Answer", num.intValue(), new Object[0]);
                     textView.setText(formatPluralString);
-                    measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+                    measure(View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE));
                     forwardNameCenterX = i;
                 }
             } else if (num.intValue() == 0) {
@@ -623,12 +624,12 @@ public class HintView extends FrameLayout {
                 textView = this.textView;
                 formatPluralString = LocaleController.formatPluralString("Vote", num.intValue(), new Object[0]);
                 textView.setText(formatPluralString);
-                measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+                measure(View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE));
                 forwardNameCenterX = i;
             }
             formatPluralString = LocaleController.getString(i3);
             textView.setText(formatPluralString);
-            measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+            measure(View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE));
             forwardNameCenterX = i;
         } else {
             MessageObject messageObject = chatMessageCell.getMessageObject();
@@ -638,7 +639,7 @@ public class HintView extends FrameLayout {
             } else {
                 this.textView.setText(str);
             }
-            measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
+            measure(View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(MediaDataController.MAX_STYLE_RUNS_COUNT, Integer.MIN_VALUE));
             TLRPC.User currentUser = chatMessageCell.getCurrentUser();
             if (currentUser == null || currentUser.id != 0) {
                 dp = i6 + AndroidUtilities.dp(22.0f);

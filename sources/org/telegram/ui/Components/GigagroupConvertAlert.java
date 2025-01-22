@@ -1,7 +1,6 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.text.TextUtils;
@@ -146,7 +145,7 @@ public abstract class GigagroupConvertAlert extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$new$0(DialogInterface dialogInterface, int i) {
+    public /* synthetic */ void lambda$new$0(AlertDialog alertDialog, int i) {
         onCovert();
     }
 
@@ -156,10 +155,10 @@ public abstract class GigagroupConvertAlert extends BottomSheet {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString(R.string.GigagroupConvertAlertTitle));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.GigagroupConvertAlertText)));
-        builder.setPositiveButton(LocaleController.getString(R.string.GigagroupConvertAlertConver), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.GigagroupConvertAlert$$ExternalSyntheticLambda2
-            @Override // android.content.DialogInterface.OnClickListener
-            public final void onClick(DialogInterface dialogInterface, int i) {
-                GigagroupConvertAlert.this.lambda$new$0(dialogInterface, i);
+        builder.setPositiveButton(LocaleController.getString(R.string.GigagroupConvertAlertConver), new AlertDialog.OnButtonClickListener() { // from class: org.telegram.ui.Components.GigagroupConvertAlert$$ExternalSyntheticLambda2
+            @Override // org.telegram.ui.ActionBar.AlertDialog.OnButtonClickListener
+            public final void onClick(AlertDialog alertDialog, int i) {
+                GigagroupConvertAlert.this.lambda$new$0(alertDialog, i);
             }
         });
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);

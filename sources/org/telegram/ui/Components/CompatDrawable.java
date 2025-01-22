@@ -10,17 +10,27 @@ public abstract class CompatDrawable extends Drawable {
     public final Paint paint = new Paint(1);
 
     public CompatDrawable(View view) {
-        view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.CompatDrawable.1
-            @Override // android.view.View.OnAttachStateChangeListener
-            public void onViewAttachedToWindow(View view2) {
-                CompatDrawable.this.onAttachedToWindow();
-            }
+        if (view != null) {
+            view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.CompatDrawable.1
+                @Override // android.view.View.OnAttachStateChangeListener
+                public void onViewAttachedToWindow(View view2) {
+                    CompatDrawable.this.onAttachedToWindow();
+                }
 
-            @Override // android.view.View.OnAttachStateChangeListener
-            public void onViewDetachedFromWindow(View view2) {
-                CompatDrawable.this.onDetachedToWindow();
+                @Override // android.view.View.OnAttachStateChangeListener
+                public void onViewDetachedFromWindow(View view2) {
+                    CompatDrawable.this.onDetachedToWindow();
+                }
+            });
+            if (view.isAttachedToWindow()) {
+                view.post(new Runnable() { // from class: org.telegram.ui.Components.CompatDrawable$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        CompatDrawable.this.onAttachedToWindow();
+                    }
+                });
             }
-        });
+        }
     }
 
     @Override // android.graphics.drawable.Drawable

@@ -1334,12 +1334,12 @@ public class LocaleController {
         StringBuilder sb = new StringBuilder();
         int i2 = 0;
         while (true) {
-            int i3 = i / 1000;
+            int i3 = i / MediaDataController.MAX_STYLE_RUNS_COUNT;
             if (i3 <= 0) {
                 break;
             }
             sb.append("K");
-            i2 = (i % 1000) / 100;
+            i2 = (i % MediaDataController.MAX_STYLE_RUNS_COUNT) / 100;
             i = i3;
         }
         if (iArr != null) {
@@ -1672,7 +1672,7 @@ public class LocaleController {
             case "LYD":
             case "OMR":
             case "TND":
-                return 1000;
+                return MediaDataController.MAX_STYLE_RUNS_COUNT;
             case "BIF":
             case "BYR":
             case "CLP":

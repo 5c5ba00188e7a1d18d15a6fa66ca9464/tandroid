@@ -10,6 +10,7 @@ import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.internal.ReflectedParcelable;
 import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
+import org.telegram.messenger.MediaDataController;
 
 /* loaded from: classes.dex */
 public final class Status extends AbstractSafeParcelable implements Result, ReflectedParcelable {
@@ -115,7 +116,7 @@ public final class Status extends AbstractSafeParcelable implements Result, Refl
         SafeParcelWriter.writeString(parcel, 2, getStatusMessage(), false);
         SafeParcelWriter.writeParcelable(parcel, 3, this.zze, i, false);
         SafeParcelWriter.writeParcelable(parcel, 4, getConnectionResult(), i, false);
-        SafeParcelWriter.writeInt(parcel, 1000, this.zzb);
+        SafeParcelWriter.writeInt(parcel, MediaDataController.MAX_STYLE_RUNS_COUNT, this.zzb);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
     }
 

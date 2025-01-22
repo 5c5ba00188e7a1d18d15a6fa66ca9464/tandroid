@@ -22,6 +22,7 @@ import androidx.core.math.MathUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -79,7 +80,7 @@ public class StarParticlesView extends View {
         public float k2 = 0.85f;
         public float k3 = 0.9f;
         public long minLifeTime = 2000;
-        public int randLifeTime = 1000;
+        public int randLifeTime = MediaDataController.MAX_STYLE_RUNS_COUNT;
         private final float dt = 1000.0f / AndroidUtilities.screenRefreshRate;
         Matrix matrix = new Matrix();
         Matrix matrix2 = new Matrix();
@@ -283,7 +284,7 @@ public class StarParticlesView extends View {
                             if (drawable.isCircle) {
                                 float width = Drawable.this.rect.width();
                                 float f6 = Drawable.this.excludeRadius;
-                                float abs3 = ((Math.abs(Utilities.fastRandom.nextInt() % 1000) / 1000.0f) * (width - f6)) + f6;
+                                float abs3 = ((Math.abs(Utilities.fastRandom.nextInt() % MediaDataController.MAX_STYLE_RUNS_COUNT) / 1000.0f) * (width - f6)) + f6;
                                 float abs4 = Math.abs(Utilities.fastRandom.nextInt() % 360);
                                 if (!Drawable.this.flip[this.starIndex] || this.first) {
                                     f2 = 0.0f;
