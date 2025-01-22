@@ -620,9 +620,11 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
     class Page extends FrameLayout {
         private int actionBarHeight;
         private ButtonWithCounterView button;
+        private CharSequence buttonCollectible;
         private FrameLayout buttonContainer;
         private CharSequence buttonLocked;
         int buttonRow;
+        private View buttonShadow;
         private CharSequence buttonUnlocked;
         int clearRow;
         int colorPickerRow;
@@ -995,24 +997,26 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:32:0x0082, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:35:0x008a, code lost:
         
-            if ((r6 instanceof org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) != false) goto L14;
+            if ((r10 instanceof org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) != false) goto L14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:7:0x0065, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:7:0x006d, code lost:
         
-            if ((r6 instanceof org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) != false) goto L14;
+            if ((r10 instanceof org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) != false) goto L14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:8:0x0084, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:8:0x008c, code lost:
         
-            r3 = (org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) r6;
+            r7 = (org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) r10;
          */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0243  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public Page(Context context, final int i) {
             super(context);
             long emojiId;
+            CharSequence charSequence;
             TLObject tLObject;
             this.selectedColor = -1;
             this.selectedEmoji = 0L;
@@ -1140,9 +1144,9 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             });
             this.listView.setLayoutManager(this.layoutManager);
             RecyclerListView recyclerListView2 = this.listView;
-            4 r2 = new 4(PeerColorActivity.this, context, i);
-            this.listAdapter = r2;
-            recyclerListView2.setAdapter(r2);
+            4 r6 = new 4(PeerColorActivity.this, context, i);
+            this.listAdapter = r6;
+            recyclerListView2.setAdapter(r6);
             this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i2) {
@@ -1162,23 +1166,66 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
             FrameLayout frameLayout = new FrameLayout(getContext());
             this.buttonContainer = frameLayout;
-            frameLayout.setPadding(AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f), AndroidUtilities.dp(14.0f));
-            this.buttonContainer.setBackgroundColor(PeerColorActivity.this.getThemedColor(Theme.key_windowBackgroundGray));
+            frameLayout.setBackgroundColor(PeerColorActivity.this.getThemedColor(Theme.key_windowBackgroundGray));
+            View view = new View(getContext());
+            this.buttonShadow = view;
+            view.setBackgroundColor(PeerColorActivity.this.getThemedColor(Theme.key_divider));
+            this.buttonShadow.setAlpha(0.0f);
+            this.buttonContainer.addView(this.buttonShadow, LayoutHelper.createFrame(-1, 0.66f, 55, 0.0f, 0.0f, 0.0f, 0.0f));
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("l");
             spannableStringBuilder.setSpan(new ColoredImageSpan(R.drawable.msg_mini_lock2), 0, 1, 33);
             this.buttonUnlocked = LocaleController.getString(PeerColorActivity.this.isChannel ? R.string.ChannelColorApply : R.string.UserColorApplyIcon);
             this.buttonLocked = new SpannableStringBuilder(spannableStringBuilder).append((CharSequence) " ").append(this.buttonUnlocked);
+            this.buttonCollectible = LocaleController.getString(R.string.UserColorApplyCollectible);
             ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(getContext(), PeerColorActivity.this.getResourceProvider());
             this.button = buttonWithCounterView;
             buttonWithCounterView.text.setHacks(true, true, true);
-            this.button.setText((PeerColorActivity.this.isChannel || PeerColorActivity.this.getUserConfig().isPremium()) ? this.buttonUnlocked : this.buttonLocked, false);
+            ButtonWithCounterView buttonWithCounterView2 = this.button;
+            if (!PeerColorActivity.this.isChannel) {
+                if (!PeerColorActivity.this.getUserConfig().isPremium()) {
+                    charSequence = this.buttonLocked;
+                } else if (this.selectedEmojiCollectible != null) {
+                    charSequence = this.buttonCollectible;
+                }
+                buttonWithCounterView2.setText(charSequence, false);
+                this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda1
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view2) {
+                        PeerColorActivity.Page.this.lambda$new$1(view2);
+                    }
+                });
+                this.buttonContainer.addView(this.button, LayoutHelper.createFrame(-1, 48.0f, 119, 14.0f, 14.66f, 14.0f, 14.0f));
+                addView(this.buttonContainer, LayoutHelper.createFrame(-1, -2, 80));
+                this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.PeerColorActivity.Page.6
+                    @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
+                    public void onScrolled(RecyclerView recyclerView, int i2, int i3) {
+                        Page.this.updateButtonY();
+                    }
+                });
+                DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
+                defaultItemAnimator.setDurations(350L);
+                defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                defaultItemAnimator.setDelayAnimations(false);
+                defaultItemAnimator.setSupportsChangeAnimations(false);
+                this.listView.setItemAnimator(defaultItemAnimator);
+                if (i == 1) {
+                    this.profilePreview = new ProfilePreview(getContext(), ((BaseFragment) PeerColorActivity.this).currentAccount, PeerColorActivity.this.dialogId, ((BaseFragment) PeerColorActivity.this).resourceProvider);
+                    updateProfilePreview(false);
+                    addView(this.profilePreview, LayoutHelper.createFrame(-1, -2, 55));
+                }
+                updateColors();
+                updateRows();
+                setWillNotDraw(false);
+            }
+            charSequence = this.buttonUnlocked;
+            buttonWithCounterView2.setText(charSequence, false);
             this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
-                public final void onClick(View view) {
-                    PeerColorActivity.Page.this.lambda$new$1(view);
+                public final void onClick(View view2) {
+                    PeerColorActivity.Page.this.lambda$new$1(view2);
                 }
             });
-            this.buttonContainer.addView(this.button, LayoutHelper.createFrame(-1, 48.0f));
+            this.buttonContainer.addView(this.button, LayoutHelper.createFrame(-1, 48.0f, 119, 14.0f, 14.66f, 14.0f, 14.0f));
             addView(this.buttonContainer, LayoutHelper.createFrame(-1, -2, 80));
             this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.PeerColorActivity.Page.6
                 @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -1186,16 +1233,13 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                     Page.this.updateButtonY();
                 }
             });
-            DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
-            defaultItemAnimator.setDurations(350L);
-            defaultItemAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            defaultItemAnimator.setDelayAnimations(false);
-            defaultItemAnimator.setSupportsChangeAnimations(false);
-            this.listView.setItemAnimator(defaultItemAnimator);
+            DefaultItemAnimator defaultItemAnimator2 = new DefaultItemAnimator();
+            defaultItemAnimator2.setDurations(350L);
+            defaultItemAnimator2.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+            defaultItemAnimator2.setDelayAnimations(false);
+            defaultItemAnimator2.setSupportsChangeAnimations(false);
+            this.listView.setItemAnimator(defaultItemAnimator2);
             if (i == 1) {
-                this.profilePreview = new ProfilePreview(getContext(), ((BaseFragment) PeerColorActivity.this).currentAccount, PeerColorActivity.this.dialogId, ((BaseFragment) PeerColorActivity.this).resourceProvider);
-                updateProfilePreview(false);
-                addView(this.profilePreview, LayoutHelper.createFrame(-1, -2, 55));
             }
             updateColors();
             updateRows();
@@ -1294,7 +1338,12 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             if (!z) {
                 i = this.listView.getMeasuredHeight();
             }
-            this.buttonContainer.setTranslationY(Math.max(0, i - (this.listView.getMeasuredHeight() - AndroidUtilities.dp(76.0f))));
+            float max = Math.max(0, i - (this.listView.getMeasuredHeight() - AndroidUtilities.dp(76.66f)));
+            if (this.type == 1) {
+                this.buttonShadow.animate().alpha(max > 0.0f ? 0.0f : 1.0f).start();
+                max = 0.0f;
+            }
+            this.buttonContainer.setTranslationY(max);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1447,7 +1496,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             if (this.button == null || PeerColorActivity.this.isChannel) {
                 return;
             }
-            this.button.setText(!PeerColorActivity.this.getUserConfig().isPremium() ? this.buttonLocked : this.buttonUnlocked, true);
+            this.button.setText(!PeerColorActivity.this.getUserConfig().isPremium() ? this.buttonLocked : this.selectedEmojiCollectible != null ? this.buttonCollectible : this.buttonUnlocked, true);
         }
 
         public boolean seesLoading() {
@@ -1551,6 +1600,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
             updateProfilePreview(true);
             this.buttonContainer.setBackgroundColor(PeerColorActivity.this.getThemedColor(i));
+            this.buttonShadow.setBackgroundColor(PeerColorActivity.this.getThemedColor(Theme.key_divider));
             AndroidUtilities.forEachViews((RecyclerView) this.listView, new Consumer() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda2
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
@@ -1587,6 +1637,9 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 } else {
                     PeerColorActivity.this.colorBar.setColor(((BaseFragment) PeerColorActivity.this).currentAccount, this.selectedColor, z);
                 }
+            }
+            if (this.button != null && !PeerColorActivity.this.isChannel) {
+                this.button.setText(!PeerColorActivity.this.getUserConfig().isPremium() ? this.buttonLocked : this.selectedEmojiCollectible != null ? this.buttonCollectible : this.buttonUnlocked, true);
             }
             checkResetColorButton();
             updateSelectedGift();

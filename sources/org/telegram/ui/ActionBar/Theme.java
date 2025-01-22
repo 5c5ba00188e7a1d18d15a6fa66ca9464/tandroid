@@ -4543,10 +4543,10 @@ public abstract class Theme {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:85:0x29b1 A[Catch: Exception -> 0x2680, TryCatch #0 {Exception -> 0x2680, blocks: (B:56:0x265d, B:58:0x2673, B:59:0x26b7, B:61:0x26c5, B:62:0x26f0, B:64:0x26f4, B:66:0x26fc, B:67:0x270e, B:68:0x271a, B:70:0x2720, B:72:0x272a, B:74:0x272e, B:76:0x275c, B:77:0x2760, B:83:0x29ab, B:85:0x29b1, B:86:0x29ba, B:88:0x29be, B:90:0x29c6, B:92:0x29ca, B:93:0x29ce, B:95:0x29d0, B:97:0x29da, B:79:0x289c, B:102:0x28bd, B:103:0x28c8, B:105:0x28d4, B:109:0x28e0, B:110:0x298f, B:107:0x28ea, B:112:0x28ed, B:172:0x2893, B:173:0x289b, B:180:0x29fd, B:181:0x2a03, B:184:0x2a0e, B:186:0x2a63, B:187:0x2a71, B:189:0x2a7b, B:190:0x2a89, B:226:0x2a82, B:227:0x2a6a, B:229:0x26d3, B:231:0x26db, B:233:0x26e4, B:235:0x26ee, B:236:0x2683, B:238:0x268b, B:240:0x2693, B:242:0x269d, B:244:0x26a5, B:115:0x2771, B:165:0x2880, B:166:0x2885), top: B:55:0x265d, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x29ca A[Catch: Exception -> 0x2680, TryCatch #0 {Exception -> 0x2680, blocks: (B:56:0x265d, B:58:0x2673, B:59:0x26b7, B:61:0x26c5, B:62:0x26f0, B:64:0x26f4, B:66:0x26fc, B:67:0x270e, B:68:0x271a, B:70:0x2720, B:72:0x272a, B:74:0x272e, B:76:0x275c, B:77:0x2760, B:83:0x29ab, B:85:0x29b1, B:86:0x29ba, B:88:0x29be, B:90:0x29c6, B:92:0x29ca, B:93:0x29ce, B:95:0x29d0, B:97:0x29da, B:79:0x289c, B:102:0x28bd, B:103:0x28c8, B:105:0x28d4, B:109:0x28e0, B:110:0x298f, B:107:0x28ea, B:112:0x28ed, B:172:0x2893, B:173:0x289b, B:180:0x29fd, B:181:0x2a03, B:184:0x2a0e, B:186:0x2a63, B:187:0x2a71, B:189:0x2a7b, B:190:0x2a89, B:226:0x2a82, B:227:0x2a6a, B:229:0x26d3, B:231:0x26db, B:233:0x26e4, B:235:0x26ee, B:236:0x2683, B:238:0x268b, B:240:0x2693, B:242:0x269d, B:244:0x26a5, B:115:0x2771, B:165:0x2880, B:166:0x2885), top: B:55:0x265d, inners: #2 }] */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x29cd  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x29da A[Catch: Exception -> 0x2680, TryCatch #0 {Exception -> 0x2680, blocks: (B:56:0x265d, B:58:0x2673, B:59:0x26b7, B:61:0x26c5, B:62:0x26f0, B:64:0x26f4, B:66:0x26fc, B:67:0x270e, B:68:0x271a, B:70:0x2720, B:72:0x272a, B:74:0x272e, B:76:0x275c, B:77:0x2760, B:83:0x29ab, B:85:0x29b1, B:86:0x29ba, B:88:0x29be, B:90:0x29c6, B:92:0x29ca, B:93:0x29ce, B:95:0x29d0, B:97:0x29da, B:79:0x289c, B:102:0x28bd, B:103:0x28c8, B:105:0x28d4, B:109:0x28e0, B:110:0x298f, B:107:0x28ea, B:112:0x28ed, B:172:0x2893, B:173:0x289b, B:180:0x29fd, B:181:0x2a03, B:184:0x2a0e, B:186:0x2a63, B:187:0x2a71, B:189:0x2a7b, B:190:0x2a89, B:226:0x2a82, B:227:0x2a6a, B:229:0x26d3, B:231:0x26db, B:233:0x26e4, B:235:0x26ee, B:236:0x2683, B:238:0x268b, B:240:0x2693, B:242:0x269d, B:244:0x26a5, B:115:0x2771, B:165:0x2880, B:166:0x2885), top: B:55:0x265d, inners: #2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x29c8 A[Catch: Exception -> 0x2697, TryCatch #2 {Exception -> 0x2697, blocks: (B:56:0x2674, B:58:0x268a, B:59:0x26ce, B:61:0x26dc, B:62:0x2707, B:64:0x270b, B:66:0x2713, B:67:0x2725, B:68:0x2731, B:70:0x2737, B:72:0x2741, B:74:0x2745, B:76:0x2773, B:77:0x2777, B:83:0x29c2, B:85:0x29c8, B:86:0x29d1, B:88:0x29d5, B:90:0x29dd, B:92:0x29e1, B:93:0x29e5, B:95:0x29e7, B:97:0x29f1, B:79:0x28b3, B:102:0x28d4, B:103:0x28df, B:105:0x28eb, B:109:0x28f7, B:110:0x29a6, B:107:0x2901, B:112:0x2904, B:172:0x28aa, B:173:0x28b2, B:180:0x2a14, B:181:0x2a1a, B:184:0x2a25, B:186:0x2a7a, B:187:0x2a88, B:189:0x2a92, B:190:0x2aa0, B:226:0x2a99, B:227:0x2a81, B:229:0x26ea, B:231:0x26f2, B:233:0x26fb, B:235:0x2705, B:236:0x269a, B:238:0x26a2, B:240:0x26aa, B:242:0x26b4, B:244:0x26bc, B:115:0x2788, B:165:0x2897, B:166:0x289c), top: B:55:0x2674, inners: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x29e1 A[Catch: Exception -> 0x2697, TryCatch #2 {Exception -> 0x2697, blocks: (B:56:0x2674, B:58:0x268a, B:59:0x26ce, B:61:0x26dc, B:62:0x2707, B:64:0x270b, B:66:0x2713, B:67:0x2725, B:68:0x2731, B:70:0x2737, B:72:0x2741, B:74:0x2745, B:76:0x2773, B:77:0x2777, B:83:0x29c2, B:85:0x29c8, B:86:0x29d1, B:88:0x29d5, B:90:0x29dd, B:92:0x29e1, B:93:0x29e5, B:95:0x29e7, B:97:0x29f1, B:79:0x28b3, B:102:0x28d4, B:103:0x28df, B:105:0x28eb, B:109:0x28f7, B:110:0x29a6, B:107:0x2901, B:112:0x2904, B:172:0x28aa, B:173:0x28b2, B:180:0x2a14, B:181:0x2a1a, B:184:0x2a25, B:186:0x2a7a, B:187:0x2a88, B:189:0x2a92, B:190:0x2aa0, B:226:0x2a99, B:227:0x2a81, B:229:0x26ea, B:231:0x26f2, B:233:0x26fb, B:235:0x2705, B:236:0x269a, B:238:0x26a2, B:240:0x26aa, B:242:0x26b4, B:244:0x26bc, B:115:0x2788, B:165:0x2897, B:166:0x289c), top: B:55:0x2674, inners: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x29e4  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x29f1 A[Catch: Exception -> 0x2697, TryCatch #2 {Exception -> 0x2697, blocks: (B:56:0x2674, B:58:0x268a, B:59:0x26ce, B:61:0x26dc, B:62:0x2707, B:64:0x270b, B:66:0x2713, B:67:0x2725, B:68:0x2731, B:70:0x2737, B:72:0x2741, B:74:0x2745, B:76:0x2773, B:77:0x2777, B:83:0x29c2, B:85:0x29c8, B:86:0x29d1, B:88:0x29d5, B:90:0x29dd, B:92:0x29e1, B:93:0x29e5, B:95:0x29e7, B:97:0x29f1, B:79:0x28b3, B:102:0x28d4, B:103:0x28df, B:105:0x28eb, B:109:0x28f7, B:110:0x29a6, B:107:0x2901, B:112:0x2904, B:172:0x28aa, B:173:0x28b2, B:180:0x2a14, B:181:0x2a1a, B:184:0x2a25, B:186:0x2a7a, B:187:0x2a88, B:189:0x2a92, B:190:0x2aa0, B:226:0x2a99, B:227:0x2a81, B:229:0x26ea, B:231:0x26f2, B:233:0x26fb, B:235:0x2705, B:236:0x269a, B:238:0x26a2, B:240:0x26aa, B:242:0x26b4, B:244:0x26bc, B:115:0x2788, B:165:0x2897, B:166:0x289c), top: B:55:0x2674, inners: #3 }] */
     static {
         ThemeInfo themeInfo;
         ThemeInfo themeInfo2;
@@ -7052,45 +7052,54 @@ public abstract class Theme {
         sparseIntArray33.put(i781, i782);
         fallbackKeys.put(key_statisticChartLine_indigo, i782);
         fallbackKeys.put(key_statisticChartLine_cyan, key_color_cyan);
-        fallbackKeys.put(key_actionBarActionModeReaction, key_windowBackgroundGray);
+        SparseIntArray sparseIntArray34 = fallbackKeys;
+        int i783 = key_actionBarActionModeReaction;
+        int i784 = key_windowBackgroundGray;
+        sparseIntArray34.put(i783, i784);
         fallbackKeys.put(key_actionBarActionModeReactionText, i780);
         fallbackKeys.put(key_table_background, key_graySection);
         fallbackKeys.put(key_table_border, key_divider);
-        int i783 = 0;
+        SparseIntArray sparseIntArray35 = fallbackKeys;
+        int i785 = key_share_icon;
+        int i786 = key_windowBackgroundWhiteBlackText;
+        sparseIntArray35.put(i785, i786);
+        fallbackKeys.put(key_share_linkBackground, i784);
+        fallbackKeys.put(key_share_linkText, i786);
+        int i787 = 0;
         while (true) {
             int[] iArr = keys_avatar_background;
-            if (i783 >= iArr.length) {
+            if (i787 >= iArr.length) {
                 break;
             }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr[i783]));
-            i783++;
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr[i787]));
+            i787++;
         }
-        int i784 = 0;
+        int i788 = 0;
         while (true) {
             int[] iArr2 = keys_avatar_background2;
-            if (i784 >= iArr2.length) {
+            if (i788 >= iArr2.length) {
                 break;
             }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr2[i784]));
-            i784++;
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr2[i788]));
+            i788++;
         }
-        int i785 = 0;
+        int i789 = 0;
         while (true) {
             int[] iArr3 = keys_avatar_nameInMessage;
-            if (i785 >= iArr3.length) {
+            if (i789 >= iArr3.length) {
                 break;
             }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr3[i785]));
-            i785++;
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr3[i789]));
+            i789++;
         }
-        int i786 = 0;
+        int i790 = 0;
         while (true) {
             int[] iArr4 = keys_colors;
-            if (i786 >= iArr4.length) {
+            if (i790 >= iArr4.length) {
                 break;
             }
-            themeAccentExclusionKeys.add(Integer.valueOf(iArr4[i786]));
-            i786++;
+            themeAccentExclusionKeys.add(Integer.valueOf(iArr4[i790]));
+            i790++;
         }
         themeAccentExclusionKeys.add(Integer.valueOf(key_chat_attachFileBackground));
         themeAccentExclusionKeys.add(Integer.valueOf(key_chat_attachGalleryBackground));
@@ -7256,25 +7265,25 @@ public abstract class Theme {
         themesDict.put("Night", themeInfo10);
         String str4 = null;
         String string = sharedPreferences.getString("themes2", null);
-        int i787 = 1;
+        int i791 = 1;
         if (sharedPreferences.getInt("remote_version", 0) == 1) {
-            int i788 = 0;
-            while (i788 < 4) {
+            int i792 = 0;
+            while (i792 < 4) {
                 long[] jArr = remoteThemesHash;
                 StringBuilder sb = new StringBuilder();
                 sb.append("2remoteThemesHash");
-                sb.append(i788 != 0 ? Integer.valueOf(i788) : "");
-                jArr[i788] = sharedPreferences.getLong(sb.toString(), 0L);
+                sb.append(i792 != 0 ? Integer.valueOf(i792) : "");
+                jArr[i792] = sharedPreferences.getLong(sb.toString(), 0L);
                 int[] iArr5 = lastLoadingThemesTime;
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append("lastLoadingThemesTime");
-                sb2.append(i788 != 0 ? Integer.valueOf(i788) : "");
-                iArr5[i788] = sharedPreferences.getInt(sb2.toString(), 0);
-                i788++;
+                sb2.append(i792 != 0 ? Integer.valueOf(i792) : "");
+                iArr5[i792] = sharedPreferences.getInt(sb2.toString(), 0);
+                i792++;
             }
-            i787 = 1;
+            i791 = 1;
         }
-        sharedPreferences.edit().putInt("remote_version", i787).apply();
+        sharedPreferences.edit().putInt("remote_version", i791).apply();
         if (TextUtils.isEmpty(string)) {
             String string2 = sharedPreferences.getString("themes", null);
             if (!TextUtils.isEmpty(string2)) {
@@ -7292,8 +7301,8 @@ public abstract class Theme {
         } else {
             try {
                 JSONArray jSONArray = new JSONArray(string);
-                for (int i789 = 0; i789 < jSONArray.length(); i789++) {
-                    ThemeInfo createWithJson = ThemeInfo.createWithJson(jSONArray.getJSONObject(i789));
+                for (int i793 = 0; i793 < jSONArray.length(); i793++) {
+                    ThemeInfo createWithJson = ThemeInfo.createWithJson(jSONArray.getJSONObject(i793));
                     if (createWithJson != null) {
                         otherThemes.add(createWithJson);
                         themes.add(createWithJson);
@@ -7357,8 +7366,8 @@ public abstract class Theme {
                         editor = editor5;
                         str = str3;
                         String str6 = "accent_for_" + themeInfo12.assetName;
-                        int i790 = globalMainSettings.getInt(str6, 0);
-                        if (i790 != 0) {
+                        int i794 = globalMainSettings.getInt(str6, 0);
+                        if (i794 != 0) {
                             if (editor4 == null) {
                                 editor4 = globalMainSettings.edit();
                                 editor3 = sharedPreferences.edit();
@@ -7367,12 +7376,12 @@ public abstract class Theme {
                             }
                             editor4.remove(str6);
                             int size = themeInfo12.themeAccents.size();
-                            int i791 = 0;
+                            int i795 = 0;
                             while (true) {
-                                if (i791 >= size) {
+                                if (i795 >= size) {
                                     ThemeAccent themeAccent = new ThemeAccent();
                                     themeAccent.id = 100;
-                                    themeAccent.accentColor = i790;
+                                    themeAccent.accentColor = i794;
                                     themeAccent.parentTheme = themeInfo12;
                                     themeInfo12.themeAccentsMap.put(100, themeAccent);
                                     arrayList2.add(0, themeAccent);
@@ -7401,12 +7410,12 @@ public abstract class Theme {
                                     editor3.putString("accents_" + themeInfo12.assetName, Base64.encodeToString(serializedData.toByteArray(), 3));
                                     break;
                                 }
-                                ThemeAccent themeAccent2 = (ThemeAccent) themeInfo12.themeAccents.get(i791);
-                                if (themeAccent2.accentColor == i790) {
+                                ThemeAccent themeAccent2 = (ThemeAccent) themeInfo12.themeAccents.get(i795);
+                                if (themeAccent2.accentColor == i794) {
                                     themeInfo12.currentAccentId = themeAccent2.id;
                                     break;
                                 }
-                                i791++;
+                                i795++;
                             }
                             editor3.putInt("accent_current_" + themeInfo12.assetName, themeInfo12.currentAccentId);
                             editor5 = editor3;
@@ -7432,8 +7441,8 @@ public abstract class Theme {
                             boolean z2 = true;
                             int readInt322 = serializedData2.readInt32(true);
                             int readInt323 = serializedData2.readInt32(true);
-                            int i792 = 0;
-                            while (i792 < readInt323) {
+                            int i796 = 0;
+                            while (i796 < readInt323) {
                                 try {
                                     ThemeAccent themeAccent3 = new ThemeAccent();
                                     themeAccent3.id = serializedData2.readInt32(z2);
@@ -7498,7 +7507,7 @@ public abstract class Theme {
                                     }
                                     arrayList2.add(themeAccent3);
                                     themeInfo12.lastAccentId = Math.max(themeInfo12.lastAccentId, themeAccent3.id);
-                                    i792++;
+                                    i796++;
                                     str3 = str2;
                                     themeInfo = themeInfo5;
                                     editor5 = editor2;
@@ -7602,7 +7611,7 @@ public abstract class Theme {
             AndroidUtilities.runOnUIThread(new MessagesController$$ExternalSyntheticLambda100());
             ambientSensorListener = new SensorEventListener() { // from class: org.telegram.ui.ActionBar.Theme.10
                 @Override // android.hardware.SensorEventListener
-                public void onAccuracyChanged(Sensor sensor, int i793) {
+                public void onAccuracyChanged(Sensor sensor, int i797) {
                 }
 
                 @Override // android.hardware.SensorEventListener

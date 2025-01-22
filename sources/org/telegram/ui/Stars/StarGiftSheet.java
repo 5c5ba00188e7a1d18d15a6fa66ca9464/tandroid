@@ -1747,32 +1747,29 @@ public class StarGiftSheet extends BottomSheet {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0047, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x006a, code lost:
     
-        if ((r0 instanceof org.telegram.tgnet.tl.TL_stars.TL_starGiftUnique) != false) goto L26;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:38:0x0062, code lost:
-    
-        if (r0 != null) goto L26;
+        if (r0 != null) goto L35;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private long getDialogId() {
-        TL_stars.StarGift starGift;
+        TL_stars.TL_starGiftUnique tL_starGiftUnique;
+        TLRPC.Peer peer;
         MessageObject messageObject = this.messageObject;
         if (messageObject == null) {
             TL_stars.SavedStarGift savedStarGift = this.savedStarGift;
             if (savedStarGift != null) {
-                TL_stars.StarGift starGift2 = savedStarGift.gift;
-                if (!(starGift2 instanceof TL_stars.TL_starGiftUnique)) {
+                TL_stars.StarGift starGift = savedStarGift.gift;
+                if (!(starGift instanceof TL_stars.TL_starGiftUnique)) {
                     return this.dialogId;
                 }
-                starGift = (TL_stars.TL_starGiftUnique) starGift2;
+                tL_starGiftUnique = (TL_stars.TL_starGiftUnique) starGift;
             } else {
-                starGift = this.slugStarGift;
+                tL_starGiftUnique = this.slugStarGift;
             }
-            return DialogObject.getPeerDialogId(starGift.owner_id);
+            return DialogObject.getPeerDialogId(tL_starGiftUnique.owner_id);
         }
         TLRPC.Message message = messageObject.messageOwner;
         if (message == null) {
@@ -1780,16 +1777,19 @@ public class StarGiftSheet extends BottomSheet {
         }
         TLRPC.MessageAction messageAction = message.action;
         if (messageAction instanceof TLRPC.TL_messageActionStarGift) {
-            TLRPC.Peer peer = ((TLRPC.TL_messageActionStarGift) messageAction).peer;
-            return peer != null ? DialogObject.getPeerDialogId(peer) : messageObject.isOutOwner() ? this.messageObject.getDialogId() : UserConfig.getInstance(this.currentAccount).getClientUserId();
+            TLRPC.Peer peer2 = ((TLRPC.TL_messageActionStarGift) messageAction).peer;
+            return peer2 != null ? DialogObject.getPeerDialogId(peer2) : messageObject.isOutOwner() ? this.messageObject.getDialogId() : UserConfig.getInstance(this.currentAccount).getClientUserId();
         }
         if (messageAction instanceof TLRPC.TL_messageActionStarGiftUnique) {
             TLRPC.TL_messageActionStarGiftUnique tL_messageActionStarGiftUnique = (TLRPC.TL_messageActionStarGiftUnique) messageAction;
-            TLRPC.Peer peer2 = tL_messageActionStarGiftUnique.peer;
-            if (peer2 != null) {
-                return DialogObject.getPeerDialogId(peer2);
+            TL_stars.StarGift starGift2 = tL_messageActionStarGiftUnique.gift;
+            if ((starGift2 instanceof TL_stars.TL_starGiftUnique) && (peer = starGift2.owner_id) != null) {
+                return DialogObject.getPeerDialogId(peer);
             }
-            starGift = tL_messageActionStarGiftUnique.gift;
+            TLRPC.Peer peer3 = tL_messageActionStarGiftUnique.peer;
+            if (peer3 != null) {
+                return DialogObject.getPeerDialogId(peer3);
+            }
         }
         return 0L;
     }
@@ -3910,7 +3910,7 @@ public class StarGiftSheet extends BottomSheet {
     /* JADX WARN: Removed duplicated region for block: B:156:0x02e3  */
     /* JADX WARN: Removed duplicated region for block: B:160:0x02d1  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x0590  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x05f0  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x05ee  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x05ba  */
     /* JADX WARN: Removed duplicated region for block: B:87:0x02cc  */
     /* JADX WARN: Removed duplicated region for block: B:89:0x02da  */
@@ -4375,7 +4375,7 @@ public class StarGiftSheet extends BottomSheet {
                             StarGiftSheet.this.lambda$set$32(str3);
                         }
                     };
-                } else if (z16 || z13 || z14 || !isMine(this.currentAccount, DialogObject.getPeerDialogId(starGift2.owner_id))) {
+                } else if (z13 || z14 || starGift2 == null || !isMine(this.currentAccount, getDialogId())) {
                     this.afterTableTextView.setVisibility(8);
                     if (this.firstSet) {
                         switchPage(0, false);
@@ -4402,16 +4402,16 @@ public class StarGiftSheet extends BottomSheet {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:103:0x03a1  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x03ba  */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x0293  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x048d  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0517  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x04b7  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x026a A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0336 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x0370 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x037d  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x038f  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x026e  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0460  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x04e8  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x048a  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0245 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x030d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0345 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0352  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0376  */
     /* JADX WARN: Type inference failed for: r2v15, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v16 */
     /* JADX WARN: Type inference failed for: r2v8 */
@@ -4419,14 +4419,14 @@ public class StarGiftSheet extends BottomSheet {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public StarGiftSheet set(TL_stars.SavedStarGift savedStarGift) {
-        String str;
         boolean z;
+        CharSequence charSequence;
         String string;
         long j;
         long j2;
         String formatString;
         char c;
-        CharSequence charSequence;
+        CharSequence charSequence2;
         CharSequence concat;
         TopView topView;
         String string2;
@@ -4434,12 +4434,11 @@ public class StarGiftSheet extends BottomSheet {
         SpannableStringBuilder spannableStringBuilder;
         int i;
         final long j4;
-        long j5;
         TL_stars.StarGift starGift;
         TLRPC.TL_textWithEntities tL_textWithEntities;
         ButtonWithCounterView buttonWithCounterView;
         View.OnClickListener onClickListener;
-        final String str2;
+        final String str;
         int i2;
         String formatPluralStringComma;
         ?? r2;
@@ -4454,14 +4453,7 @@ public class StarGiftSheet extends BottomSheet {
         this.myProfile = isMine(this.currentAccount, this.dialogId);
         this.savedStarGift = savedStarGift;
         this.messageObject = null;
-        long j6 = this.dialogId;
-        MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        if (j6 >= 0) {
-            str = UserObject.getForcedFirstName(messagesController.getUser(Long.valueOf(this.dialogId)));
-        } else {
-            TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-this.dialogId));
-            str = chat == null ? "" : chat.title;
-        }
+        String shortName = DialogObject.getShortName(this.dialogId);
         long peerDialogId = DialogObject.getPeerDialogId(savedStarGift.from_id);
         boolean isBot = UserObject.isBot(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(peerDialogId)));
         int currentTime = MessagesController.getInstance(this.currentAccount).stargiftsConvertPeriodMax - (ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - savedStarGift.date);
@@ -4470,18 +4462,18 @@ public class StarGiftSheet extends BottomSheet {
         if ((i4 & 2) == 0 || savedStarGift.name_hidden) {
             peerDialogId = 2666000;
         }
-        long j7 = this.dialogId;
-        boolean z2 = j7 < 0;
+        long j5 = this.dialogId;
+        boolean z2 = j5 < 0;
         boolean z3 = savedStarGift.refunded;
         TL_stars.StarGift starGift2 = savedStarGift.gift;
         if (starGift2 instanceof TL_stars.TL_starGiftUnique) {
-            String str3 = starGift2.owner_address;
+            String str2 = starGift2.owner_address;
             set((TL_stars.TL_starGiftUnique) starGift2, (i4 & 256) != 0, z3);
-            str2 = str3;
-            j5 = peerDialogId;
+            str = str2;
+            j4 = peerDialogId;
             z = false;
         } else {
-            z = this.myProfile && clientUserId == peerDialogId && j7 >= 0;
+            z = this.myProfile && clientUserId == peerDialogId && j5 >= 0;
             this.topView.setGift(starGift2, false, isWorn(), getLink() != null);
             this.tableView.clear();
             if (z) {
@@ -4493,9 +4485,9 @@ public class StarGiftSheet extends BottomSheet {
                     if (savedStarGift.can_upgrade) {
                         i2 = R.string.Gift2SelfInfoUpgrade;
                     } else {
-                        long j8 = savedStarGift.convert_stars;
-                        if (j8 > 0) {
-                            formatPluralStringComma = LocaleController.formatPluralStringComma("Gift2SelfInfoConvert", (int) j8);
+                        long j6 = savedStarGift.convert_stars;
+                        if (j6 > 0) {
+                            formatPluralStringComma = LocaleController.formatPluralStringComma("Gift2SelfInfoConvert", (int) j6);
                             spannableStringBuilder = AndroidUtilities.replaceTags(formatPluralStringComma);
                         } else {
                             i2 = R.string.Gift2SelfInfo;
@@ -4508,162 +4500,176 @@ public class StarGiftSheet extends BottomSheet {
                 j3 = 0;
             } else if (!z2 || this.myProfile) {
                 boolean z4 = this.myProfile;
-                if ((!z4 || savedStarGift.can_upgrade) && savedStarGift.upgrade_stars > 0) {
-                    TopView topView2 = this.topView;
-                    String string4 = LocaleController.getString(z4 ? R.string.Gift2TitleReceived : R.string.Gift2TitleProfile);
-                    if (z3) {
-                        string = null;
-                    } else {
-                        string = this.myProfile ? LocaleController.getString(R.string.Gift2InfoInFreeUpgrade) : LocaleController.formatString(R.string.Gift2InfoFreeUpgrade, str);
-                    }
-                    topView2.setText(0, string4, 0L, string);
-                    j = peerDialogId;
-                    if (clientUserId == j || z2) {
-                        j4 = j;
-                        this.tableView.addRowUser(LocaleController.getString(R.string.Gift2From), this.currentAccount, j4, new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda27
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                StarGiftSheet.this.lambda$set$20(j4);
-                            }
-                        }, (j4 != clientUserId || j4 == UserObject.ANONYMOUS || isBot || UserObject.isDeleted(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j))) || z2) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda28
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                StarGiftSheet.this.lambda$set$21(j4);
-                            }
-                        });
-                    } else {
-                        j4 = j;
-                    }
-                    j5 = j4;
-                    this.tableView.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(savedStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(savedStarGift.date * 1000))));
-                    this.tableView.addRow(LocaleController.getString(R.string.Gift2Value), StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(savedStarGift.gift.stars + savedStarGift.upgrade_stars, ','), " ", (canConvert() || z3) ? "" : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) savedStarGift.convert_stars), new StarGiftSheet$$ExternalSyntheticLambda29(this), this.resourcesProvider)), 0.8f));
-                    starGift = savedStarGift.gift;
-                    if (starGift.limited && !z3) {
-                        StarsIntroActivity.addAvailabilityRow(this.tableView, this.currentAccount, starGift, this.resourcesProvider);
-                    }
-                    if (!z3 && savedStarGift.can_upgrade) {
-                        this.tableView.addRow(LocaleController.getString(R.string.Gift2Status), LocaleController.getString(R.string.Gift2StatusNonUnique), LocaleController.getString(R.string.Gift2StatusUpgrade), new StarGiftSheet$$ExternalSyntheticLambda30(this));
-                    }
-                    tL_textWithEntities = savedStarGift.message;
-                    if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text) && !z3) {
-                        TableView tableView = this.tableView;
-                        TLRPC.TL_textWithEntities tL_textWithEntities2 = savedStarGift.message;
-                        tableView.addFullRow(tL_textWithEntities2.text, tL_textWithEntities2.entities);
-                    }
-                    if (this.myProfile || !savedStarGift.can_upgrade || savedStarGift.upgrade_stars <= 0) {
-                        this.button.setText(LocaleController.getString(R.string.OK), true);
-                        buttonWithCounterView = this.button;
-                        onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda32
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                StarGiftSheet.this.lambda$set$23(view);
-                            }
-                        };
-                    } else {
-                        SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(LocaleController.getString(R.string.Gift2UpgradeButtonFree));
-                        spannableStringBuilder2.append((CharSequence) " ^");
-                        if (this.upgradeIconSpan == null) {
-                            this.upgradeIconSpan = new ColoredImageSpan(new UpgradeIcon(this.button, Theme.getColor(Theme.key_featuredStickers_addButton, this.resourcesProvider)));
-                        }
-                        spannableStringBuilder2.setSpan(this.upgradeIconSpan, spannableStringBuilder2.length() - 1, spannableStringBuilder2.length(), 33);
-                        this.button.setText(spannableStringBuilder2, true);
-                        buttonWithCounterView = this.button;
-                        onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda31
-                            @Override // android.view.View.OnClickListener
-                            public final void onClick(View view) {
-                                StarGiftSheet.this.lambda$set$22(view);
-                            }
-                        };
-                    }
-                    buttonWithCounterView.setOnClickListener(onClickListener);
-                    str2 = null;
-                } else {
-                    TopView topView3 = this.topView;
-                    String string5 = LocaleController.getString((clientUserId != peerDialogId || z2) ? z4 ? R.string.Gift2TitleReceived : R.string.Gift2TitleProfile : R.string.Gift2TitleSaved);
-                    if (z3 || z2) {
-                        j = peerDialogId;
-                        j2 = 0;
-                    } else {
-                        j = peerDialogId;
-                        j2 = Math.abs(Math.max(savedStarGift.gift.convert_stars, savedStarGift.convert_stars));
-                    }
-                    if (z3) {
-                        concat = null;
-                    } else {
-                        if (isBot || !canConvert()) {
-                            if (this.myProfile) {
-                                formatString = LocaleController.getString(savedStarGift.unsaved ? z2 ? R.string.Gift2Info2ChannelKeep : R.string.Gift2Info2BotKeep : z2 ? R.string.Gift2Info2ChannelRemove : R.string.Gift2Info2BotRemove);
-                            } else {
-                                formatString = LocaleController.formatString((!savedStarGift.can_upgrade || savedStarGift.upgrade_stars <= 0) ? R.string.Gift2Info2OutExpired : R.string.Gift2Info2OutUpgrade, str);
-                            }
-                        } else if (this.myProfile) {
-                            formatString = LocaleController.formatPluralStringComma(currentTime <= 0 ? z2 ? "Gift2Info2ChannelExpired" : "Gift2Info2Expired" : z2 ? "Gift2Info3Channel" : "Gift2Info3", (int) savedStarGift.convert_stars);
+                if (!z4 || savedStarGift.can_upgrade) {
+                    charSequence = "";
+                    if (savedStarGift.upgrade_stars > 0) {
+                        TopView topView2 = this.topView;
+                        String string4 = LocaleController.getString(z4 ? R.string.Gift2TitleReceived : R.string.Gift2TitleProfile);
+                        if (z3) {
+                            string = null;
                         } else {
-                            formatString = LocaleController.formatPluralStringComma("Gift2Info2Out", (int) savedStarGift.convert_stars, str);
+                            string = this.myProfile ? LocaleController.getString(R.string.Gift2InfoInFreeUpgrade) : LocaleController.formatString(R.string.Gift2InfoFreeUpgrade, shortName);
                         }
-                        SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(formatString);
-                        if (isBot || !canConvert()) {
-                            c = 1;
-                            charSequence = "";
-                        } else {
-                            c = 1;
-                            charSequence = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda26
+                        topView2.setText(0, string4, 0L, string);
+                        j = peerDialogId;
+                        if (clientUserId == j || z2) {
+                            j4 = j;
+                            this.tableView.addRowUser(LocaleController.getString(R.string.Gift2From), this.currentAccount, j4, new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda27
                                 @Override // java.lang.Runnable
                                 public final void run() {
-                                    StarGiftSheet.this.lambda$set$19();
+                                    StarGiftSheet.this.lambda$set$20(j4);
                                 }
-                            }), true);
+                            }, (j4 != clientUserId || j4 == UserObject.ANONYMOUS || isBot || UserObject.isDeleted(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j))) || z2) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda28
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    StarGiftSheet.this.lambda$set$21(j4);
+                                }
+                            });
+                        } else {
+                            j4 = j;
                         }
-                        CharSequence[] charSequenceArr = new CharSequence[3];
-                        charSequenceArr[0] = replaceTags;
-                        charSequenceArr[c] = " ";
-                        charSequenceArr[2] = charSequence;
-                        concat = TextUtils.concat(charSequenceArr);
-                    }
-                    topView3.setText(0, string5, j2, concat);
-                    if (clientUserId == j) {
-                    }
-                    j4 = j;
-                    this.tableView.addRowUser(LocaleController.getString(R.string.Gift2From), this.currentAccount, j4, new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda27
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            StarGiftSheet.this.lambda$set$20(j4);
+                        this.tableView.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(savedStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(savedStarGift.date * 1000))));
+                        TableView tableView = this.tableView;
+                        String string5 = LocaleController.getString(R.string.Gift2Value);
+                        String str3 = "⭐️ " + LocaleController.formatNumber(savedStarGift.gift.stars + savedStarGift.upgrade_stars, ',');
+                        if (canConvert() && !z3) {
+                            charSequence = ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) savedStarGift.convert_stars), new StarGiftSheet$$ExternalSyntheticLambda29(this), this.resourcesProvider);
                         }
-                    }, (j4 != clientUserId || j4 == UserObject.ANONYMOUS || isBot || UserObject.isDeleted(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j))) || z2) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda28
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            StarGiftSheet.this.lambda$set$21(j4);
+                        tableView.addRow(string5, StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat(str3, " ", charSequence), 0.8f));
+                        starGift = savedStarGift.gift;
+                        if (starGift.limited && !z3) {
+                            StarsIntroActivity.addAvailabilityRow(this.tableView, this.currentAccount, starGift, this.resourcesProvider);
                         }
-                    });
-                    j5 = j4;
-                    this.tableView.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(savedStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(savedStarGift.date * 1000))));
-                    this.tableView.addRow(LocaleController.getString(R.string.Gift2Value), StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(savedStarGift.gift.stars + savedStarGift.upgrade_stars, ','), " ", (canConvert() || z3) ? "" : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) savedStarGift.convert_stars), new StarGiftSheet$$ExternalSyntheticLambda29(this), this.resourcesProvider)), 0.8f));
-                    starGift = savedStarGift.gift;
-                    if (starGift.limited) {
-                        StarsIntroActivity.addAvailabilityRow(this.tableView, this.currentAccount, starGift, this.resourcesProvider);
-                    }
-                    if (!z3) {
-                        this.tableView.addRow(LocaleController.getString(R.string.Gift2Status), LocaleController.getString(R.string.Gift2StatusNonUnique), LocaleController.getString(R.string.Gift2StatusUpgrade), new StarGiftSheet$$ExternalSyntheticLambda30(this));
-                    }
-                    tL_textWithEntities = savedStarGift.message;
-                    if (tL_textWithEntities != null) {
-                        TableView tableView2 = this.tableView;
-                        TLRPC.TL_textWithEntities tL_textWithEntities22 = savedStarGift.message;
-                        tableView2.addFullRow(tL_textWithEntities22.text, tL_textWithEntities22.entities);
-                    }
-                    if (this.myProfile) {
-                    }
-                    this.button.setText(LocaleController.getString(R.string.OK), true);
-                    buttonWithCounterView = this.button;
-                    onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda32
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            StarGiftSheet.this.lambda$set$23(view);
+                        if (!z3 && savedStarGift.can_upgrade) {
+                            this.tableView.addRow(LocaleController.getString(R.string.Gift2Status), LocaleController.getString(R.string.Gift2StatusNonUnique), LocaleController.getString(R.string.Gift2StatusUpgrade), new StarGiftSheet$$ExternalSyntheticLambda30(this));
                         }
-                    };
-                    buttonWithCounterView.setOnClickListener(onClickListener);
-                    str2 = null;
+                        tL_textWithEntities = savedStarGift.message;
+                        if (tL_textWithEntities != null && !TextUtils.isEmpty(tL_textWithEntities.text) && !z3) {
+                            TableView tableView2 = this.tableView;
+                            TLRPC.TL_textWithEntities tL_textWithEntities2 = savedStarGift.message;
+                            tableView2.addFullRow(tL_textWithEntities2.text, tL_textWithEntities2.entities);
+                        }
+                        if (this.myProfile || !savedStarGift.can_upgrade || savedStarGift.upgrade_stars <= 0) {
+                            this.button.setText(LocaleController.getString(R.string.OK), true);
+                            buttonWithCounterView = this.button;
+                            onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda32
+                                @Override // android.view.View.OnClickListener
+                                public final void onClick(View view) {
+                                    StarGiftSheet.this.lambda$set$23(view);
+                                }
+                            };
+                        } else {
+                            SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(LocaleController.getString(R.string.Gift2UpgradeButtonFree));
+                            spannableStringBuilder2.append((CharSequence) " ^");
+                            if (this.upgradeIconSpan == null) {
+                                this.upgradeIconSpan = new ColoredImageSpan(new UpgradeIcon(this.button, Theme.getColor(Theme.key_featuredStickers_addButton, this.resourcesProvider)));
+                            }
+                            spannableStringBuilder2.setSpan(this.upgradeIconSpan, spannableStringBuilder2.length() - 1, spannableStringBuilder2.length(), 33);
+                            this.button.setText(spannableStringBuilder2, true);
+                            buttonWithCounterView = this.button;
+                            onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda31
+                                @Override // android.view.View.OnClickListener
+                                public final void onClick(View view) {
+                                    StarGiftSheet.this.lambda$set$22(view);
+                                }
+                            };
+                        }
+                        buttonWithCounterView.setOnClickListener(onClickListener);
+                        str = null;
+                    }
+                } else {
+                    charSequence = "";
                 }
+                TopView topView3 = this.topView;
+                String string6 = LocaleController.getString((clientUserId != peerDialogId || z2) ? z4 ? R.string.Gift2TitleReceived : R.string.Gift2TitleProfile : R.string.Gift2TitleSaved);
+                if (z3 || z2) {
+                    j = peerDialogId;
+                    j2 = 0;
+                } else {
+                    j = peerDialogId;
+                    j2 = Math.abs(Math.max(savedStarGift.gift.convert_stars, savedStarGift.convert_stars));
+                }
+                if (z3) {
+                    concat = null;
+                } else {
+                    if (isBot || !canConvert()) {
+                        if (this.myProfile) {
+                            formatString = LocaleController.getString(savedStarGift.unsaved ? z2 ? R.string.Gift2Info2ChannelKeep : R.string.Gift2Info2BotKeep : z2 ? R.string.Gift2Info2ChannelRemove : R.string.Gift2Info2BotRemove);
+                        } else {
+                            formatString = LocaleController.formatString((!savedStarGift.can_upgrade || savedStarGift.upgrade_stars <= 0) ? R.string.Gift2Info2OutExpired : R.string.Gift2Info2OutUpgrade, shortName);
+                        }
+                    } else if (this.myProfile) {
+                        formatString = LocaleController.formatPluralStringComma(currentTime <= 0 ? z2 ? "Gift2Info2ChannelExpired" : "Gift2Info2Expired" : z2 ? "Gift2Info3Channel" : "Gift2Info3", (int) savedStarGift.convert_stars);
+                    } else {
+                        formatString = LocaleController.formatPluralStringComma("Gift2Info2Out", (int) savedStarGift.convert_stars, shortName);
+                    }
+                    SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(formatString);
+                    if (isBot || !canConvert()) {
+                        c = 1;
+                        charSequence2 = charSequence;
+                    } else {
+                        c = 1;
+                        charSequence2 = AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2More).replace(' ', (char) 160), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda26
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                StarGiftSheet.this.lambda$set$19();
+                            }
+                        }), true);
+                    }
+                    CharSequence[] charSequenceArr = new CharSequence[3];
+                    charSequenceArr[0] = replaceTags;
+                    charSequenceArr[c] = " ";
+                    charSequenceArr[2] = charSequence2;
+                    concat = TextUtils.concat(charSequenceArr);
+                }
+                topView3.setText(0, string6, j2, concat);
+                if (clientUserId == j) {
+                }
+                j4 = j;
+                this.tableView.addRowUser(LocaleController.getString(R.string.Gift2From), this.currentAccount, j4, new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda27
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarGiftSheet.this.lambda$set$20(j4);
+                    }
+                }, (j4 != clientUserId || j4 == UserObject.ANONYMOUS || isBot || UserObject.isDeleted(MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j))) || z2) ? null : LocaleController.getString(R.string.Gift2ButtonSendGift), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda28
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        StarGiftSheet.this.lambda$set$21(j4);
+                    }
+                });
+                this.tableView.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(savedStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(savedStarGift.date * 1000))));
+                TableView tableView3 = this.tableView;
+                String string52 = LocaleController.getString(R.string.Gift2Value);
+                String str32 = "⭐️ " + LocaleController.formatNumber(savedStarGift.gift.stars + savedStarGift.upgrade_stars, ',');
+                if (canConvert()) {
+                    charSequence = ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) savedStarGift.convert_stars), new StarGiftSheet$$ExternalSyntheticLambda29(this), this.resourcesProvider);
+                }
+                tableView3.addRow(string52, StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat(str32, " ", charSequence), 0.8f));
+                starGift = savedStarGift.gift;
+                if (starGift.limited) {
+                    StarsIntroActivity.addAvailabilityRow(this.tableView, this.currentAccount, starGift, this.resourcesProvider);
+                }
+                if (!z3) {
+                    this.tableView.addRow(LocaleController.getString(R.string.Gift2Status), LocaleController.getString(R.string.Gift2StatusNonUnique), LocaleController.getString(R.string.Gift2StatusUpgrade), new StarGiftSheet$$ExternalSyntheticLambda30(this));
+                }
+                tL_textWithEntities = savedStarGift.message;
+                if (tL_textWithEntities != null) {
+                    TableView tableView22 = this.tableView;
+                    TLRPC.TL_textWithEntities tL_textWithEntities22 = savedStarGift.message;
+                    tableView22.addFullRow(tL_textWithEntities22.text, tL_textWithEntities22.entities);
+                }
+                if (this.myProfile) {
+                }
+                this.button.setText(LocaleController.getString(R.string.OK), true);
+                buttonWithCounterView = this.button;
+                onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda32
+                    @Override // android.view.View.OnClickListener
+                    public final void onClick(View view) {
+                        StarGiftSheet.this.lambda$set$23(view);
+                    }
+                };
+                buttonWithCounterView.setOnClickListener(onClickListener);
+                str = null;
             } else {
                 topView = this.topView;
                 string2 = LocaleController.getString(R.string.Gift2TitleProfile);
@@ -4672,6 +4678,7 @@ public class StarGiftSheet extends BottomSheet {
                 i = 0;
             }
             topView.setText(i, string2, j3, spannableStringBuilder);
+            charSequence = "";
             j = peerDialogId;
             if (clientUserId == j) {
             }
@@ -4687,9 +4694,13 @@ public class StarGiftSheet extends BottomSheet {
                     StarGiftSheet.this.lambda$set$21(j4);
                 }
             });
-            j5 = j4;
             this.tableView.addRow(LocaleController.getString(R.string.StarsTransactionDate), LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterGiveawayCard().format(new Date(savedStarGift.date * 1000)), LocaleController.getInstance().getFormatterDay().format(new Date(savedStarGift.date * 1000))));
-            this.tableView.addRow(LocaleController.getString(R.string.Gift2Value), StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat("⭐️ " + LocaleController.formatNumber(savedStarGift.gift.stars + savedStarGift.upgrade_stars, ','), " ", (canConvert() || z3) ? "" : ButtonSpan.make(LocaleController.formatPluralStringComma("Gift2ButtonSell", (int) savedStarGift.convert_stars), new StarGiftSheet$$ExternalSyntheticLambda29(this), this.resourcesProvider)), 0.8f));
+            TableView tableView32 = this.tableView;
+            String string522 = LocaleController.getString(R.string.Gift2Value);
+            String str322 = "⭐️ " + LocaleController.formatNumber(savedStarGift.gift.stars + savedStarGift.upgrade_stars, ',');
+            if (canConvert()) {
+            }
+            tableView32.addRow(string522, StarsIntroActivity.replaceStarsWithPlain(TextUtils.concat(str322, " ", charSequence), 0.8f));
             starGift = savedStarGift.gift;
             if (starGift.limited) {
             }
@@ -4709,26 +4720,26 @@ public class StarGiftSheet extends BottomSheet {
                 }
             };
             buttonWithCounterView.setOnClickListener(onClickListener);
-            str2 = null;
+            str = null;
         }
-        if (!TextUtils.isEmpty(str2)) {
+        if (!TextUtils.isEmpty(str)) {
             if (savedStarGift.refunded) {
                 this.beforeTableTextView.setVisibility(0);
                 this.beforeTableTextView.setText(LocaleController.getString(R.string.Gift2Refunded));
                 linksTextView2 = this.beforeTableTextView;
                 i3 = Theme.key_text_RedBold;
-            } else if (this.myProfile && (savedStarGift.gift instanceof TL_stars.TL_starGift) && savedStarGift.name_hidden && !z && j5 != UserObject.ANONYMOUS) {
+            } else if (this.myProfile && (savedStarGift.gift instanceof TL_stars.TL_starGift) && savedStarGift.name_hidden && !z && j4 != UserObject.ANONYMOUS) {
                 this.beforeTableTextView.setVisibility(0);
                 this.beforeTableTextView.setText(LocaleController.getString(R.string.Gift2SenderHidden));
                 linksTextView2 = this.beforeTableTextView;
                 i3 = Theme.key_dialogTextGray2;
             }
             linksTextView2.setTextColor(Theme.getColor(i3, this.resourcesProvider));
-            if (TextUtils.isEmpty(str2)) {
+            if (TextUtils.isEmpty(str)) {
                 this.afterTableTextView.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.Gift2InBlockchain), new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda33
                     @Override // java.lang.Runnable
                     public final void run() {
-                        StarGiftSheet.this.lambda$set$24(str2);
+                        StarGiftSheet.this.lambda$set$24(str);
                     }
                 }), true, AndroidUtilities.dp(2.6666667f), AndroidUtilities.dp(0.66f)));
             } else {
@@ -4759,7 +4770,7 @@ public class StarGiftSheet extends BottomSheet {
             return this;
         }
         this.beforeTableTextView.setVisibility(8);
-        if (TextUtils.isEmpty(str2)) {
+        if (TextUtils.isEmpty(str)) {
         }
         r2 = 0;
         this.afterTableTextView.setVisibility(0);
