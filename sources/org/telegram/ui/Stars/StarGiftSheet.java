@@ -2424,7 +2424,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$doTransfer$82(ChatActivity chatActivity, long j) {
-        BulletinFactory.of(chatActivity).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).show();
+        BulletinFactory.of(chatActivity).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).ignoreDetach().show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2437,7 +2437,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
             if (!(tLObject instanceof TLRPC.Updates)) {
                 BulletinFactory.of(safeLastFragment).showForError(tL_error);
             } else if (j < 0 || j2 < 0) {
-                BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).show();
+                BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).ignoreDetach().show();
             } else {
                 final ChatActivity of = ChatActivity.of(j);
                 of.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda8
@@ -2471,13 +2471,13 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         if (starsController.balanceAvailable()) {
             doTransfer(j, callback);
         } else {
-            getBulletinFactory().createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, "NO_BALANCE")).show();
+            getBulletinFactory().createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, "NO_BALANCE")).ignoreDetach().show();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$doTransfer$86(ChatActivity chatActivity, long j) {
-        BulletinFactory.of(chatActivity).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).show();
+        BulletinFactory.of(chatActivity).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).ignoreDetach().show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2551,7 +2551,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
             if (j < 0 || j2 < 0) {
-                BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).show();
+                BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.forward, LocaleController.getString(R.string.Gift2TransferredTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2TransferredText, getGiftName(), DialogObject.getShortName(j)))).ignoreDetach().show();
             } else {
                 final ChatActivity of = ChatActivity.of(j);
                 of.whenFullyVisible(new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda10
@@ -2587,7 +2587,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
             if (callback != null) {
                 callback.run(tL_error);
             }
-            getBulletinFactory().makeForError(tL_error).show();
+            getBulletinFactory().makeForError(tL_error).ignoreDetach().show();
             return;
         }
         TLRPC.PaymentForm paymentForm = (TLRPC.PaymentForm) tLObject;
@@ -2643,7 +2643,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         } else {
             str = "";
         }
-        getBulletinFactory().createSimpleBulletin(R.raw.gift_upgrade, LocaleController.getString(R.string.Gift2UpgradedTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2UpgradedText, str))).setDuration(5000).show();
+        getBulletinFactory().createSimpleBulletin(R.raw.gift_upgrade, LocaleController.getString(R.string.Gift2UpgradedTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2UpgradedText, str))).setDuration(5000).ignoreDetach().show();
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda99
             @Override // java.lang.Runnable
             public final void run() {
@@ -2670,7 +2670,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$doUpgrade$60(StarsController starsController) {
         if (!starsController.balanceAvailable()) {
-            getBulletinFactory().createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, "NO_BALANCE")).show();
+            getBulletinFactory().createSimpleBulletin(R.raw.error, LocaleController.formatString(R.string.UnknownErrorCode, "NO_BALANCE")).ignoreDetach().show();
         } else {
             this.button.setLoading(false);
             doUpgrade();
@@ -2751,7 +2751,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         } else {
             str = "";
         }
-        getBulletinFactory().createSimpleBulletin(R.raw.gift_upgrade, LocaleController.getString(R.string.Gift2UpgradedTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2UpgradedText, str))).setDuration(5000).show();
+        getBulletinFactory().createSimpleBulletin(R.raw.gift_upgrade, LocaleController.getString(R.string.Gift2UpgradedTitle), AndroidUtilities.replaceTags(LocaleController.formatString(R.string.Gift2UpgradedText, str))).setDuration(5000).ignoreDetach().show();
         Utilities.stageQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda100
             @Override // java.lang.Runnable
             public final void run() {
@@ -2941,7 +2941,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onMenuPressed$2(String str) {
         AndroidUtilities.addToClipboard(str);
-        getBulletinFactory().createCopyLinkBulletin(false).show();
+        getBulletinFactory().createCopyLinkBulletin(false).ignoreDetach().show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3082,7 +3082,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openTransfer$74(TLObject tLObject, Runnable runnable, TLRPC.TL_error tL_error) {
         if (!(tLObject instanceof TLRPC.TL_messages_chatFull)) {
-            getBulletinFactory().makeForError(tL_error).show();
+            getBulletinFactory().makeForError(tL_error).ignoreDetach().show();
             return;
         }
         TLRPC.TL_messages_chatFull tL_messages_chatFull = (TLRPC.TL_messages_chatFull) tLObject;
@@ -3182,7 +3182,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$openUpgrade$54(TLObject tLObject, TLRPC.TL_error tL_error) {
         if (!(tLObject instanceof TLRPC.PaymentForm)) {
-            getBulletinFactory().makeForError(tL_error).show();
+            getBulletinFactory().makeForError(tL_error).ignoreDetach().show();
             return;
         }
         TLRPC.PaymentForm paymentForm = (TLRPC.PaymentForm) tLObject;
@@ -3293,7 +3293,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
     public /* synthetic */ void lambda$repostStory$12(Long l) {
         TLRPC.Chat chat;
         String str = (l.longValue() >= 0 || (chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-l.longValue()))) == null) ? "" : chat.title;
-        getBulletinFactory().createSimpleBulletin(R.raw.contact_check, AndroidUtilities.replaceTags(TextUtils.isEmpty(str) ? LocaleController.getString(R.string.GiftRepostedToProfile) : LocaleController.formatString(R.string.GiftRepostedToChannelProfile, str))).show();
+        getBulletinFactory().createSimpleBulletin(R.raw.contact_check, AndroidUtilities.replaceTags(TextUtils.isEmpty(str) ? LocaleController.getString(R.string.GiftRepostedToProfile) : LocaleController.formatString(R.string.GiftRepostedToChannelProfile, str))).ignoreDetach().show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3446,7 +3446,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         alertDialog.dismiss();
         BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
         if (safeLastFragment != null) {
-            BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.error, LocaleController.getString(R.string.MessageNotFound)).show();
+            BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.error, LocaleController.getString(R.string.MessageNotFound)).ignoreDetach().show();
         }
     }
 
@@ -3494,7 +3494,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         } else {
             BaseFragment safeLastFragment = LaunchActivity.getSafeLastFragment();
             if (safeLastFragment != null) {
-                BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.error, LocaleController.getString(R.string.MessageNotFound)).show();
+                BulletinFactory.of(safeLastFragment).createSimpleBulletin(R.raw.error, LocaleController.getString(R.string.MessageNotFound)).ignoreDetach().show();
             }
         }
     }
@@ -4230,7 +4230,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                     } else {
                         createSimpleBulletin = bulletinFactory.createSimpleBulletin(R.raw.forward, AndroidUtilities.replaceTags(LocaleController.formatPluralString("LinkSharedToManyChats", longSparseArray.size(), Integer.valueOf(longSparseArray.size()))));
                     }
-                    createSimpleBulletin.hideAfterBottomSheet(false).show();
+                    createSimpleBulletin.hideAfterBottomSheet(false).ignoreDetach().show();
                     try {
                         this.container.performHapticFeedback(3);
                     } catch (Exception unused) {
@@ -4247,7 +4247,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         shareAlert2.setDelegate(new ShareAlert.ShareAlertDelegate() { // from class: org.telegram.ui.Stars.StarGiftSheet.6
             @Override // org.telegram.ui.Components.ShareAlert.ShareAlertDelegate
             public boolean didCopy() {
-                StarGiftSheet.this.getBulletinFactory().createCopyLinkBulletin(false).show();
+                StarGiftSheet.this.getBulletinFactory().createCopyLinkBulletin(false).ignoreDetach().show();
                 return true;
             }
 
@@ -5626,7 +5626,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                         public final void run() {
                             StarGiftSheet.this.lambda$toggleWear$6();
                         }
-                    })).show();
+                    })).ignoreDetach().show();
                     return;
                 }
             } else if (!z) {

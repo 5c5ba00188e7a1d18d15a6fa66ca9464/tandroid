@@ -434,17 +434,6 @@ public abstract class NotificationCompat {
         protected String getClassName() {
             return "androidx.core.app.NotificationCompat$BigTextStyle";
         }
-
-        public BigTextStyle setBigContentTitle(CharSequence charSequence) {
-            this.mBigContentTitle = Builder.limitCharSequenceLength(charSequence);
-            return this;
-        }
-
-        public BigTextStyle setSummaryText(CharSequence charSequence) {
-            this.mSummaryText = Builder.limitCharSequenceLength(charSequence);
-            this.mSummaryTextSet = true;
-            return this;
-        }
     }
 
     public static final class BubbleMetadata {

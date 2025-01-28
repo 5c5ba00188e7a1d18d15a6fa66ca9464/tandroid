@@ -475,10 +475,12 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
             this.lockView.setVisibility(8);
             if (giftPremiumBottomSheet$GiftTier.getDiscount() > 0) {
                 this.ribbon.setVisibility(0);
+                this.ribbon.setBackdrop(null);
                 this.ribbon.setColors(-2535425, -8229377);
                 this.ribbon.setText(12, LocaleController.formatString(R.string.GiftPremiumOptionDiscount, Integer.valueOf(giftPremiumBottomSheet$GiftTier.getDiscount())), true);
             } else {
                 this.ribbon.setVisibility(8);
+                this.ribbon.setBackdrop(null);
             }
             this.priceView.setPadding(AndroidUtilities.dp(10.0f), 0, AndroidUtilities.dp(10.0f), 0);
             this.priceView.setTextSize(1, 12.0f);
@@ -491,13 +493,13 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:25:0x0140  */
-        /* JADX WARN: Removed duplicated region for block: B:30:0x01b3  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x01da  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0248  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x024a  */
-        /* JADX WARN: Removed duplicated region for block: B:42:0x01f6  */
-        /* JADX WARN: Removed duplicated region for block: B:46:0x01c9  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x0145  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x01b8  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x01df  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x024d  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x024f  */
+        /* JADX WARN: Removed duplicated region for block: B:42:0x01fb  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x01ce  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -539,6 +541,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 formatString = LocaleController.formatString(R.string.Gift2Limited1OfRibbon, AndroidUtilities.formatWholeNumber(savedStarGift.gift.availability_issued, 0));
             } else {
                 if (!starGift.limited) {
+                    this.ribbon.setBackdrop(null);
                     this.ribbon.setVisibility(8);
                     if (!z2) {
                         if (savedStarGift.name_hidden) {
@@ -665,6 +668,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 this.ribbon.setBackdrop(null);
                 this.ribbon.setText(LocaleController.getString(R.string.Gift2LimitedRibbon), false);
             } else {
+                this.ribbon.setBackdrop(null);
                 this.ribbon.setVisibility(8);
             }
             this.avatarView.setVisibility(8);
@@ -699,6 +703,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
 
         public void setBackdrop(TL_stars.starGiftAttributeBackdrop stargiftattributebackdrop) {
             this.drawable.setBackdrop(stargiftattributebackdrop, false);
+            invalidate();
         }
 
         public void setColor(int i) {

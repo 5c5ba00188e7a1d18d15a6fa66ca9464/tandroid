@@ -398,7 +398,7 @@ public class TableView extends android.widget.TableLayout {
         linksTextView.setSingleLine(true);
         linksTextView.setDisablePaddingsOffsetY(true);
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence2);
-        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.TableView.4
+        spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.TableView.5
             @Override // android.text.style.ClickableSpan
             public void onClick(View view) {
                 Runnable runnable2 = runnable;
@@ -507,7 +507,7 @@ public class TableView extends android.widget.TableLayout {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("x  " + ((Object) str2));
         spannableStringBuilder.setSpan(avatarSpan, 0, 1, 33);
         if (z2) {
-            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.TableView.3
+            spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.ui.Components.TableView.4
                 @Override // android.text.style.ClickableSpan
                 public void onClick(View view) {
                     Runnable runnable3 = runnable;
@@ -593,6 +593,17 @@ public class TableView extends android.widget.TableLayout {
         final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(linksSimpleTextView, AndroidUtilities.dp(20.0f));
         swapAnimatedEmojiDrawable.setColor(Integer.valueOf(color));
         swapAnimatedEmojiDrawable.offset(AndroidUtilities.dp(12.0f), 0);
+        linksSimpleTextView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() { // from class: org.telegram.ui.Components.TableView.3
+            @Override // android.view.View.OnAttachStateChangeListener
+            public void onViewAttachedToWindow(View view) {
+                swapAnimatedEmojiDrawable.attach();
+            }
+
+            @Override // android.view.View.OnAttachStateChangeListener
+            public void onViewDetachedFromWindow(View view) {
+                swapAnimatedEmojiDrawable.detach();
+            }
+        });
         final Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_premium_liststar).mutate();
         mutate.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
         Utilities.Callback<Object[]> callback = new Utilities.Callback() { // from class: org.telegram.ui.Components.TableView$$ExternalSyntheticLambda1

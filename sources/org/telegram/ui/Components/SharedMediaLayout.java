@@ -742,12 +742,50 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$10() {
+        public static /* synthetic */ void lambda$onClick$10(StarsController.GiftsList giftsList) {
+            boolean z = giftsList.include_hidden;
+            if (!z || giftsList.include_displayed) {
+                giftsList.include_hidden = !z;
+            } else {
+                giftsList.include_hidden = false;
+                giftsList.include_displayed = true;
+            }
+            giftsList.invalidate(true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onClick$11(StarsController.GiftsList giftsList) {
+            giftsList.include_displayed = false;
+            giftsList.include_hidden = true;
+            giftsList.invalidate(true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$12() {
+            StoryRecorder.getInstance(SharedMediaLayout.this.profileActivity.getParentActivity(), SharedMediaLayout.this.profileActivity.getCurrentAccount()).openBot(SharedMediaLayout.this.dialog_id, SharedMediaLayout.this.botPreviewsContainer.getCurrentLang(), null);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$13() {
+            SharedMediaLayout.this.botPreviewsContainer.selectAll();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$14() {
+            if (SharedMediaLayout.this.botPreviewsContainer.isSelectedAll()) {
+                SharedMediaLayout.this.botPreviewsContainer.unselectAll();
+            } else {
+                SharedMediaLayout.this.botPreviewsContainer.selectAll();
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$15() {
             SharedMediaLayout.this.botPreviewsContainer.deleteLang(SharedMediaLayout.this.botPreviewsContainer.getCurrentLang());
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$11() {
+        public /* synthetic */ void lambda$onClick$16() {
             SharedMediaLayout.this.profileActivity.getMessagesController().setSavedViewAs(false);
             Bundle bundle = new Bundle();
             bundle.putLong("user_id", SharedMediaLayout.this.profileActivity.getUserConfig().getClientUserId());
@@ -755,7 +793,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$12() {
+        public /* synthetic */ void lambda$onClick$17() {
             try {
                 SharedMediaLayout.this.profileActivity.getMediaDataController().installShortcut(SharedMediaLayout.this.profileActivity.getUserConfig().getClientUserId(), MediaDataController.SHORTCUT_TYPE_USER_OR_CHAT);
             } catch (Exception e) {
@@ -764,7 +802,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$13(TLRPC.User user, boolean z) {
+        public /* synthetic */ void lambda$onClick$18(TLRPC.User user, boolean z) {
             SharedMediaLayout.this.profileActivity.lambda$onBackPressed$323();
             if (SharedMediaLayout.this.profileActivity instanceof NotificationCenter.NotificationCenterDelegate) {
                 SharedMediaLayout.this.profileActivity.getNotificationCenter().removeObserver((NotificationCenter.NotificationCenterDelegate) SharedMediaLayout.this.profileActivity, NotificationCenter.closeChats);
@@ -775,28 +813,41 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$14(Theme.ResourcesProvider resourcesProvider) {
+        public /* synthetic */ void lambda$onClick$19(Theme.ResourcesProvider resourcesProvider) {
             final TLRPC.User currentUser = SharedMediaLayout.this.profileActivity.getUserConfig().getCurrentUser();
-            AlertsCreator.createClearOrDeleteDialogAlert(SharedMediaLayout.this.profileActivity, false, null, currentUser, false, true, true, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda19
+            AlertsCreator.createClearOrDeleteDialogAlert(SharedMediaLayout.this.profileActivity, false, null, currentUser, false, true, true, new MessagesStorage.BooleanCallback() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda24
                 @Override // org.telegram.messenger.MessagesStorage.BooleanCallback
                 public final void run(boolean z) {
-                    SharedMediaLayout.5.this.lambda$onClick$13(currentUser, z);
+                    SharedMediaLayout.5.this.lambda$onClick$18(currentUser, z);
                 }
             }, resourcesProvider);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$15(View view) {
+        public static /* synthetic */ void lambda$onClick$2(StarsController.GiftsList giftsList) {
+            boolean z = giftsList.include_unlimited;
+            if (!z || giftsList.include_limited || giftsList.include_unique) {
+                giftsList.include_unlimited = !z;
+            } else {
+                giftsList.include_unlimited = false;
+                giftsList.include_limited = true;
+                giftsList.include_unique = true;
+            }
+            giftsList.invalidate(true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public /* synthetic */ void lambda$onClick$20(View view) {
             SharedMediaLayout.this.zoomIn();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$16(View view) {
+        public /* synthetic */ void lambda$onClick$21(View view) {
             SharedMediaLayout.this.zoomOut();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$17(View view) {
+        public /* synthetic */ void lambda$onClick$22(View view) {
             Bundle bundle = new Bundle();
             bundle.putInt("type", 2);
             bundle.putLong("dialog_id", -SharedMediaLayout.this.info.id);
@@ -810,7 +861,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$18(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
+        public /* synthetic */ void lambda$onClick$23(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
             if (SharedMediaLayout.this.changeTypeAnimation) {
                 return;
             }
@@ -828,7 +879,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$19(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
+        public /* synthetic */ void lambda$onClick$24(ActionBarMenuSubItem actionBarMenuSubItem, ActionBarMenuSubItem actionBarMenuSubItem2, StoriesAdapter storiesAdapter, View view) {
             if (SharedMediaLayout.this.changeTypeAnimation) {
                 return;
             }
@@ -846,20 +897,15 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onClick$2(StarsController.GiftsList giftsList) {
-            boolean z = giftsList.include_unlimited;
-            if (!z || giftsList.include_limited || giftsList.include_unique) {
-                giftsList.include_unlimited = !z;
-            } else {
-                giftsList.include_unlimited = false;
-                giftsList.include_limited = true;
-                giftsList.include_unique = true;
-            }
+        public static /* synthetic */ void lambda$onClick$3(StarsController.GiftsList giftsList) {
+            giftsList.include_unique = false;
+            giftsList.include_limited = false;
+            giftsList.include_unlimited = true;
             giftsList.invalidate(true);
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onClick$3(StarsController.GiftsList giftsList) {
+        public static /* synthetic */ void lambda$onClick$4(StarsController.GiftsList giftsList) {
             boolean z = giftsList.include_limited;
             if (!z || giftsList.include_unlimited || giftsList.include_unique) {
                 giftsList.include_limited = !z;
@@ -872,7 +918,15 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onClick$4(StarsController.GiftsList giftsList) {
+        public static /* synthetic */ void lambda$onClick$5(StarsController.GiftsList giftsList) {
+            giftsList.include_unique = false;
+            giftsList.include_limited = true;
+            giftsList.include_unlimited = false;
+            giftsList.invalidate(true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onClick$6(StarsController.GiftsList giftsList) {
             boolean z = giftsList.include_unique;
             if (!z || giftsList.include_limited || giftsList.include_unlimited) {
                 giftsList.include_unique = !z;
@@ -885,7 +939,15 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onClick$5(StarsController.GiftsList giftsList) {
+        public static /* synthetic */ void lambda$onClick$7(StarsController.GiftsList giftsList) {
+            giftsList.include_unique = true;
+            giftsList.include_limited = false;
+            giftsList.include_unlimited = false;
+            giftsList.invalidate(true);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public static /* synthetic */ void lambda$onClick$8(StarsController.GiftsList giftsList) {
             boolean z = giftsList.include_displayed;
             if (!z || giftsList.include_hidden) {
                 giftsList.include_displayed = !z;
@@ -897,41 +959,17 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        public static /* synthetic */ void lambda$onClick$6(StarsController.GiftsList giftsList) {
-            boolean z = giftsList.include_hidden;
-            if (!z || giftsList.include_displayed) {
-                giftsList.include_hidden = !z;
-            } else {
-                giftsList.include_hidden = false;
-                giftsList.include_displayed = true;
-            }
+        public static /* synthetic */ void lambda$onClick$9(StarsController.GiftsList giftsList) {
+            giftsList.include_displayed = true;
+            giftsList.include_hidden = false;
             giftsList.invalidate(true);
         }
 
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$7() {
-            StoryRecorder.getInstance(SharedMediaLayout.this.profileActivity.getParentActivity(), SharedMediaLayout.this.profileActivity.getCurrentAccount()).openBot(SharedMediaLayout.this.dialog_id, SharedMediaLayout.this.botPreviewsContainer.getCurrentLang(), null);
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$8() {
-            SharedMediaLayout.this.botPreviewsContainer.selectAll();
-        }
-
-        /* JADX INFO: Access modifiers changed from: private */
-        public /* synthetic */ void lambda$onClick$9() {
-            if (SharedMediaLayout.this.botPreviewsContainer.isSelectedAll()) {
-                SharedMediaLayout.this.botPreviewsContainer.unselectAll();
-            } else {
-                SharedMediaLayout.this.botPreviewsContainer.selectAll();
-            }
-        }
-
-        /* JADX WARN: Code restructure failed: missing block: B:109:0x0315, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:109:0x032f, code lost:
         
             if (r23.this$0.mediaColumnsCount[r6] == 9) goto L52;
          */
-        /* JADX WARN: Removed duplicated region for block: B:81:0x03ee  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x0408  */
         @Override // android.view.View.OnClickListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -953,82 +991,107 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$0(StarsController.GiftsList.this);
                     }
-                }).addIf(list.sort_by_date, R.drawable.menu_sort_value, LocaleController.getString(R.string.Gift2FilterSortByValue), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda10
+                }).addIf(list.sort_by_date, R.drawable.menu_sort_value, LocaleController.getString(R.string.Gift2FilterSortByValue), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda11
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$1(StarsController.GiftsList.this);
                     }
-                }).addGap().addChecked(list.include_unlimited, LocaleController.getString(R.string.Gift2FilterUnlimited), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda11
+                }).addGap().addChecked(list.include_unlimited, LocaleController.getString(R.string.Gift2FilterUnlimited), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda16
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$2(StarsController.GiftsList.this);
                     }
-                }).addChecked(list.include_limited, LocaleController.getString(R.string.Gift2FilterLimited), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda12
+                }, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda17
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$3(StarsController.GiftsList.this);
                     }
-                }).addChecked(list.include_unique, LocaleController.getString(R.string.Gift2FilterUnique), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda13
+                }).addChecked(list.include_limited, LocaleController.getString(R.string.Gift2FilterLimited), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda18
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$4(StarsController.GiftsList.this);
                     }
-                }).addGapIf(canFilterHidden).addCheckedIf(canFilterHidden, list.include_displayed, LocaleController.getString(R.string.Gift2FilterDisplayed), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda14
+                }, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda19
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$5(StarsController.GiftsList.this);
                     }
-                }).addCheckedIf(canFilterHidden, list.include_hidden, LocaleController.getString(R.string.Gift2FilterHidden), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda15
+                }).addChecked(list.include_unique, LocaleController.getString(R.string.Gift2FilterUnique), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda20
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$6(StarsController.GiftsList.this);
+                    }
+                }, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda21
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SharedMediaLayout.5.lambda$onClick$7(StarsController.GiftsList.this);
+                    }
+                }).addGapIf(canFilterHidden).addCheckedIf(canFilterHidden, list.include_displayed, LocaleController.getString(R.string.Gift2FilterDisplayed), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda22
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SharedMediaLayout.5.lambda$onClick$8(StarsController.GiftsList.this);
+                    }
+                }, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda23
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SharedMediaLayout.5.lambda$onClick$9(StarsController.GiftsList.this);
+                    }
+                }).addCheckedIf(canFilterHidden, list.include_hidden, LocaleController.getString(R.string.Gift2FilterHidden), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda1
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SharedMediaLayout.5.lambda$onClick$10(StarsController.GiftsList.this);
+                    }
+                }, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda2
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        SharedMediaLayout.5.lambda$onClick$11(StarsController.GiftsList.this);
                     }
                 }).setOnTopOfScrim().setDimAlpha(0).show();
                 return;
             }
             if (closestTab == 13 && user != null && user.bot && user.bot_has_main_app && user.bot_can_edit && SharedMediaLayout.this.botPreviewsContainer != null) {
-                ItemOptions.makeOptions(SharedMediaLayout.this.profileActivity, SharedMediaLayout.this.photoVideoOptionsItem).addIf(SharedMediaLayout.this.botPreviewsContainer.getItemsCount() < SharedMediaLayout.this.profileActivity.getMessagesController().botPreviewMediasMax, R.drawable.msg_addbot, LocaleController.getString(R.string.ProfileBotAddPreview), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda16
+                ItemOptions.makeOptions(SharedMediaLayout.this.profileActivity, SharedMediaLayout.this.photoVideoOptionsItem).addIf(SharedMediaLayout.this.botPreviewsContainer.getItemsCount() < SharedMediaLayout.this.profileActivity.getMessagesController().botPreviewMediasMax, R.drawable.msg_addbot, LocaleController.getString(R.string.ProfileBotAddPreview), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$7();
+                        SharedMediaLayout.5.this.lambda$onClick$12();
                     }
-                }).addIf(SharedMediaLayout.this.botPreviewsContainer.getItemsCount() > 1 && !SharedMediaLayout.this.botPreviewsContainer.isSelectedAll(), R.drawable.tabs_reorder, LocaleController.getString(R.string.ProfileBotReorder), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda17
+                }).addIf(SharedMediaLayout.this.botPreviewsContainer.getItemsCount() > 1 && !SharedMediaLayout.this.botPreviewsContainer.isSelectedAll(), R.drawable.tabs_reorder, LocaleController.getString(R.string.ProfileBotReorder), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$8();
+                        SharedMediaLayout.5.this.lambda$onClick$13();
                     }
-                }).addIf(SharedMediaLayout.this.botPreviewsContainer.getItemsCount() > 0, R.drawable.msg_select, LocaleController.getString(SharedMediaLayout.this.botPreviewsContainer.isSelectedAll() ? R.string.ProfileBotUnSelect : R.string.ProfileBotSelect), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda18
+                }).addIf(SharedMediaLayout.this.botPreviewsContainer.getItemsCount() > 0, R.drawable.msg_select, LocaleController.getString(SharedMediaLayout.this.botPreviewsContainer.isSelectedAll() ? R.string.ProfileBotUnSelect : R.string.ProfileBotSelect), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$9();
+                        SharedMediaLayout.5.this.lambda$onClick$14();
                     }
-                }).addIf(!TextUtils.isEmpty(SharedMediaLayout.this.botPreviewsContainer.getCurrentLang()), R.drawable.msg_delete, (CharSequence) LocaleController.formatString(R.string.ProfileBotRemoveLang, TranslateAlert2.languageName(SharedMediaLayout.this.botPreviewsContainer.getCurrentLang())), true, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda1
+                }).addIf(!TextUtils.isEmpty(SharedMediaLayout.this.botPreviewsContainer.getCurrentLang()), R.drawable.msg_delete, (CharSequence) LocaleController.formatString(R.string.ProfileBotRemoveLang, TranslateAlert2.languageName(SharedMediaLayout.this.botPreviewsContainer.getCurrentLang())), true, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$10();
+                        SharedMediaLayout.5.this.lambda$onClick$15();
                     }
                 }).translate(0.0f, -AndroidUtilities.dp(52.0f)).setDimAlpha(0).show();
                 return;
             }
             if (SharedMediaLayout.this.getSelectedTab() == 11) {
-                ItemOptions add = ItemOptions.makeOptions(SharedMediaLayout.this.profileActivity, SharedMediaLayout.this.photoVideoOptionsItem).add(R.drawable.msg_discussion, LocaleController.getString(R.string.SavedViewAsMessages), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda2
+                ItemOptions add = ItemOptions.makeOptions(SharedMediaLayout.this.profileActivity, SharedMediaLayout.this.photoVideoOptionsItem).add(R.drawable.msg_discussion, LocaleController.getString(R.string.SavedViewAsMessages), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$11();
+                        SharedMediaLayout.5.this.lambda$onClick$16();
                     }
-                }).addGap().add(R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda3
+                }).addGap().add(R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$12();
+                        SharedMediaLayout.5.this.lambda$onClick$17();
                     }
                 });
                 int i = R.drawable.msg_delete;
                 String string = LocaleController.getString(R.string.DeleteAll);
                 final Theme.ResourcesProvider resourcesProvider = this.val$resourcesProvider;
-                add.add(i, string, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda4
+                add.add(i, string, new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
-                        SharedMediaLayout.5.this.lambda$onClick$14(resourcesProvider);
+                        SharedMediaLayout.5.this.lambda$onClick$19(resourcesProvider);
                     }
                 }).translate(0.0f, -AndroidUtilities.dp(52.0f)).setDimAlpha(0).show();
                 return;
@@ -1049,18 +1112,18 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
             SharedMediaLayout.this.mediaZoomInItem = new ActionBarMenuSubItem(this.val$context, true, false, this.val$resourcesProvider);
             SharedMediaLayout.this.mediaZoomOutItem = new ActionBarMenuSubItem(this.val$context, false, false, this.val$resourcesProvider);
             SharedMediaLayout.this.mediaZoomInItem.setTextAndIcon(LocaleController.getString("MediaZoomIn", R.string.MediaZoomIn), R.drawable.msg_zoomin);
-            SharedMediaLayout.this.mediaZoomInItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda5
+            SharedMediaLayout.this.mediaZoomInItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
-                    SharedMediaLayout.5.this.lambda$onClick$15(view2);
+                    SharedMediaLayout.5.this.lambda$onClick$20(view2);
                 }
             });
             actionBarPopupWindowLayout.addView(SharedMediaLayout.this.mediaZoomInItem);
             SharedMediaLayout.this.mediaZoomOutItem.setTextAndIcon(LocaleController.getString("MediaZoomOut", R.string.MediaZoomOut), R.drawable.msg_zoomout);
-            SharedMediaLayout.this.mediaZoomOutItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda6
+            SharedMediaLayout.this.mediaZoomOutItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda12
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
-                    SharedMediaLayout.5.this.lambda$onClick$16(view2);
+                    SharedMediaLayout.5.this.lambda$onClick$21(view2);
                 }
             });
             actionBarPopupWindowLayout.addView(SharedMediaLayout.this.mediaZoomOutItem);
@@ -1089,10 +1152,10 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                     if (SharedMediaLayout.this.info != null && !SharedMediaLayout.this.isStoriesView() && (chat = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getChat(Long.valueOf(SharedMediaLayout.this.info.id))) != null && (tL_chatAdminRights = chat.admin_rights) != null && tL_chatAdminRights.edit_stories) {
                         ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(this.val$context, false, true, this.val$resourcesProvider);
                         actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(R.string.OpenChannelArchiveStories), R.drawable.msg_archive);
-                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda7
+                        actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda13
                             @Override // android.view.View.OnClickListener
                             public final void onClick(View view2) {
-                                SharedMediaLayout.5.this.lambda$onClick$17(view2);
+                                SharedMediaLayout.5.this.lambda$onClick$22(view2);
                             }
                         });
                         actionBarPopupWindowLayout.addView(actionBarMenuSubItem3);
@@ -1112,16 +1175,16 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                                 actionBarMenuSubItem4.setChecked(storiesList.showPhotos());
                                 actionBarMenuSubItem5.setChecked(storiesAdapter.storiesList.showVideos());
                             }
-                            actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda8
+                            actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda14
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view2) {
-                                    SharedMediaLayout.5.this.lambda$onClick$18(actionBarMenuSubItem5, actionBarMenuSubItem4, storiesAdapter, view2);
+                                    SharedMediaLayout.5.this.lambda$onClick$23(actionBarMenuSubItem5, actionBarMenuSubItem4, storiesAdapter, view2);
                                 }
                             });
-                            actionBarMenuSubItem5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda9
+                            actionBarMenuSubItem5.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda15
                                 @Override // android.view.View.OnClickListener
                                 public final void onClick(View view2) {
-                                    SharedMediaLayout.5.this.lambda$onClick$19(actionBarMenuSubItem4, actionBarMenuSubItem5, storiesAdapter, view2);
+                                    SharedMediaLayout.5.this.lambda$onClick$24(actionBarMenuSubItem4, actionBarMenuSubItem5, storiesAdapter, view2);
                                 }
                             });
                         } else {
@@ -1204,10 +1267,10 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                 if (SharedMediaLayout.this.info != null) {
                     ActionBarMenuSubItem actionBarMenuSubItem32 = new ActionBarMenuSubItem(this.val$context, false, true, this.val$resourcesProvider);
                     actionBarMenuSubItem32.setTextAndIcon(LocaleController.getString(R.string.OpenChannelArchiveStories), R.drawable.msg_archive);
-                    actionBarMenuSubItem32.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda7
+                    actionBarMenuSubItem32.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda13
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view2) {
-                            SharedMediaLayout.5.this.lambda$onClick$17(view2);
+                            SharedMediaLayout.5.this.lambda$onClick$22(view2);
                         }
                     });
                     actionBarPopupWindowLayout.addView(actionBarMenuSubItem32);

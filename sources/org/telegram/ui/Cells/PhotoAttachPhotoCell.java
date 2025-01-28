@@ -538,9 +538,9 @@ public class PhotoAttachPhotoCell extends FrameLayout {
         this.checkFrame.setOnClickListener(onClickListener);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:14:0x009e  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x00a9  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00ae  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00a5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -560,8 +560,8 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             this.videoInfoContainer.setVisibility(4);
         }
         MediaController.PhotoEntry photoEntry2 = this.photoEntry;
-        String str2 = photoEntry2.thumbPath;
-        if (str2 != null) {
+        String str2 = photoEntry2.coverPath;
+        if (str2 != null || (str2 = photoEntry2.thumbPath) != null) {
             backupImageView = this.imageView;
         } else {
             if (photoEntry2.path == null) {
