@@ -544,7 +544,7 @@ public class ChatbotsActivity extends BaseFragment {
         textView2.setTextColor(getThemedColor(i4));
         this.emptyView.addView(this.emptyViewText, LayoutHelper.createFrame(-2, -2, 17));
         this.emptyViewLoading = new ImageView(context);
-        this.emptyViewLoading.setImageDrawable(new CircularProgressDrawable(getThemedColor(i4)) { // from class: org.telegram.ui.Business.ChatbotsActivity.4
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(getThemedColor(i4)) { // from class: org.telegram.ui.Business.ChatbotsActivity.4
             @Override // org.telegram.ui.Components.CircularProgressDrawable, android.graphics.drawable.Drawable
             public int getIntrinsicHeight() {
                 return (int) (this.size + (this.thickness * 2.0f));
@@ -554,7 +554,9 @@ public class ChatbotsActivity extends BaseFragment {
             public int getIntrinsicWidth() {
                 return (int) (this.size + (this.thickness * 2.0f));
             }
-        });
+        };
+        this.emptyViewLoading.setScaleType(ImageView.ScaleType.CENTER);
+        this.emptyViewLoading.setImageDrawable(circularProgressDrawable);
         this.emptyView.addView(this.emptyViewLoading, LayoutHelper.createFrame(-2, -2, 17));
         this.emptyViewLoading.setAlpha(0.0f);
         this.emptyViewLoading.setTranslationY(AndroidUtilities.dp(8.0f));

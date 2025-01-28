@@ -927,11 +927,11 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:109:0x030d, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:109:0x0315, code lost:
         
             if (r23.this$0.mediaColumnsCount[r6] == 9) goto L52;
          */
-        /* JADX WARN: Removed duplicated region for block: B:81:0x03e6  */
+        /* JADX WARN: Removed duplicated region for block: B:81:0x03ee  */
         @Override // android.view.View.OnClickListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -947,6 +947,7 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
             TLRPC.User user = MessagesController.getInstance(SharedMediaLayout.this.profileActivity.getCurrentAccount()).getUser(Long.valueOf(SharedMediaLayout.this.dialog_id));
             if (closestTab == 14) {
                 final StarsController.GiftsList list = SharedMediaLayout.this.giftsContainer.getList();
+                boolean canFilterHidden = SharedMediaLayout.this.giftsContainer.canFilterHidden();
                 ItemOptions.makeOptions(SharedMediaLayout.this.profileActivity, SharedMediaLayout.this.photoVideoOptionsItem).addIf(true ^ list.sort_by_date, R.drawable.menu_sort_date, LocaleController.getString(R.string.Gift2FilterSortByDate), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
@@ -972,12 +973,12 @@ public abstract class SharedMediaLayout extends FrameLayout implements Notificat
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$4(StarsController.GiftsList.this);
                     }
-                }).addGap().addChecked(list.include_displayed, LocaleController.getString(R.string.Gift2FilterDisplayed), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda14
+                }).addGapIf(canFilterHidden).addCheckedIf(canFilterHidden, list.include_displayed, LocaleController.getString(R.string.Gift2FilterDisplayed), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda14
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$5(StarsController.GiftsList.this);
                     }
-                }).addChecked(list.include_hidden, LocaleController.getString(R.string.Gift2FilterHidden), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda15
+                }).addCheckedIf(canFilterHidden, list.include_hidden, LocaleController.getString(R.string.Gift2FilterHidden), new Runnable() { // from class: org.telegram.ui.Components.SharedMediaLayout$5$$ExternalSyntheticLambda15
                     @Override // java.lang.Runnable
                     public final void run() {
                         SharedMediaLayout.5.lambda$onClick$6(StarsController.GiftsList.this);

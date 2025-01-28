@@ -80,6 +80,34 @@ public class AnimatedEmojiDrawable extends Drawable {
     private Boolean canOverrideColorCached = null;
     private Boolean isDefaultStatusEmojiCached = null;
 
+    class 1 extends ImageReceiver {
+        1() {
+        }
+
+        @Override // org.telegram.messenger.ImageReceiver
+        public void invalidate() {
+            AnimatedEmojiDrawable.this.invalidate();
+            super.invalidate();
+        }
+
+        @Override // org.telegram.messenger.ImageReceiver
+        protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
+            AnimatedEmojiDrawable.this.invalidate();
+            boolean imageBitmapByKey = super.setImageBitmapByKey(drawable, str, i, z, i2);
+            if (AnimatedEmojiDrawable.this.preloading && hasImageLoaded()) {
+                final AnimatedEmojiDrawable animatedEmojiDrawable = AnimatedEmojiDrawable.this;
+                animatedEmojiDrawable.preloading = false;
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable$1$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        AnimatedEmojiDrawable.access$200(AnimatedEmojiDrawable.this);
+                    }
+                });
+            }
+            return imageBitmapByKey;
+        }
+    }
+
     public static class EmojiDocumentFetcher {
         private final int currentAccount;
         private HashMap emojiDocumentsCache;
@@ -962,23 +990,16 @@ public class AnimatedEmojiDrawable extends Drawable {
         initDocument(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ void access$200(AnimatedEmojiDrawable animatedEmojiDrawable) {
+        animatedEmojiDrawable.updateAttachState();
+    }
+
     private void createImageReceiver() {
         if (this.imageReceiver == null) {
-            ImageReceiver imageReceiver = new ImageReceiver() { // from class: org.telegram.ui.Components.AnimatedEmojiDrawable.1
-                @Override // org.telegram.messenger.ImageReceiver
-                public void invalidate() {
-                    AnimatedEmojiDrawable.this.invalidate();
-                    super.invalidate();
-                }
-
-                @Override // org.telegram.messenger.ImageReceiver
-                protected boolean setImageBitmapByKey(Drawable drawable, String str, int i, boolean z, int i2) {
-                    AnimatedEmojiDrawable.this.invalidate();
-                    return super.setImageBitmapByKey(drawable, str, i, z, i2);
-                }
-            };
-            this.imageReceiver = imageReceiver;
-            imageReceiver.setAllowLoadingOnAttachedOnly(true);
+            1 r0 = new 1();
+            this.imageReceiver = r0;
+            r0.setAllowLoadingOnAttachedOnly(true);
             if (this.cacheType == 12) {
                 this.imageReceiver.ignoreNotifications = true;
             }
@@ -1366,7 +1387,8 @@ public class AnimatedEmojiDrawable extends Drawable {
         }
     }
 
-    private void updateAttachState() {
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateAttachState() {
         ArrayList arrayList;
         if (this.imageReceiver == null) {
             return;

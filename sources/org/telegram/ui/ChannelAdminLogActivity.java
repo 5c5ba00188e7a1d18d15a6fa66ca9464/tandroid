@@ -592,7 +592,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void didPressImage(ChatMessageCell chatMessageCell, float f, float f2) {
+            public void didPressImage(ChatMessageCell chatMessageCell, float f, float f2, boolean z) {
                 int i;
                 File file;
                 Uri fromFile;

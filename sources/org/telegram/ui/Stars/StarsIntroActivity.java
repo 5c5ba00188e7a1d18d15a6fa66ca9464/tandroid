@@ -131,6 +131,7 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stars.StarGiftSheet;
+import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 import org.telegram.ui.Stories.recorder.HintView2;
@@ -3578,7 +3579,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showTransactionSheet$23(int i, Context context, Theme.ResourcesProvider resourcesProvider, TL_stars.SavedStarGift savedStarGift) {
-        new StarGiftSheet(context, i, UserConfig.getInstance(i).getClientUserId(), resourcesProvider).set(savedStarGift).show();
+        new StarGiftSheet(context, i, UserConfig.getInstance(i).getClientUserId(), resourcesProvider).set(savedStarGift, (StarsController.GiftsList) null).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

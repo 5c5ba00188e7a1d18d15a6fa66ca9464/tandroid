@@ -101,6 +101,7 @@ public class MediaDataController extends BaseController {
     public static final String ATTACH_MENU_BOT_SIDE_MENU = "android_side_menu_static";
     public static final String ATTACH_MENU_BOT_SIDE_MENU_ICON_KEY = "android_side_menu_static";
     public static final String ATTACH_MENU_BOT_STATIC_ICON_KEY = "default_static";
+    public static final int MAX_LINKS_COUNT = 250;
     public static final int MAX_STYLE_RUNS_COUNT = 1000;
     public static final int MEDIA_AUDIO = 2;
     public static final int MEDIA_FILE = 1;
@@ -11755,7 +11756,7 @@ public class MediaDataController extends BaseController {
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.messenger.MediaDataController.loadReplyMessagesForMessages(java.util.ArrayList, long, int, long, java.lang.Runnable, int, org.telegram.messenger.Timer):void");
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0065  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

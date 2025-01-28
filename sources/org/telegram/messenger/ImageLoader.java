@@ -425,21 +425,21 @@ public class ImageLoader {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Code restructure failed: missing block: B:104:0x0132, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x0133, code lost:
         
             if (r2 == null) goto L107;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:123:0x0118, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:123:0x0119, code lost:
         
             if ((r3 instanceof java.io.FileNotFoundException) != false) goto L93;
          */
-        /* JADX WARN: Removed duplicated region for block: B:101:0x0123 A[Catch: all -> 0x0127, TRY_LEAVE, TryCatch #8 {all -> 0x0127, blocks: (B:99:0x011f, B:101:0x0123), top: B:98:0x011f }] */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x012a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:112:0x00fa A[Catch: all -> 0x00f8, TryCatch #15 {all -> 0x00f8, blocks: (B:91:0x00ed, B:93:0x00f1, B:96:0x011a, B:97:0x011c, B:112:0x00fa, B:115:0x00ff, B:117:0x0103, B:119:0x0109, B:122:0x0116), top: B:90:0x00ed }] */
-        /* JADX WARN: Removed duplicated region for block: B:129:0x013a A[Catch: all -> 0x013e, TRY_LEAVE, TryCatch #17 {all -> 0x013e, blocks: (B:127:0x0136, B:129:0x013a), top: B:126:0x0136 }] */
-        /* JADX WARN: Removed duplicated region for block: B:135:0x014b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:139:0x0141 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:93:0x00f1 A[Catch: all -> 0x00f8, TryCatch #15 {all -> 0x00f8, blocks: (B:91:0x00ed, B:93:0x00f1, B:96:0x011a, B:97:0x011c, B:112:0x00fa, B:115:0x00ff, B:117:0x0103, B:119:0x0109, B:122:0x0116), top: B:90:0x00ed }] */
+        /* JADX WARN: Removed duplicated region for block: B:101:0x0124 A[Catch: all -> 0x0128, TRY_LEAVE, TryCatch #8 {all -> 0x0128, blocks: (B:99:0x0120, B:101:0x0124), top: B:98:0x0120 }] */
+        /* JADX WARN: Removed duplicated region for block: B:105:0x012b A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x00fb A[Catch: all -> 0x00f9, TryCatch #15 {all -> 0x00f9, blocks: (B:91:0x00ee, B:93:0x00f2, B:96:0x011b, B:97:0x011d, B:112:0x00fb, B:115:0x0100, B:117:0x0104, B:119:0x010a, B:122:0x0117), top: B:90:0x00ee }] */
+        /* JADX WARN: Removed duplicated region for block: B:129:0x013b A[Catch: all -> 0x013f, TRY_LEAVE, TryCatch #17 {all -> 0x013f, blocks: (B:127:0x0137, B:129:0x013b), top: B:126:0x0137 }] */
+        /* JADX WARN: Removed duplicated region for block: B:135:0x014c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x0142 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:93:0x00f2 A[Catch: all -> 0x00f9, TryCatch #15 {all -> 0x00f9, blocks: (B:91:0x00ee, B:93:0x00f2, B:96:0x011b, B:97:0x011d, B:112:0x00fb, B:115:0x0100, B:117:0x0104, B:119:0x010a, B:122:0x0117), top: B:90:0x00ee }] */
         @Override // android.os.AsyncTask
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -3770,6 +3770,20 @@ public class ImageLoader {
         public MessageThumb(String str, BitmapDrawable bitmapDrawable) {
             this.key = str;
             this.drawable = bitmapDrawable;
+        }
+    }
+
+    public static class PhotoSizeFromPhoto extends TLRPC.PhotoSize {
+        public final TLRPC.InputPhoto inputPhoto;
+        public final TLRPC.Photo photo;
+
+        public PhotoSizeFromPhoto(TLRPC.Photo photo) {
+            this.photo = photo;
+            TLRPC.TL_inputPhoto tL_inputPhoto = new TLRPC.TL_inputPhoto();
+            tL_inputPhoto.id = photo.id;
+            tL_inputPhoto.file_reference = photo.file_reference;
+            tL_inputPhoto.access_hash = photo.access_hash;
+            this.inputPhoto = tL_inputPhoto;
         }
     }
 

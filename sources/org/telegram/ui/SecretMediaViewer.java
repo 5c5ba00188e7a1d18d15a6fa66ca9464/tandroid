@@ -909,7 +909,7 @@ public class SecretMediaViewer implements NotificationCenter.NotificationCenterD
     }
 
     private void animateTo(float f, float f2, float f3, boolean z) {
-        animateTo(f, f2, f3, z, NotificationCenter.didSetNewWallpapper);
+        animateTo(f, f2, f3, z, 250);
     }
 
     private void animateTo(float f, float f2, float f3, boolean z, int i) {

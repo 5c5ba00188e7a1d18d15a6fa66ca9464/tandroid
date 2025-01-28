@@ -1952,7 +1952,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         try {
             try {
                 if (z) {
-                    int max = Math.max(i, NotificationCenter.didSetNewWallpapper);
+                    int max = Math.max(i, 250);
                     IMapsProvider.LatLng center = onCreateLatLngBoundsBuilder.build().getCenter();
                     double d = max;
                     IMapsProvider.LatLng move = move(center, d, d);

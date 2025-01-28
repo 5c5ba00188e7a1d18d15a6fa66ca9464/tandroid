@@ -11,7 +11,6 @@ import com.google.android.exoplayer2.extractor.SeekMap;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.Map;
-import org.telegram.messenger.NotificationCenter;
 
 /* loaded from: classes.dex */
 public final class FlvExtractor implements Extractor {
@@ -232,7 +231,7 @@ public final class FlvExtractor implements Extractor {
         }
         extractorInput.peekFully(this.scratch.getData(), 0, 2);
         this.scratch.setPosition(0);
-        if ((this.scratch.readUnsignedShort() & NotificationCenter.didSetNewWallpapper) != 0) {
+        if ((this.scratch.readUnsignedShort() & 250) != 0) {
             return false;
         }
         extractorInput.peekFully(this.scratch.getData(), 0, 4);

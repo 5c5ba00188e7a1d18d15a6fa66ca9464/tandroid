@@ -528,42 +528,42 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
             return itemViewType == 2 || itemViewType == 1 || itemViewType == 3 || itemViewType == 8;
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:176:0x04e3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:176:0x04e7, code lost:
         
             if (r4 != null) goto L324;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:240:0x05eb, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:240:0x05ef, code lost:
         
             if (r28.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.id)) != false) goto L356;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:269:0x06a3, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:269:0x06a7, code lost:
         
             if (r2 != null) goto L268;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:270:0x06a5, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:270:0x06a9, code lost:
         
             r27 = r4;
             r4 = r2;
             r2 = r27;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:313:0x0794, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:313:0x0798, code lost:
         
             if (r2 != null) goto L268;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:360:0x0838, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:360:0x083c, code lost:
         
             if (r28.this$0.selectedDocumentIds.contains(java.lang.Long.valueOf(r2.getDocumentId())) != false) goto L356;
          */
-        /* JADX WARN: Removed duplicated region for block: B:167:0x04a3  */
-        /* JADX WARN: Removed duplicated region for block: B:180:0x083e  */
-        /* JADX WARN: Removed duplicated region for block: B:190:0x089a  */
-        /* JADX WARN: Removed duplicated region for block: B:196:0x04f2  */
-        /* JADX WARN: Removed duplicated region for block: B:217:0x0568  */
-        /* JADX WARN: Removed duplicated region for block: B:220:0x0575  */
-        /* JADX WARN: Removed duplicated region for block: B:223:0x057b  */
-        /* JADX WARN: Removed duplicated region for block: B:255:0x0626  */
-        /* JADX WARN: Removed duplicated region for block: B:361:0x0577  */
-        /* JADX WARN: Removed duplicated region for block: B:362:0x056a  */
+        /* JADX WARN: Removed duplicated region for block: B:167:0x04a7  */
+        /* JADX WARN: Removed duplicated region for block: B:180:0x0842  */
+        /* JADX WARN: Removed duplicated region for block: B:190:0x089e  */
+        /* JADX WARN: Removed duplicated region for block: B:196:0x04f6  */
+        /* JADX WARN: Removed duplicated region for block: B:217:0x056c  */
+        /* JADX WARN: Removed duplicated region for block: B:220:0x0579  */
+        /* JADX WARN: Removed duplicated region for block: B:223:0x057f  */
+        /* JADX WARN: Removed duplicated region for block: B:255:0x062a  */
+        /* JADX WARN: Removed duplicated region for block: B:361:0x057b  */
+        /* JADX WARN: Removed duplicated region for block: B:362:0x056e  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -626,7 +626,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                         return;
                     }
                     if (i == SelectAnimatedEmojiDialog.this.giftsSectionRow) {
-                        headerView.setText("Collectibles", false);
+                        headerView.setText(LocaleController.getString(R.string.EmojiPackCollectibles), false);
                         return;
                     }
                     int i3 = SelectAnimatedEmojiDialog.this.positionToSection.get(i);

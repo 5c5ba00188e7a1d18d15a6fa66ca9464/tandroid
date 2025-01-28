@@ -1058,8 +1058,8 @@ public class SecretVoicePlayer extends Dialog {
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell6, float f4, float f5) {
-                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell6, f4, f5);
+                public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell6, float f4, float f5, boolean z) {
+                    ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell6, f4, f5, z);
                 }
 
                 @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

@@ -576,8 +576,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell, f, f2);
+                    public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell, float f, float f2, boolean z2) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell, f, f2, z2);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate

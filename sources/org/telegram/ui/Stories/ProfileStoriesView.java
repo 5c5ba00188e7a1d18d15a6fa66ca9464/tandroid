@@ -33,6 +33,7 @@ import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
@@ -540,12 +541,25 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     
         if (r10 != false) goto L101;
      */
+    /* JADX WARN: Code restructure failed: missing block: B:213:0x02ec, code lost:
+    
+        if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) != false) goto L214;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:214:0x0306, code lost:
+    
+        r17.gradientTools.setColor(org.telegram.messenger.MessagesController.PeerColor.fromCollectible(r3), r18);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:221:0x0304, code lost:
+    
+        if ((r3 instanceof org.telegram.tgnet.TLRPC.TL_emojiStatusCollectible) != false) goto L214;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void updateStories(boolean z, boolean z2) {
         ArrayList<TL_stories.StoryItem> arrayList;
         int i;
+        TLRPC.EmojiStatus emojiStatus;
         TL_stories.StoryItem storyItem;
         int i2;
         if (this.isTopic) {
@@ -751,10 +765,18 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
         MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
         long j2 = this.dialogId;
         if (j >= 0) {
-            this.gradientTools.setUser(messagesController.getUser(Long.valueOf(j2)), z);
-        } else {
-            this.gradientTools.setChat(messagesController.getChat(Long.valueOf(-j2)), z);
+            TLRPC.User user = messagesController.getUser(Long.valueOf(j2));
+            if (user != null) {
+                emojiStatus = user.emoji_status;
+            }
+            this.gradientTools.setUser(user, z);
+            invalidate();
         }
+        TLRPC.Chat chat = messagesController.getChat(Long.valueOf(-j2));
+        if (chat != null) {
+            emojiStatus = chat.emoji_status;
+        }
+        this.gradientTools.setChat(chat, z);
         invalidate();
     }
 
@@ -1245,6 +1267,10 @@ public abstract class ProfileStoriesView extends View implements NotificationCen
     public void setStories(TL_stories.PeerStories peerStories) {
         this.peerStories = peerStories;
         updateStories(true, false);
+    }
+
+    public void update() {
+        updateStories(true, true);
     }
 
     @Override // android.view.View

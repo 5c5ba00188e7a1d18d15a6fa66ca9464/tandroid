@@ -9273,7 +9273,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                             MessagesController.getGlobalMainSettings().edit().putInt("statusgiftpage", MessagesController.getGlobalMainSettings().getInt("statusgiftpage", 0) + 1).apply();
                             Context context = getContext();
                             int i4 = LaunchActivity.this.currentAccount;
-                            new StarGiftSheet(context, i4, UserConfig.getInstance(i4).getClientUserId(), null).set(findUserStarGift).setupWearPage().show();
+                            new StarGiftSheet(context, i4, UserConfig.getInstance(i4).getClientUserId(), null).set(findUserStarGift, (StarsController.GiftsList) null).setupWearPage().show();
                             if (selectAnimatedEmojiDialogWindowArr[0] != null) {
                                 LaunchActivity.this.selectAnimatedEmojiDialog = null;
                                 selectAnimatedEmojiDialogWindowArr[0].dismiss();

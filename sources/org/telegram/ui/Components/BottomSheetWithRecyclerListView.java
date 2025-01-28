@@ -404,6 +404,96 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    public void updateStatusBar() {
+        Window window;
+        boolean isLightStatusBar;
+        if (this.attachedFragment != null) {
+            LaunchActivity.instance.checkSystemBarColors(true, true, true, false);
+            return;
+        }
+        ActionBar actionBar = this.actionBar;
+        if (actionBar != null && actionBar.getTag() != null) {
+            window = getWindow();
+            isLightStatusBar = isLightStatusBar();
+        } else {
+            if (this.baseFragment == null) {
+                return;
+            }
+            window = getWindow();
+            isLightStatusBar = this.baseFragment.isLightStatusBar();
+        }
+        AndroidUtilities.setLightStatusBar(window, isLightStatusBar);
+    }
+
+    public void applyScrolledPosition() {
+        applyScrolledPosition(false);
+    }
+
+    public void applyScrolledPosition(boolean z) {
+        RecyclerListView recyclerListView = this.recyclerListView;
+        if (recyclerListView == null || recyclerListView.getLayoutManager() == null || this.savedScrollPosition < 0) {
+            return;
+        }
+        int top = (this.savedScrollOffset - this.containerView.getTop()) - this.recyclerListView.getPaddingTop();
+        RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.recyclerListView.findViewHolderForAdapterPosition(0);
+        if (z && findViewHolderForAdapterPosition != null) {
+            top -= Math.max(findViewHolderForAdapterPosition.itemView.getBottom() - this.recyclerListView.getPaddingTop(), 0);
+        }
+        if (this.recyclerListView.getLayoutManager() instanceof LinearLayoutManager) {
+            ((LinearLayoutManager) this.recyclerListView.getLayoutManager()).scrollToPositionWithOffset(this.savedScrollPosition, top);
+        }
+        this.savedScrollPosition = -1;
+    }
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet
+    protected boolean canDismissWithSwipe() {
+        return false;
+    }
+
+    protected boolean canHighlightChildAt(View view, float f, float f2) {
+        return true;
+    }
+
+    protected abstract RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView);
+
+    protected int getActionBarProgressHeight() {
+        return AndroidUtilities.dp(56.0f);
+    }
+
+    public BaseFragment getBaseFragment() {
+        return this.baseFragment;
+    }
+
+    protected abstract CharSequence getTitle();
+
+    @Override // org.telegram.ui.ActionBar.BottomSheet, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
+    public boolean isAttachedLightStatusBar() {
+        BaseFragment baseFragment;
+        ActionBar actionBar = this.actionBar;
+        if ((actionBar == null || actionBar.getTag() == null) && (baseFragment = this.baseFragment) != null) {
+            return baseFragment.isLightStatusBar();
+        }
+        return isLightStatusBar();
+    }
+
+    protected boolean needPaddingShadow() {
+        return true;
+    }
+
+    public void notifyDataSetChanged() {
+        this.recyclerListView.getAdapter().notifyDataSetChanged();
+    }
+
+    protected void onPreDraw(Canvas canvas, int i, float f) {
+    }
+
+    protected void onPreMeasure(int i, int i2) {
+    }
+
+    public void onViewCreated(FrameLayout frameLayout) {
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
     /* JADX WARN: Removed duplicated region for block: B:19:0x008f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -459,7 +549,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX INFO: Access modifiers changed from: protected */
     public void preDrawInternal(Canvas canvas, View view) {
         int i;
         float f;
@@ -497,7 +587,7 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         ActionBarType actionBarType = this.actionBarType;
         float f2 = 1.0f;
         if (actionBarType == ActionBarType.FADING) {
-            f = 1.0f - ((AndroidUtilities.dp(16.0f) + i4) / AndroidUtilities.dp(56.0f));
+            f = 1.0f - ((AndroidUtilities.dp(16.0f) + i4) / getActionBarProgressHeight());
             if (f < 0.0f) {
                 f = 0.0f;
             }
@@ -540,106 +630,22 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         } else {
             f = 0.0f;
         }
-        if (needPaddingShadow()) {
-            this.shadowDrawable.setBounds(0, i4, view.getMeasuredWidth(), view.getMeasuredHeight());
-        } else {
-            this.shadowDrawable.setBounds(-AndroidUtilities.dp(6.0f), i4, view.getMeasuredWidth() + AndroidUtilities.dp(6.0f), view.getMeasuredHeight());
-        }
-        this.shadowDrawable.draw(canvas);
-        if (this.showHandle && f2 > 0.0f) {
-            int dp = AndroidUtilities.dp(36.0f);
-            this.handleRect.set((view.getMeasuredWidth() - dp) / 2.0f, AndroidUtilities.dp(20.0f) + i4, (view.getMeasuredWidth() + dp) / 2.0f, r3 + AndroidUtilities.dp(4.0f));
-            Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_sheet_scrollUp));
-            Theme.dialogs_onlineCirclePaint.setAlpha((int) (r14.getAlpha() * f2));
-            canvas.drawRoundRect(this.handleRect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+        if (shouldDrawBackground()) {
+            if (needPaddingShadow()) {
+                this.shadowDrawable.setBounds(0, i4, view.getMeasuredWidth(), view.getMeasuredHeight());
+            } else {
+                this.shadowDrawable.setBounds(-AndroidUtilities.dp(6.0f), i4, view.getMeasuredWidth() + AndroidUtilities.dp(6.0f), view.getMeasuredHeight());
+            }
+            this.shadowDrawable.draw(canvas);
+            if (this.showHandle && f2 > 0.0f) {
+                int dp = AndroidUtilities.dp(36.0f);
+                this.handleRect.set((view.getMeasuredWidth() - dp) / 2.0f, AndroidUtilities.dp(20.0f) + i4, (view.getMeasuredWidth() + dp) / 2.0f, r3 + AndroidUtilities.dp(4.0f));
+                Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(Theme.key_sheet_scrollUp));
+                Theme.dialogs_onlineCirclePaint.setAlpha((int) (r14.getAlpha() * f2));
+                canvas.drawRoundRect(this.handleRect, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(2.0f), Theme.dialogs_onlineCirclePaint);
+            }
         }
         onPreDraw(canvas, i4, f);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void updateStatusBar() {
-        Window window;
-        boolean isLightStatusBar;
-        if (this.attachedFragment != null) {
-            LaunchActivity.instance.checkSystemBarColors(true, true, true, false);
-            return;
-        }
-        ActionBar actionBar = this.actionBar;
-        if (actionBar != null && actionBar.getTag() != null) {
-            window = getWindow();
-            isLightStatusBar = isLightStatusBar();
-        } else {
-            if (this.baseFragment == null) {
-                return;
-            }
-            window = getWindow();
-            isLightStatusBar = this.baseFragment.isLightStatusBar();
-        }
-        AndroidUtilities.setLightStatusBar(window, isLightStatusBar);
-    }
-
-    public void applyScrolledPosition() {
-        applyScrolledPosition(false);
-    }
-
-    public void applyScrolledPosition(boolean z) {
-        RecyclerListView recyclerListView = this.recyclerListView;
-        if (recyclerListView == null || recyclerListView.getLayoutManager() == null || this.savedScrollPosition < 0) {
-            return;
-        }
-        int top = (this.savedScrollOffset - this.containerView.getTop()) - this.recyclerListView.getPaddingTop();
-        RecyclerView.ViewHolder findViewHolderForAdapterPosition = this.recyclerListView.findViewHolderForAdapterPosition(0);
-        if (z && findViewHolderForAdapterPosition != null) {
-            top -= Math.max(findViewHolderForAdapterPosition.itemView.getBottom() - this.recyclerListView.getPaddingTop(), 0);
-        }
-        if (this.recyclerListView.getLayoutManager() instanceof LinearLayoutManager) {
-            ((LinearLayoutManager) this.recyclerListView.getLayoutManager()).scrollToPositionWithOffset(this.savedScrollPosition, top);
-        }
-        this.savedScrollPosition = -1;
-    }
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet
-    protected boolean canDismissWithSwipe() {
-        return false;
-    }
-
-    protected boolean canHighlightChildAt(View view, float f, float f2) {
-        return true;
-    }
-
-    protected abstract RecyclerListView.SelectionAdapter createAdapter(RecyclerListView recyclerListView);
-
-    public BaseFragment getBaseFragment() {
-        return this.baseFragment;
-    }
-
-    protected abstract CharSequence getTitle();
-
-    @Override // org.telegram.ui.ActionBar.BottomSheet, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    public boolean isAttachedLightStatusBar() {
-        BaseFragment baseFragment;
-        ActionBar actionBar = this.actionBar;
-        if ((actionBar == null || actionBar.getTag() == null) && (baseFragment = this.baseFragment) != null) {
-            return baseFragment.isLightStatusBar();
-        }
-        return isLightStatusBar();
-    }
-
-    protected boolean needPaddingShadow() {
-        return true;
-    }
-
-    public void notifyDataSetChanged() {
-        this.recyclerListView.getAdapter().notifyDataSetChanged();
-    }
-
-    protected void onPreDraw(Canvas canvas, int i, float f) {
-    }
-
-    protected void onPreMeasure(int i, int i2) {
-    }
-
-    public void onViewCreated(FrameLayout frameLayout) {
     }
 
     protected void resetAdapter(final Context context) {
@@ -783,6 +789,10 @@ public abstract class BottomSheetWithRecyclerListView extends BottomSheet {
         this.actionBarSlideProgress = new AnimatedFloat(this.containerView, 0L, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
         this.actionBar.backButtonImageView.setPivotX(0.0f);
         this.recyclerListView.setClipToPadding(true);
+    }
+
+    protected boolean shouldDrawBackground() {
+        return true;
     }
 
     public void updateTitle() {

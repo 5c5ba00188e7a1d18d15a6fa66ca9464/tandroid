@@ -536,7 +536,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 this.ribbon.setColor(Theme.getColor(Theme.key_gift_ribbon, this.resourcesProvider));
                 this.ribbon.setBackdrop(stargiftattributebackdrop);
                 ribbon = this.ribbon;
-                formatString = LocaleController.formatString(R.string.Gift2Limited1OfRibbon, AndroidUtilities.formatWholeNumber(savedStarGift.gift.availability_total, 0));
+                formatString = LocaleController.formatString(R.string.Gift2Limited1OfRibbon, AndroidUtilities.formatWholeNumber(savedStarGift.gift.availability_issued, 0));
             } else {
                 if (!starGift.limited) {
                     this.ribbon.setVisibility(8);
@@ -1427,7 +1427,7 @@ public class GiftSheet extends BottomSheetWithRecyclerListView implements Notifi
                 return;
             }
             TL_stars.StarGift starGift = (TL_stars.StarGift) objArr[0];
-            BulletinFactory.of(this.container, this.resourcesProvider).createEmojiBulletin(starGift.sticker, LocaleController.getString(R.string.Gift2SoldOutTitle), AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("Gift2SoldOut", starGift.availability_total))).show();
+            BulletinFactory.of(this.container, this.resourcesProvider).createEmojiBulletin(starGift.sticker, LocaleController.getString(R.string.Gift2SoldOutTitle), AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("Gift2SoldOutCount", starGift.availability_total))).show();
             universalAdapter = this.adapter;
             if (universalAdapter == null) {
                 return;

@@ -542,8 +542,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                        public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell2, float f, float f2) {
-                            ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell2, f, f2);
+                        public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell2, float f, float f2, boolean z) {
+                            ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell2, f, f2, z);
                         }
 
                         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -949,8 +949,8 @@ public abstract class MessagePreviewView extends FrameLayout {
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
-                    public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell2, float f, float f2) {
-                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell2, f, f2);
+                    public /* synthetic */ void didPressImage(ChatMessageCell chatMessageCell2, float f, float f2, boolean z) {
+                        ChatMessageCell.ChatMessageCellDelegate.-CC.$default$didPressImage(this, chatMessageCell2, f, f2, z);
                     }
 
                     @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
@@ -2054,7 +2054,7 @@ public abstract class MessagePreviewView extends FrameLayout {
                 recyclerListView = this.chatListView;
                 computeVerticalScrollRange = recyclerListView.computeVerticalScrollRange() - (this.chatListView.computeVerticalScrollOffset() + this.chatListView.computeVerticalScrollExtent());
             }
-            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, NotificationCenter.didSetNewWallpapper, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
+            recyclerListView.smoothScrollBy(0, computeVerticalScrollRange, 250, ChatListItemAnimator.DEFAULT_INTERPOLATOR);
         }
 
         /* JADX INFO: Access modifiers changed from: private */

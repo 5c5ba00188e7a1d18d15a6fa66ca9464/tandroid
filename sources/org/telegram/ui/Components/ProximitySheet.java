@@ -344,7 +344,7 @@ public class ProximitySheet extends FrameLayout {
     public /* synthetic */ String lambda$new$3(int i) {
         if (this.useImperialSystem) {
             if (i == 1) {
-                return LocaleController.formatString("FootsShort", R.string.FootsShort, Integer.valueOf(NotificationCenter.didSetNewWallpapper));
+                return LocaleController.formatString("FootsShort", R.string.FootsShort, 250);
             }
             if (i > 1) {
                 i--;
