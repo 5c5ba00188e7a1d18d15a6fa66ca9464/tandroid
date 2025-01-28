@@ -3710,20 +3710,20 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(15:23|(1:25)|26|(1:100)(1:31)|(6:33|(5:35|(1:37)|38|(1:40)|(1:42))|98|44|(1:97)|48)(1:99)|(1:96)|53|54|(2:55|56)|(4:58|59|(2:61|62)|64)|65|66|68|69|70) */
-    /* JADX WARN: Code restructure failed: missing block: B:43:0x00f7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x00f8, code lost:
     
         if (new java.io.File(r0).exists() != false) goto L40;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x0197, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x0198, code lost:
     
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:73:0x0198, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x0199, code lost:
     
         org.telegram.messenger.FileLog.e(r0);
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:93:0x015f -> B:65:0x0162). Please report as a decompilation issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:93:0x0160 -> B:65:0x0163). Please report as a decompilation issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

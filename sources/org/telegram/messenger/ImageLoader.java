@@ -4919,7 +4919,7 @@ public class ImageLoader {
                                 String str14 = imageLocation.path;
                                 if (str14 != null && !str14.startsWith("vthumb") && !str14.startsWith("thumb")) {
                                     String httpUrlExtension = getHttpUrlExtension(str14, "jpg");
-                                    if (!httpUrlExtension.equals("webm") && !httpUrlExtension.equals("mp4") && !httpUrlExtension.equals("gif")) {
+                                    if (!httpUrlExtension.equalsIgnoreCase("webm") && !httpUrlExtension.equalsIgnoreCase("mp4") && !httpUrlExtension.equalsIgnoreCase("gif")) {
                                         if ("tgs".equals(str5)) {
                                             cacheImage6.imageType = 1;
                                         }

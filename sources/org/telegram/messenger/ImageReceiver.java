@@ -20,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.messenger.Emoji;
@@ -578,6 +579,91 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             canvas2 = canvas;
         }
         imageReceiver.drawDrawable(canvas2, drawable2, i4, bitmapShader2, i5, i6, i7, backgroundThreadDrawHolder2);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:14:0x00f4 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00f5 A[RETURN] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
+    public static File getAvatarLocalFile(int i, TLObject tLObject) {
+        StringBuilder sb;
+        StringBuilder sb2;
+        File file;
+        try {
+            ImageLocation forUserOrChat = ImageLocation.getForUserOrChat(tLObject, 1);
+            File localFile = FileLoader.getInstance(i).getLocalFile(forUserOrChat);
+            if (localFile != null) {
+                return localFile;
+            }
+            String key = forUserOrChat.getKey(tLObject, forUserOrChat, true);
+            if (forUserOrChat.path != null) {
+                sb = new StringBuilder();
+                sb.append(key);
+                sb.append(".");
+                sb.append(ImageLoader.getHttpUrlExtension(forUserOrChat.path, "jpg"));
+            } else {
+                TLRPC.PhotoSize photoSize = forUserOrChat.photoSize;
+                if (!(photoSize instanceof TLRPC.TL_photoStrippedSize) && !(photoSize instanceof TLRPC.TL_photoPathSize)) {
+                    if (forUserOrChat.location != null) {
+                        sb = new StringBuilder();
+                        sb.append(key);
+                        sb.append(".");
+                    } else {
+                        WebFile webFile = forUserOrChat.webFile;
+                        if (webFile != null) {
+                            String mimeTypePart = FileLoader.getMimeTypePart(webFile.mime_type);
+                            sb2 = new StringBuilder();
+                            sb2.append(key);
+                            sb2.append(".");
+                            sb2.append(ImageLoader.getHttpUrlExtension(forUserOrChat.webFile.url, mimeTypePart));
+                        } else {
+                            if (forUserOrChat.secureDocument == null) {
+                                TLRPC.Document document = forUserOrChat.document;
+                                if (document != null) {
+                                    String documentFileName = FileLoader.getDocumentFileName(document);
+                                    int lastIndexOf = documentFileName.lastIndexOf(46);
+                                    String str = "";
+                                    String substring = lastIndexOf == -1 ? "" : documentFileName.substring(lastIndexOf);
+                                    if (substring.length() <= 1) {
+                                        if ("video/mp4".equals(forUserOrChat.document.mime_type)) {
+                                            str = ".mp4";
+                                        } else if ("video/x-matroska".equals(forUserOrChat.document.mime_type)) {
+                                            str = ".mkv";
+                                        }
+                                        substring = str;
+                                    }
+                                    sb2 = new StringBuilder();
+                                    sb2.append(key);
+                                    sb2.append(substring);
+                                }
+                                file = new File(FileLoader.getDirectory(4), key);
+                                if (file.exists()) {
+                                    return null;
+                                }
+                                return file;
+                            }
+                            sb = new StringBuilder();
+                            sb.append(key);
+                            sb.append(".");
+                        }
+                        sb = sb2;
+                    }
+                    sb.append("jpg");
+                }
+                sb = new StringBuilder();
+                sb.append(key);
+                sb.append(".");
+                sb.append("jpg");
+            }
+            key = sb.toString();
+            file = new File(FileLoader.getDirectory(4), key);
+            if (file.exists()) {
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+            return null;
+        }
     }
 
     private boolean hasRoundRadius() {

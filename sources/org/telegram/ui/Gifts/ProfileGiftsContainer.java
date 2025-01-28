@@ -172,14 +172,14 @@ public abstract class ProfileGiftsContainer extends FrameLayout implements Notif
         textView.setTextSize(1, 17.0f);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setTextColor(Theme.getColor(i3, resourcesProvider));
-        textView.setText("No matching gifts");
+        textView.setText(LocaleController.getString(R.string.ProfileGiftsNotFoundTitle));
         linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 12, 0, 0));
         TextView textView2 = new TextView(context);
         this.emptyViewButton = textView2;
         textView2.setTextSize(1, 14.0f);
         int i4 = Theme.key_featuredStickers_addButton;
         textView2.setTextColor(Theme.getColor(i4, resourcesProvider));
-        textView2.setText("View All Gifts");
+        textView2.setText(LocaleController.getString(R.string.ProfileGiftsNotFoundButton));
         textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Gifts.ProfileGiftsContainer$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
