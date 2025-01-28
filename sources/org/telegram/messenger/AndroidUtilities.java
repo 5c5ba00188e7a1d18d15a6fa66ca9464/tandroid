@@ -1917,6 +1917,7 @@ public class AndroidUtilities {
     public static String formatTimestamp(int i) {
         int i2 = i / 3600;
         int i3 = (i / 60) % 60;
+        int i4 = i % 60;
         String str = "";
         if (i2 > 0) {
             str = "" + String.format(Locale.US, "%dh", Integer.valueOf(i2));
@@ -1929,7 +1930,7 @@ public class AndroidUtilities {
         }
         StringBuilder sb2 = new StringBuilder();
         sb2.append(str);
-        sb2.append(String.format(Locale.US, (i2 > 0 || i3 > 0) ? "%02ds" : "%ds", Integer.valueOf(i3)));
+        sb2.append(String.format(Locale.US, (i2 > 0 || i3 > 0) ? "%02ds" : "%ds", Integer.valueOf(i4)));
         return sb2.toString();
     }
 

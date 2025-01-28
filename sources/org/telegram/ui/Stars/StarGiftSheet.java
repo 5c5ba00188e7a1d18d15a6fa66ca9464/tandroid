@@ -27,6 +27,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -446,6 +447,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
 
         public void updateTranslations() {
             float pVar = top();
+            Log.i("lolkek", "a=" + ((BottomSheet) StarGiftSheet.this).containerView.isAttachedToWindow() + " top=" + pVar);
             StarGiftSheet.this.topView.setTranslationY(pVar);
             StarGiftSheet.this.infoLayout.setTranslationY(StarGiftSheet.this.topView.getRealHeight() + pVar);
             StarGiftSheet.this.upgradeLayout.setTranslationY(StarGiftSheet.this.topView.getRealHeight() + pVar);
@@ -1293,10 +1295,10 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:51:0x012b  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x0143  */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x0159 A[SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x012f  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x0149  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0161  */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x0177 A[SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x014d  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1345,7 +1347,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                 linksTextView.setTextColor(i);
                 if (this.backdrop[i4] != null) {
                     f = 184.0f;
-                    z = AndroidUtilities.dp(184.0f) != this.layoutLayoutParams[i4].topMargin;
+                    z = (AndroidUtilities.dp(184.0f) == this.layoutLayoutParams[i4].topMargin && this.layout[i4].getPaddingBottom() == AndroidUtilities.dp(18.0f)) ? false : true;
                     if (z) {
                         this.layout[i4].setPadding(0, 0, 0, AndroidUtilities.dp(18.0f));
                         layoutParams = this.layoutLayoutParams[i4];
@@ -1359,7 +1361,7 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                     i4++;
                 } else {
                     f = 170.0f;
-                    z = AndroidUtilities.dp(170.0f) != this.layoutLayoutParams[i4].topMargin;
+                    z = (AndroidUtilities.dp(170.0f) == this.layoutLayoutParams[i4].topMargin && this.layout[i4].getPaddingBottom() == AndroidUtilities.dp(3.0f)) ? false : true;
                     if (z) {
                         this.layout[i4].setPadding(0, 0, 0, AndroidUtilities.dp(3.0f));
                         layoutParams = this.layoutLayoutParams[i4];
@@ -4278,15 +4280,15 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:16:0x007d  */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0076  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void openTransfer() {
         TLRPC.Message message;
         TL_stars.TL_starGiftUnique tL_starGiftUnique;
-        final int i;
+        int i;
         long j;
         HintView2 hintView2 = this.currentHintView;
         if (hintView2 != null) {
@@ -4300,8 +4302,9 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                 tL_starGiftUnique = (TL_stars.TL_starGiftUnique) starGift;
                 i = savedStarGift.can_export_at;
                 j = savedStarGift.transfer_stars;
-                final long j2 = j;
                 final TL_stars.TL_starGiftUnique tL_starGiftUnique2 = tL_starGiftUnique;
+                final long j2 = j;
+                final int i2 = i;
                 final int currentTime = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
                 UserSelectorBottomSheet userSelectorBottomSheet = new UserSelectorBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stars.StarGiftSheet.10
                     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -4332,13 +4335,13 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                     }
                 }, 0L, BirthdayController.getInstance(this.currentAccount).getState(), 3, true);
                 final UserSelectorBottomSheet[] userSelectorBottomSheetArr = {userSelectorBottomSheet};
-                userSelectorBottomSheet.setTitle(LocaleController.formatString(R.string.Gift2Transfer, getGiftName()));
-                final int max = currentTime <= i ? 0 : Math.max(1, Math.round(Math.max(0, i - currentTime) / 86400.0f));
+                userSelectorBottomSheet.setTitle(LocaleController.getString(R.string.Gift2TransferShort));
+                final int max = currentTime <= i2 ? 0 : Math.max(1, Math.round(Math.max(0, i2 - currentTime) / 86400.0f));
                 userSelectorBottomSheetArr[0].addTONOption(max);
                 userSelectorBottomSheetArr[0].setOnUserSelector(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda60
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        StarGiftSheet.this.lambda$openTransfer$76(currentTime, i, max, tL_starGiftUnique2, userSelectorBottomSheetArr, j2, (Long) obj);
+                        StarGiftSheet.this.lambda$openTransfer$76(currentTime, i2, max, tL_starGiftUnique2, userSelectorBottomSheetArr, j2, (Long) obj);
                     }
                 });
                 userSelectorBottomSheetArr[0].show();
@@ -4356,8 +4359,9 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                 tL_starGiftUnique = (TL_stars.TL_starGiftUnique) starGift2;
                 i = tL_messageActionStarGiftUnique.can_export_at;
                 j = tL_messageActionStarGiftUnique.transfer_stars;
-                final long j22 = j;
                 final TL_stars.TL_starGiftUnique tL_starGiftUnique22 = tL_starGiftUnique;
+                final long j22 = j;
+                final int i22 = i;
                 final int currentTime2 = ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
                 UserSelectorBottomSheet userSelectorBottomSheet2 = new UserSelectorBottomSheet(new BaseFragment() { // from class: org.telegram.ui.Stars.StarGiftSheet.10
                     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -4388,14 +4392,14 @@ public class StarGiftSheet extends BottomSheetWithRecyclerListView implements No
                     }
                 }, 0L, BirthdayController.getInstance(this.currentAccount).getState(), 3, true);
                 final UserSelectorBottomSheet[] userSelectorBottomSheetArr2 = {userSelectorBottomSheet2};
-                userSelectorBottomSheet2.setTitle(LocaleController.formatString(R.string.Gift2Transfer, getGiftName()));
-                if (currentTime2 <= i) {
+                userSelectorBottomSheet2.setTitle(LocaleController.getString(R.string.Gift2TransferShort));
+                if (currentTime2 <= i22) {
                 }
                 userSelectorBottomSheetArr2[0].addTONOption(max);
                 userSelectorBottomSheetArr2[0].setOnUserSelector(new Utilities.Callback() { // from class: org.telegram.ui.Stars.StarGiftSheet$$ExternalSyntheticLambda60
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
-                        StarGiftSheet.this.lambda$openTransfer$76(currentTime2, i, max, tL_starGiftUnique22, userSelectorBottomSheetArr2, j22, (Long) obj);
+                        StarGiftSheet.this.lambda$openTransfer$76(currentTime2, i22, max, tL_starGiftUnique22, userSelectorBottomSheetArr2, j22, (Long) obj);
                     }
                 });
                 userSelectorBottomSheetArr2[0].show();

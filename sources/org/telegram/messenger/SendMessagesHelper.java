@@ -10088,131 +10088,138 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         updateMediaPaths(messageObject, message, i, Collections.singletonList(str), z, -1);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:278:0x06d8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:280:0x06fb, code lost:
     
-        if (r6.h > 90) goto L324;
+        if (r8.h > 90) goto L320;
      */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x08fb  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x099f  */
-    /* JADX WARN: Removed duplicated region for block: B:239:0x09a2  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x0903  */
+    /* JADX WARN: Removed duplicated region for block: B:195:0x099f  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x01e2  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x0a47  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x0a4a  */
+    /* JADX WARN: Removed duplicated region for block: B:239:0x09a5  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void updateMediaPaths(MessageObject messageObject, TLRPC.Message message, int i, List<String> list, boolean z, int i2) {
         TLRPC.MessageMedia messageMedia;
         TLRPC.MessageMedia messageMedia2;
-        TLRPC.PhotoSize photoSize;
         boolean z2;
+        TLRPC.PhotoSize photoSize;
         TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia;
         TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia2;
         SendMessagesHelper sendMessagesHelper;
         String str;
+        String str2;
         TLRPC.Message message2;
         TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia3;
-        String str2;
+        String str3;
+        byte[] bArr;
+        TLRPC.MessageMedia messageMedia3;
         TLRPC.FileLocation fileLocation;
         TLRPC.FileLocation fileLocation2;
-        byte[] bArr;
+        byte[] bArr2;
         SendMessagesHelper sendMessagesHelper2;
-        TLRPC.Message message3;
         TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia4;
-        String str3;
+        TLRPC.Message message3;
+        String str4;
         MessageObject messageObject2;
         TLRPC.Photo photo;
-        String str4;
         String str5;
+        boolean z3;
+        TLRPC.MessageMedia messageMedia4;
         String str6;
+        String str7;
+        String str8;
+        boolean z4;
+        TLRPC.MessageMedia messageMedia5;
+        String str9;
         File file;
         VideoEditedInfo videoEditedInfo;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia5;
-        TLRPC.Message message4;
-        int i3;
-        boolean z3;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia6;
-        boolean z4;
-        String str7;
-        File file2;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia7;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia8;
         TLRPC.PhotoSize photoSize2;
+        String str10;
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia5;
+        int i3;
+        TLRPC.Message message4;
+        String str11;
         TLRPC.PhotoSize photoSize3;
-        TLObject tLObject;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia9;
+        String str12;
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia6;
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia7;
         TLRPC.PhotoSize photoSize4;
-        TLRPC.MessageMedia messageMedia3;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia10;
-        TLRPC.MessageMedia messageMedia4;
+        TLRPC.PhotoSize photoSize5;
+        TLObject tLObject;
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia8;
+        TLRPC.PhotoSize photoSize6;
+        TLObject tLObject2;
+        boolean z5;
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia9;
         TLRPC.Document document;
         TLRPC.Photo photo2;
-        TLRPC.PhotoSize closestPhotoSizeWithSize;
-        TLObject tLObject2;
-        TLRPC.MessageMedia messageMedia5;
+        TLRPC.MessageMedia messageMedia6;
         TLRPC.WebPage webPage;
         TLRPC.Document document2;
-        TLRPC.MessageMedia messageMedia6;
+        TLRPC.MessageMedia messageMedia7;
         TLRPC.WebPage webPage2;
         TLRPC.Photo photo3;
-        TLRPC.MessageMedia messageMedia7;
-        TLRPC.Document document3;
         TLRPC.MessageMedia messageMedia8;
-        TLRPC.Photo photo4;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia11;
+        TLRPC.Document document3;
         TLRPC.MessageMedia messageMedia9;
-        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia12;
+        TLRPC.Photo photo4;
+        TLRPC.MessageMedia messageMedia10;
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia10;
         StringBuilder sb;
         String sb2;
-        TLRPC.Message message5 = messageObject.messageOwner;
-        boolean z5 = false;
-        String str8 = (list.isEmpty() || Math.max(0, i2) >= list.size()) ? null : list.get(Math.max(0, i2));
-        TLRPC.MessageMedia messageMedia10 = message == null ? null : message.media;
+        SendMessagesHelper sendMessagesHelper3 = this;
+        TLRPC.Message message5 = message;
+        TLRPC.Message message6 = messageObject.messageOwner;
+        String str13 = (list.isEmpty() || Math.max(0, i2) >= list.size()) ? null : list.get(Math.max(0, i2));
         TLRPC.MessageMedia messageMedia11 = message5 == null ? null : message5.media;
-        TLRPC.MessageMedia messageMedia12 = message5.media;
-        if (messageMedia12 != null) {
-            if (messageMedia12.storyItem != null) {
-                message.media = messageMedia12;
+        TLRPC.MessageMedia messageMedia12 = message6 == null ? null : message6.media;
+        TLRPC.MessageMedia messageMedia13 = message6.media;
+        if (messageMedia13 != null) {
+            if (messageMedia13.storyItem != null) {
+                message5.media = messageMedia13;
             } else {
                 if (messageObject.isLiveLocation()) {
-                    TLRPC.MessageMedia messageMedia13 = message.media;
-                    if (messageMedia13 instanceof TLRPC.TL_messageMediaGeoLive) {
-                        message5.media.period = messageMedia13.period;
+                    TLRPC.MessageMedia messageMedia14 = message5.media;
+                    if (messageMedia14 instanceof TLRPC.TL_messageMediaGeoLive) {
+                        message6.media.period = messageMedia14.period;
                     }
                 }
                 if (messageObject.isDice()) {
-                    ((TLRPC.TL_messageMediaDice) message5.media).value = ((TLRPC.TL_messageMediaDice) message.media).value;
+                    ((TLRPC.TL_messageMediaDice) message6.media).value = ((TLRPC.TL_messageMediaDice) message5.media).value;
                 } else {
-                    TLRPC.MessageMedia messageMedia14 = message5.media;
-                    TLRPC.Photo photo5 = messageMedia14.photo;
+                    TLRPC.MessageMedia messageMedia15 = message6.media;
+                    TLRPC.Photo photo5 = messageMedia15.photo;
                     if (photo5 != null) {
-                        photoSize4 = FileLoader.getClosestPhotoSizeWithSize(photo5.sizes, 40);
-                        closestPhotoSizeWithSize = (message == null || (messageMedia8 = message.media) == null || (photo4 = messageMedia8.photo) == null) ? photoSize4 : FileLoader.getClosestPhotoSizeWithSize(photo4.sizes, 40);
-                        tLObject2 = message5.media.photo;
+                        photoSize6 = FileLoader.getClosestPhotoSizeWithSize(photo5.sizes, 40);
+                        photoSize = (message5 == null || (messageMedia9 = message5.media) == null || (photo4 = messageMedia9.photo) == null) ? photoSize6 : FileLoader.getClosestPhotoSizeWithSize(photo4.sizes, 40);
+                        tLObject2 = message6.media.photo;
                     } else {
-                        TLRPC.Document document4 = messageMedia14.document;
+                        TLRPC.Document document4 = messageMedia15.document;
                         if (document4 != null) {
-                            photoSize4 = FileLoader.getClosestPhotoSizeWithSize(document4.thumbs, 40);
-                            closestPhotoSizeWithSize = (message == null || (messageMedia7 = message.media) == null || (document3 = messageMedia7.document) == null) ? photoSize4 : FileLoader.getClosestPhotoSizeWithSize(document3.thumbs, 40);
-                            tLObject2 = message5.media.document;
+                            photoSize6 = FileLoader.getClosestPhotoSizeWithSize(document4.thumbs, 40);
+                            photoSize = (message5 == null || (messageMedia8 = message5.media) == null || (document3 = messageMedia8.document) == null) ? photoSize6 : FileLoader.getClosestPhotoSizeWithSize(document3.thumbs, 40);
+                            tLObject2 = message6.media.document;
                         } else {
-                            TLRPC.WebPage webPage3 = messageMedia14.webpage;
+                            TLRPC.WebPage webPage3 = messageMedia15.webpage;
                             if (webPage3 != null) {
                                 TLRPC.Photo photo6 = webPage3.photo;
                                 if (photo6 != null) {
-                                    photoSize4 = FileLoader.getClosestPhotoSizeWithSize(photo6.sizes, 40);
-                                    closestPhotoSizeWithSize = (message == null || (messageMedia6 = message.media) == null || (webPage2 = messageMedia6.webpage) == null || (photo3 = webPage2.photo) == null) ? photoSize4 : FileLoader.getClosestPhotoSizeWithSize(photo3.sizes, 40);
-                                    tLObject2 = message5.media.webpage.photo;
+                                    photoSize6 = FileLoader.getClosestPhotoSizeWithSize(photo6.sizes, 40);
+                                    photoSize = (message5 == null || (messageMedia7 = message5.media) == null || (webPage2 = messageMedia7.webpage) == null || (photo3 = webPage2.photo) == null) ? photoSize6 : FileLoader.getClosestPhotoSizeWithSize(photo3.sizes, 40);
+                                    tLObject2 = message6.media.webpage.photo;
                                 } else {
                                     TLRPC.Document document5 = webPage3.document;
                                     if (document5 != null) {
-                                        photoSize4 = FileLoader.getClosestPhotoSizeWithSize(document5.thumbs, 40);
-                                        closestPhotoSizeWithSize = (message == null || (messageMedia5 = message.media) == null || (webPage = messageMedia5.webpage) == null || (document2 = webPage.document) == null) ? photoSize4 : FileLoader.getClosestPhotoSizeWithSize(document2.thumbs, 40);
-                                        tLObject2 = message5.media.webpage.document;
+                                        photoSize6 = FileLoader.getClosestPhotoSizeWithSize(document5.thumbs, 40);
+                                        photoSize = (message5 == null || (messageMedia6 = message5.media) == null || (webPage = messageMedia6.webpage) == null || (document2 = webPage.document) == null) ? photoSize6 : FileLoader.getClosestPhotoSizeWithSize(document2.thumbs, 40);
+                                        tLObject2 = message6.media.webpage.document;
                                     }
                                 }
-                            } else if ((messageMedia14 instanceof TLRPC.TL_messageMediaPaidMedia) && (messageMedia10 instanceof TLRPC.TL_messageMediaPaidMedia)) {
-                                TLRPC.TL_messageMediaPaidMedia tL_messageMediaPaidMedia = (TLRPC.TL_messageMediaPaidMedia) messageMedia14;
-                                TLRPC.TL_messageMediaPaidMedia tL_messageMediaPaidMedia2 = (TLRPC.TL_messageMediaPaidMedia) messageMedia10;
+                            } else if ((messageMedia15 instanceof TLRPC.TL_messageMediaPaidMedia) && (messageMedia11 instanceof TLRPC.TL_messageMediaPaidMedia)) {
+                                TLRPC.TL_messageMediaPaidMedia tL_messageMediaPaidMedia = (TLRPC.TL_messageMediaPaidMedia) messageMedia15;
+                                TLRPC.TL_messageMediaPaidMedia tL_messageMediaPaidMedia2 = (TLRPC.TL_messageMediaPaidMedia) messageMedia11;
                                 if (tL_messageMediaPaidMedia.extended_media.isEmpty() || tL_messageMediaPaidMedia2.extended_media.isEmpty()) {
                                     return;
                                 }
@@ -10225,246 +10232,238 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                     }
                                     return;
                                 }
-                                z5 = tL_messageMediaPaidMedia2.extended_media.size() > 1;
+                                boolean z6 = tL_messageMediaPaidMedia2.extended_media.size() > 1;
                                 if (i2 < 0 || i2 >= tL_messageMediaPaidMedia2.extended_media.size()) {
                                     return;
                                 }
                                 TLRPC.MessageExtendedMedia messageExtendedMedia = tL_messageMediaPaidMedia2.extended_media.get(i2);
                                 if (messageExtendedMedia instanceof TLRPC.TL_messageExtendedMedia) {
-                                    tL_messageExtendedMedia7 = (TLRPC.TL_messageExtendedMedia) messageExtendedMedia;
-                                    messageMedia10 = tL_messageExtendedMedia7.media;
+                                    TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia11 = (TLRPC.TL_messageExtendedMedia) messageExtendedMedia;
+                                    tL_messageExtendedMedia6 = tL_messageExtendedMedia11;
+                                    messageMedia11 = tL_messageExtendedMedia11.media;
                                 } else {
-                                    tL_messageExtendedMedia7 = null;
+                                    tL_messageExtendedMedia6 = null;
                                 }
                                 TLRPC.MessageExtendedMedia messageExtendedMedia2 = tL_messageMediaPaidMedia.extended_media.get(i2);
                                 if (messageExtendedMedia2 instanceof TLRPC.TL_messageExtendedMedia) {
-                                    tL_messageExtendedMedia8 = (TLRPC.TL_messageExtendedMedia) messageExtendedMedia2;
-                                    messageMedia11 = tL_messageExtendedMedia8.media;
-                                    TLRPC.Photo photo7 = messageMedia11.photo;
+                                    tL_messageExtendedMedia7 = (TLRPC.TL_messageExtendedMedia) messageExtendedMedia2;
+                                    messageMedia12 = tL_messageExtendedMedia7.media;
+                                    TLRPC.Photo photo7 = messageMedia12.photo;
                                     if (photo7 != null) {
-                                        photoSize2 = FileLoader.getClosestPhotoSizeWithSize(photo7.sizes, 40);
-                                        photoSize3 = (messageMedia10 == null || (photo2 = messageMedia10.photo) == null) ? photoSize2 : FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, 40);
-                                        tLObject = messageMedia11.photo;
+                                        photoSize4 = FileLoader.getClosestPhotoSizeWithSize(photo7.sizes, 40);
+                                        photoSize5 = (messageMedia11 == null || (photo2 = messageMedia11.photo) == null) ? photoSize4 : FileLoader.getClosestPhotoSizeWithSize(photo2.sizes, 40);
+                                        tLObject = messageMedia12.photo;
                                     } else {
-                                        TLRPC.Document document6 = messageMedia11.document;
+                                        TLRPC.Document document6 = messageMedia12.document;
                                         if (document6 != null) {
-                                            photoSize2 = FileLoader.getClosestPhotoSizeWithSize(document6.thumbs, 40);
-                                            photoSize3 = (messageMedia10 == null || (document = messageMedia10.document) == null) ? photoSize2 : FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 40);
-                                            tLObject = messageMedia11.document;
+                                            photoSize4 = FileLoader.getClosestPhotoSizeWithSize(document6.thumbs, 40);
+                                            photoSize5 = (messageMedia11 == null || (document = messageMedia11.document) == null) ? photoSize4 : FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 40);
+                                            tLObject = messageMedia12.document;
                                         }
                                     }
-                                    TLRPC.MessageMedia messageMedia15 = messageMedia10;
-                                    tL_messageExtendedMedia9 = tL_messageExtendedMedia8;
-                                    photoSize4 = photoSize2;
-                                    messageMedia3 = messageMedia11;
-                                    tL_messageExtendedMedia10 = tL_messageExtendedMedia7;
-                                    messageMedia4 = messageMedia15;
-                                    if ((photoSize3 instanceof TLRPC.TL_photoStrippedSize) || !(photoSize4 instanceof TLRPC.TL_photoStrippedSize)) {
-                                        tL_messageExtendedMedia11 = tL_messageExtendedMedia9;
-                                        messageMedia9 = messageMedia4;
-                                        tL_messageExtendedMedia12 = tL_messageExtendedMedia10;
+                                    boolean z7 = z6;
+                                    tL_messageExtendedMedia8 = tL_messageExtendedMedia7;
+                                    photoSize6 = photoSize4;
+                                    tLObject2 = tLObject;
+                                    z5 = z7;
+                                    TLRPC.PhotoSize photoSize7 = photoSize5;
+                                    tL_messageExtendedMedia9 = tL_messageExtendedMedia6;
+                                    photoSize = photoSize7;
+                                    if ((photoSize instanceof TLRPC.TL_photoStrippedSize) || !(photoSize6 instanceof TLRPC.TL_photoStrippedSize)) {
+                                        messageMedia10 = messageMedia11;
+                                        tL_messageExtendedMedia10 = tL_messageExtendedMedia8;
+                                        tL_messageExtendedMedia = tL_messageExtendedMedia9;
                                     } else {
                                         StringBuilder sb3 = new StringBuilder();
                                         sb3.append("stripped");
-                                        tL_messageExtendedMedia11 = tL_messageExtendedMedia9;
+                                        messageMedia10 = messageMedia11;
                                         sb3.append(FileRefController.getKeyForParentObject(messageObject));
                                         String sb4 = sb3.toString();
-                                        if (message != null) {
+                                        if (message5 != null) {
                                             sb = new StringBuilder();
                                             sb.append("stripped");
                                             sb.append(FileRefController.getKeyForParentObject(message));
                                             sb2 = sb.toString();
-                                            messageMedia9 = messageMedia4;
-                                            tL_messageExtendedMedia12 = tL_messageExtendedMedia10;
+                                            tL_messageExtendedMedia10 = tL_messageExtendedMedia8;
+                                            tL_messageExtendedMedia = tL_messageExtendedMedia9;
                                         } else {
                                             sb = new StringBuilder();
                                             sb.append("strippedmessage");
                                             sb.append(i);
                                             sb.append("_");
-                                            messageMedia9 = messageMedia4;
-                                            tL_messageExtendedMedia12 = tL_messageExtendedMedia10;
+                                            tL_messageExtendedMedia10 = tL_messageExtendedMedia8;
+                                            tL_messageExtendedMedia = tL_messageExtendedMedia9;
                                             sb.append(messageObject.getChannelId());
                                             sb.append("_");
                                             sb.append(messageObject.scheduled);
                                             sb2 = sb.toString();
                                         }
-                                        ImageLoader.getInstance().replaceImageInCache(sb4, sb2, ImageLocation.getForObject(photoSize3, tLObject), z);
+                                        ImageLoader.getInstance().replaceImageInCache(sb4, sb2, ImageLocation.getForObject(photoSize, tLObject2), z);
                                     }
-                                    messageMedia2 = messageMedia3;
-                                    tL_messageExtendedMedia = tL_messageExtendedMedia12;
+                                    messageMedia = messageMedia10;
+                                    messageMedia2 = messageMedia12;
                                     z2 = z5;
-                                    photoSize = photoSize3;
-                                    tL_messageExtendedMedia2 = tL_messageExtendedMedia11;
-                                    messageMedia = messageMedia9;
+                                    tL_messageExtendedMedia2 = tL_messageExtendedMedia10;
                                 } else {
-                                    tL_messageExtendedMedia8 = null;
+                                    tL_messageExtendedMedia7 = null;
                                 }
-                                photoSize2 = null;
-                                photoSize3 = null;
+                                photoSize4 = null;
+                                photoSize5 = null;
                                 tLObject = null;
-                                TLRPC.MessageMedia messageMedia152 = messageMedia10;
-                                tL_messageExtendedMedia9 = tL_messageExtendedMedia8;
-                                photoSize4 = photoSize2;
-                                messageMedia3 = messageMedia11;
-                                tL_messageExtendedMedia10 = tL_messageExtendedMedia7;
-                                messageMedia4 = messageMedia152;
-                                if (photoSize3 instanceof TLRPC.TL_photoStrippedSize) {
+                                boolean z72 = z6;
+                                tL_messageExtendedMedia8 = tL_messageExtendedMedia7;
+                                photoSize6 = photoSize4;
+                                tLObject2 = tLObject;
+                                z5 = z72;
+                                TLRPC.PhotoSize photoSize72 = photoSize5;
+                                tL_messageExtendedMedia9 = tL_messageExtendedMedia6;
+                                photoSize = photoSize72;
+                                if (photoSize instanceof TLRPC.TL_photoStrippedSize) {
                                 }
-                                tL_messageExtendedMedia11 = tL_messageExtendedMedia9;
-                                messageMedia9 = messageMedia4;
-                                tL_messageExtendedMedia12 = tL_messageExtendedMedia10;
-                                messageMedia2 = messageMedia3;
-                                tL_messageExtendedMedia = tL_messageExtendedMedia12;
+                                messageMedia10 = messageMedia11;
+                                tL_messageExtendedMedia10 = tL_messageExtendedMedia8;
+                                tL_messageExtendedMedia = tL_messageExtendedMedia9;
+                                messageMedia = messageMedia10;
+                                messageMedia2 = messageMedia12;
                                 z2 = z5;
-                                photoSize = photoSize3;
-                                tL_messageExtendedMedia2 = tL_messageExtendedMedia11;
-                                messageMedia = messageMedia9;
+                                tL_messageExtendedMedia2 = tL_messageExtendedMedia10;
                             }
                         }
                     }
-                    photoSize3 = closestPhotoSizeWithSize;
-                    tLObject = tLObject2;
-                    messageMedia4 = messageMedia10;
-                    messageMedia3 = messageMedia11;
+                    tL_messageExtendedMedia8 = null;
                     tL_messageExtendedMedia9 = null;
-                    tL_messageExtendedMedia10 = null;
-                    if (photoSize3 instanceof TLRPC.TL_photoStrippedSize) {
+                    z5 = false;
+                    if (photoSize instanceof TLRPC.TL_photoStrippedSize) {
                     }
-                    tL_messageExtendedMedia11 = tL_messageExtendedMedia9;
-                    messageMedia9 = messageMedia4;
-                    tL_messageExtendedMedia12 = tL_messageExtendedMedia10;
-                    messageMedia2 = messageMedia3;
-                    tL_messageExtendedMedia = tL_messageExtendedMedia12;
+                    messageMedia10 = messageMedia11;
+                    tL_messageExtendedMedia10 = tL_messageExtendedMedia8;
+                    tL_messageExtendedMedia = tL_messageExtendedMedia9;
+                    messageMedia = messageMedia10;
+                    messageMedia2 = messageMedia12;
                     z2 = z5;
-                    photoSize = photoSize3;
-                    tL_messageExtendedMedia2 = tL_messageExtendedMedia11;
-                    messageMedia = messageMedia9;
+                    tL_messageExtendedMedia2 = tL_messageExtendedMedia10;
                 }
             }
-            messageMedia4 = messageMedia10;
-            messageMedia3 = messageMedia11;
-            photoSize4 = null;
-            tL_messageExtendedMedia9 = null;
-            tL_messageExtendedMedia10 = null;
-            z5 = false;
-            photoSize3 = null;
-            tLObject = null;
-            if (photoSize3 instanceof TLRPC.TL_photoStrippedSize) {
-            }
-            tL_messageExtendedMedia11 = tL_messageExtendedMedia9;
-            messageMedia9 = messageMedia4;
-            tL_messageExtendedMedia12 = tL_messageExtendedMedia10;
-            messageMedia2 = messageMedia3;
-            tL_messageExtendedMedia = tL_messageExtendedMedia12;
-            z2 = z5;
-            photoSize = photoSize3;
-            tL_messageExtendedMedia2 = tL_messageExtendedMedia11;
-            messageMedia = messageMedia9;
-        } else {
-            messageMedia = messageMedia10;
-            messageMedia2 = messageMedia11;
+            photoSize6 = null;
             photoSize = null;
+            tLObject2 = null;
+            tL_messageExtendedMedia8 = null;
+            tL_messageExtendedMedia9 = null;
+            z5 = false;
+            if (photoSize instanceof TLRPC.TL_photoStrippedSize) {
+            }
+            messageMedia10 = messageMedia11;
+            tL_messageExtendedMedia10 = tL_messageExtendedMedia8;
+            tL_messageExtendedMedia = tL_messageExtendedMedia9;
+            messageMedia = messageMedia10;
+            messageMedia2 = messageMedia12;
+            z2 = z5;
+            tL_messageExtendedMedia2 = tL_messageExtendedMedia10;
+        } else {
+            messageMedia = messageMedia11;
+            messageMedia2 = messageMedia12;
             z2 = false;
+            photoSize = null;
             tL_messageExtendedMedia = null;
             tL_messageExtendedMedia2 = null;
         }
-        if (message == null) {
+        if (message5 == null) {
             return;
         }
+        TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia12 = tL_messageExtendedMedia;
         if ((messageMedia instanceof TLRPC.TL_messageMediaPhoto) && messageMedia.photo != null && (messageMedia2 instanceof TLRPC.TL_messageMediaPhoto) && messageMedia2.photo != null) {
             if (messageMedia.ttl_seconds != 0 || messageObject.scheduled) {
-                tL_messageExtendedMedia5 = tL_messageExtendedMedia;
-                message4 = message5;
+                photoSize2 = photoSize;
+                str10 = "s";
+                tL_messageExtendedMedia5 = tL_messageExtendedMedia2;
                 i3 = 0;
             } else {
                 MessagesStorage messagesStorage = getMessagesStorage();
                 TLRPC.Photo photo8 = messageMedia.photo;
-                tL_messageExtendedMedia5 = tL_messageExtendedMedia;
+                tL_messageExtendedMedia5 = tL_messageExtendedMedia2;
                 StringBuilder sb5 = new StringBuilder();
                 sb5.append("sent_");
-                message4 = message5;
-                sb5.append(message.peer_id.channel_id);
+                photoSize2 = photoSize;
+                str10 = "s";
+                sb5.append(message5.peer_id.channel_id);
                 sb5.append("_");
-                sb5.append(message.id);
+                sb5.append(message5.id);
                 sb5.append("_");
-                sb5.append(DialogObject.getPeerDialogId(message.peer_id));
+                sb5.append(DialogObject.getPeerDialogId(message5.peer_id));
                 sb5.append("_");
                 sb5.append(1);
                 sb5.append("_");
                 sb5.append(MessageObject.getMediaSize(messageMedia2));
                 i3 = 0;
-                messagesStorage.putSentFile(str8, photo8, 0, sb5.toString());
+                messagesStorage.putSentFile(str13, photo8, 0, sb5.toString());
             }
             if (messageMedia2.photo.sizes.size() == 1 && (messageMedia2.photo.sizes.get(i3).location instanceof TLRPC.TL_fileLocationUnavailable)) {
                 messageMedia2.photo.sizes = messageMedia.photo.sizes;
             } else {
                 int i5 = 0;
                 while (i5 < messageMedia2.photo.sizes.size()) {
-                    TLRPC.PhotoSize photoSize5 = messageMedia2.photo.sizes.get(i5);
-                    if (photoSize5 == null || photoSize5.location == null || photoSize5.type == null) {
-                        z3 = z2;
-                        tL_messageExtendedMedia6 = tL_messageExtendedMedia2;
-                    } else {
+                    TLRPC.PhotoSize photoSize8 = messageMedia2.photo.sizes.get(i5);
+                    if (photoSize8 != null && photoSize8.location != null && photoSize8.type != null) {
                         int i6 = 0;
                         while (i6 < messageMedia.photo.sizes.size()) {
-                            TLRPC.PhotoSize photoSize6 = messageMedia.photo.sizes.get(i6);
-                            if (photoSize6 == null || photoSize6.location == null || (photoSize6 instanceof TLRPC.TL_photoSizeEmpty) || (str7 = photoSize6.type) == null) {
-                                z4 = z2;
-                                tL_messageExtendedMedia6 = tL_messageExtendedMedia2;
+                            TLRPC.PhotoSize photoSize9 = messageMedia.photo.sizes.get(i6);
+                            if (photoSize9 == null || photoSize9.location == null || (photoSize9 instanceof TLRPC.TL_photoSizeEmpty) || (str12 = photoSize9.type) == null || !((photoSize8.location.volume_id == -2147483648L && str12.equals(photoSize8.type)) || (photoSize9.w == photoSize8.w && photoSize9.h == photoSize8.h))) {
+                                i6++;
+                                sendMessagesHelper3 = this;
+                                message6 = message6;
                             } else {
-                                tL_messageExtendedMedia6 = tL_messageExtendedMedia2;
-                                if ((photoSize5.location.volume_id == -2147483648L && str7.equals(photoSize5.type)) || (photoSize6.w == photoSize5.w && photoSize6.h == photoSize5.h)) {
-                                    String str9 = photoSize5.location.volume_id + "_" + photoSize5.location.local_id;
-                                    String str10 = photoSize6.location.volume_id + "_" + photoSize6.location.local_id;
-                                    if (str9.equals(str10)) {
-                                        z3 = z2;
-                                    } else {
-                                        File file3 = new File(FileLoader.getDirectory(4), str9 + ".jpg");
-                                        if (messageMedia.ttl_seconds != 0 || ((messageMedia.photo.sizes.size() != 1 && photoSize6.w <= 90 && photoSize6.h <= 90) || z2)) {
-                                            z3 = z2;
-                                            file2 = new File(FileLoader.getDirectory(4), str10 + ".jpg");
-                                        } else {
-                                            file2 = FileLoader.getInstance(this.currentAccount).getPathToAttach(photoSize6);
-                                            z3 = z2;
-                                        }
-                                        file3.renameTo(file2);
-                                        ImageLoader.getInstance().replaceImageInCache(str9, str10, ImageLocation.getForPhoto(photoSize6, messageMedia.photo), z);
-                                        photoSize5.location = photoSize6.location;
-                                        photoSize5.size = photoSize6.size;
-                                    }
-                                } else {
-                                    z4 = z2;
+                                String str14 = photoSize8.location.volume_id + "_" + photoSize8.location.local_id;
+                                String str15 = photoSize9.location.volume_id + "_" + photoSize9.location.local_id;
+                                if (!str14.equals(str15)) {
+                                    message4 = message6;
+                                    new File(FileLoader.getDirectory(4), str14 + ".jpg").renameTo((messageMedia.ttl_seconds != 0 || (messageMedia.photo.sizes.size() != 1 && photoSize9.w <= 90 && photoSize9.h <= 90) || z2) ? new File(FileLoader.getDirectory(4), str15 + ".jpg") : FileLoader.getInstance(sendMessagesHelper3.currentAccount).getPathToAttach(photoSize9));
+                                    ImageLoader.getInstance().replaceImageInCache(str14, str15, ImageLocation.getForPhoto(photoSize9, messageMedia.photo), z);
+                                    photoSize8.location = photoSize9.location;
+                                    photoSize8.size = photoSize9.size;
+                                    photoSize3 = photoSize2;
+                                    str11 = str10;
+                                    i5++;
+                                    sendMessagesHelper3 = this;
+                                    photoSize2 = photoSize3;
+                                    str10 = str11;
+                                    message6 = message4;
                                 }
                             }
-                            i6++;
-                            tL_messageExtendedMedia2 = tL_messageExtendedMedia6;
-                            z2 = z4;
                         }
-                        z3 = z2;
-                        tL_messageExtendedMedia6 = tL_messageExtendedMedia2;
-                        String str11 = photoSize5.location.volume_id + "_" + photoSize5.location.local_id;
-                        new File(FileLoader.getDirectory(4), str11 + ".jpg").delete();
-                        if ("s".equals(photoSize5.type) && photoSize != null) {
-                            messageMedia2.photo.sizes.set(i5, photoSize);
-                            ImageLocation forPhoto = ImageLocation.getForPhoto(photoSize, messageMedia.photo);
-                            ImageLoader.getInstance().replaceImageInCache(str11, forPhoto.getKey(message, null, false), forPhoto, z);
-                            i5++;
-                            tL_messageExtendedMedia2 = tL_messageExtendedMedia6;
-                            z2 = z3;
+                        message4 = message6;
+                        String str16 = photoSize8.location.volume_id + "_" + photoSize8.location.local_id;
+                        new File(FileLoader.getDirectory(4), str16 + ".jpg").delete();
+                        str11 = str10;
+                        if (!str11.equals(photoSize8.type) || photoSize2 == null) {
+                            photoSize3 = photoSize2;
+                        } else {
+                            photoSize3 = photoSize2;
+                            messageMedia2.photo.sizes.set(i5, photoSize3);
+                            ImageLocation forPhoto = ImageLocation.getForPhoto(photoSize3, messageMedia.photo);
+                            ImageLoader.getInstance().replaceImageInCache(str16, forPhoto.getKey(message5, null, false), forPhoto, z);
                         }
+                        i5++;
+                        sendMessagesHelper3 = this;
+                        photoSize2 = photoSize3;
+                        str10 = str11;
+                        message6 = message4;
                     }
+                    message4 = message6;
+                    photoSize3 = photoSize2;
+                    str11 = str10;
                     i5++;
-                    tL_messageExtendedMedia2 = tL_messageExtendedMedia6;
-                    z2 = z3;
+                    sendMessagesHelper3 = this;
+                    photoSize2 = photoSize3;
+                    str10 = str11;
+                    message6 = message4;
                 }
             }
-            TLRPC.TL_messageExtendedMedia tL_messageExtendedMedia13 = tL_messageExtendedMedia2;
+            TLRPC.Message message7 = message6;
             if (!z2) {
-                TLRPC.Message message6 = message4;
-                message6.message = message.message;
-                message.attachPath = message6.attachPath;
-            } else if (tL_messageExtendedMedia13 != null && tL_messageExtendedMedia5 != null) {
-                tL_messageExtendedMedia13.attachPath = tL_messageExtendedMedia5.attachPath;
+                message7.message = message5.message;
+                message5.attachPath = message7.attachPath;
+            } else if (tL_messageExtendedMedia5 != null && tL_messageExtendedMedia12 != null) {
+                tL_messageExtendedMedia5.attachPath = tL_messageExtendedMedia12.attachPath;
             }
             TLRPC.Photo photo9 = messageMedia2.photo;
             TLRPC.Photo photo10 = messageMedia.photo;
@@ -10473,27 +10472,26 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             photo9.access_hash = photo10.access_hash;
             return;
         }
-        boolean z6 = z2;
         if (!(messageMedia instanceof TLRPC.TL_messageMediaDocument) || messageMedia.document == null || !(messageMedia2 instanceof TLRPC.TL_messageMediaDocument) || messageMedia2.document == null) {
-            TLRPC.MessageMedia messageMedia16 = message.media;
-            if ((!(messageMedia16 instanceof TLRPC.TL_messageMediaContact) || !(message5.media instanceof TLRPC.TL_messageMediaContact)) && !(messageMedia16 instanceof TLRPC.TL_messageMediaWebPage)) {
+            TLRPC.MessageMedia messageMedia16 = message5.media;
+            if ((!(messageMedia16 instanceof TLRPC.TL_messageMediaContact) || !(message6.media instanceof TLRPC.TL_messageMediaContact)) && !(messageMedia16 instanceof TLRPC.TL_messageMediaWebPage)) {
                 if (messageMedia16 instanceof TLRPC.TL_messageMediaGeo) {
                     TLRPC.GeoPoint geoPoint = messageMedia16.geo;
-                    TLRPC.GeoPoint geoPoint2 = message5.media.geo;
+                    TLRPC.GeoPoint geoPoint2 = message6.media.geo;
                     geoPoint.lat = geoPoint2.lat;
                     geoPoint._long = geoPoint2._long;
                     return;
                 }
                 if ((messageMedia16 instanceof TLRPC.TL_messageMediaGame) || (messageMedia16 instanceof TLRPC.TL_messageMediaInvoice)) {
-                    message5.media = messageMedia16;
-                    if (!TextUtils.isEmpty(message.message)) {
-                        message5.entities = message.entities;
-                        message5.message = message.message;
+                    message6.media = messageMedia16;
+                    if (!TextUtils.isEmpty(message5.message)) {
+                        message6.entities = message5.entities;
+                        message6.message = message5.message;
                     }
-                    TLRPC.ReplyMarkup replyMarkup = message.reply_markup;
+                    TLRPC.ReplyMarkup replyMarkup = message5.reply_markup;
                     if (replyMarkup != null) {
-                        message5.reply_markup = replyMarkup;
-                        message5.flags |= 64;
+                        message6.reply_markup = replyMarkup;
+                        message6.flags |= 64;
                         return;
                     }
                     return;
@@ -10502,7 +10500,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     return;
                 }
             }
-            message5.media = messageMedia16;
+            message6.media = messageMedia16;
             return;
         }
         if (messageMedia.ttl_seconds == 0 && ((videoEditedInfo = messageObject.videoEditedInfo) == null || (videoEditedInfo.mediaEntities == null && TextUtils.isEmpty(videoEditedInfo.paintPath) && messageObject.videoEditedInfo.cropState == null))) {
@@ -10511,215 +10509,258 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 if (messageObject.scheduled) {
                     sendMessagesHelper = this;
                     str = ".jpg";
+                    str2 = "s";
                     tL_messageExtendedMedia3 = tL_messageExtendedMedia2;
                 } else {
                     sendMessagesHelper = this;
-                    MessageObject messageObject3 = new MessageObject(sendMessagesHelper.currentAccount, message, false, false);
+                    tL_messageExtendedMedia3 = tL_messageExtendedMedia2;
+                    str2 = "s";
+                    MessageObject messageObject3 = new MessageObject(sendMessagesHelper.currentAccount, message5, false, false);
                     MessagesStorage messagesStorage2 = getMessagesStorage();
                     TLRPC.Document document7 = messageMedia.document;
-                    tL_messageExtendedMedia3 = tL_messageExtendedMedia2;
                     StringBuilder sb6 = new StringBuilder();
                     sb6.append("sent_");
                     str = ".jpg";
-                    sb6.append(message.peer_id.channel_id);
+                    sb6.append(message5.peer_id.channel_id);
                     sb6.append("_");
-                    sb6.append(message.id);
+                    sb6.append(message5.id);
                     sb6.append("_");
-                    sb6.append(DialogObject.getPeerDialogId(message.peer_id));
+                    sb6.append(DialogObject.getPeerDialogId(message5.peer_id));
                     sb6.append("_");
                     sb6.append(messageObject3.type);
                     sb6.append("_");
                     sb6.append(messageObject3.getSize());
-                    messagesStorage2.putSentFile(str8, document7, 2, sb6.toString());
+                    messagesStorage2.putSentFile(str13, document7, 2, sb6.toString());
                 }
                 if (isVideoMessage) {
-                    message.attachPath = message5.attachPath;
+                    message5.attachPath = message6.attachPath;
                 }
             } else {
                 sendMessagesHelper = this;
                 str = ".jpg";
+                str2 = "s";
                 tL_messageExtendedMedia3 = tL_messageExtendedMedia2;
                 if (!MessageObject.isVoiceMessage(message) && !MessageObject.isRoundVideoMessage(message) && !messageObject.scheduled) {
-                    MessageObject messageObject4 = new MessageObject(sendMessagesHelper.currentAccount, message, false, false);
+                    MessageObject messageObject4 = new MessageObject(sendMessagesHelper.currentAccount, message5, false, false);
                     MessagesStorage messagesStorage3 = getMessagesStorage();
                     TLRPC.Document document8 = messageMedia.document;
                     StringBuilder sb7 = new StringBuilder();
                     sb7.append("sent_");
-                    message2 = message5;
-                    sb7.append(message.peer_id.channel_id);
+                    message2 = message6;
+                    sb7.append(message5.peer_id.channel_id);
                     sb7.append("_");
-                    sb7.append(message.id);
+                    sb7.append(message5.id);
                     sb7.append("_");
-                    sb7.append(DialogObject.getPeerDialogId(message.peer_id));
+                    sb7.append(DialogObject.getPeerDialogId(message5.peer_id));
                     sb7.append("_");
                     sb7.append(messageObject4.type);
                     sb7.append("_");
                     sb7.append(messageObject4.getSize());
-                    messagesStorage3.putSentFile(str8, document8, 1, sb7.toString());
+                    messagesStorage3.putSentFile(str13, document8, 1, sb7.toString());
                 }
             }
-            message2 = message5;
+            message2 = message6;
         } else {
             sendMessagesHelper = this;
             str = ".jpg";
-            message2 = message5;
+            str2 = "s";
+            message2 = message6;
             tL_messageExtendedMedia3 = tL_messageExtendedMedia2;
         }
         TLRPC.Photo photo11 = messageMedia2.video_cover;
         if (photo11 == null || (photo = messageMedia.video_cover) == null) {
-            str2 = str8;
-            String str12 = str;
-            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageMedia2.document.thumbs, 320);
-            TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(messageMedia.document.thumbs, 320);
-            if (closestPhotoSizeWithSize2 != null && (fileLocation2 = closestPhotoSizeWithSize2.location) != null && fileLocation2.volume_id == -2147483648L && closestPhotoSizeWithSize3 != null && closestPhotoSizeWithSize3.location != null && !(closestPhotoSizeWithSize3 instanceof TLRPC.TL_photoSizeEmpty) && !(closestPhotoSizeWithSize2 instanceof TLRPC.TL_photoSizeEmpty)) {
-                String str13 = closestPhotoSizeWithSize2.location.volume_id + "_" + closestPhotoSizeWithSize2.location.local_id;
-                String str14 = closestPhotoSizeWithSize3.location.volume_id + "_" + closestPhotoSizeWithSize3.location.local_id;
-                if (!str13.equals(str14)) {
-                    new File(FileLoader.getDirectory(4), str13 + str12).renameTo(new File(FileLoader.getDirectory(4), str14 + str12));
-                    ImageLoader.getInstance().replaceImageInCache(str13, str14, ImageLocation.getForDocument(closestPhotoSizeWithSize3, messageMedia.document), z);
-                    closestPhotoSizeWithSize2.location = closestPhotoSizeWithSize3.location;
-                    closestPhotoSizeWithSize2.size = closestPhotoSizeWithSize3.size;
+            String str17 = str;
+            str3 = str13;
+            bArr = null;
+            messageMedia3 = messageMedia2;
+            TLRPC.PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(messageMedia3.document.thumbs, 320);
+            TLRPC.PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(messageMedia.document.thumbs, 320);
+            if (closestPhotoSizeWithSize != null && (fileLocation2 = closestPhotoSizeWithSize.location) != null && fileLocation2.volume_id == -2147483648L && closestPhotoSizeWithSize2 != null && closestPhotoSizeWithSize2.location != null && !(closestPhotoSizeWithSize2 instanceof TLRPC.TL_photoSizeEmpty) && !(closestPhotoSizeWithSize instanceof TLRPC.TL_photoSizeEmpty)) {
+                String str18 = closestPhotoSizeWithSize.location.volume_id + "_" + closestPhotoSizeWithSize.location.local_id;
+                String str19 = closestPhotoSizeWithSize2.location.volume_id + "_" + closestPhotoSizeWithSize2.location.local_id;
+                if (!str18.equals(str19)) {
+                    new File(FileLoader.getDirectory(4), str18 + str17).renameTo(new File(FileLoader.getDirectory(4), str19 + str17));
+                    ImageLoader.getInstance().replaceImageInCache(str18, str19, ImageLocation.getForDocument(closestPhotoSizeWithSize2, messageMedia.document), z);
+                    closestPhotoSizeWithSize.location = closestPhotoSizeWithSize2.location;
+                    closestPhotoSizeWithSize.size = closestPhotoSizeWithSize2.size;
                 }
-            } else if (closestPhotoSizeWithSize3 != null && closestPhotoSizeWithSize2 != null && MessageObject.isStickerMessage(message) && (fileLocation = closestPhotoSizeWithSize2.location) != null) {
-                closestPhotoSizeWithSize3.location = fileLocation;
-            } else if (closestPhotoSizeWithSize2 == null || (closestPhotoSizeWithSize2.location instanceof TLRPC.TL_fileLocationUnavailable) || (closestPhotoSizeWithSize2 instanceof TLRPC.TL_photoSizeEmpty)) {
-                messageMedia2.document.thumbs = messageMedia.document.thumbs;
+            } else if (closestPhotoSizeWithSize2 != null && closestPhotoSizeWithSize != null && MessageObject.isStickerMessage(message) && (fileLocation = closestPhotoSizeWithSize.location) != null) {
+                closestPhotoSizeWithSize2.location = fileLocation;
+            } else if (closestPhotoSizeWithSize == null || (closestPhotoSizeWithSize.location instanceof TLRPC.TL_fileLocationUnavailable) || (closestPhotoSizeWithSize instanceof TLRPC.TL_photoSizeEmpty)) {
+                messageMedia3.document.thumbs = messageMedia.document.thumbs;
             }
         } else {
             FileLoader.getClosestPhotoSizeWithSize(photo11.sizes, 40);
-            FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 40);
+            TLRPC.PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, 40);
             if (photo11.sizes.size() == 1 && (photo11.sizes.get(0).location instanceof TLRPC.TL_fileLocationUnavailable)) {
                 photo11.sizes = photo.sizes;
             } else {
                 int i7 = 0;
                 while (i7 < photo11.sizes.size()) {
-                    TLRPC.PhotoSize photoSize7 = photo11.sizes.get(i7);
-                    if (photoSize7 != null && photoSize7.location != null && photoSize7.type != null) {
+                    TLRPC.PhotoSize photoSize10 = photo11.sizes.get(i7);
+                    if (photoSize10 == null || photoSize10.location == null || photoSize10.type == null) {
+                        str5 = str;
+                        z3 = z2;
+                        messageMedia4 = messageMedia2;
+                        str6 = str13;
+                        str7 = str2;
+                    } else {
                         int i8 = 0;
                         while (i8 < photo.sizes.size()) {
-                            TLRPC.PhotoSize photoSize8 = photo.sizes.get(i8);
-                            if (photoSize8 == null || photoSize8.location == null || (photoSize8 instanceof TLRPC.TL_photoSizeEmpty) || (str6 = photoSize8.type) == null) {
-                                str4 = str8;
+                            TLRPC.PhotoSize photoSize11 = photo.sizes.get(i8);
+                            if (photoSize11 == null || photoSize11.location == null || (photoSize11 instanceof TLRPC.TL_photoSizeEmpty) || (str9 = photoSize11.type) == null) {
+                                str8 = str;
+                                z4 = z2;
+                                messageMedia5 = messageMedia2;
+                                str6 = str13;
                             } else {
-                                str4 = str8;
-                                if ((photoSize7.location.volume_id == -2147483648L && str6.equals(photoSize7.type)) || (photoSize8.w == photoSize7.w && photoSize8.h == photoSize7.h)) {
-                                    String str15 = photoSize7.location.volume_id + "_" + photoSize7.location.local_id;
-                                    String str16 = photoSize8.location.volume_id + "_" + photoSize8.location.local_id;
-                                    if (!str15.equals(str16)) {
-                                        File directory = FileLoader.getDirectory(4);
-                                        StringBuilder sb8 = new StringBuilder();
-                                        sb8.append(str15);
+                                str6 = str13;
+                                if ((photoSize10.location.volume_id == -2147483648L && str9.equals(photoSize10.type)) || (photoSize11.w == photoSize10.w && photoSize11.h == photoSize10.h)) {
+                                    String str20 = photoSize10.location.volume_id + "_" + photoSize10.location.local_id;
+                                    String str21 = photoSize11.location.volume_id + "_" + photoSize11.location.local_id;
+                                    if (str20.equals(str21)) {
                                         str5 = str;
-                                        sb8.append(str5);
-                                        File file4 = new File(directory, sb8.toString());
+                                        z3 = z2;
+                                        messageMedia4 = messageMedia2;
+                                        str7 = str2;
+                                    } else {
+                                        File directory = FileLoader.getDirectory(4);
+                                        messageMedia4 = messageMedia2;
+                                        StringBuilder sb8 = new StringBuilder();
+                                        sb8.append(str20);
+                                        String str22 = str;
+                                        sb8.append(str22);
+                                        File file2 = new File(directory, sb8.toString());
                                         if (messageMedia.ttl_seconds == 0) {
                                             if (photo.sizes.size() != 1) {
-                                                if (photoSize8.w <= 90) {
+                                                if (photoSize11.w <= 90) {
                                                 }
                                             }
-                                            if (!z6) {
-                                                file = FileLoader.getInstance(sendMessagesHelper.currentAccount).getPathToAttach(photoSize8);
-                                                file4.renameTo(file);
-                                                ImageLoader.getInstance().replaceImageInCache(str15, str16, ImageLocation.getForPhoto(photoSize8, photo), z);
-                                                photoSize7.location = photoSize8.location;
-                                                photoSize7.size = photoSize8.size;
-                                                i7++;
-                                                sendMessagesHelper = this;
-                                                str = str5;
-                                                str8 = str4;
+                                            if (!z2) {
+                                                file = FileLoader.getInstance(sendMessagesHelper.currentAccount).getPathToAttach(photoSize11, true);
+                                                z3 = z2;
+                                                file2.renameTo(file);
+                                                ImageLoader.getInstance().replaceImageInCache(str20, str21, ImageLocation.getForPhoto(photoSize11, photo), z);
+                                                photoSize10.location = photoSize11.location;
+                                                photoSize10.size = photoSize11.size;
+                                                str5 = str22;
+                                                str7 = str2;
+                                                message5 = message;
                                             }
                                         }
-                                        file = new File(FileLoader.getDirectory(4), str16 + str5);
-                                        file4.renameTo(file);
-                                        ImageLoader.getInstance().replaceImageInCache(str15, str16, ImageLocation.getForPhoto(photoSize8, photo), z);
-                                        photoSize7.location = photoSize8.location;
-                                        photoSize7.size = photoSize8.size;
-                                        i7++;
-                                        sendMessagesHelper = this;
-                                        str = str5;
-                                        str8 = str4;
+                                        z3 = z2;
+                                        file = new File(FileLoader.getDirectory(4), str21 + str22);
+                                        file2.renameTo(file);
+                                        ImageLoader.getInstance().replaceImageInCache(str20, str21, ImageLocation.getForPhoto(photoSize11, photo), z);
+                                        photoSize10.location = photoSize11.location;
+                                        photoSize10.size = photoSize11.size;
+                                        str5 = str22;
+                                        str7 = str2;
+                                        message5 = message;
                                     }
-                                    str5 = str;
-                                    i7++;
-                                    sendMessagesHelper = this;
-                                    str = str5;
-                                    str8 = str4;
+                                } else {
+                                    str8 = str;
+                                    z4 = z2;
+                                    messageMedia5 = messageMedia2;
                                 }
                             }
                             i8++;
-                            sendMessagesHelper = this;
-                            str = str;
-                            str8 = str4;
+                            z2 = z4;
+                            str = str8;
+                            str13 = str6;
+                            messageMedia2 = messageMedia5;
+                            message5 = message;
+                        }
+                        String str23 = str;
+                        z3 = z2;
+                        messageMedia4 = messageMedia2;
+                        str6 = str13;
+                        String str24 = photoSize10.location.volume_id + "_" + photoSize10.location.local_id;
+                        new File(FileLoader.getDirectory(4), str24 + str23).delete();
+                        str7 = str2;
+                        if (!str7.equals(photoSize10.type) || closestPhotoSizeWithSize3 == null) {
+                            str5 = str23;
+                            message5 = message;
+                        } else {
+                            photo11.sizes.set(i7, closestPhotoSizeWithSize3);
+                            ImageLocation forPhoto2 = ImageLocation.getForPhoto(closestPhotoSizeWithSize3, photo);
+                            str5 = str23;
+                            message5 = message;
+                            ImageLoader.getInstance().replaceImageInCache(str24, forPhoto2.getKey(message5, null, false), forPhoto2, z);
                         }
                     }
-                    str4 = str8;
-                    str5 = str;
                     i7++;
                     sendMessagesHelper = this;
+                    z2 = z3;
+                    str2 = str7;
                     str = str5;
-                    str8 = str4;
+                    str13 = str6;
+                    messageMedia2 = messageMedia4;
                 }
             }
-            str2 = str8;
+            TLRPC.MessageMedia messageMedia17 = messageMedia2;
+            str3 = str13;
+            bArr = null;
             photo11.id = photo.id;
             photo11.dc_id = photo.dc_id;
             photo11.access_hash = photo.access_hash;
+            messageMedia3 = messageMedia17;
         }
-        TLRPC.Document document9 = messageMedia2.document;
+        TLRPC.Document document9 = messageMedia3.document;
         TLRPC.Document document10 = messageMedia.document;
         document9.dc_id = document10.dc_id;
         document9.id = document10.id;
         document9.access_hash = document10.access_hash;
         int i9 = 0;
         while (true) {
-            if (i9 >= messageMedia2.document.attributes.size()) {
-                bArr = null;
+            if (i9 >= messageMedia3.document.attributes.size()) {
+                bArr2 = bArr;
                 break;
             }
-            TLRPC.DocumentAttribute documentAttribute = messageMedia2.document.attributes.get(i9);
+            TLRPC.DocumentAttribute documentAttribute = messageMedia3.document.attributes.get(i9);
             if (documentAttribute instanceof TLRPC.TL_documentAttributeAudio) {
-                bArr = documentAttribute.waveform;
+                bArr2 = documentAttribute.waveform;
                 break;
             }
             i9++;
         }
-        messageMedia2.document.attributes = messageMedia.document.attributes;
-        if (bArr != null) {
-            for (int i10 = 0; i10 < messageMedia2.document.attributes.size(); i10++) {
-                TLRPC.DocumentAttribute documentAttribute2 = messageMedia2.document.attributes.get(i10);
+        messageMedia3.document.attributes = messageMedia.document.attributes;
+        if (bArr2 != null) {
+            for (int i10 = 0; i10 < messageMedia3.document.attributes.size(); i10++) {
+                TLRPC.DocumentAttribute documentAttribute2 = messageMedia3.document.attributes.get(i10);
                 if (documentAttribute2 instanceof TLRPC.TL_documentAttributeAudio) {
-                    documentAttribute2.waveform = bArr;
+                    documentAttribute2.waveform = bArr2;
                     documentAttribute2.flags |= 4;
                 }
             }
         }
-        TLRPC.Document document11 = messageMedia2.document;
+        TLRPC.Document document11 = messageMedia3.document;
         TLRPC.Document document12 = messageMedia.document;
         document11.size = document12.size;
         document11.mime_type = document12.mime_type;
-        if ((message.flags & 4) == 0 && ((MessageObject.isOut(message) || message.dialog_id == getUserConfig().getClientUserId()) && !MessageObject.isQuickReply(message))) {
+        if ((message5.flags & 4) == 0 && ((MessageObject.isOut(message) || message5.dialog_id == getUserConfig().getClientUserId()) && !MessageObject.isQuickReply(message))) {
             if (MessageObject.isNewGifDocument(messageMedia.document)) {
                 if (MessageObject.isDocumentHasAttachedStickers(messageMedia.document) ? getMessagesController().saveGifsWithStickers : true) {
-                    getMediaDataController().addRecentGif(messageMedia.document, message.date, true);
+                    getMediaDataController().addRecentGif(messageMedia.document, message5.date, true);
                 }
             } else if (MessageObject.isStickerDocument(messageMedia.document) || MessageObject.isAnimatedStickerDocument(messageMedia.document, true)) {
                 sendMessagesHelper2 = this;
-                getMediaDataController().addRecentSticker(0, message, messageMedia.document, message.date, false);
+                getMediaDataController().addRecentSticker(0, message, messageMedia.document, message5.date, false);
+                tL_messageExtendedMedia4 = tL_messageExtendedMedia3;
                 if (tL_messageExtendedMedia3 == null) {
-                    tL_messageExtendedMedia4 = tL_messageExtendedMedia3;
-                    str3 = tL_messageExtendedMedia4.attachPath;
+                    str4 = tL_messageExtendedMedia4.attachPath;
                     message3 = message2;
                 } else {
                     message3 = message2;
-                    tL_messageExtendedMedia4 = tL_messageExtendedMedia3;
-                    str3 = message3.attachPath;
+                    str4 = message3.attachPath;
                 }
-                if (str3 == null && str3.startsWith(FileLoader.getDirectory(4).getAbsolutePath()) && !MessageObject.isGifDocument(messageMedia.document)) {
-                    File file5 = new File(str3);
+                if (str4 == null && str4.startsWith(FileLoader.getDirectory(4).getAbsolutePath()) && !MessageObject.isGifDocument(messageMedia.document)) {
+                    File file3 = new File(str4);
                     File pathToAttach = FileLoader.getInstance(sendMessagesHelper2.currentAccount).getPathToAttach(messageMedia.document, messageMedia.ttl_seconds != 0);
-                    if (file5.renameTo(pathToAttach)) {
+                    if (file3.renameTo(pathToAttach)) {
                         if (MessageObject.isVideoMessage(message)) {
                             messageObject.attachPathExists = true;
+                            messageObject.messageOwner.attachPath = pathToAttach.getAbsolutePath();
                             return;
                         }
                         messageObject.mediaExists = messageObject.attachPathExists;
@@ -10729,21 +10770,21 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         } else {
                             message3.attachPath = "";
                         }
-                        if (str2 != null) {
-                            String str17 = str2;
-                            if (str17.startsWith("http")) {
-                                getMessagesStorage().addRecentLocalFile(str17, pathToAttach.toString(), messageMedia2.document);
+                        if (str3 != null) {
+                            String str25 = str3;
+                            if (str25.startsWith("http")) {
+                                getMessagesStorage().addRecentLocalFile(str25, pathToAttach.toString(), messageMedia3.document);
                                 return;
                             }
                             return;
                         }
                         return;
                     }
-                    if (file5.exists()) {
+                    if (file3.exists()) {
                         if (tL_messageExtendedMedia4 != null) {
-                            tL_messageExtendedMedia4.attachPath = str3;
+                            tL_messageExtendedMedia4.attachPath = str4;
                         } else {
-                            message.attachPath = str3;
+                            message5.attachPath = str4;
                         }
                         messageObject2 = messageObject;
                     } else {
@@ -10757,19 +10798,20 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                 } else {
                     if (tL_messageExtendedMedia4 == null) {
-                        tL_messageExtendedMedia4.attachPath = str3;
+                        tL_messageExtendedMedia4.attachPath = str4;
                         return;
                     }
-                    message.attachPath = str3;
+                    message5.attachPath = str4;
                 }
-                message.message = message3.message;
+                message5.message = message3.message;
                 return;
             }
         }
         sendMessagesHelper2 = this;
+        tL_messageExtendedMedia4 = tL_messageExtendedMedia3;
         if (tL_messageExtendedMedia3 == null) {
         }
-        if (str3 == null) {
+        if (str4 == null) {
         }
         if (tL_messageExtendedMedia4 == null) {
         }

@@ -245,13 +245,12 @@ public abstract class ProfileGiftsContainer extends FrameLayout implements Notif
         buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Gifts.ProfileGiftsContainer$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
-                ProfileGiftsContainer.lambda$new$4(i, view2);
+                ProfileGiftsContainer.this.lambda$new$4(j, i, view2);
             }
         });
         buttonWithCounterView.setVisibility(canSwitchNotify() ? 8 : 0);
         linearLayout2.setVisibility(canSwitchNotify() ? 0 : 8);
         this.buttonContainerHeightDp = canSwitchNotify() ? 50 : 68;
-        frameLayout2.setVisibility((j >= 0 || ChatObject.canUserDoAction(MessagesController.getInstance(i).getChat(Long.valueOf(-j)), 5)) ? 0 : 8);
         addView(frameLayout3, LayoutHelper.createFrame(-1, NotificationCenter.storyQualityUpdate, 87));
     }
 
@@ -310,8 +309,12 @@ public abstract class ProfileGiftsContainer extends FrameLayout implements Notif
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$new$4(int i, View view) {
-        UserSelectorBottomSheet.open(2, 0L, BirthdayController.getInstance(i).getState());
+    public /* synthetic */ void lambda$new$4(long j, int i, View view) {
+        if (j < 0) {
+            new GiftSheet(getContext(), i, j, null, null).show();
+        } else {
+            UserSelectorBottomSheet.open(2, 0L, BirthdayController.getInstance(i).getState());
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */

@@ -138,6 +138,7 @@ public class SelectorUserCell extends BaseCell {
         this.imageView.setRoundRadius(AndroidUtilities.dp(ChatObject.isForum(chat) ? 12.0f : 20.0f));
         this.imageView.setForUserOrChat(chat, this.avatarDrawable);
         this.titleTextView.setText(chat.title);
+        this.titleTextView.setRightDrawable((Drawable) null);
         if (i <= 0) {
             i = chat.participants_count;
         }

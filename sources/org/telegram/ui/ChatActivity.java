@@ -26644,8 +26644,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00dd A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00de  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00e1 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00e2  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -26687,7 +26687,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     sb.append("/");
                     sb.append(id);
                     sb.append("?t=");
-                    sb.append(intValue);
+                    sb.append(AndroidUtilities.formatTimestamp(intValue));
                     substring = sb.toString();
                 }
                 substring = null;
@@ -26701,7 +26701,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     sb.append("/");
                     sb.append(id);
                     sb.append("?t=");
-                    sb.append(intValue);
+                    sb.append(AndroidUtilities.formatTimestamp(intValue));
                     substring = sb.toString();
                 }
                 substring = null;
@@ -28259,7 +28259,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         sb.append("/");
                         sb.append(id);
                         sb.append("?t=");
-                        sb.append(i);
+                        sb.append(AndroidUtilities.formatTimestamp(i));
                         str2 = sb.toString();
                     }
                     str2 = null;
@@ -28273,7 +28273,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         sb.append("/");
                         sb.append(id);
                         sb.append("?t=");
-                        sb.append(i);
+                        sb.append(AndroidUtilities.formatTimestamp(i));
                         str2 = sb.toString();
                     }
                     str2 = null;
