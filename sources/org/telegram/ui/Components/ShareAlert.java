@@ -2231,7 +2231,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 if (this.fullHeight ? motionEvent.getAction() != 0 || ShareAlert.this.scrollOffsetY == 0 || motionEvent.getY() >= ShareAlert.this.scrollOffsetY - AndroidUtilities.dp(30.0f) : motionEvent.getAction() != 0 || motionEvent.getY() >= this.topOffset - AndroidUtilities.dp(30.0f)) {
                     return super.onInterceptTouchEvent(motionEvent);
                 }
-                ShareAlert.this.lambda$new$0();
+                ShareAlert.this.dismiss();
                 return true;
             }
 
@@ -3327,7 +3327,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         if (baseFragment == null) {
             return;
         }
-        lambda$new$0();
+        dismiss();
         baseFragment.presentFragment(new MessageStatisticActivity(messageObject));
     }
 
@@ -3335,7 +3335,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     public /* synthetic */ void lambda$new$11(View view) {
         if (this.selectedDialogs.size() == 0) {
             if (this.isChannel || this.linkToCopy[0] != null) {
-                lambda$new$0();
+                dismiss();
                 if (this.linkToCopy[0] != null || !this.loadingLink) {
                     copyLink(getContext());
                 } else {
@@ -3355,7 +3355,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         if (baseFragment == null) {
             return;
         }
-        lambda$new$0();
+        dismiss();
         baseFragment.presentFragment(new MessageStatisticActivity(messageObject));
     }
 
@@ -3448,7 +3448,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     public /* synthetic */ void lambda$new$8(View view) {
         if (this.selectedDialogs.size() == 0) {
             if (this.isChannel || this.linkToCopy[0] != null) {
-                lambda$new$0();
+                dismiss();
                 PhotoViewer.getInstance().closePhoto(true, false);
                 if (this.linkToCopy[0] != null || !this.loadingLink) {
                     copyLink(getContext());
@@ -3464,7 +3464,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     public /* synthetic */ void lambda$new$9(View view) {
         if (this.selectedDialogs.size() == 0) {
             if (this.isChannel || this.linkToCopy[0] != null) {
-                lambda$new$0();
+                dismiss();
                 if (this.linkToCopy[0] != null || !this.loadingLink) {
                     copyLink(getContext());
                 } else {
@@ -4069,14 +4069,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    /* renamed from: dismiss */
-    public void lambda$new$0() {
+    public void dismiss() {
         EditTextEmoji editTextEmoji = this.commentTextView;
         if (editTextEmoji != null) {
             AndroidUtilities.hideKeyboard(editTextEmoji.getEditText());
         }
         this.fullyShown = false;
-        super.lambda$new$0();
+        super.dismiss();
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }
 
@@ -4293,7 +4292,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         if (shareAlertDelegate != null) {
             shareAlertDelegate.didShare();
         }
-        lambda$new$0();
+        dismiss();
     }
 
     public void setDelegate(ShareAlertDelegate shareAlertDelegate) {

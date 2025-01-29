@@ -199,7 +199,7 @@ public abstract class UsersAlertBase extends BottomSheet {
                 float y = motionEvent.getY();
                 UsersAlertBase usersAlertBase = UsersAlertBase.this;
                 if (y < usersAlertBase.scrollOffsetY) {
-                    usersAlertBase.lambda$new$0();
+                    usersAlertBase.dismiss();
                     return true;
                 }
             }
@@ -604,10 +604,9 @@ public abstract class UsersAlertBase extends BottomSheet {
     }
 
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-    /* renamed from: dismiss */
-    public void lambda$new$0() {
+    public void dismiss() {
         AndroidUtilities.hideKeyboard(this.searchView.searchEditText);
-        super.lambda$new$0();
+        super.dismiss();
     }
 
     protected int measurePadding(int i) {

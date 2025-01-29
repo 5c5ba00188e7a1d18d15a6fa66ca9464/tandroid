@@ -8860,8 +8860,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         @Override // org.telegram.ui.ActionBar.BaseFragment.AttachedSheet, android.content.DialogInterface
-        /* renamed from: dismiss */
-        public void lambda$new$0() {
+        public void dismiss() {
             dismiss(true);
         }
 
@@ -11313,7 +11312,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (url != null) {
                         BottomSheet bottomSheet = this.linkSheet;
                         if (bottomSheet != null) {
-                            bottomSheet.lambda$new$0();
+                            bottomSheet.dismiss();
                             this.linkSheet = null;
                         }
                         int lastIndexOf = url.lastIndexOf(35);
@@ -15169,7 +15168,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         BottomSheet bottomSheet = this.linkSheet;
         if (bottomSheet != null) {
-            bottomSheet.lambda$new$0();
+            bottomSheet.dismiss();
             this.linkSheet = null;
         }
         BottomSheet.Builder builder = new BottomSheet.Builder(this.parentActivity);

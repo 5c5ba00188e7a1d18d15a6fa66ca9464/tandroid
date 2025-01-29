@@ -1811,9 +1811,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         PhotoViewer.this.masksAlert = new StickersAlert(PhotoViewer.this.parentActivity, PhotoViewer.this.currentMessageObject, tLObject, this.val$resourcesProvider) { // from class: org.telegram.ui.PhotoViewer.17.1
                             @Override // org.telegram.ui.Components.StickersAlert, org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
-                            /* renamed from: dismiss */
-                            public void lambda$new$0() {
-                                super.lambda$new$0();
+                            public void dismiss() {
+                                super.dismiss();
                                 if (PhotoViewer.this.masksAlert == this) {
                                     PhotoViewer.this.masksAlert = null;
                                 }
@@ -19906,51 +19905,51 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     
         if (r5 != null) goto L219;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:548:0x0cd1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:546:0x0cc3, code lost:
     
-        if (r5.mirrored == false) goto L660;
+        if (r5.mirrored == false) goto L659;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:549:0x0ce2, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:547:0x0cd4, code lost:
     
         r2 = r12;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:569:0x0cd7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:567:0x0cc9, code lost:
     
-        if (r5.mirrored != false) goto L660;
+        if (r5.mirrored != false) goto L659;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:574:0x0ce0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:572:0x0cd2, code lost:
     
-        if (r5.mirrored != false) goto L660;
+        if (r5.mirrored != false) goto L659;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:629:0x09c8, code lost:
+    
+        if (r13 == null) goto L520;
      */
     /* JADX WARN: Code restructure failed: missing block: B:62:0x03a9, code lost:
     
         if (r5 != null) goto L219;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:631:0x09d6, code lost:
-    
-        if (r13 == null) goto L521;
-     */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:126:0x03ac  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x01f2  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x0346  */
-    /* JADX WARN: Removed duplicated region for block: B:317:0x0204  */
-    /* JADX WARN: Removed duplicated region for block: B:440:0x07bd  */
-    /* JADX WARN: Removed duplicated region for block: B:448:0x07ef  */
-    /* JADX WARN: Removed duplicated region for block: B:451:0x07f6  */
-    /* JADX WARN: Removed duplicated region for block: B:458:0x0817  */
-    /* JADX WARN: Removed duplicated region for block: B:465:0x083f  */
-    /* JADX WARN: Removed duplicated region for block: B:476:0x084d  */
-    /* JADX WARN: Removed duplicated region for block: B:478:0x0819  */
-    /* JADX WARN: Removed duplicated region for block: B:482:0x07ea  */
+    /* JADX WARN: Removed duplicated region for block: B:302:0x01f2  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0346  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x0204  */
+    /* JADX WARN: Removed duplicated region for block: B:438:0x07af  */
+    /* JADX WARN: Removed duplicated region for block: B:446:0x07e1  */
+    /* JADX WARN: Removed duplicated region for block: B:449:0x07e8  */
+    /* JADX WARN: Removed duplicated region for block: B:456:0x0809  */
+    /* JADX WARN: Removed duplicated region for block: B:463:0x0831  */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x083f  */
+    /* JADX WARN: Removed duplicated region for block: B:476:0x080b  */
+    /* JADX WARN: Removed duplicated region for block: B:480:0x07dc  */
     /* JADX WARN: Removed duplicated region for block: B:49:0x036c  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x03a7  */
-    /* JADX WARN: Removed duplicated region for block: B:636:0x09ec  */
-    /* JADX WARN: Removed duplicated region for block: B:658:0x09f0  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x066f  */
-    /* JADX WARN: Type inference failed for: r3v123 */
-    /* JADX WARN: Type inference failed for: r3v124, types: [boolean, int] */
-    /* JADX WARN: Type inference failed for: r3v139 */
+    /* JADX WARN: Removed duplicated region for block: B:634:0x09de  */
+    /* JADX WARN: Removed duplicated region for block: B:656:0x09e2  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0661  */
+    /* JADX WARN: Type inference failed for: r3v118 */
+    /* JADX WARN: Type inference failed for: r3v119, types: [boolean, int] */
+    /* JADX WARN: Type inference failed for: r3v134 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -20013,9 +20012,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         ChatActivity chatActivity;
         int i16;
         TLRPC.Message message;
-        int i17;
         String str6;
-        String string2;
+        int i17;
         ?? r3;
         int i18;
         int id;
@@ -20723,42 +20721,60 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                                 photoCountView7.updateShow(false, z2);
                                             }
                                             if (this.isEmbedVideo) {
-                                                string2 = "YouTube";
+                                                str6 = "YouTube";
+                                                charSequence5 = str6;
                                             } else {
-                                                string2 = LocaleController.getString(messageObject.canPreviewDocument() ? R.string.AttachDocument : messageObject.isVideo() ? R.string.AttachVideo : messageObject.isGif() ? R.string.AttachGif : R.string.AttachPhoto);
+                                                if (!messageObject.canPreviewDocument()) {
+                                                    if (messageObject.isVideo()) {
+                                                        i17 = R.string.AttachVideo;
+                                                        str6 = LocaleController.getString(i17);
+                                                        charSequence5 = str6;
+                                                    } else if (messageObject.isGif()) {
+                                                        i17 = R.string.AttachGif;
+                                                        str6 = LocaleController.getString(i17);
+                                                        charSequence5 = str6;
+                                                    } else {
+                                                        i17 = R.string.AttachPhoto;
+                                                        str6 = LocaleController.getString(i17);
+                                                        charSequence5 = str6;
+                                                    }
+                                                }
+                                                i17 = R.string.AttachDocument;
+                                                str6 = LocaleController.getString(i17);
+                                                charSequence5 = str6;
                                             }
                                         } else if (isInvoice) {
                                             PhotoCountView photoCountView8 = this.countView;
                                             if (photoCountView8 != null) {
                                                 photoCountView8.updateShow(false, z2);
                                             }
-                                            string2 = MessageObject.getMedia(messageObject.messageOwner).title;
-                                        } else {
-                                            if (messageObject.isVideo()) {
-                                                PhotoCountView photoCountView9 = this.countView;
-                                                if (photoCountView9 != null) {
-                                                    photoCountView9.updateShow(false, z2);
-                                                }
-                                                i17 = R.string.AttachVideo;
-                                                str6 = "AttachVideo";
-                                            } else if (messageObject.isGif()) {
-                                                PhotoCountView photoCountView10 = this.countView;
-                                                if (photoCountView10 != null) {
-                                                    photoCountView10.updateShow(false, z2);
-                                                }
-                                                i17 = R.string.AttachGif;
-                                                str6 = "AttachGif";
-                                            } else if (messageObject.getDocument() != null) {
-                                                PhotoCountView photoCountView11 = this.countView;
-                                                if (photoCountView11 != null) {
-                                                    photoCountView11.updateShow(false, z2);
-                                                }
-                                                i17 = R.string.AttachDocument;
-                                                str6 = "AttachDocument";
+                                            str6 = MessageObject.getMedia(messageObject.messageOwner).title;
+                                            charSequence5 = str6;
+                                        } else if (messageObject.isVideo()) {
+                                            PhotoCountView photoCountView9 = this.countView;
+                                            if (photoCountView9 != null) {
+                                                photoCountView9.updateShow(false, z2);
                                             }
-                                            string2 = LocaleController.getString(str6, i17);
+                                            i17 = R.string.AttachVideo;
+                                            str6 = LocaleController.getString(i17);
+                                            charSequence5 = str6;
+                                        } else if (messageObject.isGif()) {
+                                            PhotoCountView photoCountView10 = this.countView;
+                                            if (photoCountView10 != null) {
+                                                photoCountView10.updateShow(false, z2);
+                                            }
+                                            i17 = R.string.AttachGif;
+                                            str6 = LocaleController.getString(i17);
+                                            charSequence5 = str6;
+                                        } else if (messageObject.getDocument() != null) {
+                                            PhotoCountView photoCountView11 = this.countView;
+                                            if (photoCountView11 != null) {
+                                                photoCountView11.updateShow(false, z2);
+                                            }
+                                            i17 = R.string.AttachDocument;
+                                            str6 = LocaleController.getString(i17);
+                                            charSequence5 = str6;
                                         }
-                                        charSequence5 = string2;
                                         if ((DialogObject.isEncryptedDialog(this.currentDialogId) && !this.isEmbedVideo) || z27) {
                                             setItemVisible(this.sendItem, false, false);
                                         }
@@ -21302,6 +21318,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         this.qualityChooseViewAnimation.start();
         if (this.muteButton.getVisibility() == 0) {
             this.muteButton.animate().scaleX(z ? 0.25f : 1.0f).scaleY(z ? 0.25f : 1.0f).alpha(z ? 0.0f : 1.0f).setDuration(200L);
+        }
+        if (this.editCoverButton.getVisibility() == 0) {
+            this.editCoverButton.animate().scaleX(z ? 0.25f : 1.0f).scaleY(z ? 0.25f : 1.0f).alpha(z ? 0.0f : 1.0f).setDuration(200L);
         }
     }
 
