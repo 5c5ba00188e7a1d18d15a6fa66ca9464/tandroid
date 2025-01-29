@@ -1797,7 +1797,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             if (inputMedia instanceof TLRPC.TL_inputMediaDocument) {
                 i = inputMedia.flags | 8;
             }
-            if (inputMedia.thumb == null || (photoSize = delayedMessage.photoSize) == null || photoSize.location == null || !((messageObject = delayedMessage.obj) == null || (videoEditedInfo = messageObject.videoEditedInfo) == null || !videoEditedInfo.isSticker)) {
+            if (delayedMessage.performMediaUpload || inputMedia.thumb != null || (photoSize = delayedMessage.photoSize) == null || photoSize.location == null || !((messageObject = delayedMessage.obj) == null || (videoEditedInfo = messageObject.videoEditedInfo) == null || !videoEditedInfo.isSticker)) {
                 performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, delayedMessage, delayedMessage.parentObject, null, delayedMessage.scheduled);
             } else {
                 performSendDelayedMessage(delayedMessage);
@@ -1807,7 +1807,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         i = inputMedia.flags | 64;
         inputMedia.flags = i;
         inputMedia.video_cover = tL_inputPhoto;
-        if (inputMedia.thumb == null) {
+        if (delayedMessage.performMediaUpload) {
         }
         performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, delayedMessage, delayedMessage.parentObject, null, delayedMessage.scheduled);
     }
@@ -7586,7 +7586,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         performSendDelayedMessage(delayedMessage, -1);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:323:0x0815  */
+    /* JADX WARN: Removed duplicated region for block: B:331:0x0825  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -7651,7 +7651,24 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
         if (i3 == 1) {
             VideoEditedInfo videoEditedInfo2 = delayedMessage.videoEditedInfo;
-            if (videoEditedInfo2 == null || !videoEditedInfo2.needConvert()) {
+            if (videoEditedInfo2 != null && videoEditedInfo2.needConvert() && delayedMessage.performMediaUpload) {
+                MessageObject messageObject2 = delayedMessage.obj;
+                String str4 = messageObject2.messageOwner.attachPath;
+                TLRPC.Document document = messageObject2.getDocument();
+                if (str4 == null) {
+                    StringBuilder sb2 = new StringBuilder();
+                    sb2.append(FileLoader.getDirectory(4));
+                    sb2.append("/");
+                    sb2.append(document.id);
+                    sb2.append(".");
+                    sb2.append(delayedMessage.videoEditedInfo.isSticker ? "webm" : "mp4");
+                    str4 = sb2.toString();
+                }
+                putToDelayedMessages(str4, delayedMessage);
+                if (!delayedMessage.videoEditedInfo.alreadyScheduledConverting) {
+                    MediaController.getInstance().scheduleVideoConvert(delayedMessage.obj);
+                }
+            } else {
                 VideoEditedInfo videoEditedInfo3 = delayedMessage.videoEditedInfo;
                 if (videoEditedInfo3 != null) {
                     TLRPC.InputFile inputFile = videoEditedInfo3.file;
@@ -7666,8 +7683,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         decryptedMessageMedia.key = videoEditedInfo3.key;
                         decryptedMessageMedia.iv = videoEditedInfo3.iv;
                         SecretChatHelper secretChatHelper = getSecretChatHelper();
-                        MessageObject messageObject2 = delayedMessage.obj;
-                        secretChatHelper.performSendEncryptedRequest(tL_decryptedMessage, messageObject2.messageOwner, delayedMessage.encryptedChat, delayedMessage.videoEditedInfo.encryptedFile, delayedMessage.originalPath, messageObject2);
+                        MessageObject messageObject3 = delayedMessage.obj;
+                        secretChatHelper.performSendEncryptedRequest(tL_decryptedMessage, messageObject3.messageOwner, delayedMessage.encryptedChat, delayedMessage.videoEditedInfo.encryptedFile, delayedMessage.originalPath, messageObject3);
                         delayedMessage.videoEditedInfo.encryptedFile = null;
                         return;
                     }
@@ -7689,9 +7706,31 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             inputMedia3 = tL_inputMediaPaidMedia.extended_media.get(0);
                         }
                     }
-                    if (inputMedia3.file != null || (inputMedia3 instanceof TLRPC.TL_inputMediaDocument)) {
+                    if (inputMedia3.file == null && !(inputMedia3 instanceof TLRPC.TL_inputMediaDocument) && delayedMessage.performMediaUpload) {
+                        MessageObject messageObject4 = delayedMessage.obj;
+                        String str5 = messageObject4.messageOwner.attachPath;
+                        TLRPC.Document document2 = messageObject4.getDocument();
+                        if (str5 == null) {
+                            str5 = FileLoader.getDirectory(4) + "/" + document2.id + ".mp4";
+                        }
+                        str2 = str5;
+                        putToDelayedMessages(str2, delayedMessage);
+                        VideoEditedInfo videoEditedInfo4 = delayedMessage.obj.videoEditedInfo;
+                        if (videoEditedInfo4 == null || !videoEditedInfo4.notReadyYet) {
+                            if (videoEditedInfo4 == null || !videoEditedInfo4.needConvert()) {
+                                getFileLoader().uploadFile(str2, false, false, ConnectionsManager.FileTypeVideo);
+                            } else {
+                                fileLoader2 = getFileLoader();
+                                j = document2.size;
+                                i2 = ConnectionsManager.FileTypeVideo;
+                                z4 = false;
+                                z5 = false;
+                                fileLoader2.uploadFile(str2, z5, false, j, i2, z4);
+                            }
+                        }
+                    } else {
                         TLRPC.InputPhoto inputPhoto = inputMedia3.video_cover;
-                        if (inputPhoto == null && delayedMessage.coverFile == null && delayedMessage.coverPhotoSize != null) {
+                        if (inputPhoto == null && delayedMessage.coverFile == null && delayedMessage.coverPhotoSize != null && delayedMessage.performCoverUpload) {
                             sb = new StringBuilder();
                             sb.append(FileLoader.getDirectory(4));
                             sb.append("/");
@@ -7702,7 +7741,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             sb.append(".jpg");
                             str = sb.toString();
                         } else {
-                            if (inputPhoto == null && delayedMessage.coverFile != null) {
+                            if (inputPhoto == null && delayedMessage.coverFile != null && delayedMessage.performCoverUpload) {
                                 TLRPC.TL_messages_uploadMedia tL_messages_uploadMedia = new TLRPC.TL_messages_uploadMedia();
                                 tL_messages_uploadMedia.peer = inputPeer3;
                                 TLRPC.TL_inputMediaUploadedPhoto tL_inputMediaUploadedPhoto = new TLRPC.TL_inputMediaUploadedPhoto();
@@ -7716,62 +7755,40 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 });
                                 return;
                             }
-                            MessageObject messageObject3 = delayedMessage.obj;
-                            str = FileLoader.getDirectory(4) + "/" + delayedMessage.photoSize.location.volume_id + "_" + delayedMessage.photoSize.location.local_id + "." + ((messageObject3 == null || (videoEditedInfo = messageObject3.videoEditedInfo) == null || !videoEditedInfo.isSticker) ? "jpg" : "webp");
-                        }
-                    } else {
-                        MessageObject messageObject4 = delayedMessage.obj;
-                        String str4 = messageObject4.messageOwner.attachPath;
-                        TLRPC.Document document = messageObject4.getDocument();
-                        if (str4 == null) {
-                            str4 = FileLoader.getDirectory(4) + "/" + document.id + ".mp4";
-                        }
-                        str2 = str4;
-                        putToDelayedMessages(str2, delayedMessage);
-                        VideoEditedInfo videoEditedInfo4 = delayedMessage.obj.videoEditedInfo;
-                        if (videoEditedInfo4 == null || !videoEditedInfo4.notReadyYet) {
-                            if (videoEditedInfo4 == null || !videoEditedInfo4.needConvert()) {
-                                getFileLoader().uploadFile(str2, false, false, ConnectionsManager.FileTypeVideo);
-                            } else {
-                                fileLoader2 = getFileLoader();
-                                j = document.size;
-                                i2 = ConnectionsManager.FileTypeVideo;
-                                z4 = false;
-                                z5 = false;
-                                fileLoader2.uploadFile(str2, z5, false, j, i2, z4);
-                            }
+                            MessageObject messageObject5 = delayedMessage.obj;
+                            str = FileLoader.getDirectory(4) + "/" + delayedMessage.photoSize.location.volume_id + "_" + delayedMessage.photoSize.location.local_id + "." + ((messageObject5 == null || (videoEditedInfo = messageObject5.videoEditedInfo) == null || !videoEditedInfo.isSticker) ? "jpg" : "webp");
                         }
                     }
                 } else {
-                    MessageObject messageObject5 = delayedMessage.obj;
-                    String str5 = messageObject5.messageOwner.attachPath;
-                    TLRPC.Document document2 = messageObject5.getDocument();
-                    if (str5 == null) {
-                        str5 = FileLoader.getDirectory(4) + "/" + document2.id + ".mp4";
+                    MessageObject messageObject6 = delayedMessage.obj;
+                    String str6 = messageObject6.messageOwner.attachPath;
+                    TLRPC.Document document3 = messageObject6.getDocument();
+                    if (str6 == null) {
+                        str6 = FileLoader.getDirectory(4) + "/" + document3.id + ".mp4";
                     }
-                    if (delayedMessage.sendEncryptedRequest != null && document2.dc_id != 0) {
-                        File file3 = new File(str5);
+                    if (delayedMessage.sendEncryptedRequest != null && document3.dc_id != 0) {
+                        File file3 = new File(str6);
                         if (!file3.exists() && (file3 = getFileLoader().getPathToMessage(delayedMessage.obj.messageOwner)) != null && file3.exists()) {
                             TLRPC.Message message = delayedMessage.obj.messageOwner;
                             String absolutePath = file3.getAbsolutePath();
                             message.attachPath = absolutePath;
                             delayedMessage.obj.attachPathExists = true;
-                            str5 = absolutePath;
+                            str6 = absolutePath;
                         }
                         if ((file3 == null || (!file3.exists() && delayedMessage.obj.getDocument() != null)) && (file3 = getFileLoader().getPathToAttach(delayedMessage.obj.getDocument(), false)) != null && file3.exists()) {
                             TLRPC.Message message2 = delayedMessage.obj.messageOwner;
                             String absolutePath2 = file3.getAbsolutePath();
                             message2.attachPath = absolutePath2;
                             delayedMessage.obj.attachPathExists = true;
-                            str5 = absolutePath2;
+                            str6 = absolutePath2;
                         }
                         if (file3 == null || !file3.exists()) {
-                            putToDelayedMessages(FileLoader.getAttachFileName(document2), delayedMessage);
-                            getFileLoader().loadFile(document2, delayedMessage.parentObject, 3, 0);
+                            putToDelayedMessages(FileLoader.getAttachFileName(document3), delayedMessage);
+                            getFileLoader().loadFile(document3, delayedMessage.parentObject, 3, 0);
                             return;
                         }
                     }
-                    str2 = str5;
+                    str2 = str6;
                     putToDelayedMessages(str2, delayedMessage);
                     VideoEditedInfo videoEditedInfo5 = delayedMessage.obj.videoEditedInfo;
                     if (videoEditedInfo5 == null || !videoEditedInfo5.notReadyYet) {
@@ -7779,30 +7796,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             getFileLoader().uploadFile(str2, true, false, ConnectionsManager.FileTypeVideo);
                         } else {
                             fileLoader2 = getFileLoader();
-                            j = document2.size;
+                            j = document3.size;
                             i2 = ConnectionsManager.FileTypeVideo;
                             z4 = false;
                             z5 = true;
                             fileLoader2.uploadFile(str2, z5, false, j, i2, z4);
                         }
                     }
-                }
-            } else {
-                MessageObject messageObject6 = delayedMessage.obj;
-                String str6 = messageObject6.messageOwner.attachPath;
-                TLRPC.Document document3 = messageObject6.getDocument();
-                if (str6 == null) {
-                    StringBuilder sb2 = new StringBuilder();
-                    sb2.append(FileLoader.getDirectory(4));
-                    sb2.append("/");
-                    sb2.append(document3.id);
-                    sb2.append(".");
-                    sb2.append(delayedMessage.videoEditedInfo.isSticker ? "webm" : "mp4");
-                    str6 = sb2.toString();
-                }
-                putToDelayedMessages(str6, delayedMessage);
-                if (!delayedMessage.videoEditedInfo.alreadyScheduledConverting) {
-                    MediaController.getInstance().scheduleVideoConvert(delayedMessage.obj);
                 }
             }
             putToUploadingMessages(delayedMessage.obj);
@@ -11180,24 +11180,24 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         return tL_inputReplyToStory;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x015f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0165, code lost:
     
-        if (r0.coverPhotoSize != null) goto L77;
+        if (r1 != null) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x0178, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:78:0x017e, code lost:
     
-        if (r1.isSticker == false) goto L77;
+        if (r1.isSticker == false) goto L81;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:86:0x01a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:90:0x01a9, code lost:
     
-        if (r1.location != null) goto L77;
+        if (r1.location != null) goto L81;
      */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0388  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x03bc  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x03ee  */
-    /* JADX WARN: Removed duplicated region for block: B:163:0x03a0  */
-    /* JADX WARN: Removed duplicated region for block: B:181:0x04b1  */
-    /* JADX WARN: Removed duplicated region for block: B:195:0x0506  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x038e  */
+    /* JADX WARN: Removed duplicated region for block: B:147:0x03c2  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x03f4  */
+    /* JADX WARN: Removed duplicated region for block: B:167:0x03a6  */
+    /* JADX WARN: Removed duplicated region for block: B:185:0x04b7  */
+    /* JADX WARN: Removed duplicated region for block: B:199:0x050c  */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -11372,53 +11372,57 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             str6 = str8;
                             if (i16 == z2) {
                                 if (inputMedia.file == null) {
-                                    inputMedia.file = inputFile;
                                     delayedMessage = delayedMessage2;
-                                    if (delayedMessage.coverFile == null) {
-                                    }
-                                    if (inputMedia.thumb == null) {
-                                        TLRPC.PhotoSize photoSize3 = delayedMessage.photoSize;
-                                        if (photoSize3 != null) {
-                                            if (photoSize3.location != null) {
-                                                MessageObject messageObject3 = delayedMessage.obj;
-                                                if (messageObject3 != null) {
-                                                    VideoEditedInfo videoEditedInfo = messageObject3.videoEditedInfo;
-                                                    if (videoEditedInfo != null) {
+                                    TLRPC.PhotoSize photoSize3 = delayedMessage.coverPhotoSize;
+                                    if (photoSize3 == null || delayedMessage.performMediaUpload) {
+                                        inputMedia.file = inputFile;
+                                        if (delayedMessage.coverFile == null) {
+                                        }
+                                        if (inputMedia.thumb == null) {
+                                            TLRPC.PhotoSize photoSize4 = delayedMessage.photoSize;
+                                            if (photoSize4 != null) {
+                                                if (photoSize4.location != null) {
+                                                    MessageObject messageObject3 = delayedMessage.obj;
+                                                    if (messageObject3 != null) {
+                                                        VideoEditedInfo videoEditedInfo = messageObject3.videoEditedInfo;
+                                                        if (videoEditedInfo != null) {
+                                                        }
                                                     }
+                                                    performSendDelayedMessage(delayedMessage);
                                                 }
                                             }
                                         }
+                                        performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, null, delayedMessage.parentObject, null, delayedMessage.scheduled);
+                                        i10 = i11;
+                                        str = str5;
+                                        arrayList5 = arrayList6;
+                                        inputEncryptedFile = inputEncryptedFile2;
+                                        str4 = str6;
                                     }
-                                    performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, null, delayedMessage.parentObject, null, delayedMessage.scheduled);
-                                    i10 = i11;
-                                    str = str5;
-                                    arrayList5 = arrayList6;
-                                    inputEncryptedFile = inputEncryptedFile2;
-                                    str4 = str6;
                                 } else {
                                     delayedMessage = delayedMessage2;
-                                    if (delayedMessage.coverFile == null && delayedMessage.coverPhotoSize != null) {
-                                        delayedMessage.coverFile = inputFile;
-                                        delayedMessage.performCoverUpload = z2;
-                                    }
-                                    inputMedia.thumb = inputFile;
-                                    inputMedia.flags |= 4;
-                                    performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, null, delayedMessage.parentObject, null, delayedMessage.scheduled);
-                                    i10 = i11;
-                                    str = str5;
-                                    arrayList5 = arrayList6;
-                                    inputEncryptedFile = inputEncryptedFile2;
-                                    str4 = str6;
                                 }
-                                performSendDelayedMessage(delayedMessage);
+                                if (delayedMessage.coverFile == null && delayedMessage.coverPhotoSize != null) {
+                                    delayedMessage.coverFile = inputFile;
+                                    delayedMessage.performCoverUpload = z2;
+                                    performSendDelayedMessage(delayedMessage);
+                                }
+                                inputMedia.thumb = inputFile;
+                                inputMedia.flags |= 4;
+                                performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, null, delayedMessage.parentObject, null, delayedMessage.scheduled);
+                                i10 = i11;
+                                str = str5;
+                                arrayList5 = arrayList6;
+                                inputEncryptedFile = inputEncryptedFile2;
+                                str4 = str6;
                             } else {
                                 delayedMessage = delayedMessage2;
                                 if (i16 == i13) {
                                     if (inputMedia.file == null) {
                                         inputMedia.file = inputFile;
                                         if (inputMedia.thumb == null) {
-                                            TLRPC.PhotoSize photoSize4 = delayedMessage.photoSize;
-                                            if (photoSize4 != null) {
+                                            TLRPC.PhotoSize photoSize5 = delayedMessage.photoSize;
+                                            if (photoSize5 != null) {
                                             }
                                         }
                                         performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, null, delayedMessage.parentObject, null, delayedMessage.scheduled);
