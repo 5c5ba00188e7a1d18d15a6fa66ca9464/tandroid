@@ -1211,6 +1211,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.isCropped = mediaEditState.isCropped;
             this.ttl = mediaEditState.ttl;
             this.cropState = mediaEditState.cropState;
+            this.coverPath = mediaEditState.coverPath;
         }
 
         public String getPath() {
