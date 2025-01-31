@@ -104,7 +104,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             this.backScaleX = 1.0f;
             this.backScaleY = 1.0f;
             this.startAnimationPending = false;
-            this.backAlpha = NotificationCenter.newLocationAvailable;
+            this.backAlpha = NotificationCenter.liveLocationsChanged;
             this.lastStartedChild = 0;
             this.animationEnabled = ActionBarPopupWindow.allowAnimation;
             this.positions = new HashMap();
@@ -336,7 +336,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                         canvas.saveLayerAlpha(0.0f, this.bgPaddings.top, getMeasuredWidth(), getMeasuredHeight(), this.backAlpha, 31);
                         z2 = false;
                     }
-                    this.backgroundDrawable.setAlpha(z2 ? this.backAlpha : NotificationCenter.newLocationAvailable);
+                    this.backgroundDrawable.setAlpha(z2 ? this.backAlpha : NotificationCenter.liveLocationsChanged);
                     if (this.shownFromBottom) {
                         int measuredHeight = getMeasuredHeight();
                         AndroidUtilities.rectTmp2.set(0, (int) (measuredHeight * (1.0f - this.backScaleY)), (int) (getMeasuredWidth() * this.backScaleX), measuredHeight);
@@ -917,7 +917,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         });
         actionBarPopupWindowLayout.updateAnimation = false;
         actionBarPopupWindowLayout.clipChildren = true;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, NotificationCenter.newLocationAvailable), ofFloat);
+        animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, NotificationCenter.liveLocationsChanged), ofFloat);
         animatorSet.setDuration((i * 16) + 150);
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1133,7 +1133,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
             AnimatorSet animatorSet = new AnimatorSet();
             this.windowAnimatorSet = animatorSet;
-            animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, NotificationCenter.newLocationAvailable));
+            animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, NotificationCenter.liveLocationsChanged));
             this.windowAnimatorSet.setDuration((i2 * 16) + 150);
             this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

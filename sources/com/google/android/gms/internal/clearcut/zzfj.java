@@ -204,7 +204,7 @@ final class zzfj extends zzfg {
                             if (Character.isSurrogatePair(charAt3, charAt4)) {
                                 int codePoint = Character.toCodePoint(charAt3, charAt4);
                                 j2 = 1;
-                                zzfd.zza(bArr, j4, (byte) ((codePoint >>> 18) | NotificationCenter.didApplyNewTheme));
+                                zzfd.zza(bArr, j4, (byte) ((codePoint >>> 18) | NotificationCenter.themeListUpdated));
                                 j3 = j5;
                                 zzfd.zza(bArr, j4 + 1, (byte) (((codePoint >>> 12) & 63) | 128));
                                 long j6 = 3 + j4;
@@ -319,7 +319,7 @@ final class zzfj extends zzfg {
                             if (Character.isSurrogatePair(charAt3, charAt4)) {
                                 int codePoint = Character.toCodePoint(charAt3, charAt4);
                                 j4 = 1;
-                                zzfd.zza(position, (byte) ((codePoint >>> 18) | NotificationCenter.didApplyNewTheme));
+                                zzfd.zza(position, (byte) ((codePoint >>> 18) | NotificationCenter.themeListUpdated));
                                 j3 = limit;
                                 zzfd.zza(position + 1, (byte) (((codePoint >>> 12) & 63) | 128));
                                 long j5 = position + 3;

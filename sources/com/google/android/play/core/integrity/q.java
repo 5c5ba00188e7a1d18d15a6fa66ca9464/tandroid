@@ -6,6 +6,9 @@ import android.content.Context;
 final class q implements x {
     private Context a;
 
+    private q() {
+    }
+
     /* synthetic */ q(p pVar) {
     }
 

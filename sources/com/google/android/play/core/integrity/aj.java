@@ -1,5 +1,6 @@
 package com.google.android.play.core.integrity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.util.Base64;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.play.integrity.internal.d;
 import java.util.ArrayList;
 
 /* loaded from: classes.dex */
@@ -49,9 +49,20 @@ final class aj {
             bundle.putLong("cloud.prj", l.longValue());
         }
         ArrayList arrayList = new ArrayList();
-        d.b(3, arrayList);
-        bundle.putParcelableArrayList("event_timestamps", new ArrayList<>(d.a(arrayList)));
+        com.google.android.play.integrity.internal.d.b(3, arrayList);
+        bundle.putParcelableArrayList("event_timestamps", new ArrayList<>(com.google.android.play.integrity.internal.d.a(arrayList)));
         return bundle;
+    }
+
+    final Task b(Activity activity, Bundle bundle) {
+        if (this.a == null) {
+            return Tasks.forException(new IntegrityServiceException(-2, null));
+        }
+        int i = bundle.getInt("dialog.intent.type");
+        this.b.d("requestAndShowDialog(%s, %s)", this.c, Integer.valueOf(i));
+        TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        this.a.t(new ag(this, taskCompletionSource, bundle, activity, taskCompletionSource, i), taskCompletionSource);
+        return taskCompletionSource.getTask();
     }
 
     public final Task c(IntegrityTokenRequest integrityTokenRequest) {

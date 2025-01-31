@@ -443,7 +443,7 @@ public abstract class DialogStoriesCell extends FrameLayout implements Notificat
                 }
                 this.radialProgress.setDiff(0);
                 Paint closeFriendsPaint = z ? StoriesUtilities.getCloseFriendsPaint(this.avatarImage) : StoriesUtilities.getUnreadCirclePaint(this.avatarImage, true);
-                closeFriendsPaint.setAlpha(NotificationCenter.newLocationAvailable);
+                closeFriendsPaint.setAlpha(NotificationCenter.liveLocationsChanged);
                 this.radialProgress.setPaint(closeFriendsPaint);
                 this.radialProgress.setProgressRect((int) (this.avatarImage.getImageX() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageX2() + AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY2() + AndroidUtilities.dp(3.0f)));
                 this.radialProgress.setProgress(Utilities.clamp(size, 1.0f, 0.0f), this.progressWasDrawn);

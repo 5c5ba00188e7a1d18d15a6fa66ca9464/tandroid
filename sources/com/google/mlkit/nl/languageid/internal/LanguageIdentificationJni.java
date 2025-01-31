@@ -122,9 +122,9 @@ public class LanguageIdentificationJni extends ModelResource {
         this.zzd = null;
     }
 
-    public final <T> Task zza(final Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
+    public final <T> Task<T> zza(final Executor executor, Callable<T> callable, CancellationToken cancellationToken) {
         final AtomicReference atomicReference = new AtomicReference(Thread.currentThread());
-        Task callAfterLoad = callAfterLoad(new Executor(this, atomicReference, executor) { // from class: com.google.mlkit.nl.languageid.internal.zzb
+        Task<T> callAfterLoad = callAfterLoad(new Executor(this, atomicReference, executor) { // from class: com.google.mlkit.nl.languageid.internal.zzb
             private final LanguageIdentificationJni zza;
             private final AtomicReference zzb;
             private final Executor zzc;

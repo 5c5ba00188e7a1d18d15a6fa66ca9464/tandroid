@@ -1,6 +1,6 @@
 package androidx.appcompat;
 
-import org.telegram.messenger.R;
+import org.telegram.messenger.beta.R;
 
 /* loaded from: classes.dex */
 public abstract class R$styleable {

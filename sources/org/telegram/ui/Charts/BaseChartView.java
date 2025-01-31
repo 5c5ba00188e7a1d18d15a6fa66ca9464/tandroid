@@ -484,11 +484,11 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                 Double.isNaN(d);
                 Double.isNaN(d);
                 final ChartBottomSignatureData chartBottomSignatureData3 = new ChartBottomSignatureData(highestOneBit, (int) (d + d2), (int) (d - d2));
-                chartBottomSignatureData3.alpha = NotificationCenter.newLocationAvailable;
+                chartBottomSignatureData3.alpha = NotificationCenter.liveLocationsChanged;
                 ChartBottomSignatureData chartBottomSignatureData4 = this.currentBottomSignatures;
                 this.currentBottomSignatures = chartBottomSignatureData3;
                 if (chartBottomSignatureData4 == null) {
-                    chartBottomSignatureData3.alpha = NotificationCenter.newLocationAvailable;
+                    chartBottomSignatureData3.alpha = NotificationCenter.liveLocationsChanged;
                     this.bottomSignatureDate.add(chartBottomSignatureData3);
                     return;
                 }
@@ -1650,7 +1650,7 @@ public abstract class BaseChartView extends View implements ChartPickerDelegate.
                 this.currentMinHeight = f6;
                 this.horizontalLines.clear();
                 this.horizontalLines.add(createHorizontalLinesData);
-                createHorizontalLinesData.alpha = NotificationCenter.newLocationAvailable;
+                createHorizontalLinesData.alpha = NotificationCenter.liveLocationsChanged;
                 return;
             }
             this.horizontalLines.add(createHorizontalLinesData);

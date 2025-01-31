@@ -17,11 +17,9 @@ public abstract class SavedStateViewModelFactoryKt {
 
     static {
         List listOf;
-        List listOf2;
         listOf = CollectionsKt__CollectionsKt.listOf((Object[]) new Class[]{Application.class, SavedStateHandle.class});
         ANDROID_VIEWMODEL_SIGNATURE = listOf;
-        listOf2 = CollectionsKt__CollectionsJVMKt.listOf(SavedStateHandle.class);
-        VIEWMODEL_SIGNATURE = listOf2;
+        VIEWMODEL_SIGNATURE = CollectionsKt__CollectionsJVMKt.listOf(SavedStateHandle.class);
     }
 
     public static final Constructor findMatchingConstructor(Class modelClass, List signature) {

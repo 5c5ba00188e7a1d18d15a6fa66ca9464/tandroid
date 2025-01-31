@@ -962,7 +962,7 @@ public abstract class CollageLayoutView2 extends FrameLayout implements ItemOpti
                         matrix.postTranslate(f11 + AndroidUtilities.lerp(((float) Math.sqrt(i13 + i13)) * (-1.4f), (float) Math.sqrt((this.rect.width() * this.rect.width()) + (this.rect.height() * this.rect.height())), 1.0f - f9), 0.0f);
                         this.gradientMatrix.postRotate(-25.0f);
                         this.gradient.setLocalMatrix(this.gradientMatrix);
-                        this.highlightPaint.setAlpha(NotificationCenter.newLocationAvailable);
+                        this.highlightPaint.setAlpha(NotificationCenter.liveLocationsChanged);
                         this.highlightPath.rewind();
                         float[] fArr5 = this.radii;
                         CollageLayout.Part part9 = part7.part;

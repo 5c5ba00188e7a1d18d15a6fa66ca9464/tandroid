@@ -1137,7 +1137,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                                     rect.inset((int) ((-rect.width()) * 0.15f), (int) ((-rect.height()) * 0.15f));
                                 }
                                 drawable.setBounds(rect);
-                                drawable.setAlpha(NotificationCenter.newLocationAvailable);
+                                drawable.setAlpha(NotificationCenter.liveLocationsChanged);
                             } else if (imageViewEmoji.isDefaultReaction || imageViewEmoji.isStaticIcon) {
                                 ImageReceiver imageReceiver = imageViewEmoji.imageReceiver;
                                 if (imageReceiver != null) {
@@ -1145,7 +1145,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                                 }
                                 drawable = null;
                             } else if ((imageViewEmoji.span != null || SelectAnimatedEmojiDialog.this.type == 13) && !imageViewEmoji.notDraw && (drawable = imageViewEmoji.drawable) != null) {
-                                drawable.setAlpha(NotificationCenter.newLocationAvailable);
+                                drawable.setAlpha(NotificationCenter.liveLocationsChanged);
                                 drawable.setBounds(rect);
                             }
                             if (SelectAnimatedEmojiDialog.this.premiumStarColorFilter != null) {
@@ -1206,7 +1206,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                                 f *= ((1.0f - Math.max(imageViewEmoji.selectedProgress * 0.8f, imageViewEmoji.pressedProgress)) * 0.2f) + 0.8f;
                             }
                             if (premiumStar != null) {
-                                premiumStar.setAlpha(NotificationCenter.newLocationAvailable);
+                                premiumStar.setAlpha(NotificationCenter.liveLocationsChanged);
                                 int width = (imageViewEmoji.getWidth() - imageViewEmoji.getPaddingLeft()) - imageViewEmoji.getPaddingRight();
                                 int height = (imageViewEmoji.getHeight() - imageViewEmoji.getPaddingTop()) - imageViewEmoji.getPaddingBottom();
                                 Rect rect = AndroidUtilities.rectTmp2;
@@ -1399,9 +1399,9 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                         canvas.restore();
                         if (imageViewEmoji.getBackground() != null) {
                             imageViewEmoji.getBackground().setBounds((int) imageViewEmoji.getX(), (int) imageViewEmoji.getY(), ((int) imageViewEmoji.getX()) + imageViewEmoji.getWidth(), ((int) imageViewEmoji.getY()) + imageViewEmoji.getHeight());
-                            imageViewEmoji.getBackground().setAlpha((int) (NotificationCenter.newLocationAvailable * imageViewEmoji.getAlpha()));
+                            imageViewEmoji.getBackground().setAlpha((int) (NotificationCenter.liveLocationsChanged * imageViewEmoji.getAlpha()));
                             imageViewEmoji.getBackground().draw(canvas);
-                            imageViewEmoji.getBackground().setAlpha(NotificationCenter.newLocationAvailable);
+                            imageViewEmoji.getBackground().setAlpha(NotificationCenter.liveLocationsChanged);
                         }
                         if (arrayList3 == null) {
                             if (this.unusedArrays.isEmpty()) {
@@ -2759,7 +2759,7 @@ public abstract class SelectAnimatedEmojiDialog extends FrameLayout implements N
                         paint.setShader(new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(18.0f), 0.0f, new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
                         this.fadePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
                     }
-                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31);
+                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.liveLocationsChanged, 31);
                     super.dispatchDraw(canvas);
                     this.fadePaint.setAlpha((int) (SearchBox.this.inputBoxGradientAlpha * 255.0f));
                     canvas.drawRect(0.0f, 0.0f, AndroidUtilities.dp(18.0f), getMeasuredHeight(), this.fadePaint);

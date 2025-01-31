@@ -12,27 +12,29 @@ public abstract class CollectionsKt__CollectionsKt extends CollectionsKt__Collec
         return new ArrayAsCollection(objArr, false);
     }
 
-    public static final List emptyList() {
+    public static List emptyList() {
         return EmptyList.INSTANCE;
     }
 
+    public static final int getLastIndex(List list) {
+        Intrinsics.checkNotNullParameter(list, "<this>");
+        return list.size() - 1;
+    }
+
     public static List listOf(Object... elements) {
+        List asList;
         Intrinsics.checkNotNullParameter(elements, "elements");
-        return elements.length > 0 ? ArraysKt___ArraysJvmKt.asList(elements) : emptyList();
+        if (elements.length <= 0) {
+            return emptyList();
+        }
+        asList = ArraysKt___ArraysJvmKt.asList(elements);
+        return asList;
     }
 
     public static List optimizeReadOnlyList(List list) {
-        List listOf;
         Intrinsics.checkNotNullParameter(list, "<this>");
         int size = list.size();
-        if (size == 0) {
-            return emptyList();
-        }
-        if (size != 1) {
-            return list;
-        }
-        listOf = CollectionsKt__CollectionsJVMKt.listOf(list.get(0));
-        return listOf;
+        return size != 0 ? size != 1 ? list : CollectionsKt__CollectionsJVMKt.listOf(list.get(0)) : emptyList();
     }
 
     public static void throwIndexOverflow() {

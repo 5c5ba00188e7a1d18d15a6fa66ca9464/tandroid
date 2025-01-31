@@ -11082,7 +11082,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     /* JADX INFO: Access modifiers changed from: private */
     /* renamed from: fillNextCodeParams, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
     public void lambda$fillNextCodeParams$27(final Bundle bundle, final TLRPC.auth_SentCode auth_sentcode, final boolean z) {
-        Task addOnSuccessListener;
+        Task<IntegrityTokenResponse> addOnSuccessListener;
         OnFailureListener onFailureListener;
         TLRPC.auth_SentCodeType auth_sentcodetype = auth_sentcode.type;
         int i = 1;
@@ -12686,7 +12686,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         CustomPhoneKeyboardView customPhoneKeyboardView = new CustomPhoneKeyboardView(context);
         this.keyboardView = customPhoneKeyboardView;
         customPhoneKeyboardView.setViewToFindFocus(this.slideViewsContainer);
-        this.keyboardLinearLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, NotificationCenter.wallpapersNeedReload));
+        this.keyboardLinearLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, NotificationCenter.wallpapersDidLoad));
         this.views[0] = new PhoneView(context);
         this.views[1] = new LoginActivitySmsView(context, 1);
         this.views[2] = new LoginActivitySmsView(context, 2);

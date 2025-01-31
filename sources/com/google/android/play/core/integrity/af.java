@@ -3,11 +3,9 @@ package com.google.android.play.core.integrity;
 import android.os.Parcelable;
 import android.os.RemoteException;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.android.play.integrity.internal.n;
-import com.google.android.play.integrity.internal.t;
 
 /* loaded from: classes.dex */
-final class af extends t {
+final class af extends com.google.android.play.integrity.internal.t {
     final /* synthetic */ byte[] a;
     final /* synthetic */ Long b;
     final /* synthetic */ TaskCompletionSource c;
@@ -37,7 +35,7 @@ final class af extends t {
     protected final void b() {
         com.google.android.play.integrity.internal.s sVar;
         try {
-            ((n) this.e.a.e()).d(aj.a(this.e, this.a, this.b, null), new ai(this.e, this.c));
+            ((com.google.android.play.integrity.internal.n) this.e.a.e()).d(aj.a(this.e, this.a, this.b, null), new ai(this.e, this.c));
         } catch (RemoteException e) {
             aj ajVar = this.e;
             IntegrityTokenRequest integrityTokenRequest = this.d;

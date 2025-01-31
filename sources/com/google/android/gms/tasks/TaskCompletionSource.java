@@ -1,7 +1,7 @@
 package com.google.android.gms.tasks;
 
 /* loaded from: classes.dex */
-public class TaskCompletionSource {
+public class TaskCompletionSource<TResult> {
     private final zzw zza = new zzw();
 
     public TaskCompletionSource() {
@@ -11,7 +11,7 @@ public class TaskCompletionSource {
         cancellationToken.onCanceledRequested(new zzs(this));
     }
 
-    public Task getTask() {
+    public Task<TResult> getTask() {
         return this.zza;
     }
 
@@ -19,15 +19,15 @@ public class TaskCompletionSource {
         this.zza.zza(exc);
     }
 
-    public void setResult(Object obj) {
-        this.zza.zzb(obj);
+    public void setResult(TResult tresult) {
+        this.zza.zzb(tresult);
     }
 
     public boolean trySetException(Exception exc) {
         return this.zza.zzd(exc);
     }
 
-    public boolean trySetResult(Object obj) {
-        return this.zza.zze(obj);
+    public boolean trySetResult(TResult tresult) {
+        return this.zza.zze(tresult);
     }
 }

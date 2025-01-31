@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.telegram.messenger.utils.BillingUtilities;
-import org.telegram.messenger.voip.VoIPController;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -85,9 +84,9 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             return "NETWORK_ERROR";
         }
         switch (i) {
-            case VoIPController.ERROR_LOCALIZED /* -3 */:
+            case -3:
                 return "SERVICE_TIMEOUT";
-            case VoIPController.ERROR_PRIVACY /* -2 */:
+            case -2:
                 return "FEATURE_NOT_SUPPORTED";
             case -1:
                 return "SERVICE_DISCONNECTED";

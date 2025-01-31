@@ -277,7 +277,7 @@ public class QuoteSpan implements LeadingMarginSpan {
             this.paint = paint;
             Path path = new Path();
             this.path = path;
-            this.alpha = NotificationCenter.newLocationAvailable;
+            this.alpha = NotificationCenter.liveLocationsChanged;
             this.view = view;
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeCap(Paint.Cap.ROUND);

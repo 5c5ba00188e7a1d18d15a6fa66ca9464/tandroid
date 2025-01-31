@@ -1,20 +1,53 @@
 package kotlinx.coroutines.internal;
 
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.coroutines.EmptyCoroutineContext;
 import kotlinx.coroutines.CoroutineDispatcher;
 import kotlinx.coroutines.CoroutineExceptionHandlerKt;
 import kotlinx.coroutines.DefaultExecutorKt;
 import kotlinx.coroutines.Delay;
+import kotlinx.coroutines.DisposableHandle;
 
 /* loaded from: classes.dex */
-public final class LimitedDispatcher extends CoroutineDispatcher implements Runnable, Delay {
+public final class LimitedDispatcher extends CoroutineDispatcher implements Delay {
+    private static final AtomicIntegerFieldUpdater runningWorkers$FU = AtomicIntegerFieldUpdater.newUpdater(LimitedDispatcher.class, "runningWorkers");
     private final /* synthetic */ Delay $$delegate_0;
     private final CoroutineDispatcher dispatcher;
     private final int parallelism;
     private final LockFreeTaskQueue queue;
     private volatile int runningWorkers;
     private final Object workerAllocationLock;
+
+    private final class Worker implements Runnable {
+        private Runnable currentTask;
+
+        public Worker(Runnable runnable) {
+            this.currentTask = runnable;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            int i = 0;
+            while (true) {
+                try {
+                    this.currentTask.run();
+                } catch (Throwable th) {
+                    CoroutineExceptionHandlerKt.handleCoroutineException(EmptyCoroutineContext.INSTANCE, th);
+                }
+                Runnable obtainTaskOrDeallocateWorker = LimitedDispatcher.this.obtainTaskOrDeallocateWorker();
+                if (obtainTaskOrDeallocateWorker == null) {
+                    return;
+                }
+                this.currentTask = obtainTaskOrDeallocateWorker;
+                i++;
+                if (i >= 16 && LimitedDispatcher.this.dispatcher.isDispatchNeeded(LimitedDispatcher.this)) {
+                    LimitedDispatcher.this.dispatcher.dispatch(LimitedDispatcher.this, this);
+                    return;
+                }
+            }
+        }
+    }
 
     /* JADX WARN: Multi-variable type inference failed */
     public LimitedDispatcher(CoroutineDispatcher coroutineDispatcher, int i) {
@@ -26,81 +59,47 @@ public final class LimitedDispatcher extends CoroutineDispatcher implements Runn
         this.workerAllocationLock = new Object();
     }
 
-    private final boolean addAndTryDispatching(Runnable runnable) {
-        this.queue.addLast(runnable);
-        return this.runningWorkers >= this.parallelism;
+    /* JADX INFO: Access modifiers changed from: private */
+    public final Runnable obtainTaskOrDeallocateWorker() {
+        while (true) {
+            Runnable runnable = (Runnable) this.queue.removeFirstOrNull();
+            if (runnable != null) {
+                return runnable;
+            }
+            synchronized (this.workerAllocationLock) {
+                AtomicIntegerFieldUpdater atomicIntegerFieldUpdater = runningWorkers$FU;
+                atomicIntegerFieldUpdater.decrementAndGet(this);
+                if (this.queue.getSize() == 0) {
+                    return null;
+                }
+                atomicIntegerFieldUpdater.incrementAndGet(this);
+            }
+        }
     }
 
     private final boolean tryAllocateWorker() {
         synchronized (this.workerAllocationLock) {
-            if (this.runningWorkers >= this.parallelism) {
+            AtomicIntegerFieldUpdater atomicIntegerFieldUpdater = runningWorkers$FU;
+            if (atomicIntegerFieldUpdater.get(this) >= this.parallelism) {
                 return false;
             }
-            this.runningWorkers++;
+            atomicIntegerFieldUpdater.incrementAndGet(this);
             return true;
         }
     }
 
     @Override // kotlinx.coroutines.CoroutineDispatcher
     public void dispatch(CoroutineContext coroutineContext, Runnable runnable) {
-        if (!addAndTryDispatching(runnable) && tryAllocateWorker()) {
-            this.dispatcher.dispatch(this, this);
+        Runnable obtainTaskOrDeallocateWorker;
+        this.queue.addLast(runnable);
+        if (runningWorkers$FU.get(this) >= this.parallelism || !tryAllocateWorker() || (obtainTaskOrDeallocateWorker = obtainTaskOrDeallocateWorker()) == null) {
+            return;
         }
+        this.dispatcher.dispatch(this, new Worker(obtainTaskOrDeallocateWorker));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x002a, code lost:
-    
-        r1 = r4.workerAllocationLock;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:24:0x002c, code lost:
-    
-        monitor-enter(r1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x002d, code lost:
-    
-        r4.runningWorkers--;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0039, code lost:
-    
-        if (r4.queue.getSize() != 0) goto L22;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x003d, code lost:
-    
-        r4.runningWorkers++;
-        r2 = kotlin.Unit.INSTANCE;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x003b, code lost:
-    
-        monitor-exit(r1);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x003c, code lost:
-    
-        return;
-     */
-    @Override // java.lang.Runnable
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public void run() {
-        Object obj;
-        while (true) {
-            int i = 0;
-            while (true) {
-                Runnable runnable = (Runnable) this.queue.removeFirstOrNull();
-                if (runnable == null) {
-                    break;
-                }
-                try {
-                    runnable.run();
-                } catch (Throwable th) {
-                    CoroutineExceptionHandlerKt.handleCoroutineException(EmptyCoroutineContext.INSTANCE, th);
-                }
-                i++;
-                if (i >= 16 && this.dispatcher.isDispatchNeeded(this)) {
-                    this.dispatcher.dispatch(this, this);
-                    return;
-                }
-            }
-        }
+    @Override // kotlinx.coroutines.Delay
+    public DisposableHandle invokeOnTimeout(long j, Runnable runnable, CoroutineContext coroutineContext) {
+        return this.$$delegate_0.invokeOnTimeout(j, runnable, coroutineContext);
     }
 }

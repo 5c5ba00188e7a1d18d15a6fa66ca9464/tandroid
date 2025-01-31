@@ -44,4 +44,8 @@ public interface ContinuationInterceptor extends CoroutineContext.Element {
         private Key() {
         }
     }
+
+    Continuation interceptContinuation(Continuation continuation);
+
+    void releaseInterceptedContinuation(Continuation continuation);
 }

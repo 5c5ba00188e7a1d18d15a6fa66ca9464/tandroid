@@ -121,7 +121,7 @@ public final class LocalDate implements j$.time.temporal.k, j$.time.chrono.b, Se
         }
         int i = (int) j6;
         int i2 = ((i * 5) + 2) / NotificationCenter.recordStopped;
-        return new LocalDate(j$.time.temporal.a.YEAR.f(j5 + j2 + (i2 / 10)), ((i2 + 2) % 12) + 1, (i - (((i2 * NotificationCenter.nearEarEvent) + 5) / 10)) + 1);
+        return new LocalDate(j$.time.temporal.a.YEAR.f(j5 + j2 + (i2 / 10)), ((i2 + 2) % 12) + 1, (i - (((i2 * NotificationCenter.storiesReadUpdated) + 5) / 10)) + 1);
     }
 
     private static LocalDate r(int i, int i2, int i3) {

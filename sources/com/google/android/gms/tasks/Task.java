@@ -4,32 +4,64 @@ import android.app.Activity;
 import java.util.concurrent.Executor;
 
 /* loaded from: classes.dex */
-public abstract class Task {
-    public abstract Task addOnCanceledListener(Executor executor, OnCanceledListener onCanceledListener);
+public abstract class Task<TResult> {
+    public Task<TResult> addOnCanceledListener(Activity activity, OnCanceledListener onCanceledListener) {
+        throw new UnsupportedOperationException("addOnCanceledListener is not implemented.");
+    }
 
-    public abstract Task addOnCompleteListener(Activity activity, OnCompleteListener onCompleteListener);
+    public Task<TResult> addOnCanceledListener(OnCanceledListener onCanceledListener) {
+        throw new UnsupportedOperationException("addOnCanceledListener is not implemented.");
+    }
 
-    public abstract Task addOnCompleteListener(OnCompleteListener onCompleteListener);
+    public Task<TResult> addOnCanceledListener(Executor executor, OnCanceledListener onCanceledListener) {
+        throw new UnsupportedOperationException("addOnCanceledListener is not implemented");
+    }
 
-    public abstract Task addOnCompleteListener(Executor executor, OnCompleteListener onCompleteListener);
+    public Task<TResult> addOnCompleteListener(Activity activity, OnCompleteListener<TResult> onCompleteListener) {
+        throw new UnsupportedOperationException("addOnCompleteListener is not implemented");
+    }
 
-    public abstract Task addOnFailureListener(OnFailureListener onFailureListener);
+    public Task<TResult> addOnCompleteListener(OnCompleteListener<TResult> onCompleteListener) {
+        throw new UnsupportedOperationException("addOnCompleteListener is not implemented");
+    }
 
-    public abstract Task addOnFailureListener(Executor executor, OnFailureListener onFailureListener);
+    public Task<TResult> addOnCompleteListener(Executor executor, OnCompleteListener<TResult> onCompleteListener) {
+        throw new UnsupportedOperationException("addOnCompleteListener is not implemented");
+    }
 
-    public abstract Task addOnSuccessListener(OnSuccessListener onSuccessListener);
+    public abstract Task<TResult> addOnFailureListener(Activity activity, OnFailureListener onFailureListener);
 
-    public abstract Task addOnSuccessListener(Executor executor, OnSuccessListener onSuccessListener);
+    public abstract Task<TResult> addOnFailureListener(OnFailureListener onFailureListener);
 
-    public abstract Task continueWith(Executor executor, Continuation continuation);
+    public abstract Task<TResult> addOnFailureListener(Executor executor, OnFailureListener onFailureListener);
 
-    public abstract Task continueWithTask(Executor executor, Continuation continuation);
+    public abstract Task<TResult> addOnSuccessListener(Activity activity, OnSuccessListener<? super TResult> onSuccessListener);
+
+    public abstract Task<TResult> addOnSuccessListener(OnSuccessListener<? super TResult> onSuccessListener);
+
+    public abstract Task<TResult> addOnSuccessListener(Executor executor, OnSuccessListener<? super TResult> onSuccessListener);
+
+    public <TContinuationResult> Task<TContinuationResult> continueWith(Continuation<TResult, TContinuationResult> continuation) {
+        throw new UnsupportedOperationException("continueWith is not implemented");
+    }
+
+    public <TContinuationResult> Task<TContinuationResult> continueWith(Executor executor, Continuation<TResult, TContinuationResult> continuation) {
+        throw new UnsupportedOperationException("continueWith is not implemented");
+    }
+
+    public <TContinuationResult> Task<TContinuationResult> continueWithTask(Continuation<TResult, Task<TContinuationResult>> continuation) {
+        throw new UnsupportedOperationException("continueWithTask is not implemented");
+    }
+
+    public <TContinuationResult> Task<TContinuationResult> continueWithTask(Executor executor, Continuation<TResult, Task<TContinuationResult>> continuation) {
+        throw new UnsupportedOperationException("continueWithTask is not implemented");
+    }
 
     public abstract Exception getException();
 
-    public abstract Object getResult();
+    public abstract TResult getResult();
 
-    public abstract Object getResult(Class cls);
+    public abstract <X extends Throwable> TResult getResult(Class<X> cls);
 
     public abstract boolean isCanceled();
 
@@ -37,7 +69,11 @@ public abstract class Task {
 
     public abstract boolean isSuccessful();
 
-    public abstract Task onSuccessTask(SuccessContinuation successContinuation);
+    public <TContinuationResult> Task<TContinuationResult> onSuccessTask(SuccessContinuation<TResult, TContinuationResult> successContinuation) {
+        throw new UnsupportedOperationException("onSuccessTask is not implemented");
+    }
 
-    public abstract Task onSuccessTask(Executor executor, SuccessContinuation successContinuation);
+    public <TContinuationResult> Task<TContinuationResult> onSuccessTask(Executor executor, SuccessContinuation<TResult, TContinuationResult> successContinuation) {
+        throw new UnsupportedOperationException("onSuccessTask is not implemented");
+    }
 }

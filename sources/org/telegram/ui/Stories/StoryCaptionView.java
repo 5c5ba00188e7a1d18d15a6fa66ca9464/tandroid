@@ -1136,7 +1136,7 @@ public class StoryCaptionView extends NestedScrollView {
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             if (this.showMore != null) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.liveLocationsChanged, 31);
             } else {
                 canvas.save();
             }

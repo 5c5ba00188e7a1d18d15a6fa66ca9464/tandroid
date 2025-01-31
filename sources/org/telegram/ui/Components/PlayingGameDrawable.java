@@ -78,15 +78,15 @@ public class PlayingGameDrawable extends StatusDrawable {
             float f2 = this.progress;
             float f3 = dp2 - (dp3 * f2);
             if (i3 == 2) {
-                this.paint.setAlpha(Math.min(NotificationCenter.newLocationAvailable, (int) ((f2 * 255.0f) / 0.5f)));
+                this.paint.setAlpha(Math.min(NotificationCenter.liveLocationsChanged, (int) ((f2 * 255.0f) / 0.5f)));
             } else if (i3 != 0 || f2 <= 0.5f) {
-                this.paint.setAlpha(NotificationCenter.newLocationAvailable);
+                this.paint.setAlpha(NotificationCenter.liveLocationsChanged);
             } else {
                 this.paint.setAlpha((int) ((1.0f - ((f2 - 0.5f) / 0.5f)) * 255.0f));
             }
             canvas.drawCircle(f3, (dp / 2) + i, AndroidUtilities.dp(1.2f), this.paint);
         }
-        this.paint.setAlpha(NotificationCenter.newLocationAvailable);
+        this.paint.setAlpha(NotificationCenter.liveLocationsChanged);
         canvas.drawArc(this.rect, i2, 360 - (i2 * 2), true, this.paint);
         this.paint.setColor(Theme.getColor(this.isDialogScreen ? Theme.key_windowBackgroundWhite : Theme.key_actionBarDefault));
         canvas.drawCircle(AndroidUtilities.dp(4.0f), (i + (dp / 2)) - AndroidUtilities.dp(2.0f), AndroidUtilities.dp(1.0f), this.paint);

@@ -189,7 +189,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                     return;
                 }
                 this.darkPaint.setAlpha((int) ((r2 * 35) / 100.0f));
-                this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * NotificationCenter.newLocationAvailable) / 100.0f));
+                this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * NotificationCenter.liveLocationsChanged) / 100.0f));
                 canvas.drawCircle(width, height, this.maxRadius, this.whiteCirclePaint);
                 this.singleIcon.draw(canvas, this.maskPaint);
                 this.singleIcon.draw(canvas, this.darkPaint);
@@ -209,7 +209,7 @@ public class VoIpSwitchLayout extends FrameLayout {
             if (i3 == i2 && i > 0 && i != i2) {
                 canvas.drawCircle(width, height, i3, this.whiteCirclePaint);
                 canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
-                this.selectedIcon.setAlpha(NotificationCenter.newLocationAvailable);
+                this.selectedIcon.setAlpha(NotificationCenter.liveLocationsChanged);
                 this.selectedIcon.draw(canvas, this.maskPaint);
                 this.selectedIcon.setAlpha(35);
                 this.selectedIcon.draw(canvas);
@@ -230,7 +230,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                 this.clipPath.addCircle(width, height, this.selectedRadius, Path.Direction.CW);
                 canvas.clipPath(this.clipPath);
                 canvas.drawCircle(width, height, this.selectedRadius, this.whiteCirclePaint);
-                this.selectedIcon.setAlpha(NotificationCenter.newLocationAvailable);
+                this.selectedIcon.setAlpha(NotificationCenter.liveLocationsChanged);
                 this.selectedIcon.draw(canvas, this.maskPaint);
                 this.selectedIcon.setAlpha(35);
                 this.selectedIcon.draw(canvas);

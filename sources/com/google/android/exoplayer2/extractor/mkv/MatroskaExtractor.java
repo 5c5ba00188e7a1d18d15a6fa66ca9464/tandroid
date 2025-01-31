@@ -316,22 +316,22 @@ public class MatroskaExtractor implements Extractor {
                 int i3 = 1;
                 int i4 = 0;
                 while (true) {
-                    i = bArr[i3] & NotificationCenter.newLocationAvailable;
+                    i = bArr[i3] & NotificationCenter.liveLocationsChanged;
                     if (i != 255) {
                         break;
                     }
-                    i4 += NotificationCenter.newLocationAvailable;
+                    i4 += NotificationCenter.liveLocationsChanged;
                     i3++;
                 }
                 int i5 = i3 + 1;
                 int i6 = i4 + i;
                 int i7 = 0;
                 while (true) {
-                    i2 = bArr[i5] & NotificationCenter.newLocationAvailable;
+                    i2 = bArr[i5] & NotificationCenter.liveLocationsChanged;
                     if (i2 != 255) {
                         break;
                     }
-                    i7 += NotificationCenter.newLocationAvailable;
+                    i7 += NotificationCenter.liveLocationsChanged;
                     i5++;
                 }
                 int i8 = i5 + 1;
@@ -687,7 +687,7 @@ public class MatroskaExtractor implements Extractor {
                                 } else if (Float.compare(this.projectionPosePitch, -180.0f) == 0 || Float.compare(this.projectionPosePitch, 180.0f) == 0) {
                                     i7 = NotificationCenter.updateBotMenuButton;
                                 } else if (Float.compare(this.projectionPosePitch, -90.0f) == 0) {
-                                    i7 = NotificationCenter.emojiPreviewThemesChanged;
+                                    i7 = NotificationCenter.onEmojiInteractionsReceived;
                                 }
                             }
                             builder.setWidth(this.width).setHeight(this.height).setPixelWidthHeightRatio(f).setRotationDegrees(i7).setProjectionData(this.projectionData).setStereoMode(this.stereoMode).setColorInfo(colorInfo);
@@ -1525,7 +1525,7 @@ public class MatroskaExtractor implements Extractor {
         hashMap.put("htc_video_rotA-000", 0);
         hashMap.put("htc_video_rotA-090", 90);
         hashMap.put("htc_video_rotA-180", Integer.valueOf(NotificationCenter.updateBotMenuButton));
-        hashMap.put("htc_video_rotA-270", Integer.valueOf(NotificationCenter.emojiPreviewThemesChanged));
+        hashMap.put("htc_video_rotA-270", Integer.valueOf(NotificationCenter.onEmojiInteractionsReceived));
         TRACK_NAME_TO_ROTATION_DEGREES = Collections.unmodifiableMap(hashMap);
     }
 
@@ -1905,10 +1905,10 @@ public class MatroskaExtractor implements Extractor {
                         this.supplementalData.reset(0);
                         int limit = (this.sampleStrippedBytes.limit() + i) - this.sampleBytesRead;
                         this.scratch.reset(4);
-                        this.scratch.getData()[0] = (byte) ((limit >> 24) & NotificationCenter.newLocationAvailable);
-                        this.scratch.getData()[1] = (byte) ((limit >> 16) & NotificationCenter.newLocationAvailable);
-                        this.scratch.getData()[2] = (byte) ((limit >> 8) & NotificationCenter.newLocationAvailable);
-                        this.scratch.getData()[3] = (byte) (limit & NotificationCenter.newLocationAvailable);
+                        this.scratch.getData()[0] = (byte) ((limit >> 24) & NotificationCenter.liveLocationsChanged);
+                        this.scratch.getData()[1] = (byte) ((limit >> 16) & NotificationCenter.liveLocationsChanged);
+                        this.scratch.getData()[2] = (byte) ((limit >> 8) & NotificationCenter.liveLocationsChanged);
+                        this.scratch.getData()[3] = (byte) (limit & NotificationCenter.liveLocationsChanged);
                         trackOutput.sampleData(this.scratch, 4, 2);
                         this.sampleBytesWritten += 4;
                     }
@@ -2395,10 +2395,10 @@ public class MatroskaExtractor implements Extractor {
             case NotificationCenter.suggestedFiltersLoaded /* 179 */:
             case NotificationCenter.didUpdatePremiumGiftFieldIcon /* 186 */:
             case NotificationCenter.factCheckLoaded /* 215 */:
-            case NotificationCenter.didReceiveSmsCode /* 231 */:
-            case NotificationCenter.didSetNewTheme /* 238 */:
-            case NotificationCenter.themeAccentListUpdated /* 241 */:
-            case NotificationCenter.proxySettingsChanged /* 251 */:
+            case NotificationCenter.wallpapersNeedReload /* 231 */:
+            case NotificationCenter.didReplacedPhotoInMemCache /* 238 */:
+            case NotificationCenter.didApplyNewTheme /* 241 */:
+            case NotificationCenter.didSetNewWallpapper /* 251 */:
             case 16871:
             case 16980:
             case 17029:
@@ -2552,13 +2552,13 @@ public class MatroskaExtractor implements Extractor {
             case NotificationCenter.factCheckLoaded /* 215 */:
                 getCurrentTrack(i).number = (int) j;
                 return;
-            case NotificationCenter.didReceiveSmsCode /* 231 */:
+            case NotificationCenter.wallpapersNeedReload /* 231 */:
                 this.clusterTimecodeUs = scaleTimecodeToUs(j);
                 return;
-            case NotificationCenter.didSetNewTheme /* 238 */:
+            case NotificationCenter.didReplacedPhotoInMemCache /* 238 */:
                 this.blockAdditionalId = (int) j;
                 return;
-            case NotificationCenter.themeAccentListUpdated /* 241 */:
+            case NotificationCenter.didApplyNewTheme /* 241 */:
                 if (this.seenClusterPositionForCurrentCuePoint) {
                     return;
                 }
@@ -2566,7 +2566,7 @@ public class MatroskaExtractor implements Extractor {
                 this.cueClusterPositions.add(j);
                 this.seenClusterPositionForCurrentCuePoint = true;
                 return;
-            case NotificationCenter.proxySettingsChanged /* 251 */:
+            case NotificationCenter.didSetNewWallpapper /* 251 */:
                 this.blockHasReferenceBlock = true;
                 return;
             case 16871:

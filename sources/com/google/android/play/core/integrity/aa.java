@@ -11,7 +11,7 @@ final class aa implements IntegrityManager {
     }
 
     @Override // com.google.android.play.core.integrity.IntegrityManager
-    public final Task requestIntegrityToken(IntegrityTokenRequest integrityTokenRequest) {
+    public final Task<IntegrityTokenResponse> requestIntegrityToken(IntegrityTokenRequest integrityTokenRequest) {
         return this.a.c(integrityTokenRequest);
     }
 }

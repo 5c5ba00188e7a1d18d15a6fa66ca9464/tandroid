@@ -1598,12 +1598,12 @@ public class ChatAttachAlertPollLayout extends ChatAttachAlert.AttachAlertLayout
         PollEditTextCell pollEditTextCell = (PollEditTextCell) view;
         if (i == this.questionRow) {
             charSequence = this.questionString;
-            i3 = NotificationCenter.newLocationAvailable;
+            i3 = NotificationCenter.liveLocationsChanged;
             if (charSequence != null) {
-                i2 = NotificationCenter.newLocationAvailable;
+                i2 = NotificationCenter.liveLocationsChanged;
                 i5 = charSequence.length();
             } else {
-                i4 = NotificationCenter.newLocationAvailable;
+                i4 = NotificationCenter.liveLocationsChanged;
                 i2 = i4;
                 i5 = 0;
             }

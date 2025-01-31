@@ -1,5 +1,7 @@
 package kotlin.jvm.internal;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -56,11 +58,58 @@ public final class ClassReference implements KClass, ClassBasedDeclarationContai
         public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
             this();
         }
+
+        /* JADX WARN: Code restructure failed: missing block: B:8:0x003d, code lost:
+        
+            if (r2 == null) goto L13;
+         */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
+        public final String getClassSimpleName(Class jClass) {
+            String str;
+            String str2;
+            String substringAfter$default;
+            String substringAfter$default2;
+            Intrinsics.checkNotNullParameter(jClass, "jClass");
+            String str3 = null;
+            if (jClass.isAnonymousClass()) {
+                return null;
+            }
+            if (jClass.isLocalClass()) {
+                String name = jClass.getSimpleName();
+                Method enclosingMethod = jClass.getEnclosingMethod();
+                if (enclosingMethod != null) {
+                    Intrinsics.checkNotNullExpressionValue(name, "name");
+                    str = StringsKt__StringsKt.substringAfter$default(name, enclosingMethod.getName() + '$', (String) null, 2, (Object) null);
+                }
+                Constructor<?> enclosingConstructor = jClass.getEnclosingConstructor();
+                Intrinsics.checkNotNullExpressionValue(name, "name");
+                if (enclosingConstructor == null) {
+                    substringAfter$default = StringsKt__StringsKt.substringAfter$default(name, '$', (String) null, 2, (Object) null);
+                    return substringAfter$default;
+                }
+                substringAfter$default2 = StringsKt__StringsKt.substringAfter$default(name, enclosingConstructor.getName() + '$', (String) null, 2, (Object) null);
+                return substringAfter$default2;
+            }
+            if (!jClass.isArray()) {
+                String str4 = (String) ClassReference.simpleNames.get(jClass.getName());
+                return str4 == null ? jClass.getSimpleName() : str4;
+            }
+            Class<?> componentType = jClass.getComponentType();
+            str = "Array";
+            if (componentType.isPrimitive() && (str2 = (String) ClassReference.simpleNames.get(componentType.getName())) != null) {
+                str3 = str2 + "Array";
+            }
+            if (str3 != null) {
+                return str3;
+            }
+            return str;
+        }
     }
 
     static {
         List listOf;
-        int collectionSizeOrDefault;
         Map map;
         int mapCapacity;
         String substringAfterLast$default;
@@ -68,8 +117,7 @@ public final class ClassReference implements KClass, ClassBasedDeclarationContai
         int i = 0;
         listOf = CollectionsKt__CollectionsKt.listOf((Object[]) new Class[]{Function0.class, Function1.class, Function2.class, Function3.class, Function4.class, Function5.class, Function6.class, Function7.class, Function8.class, Function9.class, Function10.class, Function11.class, Function12.class, Function13.class, Function14.class, Function15.class, Function16.class, Function17.class, Function18.class, Function19.class, Function20.class, Function21.class, Function22.class});
         List list = listOf;
-        collectionSizeOrDefault = CollectionsKt__IterablesKt.collectionSizeOrDefault(list, 10);
-        ArrayList arrayList = new ArrayList(collectionSizeOrDefault);
+        ArrayList arrayList = new ArrayList(CollectionsKt__IterablesKt.collectionSizeOrDefault(list, 10));
         for (Object obj : list) {
             int i2 = i + 1;
             if (i < 0) {
@@ -160,6 +208,11 @@ public final class ClassReference implements KClass, ClassBasedDeclarationContai
     @Override // kotlin.jvm.internal.ClassBasedDeclarationContainer
     public Class getJClass() {
         return this.jClass;
+    }
+
+    @Override // kotlin.reflect.KClass
+    public String getSimpleName() {
+        return Companion.getClassSimpleName(getJClass());
     }
 
     public int hashCode() {

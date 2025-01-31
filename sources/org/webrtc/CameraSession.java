@@ -32,7 +32,7 @@ interface CameraSession {
             if (rotation != 3) {
                 return 0;
             }
-            return NotificationCenter.emojiPreviewThemesChanged;
+            return NotificationCenter.onEmojiInteractionsReceived;
         }
     }
 

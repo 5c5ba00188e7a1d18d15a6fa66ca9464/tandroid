@@ -601,8 +601,8 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     /* JADX WARN: Removed duplicated region for block: B:110:0x068e  */
     /* JADX WARN: Removed duplicated region for block: B:115:0x06b6  */
     /* JADX WARN: Removed duplicated region for block: B:121:0x051d  */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x04d6  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x04c5  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x04d6  */
+    /* JADX WARN: Removed duplicated region for block: B:156:0x04c5  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x04bd  */
     /* JADX WARN: Removed duplicated region for block: B:72:0x04cc  */
     /* JADX WARN: Removed duplicated region for block: B:75:0x04db  */
@@ -1391,10 +1391,10 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
                             }
                             return sizeNotifierFrameLayout;
                         }
-                        this.nameTextView[r5].setText(LocaleController.getString("ProfileMyStories"));
+                        this.nameTextView[r5].setText(LocaleController.getString(R.string.ProfileMyStories));
                         simpleTextView2 = this.nameTextView[1];
                     }
-                    simpleTextView2.setText(LocaleController.getString("ProfileStoriesArchive"));
+                    simpleTextView2.setText(LocaleController.getString(R.string.ProfileStoriesArchive));
                 }
                 avatarDrawable4 = avatarDrawable5;
                 user2 = null;

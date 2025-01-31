@@ -8,16 +8,16 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 
 /* loaded from: classes.dex */
 public final class LockFreeTaskQueueCore {
-    public static final Companion Companion = new Companion(null);
-    public static final Symbol REMOVE_FROZEN = new Symbol("REMOVE_FROZEN");
-    private static final /* synthetic */ AtomicReferenceFieldUpdater _next$FU = AtomicReferenceFieldUpdater.newUpdater(LockFreeTaskQueueCore.class, Object.class, "_next");
-    private static final /* synthetic */ AtomicLongFieldUpdater _state$FU = AtomicLongFieldUpdater.newUpdater(LockFreeTaskQueueCore.class, "_state");
-    private volatile /* synthetic */ Object _next = null;
-    private volatile /* synthetic */ long _state = 0;
-    private /* synthetic */ AtomicReferenceArray array;
+    private volatile Object _next;
+    private volatile long _state;
+    private final AtomicReferenceArray array;
     private final int capacity;
     private final int mask;
     private final boolean singleConsumer;
+    public static final Companion Companion = new Companion(null);
+    private static final AtomicReferenceFieldUpdater _next$FU = AtomicReferenceFieldUpdater.newUpdater(LockFreeTaskQueueCore.class, Object.class, "_next");
+    private static final AtomicLongFieldUpdater _state$FU = AtomicLongFieldUpdater.newUpdater(LockFreeTaskQueueCore.class, "_state");
+    public static final Symbol REMOVE_FROZEN = new Symbol("REMOVE_FROZEN");
 
     public static final class Companion {
         private Companion() {
@@ -73,7 +73,7 @@ public final class LockFreeTaskQueueCore {
         while (true) {
             int i3 = this.mask;
             if ((i & i3) == (i2 & i3)) {
-                lockFreeTaskQueueCore._state = Companion.wo(j, 1152921504606846976L);
+                _state$FU.set(lockFreeTaskQueueCore, Companion.wo(j, 1152921504606846976L));
                 return lockFreeTaskQueueCore;
             }
             Object obj = this.array.get(i3 & i);
@@ -86,8 +86,9 @@ public final class LockFreeTaskQueueCore {
     }
 
     private final LockFreeTaskQueueCore allocateOrGetNextCopy(long j) {
+        AtomicReferenceFieldUpdater atomicReferenceFieldUpdater = _next$FU;
         while (true) {
-            LockFreeTaskQueueCore lockFreeTaskQueueCore = (LockFreeTaskQueueCore) this._next;
+            LockFreeTaskQueueCore lockFreeTaskQueueCore = (LockFreeTaskQueueCore) atomicReferenceFieldUpdater.get(this);
             if (lockFreeTaskQueueCore != null) {
                 return lockFreeTaskQueueCore;
             }
@@ -107,31 +108,33 @@ public final class LockFreeTaskQueueCore {
     private final long markFrozen() {
         long j;
         long j2;
+        AtomicLongFieldUpdater atomicLongFieldUpdater = _state$FU;
         do {
-            j = this._state;
+            j = atomicLongFieldUpdater.get(this);
             if ((j & 1152921504606846976L) != 0) {
                 return j;
             }
             j2 = j | 1152921504606846976L;
-        } while (!_state$FU.compareAndSet(this, j, j2));
+        } while (!atomicLongFieldUpdater.compareAndSet(this, j, j2));
         return j2;
     }
 
     private final LockFreeTaskQueueCore removeSlowPath(int i, int i2) {
         long j;
         int i3;
+        AtomicLongFieldUpdater atomicLongFieldUpdater = _state$FU;
         do {
-            j = this._state;
+            j = atomicLongFieldUpdater.get(this);
             i3 = (int) (1073741823 & j);
             if ((1152921504606846976L & j) != 0) {
                 return next();
             }
         } while (!_state$FU.compareAndSet(this, j, Companion.updateHead(j, i2)));
-        this.array.set(i3 & this.mask, null);
+        this.array.set(this.mask & i3, null);
         return null;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x004a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x004e, code lost:
     
         return 1;
      */
@@ -139,8 +142,9 @@ public final class LockFreeTaskQueueCore {
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public final int addLast(Object obj) {
+        AtomicLongFieldUpdater atomicLongFieldUpdater = _state$FU;
         while (true) {
-            long j = this._state;
+            long j = atomicLongFieldUpdater.get(this);
             if ((3458764513820540928L & j) != 0) {
                 return Companion.addFailReason(j);
             }
@@ -158,7 +162,7 @@ public final class LockFreeTaskQueueCore {
             } else if (_state$FU.compareAndSet(this, j, Companion.updateTail(j, (i2 + 1) & 1073741823))) {
                 this.array.set(i2 & i3, obj);
                 LockFreeTaskQueueCore lockFreeTaskQueueCore = this;
-                while ((lockFreeTaskQueueCore._state & 1152921504606846976L) != 0 && (lockFreeTaskQueueCore = lockFreeTaskQueueCore.next().fillPlaceholder(i2, obj)) != null) {
+                while ((_state$FU.get(lockFreeTaskQueueCore) & 1152921504606846976L) != 0 && (lockFreeTaskQueueCore = lockFreeTaskQueueCore.next().fillPlaceholder(i2, obj)) != null) {
                 }
                 return 0;
             }
@@ -167,25 +171,26 @@ public final class LockFreeTaskQueueCore {
 
     public final boolean close() {
         long j;
+        AtomicLongFieldUpdater atomicLongFieldUpdater = _state$FU;
         do {
-            j = this._state;
+            j = atomicLongFieldUpdater.get(this);
             if ((j & 2305843009213693952L) != 0) {
                 return true;
             }
             if ((1152921504606846976L & j) != 0) {
                 return false;
             }
-        } while (!_state$FU.compareAndSet(this, j, j | 2305843009213693952L));
+        } while (!atomicLongFieldUpdater.compareAndSet(this, j, j | 2305843009213693952L));
         return true;
     }
 
     public final int getSize() {
-        long j = this._state;
+        long j = _state$FU.get(this);
         return 1073741823 & (((int) ((j & 1152921503533105152L) >> 30)) - ((int) (1073741823 & j)));
     }
 
     public final boolean isEmpty() {
-        long j = this._state;
+        long j = _state$FU.get(this);
         return ((int) (1073741823 & j)) == ((int) ((j & 1152921503533105152L) >> 30));
     }
 
@@ -194,8 +199,9 @@ public final class LockFreeTaskQueueCore {
     }
 
     public final Object removeFirstOrNull() {
+        AtomicLongFieldUpdater atomicLongFieldUpdater = _state$FU;
         while (true) {
-            long j = this._state;
+            long j = atomicLongFieldUpdater.get(this);
             if ((1152921504606846976L & j) != 0) {
                 return REMOVE_FROZEN;
             }

@@ -284,7 +284,7 @@ public class FilesMigrationService extends Service {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateProgress$1(int i) {
-        ((NotificationManager) getSystemService("notification")).notify(NotificationCenter.uploadStoryEnd, new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(R.string.MigratingFiles)).setContentText(String.format("%s/%s", Integer.valueOf(i), Integer.valueOf(this.totalFilesCount))).setSmallIcon(R.drawable.notification).setAutoCancel(false).setProgress(this.totalFilesCount, i, false).build());
+        ((NotificationManager) getSystemService("notification")).notify(NotificationCenter.uploadStoryProgress, new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(R.string.MigratingFiles)).setContentText(String.format("%s/%s", Integer.valueOf(i), Integer.valueOf(this.totalFilesCount))).setSmallIcon(R.drawable.notification).setAutoCancel(false).setProgress(this.totalFilesCount, i, false).build());
     }
 
     private void moveDirectory(File file, final File file2) {
@@ -379,7 +379,7 @@ public class FilesMigrationService extends Service {
         Notification build = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(getText(R.string.MigratingFiles)).setAutoCancel(false).setSmallIcon(R.drawable.notification).build();
         isRunning = true;
         new 1().start();
-        startForeground(NotificationCenter.uploadStoryEnd, build);
+        startForeground(NotificationCenter.uploadStoryProgress, build);
         return super.onStartCommand(intent, i, i2);
     }
 }

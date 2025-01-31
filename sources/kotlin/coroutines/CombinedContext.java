@@ -95,6 +95,11 @@ public final class CombinedContext implements CoroutineContext, Serializable {
         return minusKey == this.left ? this : minusKey == EmptyCoroutineContext.INSTANCE ? this.element : new CombinedContext(minusKey, this.element);
     }
 
+    @Override // kotlin.coroutines.CoroutineContext
+    public CoroutineContext plus(CoroutineContext coroutineContext) {
+        return CoroutineContext.DefaultImpls.plus(this, coroutineContext);
+    }
+
     public String toString() {
         return '[' + ((String) fold("", new Function2() { // from class: kotlin.coroutines.CombinedContext$toString$1
             @Override // kotlin.jvm.functions.Function2

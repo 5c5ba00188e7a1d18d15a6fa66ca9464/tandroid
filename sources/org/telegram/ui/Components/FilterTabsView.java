@@ -1046,7 +1046,7 @@ public abstract class FilterTabsView extends FrameLayout {
             float dp3 = ((z7 && this.titleAnimateOutLayout == null) ? (f2 - this.titleXOffset) + f3 + f14 : f2 + f14) + AndroidUtilities.dp(6.0f);
             int measuredHeight3 = (getMeasuredHeight() - AndroidUtilities.dp(20.0f)) / 2;
             if (!z || ((!FilterTabsView.this.isEditing && FilterTabsView.this.editingStartAnimationProgress == f4) || str3 != null)) {
-                FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.newLocationAvailable);
+                FilterTabsView.this.counterPaint.setAlpha(NotificationCenter.liveLocationsChanged);
             } else {
                 FilterTabsView.this.counterPaint.setAlpha((int) (FilterTabsView.this.editingStartAnimationProgress * 255.0f));
             }
@@ -1118,7 +1118,7 @@ public abstract class FilterTabsView extends FrameLayout {
                                     this.stableCounter.draw(canvas);
                                     canvas.restore();
                                 }
-                                FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.newLocationAvailable);
+                                FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.liveLocationsChanged);
                             }
                         }
                         f22 += (dp - (lineBottom - staticLayout.getLineTop(i14))) / 2.0f;
@@ -1130,7 +1130,7 @@ public abstract class FilterTabsView extends FrameLayout {
                         }
                         if (this.stableCounter != null) {
                         }
-                        FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.newLocationAvailable);
+                        FilterTabsView.this.textCounterPaint.setAlpha(NotificationCenter.liveLocationsChanged);
                     } else if (str3 != null) {
                         if (z) {
                             FilterTabsView.this.textCounterPaint.setAlpha((int) ((1.0f - FilterTabsView.this.editingStartAnimationProgress) * 255.0f));

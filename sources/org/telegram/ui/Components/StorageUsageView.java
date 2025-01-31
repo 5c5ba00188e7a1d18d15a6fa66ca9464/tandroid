@@ -64,7 +64,7 @@ public class StorageUsageView extends FrameLayout {
             StorageUsageView.this.paintFill.setColor(color);
             StorageUsageView.this.paintProgress.setColor(color);
             StorageUsageView.this.paintProgress2.setColor(color);
-            StorageUsageView.this.paintProgress.setAlpha(NotificationCenter.newLocationAvailable);
+            StorageUsageView.this.paintProgress.setAlpha(NotificationCenter.liveLocationsChanged);
             StorageUsageView.this.paintProgress2.setAlpha(82);
             StorageUsageView.this.paintFill.setAlpha(46);
             StorageUsageView.this.bgPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -134,7 +134,7 @@ public class StorageUsageView extends FrameLayout {
         this.paintProgress = new Paint(1);
         this.paintProgress2 = new Paint(1);
         this.bgPaint = new Paint();
-        this.cellFlickerDrawable = new CellFlickerDrawable(NotificationCenter.updateAllMessages, NotificationCenter.newLocationAvailable);
+        this.cellFlickerDrawable = new CellFlickerDrawable(NotificationCenter.updateAllMessages, NotificationCenter.liveLocationsChanged);
         setWillNotDraw(false);
         this.cellFlickerDrawable.drawFrame = false;
         this.paintFill.setStrokeWidth(AndroidUtilities.dp(6.0f));

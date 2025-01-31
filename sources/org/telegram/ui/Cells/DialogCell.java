@@ -1029,7 +1029,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 Theme.dialogs_clockDrawable.draw(canvas);
                 if (f != 1.0f) {
                     canvas.restore();
-                    Theme.dialogs_clockDrawable.setAlpha(NotificationCenter.newLocationAvailable);
+                    Theme.dialogs_clockDrawable.setAlpha(NotificationCenter.liveLocationsChanged);
                 }
                 invalidate();
                 return;
@@ -1059,13 +1059,13 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     Theme.dialogs_checkReadDrawable.draw(canvas);
                     if (z4) {
                         canvas.restore();
-                        Theme.dialogs_halfCheckDrawable.setAlpha(NotificationCenter.newLocationAvailable);
+                        Theme.dialogs_halfCheckDrawable.setAlpha(NotificationCenter.liveLocationsChanged);
                     }
                     if (z4 || f == 0.0f) {
                         return;
                     }
                     canvas.restore();
-                    Theme.dialogs_halfCheckDrawable.setAlpha(NotificationCenter.newLocationAvailable);
+                    Theme.dialogs_halfCheckDrawable.setAlpha(NotificationCenter.liveLocationsChanged);
                     drawable = Theme.dialogs_checkReadDrawable;
                 } else {
                     BaseCell.setDrawableBounds(Theme.dialogs_checkDrawable, this.checkDrawLeft1, this.checkDrawTop);
@@ -1081,7 +1081,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     canvas.restore();
                     drawable = Theme.dialogs_checkDrawable;
                 }
-                drawable.setAlpha(NotificationCenter.newLocationAvailable);
+                drawable.setAlpha(NotificationCenter.liveLocationsChanged);
             }
         }
     }
@@ -1103,7 +1103,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             return;
         }
         float f3 = (this.unreadCount != 0 || this.markUnread) ? this.countChangeProgress : 1.0f - this.countChangeProgress;
-        int i4 = NotificationCenter.newLocationAvailable;
+        int i4 = NotificationCenter.liveLocationsChanged;
         if (z2) {
             if (this.counterPaintOutline == null) {
                 Paint paint2 = new Paint();
@@ -1113,7 +1113,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 this.counterPaintOutline.setStrokeJoin(Paint.Join.ROUND);
                 this.counterPaintOutline.setStrokeCap(Paint.Cap.ROUND);
             }
-            this.counterPaintOutline.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chats_pinnedOverlay), NotificationCenter.newLocationAvailable), Color.alpha(r13) / 255.0f));
+            this.counterPaintOutline.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_windowBackgroundWhite), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chats_pinnedOverlay), NotificationCenter.liveLocationsChanged), Color.alpha(r13) / 255.0f));
         }
         if (this.isTopic && this.forumTopic.read_inbox_max_id == 0) {
             if (this.topicCounterPaint == null) {
@@ -2716,7 +2716,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                     SpannableString spannableString = new SpannableString(str2);
                                                     TLRPC.DraftMessage draftMessage8 = this.draftMessage;
                                                     if (draftMessage8 != null) {
-                                                        MediaDataController.addTextStyleRuns(draftMessage8, spannableString, NotificationCenter.webRtcMicAmplitudeEvent);
+                                                        MediaDataController.addTextStyleRuns(draftMessage8, spannableString, NotificationCenter.voipServiceCreated);
                                                         TLRPC.DraftMessage draftMessage9 = this.draftMessage;
                                                         if (draftMessage9 != null && (arrayList = draftMessage9.entities) != null) {
                                                             TextPaint textPaint5 = this.currentMessagePaint;
@@ -2919,7 +2919,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                                                 SpannableString spannableString2 = new SpannableString(captionMessage.caption);
                                                                                                                 if (captionMessage.messageOwner != null) {
                                                                                                                     captionMessage.spoilLoginCode();
-                                                                                                                    MediaDataController.addTextStyleRuns(captionMessage.messageOwner.entities, captionMessage.caption, spannableString2, NotificationCenter.webRtcMicAmplitudeEvent);
+                                                                                                                    MediaDataController.addTextStyleRuns(captionMessage.messageOwner.entities, captionMessage.caption, spannableString2, NotificationCenter.voipServiceCreated);
                                                                                                                     ArrayList<TLRPC.MessageEntity> arrayList3 = captionMessage.messageOwner.entities;
                                                                                                                     TextPaint textPaint6 = this.currentMessagePaint;
                                                                                                                     MediaDataController.addAnimatedEmojiSpans(arrayList3, spannableString2, textPaint6 == null ? null : textPaint6.getFontMetricsInt());
@@ -3070,7 +3070,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                                                                                                             if (messageObject13 != null) {
                                                                                                                                 messageObject13.spoilLoginCode();
                                                                                                                             }
-                                                                                                                            MediaDataController.addTextStyleRuns(this.message, spannableString4, NotificationCenter.webRtcMicAmplitudeEvent);
+                                                                                                                            MediaDataController.addTextStyleRuns(this.message, spannableString4, NotificationCenter.voipServiceCreated);
                                                                                                                             MessageObject messageObject14 = this.message;
                                                                                                                             charSequence15 = spannableString4;
                                                                                                                             if (messageObject14 != null) {
@@ -5738,7 +5738,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
                 SpannableString spannableString2 = new SpannableString(charSequence6);
                 captionMessage.spoilLoginCode();
-                MediaDataController.addTextStyleRuns(captionMessage.messageOwner.entities, charSequence6, spannableString2, NotificationCenter.webRtcMicAmplitudeEvent);
+                MediaDataController.addTextStyleRuns(captionMessage.messageOwner.entities, charSequence6, spannableString2, NotificationCenter.voipServiceCreated);
                 TLRPC.Message message3 = captionMessage.messageOwner;
                 if (message3 != null) {
                     ArrayList<TLRPC.MessageEntity> arrayList = message3.entities;
@@ -5848,7 +5848,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (messageObject5 != null) {
                     messageObject5.spoilLoginCode();
                 }
-                MediaDataController.addTextStyleRuns(this.message, (Spannable) spannableString, NotificationCenter.webRtcMicAmplitudeEvent);
+                MediaDataController.addTextStyleRuns(this.message, (Spannable) spannableString, NotificationCenter.voipServiceCreated);
                 MessageObject messageObject6 = this.message;
                 if (messageObject6 != null && (message = messageObject6.messageOwner) != null) {
                     ArrayList<TLRPC.MessageEntity> arrayList4 = message.entities;
@@ -6547,12 +6547,12 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                 paint5 = this.fadePaintBack;
                                 porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
                             }
-                            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31);
+                            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.liveLocationsChanged, 31);
                             int i30 = this.nameLeft;
                             canvas.clipRect(i30, i5, this.nameWidth + i30, getMeasuredHeight());
                         }
                         paint5.setXfermode(porterDuffXfermode);
-                        canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31);
+                        canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.liveLocationsChanged, 31);
                         int i302 = this.nameLeft;
                         canvas.clipRect(i302, i5, this.nameWidth + i302, getMeasuredHeight());
                     }
@@ -7551,9 +7551,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                                         Theme.dialogs_unmuteDrawable.setAlpha((int) (this.dialogMutedProgress * 255.0f));
                                         Theme.dialogs_unmuteDrawable.draw(canvas);
                                         drawable3 = Theme.dialogs_unmuteDrawable;
-                                        i17 = NotificationCenter.newLocationAvailable;
+                                        i17 = NotificationCenter.liveLocationsChanged;
                                     } else {
-                                        i17 = NotificationCenter.newLocationAvailable;
+                                        i17 = NotificationCenter.liveLocationsChanged;
                                         Theme.dialogs_muteDrawable.setAlpha((int) (this.dialogMutedProgress * 255.0f));
                                         Theme.dialogs_muteDrawable.draw(canvas);
                                         drawable3 = Theme.dialogs_muteDrawable;

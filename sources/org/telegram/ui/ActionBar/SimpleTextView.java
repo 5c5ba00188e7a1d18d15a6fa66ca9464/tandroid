@@ -673,7 +673,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
         this.layoutX = 0.0f;
         this.layoutY = 0.0f;
         boolean z = this.scrollNonFitText && (this.textDoesNotFit || this.scrollingOffset != 0.0f);
-        int saveLayerAlpha = (z || this.ellipsizeByGradient) ? canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31) : Integer.MIN_VALUE;
+        int saveLayerAlpha = (z || this.ellipsizeByGradient) ? canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.liveLocationsChanged, 31) : Integer.MIN_VALUE;
         this.totalWidth = this.textWidth;
         Drawable drawable = this.leftDrawable;
         if (drawable == null || this.leftDrawableOutside) {
@@ -880,7 +880,7 @@ public class SimpleTextView extends View implements Drawable.Callback {
                     f = 0.0f;
                 } else {
                     paint2 = this.fadePaint;
-                    i = NotificationCenter.newLocationAvailable;
+                    i = NotificationCenter.liveLocationsChanged;
                 }
                 paint2.setAlpha(i);
                 f3 = 0.0f;

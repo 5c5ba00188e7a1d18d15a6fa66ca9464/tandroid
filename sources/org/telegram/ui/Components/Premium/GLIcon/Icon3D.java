@@ -213,7 +213,7 @@ public class Icon3D {
         GLES20.glBindTexture(3553, this.mBackgroundTextureHandle);
         int i6 = this.type;
         if (i6 == 0 || i6 == 2) {
-            bitmap = SvgHelper.getBitmap(R.raw.start_texture, NotificationCenter.didApplyNewTheme, NotificationCenter.didApplyNewTheme, -1);
+            bitmap = SvgHelper.getBitmap(R.raw.start_texture, NotificationCenter.themeListUpdated, NotificationCenter.themeListUpdated, -1);
         } else {
             if (i6 == 1) {
                 str = "models/coin_border.png";

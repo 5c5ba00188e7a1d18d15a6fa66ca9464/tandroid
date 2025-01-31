@@ -78,9 +78,9 @@ public class GroupCallStatusIcon {
         if (nextInt < 32) {
             i = 0;
         } else {
-            i = NotificationCenter.didApplyNewTheme;
+            i = NotificationCenter.themeListUpdated;
             if (nextInt < 64) {
-                i2 = NotificationCenter.didApplyNewTheme;
+                i2 = NotificationCenter.themeListUpdated;
                 i = 120;
             } else {
                 i2 = 420;

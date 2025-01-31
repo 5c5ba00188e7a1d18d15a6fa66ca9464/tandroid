@@ -81,4 +81,6 @@ public interface CoroutineContext {
     Element get(Key key);
 
     CoroutineContext minusKey(Key key);
+
+    CoroutineContext plus(CoroutineContext coroutineContext);
 }

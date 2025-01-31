@@ -1,6 +1,8 @@
 package com.google.android.play.integrity.internal;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
@@ -8,6 +10,19 @@ import android.os.Build;
 /* loaded from: classes.dex */
 public abstract class ai {
     private static final s a = new s("PhoneskyVerificationUtils");
+
+    public static int a(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo("com.android.vending", 64);
+            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+            if (applicationInfo != null && applicationInfo.enabled && c(packageInfo.signatures)) {
+                return packageInfo.versionCode;
+            }
+            return 0;
+        } catch (PackageManager.NameNotFoundException unused) {
+            return 0;
+        }
+    }
 
     public static boolean b(Context context) {
         try {

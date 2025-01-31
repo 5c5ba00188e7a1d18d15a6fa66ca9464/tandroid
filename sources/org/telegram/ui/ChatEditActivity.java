@@ -2224,7 +2224,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         this.descriptionTextView.setEnabled(this.currentUser != null || ChatObject.canChangeChatInfo(this.currentChat));
         EditTextBoldCursor editTextBoldCursor5 = this.descriptionTextView;
         editTextBoldCursor5.setFocusable(editTextBoldCursor5.isEnabled());
-        this.descriptionTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(NotificationCenter.newLocationAvailable)});
+        this.descriptionTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(NotificationCenter.liveLocationsChanged)});
         this.descriptionTextView.setHint(LocaleController.getString("DescriptionOptionalPlaceholder", R.string.DescriptionOptionalPlaceholder));
         this.descriptionTextView.setCursorColor(Theme.getColor(i10));
         this.descriptionTextView.setCursorSize(AndroidUtilities.dp(20.0f));

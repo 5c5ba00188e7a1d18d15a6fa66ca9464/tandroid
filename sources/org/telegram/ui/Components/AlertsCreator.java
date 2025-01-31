@@ -577,7 +577,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 1.0f));
+        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 1.0f));
         animatedTextView.setPadding(0, 0, 0, 0);
         animatedTextView.setGravity(17);
         animatedTextView.setTextColor(scheduleDatePickerColors.buttonTextColor);
@@ -752,7 +752,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout3.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.25f));
+        linearLayout3.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.25f));
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(31);
         numberPicker.setWrapSelectorWheel(false);
@@ -774,7 +774,7 @@ public abstract class AlertsCreator {
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(11);
         numberPicker2.setWrapSelectorWheel(false);
-        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda34
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i7) {
@@ -795,7 +795,7 @@ public abstract class AlertsCreator {
                 return lambda$createBirthdayPickerDialog$98;
             }
         });
-        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.25f));
+        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.25f));
         numberPicker3.setOnScrollListener(onScrollListener);
         if (tL_birthday != null) {
             numberPicker.setValue(tL_birthday.day);
@@ -1235,7 +1235,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.25f));
+        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.25f));
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(31);
         numberPicker.setWrapSelectorWheel(false);
@@ -1257,7 +1257,7 @@ public abstract class AlertsCreator {
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(11);
         numberPicker2.setWrapSelectorWheel(false);
-        linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda82
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -1283,7 +1283,7 @@ public abstract class AlertsCreator {
                 return lambda$createCalendarPickerDialog$127;
             }
         });
-        linearLayout2.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.25f));
+        linearLayout2.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.25f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         numberPicker.setValue(31);
         numberPicker2.setValue(12);
@@ -1385,7 +1385,7 @@ public abstract class AlertsCreator {
         editText.setMaxLines(4);
         editText.setRawInputType(147457);
         editText.setImeOptions(6);
-        final int i3 = j > 0 ? 70 : NotificationCenter.newLocationAvailable;
+        final int i3 = j > 0 ? 70 : NotificationCenter.liveLocationsChanged;
         editText.setFilters(new InputFilter[]{new CodepointsLengthInputFilter(i3) { // from class: org.telegram.ui.Components.AlertsCreator.13
             @Override // org.telegram.ui.Components.CodepointsLengthInputFilter, android.text.InputFilter
             public CharSequence filter(CharSequence charSequence, int i4, int i5, Spanned spanned, int i6, int i7) {
@@ -2157,7 +2157,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout3.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout3.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(365);
         numberPicker.setWrapSelectorWheel(false);
@@ -2178,7 +2178,7 @@ public abstract class AlertsCreator {
         numberPicker.setOnValueChangedListener(onValueChangeListener);
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(23);
-        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.2f));
+        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.2f));
         numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda150
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i2) {
@@ -2199,7 +2199,7 @@ public abstract class AlertsCreator {
                 return lambda$createDatePickerDialog$91;
             }
         });
-        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.3f));
+        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.3f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         if (j <= 0 || j == 2147483646) {
             linearLayout = linearLayout2;
@@ -3264,7 +3264,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 1.0f));
+        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 1.0f));
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda107
             @Override // org.telegram.ui.Components.NumberPicker.OnValueChangeListener
             public final void onValueChange(NumberPicker numberPicker2, int i, int i2) {
@@ -3583,7 +3583,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(365);
         numberPicker2.setWrapSelectorWheel(false);
@@ -3605,7 +3605,7 @@ public abstract class AlertsCreator {
         numberPicker2.setOnValueChangedListener(onValueChangeListener);
         numberPicker3.setMinValue(0);
         numberPicker3.setMaxValue(23);
-        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.2f));
+        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.2f));
         numberPicker3.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda18
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i2) {
@@ -3626,7 +3626,7 @@ public abstract class AlertsCreator {
                 return lambda$createScheduleDatePickerDialog$84;
             }
         });
-        linearLayout3.addView(numberPicker5, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.3f));
+        linearLayout3.addView(numberPicker5, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.3f));
         numberPicker5.setOnValueChangedListener(onValueChangeListener);
         if (j2 <= 0 || j2 == 2147483646) {
             calendar = calendar2;
@@ -3894,9 +3894,9 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.4f));
+        linearLayout2.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.4f));
         linearLayout2.addView(numberPicker3, LayoutHelper.createLinear(0, -2, 0.2f, 16));
-        linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.4f));
+        linearLayout2.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.4f));
         textView2.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         textView2.setGravity(17);
         textView2.setTextColor(scheduleDatePickerColors.buttonTextColor);
@@ -4014,7 +4014,7 @@ public abstract class AlertsCreator {
                 return Button.class.getName();
             }
         };
-        linearLayout3.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout3.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(365);
         numberPicker.setWrapSelectorWheel(false);
@@ -4035,7 +4035,7 @@ public abstract class AlertsCreator {
         numberPicker.setOnValueChangedListener(onValueChangeListener);
         numberPicker2.setMinValue(0);
         numberPicker2.setMaxValue(23);
-        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.2f));
+        linearLayout3.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.2f));
         numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda133
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i3) {
@@ -4056,7 +4056,7 @@ public abstract class AlertsCreator {
                 return lambda$createStatusUntilDatePickerDialog$107;
             }
         });
-        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.3f));
+        linearLayout3.addView(numberPicker3, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.3f));
         numberPicker3.setOnValueChangedListener(onValueChangeListener);
         if (j <= 0 || j == 2147483646) {
             linearLayout = linearLayout2;
@@ -4311,7 +4311,7 @@ public abstract class AlertsCreator {
                 AlertsCreator.lambda$createTimePickerDialog$63(i2, i3, numberPicker, numberPicker2, i, linearLayout, (Boolean) obj);
             }
         };
-        linearLayout.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout.addView(numberPicker, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda164
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i4) {
@@ -4326,7 +4326,7 @@ public abstract class AlertsCreator {
                 AlertsCreator.lambda$createTimePickerDialog$65(Utilities.Callback.this, numberPicker3, i4, i5);
             }
         });
-        linearLayout.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.emojiPreviewThemesChanged, 0.5f));
+        linearLayout.addView(numberPicker2, LayoutHelper.createLinear(0, NotificationCenter.onEmojiInteractionsReceived, 0.5f));
         numberPicker2.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.AlertsCreator$$ExternalSyntheticLambda166
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i4) {
@@ -4562,7 +4562,7 @@ public abstract class AlertsCreator {
         hashMap.put(10026904, "Mint");
         hashMap.put(11394989, "Moss");
         hashMap.put(3234721, "Azure");
-        hashMap.put(Integer.valueOf(NotificationCenter.newLocationAvailable), "Blue");
+        hashMap.put(Integer.valueOf(NotificationCenter.liveLocationsChanged), "Blue");
         hashMap.put(18347, "Cobalt");
         hashMap.put(5204422, "Indigo");
         hashMap.put(96647, "Lagoon");

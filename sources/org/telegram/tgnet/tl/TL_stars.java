@@ -2,7 +2,9 @@ package org.telegram.tgnet.tl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.InputSerializedData;
 import org.telegram.tgnet.OutputSerializedData;
 import org.telegram.tgnet.TLObject;
@@ -25,6 +27,34 @@ public class TL_stars {
                 tL_inputSavedStarGiftUser.readParams(inputSerializedData, z);
             }
             return tL_inputSavedStarGiftUser;
+        }
+    }
+
+    public static class PaidReactionPrivacy extends TLObject {
+        public TLRPC.InputPeer peer;
+
+        public static PaidReactionPrivacy TLdeserialize(InputSerializedData inputSerializedData, int i, boolean z) {
+            PaidReactionPrivacy paidreactionprivacydefault = i != -596837136 ? i != 520887001 ? i != 543872158 ? null : new paidReactionPrivacyDefault() : new paidReactionPrivacyAnonymous() : new paidReactionPrivacyPeer();
+            if (paidreactionprivacydefault == null && z) {
+                throw new RuntimeException(String.format("can't parse magic %x in PaidReactionPrivacy", Integer.valueOf(i)));
+            }
+            if (paidreactionprivacydefault != null) {
+                paidreactionprivacydefault.readParams(inputSerializedData, z);
+            }
+            return paidreactionprivacydefault;
+        }
+
+        public long getDialogId() {
+            if (this instanceof paidReactionPrivacyDefault) {
+                return 0L;
+            }
+            if (this instanceof paidReactionPrivacyAnonymous) {
+                return UserObject.ANONYMOUS;
+            }
+            if (this instanceof paidReactionPrivacyPeer) {
+                return DialogObject.getPeerDialogId(this.peer);
+            }
+            return 0L;
         }
     }
 
@@ -145,6 +175,7 @@ public class TL_stars {
         public long convert_stars;
         public int first_sale_date;
         public int flags;
+        public String gift_address;
         public long id;
         public int last_sale_date;
         public boolean limited;
@@ -165,8 +196,8 @@ public class TL_stars {
                 case TL_starGift_layer190.constructor /* -1365150482 */:
                     tL_starGift_layer190 = new TL_starGift_layer190();
                     break;
-                case TL_starGiftUnique.constructor /* -218202550 */:
-                    tL_starGift_layer190 = new TL_starGiftUnique();
+                case TL_starGiftUnique_layer198.constructor /* -218202550 */:
+                    tL_starGift_layer190 = new TL_starGiftUnique_layer198();
                     break;
                 case TL_starGift.constructor /* 46953416 */:
                     tL_starGift_layer190 = new TL_starGift();
@@ -176,6 +207,9 @@ public class TL_stars {
                     break;
                 case TL_starGift_layer195.constructor /* 1237678029 */:
                     tL_starGift_layer190 = new TL_starGift_layer195();
+                    break;
+                case TL_starGiftUnique.constructor /* 1549979985 */:
+                    tL_starGift_layer190 = new TL_starGiftUnique();
                     break;
                 case TL_starGiftUnique_layer196.constructor /* 1779697613 */:
                     tL_starGift_layer190 = new TL_starGiftUnique_layer196();
@@ -944,7 +978,7 @@ public class TL_stars {
     }
 
     public static class TL_starGiftUnique extends StarGift {
-        public static final int constructor = -218202550;
+        public static final int constructor = 1549979985;
 
         @Override // org.telegram.tgnet.TLObject
         public void readParams(InputSerializedData inputSerializedData, boolean z) {
@@ -965,6 +999,9 @@ public class TL_stars {
             this.attributes = Vector.deserialize(inputSerializedData, new TL_stars$TL_starGiftUnique$$ExternalSyntheticLambda0(), z);
             this.availability_issued = inputSerializedData.readInt32(z);
             this.availability_total = inputSerializedData.readInt32(z);
+            if ((this.flags & 8) != 0) {
+                this.gift_address = inputSerializedData.readString(z);
+            }
         }
 
         @Override // org.telegram.tgnet.TLObject
@@ -987,6 +1024,9 @@ public class TL_stars {
             Vector.serialize(outputSerializedData, this.attributes);
             outputSerializedData.writeInt32(this.availability_issued);
             outputSerializedData.writeInt32(this.availability_total);
+            if ((this.flags & 8) != 0) {
+                outputSerializedData.writeString(this.gift_address);
+            }
         }
     }
 
@@ -1055,6 +1095,53 @@ public class TL_stars {
             }
             if ((this.flags & 2) != 0) {
                 outputSerializedData.writeString(this.owner_name);
+            }
+            Vector.serialize(outputSerializedData, this.attributes);
+            outputSerializedData.writeInt32(this.availability_issued);
+            outputSerializedData.writeInt32(this.availability_total);
+        }
+    }
+
+    public static class TL_starGiftUnique_layer198 extends TL_starGiftUnique {
+        public static final int constructor = -218202550;
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_starGiftUnique, org.telegram.tgnet.TLObject
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.flags = inputSerializedData.readInt32(z);
+            this.id = inputSerializedData.readInt64(z);
+            this.title = inputSerializedData.readString(z);
+            this.slug = inputSerializedData.readString(z);
+            this.num = inputSerializedData.readInt32(z);
+            if ((this.flags & 1) != 0) {
+                this.owner_id = TLRPC.Peer.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+            }
+            if ((this.flags & 2) != 0) {
+                this.owner_name = inputSerializedData.readString(z);
+            }
+            if ((this.flags & 4) != 0) {
+                this.owner_address = inputSerializedData.readString(z);
+            }
+            this.attributes = Vector.deserialize(inputSerializedData, new TL_stars$TL_starGiftUnique$$ExternalSyntheticLambda0(), z);
+            this.availability_issued = inputSerializedData.readInt32(z);
+            this.availability_total = inputSerializedData.readInt32(z);
+        }
+
+        @Override // org.telegram.tgnet.tl.TL_stars.TL_starGiftUnique, org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            outputSerializedData.writeInt32(this.flags);
+            outputSerializedData.writeInt64(this.id);
+            outputSerializedData.writeString(this.title);
+            outputSerializedData.writeString(this.slug);
+            outputSerializedData.writeInt32(this.num);
+            if ((this.flags & 1) != 0) {
+                this.owner_id.serializeToStream(outputSerializedData);
+            }
+            if ((this.flags & 2) != 0) {
+                outputSerializedData.writeString(this.owner_name);
+            }
+            if ((this.flags & 4) != 0) {
+                outputSerializedData.writeString(this.owner_address);
             }
             Vector.serialize(outputSerializedData, this.attributes);
             outputSerializedData.writeInt32(this.availability_issued);
@@ -2508,6 +2595,39 @@ public class TL_stars {
         public void serializeToStream(OutputSerializedData outputSerializedData) {
             outputSerializedData.writeInt32(constructor);
             outputSerializedData.writeString(this.slug);
+        }
+    }
+
+    public static class paidReactionPrivacyAnonymous extends PaidReactionPrivacy {
+        public static final int constructor = 520887001;
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+        }
+    }
+
+    public static class paidReactionPrivacyDefault extends PaidReactionPrivacy {
+        public static final int constructor = 543872158;
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+        }
+    }
+
+    public static class paidReactionPrivacyPeer extends PaidReactionPrivacy {
+        public static final int constructor = -596837136;
+
+        @Override // org.telegram.tgnet.TLObject
+        public void readParams(InputSerializedData inputSerializedData, boolean z) {
+            this.peer = TLRPC.InputPeer.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
+        }
+
+        @Override // org.telegram.tgnet.TLObject
+        public void serializeToStream(OutputSerializedData outputSerializedData) {
+            outputSerializedData.writeInt32(constructor);
+            this.peer.serializeToStream(outputSerializedData);
         }
     }
 

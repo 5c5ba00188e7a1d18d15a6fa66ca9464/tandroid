@@ -3714,7 +3714,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
             this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
             this.progressLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
             this.progressLayout.addView(textView2, LayoutHelper.createLinear(-2, -2, 1));
-            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.didApplyNewTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+            frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.themeListUpdated, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
             if (this.adapter == null) {
                 this.adapter = new Adapter();
             }
@@ -3841,7 +3841,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         this.progressLayout.addView(this.imageView, LayoutHelper.createLinear(120, 120, 1, 0, 0, 0, 20));
         this.progressLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 1, 0, 0, 0, 10));
         this.progressLayout.addView(textView22, LayoutHelper.createLinear(-2, -2, 1));
-        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.didApplyNewTheme, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
+        frameLayout.addView(this.progressLayout, LayoutHelper.createFrame(NotificationCenter.themeListUpdated, -2.0f, 17, 0.0f, 0.0f, 0.0f, 30.0f));
         if (this.adapter == null) {
         }
         this.recyclerListView.setAdapter(this.adapter);

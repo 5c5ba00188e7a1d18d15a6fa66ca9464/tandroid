@@ -2,6 +2,7 @@ package kotlinx.coroutines.scheduling;
 
 import kotlin.coroutines.CoroutineContext;
 import kotlinx.coroutines.CoroutineDispatcher;
+import kotlinx.coroutines.internal.LimitedDispatcherKt;
 
 /* loaded from: classes.dex */
 final class UnlimitedIoScheduler extends CoroutineDispatcher {
@@ -13,5 +14,11 @@ final class UnlimitedIoScheduler extends CoroutineDispatcher {
     @Override // kotlinx.coroutines.CoroutineDispatcher
     public void dispatch(CoroutineContext coroutineContext, Runnable runnable) {
         DefaultScheduler.INSTANCE.dispatchWithContext$kotlinx_coroutines_core(runnable, TasksKt.BlockingContext, false);
+    }
+
+    @Override // kotlinx.coroutines.CoroutineDispatcher
+    public CoroutineDispatcher limitedParallelism(int i) {
+        LimitedDispatcherKt.checkParallelism(i);
+        return i >= TasksKt.MAX_POOL_SIZE ? this : super.limitedParallelism(i);
     }
 }

@@ -2027,7 +2027,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 ChatAttachAlert.this.attachButtonPaint.setStrokeWidth(AndroidUtilities.dp(3.0f) * scaleX);
                 ChatAttachAlert.this.attachButtonPaint.setAlpha(Math.round(this.checkedState * 255.0f));
                 canvas.drawCircle(left, top, dp - (ChatAttachAlert.this.attachButtonPaint.getStrokeWidth() * 0.5f), ChatAttachAlert.this.attachButtonPaint);
-                ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.newLocationAvailable);
+                ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.liveLocationsChanged);
                 ChatAttachAlert.this.attachButtonPaint.setStyle(Paint.Style.FILL);
                 canvas.drawCircle(left, top, dp - (AndroidUtilities.dp(5.0f) * this.checkedState), ChatAttachAlert.this.attachButtonPaint);
             }
@@ -2105,8 +2105,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                             }
                     }
                 }
-                this.textColor = ColorUtils.setAlphaComponent(this.textColor, NotificationCenter.newLocationAvailable);
-                this.iconBackgroundColor = ColorUtils.setAlphaComponent(this.iconBackgroundColor, NotificationCenter.newLocationAvailable);
+                this.textColor = ColorUtils.setAlphaComponent(this.textColor, NotificationCenter.liveLocationsChanged);
+                this.iconBackgroundColor = ColorUtils.setAlphaComponent(this.iconBackgroundColor, NotificationCenter.liveLocationsChanged);
                 TLRPC.Document document = animatedAttachMenuBotIcon.icon;
                 this.imageView.getImageReceiver().setAllowStartLottieAnimation(false);
                 this.imageView.setImage(ImageLocation.getForDocument(document), String.valueOf(tL_attachMenuBot.bot_id), z ? "tgs" : "svg", DocumentObject.getSvgThumb(document, Theme.key_windowBackgroundGray, 1.0f), tL_attachMenuBot);
@@ -2244,7 +2244,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             ChatAttachAlert.this.attachButtonPaint.setStrokeWidth(AndroidUtilities.dp(3.0f) * scaleX);
             ChatAttachAlert.this.attachButtonPaint.setAlpha(Math.round(this.checkedState * 255.0f));
             canvas.drawCircle(left, top, dp - (ChatAttachAlert.this.attachButtonPaint.getStrokeWidth() * 0.5f), ChatAttachAlert.this.attachButtonPaint);
-            ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.newLocationAvailable);
+            ChatAttachAlert.this.attachButtonPaint.setAlpha(NotificationCenter.liveLocationsChanged);
             ChatAttachAlert.this.attachButtonPaint.setStyle(Paint.Style.FILL);
             canvas.drawCircle(left, top, dp - (AndroidUtilities.dp(5.0f) * this.checkedState), ChatAttachAlert.this.attachButtonPaint);
         }
@@ -3023,7 +3023,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 canvas.clipPath(this.path);
                 this.backgroundPaint2.setColor(ChatAttachAlert.this.getThemedColor(Theme.key_graySection));
                 canvas.drawPaint(this.backgroundPaint2);
-                canvas.saveLayerAlpha(rectF, NotificationCenter.newLocationAvailable, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.liveLocationsChanged, 31);
                 super.dispatchDraw(canvas);
                 rectF.set(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getPaddingTop() + AndroidUtilities.dp(6.0f));
                 this.clip.draw(canvas, rectF, 1, 1.0f);
@@ -5418,7 +5418,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     }
 
     private void setNavBarAlpha(float f) {
-        this.navBarColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundGray), Math.min(NotificationCenter.newLocationAvailable, Math.max(0, (int) (f * 255.0f))));
+        this.navBarColor = ColorUtils.setAlphaComponent(getThemedColor(Theme.key_windowBackgroundGray), Math.min(NotificationCenter.liveLocationsChanged, Math.max(0, (int) (f * 255.0f))));
         AndroidUtilities.setNavigationBarColor(getWindow(), this.navBarColor, false);
         AndroidUtilities.setLightNavigationBar(getWindow(), ((double) AndroidUtilities.computePerceivedBrightness(this.navBarColor)) > 0.721d);
         getContainer().invalidate();

@@ -70,7 +70,7 @@ public class Text {
         if (!this.doNotSave) {
             float f = this.ellipsizeWidth;
             if (f >= 0.0f && this.width > f) {
-                canvas.saveLayerAlpha(0.0f, -this.vertPad, f - 1.0f, r0.getHeight() + this.vertPad, NotificationCenter.newLocationAvailable, 31);
+                canvas.saveLayerAlpha(0.0f, -this.vertPad, f - 1.0f, r0.getHeight() + this.vertPad, NotificationCenter.liveLocationsChanged, 31);
             }
         }
         canvas.save();

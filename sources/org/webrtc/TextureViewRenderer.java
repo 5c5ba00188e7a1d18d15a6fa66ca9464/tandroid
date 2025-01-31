@@ -230,7 +230,7 @@ public class TextureViewRenderer extends TextureView implements TextureView.Surf
             if (i4 == 1) {
                 i = z ? 90 : -90;
             } else if (i4 == 3) {
-                i = z ? NotificationCenter.emojiPreviewThemesChanged : -270;
+                i = z ? NotificationCenter.onEmojiInteractionsReceived : -270;
             }
             i3 += i;
         }

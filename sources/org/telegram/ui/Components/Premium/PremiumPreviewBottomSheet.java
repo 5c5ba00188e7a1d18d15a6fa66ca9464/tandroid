@@ -134,7 +134,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
             premiumPreviewBottomSheet.enterTransitionProgress = 1.0f;
             premiumPreviewBottomSheet.iconContainer.invalidate();
             if (this.val$startEnterFromDrawable != null) {
-                ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.newLocationAvailable);
+                ValueAnimator ofInt = ValueAnimator.ofInt(0, NotificationCenter.liveLocationsChanged);
                 final Drawable drawable = this.val$startEnterFromDrawable;
                 ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet$4$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener

@@ -3,7 +3,10 @@ package kotlinx.coroutines;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+import kotlin.coroutines.CoroutineContext;
+import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.RangesKt___RangesKt;
+import kotlinx.coroutines.EventLoopImplBase;
 
 /* loaded from: classes.dex */
 public final class DefaultExecutor extends EventLoopImplBase implements Runnable {
@@ -33,6 +36,7 @@ public final class DefaultExecutor extends EventLoopImplBase implements Runnable
         if (isShutdownRequested()) {
             debugStatus = 3;
             resetAll();
+            Intrinsics.checkNotNull(this, "null cannot be cast to non-null type java.lang.Object");
             notifyAll();
         }
     }
@@ -63,6 +67,7 @@ public final class DefaultExecutor extends EventLoopImplBase implements Runnable
             return false;
         }
         debugStatus = 1;
+        Intrinsics.checkNotNull(this, "null cannot be cast to non-null type java.lang.Object");
         notifyAll();
         return true;
     }
@@ -83,6 +88,16 @@ public final class DefaultExecutor extends EventLoopImplBase implements Runnable
     protected Thread getThread() {
         Thread thread = _thread;
         return thread == null ? createThreadSync() : thread;
+    }
+
+    @Override // kotlinx.coroutines.EventLoopImplBase, kotlinx.coroutines.Delay
+    public DisposableHandle invokeOnTimeout(long j, Runnable runnable, CoroutineContext coroutineContext) {
+        return scheduleInvokeOnTimeout(j, runnable);
+    }
+
+    @Override // kotlinx.coroutines.EventLoopImplPlatform
+    protected void reschedule(long j, EventLoopImplBase.DelayedTask delayedTask) {
+        shutdownError();
     }
 
     @Override // java.lang.Runnable
@@ -146,5 +161,11 @@ public final class DefaultExecutor extends EventLoopImplBase implements Runnable
                 getThread();
             }
         }
+    }
+
+    @Override // kotlinx.coroutines.EventLoopImplBase, kotlinx.coroutines.EventLoop
+    public void shutdown() {
+        debugStatus = 4;
+        super.shutdown();
     }
 }

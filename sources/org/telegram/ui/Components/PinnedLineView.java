@@ -158,7 +158,7 @@ public class PinnedLineView extends View {
         }
         boolean z = i > 3;
         if (z) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.newLocationAvailable, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.liveLocationsChanged, 31);
         }
         int dp = AndroidUtilities.dp(8.0f);
         if (this.replaceInProgress) {

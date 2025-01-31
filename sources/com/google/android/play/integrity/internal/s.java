@@ -26,6 +26,13 @@ public final class s {
         return str + " : " + str2;
     }
 
+    public final int a(String str, Object... objArr) {
+        if (Log.isLoggable("PlayCore", 3)) {
+            return Log.d("PlayCore", f(this.a, str, objArr));
+        }
+        return 0;
+    }
+
     public final int b(String str, Object... objArr) {
         if (Log.isLoggable("PlayCore", 6)) {
             return Log.e("PlayCore", f(this.a, str, objArr));

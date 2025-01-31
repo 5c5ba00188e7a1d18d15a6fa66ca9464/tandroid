@@ -175,7 +175,7 @@ public class ConfigFetchHandler {
         } else {
             final Task id = this.firebaseInstallations.getId();
             final Task token = this.firebaseInstallations.getToken(false);
-            continueWithTask = Tasks.whenAllComplete(id, token).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda1
+            continueWithTask = Tasks.whenAllComplete((Task<?>[]) new Task[]{id, token}).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.internal.ConfigFetchHandler$$ExternalSyntheticLambda1
                 @Override // com.google.android.gms.tasks.Continuation
                 public final Object then(Task task2) {
                     Task lambda$fetchIfCacheExpiredAndNotThrottled$1;

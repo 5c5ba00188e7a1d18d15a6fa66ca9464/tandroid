@@ -386,7 +386,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getConnectedBot$11(final AlertDialog alertDialog, final long j, final Utilities.Callback callback, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getConnectedBot$10(alertDialog, tLObject, j, callback);
@@ -412,7 +412,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getStarsRevenueStats$1(final long j, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getStarsRevenueStats$0(tLObject, j);
@@ -433,7 +433,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getTONRevenueStats$3(final long j, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getTONRevenueStats$2(tLObject, j);
@@ -442,7 +442,7 @@ public class BotStarsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdmined$6(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadAdminedBots$6(TLObject tLObject) {
         this.adminedBots = new ArrayList();
         this.loadingAdminedBots = false;
         if (tLObject instanceof Vector) {
@@ -455,32 +455,33 @@ public class BotStarsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdmined$7(final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda11
+    public /* synthetic */ void lambda$loadAdminedBots$7(final TLObject tLObject, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
-                BotStarsController.this.lambda$loadAdmined$6(tLObject);
+                BotStarsController.this.lambda$loadAdminedBots$6(tLObject);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdmined$8(TLObject tLObject) {
+    public /* synthetic */ void lambda$loadAdminedChannels$8(TLObject tLObject) {
         this.adminedChannels = new ArrayList();
-        this.loadingAdminedBots = false;
+        this.loadingAdminedChannels = false;
         if (tLObject instanceof TLRPC.messages_Chats) {
             TLRPC.messages_Chats messages_chats = (TLRPC.messages_Chats) tLObject;
             MessagesController.getInstance(this.currentAccount).putChats(messages_chats.chats, false);
             this.adminedChannels.addAll(messages_chats.chats);
         }
+        NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.adminedChannelsLoaded, new Object[0]);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$loadAdmined$9(final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda12
+    public /* synthetic */ void lambda$loadAdminedChannels$9(final TLObject tLObject, TLRPC.TL_error tL_error) {
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
-                BotStarsController.this.lambda$loadAdmined$8(tLObject);
+                BotStarsController.this.lambda$loadAdminedChannels$8(tLObject);
             }
         });
     }
@@ -502,7 +503,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTransactions$5(final TransactionsState transactionsState, final int i, final long j, final TLObject tLObject, TLRPC.TL_error tL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$loadTransactions$4(transactionsState, i, tLObject, j);
@@ -530,7 +531,8 @@ public class BotStarsController {
     }
 
     public ArrayList getAdmined() {
-        loadAdmined();
+        loadAdminedBots();
+        loadAdminedChannels();
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = this.adminedBots;
         if (arrayList2 != null) {
@@ -539,6 +541,16 @@ public class BotStarsController {
         ArrayList arrayList3 = this.adminedChannels;
         if (arrayList3 != null) {
             arrayList.addAll(arrayList3);
+        }
+        return arrayList;
+    }
+
+    public ArrayList getAdminedChannels() {
+        loadAdminedChannels();
+        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList2 = this.adminedChannels;
+        if (arrayList2 != null) {
+            arrayList.addAll(arrayList2);
         }
         return arrayList;
     }
@@ -597,14 +609,14 @@ public class BotStarsController {
         TL_payments.getConnectedStarRefBot getconnectedstarrefbot = new TL_payments.getConnectedStarRefBot();
         getconnectedstarrefbot.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
         getconnectedstarrefbot.bot = MessagesController.getInstance(this.currentAccount).getInputUser(j2);
-        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(getconnectedstarrefbot, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda6
+        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(getconnectedstarrefbot, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda8
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
                 BotStarsController.this.lambda$getConnectedBot$11(alertDialog, j2, callback, tLObject, tL_error);
             }
         });
         alertDialog.setCanCancel(true);
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda7
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 BotStarsController.this.lambda$getConnectedBot$12(sendRequest, dialogInterface);
@@ -700,24 +712,28 @@ public class BotStarsController {
         return getTONRevenueStats(j, false) != null;
     }
 
-    public void loadAdmined() {
-        if (!this.loadingAdminedBots || this.adminedBots != null) {
-            this.loadingAdminedBots = true;
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TL_bots.getAdminedBots(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda9
-                @Override // org.telegram.tgnet.RequestDelegate
-                public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                    BotStarsController.this.lambda$loadAdmined$7(tLObject, tL_error);
-                }
-            });
+    public void loadAdminedBots() {
+        if (this.loadingAdminedBots || this.adminedBots != null) {
+            return;
         }
-        if (this.loadingAdminedChannels && this.adminedChannels == null) {
+        this.loadingAdminedBots = true;
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TL_bots.getAdminedBots(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda11
+            @Override // org.telegram.tgnet.RequestDelegate
+            public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
+                BotStarsController.this.lambda$loadAdminedBots$7(tLObject, tL_error);
+            }
+        });
+    }
+
+    public void loadAdminedChannels() {
+        if (this.loadingAdminedChannels || this.adminedChannels != null) {
             return;
         }
         this.loadingAdminedChannels = true;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_channels_getAdminedPublicChannels(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda10
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC.TL_channels_getAdminedPublicChannels(), new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC.TL_error tL_error) {
-                BotStarsController.this.lambda$loadAdmined$9(tLObject, tL_error);
+                BotStarsController.this.lambda$loadAdminedChannels$9(tLObject, tL_error);
             }
         });
     }

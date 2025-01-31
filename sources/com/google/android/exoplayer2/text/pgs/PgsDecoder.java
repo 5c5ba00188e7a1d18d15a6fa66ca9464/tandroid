@@ -93,7 +93,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                 Double.isNaN(d2);
                 Double.isNaN(d3);
                 Double.isNaN(d);
-                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, NotificationCenter.newLocationAvailable) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, NotificationCenter.newLocationAvailable) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, NotificationCenter.newLocationAvailable);
+                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, NotificationCenter.liveLocationsChanged) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, NotificationCenter.liveLocationsChanged) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, NotificationCenter.liveLocationsChanged);
             }
             this.colorsSet = true;
         }

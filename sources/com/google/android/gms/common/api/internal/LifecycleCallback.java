@@ -1,6 +1,7 @@
 package com.google.android.gms.common.api.internal;
 
 import android.app.Activity;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.gms.common.internal.Preconditions;
@@ -21,6 +22,10 @@ public class LifecycleCallback {
 
     public static LifecycleFragment getFragment(Activity activity) {
         return getFragment(new LifecycleActivity(activity));
+    }
+
+    public static LifecycleFragment getFragment(ContextWrapper contextWrapper) {
+        throw new UnsupportedOperationException();
     }
 
     protected static LifecycleFragment getFragment(LifecycleActivity lifecycleActivity) {

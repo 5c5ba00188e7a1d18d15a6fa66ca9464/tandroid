@@ -17,6 +17,27 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
         return emptyMap;
     }
 
+    public static Map mapOf(Pair... pairs) {
+        Map emptyMap;
+        int mapCapacity;
+        Intrinsics.checkNotNullParameter(pairs, "pairs");
+        if (pairs.length > 0) {
+            mapCapacity = MapsKt__MapsJVMKt.mapCapacity(pairs.length);
+            return toMap(pairs, new LinkedHashMap(mapCapacity));
+        }
+        emptyMap = emptyMap();
+        return emptyMap;
+    }
+
+    public static Map mutableMapOf(Pair... pairs) {
+        int mapCapacity;
+        Intrinsics.checkNotNullParameter(pairs, "pairs");
+        mapCapacity = MapsKt__MapsJVMKt.mapCapacity(pairs.length);
+        LinkedHashMap linkedHashMap = new LinkedHashMap(mapCapacity);
+        putAll(linkedHashMap, pairs);
+        return linkedHashMap;
+    }
+
     public static final Map optimizeReadOnlyMap(Map map) {
         Map emptyMap;
         Intrinsics.checkNotNullParameter(map, "<this>");
@@ -34,6 +55,14 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
         Iterator it = pairs.iterator();
         while (it.hasNext()) {
             Pair pair = (Pair) it.next();
+            map.put(pair.component1(), pair.component2());
+        }
+    }
+
+    public static final void putAll(Map map, Pair[] pairs) {
+        Intrinsics.checkNotNullParameter(map, "<this>");
+        Intrinsics.checkNotNullParameter(pairs, "pairs");
+        for (Pair pair : pairs) {
             map.put(pair.component1(), pair.component2());
         }
     }
@@ -74,6 +103,13 @@ public abstract class MapsKt__MapsKt extends MapsKt__MapsJVMKt {
         }
         emptyMap = emptyMap();
         return emptyMap;
+    }
+
+    public static final Map toMap(Pair[] pairArr, Map destination) {
+        Intrinsics.checkNotNullParameter(pairArr, "<this>");
+        Intrinsics.checkNotNullParameter(destination, "destination");
+        putAll(destination, pairArr);
+        return destination;
     }
 
     public static final Map toMutableMap(Map map) {

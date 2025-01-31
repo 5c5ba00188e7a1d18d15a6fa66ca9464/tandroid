@@ -401,8 +401,8 @@ public class MessagesController extends BaseController implements NotificationCe
     private boolean offlineSent;
     private Utilities.Callback<Boolean> onLoadedRemoteFilters;
     public ConcurrentHashMap<Long, Integer> onlinePrivacy;
-    public Boolean paidReactionsAnonymous;
-    public long paidReactionsAnonymousTime;
+    public Long paidReactionsPrivacy;
+    public long paidReactionsPrivacyTime;
     private Runnable passwordCheckRunnable;
     public PeerColors peerColors;
     private final long peerDialogRequestTimeout;
@@ -2578,7 +2578,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.giveawayBoostsPerPremium = this.mainPreferences.getLong("giveaway_boosts_per_premium", 4L);
         this.boostsPerSentGift = this.mainPreferences.getLong("boosts_per_sent_gift", 3L);
         this.giveawayPeriodMax = this.mainPreferences.getLong("giveaway_period_max", 7L);
-        this.stealthModePast = this.mainPreferences.getInt("stories_stealth_past_period", NotificationCenter.uploadStoryProgress);
+        this.stealthModePast = this.mainPreferences.getInt("stories_stealth_past_period", NotificationCenter.chatlistFolderUpdate);
         this.stealthModeCooldown = this.mainPreferences.getInt("stories_stealth_cooldown_period", 3600);
         boolean z = ConnectionsManager.native_isTestBackend(this.currentAccount) != 0;
         this.chatlistInvitesLimitDefault = this.mainPreferences.getInt("chatlistInvitesLimitDefault", 3);
@@ -2589,7 +2589,7 @@ public class MessagesController extends BaseController implements NotificationCe
         this.storiesSuggestedReactionsLimitPremium = this.mainPreferences.getInt("storiesSuggestedReactionsLimitPremium", 5);
         this.storiesSentWeeklyLimitPremium = this.mainPreferences.getInt("storiesSentWeeklyLimitPremium", 70);
         this.storiesSentMonthlyLimitDefault = this.mainPreferences.getInt("storiesSentMonthlyLimitDefault", 30);
-        this.storiesSentMonthlyLimitPremium = this.mainPreferences.getInt("storiesSentMonthlyLimitPremium", NotificationCenter.uploadStoryProgress);
+        this.storiesSentMonthlyLimitPremium = this.mainPreferences.getInt("storiesSentMonthlyLimitPremium", NotificationCenter.chatlistFolderUpdate);
         this.channelBgIconLevelMin = this.mainPreferences.getInt("channelBgIconLevelMin", 1);
         this.channelProfileIconLevelMin = this.mainPreferences.getInt("channelProfileIconLevelMin", 1);
         this.channelEmojiStatusLevelMin = this.mainPreferences.getInt("channelEmojiStatusLevelMin", 1);
@@ -2606,8 +2606,8 @@ public class MessagesController extends BaseController implements NotificationCe
         this.chatlistInvitesLimitPremium = this.mainPreferences.getInt("chatlistInvitesLimitPremium", z ? 5 : 20);
         this.chatlistJoinedLimitDefault = this.mainPreferences.getInt("chatlistJoinedLimitDefault", 2);
         this.chatlistJoinedLimitPremium = this.mainPreferences.getInt("chatlistJoinedLimitPremium", z ? 5 : 20);
-        this.stargiftsMessageLengthMax = this.mainPreferences.getInt("stargiftsMessageLengthMax", NotificationCenter.newLocationAvailable);
-        this.stargiftsConvertPeriodMax = this.mainPreferences.getInt("stargiftsConvertPeriodMax", z ? NotificationCenter.uploadStoryProgress : 7776000);
+        this.stargiftsMessageLengthMax = this.mainPreferences.getInt("stargiftsMessageLengthMax", NotificationCenter.liveLocationsChanged);
+        this.stargiftsConvertPeriodMax = this.mainPreferences.getInt("stargiftsConvertPeriodMax", z ? NotificationCenter.chatlistFolderUpdate : 7776000);
         this.videoIgnoreAltDocuments = this.mainPreferences.getBoolean("videoIgnoreAltDocuments", false);
         this.disableBotFullscreenBlur = this.mainPreferences.getBoolean("disableBotFullscreenBlur", false);
         this.tonBlockchainExplorerUrl = this.mainPreferences.getString("tonBlockchainExplorerUrl", "https://tonviewer.com/");
@@ -2622,7 +2622,7 @@ public class MessagesController extends BaseController implements NotificationCe
         int i4 = this.mainPreferences.getInt("transcribeAudioTrialWeeklyNumber", BuildVars.DEBUG_PRIVATE_VERSION ? 2 : 0);
         this.transcribeAudioTrialWeeklyNumber = i4;
         this.transcribeAudioTrialCurrentNumber = this.mainPreferences.getInt("transcribeAudioTrialCurrentNumber", i4);
-        this.transcribeAudioTrialDurationMax = this.mainPreferences.getInt("transcribeAudioTrialDurationMax", NotificationCenter.uploadStoryProgress);
+        this.transcribeAudioTrialDurationMax = this.mainPreferences.getInt("transcribeAudioTrialDurationMax", NotificationCenter.chatlistFolderUpdate);
         this.transcribeAudioTrialCooldownUntil = this.mainPreferences.getInt("transcribeAudioTrialCooldownUntil", 0);
         this.recommendedChannelsLimitDefault = this.mainPreferences.getInt("recommendedChannelsLimitDefault", 10);
         this.recommendedChannelsLimitPremium = this.mainPreferences.getInt("recommendedChannelsLimitPremium", 100);
@@ -2669,8 +2669,12 @@ public class MessagesController extends BaseController implements NotificationCe
         this.starrefMinCommissionPermille = this.mainPreferences.getInt("starrefMinCommissionPermille", 1);
         this.starrefMaxCommissionPermille = this.mainPreferences.getInt("starrefMaxCommissionPermille", 400);
         this.botVerificationDescriptionLengthLimit = this.mainPreferences.getInt("botVerificationDescriptionLengthLimit", 70);
-        this.paidReactionsAnonymousTime = this.mainPreferences.getLong("paidReactionsAnonymousTime", 0L);
-        this.paidReactionsAnonymous = (!this.mainPreferences.contains("paidReactionsAnonymous") || System.currentTimeMillis() - this.paidReactionsAnonymousTime >= 7200000) ? null : Boolean.valueOf(this.mainPreferences.getBoolean("paidReactionsAnonymous", false));
+        this.paidReactionsPrivacyTime = this.mainPreferences.getLong("paidReactionsAnonymousTime", 0L);
+        System.currentTimeMillis();
+        this.paidReactionsPrivacy = null;
+        if (System.currentTimeMillis() - this.paidReactionsPrivacyTime < 7200000) {
+            this.paidReactionsPrivacy = Long.valueOf(this.mainPreferences.contains("paidReactionsDialogId") ? this.mainPreferences.getLong("paidReactionsDialogId", 0L) : this.mainPreferences.getBoolean("paidReactionsAnonymous", false) ? UserObject.ANONYMOUS : 0L);
+        }
         scheduleTranscriptionUpdate();
         BuildVars.GOOGLE_AUTH_CLIENT_ID = this.mainPreferences.getString("googleAuthClientId", BuildVars.GOOGLE_AUTH_CLIENT_ID);
         this.dcDomainName = this.mainPreferences.contains("dcDomainName2") ? this.mainPreferences.getString("dcDomainName2", "apv3.stel.com") : z ? "tapv3.stel.com" : "apv3.stel.com";
@@ -17348,16 +17352,16 @@ public class MessagesController extends BaseController implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:566:0x0c13  */
     /* JADX WARN: Removed duplicated region for block: B:60:0x0136  */
     /* JADX WARN: Removed duplicated region for block: B:63:0x015a  */
-    /* JADX WARN: Removed duplicated region for block: B:864:0x1367  */
-    /* JADX WARN: Removed duplicated region for block: B:870:0x1382  */
-    /* JADX WARN: Removed duplicated region for block: B:930:0x1494  */
-    /* JADX WARN: Removed duplicated region for block: B:932:0x14a2  */
-    /* JADX WARN: Removed duplicated region for block: B:934:0x14a8  */
-    /* JADX WARN: Removed duplicated region for block: B:937:0x14b4  */
-    /* JADX WARN: Removed duplicated region for block: B:942:0x14cd A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:946:0x14f0  */
-    /* JADX WARN: Removed duplicated region for block: B:949:0x1506  */
-    /* JADX WARN: Removed duplicated region for block: B:952:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:863:0x1369  */
+    /* JADX WARN: Removed duplicated region for block: B:869:0x1384  */
+    /* JADX WARN: Removed duplicated region for block: B:929:0x1496  */
+    /* JADX WARN: Removed duplicated region for block: B:931:0x14a4  */
+    /* JADX WARN: Removed duplicated region for block: B:933:0x14aa  */
+    /* JADX WARN: Removed duplicated region for block: B:936:0x14b6  */
+    /* JADX WARN: Removed duplicated region for block: B:941:0x14cf A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:945:0x14f2  */
+    /* JADX WARN: Removed duplicated region for block: B:948:0x1508  */
+    /* JADX WARN: Removed duplicated region for block: B:951:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -17386,7 +17390,6 @@ public class MessagesController extends BaseController implements NotificationCe
         String str;
         TLRPC.ChatFull chatFull;
         TLRPC.UserFull userFull;
-        char c;
         long j3;
         boolean z5;
         int callStateForSubscription;
@@ -18227,21 +18230,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         long peerId = MessageObject.getPeerId(tL_updateMessageReactions.peer);
                                                         long pendingPaidReactions = StarsController.getInstance(this.currentAccount).getPendingPaidReactions(peerId, tL_updateMessageReactions.msg_id);
                                                         if (pendingPaidReactions != 0) {
-                                                            c = 1;
-                                                            MessageObject.addPaidReactions(this.currentAccount, tL_updateMessageReactions.reactions, (int) pendingPaidReactions, StarsController.getInstance(this.currentAccount).arePaidReactionsAnonymous(StarsController.MessageId.from(peerId, tL_updateMessageReactions.msg_id), tL_updateMessageReactions.reactions), true);
-                                                        } else {
-                                                            c = 1;
+                                                            MessageObject.addPaidReactions(this.currentAccount, tL_updateMessageReactions.reactions, (int) pendingPaidReactions, StarsController.getInstance(this.currentAccount).getPaidReactionsDialogId(StarsController.MessageId.from(peerId, tL_updateMessageReactions.msg_id), tL_updateMessageReactions.reactions), true);
                                                         }
-                                                        NotificationCenter notificationCenter = getNotificationCenter();
-                                                        int i35 = NotificationCenter.didUpdateReactions;
-                                                        Long valueOf2 = Long.valueOf(peerId);
-                                                        Integer valueOf3 = Integer.valueOf(tL_updateMessageReactions.msg_id);
-                                                        TLRPC.TL_messageReactions tL_messageReactions = tL_updateMessageReactions.reactions;
-                                                        Object[] objArr = new Object[3];
-                                                        objArr[0] = valueOf2;
-                                                        objArr[c] = valueOf3;
-                                                        objArr[2] = tL_messageReactions;
-                                                        notificationCenter.lambda$postNotificationNameOnUIThread$1(i35, objArr);
+                                                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateReactions, Long.valueOf(peerId), Integer.valueOf(tL_updateMessageReactions.msg_id), tL_updateMessageReactions.reactions);
                                                     } else if (update instanceof TLRPC.TL_updateMessageExtendedMedia) {
                                                         TLRPC.TL_updateMessageExtendedMedia tL_updateMessageExtendedMedia = (TLRPC.TL_updateMessageExtendedMedia) update;
                                                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateExtendedMedia, Long.valueOf(DialogObject.getPeerDialogId(tL_updateMessageExtendedMedia.peer)), Integer.valueOf(tL_updateMessageExtendedMedia.msg_id), tL_updateMessageExtendedMedia.extended_media);
@@ -18274,26 +18265,26 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         if (peerId2 > 0) {
                                                             TLRPC.UserFull userFull2 = getUserFull(peerId2);
                                                             if (userFull2 != null) {
-                                                                int i36 = tL_updatePeerHistoryTTL.ttl_period;
-                                                                userFull2.ttl_period = i36;
-                                                                userFull2.flags = i36 == 0 ? userFull2.flags & (-16385) : userFull2.flags | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+                                                                int i35 = tL_updatePeerHistoryTTL.ttl_period;
+                                                                userFull2.ttl_period = i35;
+                                                                userFull2.flags = i35 == 0 ? userFull2.flags & (-16385) : userFull2.flags | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                                                             }
                                                             userFull = userFull2;
                                                             chatFull = null;
                                                         } else {
                                                             chatFull = getChatFull(-peerId2);
                                                             if (chatFull != null) {
-                                                                int i37 = tL_updatePeerHistoryTTL.ttl_period;
-                                                                chatFull.ttl_period = i37;
-                                                                chatFull.flags = chatFull instanceof TLRPC.TL_channelFull ? i37 == 0 ? chatFull.flags & (-16777217) : chatFull.flags | ConnectionsManager.FileTypePhoto : i37 == 0 ? chatFull.flags & (-16385) : chatFull.flags | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+                                                                int i36 = tL_updatePeerHistoryTTL.ttl_period;
+                                                                chatFull.ttl_period = i36;
+                                                                chatFull.flags = chatFull instanceof TLRPC.TL_channelFull ? i36 == 0 ? chatFull.flags & (-16777217) : chatFull.flags | ConnectionsManager.FileTypePhoto : i36 == 0 ? chatFull.flags & (-16385) : chatFull.flags | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
                                                             }
                                                             userFull = null;
                                                         }
                                                         if (chatFull != null) {
-                                                            NotificationCenter notificationCenter2 = getNotificationCenter();
-                                                            int i38 = NotificationCenter.chatInfoDidLoad;
+                                                            NotificationCenter notificationCenter = getNotificationCenter();
+                                                            int i37 = NotificationCenter.chatInfoDidLoad;
                                                             Boolean bool4 = Boolean.FALSE;
-                                                            notificationCenter2.lambda$postNotificationNameOnUIThread$1(i38, chatFull, 0, bool4, bool4);
+                                                            notificationCenter.lambda$postNotificationNameOnUIThread$1(i37, chatFull, 0, bool4, bool4);
                                                             getMessagesStorage().updateChatInfo(chatFull, false);
                                                         } else if (userFull != null) {
                                                             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(peerId2), userFull);
@@ -18331,8 +18322,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                                             boolean z17 = tL_updateChannelViewForumAsMessages.enabled;
                                                             if (z16 != z17) {
                                                                 chatFull3.view_forum_as_messages = z17;
-                                                                int i39 = chatFull3.flags2;
-                                                                chatFull3.flags2 = z17 ? i39 | 64 : i39 & (-65);
+                                                                int i38 = chatFull3.flags2;
+                                                                chatFull3.flags2 = z17 ? i38 | 64 : i38 & (-65);
                                                                 getMessagesStorage().updateChatInfo(chatFull3, false);
                                                             }
                                                         } else {
@@ -18351,9 +18342,13 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         getSavedMessagesController().processUpdate(update);
                                                     } else if (!QuickRepliesController.getInstance(this.currentAccount).processUpdate(update, null, 0)) {
                                                         if (update instanceof TLRPC.TL_updatePaidReactionPrivacy) {
-                                                            this.paidReactionsAnonymousTime = System.currentTimeMillis();
-                                                            this.paidReactionsAnonymous = Boolean.valueOf(((TLRPC.TL_updatePaidReactionPrivacy) update).isPrivate);
-                                                            this.mainPreferences.edit().putLong("paidReactionsAnonymousTime", this.paidReactionsAnonymousTime).putBoolean("paidReactionsAnonymous", this.paidReactionsAnonymous.booleanValue()).apply();
+                                                            SharedPreferences.Editor edit2 = this.mainPreferences.edit();
+                                                            long currentTimeMillis = System.currentTimeMillis();
+                                                            this.paidReactionsPrivacyTime = currentTimeMillis;
+                                                            SharedPreferences.Editor putLong = edit2.putLong("paidReactionsAnonymousTime", currentTimeMillis);
+                                                            long dialogId = ((TLRPC.TL_updatePaidReactionPrivacy) update).privacy.getDialogId();
+                                                            this.paidReactionsPrivacy = Long.valueOf(dialogId);
+                                                            putLong.putLong("paidReactionsDialogId", dialogId).apply();
                                                             this.loadingArePaidReactionsAnonymous = false;
                                                         } else {
                                                             ApplicationLoader applicationLoader = ApplicationLoader.applicationLoaderInstance;
@@ -18409,32 +18404,32 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         if (longSparseArray != null) {
             int size3 = longSparseArray.size();
-            for (int i40 = 0; i40 < size3; i40++) {
-                ChatObject.Call call3 = (ChatObject.Call) messagesController.groupCallsByChatId.get(longSparseArray.keyAt(i40));
+            for (int i39 = 0; i39 < size3; i39++) {
+                ChatObject.Call call3 = (ChatObject.Call) messagesController.groupCallsByChatId.get(longSparseArray.keyAt(i39));
                 if (call3 != null) {
-                    call3.processTypingsUpdate(getAccountInstance(), (ArrayList) longSparseArray.valueAt(i40), i2);
+                    call3.processTypingsUpdate(getAccountInstance(), (ArrayList) longSparseArray.valueAt(i39), i2);
                 }
             }
         }
         if (longSparseIntArray != null) {
             int size4 = longSparseIntArray.size();
-            for (int i41 = 0; i41 < size4; i41++) {
-                SendMessagesHelper.ImportingHistory importingHistory = getSendMessagesHelper().getImportingHistory(longSparseIntArray.keyAt(i41));
+            for (int i40 = 0; i40 < size4; i40++) {
+                SendMessagesHelper.ImportingHistory importingHistory = getSendMessagesHelper().getImportingHistory(longSparseIntArray.keyAt(i40));
                 if (importingHistory != null) {
-                    importingHistory.setImportProgress(longSparseIntArray.valueAt(i41));
+                    importingHistory.setImportProgress(longSparseIntArray.valueAt(i40));
                 }
             }
         }
-        int i42 = 1;
+        int i41 = 1;
         if (longSparseArray2 != null) {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didReceivedWebpagesInUpdates, longSparseArray2);
-            int i43 = 0;
-            int i44 = 3;
-            while (i43 < i44) {
-                if (i43 == i42) {
+            int i42 = 0;
+            int i43 = 3;
+            while (i42 < i43) {
+                if (i42 == i41) {
                     longSparseArray12 = messagesController.reloadingScheduledWebpagesPending;
                     i6 = 1;
-                } else if (i43 == 2) {
+                } else if (i42 == 2) {
                     longSparseArray12 = messagesController.reloadingSavedWebpagesPending;
                     i6 = 3;
                 } else {
@@ -18442,27 +18437,27 @@ public class MessagesController extends BaseController implements NotificationCe
                     i6 = 0;
                 }
                 int size5 = longSparseArray2.size();
-                int i45 = 0;
-                while (i45 < size5) {
-                    long keyAt = longSparseArray2.keyAt(i45);
+                int i44 = 0;
+                while (i44 < size5) {
+                    long keyAt = longSparseArray2.keyAt(i44);
                     ArrayList arrayList19 = (ArrayList) longSparseArray12.get(keyAt);
                     longSparseArray12.remove(keyAt);
                     if (arrayList19 != null) {
-                        TLRPC.WebPage webPage = (TLRPC.WebPage) longSparseArray2.valueAt(i45);
+                        TLRPC.WebPage webPage = (TLRPC.WebPage) longSparseArray2.valueAt(i44);
                         ArrayList<TLRPC.Message> arrayList20 = new ArrayList<>();
                         if ((webPage instanceof TLRPC.TL_webPage) || (webPage instanceof TLRPC.TL_webPageEmpty)) {
                             int size6 = arrayList19.size();
-                            int i46 = 0;
+                            int i45 = 0;
                             j = 0;
-                            while (i46 < size6) {
+                            while (i45 < size6) {
                                 LongSparseArray longSparseArray14 = longSparseArray12;
-                                ((MessageObject) arrayList19.get(i46)).messageOwner.media.webpage = webPage;
-                                if (i46 == 0) {
-                                    j = ((MessageObject) arrayList19.get(i46)).getDialogId();
-                                    ImageLoader.saveMessageThumbs(((MessageObject) arrayList19.get(i46)).messageOwner);
+                                ((MessageObject) arrayList19.get(i45)).messageOwner.media.webpage = webPage;
+                                if (i45 == 0) {
+                                    j = ((MessageObject) arrayList19.get(i45)).getDialogId();
+                                    ImageLoader.saveMessageThumbs(((MessageObject) arrayList19.get(i45)).messageOwner);
                                 }
-                                arrayList20.add(((MessageObject) arrayList19.get(i46)).messageOwner);
-                                i46++;
+                                arrayList20.add(((MessageObject) arrayList19.get(i45)).messageOwner);
+                                i45++;
                                 longSparseArray12 = longSparseArray14;
                             }
                             longSparseArray13 = longSparseArray12;
@@ -18475,43 +18470,43 @@ public class MessagesController extends BaseController implements NotificationCe
                             getMessagesStorage().putMessages(arrayList20, true, true, false, getDownloadController().getAutodownloadMask(), i6, 0L);
                             i7 = 1;
                             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(j), arrayList19);
-                            i45 += i7;
+                            i44 += i7;
                             longSparseArray12 = longSparseArray13;
                         }
                     } else {
                         longSparseArray13 = longSparseArray12;
                     }
                     i7 = 1;
-                    i45 += i7;
+                    i44 += i7;
                     longSparseArray12 = longSparseArray13;
                 }
-                i43++;
-                i44 = 3;
-                i42 = 1;
+                i42++;
+                i43 = 3;
+                i41 = 1;
             }
         }
         if (i4 != 0) {
-            int i47 = 0;
+            int i46 = 0;
             while (true) {
                 DialogFilter[] dialogFilterArr = messagesController.selectedDialogFilter;
-                if (i47 >= dialogFilterArr.length) {
+                if (i46 >= dialogFilterArr.length) {
                     break;
                 }
-                DialogFilter dialogFilter = dialogFilterArr[i47];
+                DialogFilter dialogFilter = dialogFilterArr[i46];
                 if (dialogFilter != null && (dialogFilter.flags & i4) != 0) {
                     longSparseArray9 = longSparseArray3;
                     z2 = true;
                     break;
                 }
-                i47++;
+                i46++;
             }
         }
         longSparseArray9 = longSparseArray3;
         if (longSparseArray9 != null) {
             int size7 = longSparseArray3.size();
             boolean z20 = false;
-            for (int i48 = 0; i48 < size7; i48++) {
-                if (messagesController.updateInterfaceWithMessages(longSparseArray9.keyAt(i48), (ArrayList) longSparseArray9.valueAt(i48), 0)) {
+            for (int i47 = 0; i47 < size7; i47++) {
+                if (messagesController.updateInterfaceWithMessages(longSparseArray9.keyAt(i47), (ArrayList) longSparseArray9.valueAt(i47), 0)) {
                     z20 = true;
                 }
             }
@@ -18520,19 +18515,19 @@ public class MessagesController extends BaseController implements NotificationCe
                 z3 = true;
                 if (longSparseArray11 != null) {
                     int size8 = longSparseArray4.size();
-                    for (int i49 = 0; i49 < size8; i49++) {
-                        messagesController.updateInterfaceWithMessages(longSparseArray11.keyAt(i49), (ArrayList) longSparseArray11.valueAt(i49), 1);
+                    for (int i48 = 0; i48 < size8; i48++) {
+                        messagesController.updateInterfaceWithMessages(longSparseArray11.keyAt(i48), (ArrayList) longSparseArray11.valueAt(i48), 1);
                     }
                 }
                 if (longSparseArray5 != null) {
                     int size9 = longSparseArray5.size();
-                    for (int i50 = 0; i50 < size9; i50++) {
-                        long keyAt2 = longSparseArray5.keyAt(i50);
-                        ArrayList<MessageObject> arrayList21 = (ArrayList) longSparseArray5.valueAt(i50);
+                    for (int i49 = 0; i49 < size9; i49++) {
+                        long keyAt2 = longSparseArray5.keyAt(i49);
+                        ArrayList<MessageObject> arrayList21 = (ArrayList) longSparseArray5.valueAt(i49);
                         int size10 = arrayList21.size();
                         SparseBooleanArray sparseBooleanArray = null;
-                        for (int i51 = 0; i51 < size10; i51++) {
-                            MessageObject messageObject3 = arrayList21.get(i51);
+                        for (int i50 = 0; i50 < size10; i50++) {
+                            MessageObject messageObject3 = arrayList21.get(i50);
                             if (keyAt2 > 0) {
                                 if (sparseBooleanArray == null) {
                                     sparseBooleanArray = new SparseBooleanArray();
@@ -18546,15 +18541,15 @@ public class MessagesController extends BaseController implements NotificationCe
                         ArrayList arrayList22 = (ArrayList) messagesController.dialogMessage.get(keyAt2);
                         if (arrayList22 != null) {
                             boolean z21 = z3;
-                            for (int i52 = 0; i52 < arrayList22.size(); i52++) {
-                                MessageObject messageObject4 = (MessageObject) arrayList22.get(i52);
+                            for (int i51 = 0; i51 < arrayList22.size(); i51++) {
+                                MessageObject messageObject4 = (MessageObject) arrayList22.get(i51);
                                 int size11 = arrayList21.size();
-                                int i53 = 0;
+                                int i52 = 0;
                                 while (true) {
-                                    if (i53 >= size11) {
+                                    if (i52 >= size11) {
                                         break;
                                     }
-                                    MessageObject messageObject5 = arrayList21.get(i53);
+                                    MessageObject messageObject5 = arrayList21.get(i52);
                                     if (messageObject4.getId() != messageObject5.getId()) {
                                         if (messageObject4.getDialogId() == messageObject5.getDialogId() && (messageObject4.messageOwner.action instanceof TLRPC.TL_messageActionPinMessage) && (messageObject = messageObject4.replyMessageObject) != null && messageObject.getId() == messageObject5.getId()) {
                                             messageObject4.replyMessageObject = messageObject5;
@@ -18562,9 +18557,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                             z21 = true;
                                             break;
                                         }
-                                        i53++;
+                                        i52++;
                                     } else {
-                                        arrayList22.set(i52, messageObject5);
+                                        arrayList22.set(i51, messageObject5);
                                         TLRPC.Peer peer8 = messageObject5.messageOwner.peer_id;
                                         if (peer8 != null && peer8.channel_id == 0) {
                                             messagesController.dialogMessagesByIds.put(messageObject5.getId(), messageObject5);
@@ -18590,8 +18585,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 if (arrayList5 != null) {
                     int size12 = arrayList5.size();
-                    for (int i54 = 0; i54 < size12; i54++) {
-                        getMessagesStorage().updateChatParticipants((TLRPC.ChatParticipants) arrayList5.get(i54));
+                    for (int i53 = 0; i53 < size12; i53++) {
+                        getMessagesStorage().updateChatParticipants((TLRPC.ChatParticipants) arrayList5.get(i53));
                     }
                 }
                 if (longSparseArray6 != null && longSparseArray7 == null && longSparseArray8 == null) {
@@ -18601,11 +18596,11 @@ public class MessagesController extends BaseController implements NotificationCe
                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
                 }
                 if (i3 != 0) {
-                    NotificationCenter notificationCenter3 = getNotificationCenter();
-                    int i55 = NotificationCenter.updateInterfaces;
-                    Object[] objArr2 = new Object[i5];
-                    objArr2[0] = Integer.valueOf(i3);
-                    notificationCenter3.lambda$postNotificationNameOnUIThread$1(i55, objArr2);
+                    NotificationCenter notificationCenter2 = getNotificationCenter();
+                    int i54 = NotificationCenter.updateInterfaces;
+                    Object[] objArr = new Object[i5];
+                    objArr[0] = Integer.valueOf(i3);
+                    notificationCenter2.lambda$postNotificationNameOnUIThread$1(i54, objArr);
                 }
                 if (arrayList6 != null) {
                     ImageLoader.getInstance().putThumbsToCache(arrayList6);
@@ -22285,7 +22280,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public void addFilter(DialogFilter dialogFilter, boolean z) {
         if (z) {
             int size = this.dialogFilters.size();
-            int i = NotificationCenter.liveLocationsChanged;
+            int i = NotificationCenter.proxyChangedByRotation;
             for (int i2 = 0; i2 < size; i2++) {
                 i = Math.min(i, this.dialogFilters.get(i2).order);
             }
@@ -22502,14 +22497,6 @@ public class MessagesController extends BaseController implements NotificationCe
             });
             putUser(user, false);
         }
-    }
-
-    public Boolean arePaidReactionsAnonymous() {
-        if (this.paidReactionsAnonymous == null && !this.loadingArePaidReactionsAnonymous) {
-            this.loadingArePaidReactionsAnonymous = true;
-            getConnectionsManager().sendRequest(new TLRPC.TL_messages_getPaidReactionPrivacy(), null);
-        }
-        return this.paidReactionsAnonymous;
     }
 
     public void blockPeer(long j) {
@@ -25733,6 +25720,14 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    public Long getPaidReactionsDialogId() {
+        if (this.paidReactionsPrivacy == null && !this.loadingArePaidReactionsAnonymous) {
+            this.loadingArePaidReactionsAnonymous = true;
+            getConnectionsManager().sendRequest(new TLRPC.TL_messages_getPaidReactionPrivacy(), null);
+        }
+        return this.paidReactionsPrivacy;
+    }
+
     public TLRPC.Peer getPeer(long j) {
         if (j >= 0) {
             TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
@@ -27918,11 +27913,11 @@ public class MessagesController extends BaseController implements NotificationCe
 
     /* JADX WARN: Code restructure failed: missing block: B:164:0x052a, code lost:
     
-        if (org.telegram.messenger.MessageObject.getMedia(r0).bytes[0] < 198) goto L219;
+        if (org.telegram.messenger.MessageObject.getMedia(r0).bytes[0] < 199) goto L219;
      */
     /* JADX WARN: Code restructure failed: missing block: B:168:0x0542, code lost:
     
-        if (org.telegram.messenger.Utilities.bytesToInt(org.telegram.messenger.MessageObject.getMedia(r0).bytes) < 198) goto L219;
+        if (org.telegram.messenger.Utilities.bytesToInt(org.telegram.messenger.MessageObject.getMedia(r0).bytes) < 199) goto L219;
      */
     /* JADX WARN: Code restructure failed: missing block: B:285:0x0204, code lost:
     
@@ -28282,7 +28277,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     messageObject.scheduled = i11 == 1;
                     arrayList.add(messageObject);
                     if (z) {
-                        if (!message4.legacy || message4.layer >= 198) {
+                        if (!message4.legacy || message4.layer >= 199) {
                             if ((MessageObject.getMedia(message4) instanceof TLRPC.TL_messageMediaUnsupported) && MessageObject.getMedia(message4).bytes != null) {
                                 if (MessageObject.getMedia(message4).bytes.length != 0) {
                                     if (MessageObject.getMedia(message4).bytes.length != 1) {

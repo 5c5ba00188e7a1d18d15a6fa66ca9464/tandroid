@@ -50,7 +50,7 @@ public class MuteDrawable extends Drawable {
     @Override // android.graphics.drawable.Drawable
     public void draw(Canvas canvas) {
         android.graphics.Rect bounds = getBounds();
-        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.newLocationAvailable, 31);
+        canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.liveLocationsChanged, 31);
         this.baseDrawable.setBounds(bounds);
         this.baseDrawable.draw(canvas);
         float f = this.animatedMuted.set(this.muted);

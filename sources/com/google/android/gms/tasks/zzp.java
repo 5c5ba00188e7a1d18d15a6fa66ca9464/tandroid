@@ -3,7 +3,7 @@ package com.google.android.gms.tasks;
 import java.util.concurrent.Executor;
 
 /* loaded from: classes.dex */
-final class zzp implements OnSuccessListener, OnFailureListener, OnCanceledListener, zzq {
+final class zzp<TResult, TContinuationResult> implements OnSuccessListener<TContinuationResult>, OnFailureListener, OnCanceledListener, zzq {
     private final Executor zza;
     private final SuccessContinuation zzb;
     private final zzw zzc;
@@ -25,8 +25,8 @@ final class zzp implements OnSuccessListener, OnFailureListener, OnCanceledListe
     }
 
     @Override // com.google.android.gms.tasks.OnSuccessListener
-    public final void onSuccess(Object obj) {
-        this.zzc.zzb(obj);
+    public final void onSuccess(TContinuationResult tcontinuationresult) {
+        this.zzc.zzb(tcontinuationresult);
     }
 
     @Override // com.google.android.gms.tasks.zzq

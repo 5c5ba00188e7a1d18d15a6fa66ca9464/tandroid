@@ -1546,7 +1546,7 @@ public abstract class Theme {
             this.isSelected = z2;
             this.path = new Path();
             this.selectedPaint = new Paint(1);
-            this.alpha = NotificationCenter.newLocationAvailable;
+            this.alpha = NotificationCenter.liveLocationsChanged;
         }
 
         private int dp(float f) {
@@ -1746,7 +1746,7 @@ public abstract class Theme {
             messageDrawable.draw(canvas);
             setAlpha((int) (this.crossfadeProgress * 255.0f));
             draw(canvas, null);
-            setAlpha(NotificationCenter.newLocationAvailable);
+            setAlpha(NotificationCenter.liveLocationsChanged);
         }
 
         /* JADX WARN: Removed duplicated region for block: B:32:0x0106  */
@@ -3092,7 +3092,7 @@ public abstract class Theme {
             if (i == 0) {
                 return 0;
             }
-            return Color.argb(NotificationCenter.newLocationAvailable, i4 / i, i3 / i, i2 / i);
+            return Color.argb(NotificationCenter.liveLocationsChanged, i4 / i, i3 / i, i2 / i);
         }
 
         private int bubbleSelectedOverlay(int i, int i2) {
@@ -3230,14 +3230,14 @@ public abstract class Theme {
                 float[] fArr3 = this.tempHSV;
                 float f4 = fArr3[2];
                 fArr3[2] = Math.max(0.0f, Math.min(1.0f, f4 - (f4 <= 0.7f ? 0.25f : 0.125f)));
-                return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.newLocationAvailable, this.tempHSV));
+                return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.liveLocationsChanged, this.tempHSV));
             }
             fArr2[0] = f;
             fArr2[1] = Math.max(0.0f, Math.min(1.0f, f2 + 0.6f));
             float[] fArr32 = this.tempHSV;
             float f42 = fArr32[2];
             fArr32[2] = Math.max(0.0f, Math.min(1.0f, f42 - (f42 <= 0.7f ? 0.25f : 0.125f)));
-            return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.newLocationAvailable, this.tempHSV));
+            return Theme.blendOver(i, Color.HSVToColor(NotificationCenter.liveLocationsChanged, this.tempHSV));
         }
 
         public boolean fillAccentColors(SparseIntArray sparseIntArray, SparseIntArray sparseIntArray2) {
@@ -3619,10 +3619,10 @@ public abstract class Theme {
                 if (i6 == 0) {
                     i6 = 45;
                 }
-                String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (i2 >> 8)) & 255), Byte.valueOf((byte) (i2 & NotificationCenter.newLocationAvailable))).toLowerCase();
-                String lowerCase2 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (i3 >> 8)) & 255), Byte.valueOf((byte) (i3 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
-                String lowerCase3 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (i4 >> 8)) & 255), Byte.valueOf((byte) (i4 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
-                String lowerCase4 = i5 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i5 >> 16)) & 255), Integer.valueOf(((byte) (i5 >> 8)) & 255), Byte.valueOf((byte) (i5 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
+                String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (i2 >> 8)) & 255), Byte.valueOf((byte) (i2 & NotificationCenter.liveLocationsChanged))).toLowerCase();
+                String lowerCase2 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (i3 >> 8)) & 255), Byte.valueOf((byte) (i3 & NotificationCenter.liveLocationsChanged))).toLowerCase() : null;
+                String lowerCase3 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (i4 >> 8)) & 255), Byte.valueOf((byte) (i4 & NotificationCenter.liveLocationsChanged))).toLowerCase() : null;
+                String lowerCase4 = i5 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i5 >> 16)) & 255), Integer.valueOf(((byte) (i5 >> 8)) & 255), Byte.valueOf((byte) (i5 & NotificationCenter.liveLocationsChanged))).toLowerCase() : null;
                 if (lowerCase2 == null || lowerCase3 == null) {
                     if (lowerCase2 != null) {
                         lowerCase = (lowerCase + "-" + lowerCase2) + "&rotation=" + i6;
@@ -7865,7 +7865,7 @@ public abstract class Theme {
         chat_actionBackgroundPaint.setFilterBitmap(true);
         chat_actionBackgroundPaint.setShader(serviceBitmapShader);
         chat_actionBackgroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-        chat_actionBackgroundPaint.setAlpha(NotificationCenter.newLocationAvailable);
+        chat_actionBackgroundPaint.setAlpha(NotificationCenter.liveLocationsChanged);
         chat_actionBackgroundSelectedPaint.setFilterBitmap(true);
         chat_actionBackgroundSelectedPaint.setShader(serviceBitmapShader);
         ColorMatrix colorMatrix2 = new ColorMatrix(colorMatrix);
@@ -7873,7 +7873,7 @@ public abstract class Theme {
         isCurrentThemeDark();
         AndroidUtilities.multiplyBrightnessColorMatrix(colorMatrix2, 0.92f);
         chat_actionBackgroundSelectedPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix2));
-        chat_actionBackgroundSelectedPaint.setAlpha(NotificationCenter.newLocationAvailable);
+        chat_actionBackgroundSelectedPaint.setAlpha(NotificationCenter.liveLocationsChanged);
         chat_actionBackgroundGradientDarkenPaint.setAlpha(0);
     }
 
@@ -8640,7 +8640,7 @@ public abstract class Theme {
         int red = (int) (Color.red(i) * f);
         int green = (int) (Color.green(i) * f);
         int blue = (int) (Color.blue(i) * f);
-        return Color.argb(Color.alpha(i), red < 0 ? 0 : Math.min(red, NotificationCenter.newLocationAvailable), green < 0 ? 0 : Math.min(green, NotificationCenter.newLocationAvailable), blue >= 0 ? Math.min(blue, NotificationCenter.newLocationAvailable) : 0);
+        return Color.argb(Color.alpha(i), red < 0 ? 0 : Math.min(red, NotificationCenter.liveLocationsChanged), green < 0 ? 0 : Math.min(green, NotificationCenter.liveLocationsChanged), blue >= 0 ? Math.min(blue, NotificationCenter.liveLocationsChanged) : 0);
     }
 
     public static int changeColorAccent(int i) {
@@ -11743,7 +11743,7 @@ public abstract class Theme {
         tempHsv[1] = (tempHsv2[1] * fArr[1]) / tempHsv[1];
         float f = ((((tempHsv2[2] / tempHsv[2]) + min) - 1.0f) * fArr[2]) / min;
         tempHsv[2] = f;
-        return f < 0.3f ? i2 : Color.HSVToColor(NotificationCenter.newLocationAvailable, tempHsv);
+        return f < 0.3f ? i2 : Color.HSVToColor(NotificationCenter.liveLocationsChanged, tempHsv);
     }
 
     public static ThemeInfo getActiveTheme() {
@@ -12517,13 +12517,13 @@ public abstract class Theme {
             sb2.append("https://attheme.org?slug=");
             sb2.append(overrideWallpaperInfo.slug);
         } else {
-            String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.color >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.color & NotificationCenter.newLocationAvailable))).toLowerCase();
+            String lowerCase = String.format("%02x%02x%02x", Integer.valueOf(((byte) (i >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.color >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.color & NotificationCenter.liveLocationsChanged))).toLowerCase();
             int i2 = overrideWallpaperInfo.gradientColor1;
-            String lowerCase2 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor1 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
+            String lowerCase2 = i2 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i2 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor1 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor1 & NotificationCenter.liveLocationsChanged))).toLowerCase() : null;
             int i3 = overrideWallpaperInfo.gradientColor2;
-            String lowerCase3 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor2 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
+            String lowerCase3 = i3 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i3 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor2 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor2 & NotificationCenter.liveLocationsChanged))).toLowerCase() : null;
             int i4 = overrideWallpaperInfo.gradientColor3;
-            String lowerCase4 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor3 & NotificationCenter.newLocationAvailable))).toLowerCase() : null;
+            String lowerCase4 = i4 != 0 ? String.format("%02x%02x%02x", Integer.valueOf(((byte) (i4 >> 16)) & 255), Integer.valueOf(((byte) (overrideWallpaperInfo.gradientColor3 >> 8)) & 255), Byte.valueOf((byte) (overrideWallpaperInfo.gradientColor3 & NotificationCenter.liveLocationsChanged))).toLowerCase() : null;
             if (lowerCase2 == null || lowerCase3 == null) {
                 if (lowerCase2 != null) {
                     sb = new StringBuilder();
@@ -13293,7 +13293,7 @@ public abstract class Theme {
     }
 
     public static int multAlpha(int i, float f) {
-        return f == 1.0f ? i : ColorUtils.setAlphaComponent(i, MathUtils.clamp((int) (Color.alpha(i) * f), 0, NotificationCenter.newLocationAvailable));
+        return f == 1.0f ? i : ColorUtils.setAlphaComponent(i, MathUtils.clamp((int) (Color.alpha(i) * f), 0, NotificationCenter.liveLocationsChanged));
     }
 
     private static int needSwitchToTheme() {

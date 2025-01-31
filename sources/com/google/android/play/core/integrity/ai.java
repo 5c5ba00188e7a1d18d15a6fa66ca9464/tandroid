@@ -3,10 +3,9 @@ package com.google.android.play.core.integrity;
 import android.os.Bundle;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.android.play.integrity.internal.o;
 
 /* loaded from: classes.dex */
-final class ai extends o {
+final class ai extends com.google.android.play.integrity.internal.o {
     final /* synthetic */ aj a;
     private final com.google.android.play.integrity.internal.s b = new com.google.android.play.integrity.internal.s("OnRequestIntegrityTokenCallback");
     private final TaskCompletionSource c;

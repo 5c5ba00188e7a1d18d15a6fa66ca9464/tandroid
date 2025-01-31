@@ -194,7 +194,7 @@ public class MP3Info extends AudioInfo {
                             int read4 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                             int read5 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                             if (read4 != -1 && read5 != -1) {
-                                if (read4 == 255 && (read5 & NotificationCenter.liveLocationsChanged) == (read & NotificationCenter.liveLocationsChanged)) {
+                                if (read4 == 255 && (read5 & NotificationCenter.proxyChangedByRotation) == (read & NotificationCenter.proxyChangedByRotation)) {
                                     int read6 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                     int read7 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                     if (read6 != -1 && read7 != -1) {

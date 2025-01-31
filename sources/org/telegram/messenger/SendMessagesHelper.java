@@ -14744,7 +14744,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             TLRPC.TL_peerUser tL_peerUser = new TLRPC.TL_peerUser();
             message2.from_id = tL_peerUser;
             tL_peerUser.user_id = getUserConfig().getClientUserId();
-            message2.flags |= NotificationCenter.webRtcMicAmplitudeEvent;
+            message2.flags |= NotificationCenter.voipServiceCreated;
             TLRPC.TL_messageReplyHeader tL_messageReplyHeader = new TLRPC.TL_messageReplyHeader();
             message2.reply_to = tL_messageReplyHeader;
             tL_messageReplyHeader.flags |= 16;

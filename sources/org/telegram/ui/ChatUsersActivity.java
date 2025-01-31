@@ -2660,7 +2660,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             return 60;
         }
         if (i == 4) {
-            return NotificationCenter.uploadStoryProgress;
+            return NotificationCenter.chatlistFolderUpdate;
         }
         if (i == 5) {
             return 900;

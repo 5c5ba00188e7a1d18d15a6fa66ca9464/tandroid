@@ -12,6 +12,15 @@ public final class l extends a implements n {
 
     /* JADX WARN: Multi-variable type inference failed */
     @Override // com.google.android.play.integrity.internal.n
+    public final void c(Bundle bundle, r rVar) {
+        Parcel a = a();
+        c.c(a, bundle);
+        a.writeStrongBinder(rVar);
+        b(3, a);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // com.google.android.play.integrity.internal.n
     public final void d(Bundle bundle, p pVar) {
         Parcel a = a();
         c.c(a, bundle);

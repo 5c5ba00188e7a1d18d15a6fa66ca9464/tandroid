@@ -6,7 +6,7 @@ public final class DuplicateTaskCompletionException extends IllegalStateExceptio
         super(str, th);
     }
 
-    public static IllegalStateException of(Task task) {
+    public static IllegalStateException of(Task<?> task) {
         if (!task.isComplete()) {
             return new IllegalStateException("DuplicateTaskCompletionException can only be created from completed Task.");
         }

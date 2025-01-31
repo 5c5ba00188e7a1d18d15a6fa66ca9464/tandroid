@@ -531,7 +531,7 @@ public class LinkEditActivity extends BaseFragment {
                     tL_messages_exportChatInvite.flags |= 32;
                     TL_stars.TL_starsSubscriptionPricing tL_starsSubscriptionPricing = new TL_stars.TL_starsSubscriptionPricing();
                     tL_messages_exportChatInvite.subscription_pricing = tL_starsSubscriptionPricing;
-                    tL_starsSubscriptionPricing.period = getConnectionsManager().isTestBackend() ? NotificationCenter.uploadStoryProgress : 2592000;
+                    tL_starsSubscriptionPricing.period = getConnectionsManager().isTestBackend() ? NotificationCenter.chatlistFolderUpdate : 2592000;
                     tL_messages_exportChatInvite.subscription_pricing.amount = j;
                 }
                 ConnectionsManager connectionsManager2 = getConnectionsManager();

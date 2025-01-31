@@ -36,7 +36,7 @@ import org.telegram.ui.Stories.MessageMediaStoryFull_old;
 
 /* loaded from: classes3.dex */
 public class TLRPC {
-    public static final int LAYER = 198;
+    public static final int LAYER = 199;
     public static final int MESSAGE_FLAG_EDITED = 32768;
     public static final int MESSAGE_FLAG_FWD = 4;
     public static final int MESSAGE_FLAG_HAS_BOT_ID = 2048;
@@ -3649,8 +3649,8 @@ public class TLRPC {
                 if (this.params == null) {
                     this.params = new HashMap<>();
                 }
-                this.layer = 198;
-                this.params.put("legacy_layer", "198");
+                this.layer = 199;
+                this.params.put("legacy_layer", "199");
             }
             if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {
                 for (Map.Entry<String, String> entry2 : this.params.entrySet()) {
@@ -50033,12 +50033,12 @@ public class TLRPC {
     }
 
     public static class TL_messages_sendPaidReaction extends TLObject {
-        public static final int constructor = -1646877061;
+        public static final int constructor = 1488702288;
         public int count;
         public int flags;
-        public Boolean isPrivate;
         public int msg_id;
         public InputPeer peer;
+        public TL_stars.PaidReactionPrivacy privacy;
         public long random_id;
 
         @Override // org.telegram.tgnet.TLObject
@@ -50049,15 +50049,13 @@ public class TLRPC {
         @Override // org.telegram.tgnet.TLObject
         public void serializeToStream(OutputSerializedData outputSerializedData) {
             outputSerializedData.writeInt32(constructor);
-            int i = this.isPrivate != null ? this.flags | 1 : this.flags & (-2);
-            this.flags = i;
-            outputSerializedData.writeInt32(i);
+            outputSerializedData.writeInt32(this.flags);
             this.peer.serializeToStream(outputSerializedData);
             outputSerializedData.writeInt32(this.msg_id);
             outputSerializedData.writeInt32(this.count);
             outputSerializedData.writeInt64(this.random_id);
             if ((this.flags & 1) != 0) {
-                outputSerializedData.writeBool(this.isPrivate.booleanValue());
+                this.privacy.serializeToStream(outputSerializedData);
             }
         }
     }
@@ -50788,10 +50786,10 @@ public class TLRPC {
     }
 
     public static class TL_messages_togglePaidReactionPrivacy extends TLObject {
-        public static final int constructor = -2070228073;
-        public boolean isPrivate;
+        public static final int constructor = 1129874869;
         public int msg_id;
         public InputPeer peer;
+        public TL_stars.PaidReactionPrivacy privacy;
 
         @Override // org.telegram.tgnet.TLObject
         public TLObject deserializeResponse(InputSerializedData inputSerializedData, int i, boolean z) {
@@ -50803,7 +50801,7 @@ public class TLRPC {
             outputSerializedData.writeInt32(constructor);
             this.peer.serializeToStream(outputSerializedData);
             outputSerializedData.writeInt32(this.msg_id);
-            outputSerializedData.writeBool(this.isPrivate);
+            this.privacy.serializeToStream(outputSerializedData);
         }
     }
 
@@ -62011,18 +62009,18 @@ public class TLRPC {
     }
 
     public static class TL_updatePaidReactionPrivacy extends Update {
-        public static final int constructor = 1372224236;
-        public boolean isPrivate;
+        public static final int constructor = -1955438642;
+        public TL_stars.PaidReactionPrivacy privacy;
 
         @Override // org.telegram.tgnet.TLObject
         public void readParams(InputSerializedData inputSerializedData, boolean z) {
-            this.isPrivate = inputSerializedData.readBool(z);
+            this.privacy = TL_stars.PaidReactionPrivacy.TLdeserialize(inputSerializedData, inputSerializedData.readInt32(z), z);
         }
 
         @Override // org.telegram.tgnet.TLObject
         public void serializeToStream(OutputSerializedData outputSerializedData) {
             outputSerializedData.writeInt32(constructor);
-            outputSerializedData.writeBool(this.isPrivate);
+            this.privacy.serializeToStream(outputSerializedData);
         }
     }
 
@@ -71807,6 +71805,9 @@ public class TLRPC {
                 case TL_updateNewAuthorization.constructor /* -1991136273 */:
                     tL_updateTheme = new TL_updateNewAuthorization();
                     break;
+                case TL_updatePaidReactionPrivacy.constructor /* -1955438642 */:
+                    tL_updateTheme = new TL_updatePaidReactionPrivacy();
+                    break;
                 case TL_updateChannelUserTyping.constructor /* -1937192669 */:
                     tL_updateTheme = new TL_updateChannelUserTyping();
                     break;
@@ -72085,9 +72086,6 @@ public class TLRPC {
                     break;
                 case TL_updateMessageID.constructor /* 1318109142 */:
                     tL_updateTheme = new TL_updateMessageID();
-                    break;
-                case TL_updatePaidReactionPrivacy.constructor /* 1372224236 */:
-                    tL_updateTheme = new TL_updatePaidReactionPrivacy();
                     break;
                 case TL_updateDeleteQuickReply.constructor /* 1407644140 */:
                     tL_updateTheme = new TL_updateDeleteQuickReply();

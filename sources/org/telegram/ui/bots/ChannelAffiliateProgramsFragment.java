@@ -977,7 +977,8 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
         };
         runnable.run();
         if (view != null) {
-            BotStarsController.getInstance(i).loadAdmined();
+            BotStarsController.getInstance(i).loadAdminedBots();
+            BotStarsController.getInstance(i).loadAdminedChannels();
             final View view4 = view;
             view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnClickListener
@@ -1239,7 +1240,8 @@ public class ChannelAffiliateProgramsFragment extends GradientHeaderActivity imp
             }
         });
         if (view != null) {
-            BotStarsController.getInstance(i).loadAdmined();
+            BotStarsController.getInstance(i).loadAdminedBots();
+            BotStarsController.getInstance(i).loadAdminedChannels();
             final View view3 = view;
             view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.bots.ChannelAffiliateProgramsFragment$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener

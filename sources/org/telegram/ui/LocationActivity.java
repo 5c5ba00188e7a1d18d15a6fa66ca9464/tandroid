@@ -319,7 +319,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             ofFloat.setDuration(360L);
             ofFloat.start();
             this.views.put(iMarker, frameLayout);
-            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.uploadStoryProgress, null);
+            LocationActivity.this.map.animateCamera(ApplicationLoader.getMapsProvider().newCameraUpdateLatLng(iMarker.getPosition()), NotificationCenter.chatlistFolderUpdate, null);
         }
 
         public void removeInfoView(IMapsProvider.IMarker iMarker) {

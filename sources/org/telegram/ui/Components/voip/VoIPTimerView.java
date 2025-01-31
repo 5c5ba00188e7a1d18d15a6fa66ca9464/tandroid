@@ -45,7 +45,7 @@ public class VoIPTimerView extends View {
         };
         this.textPaint.setTextSize(AndroidUtilities.dp(15.0f));
         this.textPaint.setColor(-1);
-        this.activePaint.setColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.wallpapersDidLoad));
+        this.activePaint.setColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.pushMessagesUpdated));
         this.inactivePaint.setColor(ColorUtils.setAlphaComponent(-1, 102));
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.calls_decline);
         this.callsDeclineDrawable = drawable;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /* loaded from: classes.dex */
-public abstract class a {
+public final class a {
     private static final Map a;
     private static final Map b;
 

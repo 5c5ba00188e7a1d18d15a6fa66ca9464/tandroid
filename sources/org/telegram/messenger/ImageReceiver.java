@@ -1201,14 +1201,14 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                                                 i6 = i5;
                                                 drawDrawable(canvas, drawable, i6, bitmapShader7, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
                                                 if (i6 != 255 && (drawable instanceof Emoji.EmojiDrawable)) {
-                                                    drawable.setAlpha(NotificationCenter.newLocationAvailable);
+                                                    drawable.setAlpha(NotificationCenter.liveLocationsChanged);
                                                 }
                                             }
                                             i5 = (int) ((f5 - min) * f3 * 255.0f);
                                             i6 = i5;
                                             drawDrawable(canvas, drawable, i6, bitmapShader7, this.thumbOrientation, this.thumbInvert, backgroundThreadDrawHolder);
                                             if (i6 != 255) {
-                                                drawable.setAlpha(NotificationCenter.newLocationAvailable);
+                                                drawable.setAlpha(NotificationCenter.liveLocationsChanged);
                                             }
                                         }
                                     }
@@ -4268,7 +4268,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if ((drawable == null || (bitmapShader = this.thumbShader) == null) && ((drawable = this.staticThumbDrawable) == null || (bitmapShader = this.staticThumbShader) == null)) {
             return false;
         }
-        drawDrawable(null, drawable, NotificationCenter.newLocationAvailable, bitmapShader, 0, 0, 0, null);
+        drawDrawable(null, drawable, NotificationCenter.liveLocationsChanged, bitmapShader, 0, 0, 0, null);
         return true;
     }
 }

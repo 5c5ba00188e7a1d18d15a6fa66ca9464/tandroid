@@ -196,8 +196,8 @@ abstract class DecodedBitStreamParser {
             int readBits = bitSource.readBits(13);
             int i3 = (readBits % 96) | ((readBits / 96) << 8);
             int i4 = i3 + (i3 < 2560 ? 41377 : 42657);
-            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.newLocationAvailable);
-            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.newLocationAvailable);
+            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.liveLocationsChanged);
+            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.liveLocationsChanged);
             i2 += 2;
             i--;
         }

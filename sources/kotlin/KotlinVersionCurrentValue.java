@@ -8,6 +8,6 @@ final class KotlinVersionCurrentValue {
     }
 
     public static final KotlinVersion get() {
-        return new KotlinVersion(1, 8, 10);
+        return new KotlinVersion(1, 8, 20);
     }
 }

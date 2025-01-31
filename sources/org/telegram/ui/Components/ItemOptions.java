@@ -668,7 +668,7 @@ public class ItemOptions {
                 actionBarMenuSubItem.setColors(r1, num2 == null ? num2.intValue() : Theme.getColor(i5, this.resourcesProvider));
                 Integer num3 = this.selectorColor;
                 actionBarMenuSubItem.setSelectorColor(num3 == null ? num3.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda10
+                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda6
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ItemOptions.this.lambda$addChat$4(runnable, view);
@@ -698,7 +698,7 @@ public class ItemOptions {
             actionBarMenuSubItem.setColors(r1, num22 == null ? num22.intValue() : Theme.getColor(i5, this.resourcesProvider));
             Integer num32 = this.selectorColor;
             actionBarMenuSubItem.setSelectorColor(num32 == null ? num32.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda10
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ItemOptions.this.lambda$addChat$4(runnable, view);
@@ -736,7 +736,7 @@ public class ItemOptions {
             actionBarMenuSubItem.setColors(intValue, num222 == null ? num222.intValue() : Theme.getColor(i5, this.resourcesProvider));
             Integer num322 = this.selectorColor;
             actionBarMenuSubItem.setSelectorColor(num322 == null ? num322.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda10
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ItemOptions.this.lambda$addChat$4(runnable, view2);
@@ -774,7 +774,7 @@ public class ItemOptions {
         actionBarMenuSubItem.setColors(intValue, num2222 == null ? num2222.intValue() : Theme.getColor(i5, this.resourcesProvider));
         Integer num3222 = this.selectorColor;
         actionBarMenuSubItem.setSelectorColor(num3222 == null ? num3222.intValue() : Theme.multAlpha(Theme.getColor(i4, this.resourcesProvider), 0.12f));
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda10
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ItemOptions.this.lambda$addChat$4(runnable, view2);
@@ -831,14 +831,14 @@ public class ItemOptions {
         actionBarMenuSubItem.setColors(intValue, num2 != null ? num2.intValue() : Theme.getColor(i3, this.resourcesProvider));
         Integer num3 = this.selectorColor;
         actionBarMenuSubItem.setSelectorColor(num3 != null ? num3.intValue() : Theme.multAlpha(Theme.getColor(i2, this.resourcesProvider), 0.12f));
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ItemOptions.this.lambda$addChecked$2(runnable, view);
             }
         });
         if (runnable2 != null) {
-            actionBarMenuSubItem.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda9
+            actionBarMenuSubItem.setOnLongClickListener(new View.OnLongClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnLongClickListener
                 public final boolean onLongClick(View view) {
                     boolean lambda$addChecked$3;
@@ -942,7 +942,7 @@ public class ItemOptions {
         }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, this.resourcesProvider);
         this.lastLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda7
+        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 ItemOptions.this.lambda$addSpaceGap$7(keyEvent);
@@ -1151,7 +1151,7 @@ public class ItemOptions {
             ActionBarMenuSubItem actionBarMenuSubItem = (ActionBarMenuSubItem) itemAt;
             actionBarMenuSubItem.setRightIcon(R.drawable.msg_mini_lock3);
             actionBarMenuSubItem.getRightIcon().setAlpha(0.4f);
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda6
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ItemOptions.this.lambda$putPremiumLock$6(runnable, view);

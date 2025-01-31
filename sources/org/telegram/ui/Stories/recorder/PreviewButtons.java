@@ -184,7 +184,7 @@ public class PreviewButtons extends FrameLayout {
             canvas.save();
             canvas.scale(f3, f3, getWidth() / 2.0f, getHeight() / 2.0f);
             canvas.drawRect(AndroidUtilities.dp(25.0f), AndroidUtilities.dp(4.0f), getWidth() - AndroidUtilities.dp(25.0f), getHeight() - AndroidUtilities.dp(4.0f), this.darkenPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.newLocationAvailable, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.liveLocationsChanged, 31);
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(AndroidUtilities.dp(10.0f), AndroidUtilities.dp(4.0f), getWidth() - AndroidUtilities.dp(10.0f), getHeight() - AndroidUtilities.dp(4.0f));
             canvas.drawRoundRect(rectF, AndroidUtilities.dp(20.0f), AndroidUtilities.dp(20.0f), this.buttonPaint);

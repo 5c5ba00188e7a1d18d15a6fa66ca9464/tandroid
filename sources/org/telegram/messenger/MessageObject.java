@@ -4596,7 +4596,7 @@ public class MessageObject {
         }
     }
 
-    public static void addPaidReactions(int i, TLRPC.MessageReactions messageReactions, int i2, boolean z, boolean z2) {
+    public static void addPaidReactions(int i, TLRPC.MessageReactions messageReactions, int i2, long j, boolean z) {
         TLRPC.MessageReactor messageReactor = null;
         TLRPC.ReactionCount reactionCount = null;
         for (int i3 = 0; i3 < messageReactions.results.size(); i3++) {
@@ -4621,7 +4621,7 @@ public class MessageObject {
             messageReactions.results.add(0, reactionCount);
         }
         if (reactionCount != null) {
-            reactionCount.chosen = z2;
+            reactionCount.chosen = z;
             int max = Math.max(0, reactionCount.count + i2);
             reactionCount.count = max;
             if (max <= 0) {
@@ -4631,14 +4631,13 @@ public class MessageObject {
         if (messageReactor == null && i2 > 0) {
             messageReactor = new TLRPC.TL_messageReactor();
             messageReactor.my = true;
-            messageReactor.peer_id = MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId());
             messageReactions.top_reactors.add(messageReactor);
         }
         if (messageReactor != null) {
-            int max2 = Math.max(0, messageReactor.count + i2);
-            messageReactor.count = max2;
-            messageReactor.anonymous = z;
-            if (max2 <= 0) {
+            messageReactor.count = Math.max(0, messageReactor.count + i2);
+            messageReactor.anonymous = j == UserObject.ANONYMOUS;
+            messageReactor.peer_id = (j == 0 || j == UserObject.ANONYMOUS) ? MessagesController.getInstance(i).getPeer(UserConfig.getInstance(i).getClientUserId()) : MessagesController.getInstance(i).getPeer(j);
+            if (messageReactor.count <= 0) {
                 messageReactions.top_reactors.remove(messageReactor);
             }
         }
@@ -5751,6 +5750,30 @@ public class MessageObject {
         return getMediaSize(getMedia(message));
     }
 
+    public static Long getMyPaidReactionPeer(TLRPC.MessageReactions messageReactions) {
+        ArrayList<TLRPC.MessageReactor> arrayList;
+        long j;
+        if (messageReactions == null || (arrayList = messageReactions.top_reactors) == null) {
+            return null;
+        }
+        Iterator<TLRPC.MessageReactor> it = arrayList.iterator();
+        while (it.hasNext()) {
+            TLRPC.MessageReactor next = it.next();
+            if (next != null && next.my) {
+                if (next.anonymous) {
+                    j = UserObject.ANONYMOUS;
+                } else {
+                    TLRPC.Peer peer = next.peer_id;
+                    if (peer != null) {
+                        j = DialogObject.getPeerDialogId(peer);
+                    }
+                }
+                return Long.valueOf(j);
+            }
+        }
+        return null;
+    }
+
     public static long getObjectPeerId(TLObject tLObject) {
         if (tLObject == null) {
             return 0L;
@@ -6507,21 +6530,6 @@ public class MessageObject {
 
     public static boolean isMusicMessage(TLRPC.Message message) {
         return getMedia(message) instanceof TLRPC.TL_messageMediaWebPage ? isMusicDocument(getMedia(message).webpage.document) : getMedia(message) != null && isMusicDocument(getMedia(message).document);
-    }
-
-    public static Boolean isMyPaidReactionAnonymous(TLRPC.MessageReactions messageReactions) {
-        ArrayList<TLRPC.MessageReactor> arrayList;
-        if (messageReactions == null || (arrayList = messageReactions.top_reactors) == null) {
-            return null;
-        }
-        Iterator<TLRPC.MessageReactor> it = arrayList.iterator();
-        while (it.hasNext()) {
-            TLRPC.MessageReactor next = it.next();
-            if (next != null && next.my) {
-                return Boolean.valueOf(next.anonymous);
-            }
-        }
-        return null;
     }
 
     public static boolean isNewGifDocument(WebFile webFile) {
@@ -9020,7 +9028,7 @@ public class MessageObject {
         return addEntitiesToText(charSequence, arrayList2, isOutOwner(), true, z, z2);
     }
 
-    public void addPaidReactions(int i, boolean z, boolean z2) {
+    public void addPaidReactions(int i, boolean z, long j) {
         TLRPC.Message message = this.messageOwner;
         if (message.reactions == null) {
             message.reactions = new TLRPC.TL_messageReactions();
@@ -9028,7 +9036,7 @@ public class MessageObject {
             message2.reactions.reactions_as_tags = getDialogId(message2) == UserConfig.getInstance(this.currentAccount).getClientUserId();
             this.messageOwner.reactions.can_see_list = isFromGroup() || isFromUser();
         }
-        addPaidReactions(this.currentAccount, this.messageOwner.reactions, i, z2, z);
+        addPaidReactions(this.currentAccount, this.messageOwner.reactions, i, j, z);
     }
 
     public void applyMediaExistanceFlags(int i) {
@@ -11848,6 +11856,32 @@ public class MessageObject {
         return LocaleController.getString(R.string.AudioUnknownTitle);
     }
 
+    public Long getMyPaidReactionPeer() {
+        TLRPC.TL_messageReactions tL_messageReactions;
+        ArrayList<TLRPC.MessageReactor> arrayList;
+        long j;
+        TLRPC.Message message = this.messageOwner;
+        if (message == null || (tL_messageReactions = message.reactions) == null || (arrayList = tL_messageReactions.top_reactors) == null) {
+            return null;
+        }
+        Iterator<TLRPC.MessageReactor> it = arrayList.iterator();
+        while (it.hasNext()) {
+            TLRPC.MessageReactor next = it.next();
+            if (next != null && next.my) {
+                if (next.anonymous) {
+                    j = UserObject.ANONYMOUS;
+                } else {
+                    TLRPC.Peer peer = next.peer_id;
+                    if (peer != null) {
+                        j = DialogObject.getPeerDialogId(peer);
+                    }
+                }
+                return Long.valueOf(j);
+            }
+        }
+        return null;
+    }
+
     public TLObject getPeerObject() {
         TLRPC.Message message = this.messageOwner;
         if (message == null) {
@@ -12820,23 +12854,6 @@ public class MessageObject {
         return (!isMusicMessage(this.messageOwner) || isVideo() || isRoundVideo()) ? false : true;
     }
 
-    public Boolean isMyPaidReactionAnonymous() {
-        TLRPC.TL_messageReactions tL_messageReactions;
-        ArrayList<TLRPC.MessageReactor> arrayList;
-        TLRPC.Message message = this.messageOwner;
-        if (message == null || (tL_messageReactions = message.reactions) == null || (arrayList = tL_messageReactions.top_reactors) == null) {
-            return null;
-        }
-        Iterator<TLRPC.MessageReactor> it = arrayList.iterator();
-        while (it.hasNext()) {
-            TLRPC.MessageReactor next = it.next();
-            if (next != null && next.my) {
-                return Boolean.valueOf(next.anonymous);
-            }
-        }
-        return null;
-    }
-
     public boolean isNewGif() {
         return getMedia(this.messageOwner) != null && isNewGifDocument(getDocument());
     }
@@ -13022,7 +13039,7 @@ public class MessageObject {
         TLRPC.Message message = this.messageOwner;
         if (message.send_state != 2 || message.id >= 0) {
             if (this.scheduled && message.id > 0) {
-                if (message.date < ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - (this.messageOwner.video_processing_pending ? NotificationCenter.uploadStoryProgress : 60)) {
+                if (message.date < ConnectionsManager.getInstance(this.currentAccount).getCurrentTime() - (this.messageOwner.video_processing_pending ? NotificationCenter.chatlistFolderUpdate : 60)) {
                 }
             }
             return false;
@@ -13757,9 +13774,10 @@ public class MessageObject {
         this.messageOwner.unread = false;
     }
 
-    public void setMyPaidReactionAnonymous(boolean z) {
+    public void setMyPaidReactionDialogId(long j) {
         TLRPC.TL_messageReactions tL_messageReactions;
         ArrayList<TLRPC.MessageReactor> arrayList;
+        TLRPC.Peer peer;
         TLRPC.Message message = this.messageOwner;
         if (message == null || (tL_messageReactions = message.reactions) == null || (arrayList = tL_messageReactions.top_reactors) == null) {
             return;
@@ -13768,7 +13786,16 @@ public class MessageObject {
         while (it.hasNext()) {
             TLRPC.MessageReactor next = it.next();
             if (next != null && next.my) {
+                boolean z = j == UserObject.ANONYMOUS;
                 next.anonymous = z;
+                if (z) {
+                    next.flags &= -9;
+                    peer = null;
+                } else {
+                    next.flags |= 8;
+                    peer = MessagesController.getInstance(this.currentAccount).getPeer(j);
+                }
+                next.peer_id = peer;
             }
         }
     }

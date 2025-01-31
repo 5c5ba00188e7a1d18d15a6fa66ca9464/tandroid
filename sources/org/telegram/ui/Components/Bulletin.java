@@ -895,7 +895,7 @@ public class Bulletin {
             canvas.save();
             canvas.clipRect(0.0f, topOffset, getMeasuredWidth(), measuredHeight);
             if (clipWithGradient) {
-                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.newLocationAvailable, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.liveLocationsChanged, 31);
             }
             this.background.draw(canvas);
             super.dispatchDraw(canvas);

@@ -157,7 +157,7 @@ public final class TsExtractor implements Extractor {
                                 arrayList = arrayList2;
                                 i3 = 89;
                             } else if (readUnsignedByte == 111) {
-                                i3 = NotificationCenter.notificationsCountUpdated;
+                                i3 = NotificationCenter.liveLocationsCacheChanged;
                             }
                         }
                         i3 = NotificationCenter.fileUploadFailed;

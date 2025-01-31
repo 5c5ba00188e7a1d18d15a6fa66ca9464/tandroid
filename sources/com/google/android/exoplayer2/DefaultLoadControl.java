@@ -7,7 +7,6 @@ import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.Util;
-import org.telegram.messenger.voip.VoIPController;
 
 /* loaded from: classes.dex */
 public class DefaultLoadControl implements LoadControl {
@@ -52,7 +51,7 @@ public class DefaultLoadControl implements LoadControl {
 
     private static int getDefaultBufferSize(int i) {
         switch (i) {
-            case VoIPController.ERROR_PRIVACY /* -2 */:
+            case -2:
                 return 0;
             case -1:
             default:

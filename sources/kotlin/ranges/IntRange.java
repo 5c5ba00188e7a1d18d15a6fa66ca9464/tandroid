@@ -14,6 +14,10 @@ public final class IntRange extends IntProgression {
         public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
             this();
         }
+
+        public final IntRange getEMPTY() {
+            return IntRange.EMPTY;
+        }
     }
 
     public IntRange(int i, int i2) {
@@ -24,6 +28,7 @@ public final class IntRange extends IntProgression {
         return getFirst() <= i && i <= getLast();
     }
 
+    @Override // kotlin.ranges.IntProgression
     public boolean equals(Object obj) {
         if (obj instanceof IntRange) {
             if (!isEmpty() || !((IntRange) obj).isEmpty()) {
@@ -36,6 +41,15 @@ public final class IntRange extends IntProgression {
         return false;
     }
 
+    public Integer getEndInclusive() {
+        return Integer.valueOf(getLast());
+    }
+
+    public Integer getStart() {
+        return Integer.valueOf(getFirst());
+    }
+
+    @Override // kotlin.ranges.IntProgression
     public int hashCode() {
         if (isEmpty()) {
             return -1;
@@ -43,10 +57,12 @@ public final class IntRange extends IntProgression {
         return (getFirst() * 31) + getLast();
     }
 
+    @Override // kotlin.ranges.IntProgression
     public boolean isEmpty() {
         return getFirst() > getLast();
     }
 
+    @Override // kotlin.ranges.IntProgression
     public String toString() {
         return getFirst() + ".." + getLast();
     }

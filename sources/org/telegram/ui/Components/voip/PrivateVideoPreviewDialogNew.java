@@ -202,8 +202,8 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 PrivateVideoPreviewDialogNew.this.bgBlueViolet.setBounds(0, 0, 80, 80);
                 PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
                 PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
-                PrivateVideoPreviewDialogNew.this.bgGreen.setAlpha(NotificationCenter.newLocationAvailable);
-                PrivateVideoPreviewDialogNew.this.bgBlueViolet.setAlpha(NotificationCenter.newLocationAvailable);
+                PrivateVideoPreviewDialogNew.this.bgGreen.setAlpha(NotificationCenter.liveLocationsChanged);
+                PrivateVideoPreviewDialogNew.this.bgBlueViolet.setAlpha(NotificationCenter.liveLocationsChanged);
                 Canvas canvas = PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.getCanvas();
                 PorterDuff.Mode mode = PorterDuff.Mode.CLEAR;
                 canvas.drawColor(0, mode);
@@ -219,7 +219,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.setBounds(-getX(), -getY(), PrivateVideoPreviewDialogNew.this.getWidth() - getX(), PrivateVideoPreviewDialogNew.this.getHeight() - getY());
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage].setAlpha(NotificationCenter.newLocationAvailable);
+                this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage].setAlpha(NotificationCenter.liveLocationsChanged);
                 float dp = AndroidUtilities.dp(8.0f) + ((int) ((AndroidUtilities.dp(26.0f) - AndroidUtilities.dp(8.0f)) * (1.0f - PrivateVideoPreviewDialogNew.this.openProgress1)));
                 canvas.drawRoundRect(rectF, dp, dp, this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage]);
                 if (PrivateVideoPreviewDialogNew.this.pageOffset > 0.0f) {

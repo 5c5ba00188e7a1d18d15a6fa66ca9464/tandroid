@@ -55,13 +55,13 @@ public class CropRotationWheel extends FrameLayout {
         Paint.Style style = Paint.Style.FILL;
         paint.setStyle(style);
         this.whitePaint.setColor(-1);
-        this.whitePaint.setAlpha(NotificationCenter.newLocationAvailable);
+        this.whitePaint.setAlpha(NotificationCenter.liveLocationsChanged);
         this.whitePaint.setAntiAlias(true);
         Paint paint2 = new Paint();
         this.bluePaint = paint2;
         paint2.setStyle(style);
         this.bluePaint.setColor(-11420173);
-        this.bluePaint.setAlpha(NotificationCenter.newLocationAvailable);
+        this.bluePaint.setAlpha(NotificationCenter.liveLocationsChanged);
         this.bluePaint.setAntiAlias(true);
         ImageView imageView = new ImageView(context);
         this.mirrorButton = imageView;
@@ -158,7 +158,7 @@ public class CropRotationWheel extends FrameLayout {
         Double.isNaN(d);
         int i4 = (i2 / 2) + ((int) (d * cos));
         float abs = Math.abs(r8) / dp;
-        int min = Math.min(NotificationCenter.newLocationAvailable, Math.max(0, (int) ((1.0f - (abs * abs)) * 255.0f)));
+        int min = Math.min(NotificationCenter.liveLocationsChanged, Math.max(0, (int) ((1.0f - (abs * abs)) * 255.0f)));
         if (z) {
             paint = this.bluePaint;
         }
@@ -196,7 +196,7 @@ public class CropRotationWheel extends FrameLayout {
             }
             i = i2 + 1;
         }
-        this.bluePaint.setAlpha(NotificationCenter.newLocationAvailable);
+        this.bluePaint.setAlpha(NotificationCenter.liveLocationsChanged);
         this.tempRect.left = (width - AndroidUtilities.dp(2.5f)) / 2;
         this.tempRect.top = (height - AndroidUtilities.dp(22.0f)) / 2;
         this.tempRect.right = (AndroidUtilities.dp(2.5f) + width) / 2;

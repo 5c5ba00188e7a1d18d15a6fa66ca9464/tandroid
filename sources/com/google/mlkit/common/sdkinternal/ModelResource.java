@@ -19,7 +19,7 @@ public abstract class ModelResource {
     private final AtomicBoolean zzb = new AtomicBoolean(false);
     protected final TaskQueue taskQueue = new TaskQueue();
 
-    public <T> Task callAfterLoad(final Executor executor, final Callable<T> callable, final CancellationToken cancellationToken) {
+    public <T> Task<T> callAfterLoad(final Executor executor, final Callable<T> callable, final CancellationToken cancellationToken) {
         Preconditions.checkState(this.zza.get() > 0);
         if (cancellationToken.isCancellationRequested()) {
             return Tasks.forCanceled();
@@ -65,7 +65,7 @@ public abstract class ModelResource {
         unpinWithTask(executor);
     }
 
-    public Task unpinWithTask(Executor executor) {
+    public Task<Void> unpinWithTask(Executor executor) {
         Preconditions.checkState(this.zza.get() > 0);
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
         this.taskQueue.submit(executor, new Runnable() { // from class: com.google.mlkit.common.sdkinternal.zzl

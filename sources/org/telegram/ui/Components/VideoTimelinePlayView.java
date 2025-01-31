@@ -382,9 +382,9 @@ public abstract class VideoTimelinePlayView extends View {
             canvas.drawRect(dp2, dp3, f, dp4, this.dimPaint);
             canvas.restore();
         }
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.newLocationAvailable, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.liveLocationsChanged, 31);
         this.rect3.set(dp - AndroidUtilities.dpf2(10.0f), dp3, AndroidUtilities.dpf2(10.0f) + dp2, dp4);
-        this.whitePaint.setAlpha(NotificationCenter.newLocationAvailable);
+        this.whitePaint.setAlpha(NotificationCenter.liveLocationsChanged);
         canvas.drawRoundRect(this.rect3, AndroidUtilities.dpf2(6.0f), AndroidUtilities.dpf2(6.0f), this.whitePaint);
         this.rect3.set(dp, AndroidUtilities.dpf2(2.0f) + dp3, dp2, dp4 - AndroidUtilities.dpf2(2.0f));
         canvas.drawRect(this.rect3, this.cutPaint);

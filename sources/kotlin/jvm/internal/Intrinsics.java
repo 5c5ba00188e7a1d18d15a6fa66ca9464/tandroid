@@ -1,6 +1,7 @@
 package kotlin.jvm.internal;
 
 import java.util.Arrays;
+import kotlin.UninitializedPropertyAccessException;
 
 /* loaded from: classes.dex */
 public abstract class Intrinsics {
@@ -71,10 +72,6 @@ public abstract class Intrinsics {
         return th;
     }
 
-    public static String stringPlus(String str, Object obj) {
-        return str + obj;
-    }
-
     public static void throwJavaNpe() {
         throw ((NullPointerException) sanitizeStackTrace(new NullPointerException()));
     }
@@ -85,5 +82,13 @@ public abstract class Intrinsics {
 
     private static void throwParameterIsNullNPE(String str) {
         throw ((NullPointerException) sanitizeStackTrace(new NullPointerException(createParameterIsNullExceptionMessage(str))));
+    }
+
+    public static void throwUninitializedProperty(String str) {
+        throw ((UninitializedPropertyAccessException) sanitizeStackTrace(new UninitializedPropertyAccessException(str)));
+    }
+
+    public static void throwUninitializedPropertyAccessException(String str) {
+        throwUninitializedProperty("lateinit property " + str + " has not been initialized");
     }
 }

@@ -21,7 +21,6 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.voip.VoIPController;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stats;
@@ -348,7 +347,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         String str2 = "";
         TextInfoPrivacyCell textInfoPrivacyCell = null;
         switch (itemViewType) {
-            case VoIPController.ERROR_LOCALIZED /* -3 */:
+            case -3:
                 FullscreenCustomFrameLayout fullscreenCustomFrameLayout = (FullscreenCustomFrameLayout) viewHolder.itemView;
                 fullscreenCustomFrameLayout.setMinusHeight(item.intValue);
                 if (fullscreenCustomFrameLayout.getChildCount() == (item.view != null) && fullscreenCustomFrameLayout.getChildAt(0) == item.view) {
@@ -362,7 +361,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     return;
                 }
                 return;
-            case VoIPController.ERROR_PRIVACY /* -2 */:
+            case -2:
             case -1:
                 FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
                 if (frameLayout.getChildCount() == (item.view != null) && frameLayout.getChildAt(0) == item.view) {
@@ -761,10 +760,10 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         int i2 = z ? Theme.key_dialogBackground : Theme.key_windowBackgroundWhite;
         if (i < UItem.factoryViewTypeStartsWith) {
             switch (i) {
-                case VoIPController.ERROR_LOCALIZED /* -3 */:
+                case -3:
                     view = new FullscreenCustomFrameLayout(this.context);
                     break;
-                case VoIPController.ERROR_PRIVACY /* -2 */:
+                case -2:
                     view = new FrameLayout(this.context) { // from class: org.telegram.ui.Components.UniversalAdapter.2
                         @Override // android.widget.FrameLayout, android.view.View
                         protected void onMeasure(int i3, int i4) {
@@ -969,7 +968,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             return true;
         }
         switch (i) {
-            case VoIPController.ERROR_LOCALIZED /* -3 */:
+            case -3:
             case 0:
             case 1:
             case 3:
@@ -1008,7 +1007,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             case 41:
             case 42:
                 return true;
-            case VoIPController.ERROR_PRIVACY /* -2 */:
+            case -2:
             case -1:
             case 2:
             case 7:

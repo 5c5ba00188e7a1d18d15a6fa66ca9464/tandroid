@@ -5,5 +5,7 @@ import android.os.IInterface;
 
 /* loaded from: classes.dex */
 public interface n extends IInterface {
+    void c(Bundle bundle, r rVar);
+
     void d(Bundle bundle, p pVar);
 }

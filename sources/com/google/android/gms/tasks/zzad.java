@@ -4,8 +4,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /* loaded from: classes.dex */
-final class zzad implements zzae {
+final class zzad<T> implements zzae<T> {
     private final CountDownLatch zza = new CountDownLatch(1);
+
+    private zzad() {
+    }
 
     /* synthetic */ zzad(zzac zzacVar) {
     }
@@ -21,7 +24,7 @@ final class zzad implements zzae {
     }
 
     @Override // com.google.android.gms.tasks.OnSuccessListener
-    public final void onSuccess(Object obj) {
+    public final void onSuccess(T t) {
         this.zza.countDown();
     }
 

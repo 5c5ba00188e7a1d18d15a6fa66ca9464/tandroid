@@ -4,5 +4,5 @@ import com.google.android.gms.tasks.Task;
 
 /* loaded from: classes.dex */
 public interface IntegrityManager {
-    Task requestIntegrityToken(IntegrityTokenRequest integrityTokenRequest);
+    Task<IntegrityTokenResponse> requestIntegrityToken(IntegrityTokenRequest integrityTokenRequest);
 }

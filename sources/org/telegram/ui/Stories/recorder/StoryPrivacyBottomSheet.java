@@ -3408,7 +3408,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
             float scrollY = getScrollY();
-            canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.newLocationAvailable, 31);
+            canvas.saveLayerAlpha(0.0f, scrollY, getWidth(), getHeight() + r0, NotificationCenter.liveLocationsChanged, 31);
             super.dispatchDraw(canvas);
             canvas.save();
             float f = this.topGradientAlpha.set(canScrollVertically(-1));

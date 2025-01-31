@@ -35,9 +35,9 @@ public abstract class Ac4Util {
         data[1] = 64;
         data[2] = -1;
         data[3] = -1;
-        data[4] = (byte) ((i >> 16) & NotificationCenter.newLocationAvailable);
-        data[5] = (byte) ((i >> 8) & NotificationCenter.newLocationAvailable);
-        data[6] = (byte) (i & NotificationCenter.newLocationAvailable);
+        data[4] = (byte) ((i >> 16) & NotificationCenter.liveLocationsChanged);
+        data[5] = (byte) ((i >> 8) & NotificationCenter.liveLocationsChanged);
+        data[6] = (byte) (i & NotificationCenter.liveLocationsChanged);
     }
 
     public static Format parseAc4AnnexEFormat(ParsableByteArray parsableByteArray, String str, String str2, DrmInitData drmInitData) {

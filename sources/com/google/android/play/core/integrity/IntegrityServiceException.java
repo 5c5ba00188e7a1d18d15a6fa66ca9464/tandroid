@@ -20,4 +20,8 @@ public class IntegrityServiceException extends ApiException {
     public final synchronized Throwable getCause() {
         return this.a;
     }
+
+    public int getErrorCode() {
+        return super.getStatusCode();
+    }
 }

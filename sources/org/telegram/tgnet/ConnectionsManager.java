@@ -53,6 +53,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.CaptchaController;
 import org.telegram.messenger.EmuDetector;
 import org.telegram.messenger.FileLoadOperation;
 import org.telegram.messenger.FileLoader;
@@ -869,7 +870,7 @@ public class ConnectionsManager extends BaseController {
                 str11 = "mainconfig" + this.currentAccount;
             }
             this.forceTryIpV6 = context.getSharedPreferences(str11, 0).getBoolean("forceTryIpV6", false);
-            init(SharedConfig.buildVersion(), 198, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
+            init(SharedConfig.buildVersion(), 199, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId, certificateSHA256Fingerprint, rawOffset, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
         }
         sb = new StringBuilder();
         sb.append(str6);
@@ -896,7 +897,7 @@ public class ConnectionsManager extends BaseController {
         if (this.currentAccount != 0) {
         }
         this.forceTryIpV6 = context.getSharedPreferences(str112, 0).getBoolean("forceTryIpV6", false);
-        init(SharedConfig.buildVersion(), 198, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId2, certificateSHA256Fingerprint2, rawOffset2, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
+        init(SharedConfig.buildVersion(), 199, BuildVars.APP_ID, str3, str10, str2, str4, str9, file2, FileLog.getNetworkLogPath(), regId2, certificateSHA256Fingerprint2, rawOffset2, getUserConfig().getClientUserId(), getUserConfig().getCurrentUser() == null ? getUserConfig().getCurrentUser().premium : false, isPushConnectionEnabled);
     }
 
     public static int generateClassGuid() {
@@ -1339,6 +1340,8 @@ public class ConnectionsManager extends BaseController {
 
     public static native void native_pauseNetwork(int i);
 
+    public static native void native_receivedCaptchaResult(int i, int[] iArr, String str);
+
     public static native void native_receivedIntegrityCheckClassic(int i, int i2, String str, String str2);
 
     public static native void native_resumeNetwork(int i, boolean z);
@@ -1381,6 +1384,10 @@ public class ConnectionsManager extends BaseController {
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    public static void onCaptchaCheck(int i, int i2, String str, String str2) {
+        CaptchaController.request(i, i2, str, str2);
     }
 
     public static void onConnectionStateChanged(final int i, final int i2) {

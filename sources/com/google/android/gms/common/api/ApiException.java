@@ -2,6 +2,8 @@ package com.google.android.gms.common.api;
 
 /* loaded from: classes.dex */
 public class ApiException extends Exception {
+
+    @Deprecated
     protected final Status mStatus;
 
     public ApiException(Status status) {
@@ -15,5 +17,10 @@ public class ApiException extends Exception {
 
     public int getStatusCode() {
         return this.mStatus.getStatusCode();
+    }
+
+    @Deprecated
+    public String getStatusMessage() {
+        return this.mStatus.getStatusMessage();
     }
 }

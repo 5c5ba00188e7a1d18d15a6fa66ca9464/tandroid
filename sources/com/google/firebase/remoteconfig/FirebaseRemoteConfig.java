@@ -118,7 +118,7 @@ public class FirebaseRemoteConfig {
     public Task activate() {
         final Task task = this.fetchedConfigsCache.get();
         final Task task2 = this.activatedConfigsCache.get();
-        return Tasks.whenAllComplete(task, task2).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda0
+        return Tasks.whenAllComplete((Task<?>[]) new Task[]{task, task2}).continueWithTask(this.executor, new Continuation() { // from class: com.google.firebase.remoteconfig.FirebaseRemoteConfig$$ExternalSyntheticLambda0
             @Override // com.google.android.gms.tasks.Continuation
             public final Object then(Task task3) {
                 Task lambda$activate$2;

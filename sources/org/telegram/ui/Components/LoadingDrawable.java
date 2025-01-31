@@ -175,7 +175,7 @@ public class LoadingDrawable extends Drawable {
                 }
                 this.rectF.set(bounds);
                 this.rectF.inset(-this.strokePaint.getStrokeWidth(), -this.strokePaint.getStrokeWidth());
-                canvas.saveLayerAlpha(this.rectF, NotificationCenter.newLocationAvailable, 31);
+                canvas.saveLayerAlpha(this.rectF, NotificationCenter.liveLocationsChanged, 31);
                 z = true;
                 if (this.appearByGradient) {
                     int max2 = Math.max(AndroidUtilities.dp(200.0f), bounds.width() / 3);
@@ -198,7 +198,7 @@ public class LoadingDrawable extends Drawable {
                         }
                         this.rectF.set(bounds);
                         this.rectF.inset(-this.strokePaint.getStrokeWidth(), -this.strokePaint.getStrokeWidth());
-                        canvas.saveLayerAlpha(this.rectF, NotificationCenter.newLocationAvailable, 31);
+                        canvas.saveLayerAlpha(this.rectF, NotificationCenter.liveLocationsChanged, 31);
                         z2 = true;
                         this.matrix.setTranslate(f4, 0.0f);
                         this.gradient.setLocalMatrix(this.matrix);

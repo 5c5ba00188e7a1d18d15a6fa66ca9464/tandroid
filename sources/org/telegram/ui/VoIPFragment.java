@@ -3265,7 +3265,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         frameLayout.addView(this.callingUserPhotoViewMini, LayoutHelper.createFrame(NotificationCenter.groupPackUpdated, 204.0f, 1, 0.0f, 93.0f, 0.0f, 0.0f));
         frameLayout.addView(this.statusLayout, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 135.0f, 0.0f, 0.0f));
         frameLayout.addView(this.hideEmojiLayout, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 0.0f, 0.0f, 0.0f));
-        frameLayout.addView(this.emojiRationalLayout, LayoutHelper.createFrame(NotificationCenter.onReceivedChannelDifference, -2.0f, 49, 0.0f, 118.0f, 0.0f, 0.0f));
+        frameLayout.addView(this.emojiRationalLayout, LayoutHelper.createFrame(NotificationCenter.stealthModeChanged, -2.0f, 49, 0.0f, 118.0f, 0.0f, 0.0f));
         frameLayout.addView(this.emojiLayout, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 0.0f, 0.0f, 0.0f));
         frameLayout.addView(this.endCloseLayout, LayoutHelper.createFrame(-1, 52.0f, 5, 0.0f, 0.0f, 0.0f, 0.0f));
         frameLayout.addView(this.rateCallLayout, LayoutHelper.createFrame(-1, -2.0f, 3, 0.0f, 380.0f, 0.0f, 0.0f));
@@ -3295,7 +3295,7 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
         this.bottomEndCallBtn.setTranslationY(AndroidUtilities.dp(100.0f));
         this.bottomEndCallBtn.setScaleX(0.0f);
         this.bottomEndCallBtn.setScaleY(0.0f);
-        this.bottomEndCallBtn.animate().setStartDelay(198).translationY(0.0f).scaleY(1.0f).scaleX(1.0f).setDuration(250L).start();
+        this.bottomEndCallBtn.animate().setStartDelay(NotificationCenter.emojiKeywordsLoaded).translationY(0.0f).scaleY(1.0f).scaleX(1.0f).setDuration(250L).start();
         this.buttonsLayout.addView(this.bottomSpeakerBtn);
         this.buttonsLayout.addView(this.bottomVideoBtn);
         this.buttonsLayout.addView(this.bottomMuteBtn);
