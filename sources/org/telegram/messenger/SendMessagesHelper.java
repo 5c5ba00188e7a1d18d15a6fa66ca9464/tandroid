@@ -1779,8 +1779,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x0035  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public /* synthetic */ void lambda$performSendDelayedMessage$35(TLObject tLObject, TLRPC.InputMedia inputMedia, DelayedMessage delayedMessage) {
         int i;
+        TLRPC.InputMedia inputMedia2;
         TLRPC.PhotoSize photoSize;
         MessageObject messageObject;
         VideoEditedInfo videoEditedInfo;
@@ -1797,6 +1802,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             if (inputMedia instanceof TLRPC.TL_inputMediaDocument) {
                 i = inputMedia.flags | 8;
             }
+            inputMedia2 = delayedMessage.inputUploadMedia;
+            if (inputMedia2 instanceof TLRPC.TL_inputMediaUploadedDocument) {
+                inputMedia2.flags |= 64;
+                inputMedia2.video_cover = tL_inputPhoto;
+            }
             if (delayedMessage.performMediaUpload || inputMedia.thumb != null || (photoSize = delayedMessage.photoSize) == null || photoSize.location == null || !((messageObject = delayedMessage.obj) == null || (videoEditedInfo = messageObject.videoEditedInfo) == null || !videoEditedInfo.isSticker)) {
                 performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, delayedMessage, delayedMessage.parentObject, null, delayedMessage.scheduled);
             } else {
@@ -1807,6 +1817,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         i = inputMedia.flags | 64;
         inputMedia.flags = i;
         inputMedia.video_cover = tL_inputPhoto;
+        inputMedia2 = delayedMessage.inputUploadMedia;
+        if (inputMedia2 instanceof TLRPC.TL_inputMediaUploadedDocument) {
+        }
         if (delayedMessage.performMediaUpload) {
         }
         performSendMessageRequest(delayedMessage.sendRequest, delayedMessage.obj, delayedMessage.originalPath, delayedMessage, delayedMessage.parentObject, null, delayedMessage.scheduled);
@@ -1823,7 +1836,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0056  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x006a  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0076  */
     /* JADX WARN: Removed duplicated region for block: B:9:0x0038  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1831,7 +1845,10 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public /* synthetic */ void lambda$performSendDelayedMessage$37(TLObject tLObject, TLRPC.InputMedia inputMedia, DelayedMessage delayedMessage, String str, MessageObject messageObject) {
         int i;
         HashMap<Object, Object> hashMap;
+        int indexOf;
+        ArrayList<TLRPC.InputMedia> arrayList;
         HashMap<Object, Object> hashMap2;
+        TLRPC.InputMedia inputMedia2;
         if (!(tLObject instanceof TLRPC.TL_messageMediaPhoto)) {
             delayedMessage.markAsError();
             return;
@@ -1852,7 +1869,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             if (hashMap != null) {
                 hashMap.remove(str + "_ct");
             }
-            int indexOf = delayedMessage.messageObjects.indexOf(messageObject);
+            indexOf = delayedMessage.messageObjects.indexOf(messageObject);
+            arrayList = delayedMessage.inputMedias;
+            if (arrayList != null && indexOf >= 0 && indexOf < arrayList.size()) {
+                inputMedia2 = delayedMessage.inputMedias.get(indexOf);
+                if (inputMedia2 instanceof TLRPC.TL_inputMediaUploadedDocument) {
+                    inputMedia2.flags |= 64;
+                    inputMedia2.video_cover = tL_inputPhoto;
+                }
+            }
             hashMap2 = delayedMessage.extraHashMap;
             if (hashMap2 != null) {
                 if (hashMap2.containsKey(str + "_t")) {
@@ -1877,7 +1902,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         hashMap = delayedMessage.extraHashMap;
         if (hashMap != null) {
         }
-        int indexOf2 = delayedMessage.messageObjects.indexOf(messageObject);
+        indexOf = delayedMessage.messageObjects.indexOf(messageObject);
+        arrayList = delayedMessage.inputMedias;
+        if (arrayList != null) {
+            inputMedia2 = delayedMessage.inputMedias.get(indexOf);
+            if (inputMedia2 instanceof TLRPC.TL_inputMediaUploadedDocument) {
+            }
+        }
         hashMap2 = delayedMessage.extraHashMap;
         if (hashMap2 != null) {
         }
