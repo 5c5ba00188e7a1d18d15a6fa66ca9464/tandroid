@@ -26525,7 +26525,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         VideoPlayer.VideoUri videoUri = messageObject.cachedQuality;
                         ImageReceiver imageReceiver2 = this.photoImage;
                         if (videoUri != null) {
-                            forDocument2 = ImageLocation.getForPath(videoUri.uri.getPath());
+                            forDocument2 = ImageLocation.getForVideoPath(videoUri.uri.getPath());
                             forObject2 = ImageLocation.getForObject(this.currentPhotoObject, this.photoParentObject);
                             TLRPC.PhotoSize photoSize2 = this.currentPhotoObject;
                             if (!(photoSize2 instanceof TLRPC.TL_photoStrippedSize)) {
@@ -26556,7 +26556,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     VideoPlayer.VideoUri videoUri2 = this.currentMessageObject.cachedQuality;
                     ImageReceiver imageReceiver3 = this.photoImage;
                     if (videoUri2 != null) {
-                        forDocument = ImageLocation.getForPath(videoUri2.uri.getPath());
+                        forDocument = ImageLocation.getForVideoPath(videoUri2.uri.getPath());
                         forObject = ImageLocation.getForObject(this.currentPhotoObject, this.photoParentObject);
                         TLRPC.PhotoSize photoSize4 = this.currentPhotoObject;
                         if (!(photoSize4 instanceof TLRPC.TL_photoStrippedSize)) {
